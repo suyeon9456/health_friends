@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { Menu, Input } from 'antd';
+import { Menu, Input, Row, Col } from 'antd';
 import styled from 'styled-components';
 
 const SearchInput = styled(Input.Search)`
@@ -16,34 +16,41 @@ const MenuText = styled.a`
 const AppLayout = ({ children }) => {
   console.log('children', children);
   return (
-    <Menu mode="horizontal" style={{ height: '60px' }}>
-      <Menu.Item key="home">
-        <Link href="/">
-          <a style={{ verticalAlign: 'middle' }}>HOME</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="profile">
-        <Link href="/profile">
-          <MenuText>친구 찾기</MenuText>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="search" style={{ float: 'right', marginLeft: 'auto' }}>
-        <SearchInput
-          enterButton
-          magenta
-        />
-      </Menu.Item>
-      <Menu.Item key="login">
-        <Link href="/login">
-          <MenuText>로그인</MenuText>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="signup">
-        <Link href="/signup">
-          <MenuText>회원가입</MenuText>
-        </Link>
-      </Menu.Item>
-    </Menu>
+    <div>
+      <Menu mode="horizontal" style={{ height: '60px' }}>
+        <Menu.Item key="home">
+          <Link href="/">
+            <a style={{ verticalAlign: 'middle' }}>HOME</a>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="friends">
+          <Link href="/friends">
+            <MenuText>친구 찾기</MenuText>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="search" style={{ float: 'right', marginLeft: 'auto' }}>
+          <SearchInput
+            enterButton
+          />
+        </Menu.Item>
+        <Menu.Item key="login">
+          <Link href="/login">
+            <MenuText>로그인</MenuText>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="signup">
+          <Link href="/signup">
+            <MenuText>회원가입</MenuText>
+          </Link>
+        </Menu.Item>
+      </Menu>
+      <Row>
+        {/* <Col xs={24} md={3} /> */}
+        <Col xs={24} md={20} offset={2}>
+          {children}
+        </Col>
+      </Row>
+    </div>
   );
 };
 

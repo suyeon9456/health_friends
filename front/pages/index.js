@@ -1,5 +1,6 @@
 import React from 'react';
 import AppLayout from '../components/AppLayout';
+import Map from '../components/Map';
 
 const Home = () => {
   const test = 'test';
