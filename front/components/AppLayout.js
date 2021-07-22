@@ -5,12 +5,12 @@ import { Menu, Input, Row, Col } from 'antd';
 import styled from 'styled-components';
 
 const SearchInput = styled(Input.Search)`
-  vertical-align: 'middle';
+  vertical-align: middle;
   width: 300px;
 `;
 
 const MenuText = styled.a`
-  vertical-align: 'middle';
+  vertical-align: middle;
 `;
 
 const AppLayout = ({ children }) => {
@@ -20,7 +20,7 @@ const AppLayout = ({ children }) => {
       <Menu mode="horizontal" style={{ height: '60px' }}>
         <Menu.Item key="home">
           <Link href="/">
-            <a style={{ verticalAlign: 'middle' }}>HOME</a>
+            <MenuText>HOME</MenuText>
           </Link>
         </Menu.Item>
         <Menu.Item key="friends">
@@ -45,7 +45,6 @@ const AppLayout = ({ children }) => {
         </Menu.Item>
       </Menu>
       <Row>
-        {/* <Col xs={24} md={3} /> */}
         <Col xs={24} md={20} offset={2}>
           {children}
         </Col>
