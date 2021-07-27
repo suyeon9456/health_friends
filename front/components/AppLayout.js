@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { Menu, Input, Row, Col } from 'antd';
+import { Menu, Input, Button } from 'antd';
 import styled from 'styled-components';
 
 const SearchInput = styled(Input.Search)`
@@ -20,10 +20,11 @@ const AppLayout = ({ children }) => {
       <Menu mode="horizontal" style={{ height: '60px' }}>
         <Menu.Item key="home">
           <Link href="/">
-            <MenuText>HOME</MenuText>
+            {/* <MenuText>HOME</MenuText> */}
+            <Button>Button1</Button>
           </Link>
         </Menu.Item>
-        <Menu.Item key="friends">
+        {/* <Menu.Item key="friends">
           <Link href="/friends">
             <MenuText>친구 찾기</MenuText>
           </Link>
@@ -42,13 +43,13 @@ const AppLayout = ({ children }) => {
           <Link href="/signup">
             <MenuText>회원가입</MenuText>
           </Link>
-        </Menu.Item>
+        </Menu.Item> */}
       </Menu>
-      <Row>
+      {children}
+      {/* <Row>
         <Col xs={24} md={20} offset={2}>
-          {children}
         </Col>
-      </Row>
+      </Row> */}
     </div>
   );
 };

@@ -1,12 +1,29 @@
 import React from 'react';
+import { LikeOutlined } from '@ant-design/icons';
+
 import AppLayout from '../components/AppLayout';
+import Button from '../src/component/atoms/Button';
 import wrapper from '../store/configureStore';
 
 const Home = () => {
   console.log('testes');
   return (
     <AppLayout>
-      <div>heelo</div>
+      <div>
+        <Button size="small">Button1</Button>
+        <Button>Button1</Button>
+        <Button size="large">Button1</Button>
+      </div>
+      <div>
+        <Button>Button1</Button>
+        <Button type="primary">Button1</Button>
+        <Button type="text">Button1</Button>
+      </div>
+      <div>
+        <Button icon={<LikeOutlined />}>text</Button>
+        {/* <Button type="primary">Button1</Button>
+        <Button type="text">Button1</Button> */}
+      </div>
     </AppLayout>
   );
 };
