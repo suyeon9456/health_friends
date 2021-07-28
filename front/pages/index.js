@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <AppLayout>
       <div>
-        <Button size="small">Button1</Button>
+        {/* <Button size="small">Button1</Button>
         <Button>Button1</Button>
         <Button size="large">Button1</Button>
       </div>
@@ -20,9 +20,15 @@ const Home = () => {
         <Button type="text">Button1</Button>
       </div>
       <div>
-        <Button icon={<LikeOutlined />}>text</Button>
-        {/* <Button type="primary">Button1</Button>
-        <Button type="text">Button1</Button> */}
+        <Button icon={<LikeOutlined />}>Button1</Button>
+        {/* <Button loading>Button1</Button> */}
+        <Button block>Button1</Button>
+        <Button disabled>Button1</Button>
+      </div>
+      <div>
+        <Button loading>Button1</Button>
+        <Button loading type="primary">Button1</Button>
+        <Button loading>Button1</Button> */}
       </div>
     </AppLayout>
   );
