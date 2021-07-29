@@ -3,6 +3,7 @@ import { LikeOutlined } from '@ant-design/icons';
 
 import Button from '../src/component/atoms/Button';
 import Avatar from '../src/component/atoms/Avatar';
+import Input from '../src/component/atoms/Input';
 
 const Atoms = () => {
   console.log('dfkdf');
@@ -63,6 +64,19 @@ const Atoms = () => {
         <Avatar size="small" src={<img src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" alt="test" />} />
         <Avatar style={{ marginLeft: '10px' }} src={<img src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" alt="test" />} />
         <Avatar size="large" style={{ marginLeft: '10px' }} src={<img src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" alt="test" />} />
+      </div>
+      <h3>Input</h3>
+      <div style={{ padding: '10px' }}>
+        size <br />
+        <Input size="small" />
+        <Input style={{ marginTop: '10px' }} />
+        <Input size="large" style={{ marginTop: '10px' }} />
+      </div>
+      <div style={{ padding: '10px' }}>
+        type: password <br />
+        <Input type="password" />
+        {/* <Input style={{ marginTop: '10px' }} />
+        <Input size="large" style={{ marginTop: '10px' }} /> */}
       </div>
     </>
   );
