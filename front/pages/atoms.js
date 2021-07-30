@@ -4,6 +4,8 @@ import { LikeOutlined } from '@ant-design/icons';
 import Button from '../src/component/atoms/Button';
 import Avatar from '../src/component/atoms/Avatar';
 import Input from '../src/component/atoms/Input';
+import Tag from '../src/component/atoms/Tag';
+import Tooltip from '../src/component/atoms/Tooltip';
 
 const Atoms = () => {
   console.log('dfkdf');
@@ -74,9 +76,39 @@ const Atoms = () => {
       </div>
       <div style={{ padding: '10px' }}>
         type: password <br />
-        <Input type="password" />
-        {/* <Input style={{ marginTop: '10px' }} />
-        <Input size="large" style={{ marginTop: '10px' }} /> */}
+        <Input type="password" placeholder="비밀번호를 입력해주세요" />
+      </div>
+      <div style={{ padding: '10px' }}>
+        type: textarea <br />
+        <Input type="textarea" style={{ marginTop: '10px' }} />
+        <Input type="textarea" showCount maxLength={150} style={{ marginTop: '10px' }} />
+        {/* <Input size="large" style={{ marginTop: '10px' }} /> */}
+      </div>
+      <div style={{ padding: '10px' }}>
+        type: search <br />
+        <Input type="search" size="small" enterButton />
+        <Input type="search" enterButton style={{ marginTop: '10px' }} />
+        <Input type="search" size="large" enterButton style={{ marginTop: '10px' }} />
+      </div>
+      <div style={{ padding: '10px' }}>
+        type: loading <br />
+        <Input type="search" loading enterButton />
+      </div>
+      <h3>Tag</h3>
+      <div style={{ padding: '10px' }}>
+        type <br />
+        <Tag type="gender">gender</Tag>
+        <Tag type="age" style={{ marginTop: '10px' }}>age</Tag>
+        <Tag type="career" style={{ marginTop: '10px' }}>career</Tag>
+        <Tag type="position" style={{ marginTop: '10px' }}>position</Tag>
+      </div>
+      <h3>Tooltip</h3>
+      <div style={{ padding: '10px' }}>
+        type: gender <br />
+        <Tooltip type="gender">Tooltip Test</Tooltip>
+        {/* <Tag type="age" style={{ marginTop: '10px' }}>age</Tag>
+        <Tag type="career" style={{ marginTop: '10px' }}>career</Tag>
+        <Tag type="position" style={{ marginTop: '10px' }}>position</Tag> */}
       </div>
     </>
   );

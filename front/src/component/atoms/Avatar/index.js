@@ -22,7 +22,7 @@ const Avatar = ({
 };
 
 Avatar.propTypes = {
-  size: PropTypes.string,
+  size: PropTypes.node,
   src: PropTypes.node,
   props: PropTypes.any,
 };
