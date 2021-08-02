@@ -5,10 +5,10 @@ import Button from '../src/component/atoms/Button';
 import Avatar from '../src/component/atoms/Avatar';
 import Input from '../src/component/atoms/Input';
 import Tag from '../src/component/atoms/Tag';
-import Tooltip from '../src/component/atoms/Tooltip';
+import Select from '../src/component/atoms/Select';
 
 const Atoms = () => {
-  console.log('dfkdf');
+  const options = [{ value: 1, text: 'test1' }, { value: 2, text: 'test2' }, { value: 3, text: 'test3' }];
   return (
     <>
       <h3>Button</h3>
@@ -105,7 +105,7 @@ const Atoms = () => {
       <h3>Tooltip</h3>
       <div style={{ padding: '10px' }}>
         type: gender <br />
-        <Tooltip type="gender">Tooltip Test</Tooltip>
+        <Select options={options}>Tooltip Test</Select>
         {/* <Tag type="age" style={{ marginTop: '10px' }}>age</Tag>
         <Tag type="career" style={{ marginTop: '10px' }}>career</Tag>
         <Tag type="position" style={{ marginTop: '10px' }}>position</Tag> */}
