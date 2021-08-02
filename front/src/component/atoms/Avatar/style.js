@@ -21,7 +21,7 @@ export const StyledAvatar = styled.span`
   width: 32px;
   height: 32px;
   line-height: 32px;
-  border-radius: 50%;
+  border-radius: 2px;
   & > .anticon-user {
     font-size: 16px;
   }

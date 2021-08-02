@@ -7,6 +7,7 @@ import Input from '../src/component/atoms/Input';
 import Tag from '../src/component/atoms/Tag';
 import Select from '../src/component/atoms/Select';
 import Progress from '../src/component/atoms/Progress';
+import Upload from '../src/component/atoms/Upload';
 
 const Atoms = () => {
   const options = [{ value: 1, text: 'test1' }, { value: 2, text: 'test2' }, { value: 3, text: 'test3' }];
@@ -112,6 +113,11 @@ const Atoms = () => {
       <div style={{ padding: '10px' }}>
         {/* type: gender <br /> */}
         <Progress percent={70} />
+      </div>
+      <h3>Upload</h3>
+      <div style={{ padding: '10px' }}>
+        {/* type: gender <br /> */}
+        <Upload percent={70} />
       </div>
     </>
   );

@@ -28,7 +28,8 @@ export const ProgressInner = styled.div`
 export const ProgressBar = styled.div`
   position: relative;
   /* background-color: #9254de; */
-  background-image: linear-gradient(to right, rgb(146, 84, 222) 0%, rgb(16, 142, 233) 100%);
+  /* background-image: linear-gradient(to right, rgb(146, 84, 222) 0%, rgb(16, 142, 233) 100%); */
+  background-image: linear-gradient(to right, rgb(146, 84, 222) 0%, rgb(196, 29, 127) 100%);
   border-radius: 100px;
   transition: all .4s cubic-bezier(.08,.82,.17,1) 0s;
   ${({ percent }) => css`
