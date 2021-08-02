@@ -84,8 +84,8 @@ const Input = ({
         />
         <span>
           {passwordType
-            ? <LockOutlined onClick={onChangePasswordType} />
-            : <UnlockOutlined onClick={onChangePasswordType} />}
+            ? <LockOutlined color="#000000d9" onClick={onChangePasswordType} />
+            : <UnlockOutlined color="#000000d9" onClick={onChangePasswordType} />}
         </span>
       </InputWrapper>
     );

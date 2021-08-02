@@ -6,6 +6,7 @@ import Avatar from '../src/component/atoms/Avatar';
 import Input from '../src/component/atoms/Input';
 import Tag from '../src/component/atoms/Tag';
 import Select from '../src/component/atoms/Select';
+import Progress from '../src/component/atoms/Progress';
 
 const Atoms = () => {
   const options = [{ value: 1, text: 'test1' }, { value: 2, text: 'test2' }, { value: 3, text: 'test3' }];
@@ -104,11 +105,13 @@ const Atoms = () => {
       </div>
       <h3>Select</h3>
       <div style={{ padding: '10px' }}>
-        type: gender <br />
+        {/* type: gender <br /> */}
         <Select options={options}>Tooltip Test</Select>
-        {/* <Tag type="age" style={{ marginTop: '10px' }}>age</Tag>
-        <Tag type="career" style={{ marginTop: '10px' }}>career</Tag>
-        <Tag type="position" style={{ marginTop: '10px' }}>position</Tag> */}
+      </div>
+      <h3>Progress</h3>
+      <div style={{ padding: '10px' }}>
+        {/* type: gender <br /> */}
+        <Progress percent={70} />
       </div>
     </>
   );
