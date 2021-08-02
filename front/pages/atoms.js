@@ -102,7 +102,7 @@ const Atoms = () => {
         <Tag type="career" style={{ marginTop: '10px' }}>career</Tag>
         <Tag type="position" style={{ marginTop: '10px' }}>position</Tag>
       </div>
-      <h3>Tooltip</h3>
+      <h3>Select</h3>
       <div style={{ padding: '10px' }}>
         type: gender <br />
         <Select options={options}>Tooltip Test</Select>

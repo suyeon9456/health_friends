@@ -2,7 +2,13 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { LoadingOutlined, LockOutlined, SearchOutlined, UnlockOutlined } from '@ant-design/icons';
 
-import { StyledEnterButton, StyledEnterButtonWrapper, StyledInput, StyledInputWrapper, StyledSearch, StyledSearchWrapper, StyledTextarea, StyledTextareaWrapper } from './style';
+import { EnterButton,
+  EnterButtonWrapper,
+  InputContainer,
+  InputWrapper,
+  SearchWrapper,
+  Textarea,
+  TextareaWrapper } from './style';
 import useTextareaLength from '../../../hooks/useTextareaLength';
 
 const Input = ({
@@ -32,45 +38,45 @@ const Input = ({
 
   if (type === 'textarea') {
     return (
-      <StyledTextareaWrapper
+      <TextareaWrapper
         showCount={showCount}
         data-count={dataCount || `0 / ${maxLength}`}
       >
-        <StyledTextarea
+        <Textarea
           onChange={onChangeDataCount}
           {...props}
         />
-      </StyledTextareaWrapper>
+      </TextareaWrapper>
     );
   }
 
   if (type === 'search') {
     return (
-      <StyledSearchWrapper
+      <SearchWrapper
         enterButton={enterButton}
         {...props}
       >
-        <StyledInput
+        <InputContainer
           size={size}
           enterButton={enterButton}
         />
         {enterButton && (
-          <StyledEnterButtonWrapper>
-            <StyledEnterButton
+          <EnterButtonWrapper>
+            <EnterButton
               size={size}
             >
               {loading ? <LoadingOutlined /> : <SearchOutlined />}
-            </StyledEnterButton>
-          </StyledEnterButtonWrapper>
+            </EnterButton>
+          </EnterButtonWrapper>
         )}
-      </StyledSearchWrapper>
+      </SearchWrapper>
     );
   }
 
   if (type === 'password') {
     return (
-      <StyledInputWrapper>
-        <StyledInput
+      <InputWrapper>
+        <InputContainer
           type={passwordType ? 'password' : 'text'}
           passwordType={type}
           size={size}
@@ -81,12 +87,12 @@ const Input = ({
             ? <LockOutlined onClick={onChangePasswordType} />
             : <UnlockOutlined onClick={onChangePasswordType} />}
         </span>
-      </StyledInputWrapper>
+      </InputWrapper>
     );
   }
 
   return (
-    <StyledInput
+    <InputContainer
       size={size}
       type={type}
       {...props}

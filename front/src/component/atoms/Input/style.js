@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const StyledInputWrapper = styled.span`
+export const InputWrapper = styled.span`
   position: relative;
   display: inline-block;
   width: 100%;
@@ -42,7 +42,7 @@ export const StyledInputWrapper = styled.span`
   }
 `;
 
-export const StyledInput = styled.input`
+export const InputContainer = styled.input`
   box-sizing: border-box;
   margin: 0;
   font-variant: tabular-nums;
@@ -98,7 +98,7 @@ export const StyledInput = styled.input`
   }}
 `;
 
-export const StyledTextareaWrapper = styled.div`
+export const TextareaWrapper = styled.div`
   ${({ showCount }) => showCount && css`
     &::after {
       text-align: left;
@@ -111,7 +111,7 @@ export const StyledTextareaWrapper = styled.div`
   `}
 `;
 
-export const StyledTextarea = styled.textarea`
+export const Textarea = styled.textarea`
   box-sizing: border-box;
   margin: 0;
   font-variant: tabular-nums;
@@ -139,7 +139,7 @@ export const StyledTextarea = styled.textarea`
   transition: all .3s,height 0s;
 `;
 
-export const StyledSearchWrapper = styled.span`
+export const SearchWrapper = styled.span`
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -162,7 +162,7 @@ export const StyledSearchWrapper = styled.span`
   `}
 `;
 
-export const StyledEnterButtonWrapper = styled.span`
+export const EnterButtonWrapper = styled.span`
   width: 1px;
   white-space: nowrap;
   vertical-align: middle;
@@ -188,7 +188,7 @@ export const StyledEnterButtonWrapper = styled.span`
   display: table-cell;
 `;
 
-export const StyledEnterButton = styled.button`
+export const EnterButton = styled.button`
   line-height: 1.5715;
   position: relative;
   display: inline-block;

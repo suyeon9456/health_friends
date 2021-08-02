@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const SelectContainer = styled.select`
   position: relative;
@@ -8,8 +8,27 @@ export const SelectContainer = styled.select`
   transition: all .3s cubic-bezier(.645,.045,.355,1);
 
   width: 100%;
-  height: 32px;
   padding: 0 11px;
+
+  ${({ size }) => {
+    if (size === 'small') {
+      return css`
+        height: 24px;
+      `;
+    }
+    if (size === 'large') {
+      return css`
+        height: 40px;
+      `;
+    }
+
+    return css`height: 32px;`;
+  }}
+
+  &:hover, &:focus {
+    border-color: #40a9ff;
+    border-right-width: 1px !important;
+  }
 
   /* background: #fff <DownOutlined /> no-repeat right .75rem center/8px 10px; */
 `;
