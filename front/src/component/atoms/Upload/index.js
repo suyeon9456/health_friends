@@ -1,6 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 
 import { UploadContainer, UploadIcon, UploadInput, UploadText, UploadWrapper } from './style';
+import Thumbnail from './Thumbnail';
 
 const Upload = () => {
   const uploadRef = useRef();
@@ -9,7 +10,7 @@ const Upload = () => {
   }, []);
   return (
     <UploadContainer>
-      <UploadWrapper
+      {/* <UploadWrapper
         role="button"
         onClick={uploadImage}
       >
@@ -21,7 +22,8 @@ const Upload = () => {
           <UploadIcon />
           <UploadText>profile image</UploadText>
         </div>
-      </UploadWrapper>
+      </UploadWrapper> */}
+      <Thumbnail />
     </UploadContainer>
   );
 };
