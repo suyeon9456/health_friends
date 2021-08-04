@@ -1,5 +1,5 @@
 import { UploadOutlined } from '@ant-design/icons';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const UploadContainer = styled.div`
   width: 104px;
@@ -17,6 +17,14 @@ export const UploadContainer = styled.div`
   &:hover {
     border-color: #1890ff;
   }
+
+  ${({ error }) => error && css`
+    border: 1px solid #ff4d4f;
+
+    &:hover {
+      border-color: #ff4d4f;
+    }
+  `}
 `;
 
 export const UploadWrapper = styled.span`

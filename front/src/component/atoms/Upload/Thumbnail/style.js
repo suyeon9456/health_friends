@@ -5,10 +5,17 @@ export const ThumbnailContainer = styled.div`
   position: relative;
   height: 100%;
   overflow: hidden;
-  & > .thumbnail-image:hover {
-    opacity: 1;
+
+  &:hover {
+    & > .thumbnail-image:hover::before {
+      opacity: 1;
+    }
+    & > .thumbnail-button {
+      opacity: 1;
+    }
   }
-  & > .thumbnail-image:hover + .thumbnail-button {
+
+  .thumbnail-button:hover + .thumbnail-image::before {
     opacity: 1;
   }
 `;
@@ -28,26 +35,9 @@ export const ThumbnailWrapper = styled.span`
     opacity: 0;
     transition: all 0.3s;
     content: ' ';
+    border-radius: 2px;
+    box-sizing: border-box;
   }
-
-  /* &:hover {
-    & + span {
-      opacity: 1;
-    }
-    &::before {
-      opacity: 1;
-    }
-  } */
-
-  /* &::before:hover {
-    opacity: 1;
-  }
-
-  & + span:hover {
-    &::before {
-      opacity: 1;
-    }
-  } */
 `;
 
 export const ThumbnailImage = styled.img`
@@ -71,10 +61,6 @@ export const ThumbnailButtonWrapper = styled.span`
   transform: translate(-50%,-50%);
   opacity: 0;
   transition: all .3s;
-
-  /* &:hover{
-    opacity: 1;
-  } */
 `;
 
 export const ThumbnailPreviewButton = styled(PictureOutlined)`
