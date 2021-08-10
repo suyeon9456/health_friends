@@ -49,6 +49,68 @@ export const StyledButton = styled.button`
   }}
 
 ${({ type, loading }) => {
+    if (type === 'error') {
+      return loading
+        ? css`
+          color: #fff;
+          background: #ff4d4f;
+          border-color: #ff4d4f;
+          pointer-events: none;
+          /* &:hover, &:focus {
+            color: #fff;
+            background: #b37feb;
+            border-color: #b37feb;
+          } */
+        `
+        : css`
+        color: #ff4d4f;
+        background: #fff;
+        border-color: #ffccc7;
+        &:hover, &:focus {
+          color: #ff4d4f;
+          background: #fff2f0;
+          border-color: #ffccc7;
+        }
+      `;
+    }
+    if (type === 'success') {
+      return loading
+        ? css`
+          color: #1890ff;
+          background: #ff4d4f;
+          border-color: #91d5ff;
+          pointer-events: none;
+        `
+        : css`
+        color: #1890ff;
+        background: #fff;
+        border-color: #91d5ff;
+        &:hover, &:focus {
+          color: #1890ff;
+          background: #e6f7ff;
+          border-color: #91d5ff;
+        }
+      `;
+    }
+    if (type === 'warning') {
+      return loading
+        ? css`
+          color: #faad14;
+          background: #ff4d4f;
+          border-color: #ffe58f;
+          pointer-events: none;
+        `
+        : css`
+        color: #faad14;
+        background: #fff;
+        border-color: #ffe58f;
+        &:hover, &:focus {
+          color: #faad14;
+          background: #fffbe6;
+          border-color: #ffccc7;
+        }
+      `;
+    }
     if (type === 'primary') {
       return loading
         ? css`
@@ -56,11 +118,6 @@ ${({ type, loading }) => {
           background: #b37feb;
           border-color: #b37feb;
           pointer-events: none;
-          /* &:hover, &:focus {
-            color: #fff;
-            background: #b37feb;
-            border-color: #b37feb;
-          } */
         `
         : css`
         color: #fff;
