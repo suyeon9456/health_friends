@@ -1,14 +1,16 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { LoadingOutlined, LockOutlined, SearchOutlined, UnlockOutlined } from '@ant-design/icons';
+import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
 
-import { EnterButton,
-  EnterButtonWrapper,
+import { EnterIconWrapper,
+  SearchIcon,
   InputContainer,
   InputWrapper,
   SearchWrapper,
   Textarea,
-  TextareaWrapper } from './style';
+  TextareaWrapper,
+  SearchLoadingIcon } from './style';
 import useTextareaLength from '../../../hooks/useTextareaLength';
 
 const Input = ({
@@ -16,8 +18,8 @@ const Input = ({
   type = 'text',
   showCount = false,
   maxLength = 150,
-  enterButton = false,
   loading = false,
+  placeholder,
   ...props
 }) => {
   const [passwordType, setPasswordType] = useState(true);
@@ -53,22 +55,15 @@ const Input = ({
   if (type === 'search') {
     return (
       <SearchWrapper
-        enterButton={enterButton}
         {...props}
       >
+        <EnterIconWrapper>
+          {loading ? <SearchLoadingIcon /> : <SearchIcon />}
+        </EnterIconWrapper>
         <InputContainer
           size={size}
-          enterButton={enterButton}
+          type={type}
         />
-        {enterButton && (
-          <EnterButtonWrapper>
-            <EnterButton
-              size={size}
-            >
-              {loading ? <LoadingOutlined /> : <SearchOutlined />}
-            </EnterButton>
-          </EnterButtonWrapper>
-        )}
       </SearchWrapper>
     );
   }
@@ -95,6 +90,7 @@ const Input = ({
     <InputContainer
       size={size}
       type={type}
+      placeholder={placeholder}
       {...props}
     />
   );
@@ -103,9 +99,9 @@ const Input = ({
 Input.propTypes = {
   size: PropTypes.string,
   type: PropTypes.string,
+  placeholder: PropTypes.string,
   maxLength: PropTypes.number,
   showCount: PropTypes.bool,
-  enterButton: PropTypes.bool,
   loading: PropTypes.bool,
   props: PropTypes.any,
 };

@@ -1,3 +1,4 @@
+import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import styled, { css } from 'styled-components';
 
 export const InputWrapper = styled.span`
@@ -73,15 +74,20 @@ export const InputContainer = styled.input`
     }
   `}
 
-  ${({ enterButton }) => enterButton && css`
-  
-    float: left;
+  ${({ type }) => type === 'search' && css`
+    position: relative;
+    display: inline-block;
     width: 100%;
-    margin-bottom: 0;
-    
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    display: table-cell;
+    min-width: 0;
+    padding: 4px 11px;
+    font-size: 14px;
+    line-height: 1.5715;
+    background-color: #fff;
+    background-image: none;
+    border: 0;
+    border-radius: 2px;
+    transition: all .3s;
+    display: inline-flex;
   `}
 
   ${({ size }) => {
@@ -137,109 +143,86 @@ export const Textarea = styled.textarea`
   line-height: 1.5715;
   vertical-align: bottom;
   transition: all .3s,height 0s;
+
+  &:hover {
+    border-color: #40a9ff;
+    border-right-width: 1px !important;
+  }
+
+  &:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  }
 `;
 
 export const SearchWrapper = styled.span`
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  color: #000000d9;
-  font-size: 14px;
-  font-variant: tabular-nums;
-  line-height: 1.5715;
-  list-style: none;
-  font-feature-settings: "tnum";
   position: relative;
-  display: table;
+  display: inline-block;
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-
-  ${({ enterButton }) => enterButton && css`
-    float: left;
-    width: 100%;
-    margin-bottom: 0;
-  `}
-`;
-
-export const EnterButtonWrapper = styled.span`
-  width: 1px;
-  white-space: nowrap;
-  vertical-align: middle;
-
-  position: relative;
-  padding: 0 11px;
+  min-width: 0;
+  padding: 4px 11px;
   color: #000000d9;
-  font-weight: 400;
   font-size: 14px;
-  text-align: center;
-  background-color: #fafafa;
+  line-height: 1.5715;
+  background-color: #fff;
+  background-image: none;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
   transition: all .3s;
+  display: inline-flex;
+  &::before {
+    width: 0;
+    visibility: hidden;
+    content: "\a0";
+  }
+  &:hover, &:focus {
+    border-color: #40a9ff;
+    border-right-width: 1px !important;
+  }
+  &:focus-within {
+    outline: 0;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  }
 
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-
-  left: -1px;
-  padding: 0;
-  border: 0;
-
-  display: table-cell;
+  & > input {
+    padding: 0;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+    &:focus{
+      border: none;
+      outline: none;
+      box-shadow: none;
+    }
+  }
 `;
 
-export const EnterButton = styled.button`
-  line-height: 1.5715;
-  position: relative;
+export const EnterIconWrapper = styled.span`
+  display: flex;
+  flex: none;
+  align-items: center;
+`;
+
+export const SearchIcon = styled(SearchOutlined)`
   display: inline-block;
-  font-weight: 400;
-  white-space: nowrap;
+  color: inherit;
+  font-style: normal;
+  line-height: 0;
   text-align: center;
-  background-image: none;
-  border: 1px solid transparent;
-  box-shadow: 0 2px #00000004;
-  cursor: pointer;
-  transition: all .3s cubic-bezier(.645,.045,.355,1);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  touch-action: manipulation;
-  height: 32px;
-  padding: 4px 15px;
-  font-size: 14px;
-  border-radius: 2px;
-  color: #000000d9;
-  background: #fff;
-  border-color: #d9d9d9;
+  text-transform: none;
+  vertical-align: -.125em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+`;
 
-  color: #fff;
-  background: #9254de;
-  border-color: #9254de;
-  &:hover, &:focus {
-    color: #fff;
-    background: #b37feb;
-    border-color: #b37feb;
-  }
-  text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
-  box-shadow: 0 2px #0000000b;
-
-  height: 32px;
-
-  padding-top: 0;
-  padding-bottom: 0;
-  border-radius: 0 2px 2px 0;
-
-  ${({ size }) => {
-    if (size === 'small') {
-      return css`
-        height: 24px;
-      `;
-    }
-    if (size === 'large') {
-      return css`
-        height: 40px;
-      `;
-    }
-  }}
+export const SearchLoadingIcon = styled(LoadingOutlined)`
+  display: inline-block;
+  color: inherit;
+  font-style: normal;
+  line-height: 0;
+  text-align: center;
+  text-transform: none;
+  vertical-align: -.125em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 `;

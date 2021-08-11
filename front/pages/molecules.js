@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { StyledButton } from '../src/component/atoms/Button/style';
 import Alert from '../src/component/molecules/Alert';
+import FormInput from '../src/component/molecules/FormInput';
 
 const Molecules = () => {
   const [error, setError] = useState(false);
@@ -105,6 +106,8 @@ const Molecules = () => {
           )
           : null
       }
+      <h2>FormInput</h2>
+      <FormInput label="title" placeholder="placeholder 입니다." essential />
     </div>
   );
 };
