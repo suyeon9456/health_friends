@@ -133,8 +133,8 @@ const Atoms = () => {
       <h3>Item</h3>
       <div style={{ padding: '10px' }}>
         <Item title="List Title 1" description="List description 1 ...." />
-        <Item title="List Title 2" description="List description 2 ...." />
-        <Item title="List Title 3" description="List description 3 ...." />
+        {/* <Item title="List Title 2" description="List description 2 ...." />
+        <Item title="List Title 3" description="List description 3 ...." /> */}
       </div>
     </>
   );

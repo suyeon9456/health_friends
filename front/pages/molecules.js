@@ -4,6 +4,7 @@ import Alert from '../src/component/molecules/Alert';
 import FormInput from '../src/component/molecules/FormInput';
 import FormSelect from '../src/component/molecules/FormSelect';
 import FormTextarea from '../src/component/molecules/FormTextarea';
+import List from '../src/component/molecules/List';
 import Tabs from '../src/component/molecules/Tabs';
 
 const Molecules = () => {
@@ -27,6 +28,7 @@ const Molecules = () => {
 
   const options = [{ value: 1, text: 'test1' }, { value: 2, text: 'test2' }, { value: 3, text: 'test3' }];
   const tabs = [{ value: '1', text: 'teb1' }, { value: '2', text: 'teb2' }, { value: '3', text: 'teb3' }];
+  const list = [{ title: 'List Title 1', description: 'List description 1' }, { title: 'List Title 2', description: 'List description 2' }, { title: 'List Title 3', description: 'List description 3' }];
 
   return (
     <div>
@@ -122,6 +124,8 @@ const Molecules = () => {
       <Tabs tabs={tabs} defaultTabValue="1" />
       <h2>Tabs_block</h2>
       <Tabs tabs={tabs} defaultTabValue="1" block />
+      <h2>List</h2>
+      <List list={list} />
     </div>
   );
 };
