@@ -125,9 +125,9 @@ const Atoms = () => {
       </div>
       <h3>Tab</h3>
       <div style={{ padding: '10px' }}>
-        <Tab value="1" selectedTabValue="1">Tab1</Tab>
-        <Tab value="2" selectedTabValue="1">Tab2</Tab>
-        <Tab value="3" selectedTabValue="1">Tab3</Tab>
+        <Tab value="1" selectedValue="1">Tab1</Tab>
+        <Tab value="2" selectedValue="1">Tab2</Tab>
+        <Tab value="3" selectedValue="1">Tab3</Tab>
       </div>
     </>
   );

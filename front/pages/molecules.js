@@ -4,6 +4,7 @@ import Alert from '../src/component/molecules/Alert';
 import FormInput from '../src/component/molecules/FormInput';
 import FormSelect from '../src/component/molecules/FormSelect';
 import FormTextarea from '../src/component/molecules/FormTextarea';
+import Tabs from '../src/component/molecules/Tabs';
 
 const Molecules = () => {
   const [error, setError] = useState(false);
@@ -25,6 +26,7 @@ const Molecules = () => {
   }, [primary]);
 
   const options = [{ value: 1, text: 'test1' }, { value: 2, text: 'test2' }, { value: 3, text: 'test3' }];
+  const tabs = [{ value: '1', text: 'teb1' }, { value: '2', text: 'teb2' }, { value: '3', text: 'teb3' }];
 
   return (
     <div>
@@ -117,6 +119,9 @@ const Molecules = () => {
       <h2>FormTextarea</h2>
       <FormTextarea label="textarea label" placeholder="placeholder 입니다." maxLength={50} showCount essential />
       <h2>Tabs</h2>
+      <Tabs tabs={tabs} defaultTabValue="1" />
+      <h2>Tabs_block</h2>
+      <Tabs tabs={tabs} defaultTabValue="1" block />
     </div>
   );
 };

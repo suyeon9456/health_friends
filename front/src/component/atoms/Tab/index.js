@@ -6,14 +6,14 @@ const Tab = ({
   children,
   value,
   size,
-  block,
-  selectedTabValue,
+  selectedValue,
+  onClick,
 }) => (
   <TabNav
     value={value}
     size={size}
-    block={block}
-    selectedTabValue={selectedTabValue}
+    selectedValue={selectedValue}
+    onClick={onClick}
   >
     <TabNavText>{children}</TabNavText>
   </TabNav>
@@ -23,9 +23,8 @@ Tab.propTypes = {
   children: PropTypes.node.isRequired,
   value: PropTypes.string.isRequired,
   size: PropTypes.string,
-  block: PropTypes.bool,
-  // defaultActiveKey: PropTypes.string,
-  selectedTabValue: PropTypes.string,
+  selectedValue: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 export default Tab;

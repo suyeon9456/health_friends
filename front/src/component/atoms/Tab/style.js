@@ -1,8 +1,11 @@
 import styled, { css } from 'styled-components';
 
-export const TabNav = styled.div`
+export const TabNav = styled.button`
   position: relative;
-  display: inline-flex;
+  /* display: inline-flex;
+  align-items: center; */
+  display: flex;
+  justify-content: center;
   align-items: center;
   font-size: 14px;
   outline: none;
@@ -19,7 +22,7 @@ export const TabNav = styled.div`
     }
   }
 
-  ${({ value, selectedTabValue }) => value === selectedTabValue && css`
+  ${({ value, selectedValue }) => value === selectedValue && css`
     border-bottom-color: #fff;
     color: #1890ff;
     background: #fff;
@@ -32,6 +35,10 @@ export const TabNav = styled.div`
     }
   }
   `}
+
+  /* ${({ block }) => block && css`
+    flex-grow: 1
+  `} */
 `;
 
 export const TabNavText = styled.div`
