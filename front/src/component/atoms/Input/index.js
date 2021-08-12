@@ -31,6 +31,9 @@ const Input = ({
 
   const onChangeDataCount = useCallback((e) => {
     if (showCount) {
+      // if (e.target.value.length > maxLength) {
+      //   return
+      // }
       const result = useTextareaLength({
         content: e.target.value.length, hasMaxLength: !!maxLength, maxLength,
       });
@@ -46,6 +49,7 @@ const Input = ({
       >
         <Textarea
           onChange={onChangeDataCount}
+          placeholder={placeholder}
           {...props}
         />
       </TextareaWrapper>
