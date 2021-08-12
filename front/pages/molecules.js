@@ -3,6 +3,7 @@ import { StyledButton } from '../src/component/atoms/Button/style';
 import Alert from '../src/component/molecules/Alert';
 import FormInput from '../src/component/molecules/FormInput';
 import FormSelect from '../src/component/molecules/FormSelect';
+import FormTextarea from '../src/component/molecules/FormTextarea';
 
 const Molecules = () => {
   const [error, setError] = useState(false);
@@ -113,6 +114,9 @@ const Molecules = () => {
       <FormInput label="input label" placeholder="placeholder 입니다." essential />
       <h2>FormSelect</h2>
       <FormSelect label="select label" options={options} essential />
+      <h2>FormTextarea</h2>
+      <FormTextarea label="textarea label" placeholder="placeholder 입니다." maxLength={50} showCount essential />
+      <h2>Tabs</h2>
     </div>
   );
 };
