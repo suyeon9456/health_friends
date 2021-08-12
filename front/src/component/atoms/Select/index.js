@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { SelectContainer, Options } from './style';
 
-const Select = ({ options }) => (
-  <SelectContainer>
+const Select = ({ size, options }) => (
+  <SelectContainer size={size}>
     {options.map((option) => (
       <Options
         key={option.value}
@@ -16,6 +16,7 @@ const Select = ({ options }) => (
 );
 
 Select.propTypes = {
+  size: PropTypes.string,
   options: PropTypes.array,
 };
 

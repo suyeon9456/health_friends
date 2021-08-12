@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { StyledButton } from '../src/component/atoms/Button/style';
 import Alert from '../src/component/molecules/Alert';
 import FormInput from '../src/component/molecules/FormInput';
+import FormSelect from '../src/component/molecules/FormSelect';
 
 const Molecules = () => {
   const [error, setError] = useState(false);
@@ -21,6 +22,8 @@ const Molecules = () => {
   const onChangePrimary = useCallback(() => {
     setPrimary((prev) => !prev);
   }, [primary]);
+
+  const options = [{ value: 1, text: 'test1' }, { value: 2, text: 'test2' }, { value: 3, text: 'test3' }];
 
   return (
     <div>
@@ -107,7 +110,9 @@ const Molecules = () => {
           : null
       }
       <h2>FormInput</h2>
-      <FormInput label="title" placeholder="placeholder 입니다." essential />
+      <FormInput label="input label" placeholder="placeholder 입니다." essential />
+      <h2>FormSelect</h2>
+      <FormSelect label="select label" options={options} essential />
     </div>
   );
 };
