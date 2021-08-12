@@ -9,6 +9,7 @@ import Select from '../src/component/atoms/Select';
 import Progress from '../src/component/atoms/Progress';
 import Upload from '../src/component/atoms/Upload';
 import Tab from '../src/component/atoms/Tab';
+import Item from '../src/component/atoms/Item';
 
 const Atoms = () => {
   const options = [{ value: 1, text: 'test1' }, { value: 2, text: 'test2' }, { value: 3, text: 'test3' }];
@@ -128,6 +129,12 @@ const Atoms = () => {
         <Tab value="1" selectedValue="1">Tab1</Tab>
         <Tab value="2" selectedValue="1">Tab2</Tab>
         <Tab value="3" selectedValue="1">Tab3</Tab>
+      </div>
+      <h3>Item</h3>
+      <div style={{ padding: '10px' }}>
+        <Item title="List Title 1" description="List description 1 ...." />
+        <Item title="List Title 2" description="List description 2 ...." />
+        <Item title="List Title 3" description="List description 3 ...." />
       </div>
     </>
   );
