@@ -9,9 +9,9 @@ export const ProgressWrapper = styled.div`
 `;
 
 export const ProgressOuter = styled.div`
-  margin-right: calc(-2em - 8px);
+  /* margin-right: calc(-2em - 8px);
   padding-right: calc(2em + 8px);
-  display: inline-block;
+  display: inline-block; */
   width: 100%;
 `;
 
@@ -25,7 +25,7 @@ export const ProgressInner = styled.div`
   border-radius: 100px;
 `;
 
-export const ProgressBar = styled.div`
+export const Bar = styled.div`
   position: relative;
   /* background-color: #9254de; */
   /* background-image: linear-gradient(to right, rgb(146, 84, 222) 0%, rgb(16, 142, 233) 100%); */

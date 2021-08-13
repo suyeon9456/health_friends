@@ -6,10 +6,10 @@ import Avatar from '../src/component/atoms/Avatar';
 import Input from '../src/component/atoms/Input';
 import Tag from '../src/component/atoms/Tag';
 import Select from '../src/component/atoms/Select';
-import Progress from '../src/component/atoms/Progress';
 import Upload from '../src/component/atoms/Upload';
 import Tab from '../src/component/atoms/Tab';
 import Item from '../src/component/atoms/Item';
+import ProgressBar from '../src/component/atoms/ProgressBar';
 
 const Atoms = () => {
   const options = [{ value: 1, text: 'test1' }, { value: 2, text: 'test2' }, { value: 3, text: 'test3' }];
@@ -114,10 +114,10 @@ const Atoms = () => {
         {/* type: gender <br /> */}
         <Select options={options}>Tooltip Test</Select>
       </div>
-      <h3>Progress</h3>
+      <h3>ProgressBar</h3>
       <div style={{ padding: '10px' }}>
         {/* type: gender <br /> */}
-        <Progress percent={70} />
+        <ProgressBar percent={70} />
       </div>
       <h3>Upload</h3>
       <div style={{ padding: '10px' }}>
