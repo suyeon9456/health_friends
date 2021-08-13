@@ -1,9 +1,20 @@
 import styled from 'styled-components';
 
 export const SimpleCard = styled.div`
+  box-sizing: border-box;
+  margin: 0;
+  color: #000000d9;
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: "tnum";
+  position: relative;
+  background: #fff;
+  border-radius: 2px;
   padding: 24px;
   border: 1px solid #f0f0f0;
-  
+
   &::before {
     display: table;
     content: "";
