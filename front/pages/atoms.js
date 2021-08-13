@@ -1,5 +1,5 @@
 import React from 'react';
-import { LikeOutlined } from '@ant-design/icons';
+import { LikeOutlined, UserOutlined } from '@ant-design/icons';
 
 import Button from '../src/component/atoms/Button';
 import Avatar from '../src/component/atoms/Avatar';
@@ -10,6 +10,7 @@ import Upload from '../src/component/atoms/Upload';
 import Tab from '../src/component/atoms/Tab';
 import Item from '../src/component/atoms/Item';
 import ProgressBar from '../src/component/atoms/ProgressBar';
+import InformationItem from '../src/component/atoms/InformationItem';
 
 const Atoms = () => {
   const options = [{ value: 1, text: 'test1' }, { value: 2, text: 'test2' }, { value: 3, text: 'test3' }];
@@ -135,6 +136,10 @@ const Atoms = () => {
         <Item title="List Title 1" description="List description 1 ...." />
         {/* <Item title="List Title 2" description="List description 2 ...." />
         <Item title="List Title 3" description="List description 3 ...." /> */}
+      </div>
+      <h3>InformationItem</h3>
+      <div style={{ padding: '10px' }}>
+        <InformationItem title="나이" icon={<UserOutlined />} content="20대 후반" />
       </div>
     </>
   );

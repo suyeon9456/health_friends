@@ -6,6 +6,7 @@ import FormSelect from '../src/component/molecules/FormSelect';
 import FormTextarea from '../src/component/molecules/FormTextarea';
 import List from '../src/component/molecules/List';
 import Progress from '../src/component/molecules/Progress';
+import SimpleMatchingCard from '../src/component/molecules/SimpleMatchingCard';
 import Tabs from '../src/component/molecules/Tabs';
 
 const Molecules = () => {
@@ -129,6 +130,8 @@ const Molecules = () => {
       <List list={list} />
       <h2>Progress</h2>
       <Progress label="재매칭률" percent={70} />
+      <h2>SimpleMatchingCard</h2>
+      <SimpleMatchingCard nickname="nickname" address="매칭된 헬스장 주소" date="2020.00.00 10:56 AM" />
     </div>
   );
 };
