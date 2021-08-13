@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import Avatar from '../../atoms/Avatar';
 import { SimpleCard, SimpleCardMeta, MetaTitle, AvatarWrapper, MetaAddress, MatchingDateWrapper, MatchingDate } from './style';
 
-const SimpleMatchingCard = ({ nickname, address, date, size }) => (
+const SimpleMatchingCard = ({ nickname, address, date, avatarSize }) => (
   <SimpleCard>
     <AvatarWrapper>
-      <Avatar size={size} />
+      <Avatar size={avatarSize} />
     </AvatarWrapper>
     <SimpleCardMeta>
       <MetaTitle>{nickname}</MetaTitle>
@@ -23,7 +23,7 @@ SimpleMatchingCard.propTypes = {
   nickname: PropTypes.string.isRequired,
   address: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
-  size: PropTypes.string,
+  avatarSize: PropTypes.string,
 };
 
 export default SimpleMatchingCard;
