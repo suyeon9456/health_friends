@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const SimpleCard = styled.div`
   box-sizing: border-box;
+  width: 300px;
   margin: 0;
   color: #000000d9;
   font-size: 14px;

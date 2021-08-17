@@ -1,3 +1,4 @@
+import { EditOutlined, EllipsisOutlined, UserAddOutlined } from '@ant-design/icons';
 import React, { useCallback, useState } from 'react';
 import { StyledButton } from '../src/component/atoms/Button/style';
 import Alert from '../src/component/molecules/Alert';
@@ -5,6 +6,7 @@ import FormInput from '../src/component/molecules/FormInput';
 import FormSelect from '../src/component/molecules/FormSelect';
 import FormTextarea from '../src/component/molecules/FormTextarea';
 import List from '../src/component/molecules/List';
+import MatchingCard from '../src/component/molecules/MatchingCard';
 import Progress from '../src/component/molecules/Progress';
 import SimpleMatchingCard from '../src/component/molecules/SimpleMatchingCard';
 import Tabs from '../src/component/molecules/Tabs';
@@ -31,6 +33,7 @@ const Molecules = () => {
   const options = [{ value: 1, text: 'test1' }, { value: 2, text: 'test2' }, { value: 3, text: 'test3' }];
   const tabs = [{ value: '1', text: 'teb1' }, { value: '2', text: 'teb2' }, { value: '3', text: 'teb3' }];
   const list = [{ title: 'List Title 1', description: 'List description 1' }, { title: 'List Title 2', description: 'List description 2' }, { title: 'List Title 3', description: 'List description 3' }];
+  const actions = [{ icon: <UserAddOutlined />, key: 'rematch' }, { icon: <EditOutlined />, key: 'edit' }];
 
   return (
     <div>
@@ -132,6 +135,14 @@ const Molecules = () => {
       <Progress label="재매칭률" percent={70} />
       <h2>SimpleMatchingCard</h2>
       <SimpleMatchingCard nickname="nickname" address="매칭된 헬스장 주소" date="2020.00.00 10:56 AM" />
+      <h2>MatchingCard</h2>
+      <MatchingCard
+        nickname="nickname"
+        address="매칭된 헬스장 주소"
+        date="2020.00.00 10:56 AM"
+        image="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+        actions={actions}
+      />
     </div>
   );
 };
