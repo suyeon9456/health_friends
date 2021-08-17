@@ -9,6 +9,7 @@ import FormTextarea from '../src/component/molecules/FormTextarea';
 import List from '../src/component/molecules/List';
 import MatchingCard from '../src/component/molecules/MatchingCard';
 import Progress from '../src/component/molecules/Progress';
+import ProfileCard from '../src/component/molecules/PropfileCard';
 import SimpleMatchingCard from '../src/component/molecules/SimpleMatchingCard';
 import Tabs from '../src/component/molecules/Tabs';
 
@@ -140,7 +141,7 @@ const Molecules = () => {
       <h2>MatchingCard</h2>
       <MatchingCard
         nickname="nickname"
-        address="매칭된 헬스장 주소"
+        description="간단소개..."
         date="2020.00.00 10:56 AM"
         image="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
         actions={actions}
@@ -149,6 +150,15 @@ const Molecules = () => {
       <AvatarGroup
         size="large"
         users={users}
+      />
+      <h2>ProfileCard</h2>
+      <ProfileCard
+        nickname="nickname"
+        description="간단소개..."
+        date="2020.00.00 10:56 AM"
+        image="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+        percent={30}
+        actions={actions}
       />
     </div>
   );

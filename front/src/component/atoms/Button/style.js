@@ -28,7 +28,7 @@ export const StyledButton = styled.button`
         return css`
           height: 24px;
           padding: 0px 7px;
-          font-size: 14px;
+          font-size: 12px;
           border-radius: 2px;
         `;
       case 'large':
