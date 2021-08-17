@@ -128,4 +128,10 @@ export const Action = styled.li`
       color: #1890ff;
     }
   }
+
+  &:hover {
+    & > * {
+      color: #1890ff;
+    }
+  }
 `;
