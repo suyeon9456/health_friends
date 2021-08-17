@@ -16,7 +16,9 @@ const Avatar = ({
       src={src}
       {...props}
     >
-      {src || <UserOutlined />}
+      {src
+        ? <img src={src} alt={src} />
+        : <UserOutlined />}
     </StyledAvatar>
   );
 };

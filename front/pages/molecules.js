@@ -1,7 +1,8 @@
-import { EditOutlined, EllipsisOutlined, UserAddOutlined } from '@ant-design/icons';
+import { EditOutlined, UserAddOutlined } from '@ant-design/icons';
 import React, { useCallback, useState } from 'react';
 import { StyledButton } from '../src/component/atoms/Button/style';
 import Alert from '../src/component/molecules/Alert';
+import AvatarGroup from '../src/component/molecules/AvatarGroup';
 import FormInput from '../src/component/molecules/FormInput';
 import FormSelect from '../src/component/molecules/FormSelect';
 import FormTextarea from '../src/component/molecules/FormTextarea';
@@ -34,6 +35,7 @@ const Molecules = () => {
   const tabs = [{ value: '1', text: 'teb1' }, { value: '2', text: 'teb2' }, { value: '3', text: 'teb3' }];
   const list = [{ title: 'List Title 1', description: 'List description 1' }, { title: 'List Title 2', description: 'List description 2' }, { title: 'List Title 3', description: 'List description 3' }];
   const actions = [{ icon: <UserAddOutlined />, key: 'rematch' }, { icon: <EditOutlined />, key: 'edit' }];
+  const users = [{ id: 1, src: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' }, { id: 2, src: '' }];
 
   return (
     <div>
@@ -142,6 +144,11 @@ const Molecules = () => {
         date="2020.00.00 10:56 AM"
         image="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
         actions={actions}
+      />
+      <h2>AavatarGroup</h2>
+      <AvatarGroup
+        size="large"
+        users={users}
       />
     </div>
   );
