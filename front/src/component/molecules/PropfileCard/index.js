@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardActions, CardBody, CardButton, CardCover, CardMeta, MetaDescription, MetaPercent, MetaTitle } from './style';
+import { Card, CardActions, CardBody, CardCover, CardMeta, MetaDescription, MetaPercent, MetaTitle } from './style';
 import Button from '../../atoms/Button';
 
 const ProfileCard = ({

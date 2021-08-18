@@ -19,9 +19,19 @@ export const Card = styled.div`
 `;
 
 export const CardCover = styled.div`
-  padding: 14px;
+  /* padding: 14px; */
   flex-grow: 1;
-  height: 100px;
+  height: 130px;
+
+  &::before {
+    display: table;
+    content: "";
+  }
+  &::after {
+    display: table;
+    clear: both;
+    content: "";
+  }
 
   & > * {
     /* display: block; */
