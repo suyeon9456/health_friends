@@ -1,8 +1,6 @@
 import React from 'react';
-import { LikeOutlined } from '@ant-design/icons';
 
-import AppLayout from '../components/AppLayout';
-import Button from '../src/components/atoms/Button';
+import AppLayout from '../src/components/organisms/AppLayout';
 import wrapper from '../store/configureStore';
 
 const Home = () => {
@@ -10,25 +8,7 @@ const Home = () => {
   return (
     <AppLayout>
       <div>
-        {/* <Button size="small">Button1</Button>
-        <Button>Button1</Button>
-        <Button size="large">Button1</Button>
-      </div>
-      <div>
-        <Button>Button1</Button>
-        <Button type="primary">Button1</Button>
-        <Button type="text">Button1</Button>
-      </div>
-      <div>
-        <Button icon={<LikeOutlined />}>Button1</Button>
-        {/* <Button loading>Button1</Button> */}
-        <Button block>Button1</Button>
-        <Button disabled>Button1</Button>
-      </div>
-      <div>
-        <Button loading>Button1</Button>
-        <Button loading type="primary">Button1</Button>
-        <Button loading>Button1</Button> */}
+        background image
       </div>
     </AppLayout>
   );

@@ -1,17 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { Menu } from 'antd';
-// import styled from 'styled-components';
+import { Menu, Input, Button } from 'antd';
+import styled from 'styled-components';
 
-// const SearchInput = styled(Input.Search)`
-//   vertical-align: middle;
-//   width: 300px;
-// `;
+const SearchInput = styled(Input.Search)`
+  vertical-align: middle;
+  width: 300px;
+`;
 
-// const MenuText = styled.a`
-//   vertical-align: middle;
-// `;
+const MenuText = styled.a`
+  vertical-align: middle;
+`;
 
 const AppLayout = ({ children }) => {
   console.log('children', children);
@@ -21,10 +21,10 @@ const AppLayout = ({ children }) => {
         <Menu.Item key="home">
           <Link href="/">
             {/* <MenuText>HOME</MenuText> */}
-            {/* <Button>Button1</Button> */}
+            <Button>Button1</Button>
           </Link>
         </Menu.Item>
-        {/* <Menu.Item key="friends">
+        <Menu.Item key="friends">
           <Link href="/friends">
             <MenuText>친구 찾기</MenuText>
           </Link>
@@ -43,7 +43,7 @@ const AppLayout = ({ children }) => {
           <Link href="/signup">
             <MenuText>회원가입</MenuText>
           </Link>
-        </Menu.Item> */}
+        </Menu.Item>
       </Menu>
       {children}
       {/* <Row>

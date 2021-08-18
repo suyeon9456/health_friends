@@ -1,5 +1,5 @@
 import React from 'react';
-import AppLayout from '../components/AppLayout';
+import AppLayout from '../src/components/organisms/AppLayout';
 import FriendsLayout from '../components/FriendsLayout';
 
 const Friends = () => {
