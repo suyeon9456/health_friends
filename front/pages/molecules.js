@@ -1,17 +1,17 @@
 import { EditOutlined, UserAddOutlined } from '@ant-design/icons';
 import React, { useCallback, useState } from 'react';
-import { StyledButton } from '../src/component/atoms/Button/style';
-import Alert from '../src/component/molecules/Alert';
-import AvatarGroup from '../src/component/molecules/AvatarGroup';
-import FormInput from '../src/component/molecules/FormInput';
-import FormSelect from '../src/component/molecules/FormSelect';
-import FormTextarea from '../src/component/molecules/FormTextarea';
-import List from '../src/component/molecules/List';
-import MatchingCard from '../src/component/molecules/MatchingCard';
-import Progress from '../src/component/molecules/Progress';
-import ProfileCard from '../src/component/molecules/PropfileCard';
-import SimpleMatchingCard from '../src/component/molecules/SimpleMatchingCard';
-import Tabs from '../src/component/molecules/Tabs';
+import { StyledButton } from '../src/components/atoms/Button/style';
+import Alert from '../src/components/molecules/Alert';
+import AvatarGroup from '../src/components/molecules/AvatarGroup';
+import FormInput from '../src/components/molecules/FormInput';
+import FormSelect from '../src/components/molecules/FormSelect';
+import FormTextarea from '../src/components/molecules/FormTextarea';
+import List from '../src/components/molecules/List';
+import MatchingCard from '../src/components/molecules/MatchingCard';
+import Progress from '../src/components/molecules/Progress';
+import ProfileCard from '../src/components/molecules/PropfileCard';
+import SimpleMatchingCard from '../src/components/molecules/SimpleMatchingCard';
+import Tabs from '../src/components/molecules/Tabs';
 
 const Molecules = () => {
   const [error, setError] = useState(false);

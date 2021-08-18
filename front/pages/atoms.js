@@ -1,16 +1,16 @@
 import React from 'react';
 import { LikeOutlined, UserOutlined } from '@ant-design/icons';
 
-import Button from '../src/component/atoms/Button';
-import Avatar from '../src/component/atoms/Avatar';
-import Input from '../src/component/atoms/Input';
-import Tag from '../src/component/atoms/Tag';
-import Select from '../src/component/atoms/Select';
-import Upload from '../src/component/atoms/Upload';
-import Tab from '../src/component/atoms/Tab';
-import Item from '../src/component/atoms/Item';
-import ProgressBar from '../src/component/atoms/ProgressBar';
-import InformationItem from '../src/component/atoms/InformationItem';
+import Button from '../src/components/atoms/Button';
+import Avatar from '../src/components/atoms/Avatar';
+import Input from '../src/components/atoms/Input';
+import Tag from '../src/components/atoms/Tag';
+import Select from '../src/components/atoms/Select';
+import Upload from '../src/components/atoms/Upload';
+import Tab from '../src/components/atoms/Tab';
+import Item from '../src/components/atoms/Item';
+import ProgressBar from '../src/components/atoms/ProgressBar';
+import InformationItem from '../src/components/atoms/InformationItem';
 
 const Atoms = () => {
   const options = [{ value: 1, text: 'test1' }, { value: 2, text: 'test2' }, { value: 3, text: 'test3' }];

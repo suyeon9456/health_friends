@@ -2,7 +2,7 @@ import React from 'react';
 import { LikeOutlined } from '@ant-design/icons';
 
 import AppLayout from '../components/AppLayout';
-import Button from '../src/component/atoms/Button';
+import Button from '../src/components/atoms/Button';
 import wrapper from '../store/configureStore';
 
 const Home = () => {
