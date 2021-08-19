@@ -27,6 +27,7 @@ const Atoms = () => {
         type <br />
         <Button>Button1</Button>
         <Button type="primary" style={{ marginLeft: '10px' }}>Button1</Button>
+        <Button type="line-primary" style={{ marginLeft: '10px' }}>Button1</Button>
         <Button type="text" style={{ marginLeft: '10px' }}>Button1</Button>
         <Button type="error" style={{ marginLeft: '10px' }}>Button1</Button>
         <Button type="warning" style={{ marginLeft: '10px' }}>Button1</Button>

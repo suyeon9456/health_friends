@@ -18,7 +18,9 @@ const Input = ({
   type = 'text',
   showCount = false,
   maxLength = 150,
-  loading = false,
+  loading,
+  value,
+  onChange,
   placeholder,
   ...props
 }) => {
@@ -78,7 +80,10 @@ const Input = ({
         <InputContainer
           type={passwordType ? 'password' : 'text'}
           passwordType={type}
+          value={value}
+          onChange={onChange}
           size={size}
+          placeholder={placeholder}
           {...props}
         />
         <span>
@@ -92,6 +97,8 @@ const Input = ({
 
   return (
     <InputContainer
+      value={value}
+      onChange={onChange}
       size={size}
       type={type}
       placeholder={placeholder}
@@ -107,6 +114,8 @@ Input.propTypes = {
   maxLength: PropTypes.number,
   showCount: PropTypes.bool,
   loading: PropTypes.bool,
+  value: PropTypes.node,
+  onChange: PropTypes.func,
   props: PropTypes.any,
 };
 

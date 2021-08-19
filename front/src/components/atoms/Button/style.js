@@ -50,19 +50,7 @@ export const StyledButton = styled.button`
 
 ${({ type, loading }) => {
     if (type === 'error') {
-      return loading
-        ? css`
-          color: #fff;
-          background: #ff4d4f;
-          border-color: #ff4d4f;
-          pointer-events: none;
-          /* &:hover, &:focus {
-            color: #fff;
-            background: #b37feb;
-            border-color: #b37feb;
-          } */
-        `
-        : css`
+      return css`
         color: #ff4d4f;
         background: #fff;
         border-color: #ffccc7;
@@ -74,14 +62,7 @@ ${({ type, loading }) => {
       `;
     }
     if (type === 'success') {
-      return loading
-        ? css`
-          color: #1890ff;
-          background: #ff4d4f;
-          border-color: #91d5ff;
-          pointer-events: none;
-        `
-        : css`
+      return css`
         color: #1890ff;
         background: #fff;
         border-color: #91d5ff;
@@ -93,14 +74,7 @@ ${({ type, loading }) => {
       `;
     }
     if (type === 'warning') {
-      return loading
-        ? css`
-          color: #faad14;
-          background: #ff4d4f;
-          border-color: #ffe58f;
-          pointer-events: none;
-        `
-        : css`
+      return css`
         color: #faad14;
         background: #fff;
         border-color: #ffe58f;
@@ -109,6 +83,25 @@ ${({ type, loading }) => {
           background: #fffbe6;
           border-color: #ffccc7;
         }
+      `;
+    }
+    if (type === 'line-primary') {
+      return loading
+        ? css`
+          color: #faad14;
+          background: #ff4d4f;
+          border-color: #ffe58f;
+          pointer-events: none;
+        `
+        : css`
+        color: #9254de;
+        background: #fff;
+        border-color: #9254de;
+        /* &:hover, &:focus {
+          color: #9254de;
+          background: #E9DBF9;
+          border-color: #9254de;
+        } */
       `;
     }
     if (type === 'primary') {
