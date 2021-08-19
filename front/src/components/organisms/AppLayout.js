@@ -1,10 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { Menu, Input, Button } from 'antd';
+import { Menu, Row, Col } from 'antd';
 import styled from 'styled-components';
 
-const SearchInput = styled(Input.Search)`
+import Input from '../atoms/Input';
+
+const Search = styled(Input)`
   vertical-align: middle;
   width: 300px;
 `;
@@ -20,8 +22,7 @@ const AppLayout = ({ children }) => {
       <Menu mode="horizontal" style={{ height: '60px' }}>
         <Menu.Item key="home">
           <Link href="/">
-            {/* <MenuText>HOME</MenuText> */}
-            <Button>Button1</Button>
+            <MenuText>HOME</MenuText>
           </Link>
         </Menu.Item>
         <Menu.Item key="friends">
@@ -30,9 +31,7 @@ const AppLayout = ({ children }) => {
           </Link>
         </Menu.Item>
         <Menu.Item key="search" style={{ float: 'right', marginLeft: 'auto' }}>
-          <SearchInput
-            enterButton
-          />
+          <Search type="search" enterButton />
         </Menu.Item>
         <Menu.Item key="login">
           <Link href="/login">
@@ -45,11 +44,12 @@ const AppLayout = ({ children }) => {
           </Link>
         </Menu.Item>
       </Menu>
-      {children}
-      {/* <Row>
-        <Col xs={24} md={20} offset={2}>
+      <Row justify="center">
+        {/* <Col xs={24} md={20} offset={2}> */}
+        <Col span={20}>
+          {children}
         </Col>
-      </Row> */}
+      </Row>
     </div>
   );
 };
