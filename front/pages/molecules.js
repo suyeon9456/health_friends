@@ -8,6 +8,7 @@ import FormSelect from '../src/components/molecules/FormSelect';
 import FormTextarea from '../src/components/molecules/FormTextarea';
 import List from '../src/components/molecules/List';
 import MatchingCard from '../src/components/molecules/MatchingCard';
+import Menu from '../src/components/molecules/Menu';
 import Progress from '../src/components/molecules/Progress';
 import ProfileCard from '../src/components/molecules/PropfileCard';
 import SimpleMatchingCard from '../src/components/molecules/SimpleMatchingCard';
@@ -160,6 +161,8 @@ const Molecules = () => {
         percent={30}
         actions={actions}
       />
+      <h2>Menu</h2>
+      <Menu />
     </div>
   );
 };
