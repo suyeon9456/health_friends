@@ -1,16 +1,16 @@
 import React from 'react';
+import Menu from '../src/components/molecules/Menu';
 
-import AppLayout from '../src/components/organisms/AppLayout';
 import wrapper from '../store/configureStore';
 
 const Home = () => {
   console.log('testes');
   return (
-    <AppLayout>
+    <Menu>
       <div>
         background image
       </div>
-    </AppLayout>
+    </Menu>
   );
 };
 

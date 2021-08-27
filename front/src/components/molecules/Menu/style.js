@@ -54,12 +54,31 @@ export const MenuItem = styled.li`
   display: inline-block;
   transition: border-color 0.3s, background 0.3s;
 
+  &::after {
+    position: absolute;
+    right: 20px;
+    bottom: 0;
+    left: 20px;
+    border-bottom: 2px solid transparent;
+    transition: border-color .3s cubic-bezier(.645,.045,.355,1);
+    content: "";
+  }
+
   ${({ type }) => type === 'search' && css`
     opacity: 1;
     order: 2;
     float: right;
     margin-left: auto;
   `}
+
+  &:hover {
+    & > span > a {
+      color: #9254de;
+    }
+    &::after {
+      border-bottom: 2px solid #9254de;
+    }
+  }
 `;
 
 export const MenuTitle = styled.span`

@@ -1,13 +1,13 @@
 import React from 'react';
-import AppLayout from '../src/components/organisms/AppLayout';
 import FriendsLayout from '../components/FriendsLayout';
+import { MenuList } from '../src/components/molecules/Menu/style';
 
 const Friends = () => {
   console.log('Friends');
   return (
-    <AppLayout>
+    <MenuList>
       <FriendsLayout />
-    </AppLayout>
+    </MenuList>
   );
 };
 
