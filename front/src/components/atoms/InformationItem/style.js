@@ -14,7 +14,7 @@ export const Title = styled.span`
 
 export const Content = styled.span`
   margin-left: 10px;
-  color: #000000d9;
+  color: #00000073;
   margin-left: 5px;
   font-weight: 400;
 `;

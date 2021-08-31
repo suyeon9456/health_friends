@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const InfoWrapper = styled.section`
   display: flex;
-  /* align-items: center; */
   flex-direction: column;
   flex-wrap: nowrap;
   width: 100% - 10px;
@@ -17,7 +16,6 @@ export const InfoHeader = styled.div`
   position: relative;
   padding: 16px 24px;
   color: #000000d9;
-  /* border-bottom: 1px solid #f0f0f0; */
 `;
 
 export const InfoBody = styled.div`
@@ -52,8 +50,8 @@ export const ContentText = styled.div`
 export const InfoButtonWrapper = styled.div`
   display: table-cell;
   vertical-align: top !important;
+  
   & > button {
     padding: 0;
   }
-  /* overflow: hidden; */
 `;
