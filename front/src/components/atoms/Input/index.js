@@ -69,6 +69,7 @@ const Input = ({
         <InputContainer
           size={size}
           type={type}
+          placeholder={placeholder}
         />
       </SearchWrapper>
     );

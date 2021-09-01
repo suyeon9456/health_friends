@@ -4,7 +4,7 @@ import { Row, Col } from 'antd';
 import Menu from '../molecules/Menu';
 
 const AppLayout = ({ children }) => (
-  <div style={{ backgroundColor: 'rgb(248, 249, 251)' }}>
+  <div>
     <Menu />
     <Row justify="center">
       {/* <Col xs={24} md={20} offset={2}> */}
