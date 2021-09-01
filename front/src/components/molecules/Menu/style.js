@@ -20,7 +20,7 @@ export const MenuList = styled.ul`
   background: #fff;
   outline: none;
   -webkit-box-shadow: 0 3px 6px -4px rgb(0 0 0 / 12%), 0 6px 16px 0 rgb(0 0 0 / 8%), 0 9px 28px 8px rgb(0 0 0 / 5%);
-  box-shadow: 0 3px 6px -4px rgb(0 0 0 / 12%), 0 6px 16px 0 rgb(0 0 0 / 8%), 0 9px 28px 8px rgb(0 0 0 / 5%);
+  /* box-shadow: 0 3px 6px -4px rgb(0 0 0 / 12%), 0 6px 16px 0 rgb(0 0 0 / 8%), 0 9px 28px 8px rgb(0 0 0 / 5%); */
   -webkit-transition: background 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
   -moz-transition: background 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
   transition: background 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
@@ -30,6 +30,8 @@ export const MenuList = styled.ul`
   -webkit-box-shadow: none;
   box-shadow: none;
   display: flex;
+  box-shadow: 0 2px 8px #f0f1f2;
+  z-index: 10;
   &::before {
     display: table;
     content: '';
