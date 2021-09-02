@@ -6,7 +6,18 @@ import Input from '../../atoms/Input';
 import Item from '../../atoms/Item';
 
 const SearchGyms = () => {
-  const list = [{ title: '헬스장 1', description: '서울시 관악구 헬스장 주소 1', friends: 5 }, { title: '헬스장 2', description: '서울시 관악구 헬스장 주소 2', friends: 5 }, { title: '헬스장 3', description: '서울시 관악구 헬스장 주소 3', friends: 5 }];
+  const list = [
+    { title: '헬스장 1', description: '서울시 관악구 헬스장 주소 1', friends: 5 },
+    { title: '헬스장 2', description: '서울시 관악구 헬스장 주소 2', friends: 5 },
+    { title: '헬스장 3', description: '서울시 관악구 헬스장 주소 3', friends: 5 },
+    { title: '헬스장 3', description: '서울시 관악구 헬스장 주소 3', friends: 5 },
+    { title: '헬스장 3', description: '서울시 관악구 헬스장 주소 3', friends: 5 },
+    { title: '헬스장 3', description: '서울시 관악구 헬스장 주소 3', friends: 5 },
+    { title: '헬스장 3', description: '서울시 관악구 헬스장 주소 3', friends: 5 },
+    { title: '헬스장 3', description: '서울시 관악구 헬스장 주소 3', friends: 5 },
+    { title: '헬스장 3', description: '서울시 관악구 헬스장 주소 3', friends: 5 },
+    { title: '헬스장 3', description: '서울시 관악구 헬스장 주소 3', friends: 6 },
+  ];
   return (
     <SearchWrapper>
       <SearchHeader>
