@@ -6,6 +6,9 @@ import SearchGyms from '../src/components/organisms/SearchGyms';
 import SearchMap from '../src/components/organisms/SearchMap';
 // import { SearchWrapper } from '../src/components/organisms/SearchFriends/style';
 
+// if (window.scrollY + document.documentElement.clientHeight
+//   > document.documentElement.scrollHeight) {
+
 const Friends = () => {
   console.log('Friends');
   return (
