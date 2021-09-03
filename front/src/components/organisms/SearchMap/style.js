@@ -11,7 +11,5 @@ export const MapWrapper = styled.section`
   border-radius: 5px;
   border: 1px solid #f0f0f0;
   margin-top: 10px;
-  overflow-y: auto;
-  max-height: 100vh;
-  overflow: hidden;
+  height: 100%;
 `;

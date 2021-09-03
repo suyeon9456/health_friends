@@ -1,8 +1,13 @@
-import React, { useEffect } from 'react';
+/* eslint-disable no-undef */
+import React, { useEffect, useState } from 'react';
 
 import { MapWrapper } from './style';
 
 const SearchMap = () => {
+  const [browserHeight, setBrowserHeight] = useState(500);
+  useEffect(() => {
+    setBrowserHeight(document.documentElement.clientHeight);
+  }, [browserHeight]);
   useEffect(() => {
     const container = document.getElementById('kakaoMap');
     const options = {
@@ -24,8 +29,8 @@ const SearchMap = () => {
   }, []);
 
   return (
-    <MapWrapper>
-      <div id="kakaoMap" style={{ width: '100%', height: '550px' }} />
+    <MapWrapper browserHeight={browserHeight}>
+      <div id="kakaoMap" style={{ width: '100%', height: '100%' }} />
     </MapWrapper>
   );
 };
