@@ -7,7 +7,6 @@ export const MenuList = styled.ul`
   margin: 0;
   padding: 0;
   font-variant: tabular-nums;
-  line-height: 1.5715;
   -moz-font-feature-settings: 'tnum', "tnum";
   font-feature-settings: 'tnum', "tnum";
   margin-bottom: 0;
@@ -24,7 +23,7 @@ export const MenuList = styled.ul`
   -webkit-transition: background 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
   -moz-transition: background 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
   transition: background 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
-  line-height: 46px;
+  line-height: 52px;
   border: 0;
   border-bottom: 1px solid #f0f0f0;
   -webkit-box-shadow: none;
@@ -32,6 +31,7 @@ export const MenuList = styled.ul`
   display: flex;
   box-shadow: 0 2px 8px #f0f1f2;
   z-index: 10;
+  height: 60px;
   &::before {
     display: table;
     content: '';
