@@ -12,8 +12,10 @@ export const ColContainer = styled.div`
     flex: 0 0 ${((100 / 24) * xs).toFixed(8)}%;
     max-width: ${((100 / 24) * xs).toFixed(8)}%;
   `}
-  ${({ md }) => md && css`
-    flex: 0 0 ${((100 / 24) * md).toFixed(8)}%;
-    max-width: ${((100 / 24) * md).toFixed(8)}%;
-  `}
+  @media (min-width: 768px) {
+    ${({ md }) => md && css`
+      flex: 0 0 ${((100 / 24) * md).toFixed(8)}%;
+      max-width: ${((100 / 24) * md).toFixed(8)}%;
+    `}
+  }
 `;
