@@ -26,6 +26,7 @@ const SearchGyms = () => {
 
   return (
     <SearchWrapper>
+      {/* <SearchFriends /> */}
       <SearchHeader>
         <span>10개의 헬스장</span>
         <SearchTitle>서울 관악구 검색 결과</SearchTitle>

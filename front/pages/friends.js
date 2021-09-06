@@ -1,10 +1,10 @@
-import { Col, Row } from 'antd';
 import React from 'react';
 
 import AppLayout from '../src/components/organisms/AppLayout';
 import SearchGyms from '../src/components/organisms/SearchGyms';
 import SearchMap from '../src/components/organisms/SearchMap';
-// import { SearchWrapper } from '../src/components/organisms/SearchFriends/style';
+import Row from '../src/components/organisms/Row';
+import Col from '../src/components/organisms/Col';
 
 // if (window.scrollY + document.documentElement.clientHeight
 //   > document.documentElement.scrollHeight) {

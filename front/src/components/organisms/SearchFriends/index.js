@@ -1,7 +1,11 @@
 import React from 'react';
 
-const SearchFriends = () => (
+import { SearchWrapper } from '../SearchGyms/style';
 
+const SearchFriends = () => (
+  <SearchWrapper>
+    ㅇㅇㄹ
+  </SearchWrapper>
 );
 
 export default SearchFriends;
