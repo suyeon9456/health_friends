@@ -12,6 +12,7 @@ import Menu from '../src/components/molecules/Menu';
 import Progress from '../src/components/molecules/Progress';
 import ProfileCard from '../src/components/molecules/PropfileCard';
 import SimpleMatchingCard from '../src/components/molecules/SimpleMatchingCard';
+import Steps from '../src/components/molecules/Steps';
 import Tabs from '../src/components/molecules/Tabs';
 
 const Molecules = () => {
@@ -38,6 +39,11 @@ const Molecules = () => {
   const list = [{ title: 'List Title 1', description: 'List description 1' }, { title: 'List Title 2', description: 'List description 2' }, { title: 'List Title 3', description: 'List description 3' }];
   const actions = [{ icon: <UserAddOutlined />, key: 'rematch' }, { icon: <EditOutlined />, key: 'edit' }];
   const users = [{ id: 1, src: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' }, { id: 2, src: '' }];
+  const steps = [
+    { id: 1, type: 'finished', step: 1, title: 'title1', description: 'This is a description1' },
+    { id: 2, type: 'process', step: 2, title: 'title2', description: 'This is a description2' },
+    { id: 3, type: 'wait', step: 3, title: 'title3', description: 'This is a description3' },
+  ];
 
   return (
     <div>
@@ -163,6 +169,8 @@ const Molecules = () => {
       />
       <h2>Menu</h2>
       <Menu />
+      <h2>Steps</h2>
+      <Steps steps={steps} />
     </div>
   );
 };

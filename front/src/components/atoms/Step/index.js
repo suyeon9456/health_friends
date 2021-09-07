@@ -12,7 +12,7 @@ const Step = ({ type, step, title, description }) => (
       {type === 'finished' ? <CheckOutlined /> : <span>{step}</span>}
     </StepIconWrapper>
     <StepContentWrapper>
-      <StepTitle>
+      <StepTitle type={type}>
         {title}
       </StepTitle>
       <StepDescription>

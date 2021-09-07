@@ -4,6 +4,7 @@ export const StepWrapper = styled.div`
   white-space: nowrap;
   position: relative;
   display: inline-block;
+  padding-left: 0;
   flex: 1;
   overflow: hidden;
   vertical-align: top;
@@ -70,6 +71,21 @@ export const StepTitle = styled.div`
   font-size: 16px;
   line-height: 32px;
   color: #000000d9;
+
+  &::after {
+    position: absolute;
+    top: 16px;
+    left: 100%;
+    display: block;
+    width: 9999px;
+    height: 1px;
+    background: #f0f0f0;
+    content: "";
+
+    ${({ type }) => type === 'finished' && css`
+      background-image: linear-gradient(to right,rgb(146,84,222) 0%,rgb(196,29,127) 100%);
+    `}
+  }
 `;
 
 export const StepDescription = styled.div`
