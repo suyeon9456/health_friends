@@ -11,6 +11,7 @@ import Tab from '../src/components/atoms/Tab';
 import Item from '../src/components/atoms/Item';
 import ProgressBar from '../src/components/atoms/ProgressBar';
 import InformationItem from '../src/components/atoms/InformationItem';
+import Step from '../src/components/atoms/Step';
 
 const Atoms = () => {
   const options = [{ value: 1, text: 'test1' }, { value: 2, text: 'test2' }, { value: 3, text: 'test3' }];
@@ -141,6 +142,12 @@ const Atoms = () => {
       <h3>InformationItem</h3>
       <div style={{ padding: '10px' }}>
         <InformationItem title="나이" icon={<UserOutlined />} content="20대 후반" />
+      </div>
+      <h3>step</h3>
+      <div style={{ padding: '10px' }}>
+        <Step type="finished" step={1} title="title1" description="This is a description1" />
+        <Step type="process" step={2} title="title2" description="This is a description2" />
+        <Step type="wait" step={3} title="title3" description="This is a description3" />
       </div>
     </>
   );
