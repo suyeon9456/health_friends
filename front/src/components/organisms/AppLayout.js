@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Row, Col } from 'antd';
 
 import Menu from '../molecules/Menu';
-import Row from './Row';
-import Col from './Col';
+// import Row from './Row';
+// import Col from './Col';
 
 const AppLayout = ({ children }) => (
   <div>
