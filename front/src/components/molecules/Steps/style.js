@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const StepsWrapper = styled.div`
   box-sizing: border-box;
-  margin: 0;
+  margin: 16px 0;
   padding: 0;
   color: #000000d9;
   font-variant: tabular-nums;
@@ -12,8 +12,15 @@ export const StepsWrapper = styled.div`
   display: flex;
   width: 100%;
   text-align: initial;
+  cursor: pointer;
 
   & > div:not(:first-child) {
     padding-left: 16px;
+  }
+
+  & > div:last-child  > div > div {
+    &::after {
+      display: none;
+    }
   }
 `;

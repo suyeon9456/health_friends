@@ -90,7 +90,7 @@ export const StepTitle = styled.div`
 
 export const StepDescription = styled.div`
   color: #00000073;
-  max-width: 140px;
+  max-width: 160px;
   white-space: normal;
   font-size: 14px;
 `;
