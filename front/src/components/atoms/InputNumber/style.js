@@ -25,6 +25,19 @@ export const InputNumberWrap = styled.span`
     outline: 0;
     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
   }
+
+  ${({ size }) => {
+    if (size === 'small') {
+      return css`
+        height: 24px;
+      `;
+    }
+    if (size === 'large') {
+      return css`
+        height: 40px;
+      `;
+    }
+  }}
 `;
 
 export const NumberHandlerWrap = styled.div`
@@ -52,7 +65,7 @@ export const NumberHandlerUp = styled.span`
   border-top-right-radius: 2px;
   transition: all .1s linear;
   touch-action: manipulation;
-  cursor: not-allowed;
+  cursor: pointer;
   position: relative;
 `;
 
@@ -86,7 +99,8 @@ export const NumberHandlerDown = styled.span`
   border-bottom-right-radius: 2px;
   transition: all .1s linear;
   touch-action: manipulation;
-  cursor: not-allowed;
+  /* cursor: not-allowed; */
+  cursor: pointer;
   position: relative;
 `;
 
@@ -126,16 +140,11 @@ export const InputNumberBox = styled.input`
   border: none;
   outline: none;
 
-  ${({ size }) => {
-    if (size === 'small') {
-      return css`
-        height: 24px;
-      `;
-    }
-    if (size === 'large') {
-      return css`
-        height: 40px;
-      `;
-    }
-  }}
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  -moz-appearance: textfield;
 `;
