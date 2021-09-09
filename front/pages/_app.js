@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import wrapper from '../store/configureStore';
 
 const App = ({ Component }) => {
