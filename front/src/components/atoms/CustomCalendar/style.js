@@ -58,6 +58,7 @@ export const CalendarBody = styled.div`
           border-radius: 2px;
           &:hover { // day hover
             background-color: #f5f5f5;
+            color: #000000d9;
           }
         }
         & > .react-datepicker__day--outside-month {
@@ -80,6 +81,21 @@ export const CalendarBody = styled.div`
           font-weight: 500;
           line-height: 14px;
         }
+
+        & > .react-datepicker__day--in-selecting-range:not(.react-datepicker__day--in-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--in-range) {
+          background-color: #b37feb69;
+        }
+
+        & > .react-datepicker__day--in-range:not(.react-datepicker__day--range-start, .react-datepicker__day--range-end) {
+          /* background-color: #9254de; */
+          background-color: #b37feb69;
+          color: #fff;
+        }
+
+        & > .react-datepicker__day--range-start, & > .react-datepicker__day--range-end, & > .react-datepicker__day--keyboard-selected {
+          background-color: #b37feb;
+          color: #fff;
+        }
       }
     }
   }
@@ -87,24 +103,17 @@ export const CalendarBody = styled.div`
   & > .react-datepicker__time-container  { // time container custom
     border-left: 1px solid #f0f0f0;
     transition: opacity .3s;
-    & > .react-datepicker__header {
-      /* padding: 0 8px; */
+    & > .react-datepicker__header { // time header custom
       background-color: #fff;
       color: #000000d9;
       border-bottom: 1px solid #f0f0f0;
       & > .react-datepicker-time__header {
         font-weight: 500;
         font-size: 14px;
-        /* line-height: 40px; */
       }
     }
-
-    /* & .react-datepicker__time-list-item  {
-      &:hover {
-        background-color: #f5f5f5;
-      }
-    } */
-    & > .react-datepicker__time {
+    
+    & > .react-datepicker__time { // time body custom
       & > .react-datepicker__time-box {
         & > .react-datepicker__time-list {
           & > .react-datepicker__time-list-item {

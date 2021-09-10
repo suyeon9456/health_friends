@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
+
 import CustomRangePickerInput from '../CustomRangePickerInput';
+import CustomCalendar from '../CustomCalendar';
 
 const RangePicker = ({ type, size, placeholder }) => {
   const [dateRange, setDateRange] = useState([null, null]);
@@ -16,8 +18,8 @@ const RangePicker = ({ type, size, placeholder }) => {
         setDateRange(update);
       }}
       // isClearable
-      withPortal
       customInput={<CustomRangePickerInput type={type} size={size} placeholder={placeholder} />}
+      calendarContainer={CustomCalendar}
     />
   );
 };
