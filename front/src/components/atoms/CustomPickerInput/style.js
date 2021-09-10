@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const PickerWrap = styled.div`
   box-sizing: border-box;
@@ -27,6 +27,19 @@ export const PickerWrap = styled.div`
     outline: 0;
     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
   }
+
+  ${({ size }) => {
+    if (size === 'small') {
+      return css`
+        height: 24px;
+      `;
+    }
+    if (size === 'large') {
+      return css`
+        height: 40px;
+      `;
+    }
+  }}
 `;
 
 export const PickerInputWrap = styled.div`
