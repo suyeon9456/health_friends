@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
+import CustomCalendar from '../CustomCalendar';
 import CustomPickerInput from '../CustomPickerInput';
 
 const InputTimePicker = () => {
@@ -14,6 +15,7 @@ const InputTimePicker = () => {
       timeCaption="Time"
       dateFormat="h:mm aa"
       customInput={<CustomPickerInput type="time" />}
+      calendarContainer={CustomCalendar}
     />
   );
 };
