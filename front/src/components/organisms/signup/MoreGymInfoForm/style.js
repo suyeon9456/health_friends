@@ -12,3 +12,30 @@ export const FormWrapper = styled.div`
     }
   }
 `;
+
+export const FormSearchGymWrap = styled.div`
+  width: 100%;
+  display: flex;
+  margin: 0 auto;
+
+  & > div {
+    width: 100%;
+    padding-right: 10px;
+
+    & > input {
+      margin-top: 10px;
+    }
+  }
+  & > .button-wrap {
+    width: auto;
+    padding: 0;
+    & > div {
+      font-weight: 600;
+      font-size: 16px;
+      height: 34px;
+    }
+    & > button {
+      vertical-align: bottom;
+    }
+  }
+`;
