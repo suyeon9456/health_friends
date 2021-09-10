@@ -12,6 +12,11 @@ import Item from '../src/components/atoms/Item';
 import ProgressBar from '../src/components/atoms/ProgressBar';
 import InformationItem from '../src/components/atoms/InformationItem';
 import Step from '../src/components/atoms/Step';
+import InputNumber from '../src/components/atoms/InputNumber';
+import InputTimePicker from '../src/components/atoms/InputTimePicker';
+import InputDatePicker from '../src/components/atoms/InputDatePicker';
+import RangePicker from '../src/components/atoms/RangePicker';
+import RangeTimePicker from '../src/components/atoms/RangeTimePicker';
 
 const Atoms = () => {
   const options = [{ value: 1, text: 'test1' }, { value: 2, text: 'test2' }, { value: 3, text: 'test3' }];
@@ -148,6 +153,32 @@ const Atoms = () => {
         <Step type="finished" step={1} title="title1" description="This is a description1" />
         <Step type="process" step={2} title="title2" description="This is a description2" />
         <Step type="wait" step={3} title="title3" description="This is a description3" />
+      </div>
+      <h3>step</h3>
+      <div style={{ padding: '10px' }}>
+        <Step type="finished" step={1} title="title1" description="This is a description1" />
+        <Step type="process" step={2} title="title2" description="This is a description2" />
+        <Step type="wait" step={3} title="title3" description="This is a description3" />
+      </div>
+      <h3>InputNumber</h3>
+      <div style={{ padding: '10px' }}>
+        <InputNumber />
+      </div>
+      <h3>TimePicker</h3>
+      <div style={{ padding: '10px' }}>
+        <InputTimePicker />
+      </div>
+      <h3>DatePicker</h3>
+      <div style={{ padding: '10px' }}>
+        <InputDatePicker />
+      </div>
+      <h3>RangeDatePicker</h3>
+      <div style={{ padding: '10px' }}>
+        <RangePicker type="date" placeholder="0000/00/00 - 0000/00/00" />
+      </div>
+      <h3>RangeTimePicker</h3>
+      <div style={{ padding: '10px' }}>
+        <RangeTimePicker type="time" placeholder="0000/00/00 - 0000/00/00" />
       </div>
     </>
   );
