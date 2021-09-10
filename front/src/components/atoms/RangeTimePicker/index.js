@@ -20,7 +20,8 @@ const RangeTimePicker = ({ size, placeholder }) => {
         timeIntervals={15}
         timeCaption="Time"
         dateFormat="h:mm aa"
-        customInput={<CustomPickerInput type="time" size={size} />}
+        placeholderText={placeholder}
+        customInput={<CustomPickerInput type="time" size={size} placeholder={placeholder} />}
         calendarContainer={CustomCalendar}
       />
       <RangeSeparator>
@@ -36,7 +37,7 @@ const RangeTimePicker = ({ size, placeholder }) => {
         timeIntervals={15}
         timeCaption="Time"
         dateFormat="h:mm aa"
-        customInput={<CustomPickerInput type="time" />}
+        customInput={<CustomPickerInput type="time" size={size} placeholder={placeholder} />}
         calendarContainer={CustomCalendar}
       />
     </RangeTimePickerWrap>
