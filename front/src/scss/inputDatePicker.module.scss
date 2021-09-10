@@ -1,0 +1,7 @@
+.customCalendar {
+  background-color: #ba2121;
+
+  & .react-datepicker__header--custom {
+    background-color: blue !important;
+  }
+}
