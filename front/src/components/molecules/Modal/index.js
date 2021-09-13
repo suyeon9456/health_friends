@@ -5,13 +5,13 @@ import { CloseOutlined } from '@ant-design/icons';
 import { ModalBody, ModalBox, ModalClose, ModalContent, ModalFooter, ModalHeader, ModalMask, ModalRoot, ModalTitle, ModalWrap } from './style';
 import Button from '../../atoms/Button';
 
-const Modal = ({ show, title, onCancel, onSubmit, children }) => {
+const Modal = ({ show, title, onCancel, onSubmit, className, children }) => {
   useEffect(() => {
     if (show) {
       document.body.style.cssText = `
         top: -${window.scrollY}px;
         position: fixed; 
-        overflow-y: scroll;
+        overflow-y: ${window.scrollY !== 0 ? 'scroll' : 'none'};
         width: 100%;
       `;
     }
@@ -24,12 +24,12 @@ const Modal = ({ show, title, onCancel, onSubmit, children }) => {
     };
   }, [show]);
   return (
-    <ModalRoot>
+    <ModalRoot className={className}>
       {show && <ModalMask />}
       <ModalWrap show={show}>
         <ModalBox>
           <ModalContent>
-            <ModalClose>
+            <ModalClose onClick={onCancel}>
               <CloseOutlined />
             </ModalClose>
             <ModalHeader>
@@ -56,6 +56,7 @@ Modal.propTypes = {
   title: PropTypes.string.isRequired,
   onCancel: PropTypes.func,
   onSubmit: PropTypes.func,
+  className: PropTypes.string,
   children: PropTypes.node.isRequired,
 };
 
