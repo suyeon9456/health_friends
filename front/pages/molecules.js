@@ -9,6 +9,7 @@ import FormTextarea from '../src/components/molecules/FormTextarea';
 import List from '../src/components/molecules/List';
 import MatchingCard from '../src/components/molecules/MatchingCard';
 import Menu from '../src/components/molecules/Menu';
+import Modal from '../src/components/molecules/Modal';
 import Progress from '../src/components/molecules/Progress';
 import ProfileCard from '../src/components/molecules/PropfileCard';
 import SimpleMatchingCard from '../src/components/molecules/SimpleMatchingCard';
@@ -16,11 +17,19 @@ import Steps from '../src/components/molecules/Steps';
 import Tabs from '../src/components/molecules/Tabs';
 
 const Molecules = () => {
+  const [openModal, setOpenModal] = useState(false);
+  // const [closeModal, setCloseModal] = useState(false);
   const [error, setError] = useState(false);
   const [warning, setWarning] = useState(false);
   const [success, setSuccess] = useState(false);
   const [primary, setPrimary] = useState(false);
 
+  const onOpenModal = useCallback(() => {
+    setOpenModal(true);
+  }, [openModal]);
+  const onCloseModal = useCallback(() => {
+    setOpenModal(false);
+  }, [openModal]);
   const onChangeError = useCallback(() => {
     setError((prev) => !prev);
   }, [error]);
@@ -171,6 +180,16 @@ const Molecules = () => {
       <Menu />
       <h2>Steps</h2>
       <Steps steps={steps} />
+      <h2>Modal</h2>
+      <StyledButton onClick={onOpenModal}>Modal Button</StyledButton>
+      {openModal && (
+        <Modal
+          title="Basic Title"
+          onCancel={onCloseModal}
+        >
+          <p>Basic Content</p>
+        </Modal>
+      )}
     </div>
   );
 };
