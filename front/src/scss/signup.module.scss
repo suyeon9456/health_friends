@@ -1,0 +1,15 @@
+.signupLayout {
+  margin: 0 auto;
+  max-width: 1000px;
+  align-items: center;
+
+  .buttonWrap {
+    width: 100%;
+    padding: 20px 100px;
+    overflow: hidden;
+    text-align: center;
+    .button {
+      margin: 0 5px;
+    }
+  }
+}

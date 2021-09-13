@@ -8,6 +8,8 @@ import MoreInfoForm from '../src/components/organisms/signup/MoreInfoForm';
 import FriendsInfoForm from '../src/components/organisms/signup/FriendsInfoForm';
 import MoreGymInfoForm from '../src/components/organisms/signup/MoreGymInfoForm';
 
+import styles from '../src/scss/signup.module.scss';
+
 const Signup = () => {
   const steps = [
     { id: 1, type: 'finished', step: 1, title: 'STEP1', description: '회원 정보' },
@@ -19,14 +21,16 @@ const Signup = () => {
 
   return (
     <AppLayout>
-      <Steps steps={steps} />
-      {/* <InfoForm /> */}
-      {/* <MoreInfoForm /> */}
-      <MoreGymInfoForm />
-      {/* <FriendsInfoForm /> */}
-      <div className="btn-wrapper">
-        <Button type="primary">이전단계</Button>
-        <Button type="line-primary">다음단계</Button>
+      <div className={styles.signupLayout}>
+        <Steps steps={steps} />
+        {/* <InfoForm /> */}
+        {/* <MoreInfoForm /> */}
+        {/* <MoreGymInfoForm /> */}
+        {/* <FriendsInfoForm /> */}
+        <div className={styles.buttonWrap}>
+          <Button type="primary" size="large" className={styles.button}>이전단계</Button>
+          <Button type="line-primary" size="large" className={styles.button}>다음단계</Button>
+        </div>
       </div>
     </AppLayout>
   );
