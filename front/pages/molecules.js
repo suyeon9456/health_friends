@@ -182,14 +182,13 @@ const Molecules = () => {
       <Steps steps={steps} />
       <h2>Modal</h2>
       <StyledButton onClick={onOpenModal}>Modal Button</StyledButton>
-      {openModal && (
-        <Modal
-          title="Basic Title"
-          onCancel={onCloseModal}
-        >
-          <p>Basic Content</p>
-        </Modal>
-      )}
+      <Modal
+        show={openModal}
+        title="Basic Title"
+        onCancel={onCloseModal}
+      >
+        <p>Basic Content</p>
+      </Modal>
     </div>
   );
 };

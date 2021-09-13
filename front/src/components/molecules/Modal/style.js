@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const ModalRoot = styled.div`
   margin: 0;
@@ -26,6 +26,10 @@ export const ModalWrap = styled.div`
   outline: 0;
   -webkit-overflow-scrolling: touch;
   z-index: 1000;
+
+  ${({ show }) => !show && css`
+    display: none;
+  `}
 `;
 
 export const ModalBox = styled.div`

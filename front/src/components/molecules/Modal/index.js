@@ -5,23 +5,28 @@ import { CloseOutlined } from '@ant-design/icons';
 import { ModalBody, ModalBox, ModalClose, ModalContent, ModalFooter, ModalHeader, ModalMask, ModalRoot, ModalTitle, ModalWrap } from './style';
 import Button from '../../atoms/Button';
 
-const Modal = ({ title, onCancel, onSubmit, children }) => {
+const Modal = ({ show, title, onCancel, onSubmit, children }) => {
   useEffect(() => {
-    document.body.style.cssText = `
-      position: fixed; 
-      top: -${window.scrollY}px;
-      overflow-y: scroll;
-      width: 100%;`;
+    if (show) {
+      document.body.style.cssText = `
+        top: -${window.scrollY}px;
+        position: fixed; 
+        overflow-y: scroll;
+        width: 100%;
+      `;
+    }
     return () => {
       const scrollY = document.body.style.top;
       document.body.style.cssText = '';
-      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+      }
     };
-  }, []);
+  }, [show]);
   return (
     <ModalRoot>
-      <ModalMask />
-      <ModalWrap>
+      {show && <ModalMask />}
+      <ModalWrap show={show}>
         <ModalBox>
           <ModalContent>
             <ModalClose>
@@ -47,6 +52,7 @@ const Modal = ({ title, onCancel, onSubmit, children }) => {
 };
 
 Modal.propTypes = {
+  show: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   onCancel: PropTypes.func,
   onSubmit: PropTypes.func,
