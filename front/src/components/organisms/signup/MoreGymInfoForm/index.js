@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { FormSearchGymWrap, FormWrapper } from './style';
 import Button from '../../../atoms/Button';
 import FormInput from '../../../molecules/FormInput';
 import FormTextarea from '../../../molecules/FormTextarea';
 import FormTimePicker from '../../../molecules/FormTimePicker';
+import Modal from '../../../molecules/Modal';
 
 const MoreGymInfoForm = () => {
-  console.log('test');
+  const [showModal, setShowModal] = useState(false);
+  const changeShowModal = useCallback(() => {
+    setShowModal((prev) => !prev);
+  }, [showModal]);
   return (
     <FormWrapper>
       <FormTimePicker
@@ -27,6 +31,7 @@ const MoreGymInfoForm = () => {
           <Button
             type="primary"
             size="large"
+            onClick={changeShowModal}
           >
             헬스장 찾기
           </Button>
@@ -39,6 +44,14 @@ const MoreGymInfoForm = () => {
         showCount
         essential
       />
+      <Modal
+        show={showModal}
+        title="Basic Title"
+        className="gym-modal"
+        onCancel={changeShowModal}
+      >
+        <p>Basic Content</p>
+      </Modal>
     </FormWrapper>
   );
 };

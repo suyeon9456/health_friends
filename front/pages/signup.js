@@ -25,7 +25,7 @@ const Signup = () => {
         <Steps steps={steps} />
         {/* <InfoForm /> */}
         {/* <MoreInfoForm /> */}
-        {/* <MoreGymInfoForm /> */}
+        <MoreGymInfoForm />
         {/* <FriendsInfoForm /> */}
         <div className={styles.buttonWrap}>
           <Button type="primary" size="large" className={styles.button}>이전단계</Button>
