@@ -62,12 +62,12 @@ const Input = ({
     return (
       <SearchWrapper
         {...props}
+        size={size}
       >
         <EnterIconWrapper>
           {loading ? <SearchLoadingIcon /> : <SearchIcon />}
         </EnterIconWrapper>
         <InputContainer
-          size={size}
           type={type}
           placeholder={placeholder}
         />

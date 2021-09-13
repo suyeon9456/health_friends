@@ -18,20 +18,20 @@ export const TabNav = styled.button`
   transition: all .3s cubic-bezier(.645,.045,.355,1);
   &:hover {
     & > div {
-      color: #40a9ff;
+      color: #9254de;
     }
   }
 
   ${({ value, selectedValue }) => value === selectedValue && css`
     border-bottom-color: #fff;
-    color: #1890ff;
+    color: #9254de;
     background: #fff;
     & > div {
-      color: #1890ff;
+      color: #9254de;
     }
     &:hover {
     & > div {
-      color: #1890ff;
+      color: #9254de;
     }
   }
   `}

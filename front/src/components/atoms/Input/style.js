@@ -101,6 +101,9 @@ export const InputContainer = styled.input`
         height: 40px;
       `;
     }
+    return css`
+      height: 32px;
+    `;
   }}
 `;
 
@@ -195,6 +198,31 @@ export const SearchWrapper = styled.span`
       box-shadow: none;
     }
   }
+
+  ${({ size }) => {
+    if (size === 'small') {
+      return css`
+        height: 24px;
+        & > input {
+          height: 21px;
+        }
+      `;
+    }
+    if (size === 'large') {
+      return css`
+        height: 40px;
+        & > input {
+          height: 24px;
+        }
+      `;
+    }
+    return css`
+      height: 32px;
+      & > input {
+        height: 21px;
+      }
+    `;
+  }}
 `;
 
 export const EnterIconWrapper = styled.span`

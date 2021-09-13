@@ -110,7 +110,7 @@ export const ModalTitle = styled.div`
 `;
 
 export const ModalBody = styled.div`
-  padding: 24px;
+  /* padding: 24px 0; */
   font-size: 14px;
   line-height: 1.5715;
   word-wrap: break-word;

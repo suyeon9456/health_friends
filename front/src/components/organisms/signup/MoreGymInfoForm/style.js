@@ -39,3 +39,11 @@ export const FormSearchGymWrap = styled.div`
     }
   }
 `;
+
+export const ModalBodyBox = styled.div`
+  width: 100%;
+  height: 364px;
+  & > .tabs {
+    margin-top: -1px;
+  }
+`;
