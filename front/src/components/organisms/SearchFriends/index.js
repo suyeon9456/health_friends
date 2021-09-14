@@ -6,13 +6,17 @@ import ProfileCard from '../../molecules/PropfileCard';
 import { FriendsListWrapper, SearchFriendsWrapper, SearchHeader, SearchTitle } from './style';
 import Button from '../../atoms/Button';
 
-const SearchFriends = ({ foldedGym }) => {
-  const actions = [{ icon: <UserAddOutlined />, key: 'rematch' }, { icon: <EditOutlined />, key: 'edit' }];
+const SearchFriends = ({ foldedGym, changeShowModal }) => {
   const [foldedFriends, setFoldedFriends] = useState(false);
 
   const changeFoldedFriends = useCallback(() => {
     setFoldedFriends((prev) => !prev);
   }, [foldedFriends]);
+
+  const actions = [
+    { icon: <UserAddOutlined />, key: 'rematch' },
+    { icon: <EditOutlined />, key: 'edit' },
+  ];
 
   return (
     <SearchFriendsWrapper
@@ -35,6 +39,7 @@ const SearchFriends = ({ foldedGym }) => {
           image="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
           percent={30}
           actions={actions}
+          onClick={changeShowModal}
         />
       </FriendsListWrapper>
     </SearchFriendsWrapper>
@@ -43,6 +48,7 @@ const SearchFriends = ({ foldedGym }) => {
 
 SearchFriends.propTypes = {
   foldedGym: PropTypes.func.isRequired,
+  changeShowModal: PropTypes.func.isRequired,
 };
 
 export default SearchFriends;

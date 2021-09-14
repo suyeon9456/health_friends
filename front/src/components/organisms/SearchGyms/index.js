@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { LeftOutlined, RightOutlined, TeamOutlined, ZoomInOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 
@@ -16,9 +16,13 @@ import Item from '../../atoms/Item';
 import SearchFriends from '../SearchFriends';
 import Avatar from '../../atoms/Avatar';
 import Button from '../../atoms/Button';
+import Modal from '../../molecules/Modal';
+import ModalRequestFriend from '../ModalRequestFriend';
 
 const SearchGyms = ({ foldedGym, changeFoldedGym }) => {
   const [browserHeight, setBrowserHeight] = useState('');
+  const [showModal, setShowModal] = useState(false);
+
   const list = [
     { id: 1, title: '헬스장 1', description: '서울시 관악구 헬스장 주소 1', friends: 5 },
     { id: 2, title: '헬스장 2', description: '서울시 관악구 헬스장 주소 2', friends: 5 },
@@ -35,6 +39,10 @@ const SearchGyms = ({ foldedGym, changeFoldedGym }) => {
   useEffect(() => {
     setBrowserHeight(document.documentElement.clientHeight);
   }, [browserHeight]);
+
+  const changeShowModal = useCallback(() => {
+    setShowModal((prev) => !prev);
+  }, [showModal]);
 
   return (
     <SearchWrapper
@@ -88,7 +96,16 @@ const SearchGyms = ({ foldedGym, changeFoldedGym }) => {
       </GymWrapper>
       <SearchFriends
         foldedGym={foldedGym}
+        changeShowModal={changeShowModal}
       />
+      <Modal
+        show={showModal}
+        title={<div><Avatar size="small" style={{ marginRight: '10px' }} />nicname님에게 매칭신청</div>}
+        className="matching-modal"
+        onCancel={changeShowModal}
+      >
+        <ModalRequestFriend />
+      </Modal>
     </SearchWrapper>
   );
 };
