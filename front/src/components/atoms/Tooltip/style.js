@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledTooltipWrapper = styled.div`
+export const StyledTooltipWrap = styled.div`
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -13,18 +13,15 @@ export const StyledTooltipWrapper = styled.div`
   position: absolute;
   z-index: 1070;
   display: block;
-  width: -webkit-max-content;
-  width: -moz-max-content;
   width: max-content;
   max-width: 250px;
   visibility: visible;
 `;
 
-export const StyledTooltipArrowWrapper = styled.div`
+export const StyledTooltipArrowWrap = styled.div`
   left: 50%;
   transform: translateX(-50%);
   bottom: -13px;
-
   position: absolute;
   display: block;
   width: 13.07106781px;
@@ -32,7 +29,6 @@ export const StyledTooltipArrowWrapper = styled.div`
   overflow: hidden;
   background: 0 0;
   pointer-events: none;
-
 `;
 
 export const StyledTooltipArrow = styled.span`

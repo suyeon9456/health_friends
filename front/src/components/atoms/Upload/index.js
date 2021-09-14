@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 import Error from './Error';
 
-import { UploadContainer, UploadIcon, UploadInput, UploadText, UploadWrapper } from './style';
+import { UploadContainer, UploadIcon, UploadInput, UploadText, UploadWrap } from './style';
 import Thumbnail from './Thumbnail';
 
 const Upload = () => {
@@ -25,7 +25,7 @@ const Upload = () => {
       {ProfileImage?.id
         ? <Thumbnail src={ProfileImage.src} />
         : (
-          <UploadWrapper
+          <UploadWrap
             role="button"
             onClick={uploadImage}
           >
@@ -37,7 +37,7 @@ const Upload = () => {
               <UploadIcon />
               <UploadText>profile image</UploadText>
             </div>
-          </UploadWrapper>
+          </UploadWrap>
         )}
     </UploadContainer>
   );

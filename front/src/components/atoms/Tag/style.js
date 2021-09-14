@@ -4,9 +4,7 @@ export const StyledTag = styled.span`
     box-sizing: border-box;
     margin: 0 8px 0 0;
     color: #000000d9;
-    font-size: 14px;
     font-variant: tabular-nums;
-    line-height: 1.5715;
     list-style: none;
     font-feature-settings: "tnum";
     display: inline-block;

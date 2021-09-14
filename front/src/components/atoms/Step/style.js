@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const StepWrapper = styled.div`
+export const StepWrap = styled.div`
   white-space: nowrap;
   position: relative;
   display: inline-block;
@@ -10,7 +10,7 @@ export const StepWrapper = styled.div`
   vertical-align: top;
 `;
 
-export const StepIconWrapper = styled.div`
+export const StepIconWrap = styled.div`
   display: inline-block;
   vertical-align: top;
   width: 32px;
@@ -59,7 +59,7 @@ export const StepIconWrapper = styled.div`
   }}
 `;
 
-export const StepContentWrapper = styled.div`
+export const StepContentWrap = styled.div`
   display: inline-block;
   vertical-align: top;
 `;

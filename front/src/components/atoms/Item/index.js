@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { ItemWrapper, ItemCard, ItemContent, ItemDescription, ItemTitle } from './style';
+import { ItemWrap, ItemCard, ItemContent, ItemDescription, ItemTitle } from './style';
 
 const Item = ({ title, description }) => (
   <ItemCard>
-    <ItemWrapper>
+    <ItemWrap>
       <ItemContent>
         <ItemTitle>
           <a>{title}</a>
         </ItemTitle>
         <ItemDescription>{description}</ItemDescription>
       </ItemContent>
-    </ItemWrapper>
+    </ItemWrap>
   </ItemCard>
 );
 

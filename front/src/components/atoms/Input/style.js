@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components';
 
 export const InputWrapper = styled.span`
   position: relative;
-  display: inline-block;
   width: 100%;
   min-width: 0;
   padding: 4px 11px;
@@ -75,18 +74,8 @@ export const InputContainer = styled.input`
   `}
 
   ${({ type }) => type === 'search' && css`
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    min-width: 0;
-    padding: 4px 11px;
-    font-size: 14px;
-    line-height: 1.5715;
-    background-color: #fff;
-    background-image: none;
     border: 0;
     border-radius: 2px;
-    transition: all .3s;
     display: inline-flex;
   `}
 
@@ -129,17 +118,13 @@ export const Textarea = styled.textarea`
   position: relative;
   display: inline-block;
   width: 100%;
-  min-width: 0;
   padding: 4px 11px;
   color: #000000d9;
   font-size: 14px;
-  line-height: 1.5715;
   background-color: #fff;
   background-image: none;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
-  transition: all .3s;
-
   max-width: 100%;
   height: auto;
   min-height: 100px;
@@ -160,7 +145,6 @@ export const Textarea = styled.textarea`
 
 export const SearchWrapper = styled.span`
   position: relative;
-  display: inline-block;
   width: 100%;
   min-width: 0;
   padding: 4px 11px;

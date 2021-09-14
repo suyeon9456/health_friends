@@ -4,10 +4,8 @@ export const StyledAvatar = styled.span`
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  color: rgba(0, 0, 0, 0.85);
   font-size: 14px;
   font-variant: tabular-nums;
-  line-height: 1.5715;
   list-style: none;
   font-feature-settings: 'tnum';
   position: relative;
@@ -18,13 +16,7 @@ export const StyledAvatar = styled.span`
   text-align: center;
   vertical-align: middle;
   background: #ccc;
-  width: 32px;
-  height: 32px;
-  line-height: 32px;
   border-radius: 2px;
-  & > .anticon-user {
-    font-size: 16px;
-  }
 
   ${({ size }) => {
     if (size === 'small') {
@@ -57,6 +49,15 @@ export const StyledAvatar = styled.span`
         }
       `;
     }
+    return css`
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+
+      & > .anticon-user {
+        font-size: 16px;
+      }
+    `;
   }}
 
   ${({ src }) => src && css`

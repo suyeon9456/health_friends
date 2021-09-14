@@ -97,11 +97,6 @@ ${({ type, loading }) => {
         color: #9254de;
         background: #fff;
         border-color: #9254de;
-        /* &:hover, &:focus {
-          color: #9254de;
-          background: #E9DBF9;
-          border-color: #9254de;
-        } */
       `;
     }
     if (type === 'primary') {
@@ -185,5 +180,4 @@ ${({ type, loading }) => {
       `;
     }
   }}
-
 `;

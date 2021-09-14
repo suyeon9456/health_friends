@@ -1,19 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { StyledTooltipArrow, StyledTooltipArrowWrapper, StyledTooltipWrapper, StyledTootip } from './style';
+import { StyledTooltipArrow,
+  StyledTooltipArrowWrap,
+  StyledTooltipWrap,
+  StyledTootip } from './style';
 
-const Tooltip = ({ children, type }) => (
-  <StyledTooltipWrapper>
-    <StyledTooltipArrowWrapper>
+const Tooltip = ({ children }) => (
+  <StyledTooltipWrap>
+    <StyledTooltipArrowWrap>
       <StyledTooltipArrow />
-    </StyledTooltipArrowWrapper>
+    </StyledTooltipArrowWrap>
     <StyledTootip>{children}</StyledTootip>
-  </StyledTooltipWrapper>
+  </StyledTooltipWrap>
 );
 
 Tooltip.propTypes = {
-  type: PropTypes.string,
+  // type: PropTypes.string,
   children: PropTypes.node,
 };
 

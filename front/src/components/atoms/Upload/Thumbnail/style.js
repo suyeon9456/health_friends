@@ -20,7 +20,7 @@ export const ThumbnailContainer = styled.div`
   }
 `;
 
-export const ThumbnailWrapper = styled.span`
+export const ThumbnailWrap = styled.span`
   display: block;
   width: 100%;
   height: 100%;
@@ -52,7 +52,7 @@ export const ThumbnailImage = styled.img`
   opacity: .8;
 `;
 
-export const ThumbnailButtonWrapper = styled.span`
+export const ThumbnailButtonWrap = styled.span`
   position: absolute;
   top: 50%;
   left: 50%;

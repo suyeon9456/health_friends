@@ -3,7 +3,6 @@ import { DownOutlined, UpOutlined } from '@ant-design/icons';
 
 export const InputNumberWrap = styled.span`
   position: relative;
-  display: inline-block;
   width: 100%;
   min-width: 0;
   padding: 4px 11px;
@@ -37,6 +36,9 @@ export const InputNumberWrap = styled.span`
         height: 40px;
       `;
     }
+    return css`
+      height: 32px;
+    `;
   }}
 `;
 
@@ -48,7 +50,6 @@ export const NumberHandlerWrap = styled.div`
   height: 100%;
   background: #fff;
   border-radius: 0 2px 2px 0;
-  /* opacity: 0; */
   transition: opacity .24s linear .1s;
 `;
 

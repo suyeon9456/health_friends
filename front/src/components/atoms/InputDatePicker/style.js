@@ -9,44 +9,6 @@ export const HeaderWrap = styled.div`
   background-color: #fff;
 `;
 
-// export const SuperPrevButton = styled.button`
-//   -webkit-appearance: button;
-//   min-width: 1.6em;
-//   font-size: 14px;
-//   padding: 0;
-//   color: #00000040;
-//   line-height: 40px;
-//   background: 0 0;
-//   border: 0;
-//   cursor: pointer;
-//   transition: color .3s;
-// `;
-
-// export const SuperPrev = styled.span`
-//   &::before {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     display: inline-block;
-//     width: 7px;
-//     height: 7px;
-//     border: 0 solid currentColor;
-//     border-width: 1.5px 0 0 1.5px;
-//     content: "";
-//   }
-//   &::after {
-//     position: absolute;
-//     top: 4px;
-//     left: 4px;
-//     display: inline-block;
-//     width: 7px;
-//     height: 7px;
-//     border: 0 solid currentColor;
-//     border-width: 1.5px 0 0 1.5px;
-//     content: "";
-//   }
-// `;
-
 export const PrevButton = styled.button`
   -webkit-appearance: button;
   min-width: 1.6em;

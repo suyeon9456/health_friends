@@ -2,8 +2,6 @@ import styled, { css } from 'styled-components';
 
 export const TabNav = styled.button`
   position: relative;
-  /* display: inline-flex;
-  align-items: center; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,10 +33,6 @@ export const TabNav = styled.button`
     }
   }
   `}
-
-  /* ${({ block }) => block && css`
-    flex-grow: 1
-  `} */
 `;
 
 export const TabNavText = styled.div`

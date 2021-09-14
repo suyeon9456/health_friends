@@ -21,7 +21,7 @@ export const ErrorContainer = styled.div`
   }
 `;
 
-export const ErrorWrapper = styled.span`
+export const ErrorWrap = styled.span`
   display: block;
   width: 100%;
   height: 100%;
@@ -69,7 +69,7 @@ export const ErrorContentText = styled.span`
   color: #ff4d4f;
 `;
 
-export const ErrorButtonWrapper = styled.span`
+export const ErrorButtonWrap = styled.span`
   position: absolute;
   top: 50%;
   left: 50%;

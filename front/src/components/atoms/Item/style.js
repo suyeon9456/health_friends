@@ -7,7 +7,7 @@ export const ItemCard = styled.ul`
   outline: none;
 `;
 
-export const ItemWrapper = styled.li`
+export const ItemWrap = styled.li`
   border-bottom: 1px solid #f0f0f0;
   display: flex;
   align-items: center;

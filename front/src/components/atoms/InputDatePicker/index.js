@@ -3,7 +3,6 @@ import DatePicker from 'react-datepicker';
 
 import CustomPickerInput from '../CustomPickerInput';
 import CustomCalendar from '../CustomCalendar';
-// import styles from '../../../scss/inputDatePicker.module.scss';
 
 const InputDatePicker = () => {
   const [startDate, setStartDate] = useState(new Date());

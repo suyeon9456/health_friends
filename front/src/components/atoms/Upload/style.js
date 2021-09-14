@@ -27,7 +27,7 @@ export const UploadContainer = styled.div`
   `}
 `;
 
-export const UploadWrapper = styled.span`
+export const UploadWrap = styled.span`
   box-sizing: border-box;
   margin: 0;
   padding: 0;

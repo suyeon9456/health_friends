@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const ProgressWrapper = styled.div`
+export const ProgressWrap = styled.div`
   margin-right: 8px;
   margin-bottom: 8px;
   position: relative;
@@ -9,9 +9,6 @@ export const ProgressWrapper = styled.div`
 `;
 
 export const ProgressOuter = styled.div`
-  /* margin-right: calc(-2em - 8px);
-  padding-right: calc(2em + 8px);
-  display: inline-block; */
   width: 100%;
 `;
 
@@ -27,8 +24,6 @@ export const ProgressInner = styled.div`
 
 export const Bar = styled.div`
   position: relative;
-  /* background-color: #9254de; */
-  /* background-image: linear-gradient(to right, rgb(146, 84, 222) 0%, rgb(16, 142, 233) 100%); */
   background-image: linear-gradient(to right, rgb(146, 84, 222) 0%, rgb(196, 29, 127) 100%);
   border-radius: 100px;
   transition: all .4s cubic-bezier(.08,.82,.17,1) 0s;

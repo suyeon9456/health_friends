@@ -2,24 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CheckOutlined } from '@ant-design/icons';
 
-import { StepTitle, StepContentWrapper, StepIconWrapper, StepWrapper, StepDescription } from './style';
+import { StepTitle, StepContentWrap, StepIconWrap, StepWrap, StepDescription } from './style';
 
 const Step = ({ type, step, title, description }) => (
-  <StepWrapper>
-    <StepIconWrapper
+  <StepWrap>
+    <StepIconWrap
       type={type}
     >
       {type === 'finished' ? <CheckOutlined /> : <span>{step}</span>}
-    </StepIconWrapper>
-    <StepContentWrapper>
+    </StepIconWrap>
+    <StepContentWrap>
       <StepTitle type={type}>
         {title}
       </StepTitle>
       <StepDescription>
         {description}
       </StepDescription>
-    </StepContentWrapper>
-  </StepWrapper>
+    </StepContentWrap>
+  </StepWrap>
 );
 
 Step.propTypes = {

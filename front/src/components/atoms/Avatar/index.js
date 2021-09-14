@@ -8,20 +8,17 @@ const Avatar = ({
   size = 'default',
   src,
   ...props
-}) => {
-  console.log('avatar');
-  return (
-    <StyledAvatar
-      size={size}
-      src={src}
-      {...props}
-    >
-      {src
-        ? <img src={src} alt={src} />
-        : <UserOutlined />}
-    </StyledAvatar>
-  );
-};
+}) => (
+  <StyledAvatar
+    size={size}
+    src={src}
+    {...props}
+  >
+    {src
+      ? <img src={src} alt={src} />
+      : <UserOutlined />}
+  </StyledAvatar>
+);
 
 Avatar.propTypes = {
   size: PropTypes.node,

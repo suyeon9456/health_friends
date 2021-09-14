@@ -1,17 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { ThumbnailContainer, ThumbnailWrapper, ThumbnailImage, ThumbnailButtonWrapper, ThumbnailPreviewButton, ThumbnailRemoveButton } from './style';
+import { ThumbnailContainer,
+  ThumbnailWrap,
+  ThumbnailImage,
+  ThumbnailButtonWrap,
+  ThumbnailPreviewButton,
+  ThumbnailRemoveButton } from './style';
 
 const Thumbnail = ({ src, onPreivew, onRemove }) => (
   <ThumbnailContainer>
-    <ThumbnailButtonWrapper className="thumbnail-button">
+    <ThumbnailButtonWrap className="thumbnail-button">
       <ThumbnailPreviewButton onClick={onPreivew} />
       <ThumbnailRemoveButton onClick={onRemove} />
-    </ThumbnailButtonWrapper>
-    <ThumbnailWrapper className="thumbnail-image">
+    </ThumbnailButtonWrap>
+    <ThumbnailWrap className="thumbnail-image">
       <ThumbnailImage src={src} />
-    </ThumbnailWrapper>
+    </ThumbnailWrap>
   </ThumbnailContainer>
 );
 

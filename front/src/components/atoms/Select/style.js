@@ -7,7 +7,6 @@ export const SelectContainer = styled.select`
   border-radius: 2px;
   transition: all .3s cubic-bezier(.645,.045,.355,1);
   outline: none;
-
   width: 100%;
   padding: 0 11px;
 
