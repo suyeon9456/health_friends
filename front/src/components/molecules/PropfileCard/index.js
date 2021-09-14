@@ -9,6 +9,7 @@ const ProfileCard = ({
   image,
   percent,
   actions,
+  onClick,
 }) => (
   <Card>
     <CardCover>
@@ -24,7 +25,13 @@ const ProfileCard = ({
         {actions.map((action) => (
           action.icon
         ))}
-        <Button size="small" type="primary">매칭신청</Button>
+        <Button
+          size="small"
+          type="primary"
+          onClick={onClick}
+        >
+          매칭신청
+        </Button>
       </CardActions>
       {/* <CardButton>
       </CardButton> */}
@@ -38,6 +45,7 @@ ProfileCard.propTypes = {
   image: PropTypes.string,
   percent: PropTypes.number,
   actions: PropTypes.array,
+  onClick: PropTypes.func,
 };
 
 export default ProfileCard;
