@@ -9,22 +9,24 @@ const Button = ({
   icon,
   size = 'default',
   type = 'default',
-  loading = false,
+  buttonLoading = false,
   block = false,
   disabled = false,
+  submit = false,
   onClick,
   ...props
 }) => (
   <StyledButton
     size={size}
-    type={type}
+    styleType={type}
     block={block}
-    loading={loading}
+    buttonLoading={buttonLoading}
     disabled={disabled}
     onClick={onClick}
+    type={submit ? 'submit' : 'button'}
     {...props}
   >
-    {loading ? <LoadingOutlined /> : icon}
+    {buttonLoading ? <LoadingOutlined /> : icon}
     <span>{children}</span>
   </StyledButton>
 );
@@ -34,9 +36,10 @@ Button.propTypes = {
   icon: PropTypes.node,
   size: PropTypes.string,
   type: PropTypes.string,
-  loading: PropTypes.bool,
+  buttonLoading: PropTypes.bool,
   block: PropTypes.bool,
   disabled: PropTypes.bool,
+  submit: PropTypes.bool,
   onClick: PropTypes.func,
   props: PropTypes.any,
 };

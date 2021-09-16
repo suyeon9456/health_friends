@@ -18,6 +18,11 @@ export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_ERROR = 'SIGN_UP_ERROR';
 
+export const loginAction = (data) => ({
+  type: LOG_IN_REQUEST,
+  data,
+});
+
 const reducer = (state = initialState, action) => (produce(state, (draft) => {
   switch (action.type) {
     case LOG_IN_REQUEST:
@@ -28,7 +33,11 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case LOG_IN_SUCCESS:
       draft.loginLoading = false;
       draft.loginDone = true;
-      draft.me = action.data;
+      // draft.me = action.data;
+      draft.me = {
+        email: action.data.email,
+        nickname: 'suyeon cho',
+      };
       break;
     case LOG_IN_ERROR:
       draft.loginError = action.error;

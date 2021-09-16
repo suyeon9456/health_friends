@@ -48,8 +48,8 @@ export const StyledButton = styled.button`
     }
   }}
 
-${({ type, loading }) => {
-    if (type === 'error') {
+${({ styleType, buttonLoading }) => {
+    if (styleType === 'error') {
       return css`
         color: #ff4d4f;
         background: #fff;
@@ -61,7 +61,7 @@ ${({ type, loading }) => {
         }
       `;
     }
-    if (type === 'success') {
+    if (styleType === 'success') {
       return css`
         color: #1890ff;
         background: #fff;
@@ -73,7 +73,7 @@ ${({ type, loading }) => {
         }
       `;
     }
-    if (type === 'warning') {
+    if (styleType === 'warning') {
       return css`
         color: #faad14;
         background: #fff;
@@ -85,8 +85,8 @@ ${({ type, loading }) => {
         }
       `;
     }
-    if (type === 'line-primary') {
-      return loading
+    if (styleType === 'line-primary') {
+      return buttonLoading
         ? css`
           color: #faad14;
           background: #ff4d4f;
@@ -97,10 +97,15 @@ ${({ type, loading }) => {
         color: #9254de;
         background: #fff;
         border-color: #9254de;
+        &:hover, &:focus {
+          /* color: #fff; */
+          background: #e9d8fd;
+          border-color: #b37feb;
+        }
       `;
     }
-    if (type === 'primary') {
-      return loading
+    if (styleType === 'primary') {
+      return buttonLoading
         ? css`
           color: #fff;
           background: #b37feb;
@@ -118,8 +123,8 @@ ${({ type, loading }) => {
         }
       `;
     }
-    if (type === 'text') {
-      return loading
+    if (styleType === 'text') {
+      return buttonLoading
         ? css`
           background: transparent;
           border-color: transparent;
@@ -137,7 +142,7 @@ ${({ type, loading }) => {
             }
           `;
     }
-    return loading
+    return buttonLoading
       ? css`
         color: #b37feb;
         background: #fff;
@@ -160,9 +165,9 @@ ${({ type, loading }) => {
     width: 100%;
   `}
 
-  ${({ disabled, type }) => {
+  ${({ disabled, styleType }) => {
     if (disabled) {
-      if (type === 'text') {
+      if (styleType === 'text') {
         return css`
           color: #00000040;
           text-shadow: none;
