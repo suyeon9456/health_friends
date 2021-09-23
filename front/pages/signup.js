@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 import Steps from '../src/components/molecules/Steps';
 import AppLayout from '../src/components/organisms/AppLayout';
@@ -17,19 +17,49 @@ const Signup = () => {
     { id: 3, type: 'wait', step: 3, title: 'STEP3', description: '추가 정보' },
     { id: 4, type: 'wait', step: 4, title: 'STEP4', description: '매칭되고 싶은 친구 정보' },
   ];
-  // const [process, setProcess] = useState()
+  const [process, setProcess] = useState(1);
+
+  const onPrevClick = useCallback(() => {
+    setProcess((prev) => prev - 1);
+  }, [process]);
+  const onNextClick = useCallback(() => {
+    setProcess((prev) => prev + 1);
+  }, [process]);
 
   return (
     <AppLayout>
       <div className={styles.signupLayout}>
-        <Steps steps={steps} />
-        {/* <InfoForm /> */}
-        {/* <MoreInfoForm /> */}
-        <MoreGymInfoForm />
-        {/* <FriendsInfoForm /> */}
+        <Steps
+          steps={steps}
+          process={process}
+        />
+        <div className={styles.contentsWrap}>
+          {{
+            1: <InfoForm />,
+            2: <MoreInfoForm />,
+            3: <MoreGymInfoForm />,
+            4: <FriendsInfoForm />,
+          }[process]}
+        </div>
         <div className={styles.buttonWrap}>
-          <Button type="primary" size="large" className={styles.button}>이전단계</Button>
-          <Button type="line-primary" size="large" className={styles.button}>다음단계</Button>
+          <Button
+            type="primary"
+            size="large"
+            className={styles.button}
+            disabled={process <= 1}
+            onClick={onPrevClick}
+          >
+            이전단계
+          </Button>
+          <Button
+            type="line-primary"
+            size="large"
+            className={styles.button}
+            disabled={process >= 4}
+            onClick={onNextClick}
+          >
+            다음단계
+          </Button>
         </div>
       </div>
     </AppLayout>
