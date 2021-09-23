@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
 import Input from '../../atoms/Input';
+import { LOG_OUT_REQUEST } from '../../../../reducers/user';
 
 const Search = styled(Input)`
   vertical-align: middle;
@@ -14,6 +15,10 @@ const Search = styled(Input)`
 
 const Menu = ({ type }) => {
   const { me } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const onLogout = useCallback(() => {
+    dispatch({ type: LOG_OUT_REQUEST });
+  }, []);
   return (
     <MenuList>
       <MenuItem
@@ -53,7 +58,7 @@ const Menu = ({ type }) => {
               style={{ order: '3' }}
             >
               <MenuTitle>
-                <MenuText>
+                <MenuText onClick={onLogout}>
                   로그아웃
                 </MenuText>
               </MenuTitle>

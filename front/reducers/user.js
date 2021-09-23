@@ -4,15 +4,23 @@ const initialState = {
   loginLoading: false,
   loginDone: false,
   loginError: null,
+  logoutLoading: false,
+  logoutDone: false,
+  logoutError: null,
   signupLoading: false,
   signupDone: false,
   signupError: null,
   me: null,
+  userList: [],
 };
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
 export const LOG_IN_ERROR = 'LOG_IN_ERROR';
+
+export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
+export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
+export const LOG_OUT_ERROR = 'LOG_OUT_ERROR';
 
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
@@ -42,6 +50,20 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case LOG_IN_ERROR:
       draft.loginError = action.error;
       draft.loginLoading = false;
+      break;
+    case LOG_OUT_REQUEST:
+      draft.logoutLoading = true;
+      draft.logoutDone = false;
+      draft.logoutError = null;
+      break;
+    case LOG_OUT_SUCCESS:
+      draft.logoutLoading = false;
+      draft.logoutDone = true;
+      draft.me = null;
+      break;
+    case LOG_OUT_ERROR:
+      draft.logoutError = action.error;
+      draft.logoutLoading = false;
       break;
     case SIGN_UP_REQUEST:
       draft.signupLoading = true;
