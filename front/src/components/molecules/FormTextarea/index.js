@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Essential, Label } from './style';
-import Input from '../../atoms/Input';
+import Textarea from '../../atoms/Textarea';
 
 const FormTextarea = ({
   label,
@@ -16,8 +16,7 @@ const FormTextarea = ({
       {label}
       {essential && <Essential />}
     </Label>
-    <Input
-      type="textarea"
+    <Textarea
       placeholder={placeholder}
       maxLength={maxLength}
       showCount={showCount}

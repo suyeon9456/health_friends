@@ -1,110 +1,82 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
+import { CheckCircleFilled, CloseCircleFilled, LockOutlined, UnlockOutlined } from '@ant-design/icons';
 
-import { EnterIconWrapper,
-  SearchIcon,
-  InputContainer,
-  InputWrapper,
-  SearchWrapper,
-  Textarea,
-  TextareaWrapper,
-  SearchLoadingIcon } from './style';
-import useTextareaLength from '../../../hooks/useTextareaLength';
+import { ValidationIconWrap, Feedback, FeedbackWrap, InputContainer, InputContent, InputControlWrap, InputWrap, InputWrapBox } from './style';
 
 const Input = ({
   size = 'default',
   type = 'text',
-  showCount = false,
-  maxLength = 150,
   loading,
   value,
   onChange,
   placeholder,
+  validationState,
+  feedback,
   ...props
 }) => {
   const [passwordType, setPasswordType] = useState(true);
-  const [dataCount, setDataCount] = useState(0);
 
   const onChangePasswordType = useCallback(() => {
     setPasswordType((prev) => !prev);
   }, []);
 
-  const onChangeDataCount = useCallback((e) => {
-    if (showCount) {
-      // if (e.target.value.length > maxLength) {
-      //   return
-      // }
-      const result = useTextareaLength({
-        content: e.target.value.length, hasMaxLength: !!maxLength, maxLength,
-      });
-      setDataCount(result);
-    }
-  }, []);
-
-  if (type === 'textarea') {
-    return (
-      <TextareaWrapper
-        showCount={showCount}
-        data-count={dataCount || `0 / ${maxLength}`}
-      >
-        <Textarea
-          onChange={onChangeDataCount}
-          placeholder={placeholder}
-          {...props}
-        />
-      </TextareaWrapper>
-    );
-  }
-
-  if (type === 'search') {
-    return (
-      <SearchWrapper
-        {...props}
-        size={size}
-      >
-        <EnterIconWrapper>
-          {loading ? <SearchLoadingIcon /> : <SearchIcon />}
-        </EnterIconWrapper>
-        <InputContainer
-          type={type}
-          placeholder={placeholder}
-        />
-      </SearchWrapper>
-    );
-  }
-
   if (type === 'password') {
     return (
-      <InputWrapper>
-        <InputContainer
-          type={passwordType ? 'password' : 'text'}
-          passwordType={type}
-          value={value}
-          onChange={onChange}
-          size={size}
-          placeholder={placeholder}
-          {...props}
-        />
-        <span>
-          {passwordType
-            ? <LockOutlined color="#000000d9" onClick={onChangePasswordType} />
-            : <UnlockOutlined color="#000000d9" onClick={onChangePasswordType} />}
-        </span>
-      </InputWrapper>
+      <InputControlWrap>
+        <InputWrapBox>
+          <InputContent>
+            <InputWrap>
+              <InputContainer
+                type={passwordType ? 'password' : 'text'}
+                passwordType={type}
+                value={value}
+                onChange={onChange}
+                size={size}
+                placeholder={placeholder}
+                validationState={validationState}
+                feedback={feedback}
+                {...props}
+              />
+              <span>
+                {passwordType
+                  ? <LockOutlined color="#000000d9" onClick={onChangePasswordType} />
+                  : <UnlockOutlined color="#000000d9" onClick={onChangePasswordType} />}
+              </span>
+            </InputWrap>
+          </InputContent>
+        </InputWrapBox>
+      </InputControlWrap>
     );
   }
 
   return (
-    <InputContainer
-      value={value}
-      onChange={onChange}
-      size={size}
-      type={type}
-      placeholder={placeholder}
-      {...props}
-    />
+    <InputControlWrap>
+      <InputWrapBox>
+        <InputContent>
+          <InputContainer
+            value={value}
+            onChange={onChange}
+            size={size}
+            placeholder={placeholder}
+            validationState={validationState}
+            feedback={feedback}
+            {...props}
+          />
+          {validationState && (
+            <ValidationIconWrap validationState={validationState}>
+              {validationState === 'error'
+                ? <CloseCircleFilled />
+                : <CheckCircleFilled />}
+            </ValidationIconWrap>
+          )}
+        </InputContent>
+      </InputWrapBox>
+      <FeedbackWrap>
+        <Feedback>{feedback}</Feedback>
+      </FeedbackWrap>
+    </InputControlWrap>
   );
 };
 
@@ -112,11 +84,11 @@ Input.propTypes = {
   size: PropTypes.string,
   type: PropTypes.string,
   placeholder: PropTypes.string,
-  maxLength: PropTypes.number,
-  showCount: PropTypes.bool,
   loading: PropTypes.bool,
   value: PropTypes.node,
   onChange: PropTypes.func,
+  validationState: PropTypes.bool,
+  feedback: PropTypes.string,
   props: PropTypes.any,
 };
 

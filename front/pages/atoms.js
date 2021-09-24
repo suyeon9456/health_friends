@@ -4,6 +4,7 @@ import { LikeOutlined, UserOutlined } from '@ant-design/icons';
 import Button from '../src/components/atoms/Button';
 import Avatar from '../src/components/atoms/Avatar';
 import Input from '../src/components/atoms/Input';
+import Search from '../src/components/atoms/Search';
 import Tag from '../src/components/atoms/Tag';
 import Select from '../src/components/atoms/Select';
 import Upload from '../src/components/atoms/Upload';
@@ -17,6 +18,7 @@ import InputTimePicker from '../src/components/atoms/InputTimePicker';
 import InputDatePicker from '../src/components/atoms/InputDatePicker';
 import RangePicker from '../src/components/atoms/RangePicker';
 import RangeTimePicker from '../src/components/atoms/RangeTimePicker';
+import Textarea from '../src/components/atoms/Textarea';
 
 const Atoms = () => {
   const options = [{ value: 1, text: 'test1' }, { value: 2, text: 'test2' }, { value: 3, text: 'test3' }];
@@ -95,19 +97,19 @@ const Atoms = () => {
       </div>
       <div style={{ padding: '10px' }}>
         type: textarea <br />
-        <Input type="textarea" style={{ marginTop: '10px' }} />
-        <Input type="textarea" showCount maxLength={150} style={{ marginTop: '10px' }} />
+        <Textarea style={{ marginTop: '10px' }} />
+        <Textarea showCount maxLength={150} style={{ marginTop: '10px' }} />
         {/* <Input size="large" style={{ marginTop: '10px' }} /> */}
       </div>
       <div style={{ padding: '10px' }}>
         type: search <br />
-        <Input type="search" size="small" enterButton />
-        <Input type="search" enterButton style={{ marginTop: '10px' }} />
-        <Input type="search" size="large" enterButton style={{ marginTop: '10px' }} />
+        <Search size="small" enterButton />
+        <Search enterButton style={{ marginTop: '10px' }} />
+        <Search size="large" enterButton style={{ marginTop: '10px' }} />
       </div>
       <div style={{ padding: '10px' }}>
         type: loading <br />
-        <Input type="search" loading enterButton />
+        <Search loading enterButton />
       </div>
       <h3>Tag</h3>
       <div style={{ padding: '10px' }}>

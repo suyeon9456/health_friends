@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
-import Input from '../../atoms/Input';
+import Search from '../../atoms/Search';
 import { LOG_OUT_REQUEST } from '../../../../reducers/user';
 
-const Search = styled(Input)`
+const SearchBox = styled(Search)`
   vertical-align: middle;
   width: 300px;
 `;
@@ -47,7 +47,7 @@ const Menu = ({ type }) => {
         type="search"
       >
         <MenuTitle>
-          <Search type="search" enterButton />
+          <SearchBox enterButton />
         </MenuTitle>
       </MenuItem>
       { me
