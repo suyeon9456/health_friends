@@ -9,6 +9,8 @@ const FormSelect = ({
   label,
   options,
   essential,
+  value,
+  onChange,
 }) => (
   <div>
     <Label>
@@ -18,6 +20,8 @@ const FormSelect = ({
     <Select
       size={size}
       options={options}
+      value={value}
+      onChange={onChange}
     />
   </div>
 );
@@ -27,6 +31,8 @@ FormSelect.propTypes = {
   label: PropTypes.string,
   options: PropTypes.array,
   essential: PropTypes.bool,
+  value: PropTypes.number,
+  onChange: PropTypes.func,
 };
 
 export default FormSelect;

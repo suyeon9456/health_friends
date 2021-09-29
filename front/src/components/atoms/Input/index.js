@@ -5,29 +5,30 @@ import { CheckCircleFilled, CloseCircleFilled, LockOutlined, UnlockOutlined } fr
 
 import { ValidationIconWrap, Feedback, FeedbackWrap, InputContainer, InputContent, InputControlWrap, InputWrap, InputWrapBox } from './style';
 
-const Input = ({
+const Input = React.forwardRef(({
   size = 'default',
   type = 'text',
   loading,
   value,
   onChange,
   placeholder,
-  validationState,
+  validationErrors,
   feedback,
   ...props
-}) => {
+}, ref) => {
   const [passwordType, setPasswordType] = useState(true);
 
   const onChangePasswordType = useCallback(() => {
     setPasswordType((prev) => !prev);
   }, []);
+  console.log('validationErrors', validationErrors);
 
   if (type === 'password') {
     return (
       <InputControlWrap>
         <InputWrapBox>
           <InputContent>
-            <InputWrap>
+            <InputWrap validationErrors={validationErrors}>
               <InputContainer
                 type={passwordType ? 'password' : 'text'}
                 passwordType={type}
@@ -35,8 +36,9 @@ const Input = ({
                 onChange={onChange}
                 size={size}
                 placeholder={placeholder}
-                validationState={validationState}
+                validationErrors={validationErrors}
                 feedback={feedback}
+                ref={ref}
                 {...props}
               />
               <span>
@@ -47,6 +49,9 @@ const Input = ({
             </InputWrap>
           </InputContent>
         </InputWrapBox>
+        <FeedbackWrap>
+          <Feedback>{feedback}</Feedback>
+        </FeedbackWrap>
       </InputControlWrap>
     );
   }
@@ -60,13 +65,14 @@ const Input = ({
             onChange={onChange}
             size={size}
             placeholder={placeholder}
-            validationState={validationState}
+            validationErrors={validationErrors}
             feedback={feedback}
+            ref={ref}
             {...props}
           />
-          {validationState && (
-            <ValidationIconWrap validationState={validationState}>
-              {validationState === 'error'
+          {validationErrors && (
+            <ValidationIconWrap validationState={validationErrors}>
+              {validationErrors === 'error'
                 ? <CloseCircleFilled />
                 : <CheckCircleFilled />}
             </ValidationIconWrap>
@@ -78,7 +84,7 @@ const Input = ({
       </FeedbackWrap>
     </InputControlWrap>
   );
-};
+});
 
 Input.propTypes = {
   size: PropTypes.string,
@@ -87,7 +93,7 @@ Input.propTypes = {
   loading: PropTypes.bool,
   value: PropTypes.node,
   onChange: PropTypes.func,
-  validationState: PropTypes.bool,
+  validationErrors: PropTypes.node,
   feedback: PropTypes.string,
   props: PropTypes.any,
 };

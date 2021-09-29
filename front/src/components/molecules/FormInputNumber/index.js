@@ -7,6 +7,7 @@ import InputNumber from '../../atoms/InputNumber';
 const FormInputNumber = ({ label,
   value,
   onChange,
+  setValue,
   size,
   placeholder,
   essential,
@@ -21,6 +22,9 @@ const FormInputNumber = ({ label,
       placeholder={placeholder}
       size={size}
       {...props}
+      value={value}
+      onChange={onChange}
+      setValue={setValue}
     />
   </div>
 );
@@ -28,7 +32,8 @@ const FormInputNumber = ({ label,
 FormInputNumber.propTypes = {
   label: PropTypes.string,
   placeholder: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
+  setValue: PropTypes.any.isRequired,
   onChange: PropTypes.func.isRequired,
   size: PropTypes.string,
   essential: PropTypes.bool,

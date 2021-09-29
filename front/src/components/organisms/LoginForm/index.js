@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
 
 import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
 import Input from '../../atoms/Input';
@@ -13,15 +14,17 @@ const LoginForm = () => {
   const [password, onChangePassword] = useInput('');
 
   const dispatch = useDispatch();
+  const { register, handleSubmit } = useForm();
 
-  const onLogin = useCallback((e) => {
-    e.preventDefault();
-    dispatch(loginAction({ email, password }));
+  const onLogin = useCallback((data) => {
+    // e.preventDefault();
+    console.log('data', data);
+    dispatch(loginAction({ email: data.email, password: data.password }));
   }, [email, password]);
 
   return (
     <FormWrapper>
-      <form onSubmit={onLogin}>
+      <form onSubmit={handleSubmit(onLogin)}>
         <InputWrapper>
           <Input
             id="user-id"
@@ -29,6 +32,7 @@ const LoginForm = () => {
             onChange={onChangeEmail}
             size="large"
             placeholder="이메일 계정을 입력해주세요."
+            {...register('email', { required: true })}
           />
         </InputWrapper>
         <InputWrapper>
@@ -39,6 +43,7 @@ const LoginForm = () => {
             onChange={onChangePassword}
             size="large"
             placeholder="비밀번호를 입력해주세요."
+            {...register('password', { required: true })}
           />
         </InputWrapper>
         <Button type="primary" block submit>로그인</Button>

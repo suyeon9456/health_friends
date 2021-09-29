@@ -39,6 +39,21 @@ export const InputWrap = styled.span`
   & > span > .anticon {
     cursor: pointer;
   }
+
+  ${({ validationState }) => validationState === 'error'
+    && css`
+      background-color: #fff;
+      border-color: #ff4d4f;
+      &:hover {
+        border-color: #ff7875;
+      }
+      &:focus-within {
+        border-color: #ff7875;
+        box-shadow: 0 0 0 2px rgb(255 77 79 / 20%);
+        border-right-width: 1px!important;
+        outline: 0;
+      }
+  `}
 `;
 
 export const InputControlWrap = styled.div`
@@ -104,7 +119,9 @@ export const InputContainer = styled.input`
     }
   `}
 
-  ${({ validationState }) => validationState === 'error' && css`
+  ${({ validationState, passwordType }) => validationState === 'error'
+    && passwordType !== 'password'
+    && css`
       background-color: #fff;
       border-color: #ff4d4f;
       &:hover {

@@ -9,8 +9,11 @@ const FormInput = ({
   placeholder,
   size,
   essential,
-  validationState,
-  feedback,
+  // validationErrors,
+  // feedback,
+  id,
+  // register,
+  // required,
   ...props }) => (
     <div>
       <Label>
@@ -20,8 +23,9 @@ const FormInput = ({
       <Input
         placeholder={placeholder}
         size={size}
-        validationState={validationState}
-        feedback={feedback}
+        // validationErrors={validationErrors}
+        // feedback={feedback}
+        // {...register(id, { required })}
         {...props}
       />
     </div>
@@ -32,9 +36,12 @@ FormInput.propTypes = {
   placeholder: PropTypes.string,
   size: PropTypes.string,
   essential: PropTypes.bool,
-  validationState: PropTypes.bool,
-  feedback: PropTypes.string,
+  // validationErrors: PropTypes.node,
+  // feedback: PropTypes.string,
   props: PropTypes.any,
+  id: PropTypes.string,
+  // required: PropTypes.bool,
+  // register: PropTypes.any,
 };
 
 export default FormInput;

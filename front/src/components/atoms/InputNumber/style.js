@@ -60,7 +60,7 @@ export const NumberHandlerUp = styled.span`
   overflow: hidden;
   color: #00000073;
   font-weight: 700;
-  line-height: .5;
+  line-height: 1;
   text-align: center;
   border-left: 1px solid #d9d9d9;
   border-top-right-radius: 2px;
