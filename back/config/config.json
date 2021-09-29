@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "Eunhye!0601",
+    "database": "health-friends",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "Eunhye!0601",
+    "database": "health-friends",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "Eunhye!0601",
+    "database": "health-friends",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
