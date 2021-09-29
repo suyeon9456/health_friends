@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
+// import { useForm } from 'react-hook-form';
 
 import Steps from '../src/components/molecules/Steps';
 import AppLayout from '../src/components/organisms/AppLayout';
 import InfoForm from '../src/components/organisms/signup/InfoForm';
-import Button from '../src/components/atoms/Button';
 import MoreInfoForm from '../src/components/organisms/signup/MoreInfoForm';
 import FriendsInfoForm from '../src/components/organisms/signup/FriendsInfoForm';
 import MoreGymInfoForm from '../src/components/organisms/signup/MoreGymInfoForm';
@@ -19,13 +19,6 @@ const Signup = () => {
   ];
   const [process, setProcess] = useState(1);
 
-  const onPrevClick = useCallback(() => {
-    setProcess((prev) => prev - 1);
-  }, [process]);
-  const onNextClick = useCallback(() => {
-    setProcess((prev) => prev + 1);
-  }, [process]);
-
   return (
     <AppLayout>
       <div className={styles.signupLayout}>
@@ -35,31 +28,11 @@ const Signup = () => {
         />
         <div className={styles.contentsWrap}>
           {{
-            1: <InfoForm />,
-            2: <MoreInfoForm />,
+            1: <InfoForm setProcess={setProcess} />,
+            2: <MoreInfoForm setProcess={setProcess} />,
             3: <MoreGymInfoForm />,
             4: <FriendsInfoForm />,
           }[process]}
-        </div>
-        <div className={styles.buttonWrap}>
-          <Button
-            type="primary"
-            size="large"
-            className={styles.button}
-            disabled={process <= 1}
-            onClick={onPrevClick}
-          >
-            이전단계
-          </Button>
-          <Button
-            type="line-primary"
-            size="large"
-            className={styles.button}
-            disabled={process >= 4}
-            onClick={onNextClick}
-          >
-            다음단계
-          </Button>
         </div>
       </div>
     </AppLayout>
