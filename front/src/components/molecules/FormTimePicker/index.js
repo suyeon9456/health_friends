@@ -5,25 +5,52 @@ import { Essential, Label } from './style';
 import RangeTimePicker from '../../atoms/RangeTimePicker';
 import InputTimePicker from '../../atoms/InputTimePicker';
 
-const FormTimePicker = ({ label, type, placeholder, size, essential }) => (
-  <div>
-    <Label>
-      {label}
-      {essential && <Essential />}
-    </Label>
-    {type === 'range'
-      ? <RangeTimePicker size={size} placeholder={placeholder} />
-      : <InputTimePicker size={size} placeholder={placeholder} />}
-  </div>
+const FormTimePicker = ({ label,
+  type,
+  value,
+  onChange,
+  startDate,
+  endDate,
+  onChangeStartDate,
+  onChangeEndDate,
+  size,
+  essential }) => (
+    <div>
+      <Label>
+        {label}
+        {essential && <Essential />}
+      </Label>
+      {type === 'range'
+        ? (
+          <RangeTimePicker
+            size={size}
+            startDate={startDate}
+            endDate={endDate}
+            onChangeStartDate={onChangeStartDate}
+            onChangeEndDate={onChangeEndDate}
+          />
+        )
+        : (
+          <InputTimePicker
+            size={size}
+            value={value}
+            onChange={onChange}
+          />
+        )}
+    </div>
 );
 
 FormTimePicker.propTypes = {
   label: PropTypes.string,
   type: PropTypes.string,
-  placeholder: PropTypes.string,
+  value: PropTypes.any,
+  onChange: PropTypes.func,
+  startDate: PropTypes.any,
+  onChangeStartDate: PropTypes.func,
+  endDate: PropTypes.any,
+  onChangeEndDate: PropTypes.func,
   size: PropTypes.string,
   essential: PropTypes.bool,
-  // props: PropTypes.any,
 };
 
 export default FormTimePicker;

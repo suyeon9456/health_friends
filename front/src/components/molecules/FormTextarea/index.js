@@ -10,6 +10,8 @@ const FormTextarea = ({
   maxLength,
   showCount = false,
   essential = false,
+  value,
+  onChange,
 }) => (
   <div>
     <Label>
@@ -20,7 +22,8 @@ const FormTextarea = ({
       placeholder={placeholder}
       maxLength={maxLength}
       showCount={showCount}
-      essential={essential}
+      value={value}
+      onChange={onChange}
     />
   </div>
 );
@@ -31,6 +34,8 @@ FormTextarea.propTypes = {
   maxLength: PropTypes.number,
   showCount: PropTypes.bool,
   essential: PropTypes.bool,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 export default FormTextarea;
