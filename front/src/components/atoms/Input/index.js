@@ -49,9 +49,11 @@ const Input = React.forwardRef(({
             </InputWrap>
           </InputContent>
         </InputWrapBox>
-        <FeedbackWrap>
-          <Feedback>{feedback}</Feedback>
-        </FeedbackWrap>
+        {feedback && (
+          <FeedbackWrap>
+            <Feedback>{feedback}</Feedback>
+          </FeedbackWrap>
+        )}
       </InputControlWrap>
     );
   }
@@ -79,9 +81,11 @@ const Input = React.forwardRef(({
           )}
         </InputContent>
       </InputWrapBox>
-      <FeedbackWrap>
-        <Feedback>{feedback}</Feedback>
-      </FeedbackWrap>
+      {feedback && (
+        <FeedbackWrap>
+          <Feedback>{feedback}</Feedback>
+        </FeedbackWrap>
+      )}
     </InputControlWrap>
   );
 });

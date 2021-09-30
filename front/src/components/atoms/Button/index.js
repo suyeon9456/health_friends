@@ -27,7 +27,7 @@ const Button = ({
     {...props}
   >
     {buttonLoading ? <LoadingOutlined /> : icon}
-    <span>{children}</span>
+    <span {...props}>{children}</span>
   </StyledButton>
 );
 

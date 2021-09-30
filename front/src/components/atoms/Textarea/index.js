@@ -15,24 +15,26 @@ const Textarea = ({
 }) => {
   const [dataCount, setDataCount] = useState(0);
 
-  const onChangeDataCount = useCallback((e) => {
-    if (showCount) {
-      // if (e.target.value.length > maxLength) {
-      //   return
-      // }
-      const result = useTextareaLength({
-        content: e.target.value.length, hasMaxLength: !!maxLength, maxLength,
-      });
-      setDataCount(result);
-    }
-  }, []);
+  // const onChangeDataCount = useCallback((e) => {
+  //   // onChange();
+  //   // if (showCount) {
+  //   //   // if (e.target.value.length > maxLength) {
+  //   //   //   return
+  //   //   // }
+  //   //   const result = useTextareaLength({
+  //   //     content: e.target.value.length, hasMaxLength: !!maxLength, maxLength,
+  //   //   });
+  //   //   setDataCount(result);
+  //   // }
+  // }, []);
   return (
     <TextareaWrap
       showCount={showCount}
       data-count={dataCount || `0 / ${maxLength}`}
     >
       <TextareaBox
-        onChange={onChangeDataCount}
+        value={value}
+        onChange={onChange}
         placeholder={placeholder}
         {...props}
       />
