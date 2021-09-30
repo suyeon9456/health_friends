@@ -5,13 +5,17 @@ export const MoreInfoFormWrapper = styled.div`
   padding: 10px 100px;
   & > div {
     margin: 0 auto;
-    /* margin-top: 20px; */
     max-width: 600px;
-    & > input, & > select {
-      margin-top: 10px;
+    &:not(:first-child) {
+      margin-top: 24px;
     }
-    & > div, & > span {
+    & > div, & > span, & > select {
       margin-top: 10px;
     }
   }
+`;
+
+export const ButtonWrap = styled.div`
+  margin-top: 10px;
+  text-align: center;
 `;

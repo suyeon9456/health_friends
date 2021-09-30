@@ -1,89 +1,83 @@
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { SIGN_UP_STEP_MORE_INFO_SAVE } from '../../../../../reducers/user';
+import { SIGN_UP_STEP_MORE_INFO_SAVE, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV } from '../../../../../reducers/user';
 import useInput from '../../../../hooks/useInput';
-import { MoreInfoFormWrapper } from './style';
-import Button from '../../../atoms/Button';
-import FormInput from '../../../molecules/FormInput';
-import FormSelect from '../../../molecules/FormSelect';
-import FormInputNumber from '../../../molecules/FormInputNumber';
+import { Button } from '../../../atoms';
+import { FormInput, FormSelect, FormInputNumber } from '../../../molecules';
+import { ButtonWrap, MoreInfoFormWrapper } from './style';
 
-const MoreInfoForm = ({ setProcess }) => {
-  const careerOptions = [
-    { value: 1, text: '1년 미만' },
-    { value: 2, text: '1년 이상 ~ 3년 미만' },
-    { value: 3, text: '3년 이상 ~ 5년 미만' },
-    { value: 4, text: '5년 이상 ~ 10년 미만' },
-    { value: 5, text: '10년 이상' },
-  ];
-  const roleOptions = [
-    { value: 1, text: '도움을 주고 싶어요!' },
-    { value: 2, text: '도움을 받고 싶어요!' },
-    { value: 3, text: '함께 운동하고 싶어요!' },
-  ];
-  const [gender, onChangeGender] = useInput('');
-  const [age, onChangeAge, setAge] = useInput(0);
-  const [career, onChangeCareer] = useInput(1);
-  const [role, onChangeRole] = useInput(1);
+const MoreInfoForm = () => {
+  const { careerOptions, roleOptions, signupStepMoreInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const [gender, onChangeGender] = useInput(signupStepMoreInfo?.gender || '');
+  const [age, onChangeAge, setAge] = useInput(signupStepMoreInfo?.age || 0);
+  const [career, onChangeCareer] = useInput(signupStepMoreInfo?.career || 1);
+  const [role, onChangeRole] = useInput(signupStepMoreInfo?.role || 1);
 
-  const onNextClick = useCallback(() => {
+  const onClickStepHandler = useCallback((e) => {
+    console.log(e.target);
     dispatch({
       type: SIGN_UP_STEP_MORE_INFO_SAVE,
-      data: { gender, age, career },
+      data: { gender, age, career, role },
     });
-    setProcess((prev) => prev + 1);
-  }, [gender, age, career]);
+    if (e.target.id === 'next') {
+      dispatch({ type: SIGN_UP_STEP_NEXT });
+    } else {
+      dispatch({ type: SIGN_UP_STEP_PREV });
+    }
+  }, [gender, age, career, role]);
   return (
-    <>
-      <MoreInfoFormWrapper>
-        <FormInput
-          label="성별"
-          placeholder="성별을 입력해주세요."
-          size="large"
-          value={gender}
-          onChange={onChangeGender}
-        />
-        <FormInputNumber
-          label="나이"
-          placeholder="나이(숫자만)를 입력해주세요."
-          size="large"
-          value={age}
-          onChange={onChangeAge}
-          setValue={setAge}
-        />
-        <FormSelect
-          label="운동경력"
-          options={careerOptions}
-          size="large"
-          value={career}
-          onChange={onChangeCareer}
-        />
-        <FormSelect
-          label="친구와의 역할"
-          options={roleOptions}
-          size="large"
-          value={role}
-          onChange={onChangeRole}
-        />
-      </MoreInfoFormWrapper>
-      <div>
+    <MoreInfoFormWrapper>
+      <FormInput
+        label="성별"
+        placeholder="성별을 입력해주세요."
+        size="large"
+        value={gender}
+        onChange={onChangeGender}
+      />
+      <FormInputNumber
+        label="나이"
+        placeholder="나이(숫자만)를 입력해주세요."
+        size="large"
+        value={age}
+        onChange={onChangeAge}
+        setValue={setAge}
+      />
+      <FormSelect
+        label="운동경력"
+        options={careerOptions}
+        size="large"
+        value={career}
+        onChange={onChangeCareer}
+      />
+      <FormSelect
+        label="친구와의 역할"
+        options={roleOptions}
+        size="large"
+        value={role}
+        onChange={onChangeRole}
+      />
+      <ButtonWrap>
         <Button
           type="line-primary"
           size="large"
-          onClick={onNextClick}
+          id="prev"
+          onClick={onClickStepHandler}
+        >
+          이전단계
+        </Button>
+        <Button
+          type="line-primary"
+          size="large"
+          id="next"
+          onClick={onClickStepHandler}
         >
           다음단계
         </Button>
-      </div>
-    </>
+      </ButtonWrap>
+    </MoreInfoFormWrapper>
   );
-};
-
-MoreInfoForm.propTypes = {
-  setProcess: PropTypes.any.isRequired,
 };
 
 export default MoreInfoForm;

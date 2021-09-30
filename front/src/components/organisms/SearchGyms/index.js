@@ -11,7 +11,7 @@ import {
   GymWrapper, FoldButton,
   SearchSidebar,
 } from './style';
-import Input from '../../atoms/Input';
+import Search from '../../atoms/Search';
 import Item from '../../atoms/Item';
 import SearchFriends from '../SearchFriends';
 import Avatar from '../../atoms/Avatar';
@@ -73,7 +73,7 @@ const SearchGyms = ({ foldedGym, changeFoldedGym }) => {
           <SearchTitle>서울 관악구 검색 결과</SearchTitle>
         </SearchHeader>
         <SearchFormWrapper>
-          <Input type="search" placeholder="관심 헬스장을 검색해보세요." enterButton />
+          <Search placeholder="관심 헬스장을 검색해보세요." enterButton />
         </SearchFormWrapper>
         <SearchListWrapper
           browserHeight={browserHeight}

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-// import { useForm } from 'react-hook-form';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import Steps from '../src/components/molecules/Steps';
 import AppLayout from '../src/components/organisms/AppLayout';
@@ -11,28 +11,22 @@ import MoreGymInfoForm from '../src/components/organisms/signup/MoreGymInfoForm'
 import styles from '../src/scss/signup.module.scss';
 
 const Signup = () => {
-  const steps = [
-    { id: 1, type: 'finished', step: 1, title: 'STEP1', description: '회원 정보' },
-    { id: 2, type: 'process', step: 2, title: 'STEP2', description: '추가 정보' },
-    { id: 3, type: 'wait', step: 3, title: 'STEP3', description: '추가 정보' },
-    { id: 4, type: 'wait', step: 4, title: 'STEP4', description: '매칭되고 싶은 친구 정보' },
-  ];
-  const [process, setProcess] = useState(1);
+  const { signupSteps, signupProcess } = useSelector((state) => state.user);
 
   return (
     <AppLayout>
       <div className={styles.signupLayout}>
         <Steps
-          steps={steps}
-          process={process}
+          steps={signupSteps}
+          process={signupProcess}
         />
         <div className={styles.contentsWrap}>
           {{
-            1: <InfoForm setProcess={setProcess} />,
-            2: <MoreInfoForm setProcess={setProcess} />,
+            1: <InfoForm />,
+            2: <MoreInfoForm />,
             3: <MoreGymInfoForm />,
             4: <FriendsInfoForm />,
-          }[process]}
+          }[signupProcess]}
         </div>
       </div>
     </AppLayout>

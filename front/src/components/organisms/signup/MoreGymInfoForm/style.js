@@ -2,12 +2,14 @@ import styled from 'styled-components';
 
 export const FormWrapper = styled.div`
   width: 100%;
-  padding: 20px 100px;
+  padding: 10px 100px;
   & > div:not(.gym-modal) {
     margin: 0 auto;
-    margin-top: 20px;
     max-width: 600px;
-    & > input, & > div, & > span {
+    &:not(:first-child) {
+      margin-top: 24px;
+    }
+    & > div {
       margin-top: 10px;
     }
   }
@@ -19,10 +21,11 @@ export const FormSearchGymWrap = styled.div`
   margin: 0 auto;
 
   & > div {
+    margin-top: 0 !important;
     width: 100%;
     padding-right: 10px;
 
-    & > input {
+    & > div {
       margin-top: 10px;
     }
   }
@@ -30,6 +33,7 @@ export const FormSearchGymWrap = styled.div`
     width: auto;
     padding: 0;
     & > div {
+      margin-top: 0;
       font-weight: 600;
       font-size: 16px;
       height: 34px;
@@ -46,4 +50,9 @@ export const ModalBodyBox = styled.div`
   & > .tabs {
     margin-top: -1px;
   }
+`;
+
+export const ButtonWrap = styled.div`
+  margin-top: 10px;
+  text-align: center;
 `;

@@ -4,7 +4,8 @@ import { LOG_IN_ERROR,
   LOG_IN_SUCCESS,
   LOG_OUT_ERROR,
   LOG_OUT_REQUEST,
-  LOG_OUT_SUCCESS } from '../reducers/user';
+  LOG_OUT_SUCCESS,
+  SIGN_UP_REQUEST } from '../reducers/user';
 
 function loadMyInfoAPI(data) {
   // const result = axios.get('/user', data);
@@ -25,10 +26,10 @@ function* login(action) {
       // data: result.data,
       data: result,
     });
-  } catch (e) {
+  } catch (error) {
     yield put({
       type: LOG_IN_ERROR,
-      error: e.response.data,
+      error: error.response.data,
     });
   }
 }
@@ -51,10 +52,23 @@ function* logout() {
       type: LOG_OUT_SUCCESS,
       // data: null,
     });
-  } catch (e) {
+  } catch (error) {
     yield put({
       type: LOG_OUT_ERROR,
-      error: e.response.data,
+      error: error.response.data,
+    });
+  }
+}
+
+function* signup() {
+  console.log('request_saga');
+  yield delay(2000);
+  try {
+    console.log('?');
+  } catch (error) {
+    yield put({
+      type: LOG_OUT_ERROR,
+      error: error.response.data,
     });
   }
 }
@@ -67,13 +81,17 @@ function* watchLogout() {
   yield takeLatest(LOG_OUT_REQUEST, logout);
 }
 
+function* watchSignUp() {
+  yield takeLatest(SIGN_UP_REQUEST, signup);
+}
+
 export default function* userSaga() {
   yield all([
     yield fork(watchLogin),
     yield fork(watchLogout),
+    yield fork(watchSignUp),
     // yield fork(watchLoadMyInfo),
     // yield fork(watchLoadUser),
-    // yield fork(watchSignUp),
     // yield fork(watchLoadFollowings),
     // yield fork(watchLoadFollowers),
     // yield fork(watchFollow),

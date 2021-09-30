@@ -2,15 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { BoxContent, GymListWrap } from './style';
-import Input from '../../atoms/Input';
+import Search from '../../atoms/Search';
 import List from '../../molecules/List';
 
 const ModalSearchGym = ({ list }) => (
   <BoxContent>
-    <Input
-      type="search"
-      enterButton
-    />
+    <Search enterButton />
     <GymListWrap>
       <List list={list} />
     </GymListWrap>
