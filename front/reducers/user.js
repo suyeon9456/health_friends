@@ -32,7 +32,7 @@ const initialState = {
     { value: 'male', text: '남성' },
     { value: 'female', text: '여성' },
   ],
-  searchGymTabs: [{ value: '1', text: '헬스장 찾기' }, { value: '2', text: '헬스장 등록' }],
+  searchGymTabs: [{ value: 1, text: '헬스장 찾기' }, { value: 2, text: '헬스장 등록' }],
   signupProcess: 1,
   me: null,
   signupStepInfo: null,
@@ -56,6 +56,8 @@ export const SIGN_UP_STEP_INFO_SAVE = 'SIGN_UP_STEP_INFO_SAVE';
 export const SIGN_UP_STEP_MORE_INFO_SAVE = 'SIGN_UP_STEP_MORE_INFO_SAVE';
 export const SIGN_UP_STEP_GYM_INFO_SAVE = 'SIGN_UP_STEP_GYM_INFO_SAVE';
 export const SIGN_UP_STEP_FRIENDS_INFO_SAVE = 'SIGN_UP_STEP_FRIENDS_INFO_SAVE';
+
+export const SELECT_GYM = 'SELECT_GYM';
 
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
@@ -117,6 +119,9 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       break;
     case SIGN_UP_STEP_FRIENDS_INFO_SAVE:
       draft.signupStepFriendsInfo = action.data;
+      break;
+    case SELECT_GYM:
+      draft.signupStepGymInfo.gym = action.data;
       break;
     case SIGN_UP_REQUEST:
       console.log('request_reducer');

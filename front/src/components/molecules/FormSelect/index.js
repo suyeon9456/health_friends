@@ -31,7 +31,7 @@ FormSelect.propTypes = {
   label: PropTypes.string,
   options: PropTypes.array,
   essential: PropTypes.bool,
-  value: PropTypes.number,
+  value: PropTypes.node,
   onChange: PropTypes.func,
 };
 

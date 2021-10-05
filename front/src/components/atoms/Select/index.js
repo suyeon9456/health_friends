@@ -23,7 +23,7 @@ const Select = ({ size, options, value, onChange }) => (
 Select.propTypes = {
   size: PropTypes.string,
   options: PropTypes.array,
-  value: PropTypes.number,
+  value: PropTypes.node,
   onChange: PropTypes.func,
 };
 

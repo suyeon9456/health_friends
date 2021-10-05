@@ -1,15 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
   const Gym = sequelize.define('Gym', {
     name: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING(30),
+      allowNull: false,
+    },
+    sido: {
+      type: DataTypes.STRING(10),
+      allowNull: false,
+    },
+    sigungu: {
+      type: DataTypes.STRING(10),
       allowNull: false,
     },
     address: {
       type: DataTypes.STRING(50),
-      allowNull: false,
-    },
-    detailAddress: {
-      type: DataTypes.STRING(100),
       allowNull: false,
     },
   }, {

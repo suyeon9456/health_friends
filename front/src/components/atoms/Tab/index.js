@@ -21,9 +21,9 @@ const Tab = ({
 
 Tab.propTypes = {
   children: PropTypes.node.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
   size: PropTypes.string,
-  selectedValue: PropTypes.string,
+  selectedValue: PropTypes.number,
   onClick: PropTypes.func,
 };
 

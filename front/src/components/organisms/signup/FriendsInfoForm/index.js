@@ -15,9 +15,9 @@ const FriendsInfoForm = () => {
     roleOptions,
     signupStepFriendsInfo } = useSelector((state) => state.user);
   const [gender, onChangeGender] = useInput(signupStepFriendsInfo?.gender || 'male');
-  const [career, onChangeCareer] = useInput(signupStepFriendsInfo?.gender || 1);
-  const [age, onChangeAge] = useInput(signupStepFriendsInfo?.gender || 0);
-  const [role, onChangeRole] = useInput(signupStepFriendsInfo?.gender || 1);
+  const [career, onChangeCareer] = useInput(signupStepFriendsInfo?.career || 1);
+  const [age, onChangeAge, setAge] = useInput(signupStepFriendsInfo?.age || 0);
+  const [role, onChangeRole] = useInput(signupStepFriendsInfo?.role || 1);
   const onClickPrev = useCallback(() => {
     dispatch({
       type: SIGN_UP_STEP_FRIENDS_INFO_SAVE,
@@ -47,6 +47,7 @@ const FriendsInfoForm = () => {
         placeholder="나이(숫자만)를 입력해주세요."
         value={age}
         onChange={onChangeAge}
+        setValue={setAge}
       />
       <FormSelect
         label="운동경력"

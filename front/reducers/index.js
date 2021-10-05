@@ -2,6 +2,7 @@ import { HYDRATE } from 'next-redux-wrapper';
 import { combineReducers } from 'redux';
 
 import user from './user';
+import gym from './gym';
 
 const rootReducer = (state, action) => {
   switch (action.type) {
@@ -10,7 +11,7 @@ const rootReducer = (state, action) => {
       // console.log('payload', action.payload);
       return action.payload;
     default: {
-      const combineReducer = combineReducers({ user });
+      const combineReducer = combineReducers({ user, gym });
       return combineReducer(state, action);
     }
   }

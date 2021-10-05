@@ -19,7 +19,7 @@ const MoreGymInfoForm = () => {
 
   const [startDate, setStartDate] = useState(signupStepGymInfo?.startDate || new Date());
   const [endDate, setEndDate] = useState(signupStepGymInfo?.endDate || new Date());
-  const [gym, onChangeGym] = useInput(signupStepGymInfo?.gym || '');
+  const [gym, onChangeGym] = useInput(signupStepGymInfo?.gym?.name || '');
   const [description, onChangeDescription] = useInput(signupStepGymInfo?.description || '');
 
   const onChangeStartDate = useCallback((data) => {
@@ -84,6 +84,7 @@ const MoreGymInfoForm = () => {
         title="헬스장 찾기/등록"
         className="gym-modal"
         onCancel={changeShowModal}
+        setShowModal={setShowModal}
       />
       <ButtonWrap>
         <Button

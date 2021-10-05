@@ -13,6 +13,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.6.4",
     "antd": "^4.16.7",
+    "axios": "^0.22.0",
     "babel-plugin-styled-components": "^1.13.2",
     "immer": "^9.0.6",
     "next": "^11.0.1",
@@ -20,6 +21,7 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-datepicker": "^4.2.1",
+    "react-daum-postcode": "^2.0.6",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.15.4",
     "react-redux": "^7.2.4",

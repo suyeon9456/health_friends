@@ -24,9 +24,8 @@ Tabs.propTypes = {
   tabs: PropTypes.array.isRequired,
   size: PropTypes.string,
   block: PropTypes.bool,
-  selectedTab: PropTypes.string,
+  selectedTab: PropTypes.number,
   onChangeSelectedTab: PropTypes.func,
-  // defaultTabValue: PropTypes.string,
 };
 
 export default Tabs;

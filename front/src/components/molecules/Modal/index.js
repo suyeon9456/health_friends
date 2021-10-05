@@ -5,7 +5,13 @@ import { CloseOutlined } from '@ant-design/icons';
 import { ModalBody, ModalBox, ModalClose, ModalContent, ModalFooter, ModalHeader, ModalMask, ModalRoot, ModalTitle, ModalWrap } from './style';
 import Button from '../../atoms/Button';
 
-const Modal = ({ show, title, onCancel, onSubmit, className, children }) => {
+const Modal = ({ show,
+  title,
+  onCancel,
+  onSubmit,
+  className,
+  children,
+  footer }) => {
   useEffect(() => {
     if (show) {
       document.body.style.cssText = `
@@ -40,10 +46,12 @@ const Modal = ({ show, title, onCancel, onSubmit, className, children }) => {
             <ModalBody>
               {children}
             </ModalBody>
-            <ModalFooter>
-              <Button onClick={onCancel}>취소</Button>
-              <Button type="primary" onClick={onSubmit}>확인</Button>
-            </ModalFooter>
+            {footer && (
+              <ModalFooter>
+                <Button onClick={onCancel}>취소</Button>
+                <Button type="primary" onClick={onSubmit}>확인</Button>
+              </ModalFooter>
+            )}
           </ModalContent>
         </ModalBox>
       </ModalWrap>
@@ -58,6 +66,7 @@ Modal.propTypes = {
   onSubmit: PropTypes.func,
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
+  footer: PropTypes.bool.isRequired,
 };
 
 export default Modal;
