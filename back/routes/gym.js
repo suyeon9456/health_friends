@@ -2,23 +2,19 @@ const express = require('express');
 const { Gym, User } = require('../models');
 
 const router = express.Router();
-// router.get('/', async (req, res, next) => { // GET /gym/
-//   try {
-//     const list = await Gym.findAll({
-//       include: [{
-//         model: User,
-//         as: 'Member',
-//         attributes: ['id'],
-//       }]
-//     });
-//     res.status(200).json(list);
-//   } catch (error) {
-//     console.error(error);
-//     next(error);
-//   }
-// });
+router.get('/', async (req, res, next) => { // GET /gym/
+  try {
+    const gyms = await Gym.findAll({
+      attributes: ['id', 'name', 'address'],
+    });
+    res.status(200).json(gyms);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
 
-router.post('/', async (req, res, next) => {
+router.post('/', async (req, res, next) => { // POST /gym/
   try {
     const gym = await Gym.create({
       sido: req.body.sido,
@@ -26,7 +22,6 @@ router.post('/', async (req, res, next) => {
       address: req.body.address,
       name: req.body.name,
     })
-    console.log('gym', gym);
     res.status(201).json(gym);
   } catch (error) {
     console.error(error);

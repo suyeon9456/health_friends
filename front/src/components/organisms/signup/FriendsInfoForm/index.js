@@ -13,55 +13,66 @@ const FriendsInfoForm = () => {
   const { genderOptions,
     careerOptions,
     roleOptions,
+    selectedGym,
+    signupStepInfo: info,
+    signupStepMoreInfo: moreInfo,
+    signupStepGymInfo: gymInfo,
     signupStepFriendsInfo } = useSelector((state) => state.user);
-  const [gender, onChangeGender] = useInput(signupStepFriendsInfo?.gender || 'male');
-  const [career, onChangeCareer] = useInput(signupStepFriendsInfo?.career || 1);
-  const [age, onChangeAge, setAge] = useInput(signupStepFriendsInfo?.age || 0);
-  const [role, onChangeRole] = useInput(signupStepFriendsInfo?.role || 1);
+
+  const [friendsGender, onChangeFriendsGender] = useInput(signupStepFriendsInfo?.friendsGender || 'male');
+  const [friendsCareer, onChangeFriendsCareer] = useInput(signupStepFriendsInfo?.friendsCareer || 1);
+  const [friendsAge, onChangeFriendsAge, setFriendsAge] = useInput(signupStepFriendsInfo?.friendsAge || 0);
+  const [friendsRole, onChangeFriendsRole] = useInput(signupStepFriendsInfo?.friendsRole || 1);
   const onClickPrev = useCallback(() => {
     dispatch({
       type: SIGN_UP_STEP_FRIENDS_INFO_SAVE,
-      data: { gender, career, age, role },
+      data: { friendsGender, friendsCareer, friendsAge, friendsRole },
     });
     dispatch({ type: SIGN_UP_STEP_PREV });
-  }, [gender, career, age, role]);
+  }, [friendsGender, friendsCareer, friendsAge, friendsRole]);
 
   const onClickSignup = useCallback(() => {
     dispatch({
       type: SIGN_UP_REQUEST,
-      data: { gender, career, age, role },
+      data: {
+        info,
+        moreInfo,
+        gymInfo,
+        selectedGym,
+        friendsInfo: { friendsGender, friendsCareer, friendsAge, friendsRole },
+      },
     });
-  }, [gender, career, age, role]);
+  }, [friendsGender, friendsCareer, friendsAge, friendsRole, selectedGym, info, moreInfo, gymInfo]);
   return (
     <FormWrapper>
       <FormSelect
         label="성별"
         options={genderOptions}
         size="large"
-        value={gender}
-        onChange={onChangeGender}
+        value={friendsGender}
+        onChange={onChangeFriendsGender}
       />
       <FormInputNumber
         label="나이"
         size="large"
         placeholder="나이(숫자만)를 입력해주세요."
-        value={age}
-        onChange={onChangeAge}
-        setValue={setAge}
+        value={friendsAge}
+        onChange={onChangeFriendsAge}
+        setValue={setFriendsAge}
       />
       <FormSelect
         label="운동경력"
         options={careerOptions}
         size="large"
-        value={career}
-        onChange={onChangeCareer}
+        value={friendsCareer}
+        onChange={onChangeFriendsCareer}
       />
       <FormSelect
         label="친구와의 역할"
         options={roleOptions}
         size="large"
-        value={role}
-        onChange={onChangeRole}
+        value={friendsRole}
+        onChange={onChangeFriendsRole}
       />
       <ButtonWrap>
         <Button

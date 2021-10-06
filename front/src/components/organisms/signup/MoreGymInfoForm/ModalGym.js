@@ -1,43 +1,38 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { ADD_GYM_REQUEST } from '../../../../../reducers/gym';
-import { SELECT_GYM } from '../../../../../reducers/user';
+import { ADD_GYM_REQUEST, LOAD_GYM_REQUEST } from '../../../../../reducers/gym';
 import useInput from '../../../../hooks/useInput';
 import { Modal, Tabs } from '../../../molecules';
 import ModalSearchGym from '../../ModalSearchGym';
 import ModalCreateGym from '../../ModalCreateGym';
 import { ModalBodyBox } from './style';
 
-const ModalGym = ({ show, title, onCancel, setShowModal, ...props }) => {
-  const list = [];
+const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }) => {
   const { searchGymTabs } = useSelector((state) => state.user);
+  const { gyms } = useSelector((state) => state.gym);
   const dispatch = useDispatch();
   const [selectedTab, setSelectedTab] = useState(1);
+  const [sido, setSido] = useState('');
+  const [sigungu, setSigungu] = useState('');
+  const [address, setAddress] = useState('');
+  const [name, onChangeName] = useInput('');
+
+  useEffect(() => {
+    dispatch({ type: LOAD_GYM_REQUEST });
+  }, []);
+
   const onChangeSelectedTab = useCallback((tab) => () => {
     setSelectedTab(tab);
   }, [selectedTab]);
 
-  const [sido, setSido] = useState('');
-  const [sigungu, setSigungu] = useState('');
-  const [address, setAddress] = useState('');
-
-  const [id, setId] = useState('');
-  const [name, onChangeName, setName] = useInput('');
-
   const onSubmit = useCallback(() => {
-    if (selectedTab === 2) {
-      dispatch({
-        type: ADD_GYM_REQUEST,
-        data: { sido, sigungu, address, name },
-      });
-    } else {
-      dispatch({
-        type: SELECT_GYM,
-        data: { id, name },
-      });
-    }
+    dispatch({
+      type: ADD_GYM_REQUEST,
+      data: { sido, sigungu, address, name },
+    });
+    setGym(name);
     setShowModal(false);
   }, [show, selectedTab, sido, sigungu, address, name]);
   return (
@@ -57,7 +52,7 @@ const ModalGym = ({ show, title, onCancel, setShowModal, ...props }) => {
           block
         />
         {selectedTab === 1
-          ? <ModalSearchGym list={list} setId={setId} setName={setName} />
+          ? <ModalSearchGym list={gyms} setShowModal={setShowModal} setGym={setGym} />
           : (
             <ModalCreateGym
               sido={sido}
@@ -80,6 +75,7 @@ ModalGym.propTypes = {
   title: PropTypes.string.isRequired,
   onCancel: PropTypes.func,
   setShowModal: PropTypes.func,
+  setGym: PropTypes.func,
   props: PropTypes.any,
 };
 

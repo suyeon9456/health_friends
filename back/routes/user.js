@@ -1,28 +1,41 @@
 const express = require('express');
-const { User } = require('../models');
+const { User, Userdetail } = require('../models');
 const bcrypt = require('bcrypt');
 
 const router = express.Router();
 router.post('/', async (req, res, next) => { // POST /user/
   try {
+    console.log('??????????', req.body);
+    const { info, moreInfo, gymInfo, selectedGym, friendsInfo } = req.body;
     const exUser = await User.findOne({
       where: {
-        email: req.body.email,
+        email: info.email,
       }
     })
     if (exUser) {
       return res.status(403).send('이미 사용중인 email입니다.');
     }
-    const hashedPassword = await bcrypt.hash(req.body.password, 12);
-    await User.create({
-      email: req.body.email,
+    const hashedPassword = await bcrypt.hash(info.password, 12);
+    const user = await User.create({
+      email: info.email,
       password: hashedPassword,
-      nickname: req.body.nickname,
-      gender: req.body.gender,
-      age: req.body.age,
-      time: req.body.time,
-      description: req.body.description,
+      nickname: info.nickname,
+      gender: moreInfo.gender,
+      age: moreInfo.age,
+      career: moreInfo.career,
+      role: moreInfo.role,
     });
+    const userDetail = await Userdetail.create({
+      startTime: gymInfo.startTime,
+      endTime: gymInfo.endTime,
+      description: gymInfo.description,
+      friendsGender: moreInfo.friendsGender,
+      friendsAge: friendsInfo.friendsAge,
+      friendsCareer: friendsInfo.friendsCareer,
+      friendsRole: friendsInfo.friendsRole,
+      UserId: user.id,
+    });
+    await user.addGyms(selectedGym.id);
     res.status(200).send('ok');
   } catch (error) {
     console.error(error);

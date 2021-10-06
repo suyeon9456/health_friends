@@ -34,11 +34,12 @@ const initialState = {
   ],
   searchGymTabs: [{ value: 1, text: '헬스장 찾기' }, { value: 2, text: '헬스장 등록' }],
   signupProcess: 1,
-  me: null,
   signupStepInfo: null,
   signupStepMoreInfo: null,
   signupStepGymInfo: null,
   signupStepFriendsInfo: null,
+  selectedGym: null,
+  me: null,
 };
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
@@ -62,11 +63,6 @@ export const SELECT_GYM = 'SELECT_GYM';
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_ERROR = 'SIGN_UP_ERROR';
-
-export const loginAction = (data) => ({
-  type: LOG_IN_REQUEST,
-  data,
-});
 
 const reducer = (state = initialState, action) => (produce(state, (draft) => {
   switch (action.type) {
@@ -121,10 +117,9 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.signupStepFriendsInfo = action.data;
       break;
     case SELECT_GYM:
-      draft.signupStepGymInfo.gym = action.data;
+      draft.selectedGym = action.data;
       break;
     case SIGN_UP_REQUEST:
-      console.log('request_reducer');
       draft.signupLoading = true;
       draft.signupDone = false;
       draft.signupError = null;

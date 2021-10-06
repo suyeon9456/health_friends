@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import { ItemWrap, ItemCard, ItemContent, ItemDescription, ItemTitle } from './style';
 
-const Item = ({ title, description }) => (
+const Item = ({ title, description, onClick }) => (
   <ItemCard>
     <ItemWrap>
       <ItemContent>
-        <ItemTitle>
+        <ItemTitle onClick={onClick}>
           <a>{title}</a>
         </ItemTitle>
         <ItemDescription>{description}</ItemDescription>
@@ -19,6 +19,7 @@ const Item = ({ title, description }) => (
 Item.propTypes = {
   title: PropTypes.string,
   description: PropTypes.node,
+  onClick: PropTypes.func,
 };
 
 export default Item;

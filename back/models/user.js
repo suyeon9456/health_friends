@@ -21,16 +21,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(10),
       allowNull: true,
     },
-    time: {
-      type: DataTypes.STRING(30),
+    career: {
+      type: DataTypes.STRING(10),
       allowNull: true,
     },
     role: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    description: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING(10),
       allowNull: true,
     },
   }, {
@@ -43,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
     db.User.belongsToMany(db.User, { through: 'Like', as: 'Liked', foreignKey: 'LikerId' });
     db.User.hasMany(db.Schedule, { as: 'User', foreignKey: 'UserId' });
     db.User.hasMany(db.Schedule, { as: 'Friend', foreignKey: 'FriendId' });
+    db.User.hasOne(db.Userdetail);
   };
   return User;
 }

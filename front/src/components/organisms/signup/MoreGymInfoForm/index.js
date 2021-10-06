@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import format from 'date-fns/format';
 
 import { SIGN_UP_STEP_GYM_INFO_SAVE, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV } from '../../../../../reducers/user';
 import useInput from '../../../../hooks/useInput';
@@ -14,18 +15,22 @@ const MoreGymInfoForm = () => {
     setShowModal((prev) => !prev);
   }, [showModal]);
 
-  const { signupStepGymInfo } = useSelector((state) => state.user);
+  const { signupStepGymInfo, selectedGym } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const [startDate, setStartDate] = useState(signupStepGymInfo?.startDate || new Date());
   const [endDate, setEndDate] = useState(signupStepGymInfo?.endDate || new Date());
-  const [gym, onChangeGym] = useInput(signupStepGymInfo?.gym?.name || '');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+  const [gym, onChangeGym, setGym] = useInput(signupStepGymInfo?.gym?.name || selectedGym?.name || '');
   const [description, onChangeDescription] = useInput(signupStepGymInfo?.description || '');
 
   const onChangeStartDate = useCallback((data) => {
+    setStartTime(format(data, 'HH:mm'));
     setStartDate(data);
   }, []);
   const onChangeEndDate = useCallback((data) => {
+    setEndTime(format(data, 'HH:mm'));
     setEndDate(data);
   }, []);
 
@@ -39,7 +44,7 @@ const MoreGymInfoForm = () => {
     } else {
       dispatch({ type: SIGN_UP_STEP_PREV });
     }
-  }, [startDate, endDate, gym, description]);
+  }, [startTime, endTime, gym, description]);
   return (
     <FormWrapper>
       <FormTimePicker
@@ -85,6 +90,7 @@ const MoreGymInfoForm = () => {
         className="gym-modal"
         onCancel={changeShowModal}
         setShowModal={setShowModal}
+        setGym={setGym}
       />
       <ButtonWrap>
         <Button
