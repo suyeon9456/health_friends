@@ -4,11 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SIGN_UP_STEP_MORE_INFO_SAVE, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV } from '../../../../../reducers/user';
 import useInput from '../../../../hooks/useInput';
 import { Button } from '../../../atoms';
-import { FormInput, FormSelect, FormInputNumber } from '../../../molecules';
+import { FormSelect, FormInputNumber } from '../../../molecules';
 import { ButtonWrap, MoreInfoFormWrapper } from './style';
 
 const MoreInfoForm = () => {
-  const { careerOptions, roleOptions, signupStepMoreInfo } = useSelector((state) => state.user);
+  const { careerOptions,
+    roleOptions,
+    signupStepMoreInfo,
+    genderOptions } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [gender, onChangeGender] = useInput(signupStepMoreInfo?.gender || '');
   const [age, onChangeAge, setAge] = useInput(signupStepMoreInfo?.age || 0);
@@ -16,7 +19,6 @@ const MoreInfoForm = () => {
   const [role, onChangeRole] = useInput(signupStepMoreInfo?.role || 1);
 
   const onClickStepHandler = useCallback((e) => {
-    console.log(e.target);
     dispatch({
       type: SIGN_UP_STEP_MORE_INFO_SAVE,
       data: { gender, age, career, role },
@@ -27,11 +29,12 @@ const MoreInfoForm = () => {
       dispatch({ type: SIGN_UP_STEP_PREV });
     }
   }, [gender, age, career, role]);
+
   return (
     <MoreInfoFormWrapper>
-      <FormInput
+      <FormSelect
         label="성별"
-        placeholder="성별을 입력해주세요."
+        options={genderOptions}
         size="large"
         value={gender}
         onChange={onChangeGender}

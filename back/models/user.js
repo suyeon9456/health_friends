@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     collate: 'utf8mb4_general_ci',
   });
   User.associate = (db) => {
-    db.User.belongsToMany(db.Gym, { through: 'UserGym', as: 'Member' });
+    db.User.belongsToMany(db.Gym, { through: 'UserGym' });
     db.User.belongsToMany(db.User, { through: 'Like', as: 'Liker', foreignKey: 'LikedId' });
     db.User.belongsToMany(db.User, { through: 'Like', as: 'Liked', foreignKey: 'LikerId' });
     db.User.hasMany(db.Schedule, { as: 'User', foreignKey: 'UserId' });

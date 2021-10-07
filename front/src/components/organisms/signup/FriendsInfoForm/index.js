@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { SIGN_UP_REQUEST, SIGN_UP_STEP_FRIENDS_INFO_SAVE, SIGN_UP_STEP_PREV } from '../../../../../reducers/user';
@@ -10,7 +11,8 @@ import FormInputNumber from '../../../molecules/FormInputNumber';
 
 const FriendsInfoForm = () => {
   const dispatch = useDispatch();
-  const { genderOptions,
+  const { signupDone,
+    genderOptions,
     careerOptions,
     roleOptions,
     selectedGym,
@@ -20,8 +22,10 @@ const FriendsInfoForm = () => {
     signupStepFriendsInfo } = useSelector((state) => state.user);
 
   const [friendsGender, onChangeFriendsGender] = useInput(signupStepFriendsInfo?.friendsGender || 'male');
-  const [friendsCareer, onChangeFriendsCareer] = useInput(signupStepFriendsInfo?.friendsCareer || 1);
-  const [friendsAge, onChangeFriendsAge, setFriendsAge] = useInput(signupStepFriendsInfo?.friendsAge || 0);
+  const [friendsCareer, onChangeFriendsCareer] = useInput(signupStepFriendsInfo?.friendsCareer
+    || 1);
+  const [friendsAge, onChangeFriendsAge, setFriendsAge] = useInput(signupStepFriendsInfo?.friendsAge
+    || 0);
   const [friendsRole, onChangeFriendsRole] = useInput(signupStepFriendsInfo?.friendsRole || 1);
   const onClickPrev = useCallback(() => {
     dispatch({
@@ -30,6 +34,12 @@ const FriendsInfoForm = () => {
     });
     dispatch({ type: SIGN_UP_STEP_PREV });
   }, [friendsGender, friendsCareer, friendsAge, friendsRole]);
+
+  useEffect(() => {
+    if (signupDone) {
+      Router.replace('/');
+    }
+  }, [signupDone]);
 
   const onClickSignup = useCallback(() => {
     dispatch({

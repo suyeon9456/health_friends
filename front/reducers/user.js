@@ -127,6 +127,11 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case SIGN_UP_SUCCESS:
       draft.signupLoading = false;
       draft.signupDone = true;
+      draft.signupStepInfo = null;
+      draft.signupStepMoreInfo = null;
+      draft.signupStepGymInfo = null;
+      draft.signupStepFriendsInfo = null;
+      draft.selectedGym = null;
       break;
     case SIGN_UP_ERROR:
       draft.signupLoading = false;

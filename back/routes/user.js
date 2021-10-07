@@ -35,7 +35,7 @@ router.post('/', async (req, res, next) => { // POST /user/
       friendsRole: friendsInfo.friendsRole,
       UserId: user.id,
     });
-    await user.addGyms(selectedGym.id);
+    await user.addGym(selectedGym.id);
     res.status(200).send('ok');
   } catch (error) {
     console.error(error);
