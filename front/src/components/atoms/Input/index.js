@@ -21,7 +21,7 @@ const Input = React.forwardRef(({
   const onChangePasswordType = useCallback(() => {
     setPasswordType((prev) => !prev);
   }, []);
-  console.log('validationErrors', validationErrors);
+  // console.log('validationErrors', validationErrors);
 
   if (type === 'password') {
     return (

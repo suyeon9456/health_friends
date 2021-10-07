@@ -74,11 +74,7 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case LOG_IN_SUCCESS:
       draft.loginLoading = false;
       draft.loginDone = true;
-      // draft.me = action.data;
-      draft.me = {
-        email: action.data.email,
-        nickname: 'suyeon cho',
-      };
+      draft.me = action.data;
       break;
     case LOG_IN_ERROR:
       draft.loginError = action.error;

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Router } from 'next/router';
 
 import Steps from '../src/components/molecules/Steps';
 import AppLayout from '../src/components/organisms/AppLayout';
@@ -11,7 +12,12 @@ import MoreGymInfoForm from '../src/components/organisms/signup/MoreGymInfoForm'
 import styles from '../src/scss/signup.module.scss';
 
 const Signup = () => {
-  const { signupSteps, signupProcess } = useSelector((state) => state.user);
+  const { signupSteps, signupProcess, me } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (me && me.id) {
+      Router.replace('/');
+    }
+  }, [me && me.id]);
 
   return (
     <AppLayout>

@@ -1,30 +1,28 @@
 import React, { useCallback } from 'react';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
-import { useForm } from 'react-hook-form';
 
-import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
-import Input from '../../atoms/Input';
+import { LOG_IN_REQUEST } from '../../../../reducers/user';
 import useInput from '../../../hooks/useInput';
-import Button from '../../atoms/Button';
-import { loginAction } from '../../../../reducers/user';
+import { Input, Button } from '../../atoms';
+import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
 
-  const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
-
-  const onLogin = useCallback((data) => {
-    // e.preventDefault();
-    console.log('data', data);
-    dispatch(loginAction({ email: data.email, password: data.password }));
+  const onLogin = useCallback((e) => {
+    e.preventDefault();
+    dispatch({
+      type: LOG_IN_REQUEST,
+      data: { email, password },
+    });
   }, [email, password]);
 
   return (
     <FormWrapper>
-      <form onSubmit={handleSubmit(onLogin)}>
+      <form onSubmit={onLogin}>
         <InputWrapper>
           <Input
             id="user-id"
@@ -32,7 +30,6 @@ const LoginForm = () => {
             onChange={onChangeEmail}
             size="large"
             placeholder="이메일 계정을 입력해주세요."
-            {...register('email', { required: true })}
           />
         </InputWrapper>
         <InputWrapper>
@@ -43,7 +40,6 @@ const LoginForm = () => {
             onChange={onChangePassword}
             size="large"
             placeholder="비밀번호를 입력해주세요."
-            {...register('password', { required: true })}
           />
         </InputWrapper>
         <Button type="primary" block submit>로그인</Button>
@@ -52,24 +48,18 @@ const LoginForm = () => {
         <div>
           <Button>
             <Link href="/">
-              <a>
-                아이디 찾기
-              </a>
+              <a>아이디 찾기</a>
             </Link>
           </Button>
           <Button>
             <Link href="/">
-              <a>
-                비밀번호 찾기
-              </a>
+              <a>비밀번호 찾기</a>
             </Link>
           </Button>
         </div>
         <Button type="line-primary" block>
           <Link href="/signup">
-            <a className="line-primary">
-              회원가입
-            </a>
+            <a className="line-primary">회원가입</a>
           </Link>
         </Button>
       </ButtonWrapper>

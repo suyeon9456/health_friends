@@ -42,4 +42,4 @@ module.exports = (sequelize, DataTypes) => {
     db.User.hasOne(db.Userdetail);
   };
   return User;
-}
+};
