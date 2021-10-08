@@ -47,7 +47,7 @@ const SearchFriends = ({ foldedGym, changeShowModal }) => {
 };
 
 SearchFriends.propTypes = {
-  foldedGym: PropTypes.func.isRequired,
+  foldedGym: PropTypes.bool.isRequired,
   changeShowModal: PropTypes.func.isRequired,
 };
 

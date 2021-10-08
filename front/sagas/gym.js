@@ -12,7 +12,7 @@ import {
 import { SELECT_GYM } from '../reducers/user';
 
 function addGymAPI(data) {
-  return axios.post('http://localhost:6015/gym', data);
+  return axios.post('/gym', data);
 }
 
 function* addGym(action) {
@@ -35,7 +35,7 @@ function* addGym(action) {
 }
 
 function loadGymsAPI(data) {
-  return axios.get('http://localhost:6015/gym', data);
+  return axios.get('/gyms', data);
 }
 
 function* loadGyms(action) {
@@ -46,6 +46,7 @@ function* loadGyms(action) {
       data: result.data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: LOAD_GYM_ERROR,
       error: error.response.data,

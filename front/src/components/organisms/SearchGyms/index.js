@@ -1,40 +1,36 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { LeftOutlined, RightOutlined, TeamOutlined, ZoomInOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 
-import {
-  SearchHeader,
+import { LOAD_GYM_REQUEST } from '../../../../reducers/gym';
+import useInput from '../../../hooks/useInput';
+import { SearchHeader,
   SearchWrapper,
   SearchTitle,
   SearchFormWrapper,
   SearchListWrapper,
   GymWrapper, FoldButton,
-  SearchSidebar,
-} from './style';
-import Search from '../../atoms/Search';
-import Item from '../../atoms/Item';
-import SearchFriends from '../SearchFriends';
-import Avatar from '../../atoms/Avatar';
-import Button from '../../atoms/Button';
+  SearchSidebar } from './style';
+import { Search, Item, Avatar, Button } from '../../atoms';
 import Modal from '../../molecules/Modal';
+import SearchFriends from '../SearchFriends';
 import ModalRequestFriend from '../ModalRequestFriend';
 
 const SearchGyms = ({ foldedGym, changeFoldedGym }) => {
+  const dispatch = useDispatch();
+  const { gyms } = useSelector((state) => state.gym);
+
   const [browserHeight, setBrowserHeight] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [searchWord, onChangeSearchWord] = useInput('');
 
-  const list = [
-    { id: 1, title: '헬스장 1', description: '서울시 관악구 헬스장 주소 1', friends: 5 },
-    { id: 2, title: '헬스장 2', description: '서울시 관악구 헬스장 주소 2', friends: 5 },
-    { id: 3, title: '헬스장 3', description: '서울시 관악구 헬스장 주소 3', friends: 5 },
-    { id: 4, title: '헬스장 4', description: '서울시 관악구 헬스장 주소 3', friends: 5 },
-    // { id: 5, title: '헬스장 5', description: '서울시 관악구 헬스장 주소 3', friends: 5 },
-    // { id: 6, title: '헬스장 6', description: '서울시 관악구 헬스장 주소 3', friends: 5 },
-    // { id: 7, title: '헬스장 7', description: '서울시 관악구 헬스장 주소 3', friends: 5 },
-    // { id: 8, title: '헬스장 8', description: '서울시 관악구 헬스장 주소 3', friends: 5 },
-    // { id: 9, title: '헬스장 9', description: '서울시 관악구 헬스장 주소 3', friends: 5 },
-    // { id: 10, title: '헬스장 10', description: '서울시 관악구 헬스장 주소 3', friends: 6 },
-  ];
+  useEffect(() => {
+    dispatch({
+      type: LOAD_GYM_REQUEST,
+      data: { searchWord },
+    });
+  }, [searchWord]);
 
   useEffect(() => {
     setBrowserHeight(document.documentElement.clientHeight);
@@ -45,12 +41,8 @@ const SearchGyms = ({ foldedGym, changeFoldedGym }) => {
   }, [showModal]);
 
   return (
-    <SearchWrapper
-      foldedGym={foldedGym}
-    >
-      <SearchSidebar
-        foldedGym={foldedGym}
-      >
+    <SearchWrapper foldedGym={foldedGym}>
+      <SearchSidebar foldedGym={foldedGym}>
         <div>
           <Avatar size="small" />
           <Button
@@ -65,20 +57,21 @@ const SearchGyms = ({ foldedGym, changeFoldedGym }) => {
       >
         {foldedGym ? <RightOutlined /> : <LeftOutlined />}
       </FoldButton>
-      <GymWrapper
-        foldedGym={foldedGym}
-      >
+      <GymWrapper foldedGym={foldedGym}>
         <SearchHeader>
-          <span>10개의 헬스장</span>
+          <span>{gyms.length}개의 헬스장</span>
           <SearchTitle>서울 관악구 검색 결과</SearchTitle>
         </SearchHeader>
         <SearchFormWrapper>
-          <Search placeholder="관심 헬스장을 검색해보세요." enterButton />
+          <Search
+            placeholder="관심 헬스장을 검색해보세요."
+            enterButton
+            value={searchWord}
+            onChange={onChangeSearchWord}
+          />
         </SearchFormWrapper>
-        <SearchListWrapper
-          browserHeight={browserHeight}
-        >
-          {list.map((item) => (
+        <SearchListWrapper browserHeight={browserHeight}>
+          {gyms.map((item) => (
             <Item
               key={item.id}
               title={item.title}
