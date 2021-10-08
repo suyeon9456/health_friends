@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 
 const userRouter = require('./routes/user');
 const gymRouter = require('./routes/gym');
+const gymsRouter = require('./routes/gyms');
 
 const db = require('./models');
 const passportConfig = require('./passport');
@@ -43,6 +44,7 @@ app.get('/', (req, res) => {
 
 app.use('/user', userRouter);
 app.use('/gym', gymRouter);
+app.use('/gyms', gymsRouter);
 
 app.listen(6015, () => {
   console.log('backend server start');

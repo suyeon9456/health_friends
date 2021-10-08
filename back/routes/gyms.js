@@ -8,14 +8,14 @@ router.get('/', async (req, res, next) => { // GET /gyms/
   try {
     const gyms = await Gym.findAll({
       attributes: ['id', 'name', 'address'],
-      // where: {
-      //   name: { [Op.like]: "%" + searchWord + "%" },
-      //   address: { [Op.like]: "%" + searchWord + "%" },
-      // },
-      // include: [{
-      //   model: User,
-      //   attribute: ['id'],
-      // }]
+      where: {
+        name: { [Op.like]: "%" + req.query.searchWord + "%" },
+        address: { [Op.like]: "%" + req.query.searchWord + "%" },
+      },
+      include: [{
+        model: User,
+        attribute: ['id'],
+      }]
     });
     res.status(200).json(gyms);
   } catch (error) {

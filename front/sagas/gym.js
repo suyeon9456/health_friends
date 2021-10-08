@@ -35,7 +35,8 @@ function* addGym(action) {
 }
 
 function loadGymsAPI(data) {
-  return axios.get('/gyms', data);
+  console.log('data', data);
+  return axios.get(`/gyms?searchWord=${data.searchWord || ''}`);
 }
 
 function* loadGyms(action) {

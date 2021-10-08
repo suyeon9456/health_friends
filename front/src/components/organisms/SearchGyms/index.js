@@ -13,9 +13,7 @@ import { SearchHeader,
   GymWrapper, FoldButton,
   SearchSidebar } from './style';
 import { Search, Item, Avatar, Button } from '../../atoms';
-import Modal from '../../molecules/Modal';
 import SearchFriends from '../SearchFriends';
-import ModalRequestFriend from '../ModalRequestFriend';
 
 const SearchGyms = ({ foldedGym, changeFoldedGym }) => {
   const dispatch = useDispatch();
@@ -30,11 +28,18 @@ const SearchGyms = ({ foldedGym, changeFoldedGym }) => {
       type: LOAD_GYM_REQUEST,
       data: { searchWord },
     });
-  }, [searchWord]);
+  }, []);
 
   useEffect(() => {
     setBrowserHeight(document.documentElement.clientHeight);
   }, [browserHeight]);
+
+  const onSearchGyms = useCallback(() => {
+    dispatch({
+      type: LOAD_GYM_REQUEST,
+      data: { searchWord },
+    });
+  }, [searchWord]);
 
   const changeShowModal = useCallback(() => {
     setShowModal((prev) => !prev);
@@ -64,22 +69,22 @@ const SearchGyms = ({ foldedGym, changeFoldedGym }) => {
         </SearchHeader>
         <SearchFormWrapper>
           <Search
-            placeholder="관심 헬스장을 검색해보세요."
-            enterButton
+            placeholder="관심 지역 및 헬스장을 검색해보세요."
             value={searchWord}
             onChange={onChangeSearchWord}
+            onSearch={onSearchGyms}
           />
         </SearchFormWrapper>
         <SearchListWrapper browserHeight={browserHeight}>
-          {gyms.map((item) => (
+          {gyms.map((gym) => (
             <Item
-              key={item.id}
-              title={item.title}
+              key={gym.id}
+              title={gym.name}
               description={(
                 <div>
-                  <span>{item.description}</span>
+                  <span>{gym.address}</span>
                   <div>
-                    <TeamOutlined /> {item.friends}명
+                    <TeamOutlined /> {gym.Users.length}명
                   </div>
                 </div>
               )}
@@ -91,14 +96,6 @@ const SearchGyms = ({ foldedGym, changeFoldedGym }) => {
         foldedGym={foldedGym}
         changeShowModal={changeShowModal}
       />
-      <Modal
-        show={showModal}
-        title={<div><Avatar size="small" style={{ marginRight: '10px' }} />nicname님에게 매칭신청</div>}
-        className="matching-modal"
-        onCancel={changeShowModal}
-      >
-        <ModalRequestFriend />
-      </Modal>
     </SearchWrapper>
   );
 };
