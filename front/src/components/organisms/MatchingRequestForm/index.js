@@ -11,7 +11,7 @@ import FormInput from '../../molecules/FormInput';
 import FormTextarea from '../../molecules/FormTextarea';
 import Avatar from '../../atoms/Avatar';
 
-const ModalRequestFriend = () => (
+const MatchingRequestForm = () => (
   <RequestFriendWrap>
     <MatchingInfoWrap>
       <h4>매칭정보</h4>
@@ -51,4 +51,4 @@ const ModalRequestFriend = () => (
   </RequestFriendWrap>
 );
 
-export default ModalRequestFriend;
+export default MatchingRequestForm;

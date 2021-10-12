@@ -6,12 +6,18 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => { // GET /gyms/
   try {
+    const where = {
+      name: { [Op.like]: "%" + req.query.searchWord + "%" },
+      address: { [Op.like]: "%" + req.query.searchWord + "%" },
+    }
+    
+    if(parseInt(req.query.lastId, 10)) {
+      where.id = { [Op.lt]: parseInt(req.query.lastId, 10) }
+    }
     const gyms = await Gym.findAll({
       attributes: ['id', 'name', 'address'],
-      where: {
-        name: { [Op.like]: "%" + req.query.searchWord + "%" },
-        address: { [Op.like]: "%" + req.query.searchWord + "%" },
-      },
+      where,
+      limit: 5,
       include: [{
         model: User,
         attribute: ['id'],
