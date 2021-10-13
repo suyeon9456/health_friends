@@ -1,6 +1,9 @@
 import produce from 'immer';
 
 const initialState = {
+  loadMyInfoLoading: false,
+  loadMyInfoDone: false,
+  loadMyInfoError: null,
   loginLoading: false,
   loginDone: false,
   loginError: null,
@@ -42,6 +45,10 @@ const initialState = {
   me: null,
 };
 
+export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
+export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS';
+export const LOAD_MY_INFO_ERROR = 'LOAD_MY_INFO_ERROR';
+
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
 export const LOG_IN_ERROR = 'LOG_IN_ERROR';
@@ -66,6 +73,20 @@ export const SIGN_UP_ERROR = 'SIGN_UP_ERROR';
 
 const reducer = (state = initialState, action) => (produce(state, (draft) => {
   switch (action.type) {
+    case LOAD_MY_INFO_REQUEST:
+      draft.loadMyInfoLoading = true;
+      draft.loadMyInfoDone = false;
+      draft.loadMyInfoError = null;
+      break;
+    case LOAD_MY_INFO_SUCCESS:
+      draft.loadMyInfoLoading = false;
+      draft.loadMyInfoDone = true;
+      draft.me = action.data;
+      break;
+    case LOAD_MY_INFO_ERROR:
+      draft.loadMyInfoError = action.error;
+      draft.loadMyInfoLoading = false;
+      break;
     case LOG_IN_REQUEST:
       draft.loginLoading = true;
       draft.loginDone = false;

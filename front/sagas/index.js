@@ -6,7 +6,7 @@ import gymSaga from './gym';
 import scheduleSaga from './schedule';
 
 axios.defaults.baseURL = 'http://localhost:6015';
-// axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 
 export default function* rootSaga() {
   yield all([

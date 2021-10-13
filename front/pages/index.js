@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
+
 import AppLayout from '../src/components/organisms/AppLayout';
 
 import wrapper from '../store/configureStore';
 
 const Home = () => {
-  console.log('testes');
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({
+      type: LOAD_MY_INFO_REQUEST,
+    });
+  }, []);
+
   return (
     <AppLayout>
       <div>

@@ -3,17 +3,26 @@ const { User, Userdetail } = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 
+const { isNotLoggedIn } = require('./middlewares');
+
 const router = express.Router();
 router.get('/', async (req, res, next) => {
   try {
-    
+    if (req.user) {
+      const user = await User.findOne({
+        where: { id: req.user.id }
+      });
+      res.status(200).json(user);
+    } else {
+      res.status(200).json(null);
+    }
   } catch (error) {
     console.error(error);
     next(error);
   }
 });
 
-router.post('/login', (req, res, next) => {
+router.post('/login', isNotLoggedIn, (req, res, next) => {
   passport.authenticate('local', (error, user, info) => { // 서버에러, 성공객체, 정보(클라이언트 에러)
     if (error) {
       console.error(error);
