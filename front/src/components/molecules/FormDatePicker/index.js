@@ -5,7 +5,7 @@ import { Essential, Label } from './style';
 import RangePicker from '../../atoms/RangePicker';
 import InputDatePicker from '../../atoms/InputDatePicker';
 
-const FormDatePicker = ({ label, type, placeholder, size, essential }) => (
+const FormDatePicker = ({ label, type, placeholder, size, essential, startDate, setStartDate }) => (
   <div>
     <Label>
       {label}
@@ -13,7 +13,14 @@ const FormDatePicker = ({ label, type, placeholder, size, essential }) => (
     </Label>
     {type === 'range'
       ? <RangePicker size={size} placeholder={placeholder} />
-      : <InputDatePicker size={size} placeholder={placeholder} />}
+      : (
+        <InputDatePicker
+          size={size}
+          placeholder={placeholder}
+          startDate={startDate}
+          setStartDate={setStartDate}
+        />
+      )}
   </div>
 );
 
@@ -23,6 +30,8 @@ FormDatePicker.propTypes = {
   placeholder: PropTypes.string,
   size: PropTypes.string,
   essential: PropTypes.bool,
+  startDate: PropTypes.node.isRequired,
+  setStartDate: PropTypes.func.isRequired,
 };
 
 export default FormDatePicker;

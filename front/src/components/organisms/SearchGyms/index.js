@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { LeftOutlined, RightOutlined, TeamOutlined, ZoomInOutlined } from '@ant-design/icons';
+import { LeftOutlined, RightOutlined, TeamOutlined } from '@ant-design/icons';
 
 import { LOAD_GYM_REQUEST, LOAD_FRIENDS_REQUEST } from '../../../../reducers/gym';
 import useInput from '../../../hooks/useInput';
@@ -10,9 +10,10 @@ import { SearchHeader,
   SearchFormWrapper,
   SearchListWrapper,
   GymWrapper, FoldButton } from './style';
-import { Search, Item, Avatar, Button } from '../../atoms';
+import { Search, Item } from '../../atoms';
 import SearchFriends from '../SearchFriends';
 import SearchSidebar from '../SearchSidebar';
+import ModalMatchingRequest from '../ModalMatchingRequest';
 
 const SearchGyms = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,8 @@ const SearchGyms = () => {
   const [browserHeight, setBrowserHeight] = useState('');
   const [foldedGym, setFoldedGym] = useState(false);
   const [foldedFriends, setFoldedFriends] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [friend, setFriend] = useState(false);
   const [searchWord, onChangeSearchWord] = useInput('');
 
   useEffect(() => {
@@ -128,6 +131,13 @@ const SearchGyms = () => {
         foldedGym={foldedGym}
         foldedFriends={foldedFriends}
         setFoldedFriends={setFoldedFriends}
+        setFriend={setFriend}
+        setShowModal={setShowModal}
+      />
+      <ModalMatchingRequest
+        showModal={showModal}
+        setShowModal={setShowModal}
+        friend={friend}
       />
     </SearchWrapper>
   );
