@@ -21,6 +21,8 @@ router.post('/', async (req, res, next) => { // POST /gym/
       sigungu: req.body.sigungu,
       address: req.body.address,
       name: req.body.name,
+      latitude: req.body.latitude,
+      longitude: req.body.longitude,
     })
     res.status(201).json(gym);
   } catch (error) {
@@ -49,7 +51,7 @@ router.get('/:gymId', async (req, res, next) => { // GET /gym/1
 
     const gymWithFriends = await Gym.findOne({
       where: { id: gym.id },
-      attributes: ['id', 'name'],
+      attributes: ['id', 'name', 'latitude', 'longitude', 'address'],
       include: [{
         model: User,
         attributes: ['id', 'nickname', 'gender'],

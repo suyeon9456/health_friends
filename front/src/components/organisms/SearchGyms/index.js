@@ -41,10 +41,6 @@ const SearchGyms = () => {
 
   useEffect(() => {
     function onScroll() {
-      // console.log(window.scrollY,
-      //   document.documentElement.clientHeight,
-      //   document.documentElement.scrollHeight);
-
       if (window.scrollY + document.documentElement.clientHeight
         > document.documentElement.scrollHeight - 300) {
         if (hasMoreGyms && !loadGymLoading) {
@@ -99,7 +95,7 @@ const SearchGyms = () => {
       <GymWrapper foldedGym={foldedGym}>
         <SearchHeader>
           <span>{gyms.length}개의 헬스장</span>
-          <SearchTitle>서울 관악구 검색 결과</SearchTitle>
+          <SearchTitle>{searchWord || '전체 헬스장'} 검색 결과</SearchTitle>
         </SearchHeader>
         <SearchFormWrapper>
           <Search
@@ -127,18 +123,18 @@ const SearchGyms = () => {
           ))}
         </SearchListWrapper>
       </GymWrapper>
-      <SearchFriends
+      {/* <SearchFriends
         foldedGym={foldedGym}
         foldedFriends={foldedFriends}
         setFoldedFriends={setFoldedFriends}
         setFriend={setFriend}
         setShowModal={setShowModal}
-      />
-      <ModalMatchingRequest
+      /> */}
+      {/* <ModalMatchingRequest
         showModal={showModal}
         setShowModal={setShowModal}
         friend={friend}
-      />
+      /> */}
     </SearchWrapper>
   );
 };

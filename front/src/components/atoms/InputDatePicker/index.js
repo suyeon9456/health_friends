@@ -22,8 +22,8 @@ const InputDatePicker = ({ startDate, setStartDate }) => (
 );
 
 InputDatePicker.propTypes = {
-  startDate: PropTypes.node.isRequired,
-  setStartDate: PropTypes.func.isRequired,
+  startDate: PropTypes.instanceOf(Date),
+  setStartDate: PropTypes.func,
 };
 
 export default InputDatePicker;

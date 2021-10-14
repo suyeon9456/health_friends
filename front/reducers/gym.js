@@ -12,7 +12,7 @@ const initialState = {
   loadFriendsError: null,
   hasMoreGyms: false,
   gyms: [],
-  gym: [],
+  gym: {},
 };
 
 export const ADD_GYM_REQUEST = 'ADD_GYM_REQUEST';

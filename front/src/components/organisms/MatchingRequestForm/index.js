@@ -22,7 +22,7 @@ const MatchingRequestForm = ({ friend, date, setDate, description, onChangeDescr
         <FormDatePicker
           label="날짜"
           startDate={date}
-          dasetStartDatete={setDate}
+          setStartDate={setDate}
         />
         <FormInput label="헬스장" value={gym.name} disabled />
       </MatchingInfoWrap>
@@ -63,8 +63,8 @@ const MatchingRequestForm = ({ friend, date, setDate, description, onChangeDescr
 };
 
 MatchingRequestForm.propTypes = {
-  friend: PropTypes.object.isRequired,
-  date: PropTypes.node.isRequired,
+  friend: PropTypes.node.isRequired,
+  date: PropTypes.instanceOf(Date).isRequired,
   setDate: PropTypes.func.isRequired,
   description: PropTypes.string.isRequired,
   onChangeDescription: PropTypes.func.isRequired,

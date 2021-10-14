@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useCallback } from 'react';
 import DaumPostcode from 'react-daum-postcode';
 import PropTypes from 'prop-types';
@@ -11,6 +12,8 @@ const KakaoPostcode = ({ show,
   setSido,
   setSigungu,
   setAddress,
+  setLatitude,
+  setLongitude,
 }) => {
   const handleComplete = useCallback((data) => {
     let fullAddress = data.address;
@@ -25,6 +28,15 @@ const KakaoPostcode = ({ show,
       console.log(extraAddress);
       fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
     }
+    const geocoder = new kakao.maps.services.Geocoder();
+
+    geocoder.addressSearch(data.address, (result, status) => {
+      if (status === kakao.maps.services.Status.OK) {
+        const { x: lon, y: lat } = result[0];
+        setLatitude(lat);
+        setLongitude(lon);
+      }
+    });
     setSido(data.sido);
     setSigungu(data.sigungu);
     setAddress(fullAddress);
@@ -48,10 +60,12 @@ const KakaoPostcode = ({ show,
 KakaoPostcode.propTypes = {
   show: PropTypes.bool.isRequired,
   onCancel: PropTypes.func,
-  setShowPostcode: PropTypes.any,
-  setSido: PropTypes.any,
-  setSigungu: PropTypes.any,
-  setAddress: PropTypes.any,
+  setShowPostcode: PropTypes.func,
+  setSido: PropTypes.func,
+  setSigungu: PropTypes.func,
+  setAddress: PropTypes.func,
+  setLatitude: PropTypes.func,
+  setLongitude: PropTypes.func,
 };
 
 export default KakaoPostcode;

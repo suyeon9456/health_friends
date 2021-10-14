@@ -61,7 +61,7 @@ const Modal = ({ show,
 
 Modal.propTypes = {
   show: PropTypes.bool.isRequired,
-  title: PropTypes.string,
+  title: PropTypes.node,
   onCancel: PropTypes.func,
   onSubmit: PropTypes.func,
   className: PropTypes.string,

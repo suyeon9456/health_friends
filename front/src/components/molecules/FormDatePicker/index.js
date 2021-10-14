@@ -30,8 +30,8 @@ FormDatePicker.propTypes = {
   placeholder: PropTypes.string,
   size: PropTypes.string,
   essential: PropTypes.bool,
-  startDate: PropTypes.node.isRequired,
-  setStartDate: PropTypes.func.isRequired,
+  startDate: PropTypes.instanceOf(Date),
+  setStartDate: PropTypes.func,
 };
 
 export default FormDatePicker;

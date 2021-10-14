@@ -17,6 +17,8 @@ const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }) => 
   const [sido, setSido] = useState('');
   const [sigungu, setSigungu] = useState('');
   const [address, setAddress] = useState('');
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
   const [name, onChangeName] = useInput('');
 
   useEffect(() => {
@@ -30,7 +32,7 @@ const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }) => 
   const onSubmit = useCallback(() => {
     dispatch({
       type: ADD_GYM_REQUEST,
-      data: { sido, sigungu, address, name },
+      data: { sido, sigungu, address, name, latitude, longitude },
     });
     setGym(name);
     setShowModal(false);
@@ -61,6 +63,8 @@ const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }) => 
               setSigungu={setSigungu}
               address={address}
               setAddress={setAddress}
+              setLatitude={setLatitude}
+              setLongitude={setLongitude}
               name={name}
               onChangeName={onChangeName}
             />

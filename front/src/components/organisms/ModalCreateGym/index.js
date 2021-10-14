@@ -12,6 +12,8 @@ const ModalCreateGym = ({ sido,
   setSigungu,
   address,
   setAddress,
+  setLatitude,
+  setLongitude,
   name,
   onChangeName,
 }) => {
@@ -69,6 +71,8 @@ const ModalCreateGym = ({ sido,
           setSido={setSido}
           setSigungu={setSigungu}
           setAddress={setAddress}
+          setLatitude={setLatitude}
+          setLongitude={setLongitude}
         />
       )}
     </CreateFormWrap>
@@ -82,6 +86,8 @@ ModalCreateGym.propTypes = {
   setSigungu: PropTypes.func,
   address: PropTypes.string,
   setAddress: PropTypes.func,
+  setLatitude: PropTypes.func,
+  setLongitude: PropTypes.func,
   name: PropTypes.string,
   onChangeName: PropTypes.func,
 };
