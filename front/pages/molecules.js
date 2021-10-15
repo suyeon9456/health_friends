@@ -18,7 +18,7 @@ import Tabs from '../src/components/molecules/Tabs';
 
 const Molecules = () => {
   const [openModal, setOpenModal] = useState(false);
-  // const [closeModal, setCloseModal] = useState(false);
+  const [closeModal, setCloseModal] = useState(false);
   const [error, setError] = useState(false);
   const [warning, setWarning] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -56,7 +56,7 @@ const Molecules = () => {
 
   return (
     <div>
-      <h2>Alert_Error</h2>
+      {/* <h2>Alert_Error</h2>
       <StyledButton type="error" onClick={onChangeError}>Error Button</StyledButton>
       {
         error
@@ -161,13 +161,13 @@ const Molecules = () => {
         date="2020.00.00 10:56 AM"
         image="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
         actions={actions}
-      />
+      /> */}
       <h2>AavatarGroup</h2>
       <AvatarGroup
         size="large"
         users={users}
       />
-      <h2>ProfileCard</h2>
+      {/* <h2>ProfileCard</h2>
       <ProfileCard
         nickname="nickname"
         description="간단소개..."
@@ -188,7 +188,7 @@ const Molecules = () => {
         onCancel={onCloseModal}
       >
         <p>Basic Content</p>
-      </Modal>
+      </Modal> */}
     </div>
   );
 };

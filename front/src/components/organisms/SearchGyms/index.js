@@ -17,7 +17,13 @@ import ModalMatchingRequest from '../ModalMatchingRequest';
 
 const SearchGyms = () => {
   const dispatch = useDispatch();
-  const { gyms, hasMoreGyms, loadGymLoading } = useSelector((state) => state.gym);
+  const { swLon,
+    swLat,
+    neLon,
+    neLat,
+    gyms,
+    hasMoreGyms,
+    loadGymLoading } = useSelector((state) => state.gym);
 
   const [browserHeight, setBrowserHeight] = useState('');
   const [foldedGym, setFoldedGym] = useState(false);
@@ -27,11 +33,13 @@ const SearchGyms = () => {
   const [searchWord, onChangeSearchWord] = useInput('');
 
   useEffect(() => {
-    dispatch({
-      type: LOAD_GYM_REQUEST,
-      data: { searchWord },
-    });
-  }, []);
+    if (swLon && swLat && neLon && neLat) {
+      dispatch({
+        type: LOAD_GYM_REQUEST,
+        data: { searchWord, swLon, swLat, neLon, neLat },
+      });
+    }
+  }, [swLon, swLat, neLon, neLat]);
 
   useEffect(() => {
     if (!foldedFriends) {

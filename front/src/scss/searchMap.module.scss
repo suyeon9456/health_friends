@@ -1,24 +1,12 @@
-// @font-face {
-//   font-family: 'anticon';
-//   src: url('iconfont.svg?t=149448025');
-// }
-
 .contentWrap {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  color: #000000d9;
-  font-size: 14px;
-  font-variant: tabular-nums;
-  line-height: 1.5715;
-  list-style: none;
-  font-feature-settings: "tnum";
-  position: absolute;
-  font-weight: 400;
-  white-space: normal;
-  text-align: left;
-  cursor: auto;
+  position: relative;
+  width: 225px;
+  height: 146px;
   padding-bottom: 10px;
+  box-sizing: border-box;
+  list-style: none;
+  white-space: normal;
+  // cursor: pointer;
 
   & > .contentArrow {
     position: absolute;
@@ -30,7 +18,7 @@
     pointer-events: none;
     left: 50%;
     transform: translate(-50%);
-    bottom: 1.51471863px;
+    bottom: 0px;
 
     & > .arrow {
       position: absolute;
@@ -42,7 +30,7 @@
       width: 6px;
       height: 6px;
       margin: auto;
-      background-color: #fff;
+      background-color: #393D49;
       content: "";
       pointer-events: auto;
       box-shadow: 3px 3px 7px #00000012;
@@ -51,8 +39,7 @@
   }
 
   & > .contentInner {
-    min-width: 250px;
-    background-color: #fff;
+    background-color: #393D49;
     background-clip: padding-box;
     border-radius: 2px;
     box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
@@ -62,16 +49,38 @@
       color: #000000d9;
 
       & > .avatarGroup {
-        display: inline-flex;
+        display: flex;
         position: relative;
         padding: 4px 0 6px;
         color: #000000d9;
         font-size: 14px;
+        justify-content: flex-end;
+        align-items: center;
+        height: 34px;
 
+        & > .plusAvatar {
+          box-sizing: border-box;
+          font-size: 12px;
+          font-variant: tabular-nums;
+          list-style: none;
+          font-feature-settings: 'tnum';
+          position: relative;
+          display: inline-block;
+          overflow: hidden;
+          color: #fff;
+          white-space: nowrap;
+          text-align: center;
+          vertical-align: middle;
+          background: #b37feb;
+          border-radius: 2px;
+
+          width: 24px;
+          height: 24px;
+          line-height: 24px;
+        }
+        
         & > .avatar {
           box-sizing: border-box;
-          margin: 0;
-          padding: 0;
           font-size: 14px;
           font-variant: tabular-nums;
           list-style: none;
@@ -89,17 +98,19 @@
           width: 24px;
           height: 24px;
           line-height: 24px;
-          // background-image: url('../../../front/node_modules/@ant-design/icons-svg/inline-svg/outlined/user.svg');
-          // &::before {
-          //   content: ' ';
-          //   background-image: url('../../../front/node_modules/@ant-design/icons-svg/inline-svg/outlined/user.svg');
-          // }
-          & > .antdIcon {
-            width: 24px;
-            height: 24px;
-            outline: 2px solid red;
-            font-size: 12px;
-            // background-image: url('../../../front/node_modules/@ant-design/icons-svg/inline-svg/outlined/user.svg');
+          margin-right: 2px;
+          font-size: 12px;
+
+          & > .anticon {
+            display: inline-block;
+            color: inherit;
+            font-style: normal;
+            line-height: 0;
+            text-align: center;
+            text-transform: none;
+            vertical-align: -.125em;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
           }
         }
       }
@@ -108,14 +119,15 @@
         position: relative;
         padding: 4px 0 0;
         font-weight: 500;
-        color: #000000d9;
+        color: #b37feb;
         font-size: 14px;
       }
       & > .innerBody {
         position: relative;
+        height: 54px;
         padding: 4px 0 6px;
-        color: #00000073;
-        font-size: 14px;
+        color: #fff;
+        font-size: 12px;
       }
     }
   }

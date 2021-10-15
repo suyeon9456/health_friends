@@ -9,6 +9,8 @@ router.get('/', async (req, res, next) => { // GET /gyms/
     const where = {
       name: { [Op.like]: "%" + req.query.searchWord + "%" },
       address: { [Op.like]: "%" + req.query.searchWord + "%" },
+      latitude: { [Op.between]: [req.query.swLat, req.query.neLat] },
+      longitude: { [Op.between]: [req.query.swLon, req.query.neLon] },
     }
     
     if(parseInt(req.query.lastId, 10)) {

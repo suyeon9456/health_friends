@@ -11,6 +11,10 @@ const initialState = {
   loadFriendsDone: false,
   loadFriendsError: null,
   hasMoreGyms: false,
+  swLon: null,
+  swLat: null,
+  neLon: null,
+  neLat: null,
   gyms: [],
   gym: {},
 };
@@ -26,6 +30,8 @@ export const LOAD_GYM_ERROR = 'LOAD_GYM_ERROR';
 export const LOAD_FRIENDS_REQUEST = 'LOAD_FRIENDS_REQUEST';
 export const LOAD_FRIENDS_SUCCESS = 'LOAD_FRIENDS_SUCCESS';
 export const LOAD_FRIENDS_ERROR = 'LOAD_FRIENDS_ERROR';
+
+export const CHANGE_MAP_BOUNDS = 'CHANGE_MAP_BOUNDS';
 
 const reducer = (state = initialState, action) => (produce(state, (draft) => {
   switch (action.type) {
@@ -75,6 +81,12 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadFriendsLoading = false;
       draft.loadFriendsDone = false;
       draft.loadFriendsError = draft.error;
+      break;
+    case CHANGE_MAP_BOUNDS:
+      draft.swLon = action.data.swLon;
+      draft.swLat = action.data.swLat;
+      draft.neLon = action.data.neLon;
+      draft.neLat = action.data.neLat;
       break;
     default:
       break;
