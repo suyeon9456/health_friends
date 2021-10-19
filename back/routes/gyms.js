@@ -6,6 +6,10 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => { // GET /gyms/
   try {
+    console.log('swLat: ', req.query.swLat);
+    console.log('neLat: ', req.query.neLat);
+    console.log('swLon: ', req.query.swLon);
+    console.log('neLon: ', req.query.neLon);
     const where = {
       name: { [Op.like]: "%" + req.query.searchWord + "%" },
       address: { [Op.like]: "%" + req.query.searchWord + "%" },

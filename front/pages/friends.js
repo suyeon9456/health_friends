@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import AppLayout from '../src/components/organisms/AppLayout';
@@ -9,6 +9,7 @@ import Col from '../src/components/organisms/Col';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 
 const Friends = () => {
+  const [foldedFriends, setFoldedFriends] = useState(true);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({
@@ -20,10 +21,16 @@ const Friends = () => {
     <AppLayout>
       <Row>
         <Col xs={24} md={8}>
-          <SearchGyms />
+          <SearchGyms
+            foldedFriends={foldedFriends}
+            setFoldedFriends={setFoldedFriends}
+          />
         </Col>
         <Col xs={24} md={16}>
-          <SearchMap />
+          <SearchMap
+            foldedFriends={foldedFriends}
+            setFoldedFriends={setFoldedFriends}
+          />
         </Col>
       </Row>
     </AppLayout>

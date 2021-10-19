@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-export const MapWrapper = styled.section`
+export const MapWrap = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -15,5 +16,13 @@ export const MapWrapper = styled.section`
     width: 100% - 10px;
     height: 100%;
     margin-left: 10px;
+  }
+
+  & > button {
+    position: absolute;
+    z-index: 1;
+    bottom: 10px;
+    left: 10px;
+    box-shadow: rgb(0 0 0 / 30%) 0px 2px 2px 0px;
   }
 `;

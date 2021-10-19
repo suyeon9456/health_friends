@@ -38,7 +38,7 @@ function* addGym(action) {
 }
 
 function loadGymsAPI(lastId, data) {
-  return axios.get(`/gyms?lastId=${lastId || 0}&searchWord=${data.searchWord || ''}&swLon=${data.swLon}&swLat=${data.swLon}&neLon=${data.neLon}&neLat=${data.neLon}`);
+  return axios.get(`/gyms?lastId=${lastId || 0}&searchWord=${data.searchWord || ''}&swLon=${data.swLon}&swLat=${data.swLat}&neLon=${data.neLon}&neLat=${data.neLat}`);
 }
 
 function* loadGyms(action) {

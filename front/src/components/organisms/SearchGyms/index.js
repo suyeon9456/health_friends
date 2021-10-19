@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { LeftOutlined, RightOutlined, TeamOutlined } from '@ant-design/icons';
 
@@ -15,31 +16,34 @@ import SearchFriends from '../SearchFriends';
 import SearchSidebar from '../SearchSidebar';
 import ModalMatchingRequest from '../ModalMatchingRequest';
 
-const SearchGyms = () => {
+const SearchGyms = ({ foldedFriends, setFoldedFriends }) => {
   const dispatch = useDispatch();
-  const { swLon,
-    swLat,
-    neLon,
-    neLat,
+  const { mapBounds,
     gyms,
     hasMoreGyms,
-    loadGymLoading } = useSelector((state) => state.gym);
+    loadGymLoading,
+    isLoadGyms } = useSelector((state) => state.gym);
 
   const [browserHeight, setBrowserHeight] = useState('');
   const [foldedGym, setFoldedGym] = useState(false);
-  const [foldedFriends, setFoldedFriends] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [friend, setFriend] = useState(false);
   const [searchWord, onChangeSearchWord] = useInput('');
 
   useEffect(() => {
-    if (swLon && swLat && neLon && neLat) {
+    if (isLoadGyms && mapBounds) {
       dispatch({
         type: LOAD_GYM_REQUEST,
-        data: { searchWord, swLon, swLat, neLon, neLat },
+        data: {
+          searchWord,
+          swLon: mapBounds.swLon,
+          swLat: mapBounds.swLat,
+          neLon: mapBounds.neLon,
+          neLat: mapBounds.neLat,
+        },
       });
     }
-  }, [swLon, swLat, neLon, neLat]);
+  }, [isLoadGyms]);
 
   useEffect(() => {
     if (!foldedFriends) {
@@ -131,20 +135,25 @@ const SearchGyms = () => {
           ))}
         </SearchListWrapper>
       </GymWrapper>
-      {/* <SearchFriends
+      <SearchFriends
         foldedGym={foldedGym}
         foldedFriends={foldedFriends}
         setFoldedFriends={setFoldedFriends}
         setFriend={setFriend}
         setShowModal={setShowModal}
-      /> */}
-      {/* <ModalMatchingRequest
+      />
+      <ModalMatchingRequest
         showModal={showModal}
         setShowModal={setShowModal}
         friend={friend}
-      /> */}
+      />
     </SearchWrapper>
   );
+};
+
+SearchGyms.propTypes = {
+  foldedFriends: PropTypes.bool,
+  setFoldedFriends: PropTypes.func,
 };
 
 export default SearchGyms;

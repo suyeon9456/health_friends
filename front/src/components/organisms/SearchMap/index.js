@@ -2,40 +2,53 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as _ from 'lodash';
+import PropTypes from 'prop-types';
+import { ReloadOutlined } from '@ant-design/icons';
+
+import { MapWrap } from './style';
+import { Button } from '../../atoms';
+import { CHANGE_MAP_BOUNDS, IS_LOAD_GYMS, LOAD_FRIENDS_REQUEST } from '../../../../reducers/gym';
 import styles from '../../../scss/searchMap.module.scss';
 
-import { MapWrapper } from './style';
-import { CHANGE_MAP_BOUNDS } from '../../../../reducers/gym';
-
-const SearchMap = () => {
+const SearchMap = ({ foldedFriends, setFoldedFriends }) => {
   const map = useRef(null);
+  const customOverlay = useRef(null);
   const [showButton, setShowButton] = useState(false);
 
   const dispatch = useDispatch();
-  const { gym } = useSelector((state) => state.gym);
+  const { gym, gyms } = useSelector((state) => state.gym);
   const [browserHeight, setBrowserHeight] = useState(500);
+  const [bounds, setBounds] = useState(null);
 
-  // debounce (callback, milliseconds) {
-  //   return function () {
-  //     // clearTimeout을 이용하여 이벤트 발생을 무시해주고,
-  //     // 마지막 호출 이후, 일정 시간이 지난 후에 단 한 번만, 이벤트가 호출되도록 하였습니다.
-  //     clearTimeout(debounceCheck);
-  //     debounceCheck = setTimeout(() => {
-  //       callback(...arguments);
-  //     }, milliseconds);
-  //   }
-  // }
+  const onSearchGyms = useCallback(() => {
+    dispatch({
+      type: IS_LOAD_GYMS,
+      data: true,
+    });
+  }, [bounds]);
 
-  const debounceHandler = useCallback(() => {
-    let changeBounds;
-    return () => {
-      clearTimeout(changeBounds);
-      changeBounds = setTimeout(() => {
-        console.log('test');
+  const onClickGym = useCallback((gymId) => () => {
+    if (foldedFriends) {
+      setFoldedFriends(false);
+    }
+    dispatch({
+      type: LOAD_FRIENDS_REQUEST,
+      data: { gymId },
+    });
+  }, [foldedFriends]);
+
+  useEffect(() => {
+    if (bounds) {
+      const debounce = setTimeout(() => {
+        dispatch({
+          type: CHANGE_MAP_BOUNDS,
+          data: bounds,
+        });
         setShowButton(true);
-      }, 2000);
-    };
-  }, [showButton]);
+      }, 1000); // setTimeout 설정
+      return () => clearTimeout(debounce);
+    }
+  }, [bounds]);
 
   useEffect(() => {
     setBrowserHeight(document.documentElement.clientHeight);
@@ -78,32 +91,24 @@ const SearchMap = () => {
       const currentSwLatlng = currentBounds.getSouthWest();
       // 영역정보의 북동쪽 정보를 얻어옵니다
       const currentNeLatlng = currentBounds.getNorthEast();
-      debounceHandler();
-      // dispatch({
-      //   type: CHANGE_MAP_BOUNDS,
-      //   data: {
-      //     swLon: currentSwLatlng.La,
-      //     swLat: currentSwLatlng.Ma,
-      //     neLon: currentNeLatlng.La,
-      //     neLat: currentNeLatlng.Ma,
-      //   },
-      // });
+      setBounds({
+        swLon: currentSwLatlng.La,
+        swLat: currentSwLatlng.Ma,
+        neLon: currentNeLatlng.La,
+        neLat: currentNeLatlng.Ma,
+      });
     });
   }, []);
 
   useEffect(() => {
     if (!_.isEmpty(gym)) {
+      if (customOverlay.current) {
+        customOverlay.current.setMap(null);
+      }
       const { latitude: lat, longitude: lon } = gym;
       // 위도 && 경도 위치로 지도이동
       const moveLatLon = new kakao.maps.LatLng(lat, lon);
       map.current.panTo(moveLatLon);
-
-      // const marker = new kakao.maps.Marker({
-      //   position: moveLatLon,
-      // });
-
-      // // 마커가 지도 위에 표시되도록 설정합니다
-      // marker.setMap(map.current);
 
       const anticonUser = '<svg viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em"><path d="M858.5 763.6a374 374 0 00-80.6-119.5 375.63 375.63 0 00-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 00-80.6 119.5A371.7 371.7 0 00136 901.8a8 8 0 008 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.4 3.6 7.8 8 7.8h60a8 8 0 008-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z" /></svg>';
 
@@ -181,24 +186,41 @@ const SearchMap = () => {
       contentWrap.appendChild(contentInner);
 
       const overlayContent = contentWrap;
-      const customOverlay = new kakao.maps.CustomOverlay({
+      customOverlay.current = new kakao.maps.CustomOverlay({
         position: moveLatLon,
         content: overlayContent,
         xAnchor: 0.5,
         yAnchor: 0.96,
       });
-      customOverlay.setMap(map.current);
+      customOverlay.current.setMap(map.current);
     }
-  }, [gym && (gym?.latitude || gym?.longitude)]);
+  }, [gym || (gym?.latitude || gym?.longitude)]);
+
+  useEffect(() => {
+    gyms.forEach((gymItem) => {
+      const marker = new kakao.maps.Marker({
+        map: map.current, // 마커를 표시할 지도
+        position: new kakao.maps.LatLng(gymItem.latitude, gymItem.longitude), // 마커를 표시할 위치
+        title: gymItem.name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+      });
+      kakao.maps.event.addListener(marker, 'click', onClickGym(gymItem.id));
+    });
+  }, [gyms]);
 
   return (
-    <MapWrapper browserHeight={browserHeight}>
+    <MapWrap browserHeight={browserHeight}>
       <div
         id="kakaoMap"
         style={{ width: '100%', height: '100%' }}
       />
-    </MapWrapper>
+      {showButton && <Button type="line-primary" icon={<ReloadOutlined />} onClick={onSearchGyms}>현 지도에서 검색</Button>}
+    </MapWrap>
   );
+};
+
+SearchMap.propTypes = {
+  foldedFriends: PropTypes.bool,
+  setFoldedFriends: PropTypes.func,
 };
 
 export default SearchMap;

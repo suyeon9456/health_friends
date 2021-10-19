@@ -10,11 +10,9 @@ const initialState = {
   loadFriendsLoading: false,
   loadFriendsDone: false,
   loadFriendsError: null,
+  isLoadGyms: false,
   hasMoreGyms: false,
-  swLon: null,
-  swLat: null,
-  neLon: null,
-  neLat: null,
+  mapBounds: {},
   gyms: [],
   gym: {},
 };
@@ -32,6 +30,7 @@ export const LOAD_FRIENDS_SUCCESS = 'LOAD_FRIENDS_SUCCESS';
 export const LOAD_FRIENDS_ERROR = 'LOAD_FRIENDS_ERROR';
 
 export const CHANGE_MAP_BOUNDS = 'CHANGE_MAP_BOUNDS';
+export const IS_LOAD_GYMS = 'IS_LOAD_GYMS';
 
 const reducer = (state = initialState, action) => (produce(state, (draft) => {
   switch (action.type) {
@@ -60,6 +59,8 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadGymDone = true;
       draft.loadGymError = null;
       draft.gyms = action.data;
+      draft.gym = {};
+      draft.isLoadGyms = false;
       break;
     case LOAD_GYM_ERROR:
       draft.loadGymLoading = false;
@@ -83,10 +84,10 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadFriendsError = draft.error;
       break;
     case CHANGE_MAP_BOUNDS:
-      draft.swLon = action.data.swLon;
-      draft.swLat = action.data.swLat;
-      draft.neLon = action.data.neLon;
-      draft.neLat = action.data.neLat;
+      draft.mapBounds = action.data;
+      break;
+    case IS_LOAD_GYMS:
+      draft.isLoadGyms = action.data;
       break;
     default:
       break;
