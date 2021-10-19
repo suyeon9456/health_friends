@@ -11,7 +11,8 @@ import { SearchHeader,
   SearchFormWrapper,
   SearchListWrapper,
   GymWrapper, FoldButton } from './style';
-import { Search, Item } from '../../atoms';
+import { Search, Item, Button } from '../../atoms';
+import { Alert } from '../../molecules';
 import SearchFriends from '../SearchFriends';
 import SearchSidebar from '../SearchSidebar';
 import ModalMatchingRequest from '../ModalMatchingRequest';
@@ -28,6 +29,7 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends }) => {
   const [foldedGym, setFoldedGym] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [friend, setFriend] = useState(false);
+  const [stateWarning, setStateWarning] = useState(false);
   const [searchWord, onChangeSearchWord] = useInput('');
 
   useEffect(() => {
@@ -96,6 +98,10 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends }) => {
     });
   }, [foldedFriends]);
 
+  const onChangeStateWarning = useCallback(() => {
+    setStateWarning(false);
+  }, [stateWarning]);
+
   return (
     <SearchWrapper>
       <SearchSidebar foldedGym={foldedGym} />
@@ -141,12 +147,27 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends }) => {
         setFoldedFriends={setFoldedFriends}
         setFriend={setFriend}
         setShowModal={setShowModal}
+        setStateWarning={setStateWarning}
       />
       <ModalMatchingRequest
         showModal={showModal}
         setShowModal={setShowModal}
         friend={friend}
       />
+      {stateWarning && (
+        <Alert
+          type="warning"
+          action={(
+            <Button
+              block
+              onClick={onChangeStateWarning}
+            >
+              확인
+            </Button>
+          )}
+          message="로그인이 필요한 페이지입니다."
+        />
+      )}
     </SearchWrapper>
   );
 };

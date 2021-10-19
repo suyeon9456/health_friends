@@ -66,7 +66,7 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend }) => {
 ModalMatchingRequest.propTypes = {
   showModal: PropTypes.bool.isRequired,
   setShowModal: PropTypes.func.isRequired,
-  friend: PropTypes.node,
+  friend: PropTypes.object,
 };
 
 export default ModalMatchingRequest;
