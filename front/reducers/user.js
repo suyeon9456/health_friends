@@ -13,11 +13,35 @@ const initialState = {
   signupLoading: false,
   signupDone: false,
   signupError: null,
+  updateMyInfoLoading: false,
+  updateMyInfoDone: false,
+  updateMyInfoError: null,
+  updateMyFriendsInfoLoading: false,
+  updateMyFriendsInfoDone: false,
+  updateMyFriendsInfoError: null,
+  updateMyNicknameLoading: false,
+  updateMyNicknameDone: false,
+  updateMyNicknameError: null,
+  updateMyDescriptionLoading: false,
+  updateMyDescriptionDone: false,
+  updateMyDescriptionError: null,
   signupSteps: [
     { id: 1, type: 'process', step: 1, title: 'STEP1', description: '회원 정보' },
     { id: 2, type: 'wait', step: 2, title: 'STEP2', description: '추가 정보' },
     { id: 3, type: 'wait', step: 3, title: 'STEP3', description: '추가 정보' },
     { id: 4, type: 'wait', step: 4, title: 'STEP4', description: '매칭되고 싶은 친구 정보' },
+  ],
+  ageOptions: [
+    { value: 1, text: '10대' },
+    { value: 2, text: '20대' },
+    { value: 3, text: '30대' },
+    { value: 4, text: '40대' },
+    { value: 5, text: '50대' },
+    { value: 6, text: '60대' },
+    { value: 7, text: '70대' },
+    { value: 8, text: '80대' },
+    { value: 9, text: '90대' },
+    { value: 10, text: '90대 이상' },
   ],
   careerOptions: [
     { value: 1, text: '1년 미만' },
@@ -70,6 +94,22 @@ export const SELECT_GYM = 'SELECT_GYM';
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_ERROR = 'SIGN_UP_ERROR';
+
+export const UPDATE_MY_INFO_REQUEST = 'UPDATE_MY_INFO_REQUEST';
+export const UPDATE_MY_INFO_SUCCESS = 'UPDATE_MY_INFO_SUCCESS';
+export const UPDATE_MY_INFO_ERROR = 'UPDATE_MY_INFO_ERROR';
+
+export const UPDATE_MY_FRIENDS_INFO_REQUEST = 'UPDATE_MY_FRIENDS_INFO_REQUEST';
+export const UPDATE_MY_FRIENDS_INFO_SUCCESS = 'UPDATE_MY_FRIENDS_INFO_SUCCESS';
+export const UPDATE_MY_FRIENDS_INFO_ERROR = 'UPDATE_MY_FRIENDS_INFO_ERROR';
+
+export const UPDATE_MY_NICKNAME_REQUEST = 'UPDATE_MY_NICKNAME_REQUEST';
+export const UPDATE_MY_NICKNAME_SUCCESS = 'UPDATE_MY_NICKNAME_SUCCESS';
+export const UPDATE_MY_NICKNAME_ERROR = 'UPDATE_MY_NICKNAME_ERROR';
+
+export const UPDATE_MY_DESCRIPTION_REQUEST = 'UPDATE_MY_DESCRIPTION_REQUEST';
+export const UPDATE_MY_DESCRIPTION_SUCCESS = 'UPDATE_MY_DESCRIPTION_SUCCESS';
+export const UPDATE_MY_DESCRIPTION_ERROR = 'UPDATE_MY_DESCRIPTION_ERROR';
 
 const reducer = (state = initialState, action) => (produce(state, (draft) => {
   switch (action.type) {
@@ -153,6 +193,66 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case SIGN_UP_ERROR:
       draft.signupLoading = false;
       draft.signupError = action.error;
+      break;
+    case UPDATE_MY_INFO_REQUEST:
+      draft.updateMyInfoLoading = true;
+      draft.updateMyInfoDone = false;
+      draft.updateMyInfoError = null;
+      break;
+    case UPDATE_MY_INFO_SUCCESS:
+      draft.updateMyInfoLoading = false;
+      draft.updateMyInfoDone = true;
+      draft.updateMyInfoError = null;
+      draft.me = action.data;
+      break;
+    case UPDATE_MY_INFO_ERROR:
+      draft.updateMyInfoLoading = false;
+      draft.updateMyInfoError = action.error;
+      break;
+    case UPDATE_MY_FRIENDS_INFO_REQUEST:
+      draft.updateMyFriendsInfoLoading = true;
+      draft.updateMyFriendsInfoDone = false;
+      draft.updateMyFriendsInfoError = null;
+      break;
+    case UPDATE_MY_FRIENDS_INFO_SUCCESS:
+      draft.updateMyFriendsInfoLoading = false;
+      draft.updateMyFriendsInfoDone = true;
+      draft.updateMyFriendsInfoError = null;
+      draft.me = action.data;
+      break;
+    case UPDATE_MY_FRIENDS_INFO_ERROR:
+      draft.updateMyFriendsInfoLoading = false;
+      draft.updateMyFriendsInfoError = action.error;
+      break;
+    case UPDATE_MY_NICKNAME_REQUEST:
+      draft.updateMyNicknameLoading = true;
+      draft.updateMyNicknameDone = false;
+      draft.updateMyNicknameError = null;
+      break;
+    case UPDATE_MY_NICKNAME_SUCCESS:
+      draft.updateMyNicknameLoading = false;
+      draft.updateMyNicknameDone = true;
+      draft.updateMyNicknameError = null;
+      draft.me.nickname = action.data.nickname;
+      break;
+    case UPDATE_MY_NICKNAME_ERROR:
+      draft.updateMyNicknameLoading = false;
+      draft.updateMyNicknameError = action.error;
+      break;
+    case UPDATE_MY_DESCRIPTION_REQUEST:
+      draft.updateMyDescriptionLoading = true;
+      draft.updateMyDescriptionDone = false;
+      draft.updateMyDescriptionError = null;
+      break;
+    case UPDATE_MY_DESCRIPTION_SUCCESS:
+      draft.updateMyDescriptionLoading = false;
+      draft.updateMyDescriptionDone = true;
+      draft.updateMyDescriptionError = null;
+      draft.me.description = action.data.description;
+      break;
+    case UPDATE_MY_DESCRIPTION_ERROR:
+      draft.updateMyDescriptionLoading = false;
+      draft.updateMyDescriptionError = action.error;
       break;
     default:
       break;

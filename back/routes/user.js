@@ -1,16 +1,33 @@
 const express = require('express');
-const { User, Userdetail } = require('../models');
+const { User, Userdetail, Gym } = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 
-const { isNotLoggedIn } = require('./middlewares');
+const { isNotLoggedIn, isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
 router.get('/', async (req, res, next) => {
   try {
     if (req.user) {
       const user = await User.findOne({
-        where: { id: req.user.id }
+        where: { id: req.user.id },
+        attributes: {
+          exclude: ['password'],
+        },
+        include: [{
+          model: Userdetail,
+          attributes: [
+            'description',
+            'startTime',
+            'endTime',
+            'friendsAge',
+            'friendsCareer',
+            'friendsGender',
+            'friendsRole'
+          ],
+        }, {
+          model: Gym,
+        }]
       });
       res.status(200).json(user);
     } else {
@@ -88,6 +105,115 @@ router.post('/', async (req, res, next) => { // POST /user/
     });
     await user.addGym(selectedGym.id);
     res.status(200).send('ok');
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.patch('/nickname', isLoggedIn, async (req, res, next) => {
+  try {
+    await User.update({
+      nickname: req.body.nickname
+    }, {
+      where: { id: req.user.id }
+    });
+    res.json({ nickname: req.body.nickname });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.patch('/description', isLoggedIn, async (req, res, next) => {
+  try {
+    console.log('req.body', req.body.description);
+    await Userdetail.update({
+      description: req.body.description
+    }, {
+      where: { UserId: req.user.id }
+    });
+    res.json({ description: req.body.description });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.put('/', isLoggedIn, async (req, res, next) => {
+  try {
+    await User.update({
+      nickname: req.body.nickname,
+      gender: req.body.gender,
+      age: req.body.age,
+      career: req.body.career,
+      role: req.body.role,
+    }, {
+      where: { id: req.user.id }
+    });
+
+    await Userdetail.update({
+      startTime: req.body.startTime,
+      endTime: req.body.endTime,
+    }, {
+      where: { UserId: req.user.id }
+    });
+
+    const user = await User.findOne({
+      where: { id: req.user.id },
+      attributes: {
+        exclude: ['password'],
+      },
+      include: [{
+        model: Userdetail,
+        attributes: [
+          'description',
+          'startTime',
+          'endTime',
+          'friendsAge',
+          'friendsCareer',
+          'friendsGender',
+          'friendsRole'
+        ],
+      }]
+    });
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.put('/detail', isLoggedIn, async (req, res, next) => {
+  try {
+    await Userdetail.update({
+      friendsGender: req.body.gender,
+      friendsAge: req.body.age,
+      friendsCareer: req.body.career,
+      friendsRole: req.body.role,
+    }, {
+      where: { UserId: req.user.id }
+    });
+
+    const user = await User.findOne({
+      where: { id: req.user.id },
+      attributes: {
+        exclude: ['password'],
+      },
+      include: [{
+        model: Userdetail,
+        attributes: [
+          'description',
+          'startTime',
+          'endTime',
+          'friendsAge',
+          'friendsCareer',
+          'friendsGender',
+          'friendsRole'
+        ],
+      }]
+    });
+    res.status(200).json(user);
   } catch (error) {
     console.error(error);
     next(error);

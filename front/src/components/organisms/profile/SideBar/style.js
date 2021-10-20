@@ -24,7 +24,7 @@ export const AvatarWrapper = styled.div`
 export const InfoWrapper = styled.div`
   width: 86%;
   position: relative;
-  padding: 30px 0px;
+  padding: 20px 0px;
   color: #000000d9;
   background: #fff;
   border-bottom: 1px solid #f0f0f0;

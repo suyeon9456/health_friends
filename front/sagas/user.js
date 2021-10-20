@@ -10,6 +10,18 @@ import { LOAD_MY_INFO_ERROR, LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS, LOG_IN_
   SIGN_UP_ERROR,
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
+  UPDATE_MY_DESCRIPTION_ERROR,
+  UPDATE_MY_DESCRIPTION_REQUEST,
+  UPDATE_MY_DESCRIPTION_SUCCESS,
+  UPDATE_MY_FRIENDS_INFO_ERROR,
+  UPDATE_MY_FRIENDS_INFO_REQUEST,
+  UPDATE_MY_FRIENDS_INFO_SUCCESS,
+  UPDATE_MY_INFO_ERROR,
+  UPDATE_MY_INFO_REQUEST,
+  UPDATE_MY_INFO_SUCCESS,
+  UPDATE_MY_NICKNAME_ERROR,
+  UPDATE_MY_NICKNAME_REQUEST,
+  UPDATE_MY_NICKNAME_SUCCESS,
 } from '../reducers/user';
 
 function loadMyInfoAPI() {
@@ -89,6 +101,82 @@ function* signup(action) {
   }
 }
 
+function updateMyInfoAPI(data) {
+  return axios.put('/user', data);
+}
+
+function* updateMyInfo(action) {
+  try {
+    const result = yield call(updateMyInfoAPI, action.data);
+    yield put({
+      type: UPDATE_MY_INFO_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: UPDATE_MY_INFO_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function updateMyFriendsInfoAPI(data) {
+  return axios.put('/user/detail', data);
+}
+
+function* updateMyFriendsInfo(action) {
+  try {
+    const result = yield call(updateMyFriendsInfoAPI, action.data);
+    yield put({
+      type: UPDATE_MY_FRIENDS_INFO_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: UPDATE_MY_FRIENDS_INFO_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function updateMyNicknameAPI(data) {
+  return axios.patch('/user/nickname', data);
+}
+
+function* updateMyNickname(action) {
+  try {
+    const result = yield call(updateMyNicknameAPI, action.data);
+    yield put({
+      type: UPDATE_MY_NICKNAME_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: UPDATE_MY_NICKNAME_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function updateMyDescriptionAPI(data) {
+  return axios.patch('/user/description', data);
+}
+
+function* updateMyDescription(action) {
+  try {
+    const result = yield call(updateMyDescriptionAPI, action.data);
+    yield put({
+      type: UPDATE_MY_DESCRIPTION_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: UPDATE_MY_DESCRIPTION_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function* watchLoadMyInfo() {
   yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
@@ -105,18 +193,31 @@ function* watchSignUp() {
   yield takeLatest(SIGN_UP_REQUEST, signup);
 }
 
+function* watchUpdateMyInfo() {
+  yield takeLatest(UPDATE_MY_INFO_REQUEST, updateMyInfo);
+}
+
+function* watchUpdateMyFriendsInfo() {
+  yield takeLatest(UPDATE_MY_FRIENDS_INFO_REQUEST, updateMyFriendsInfo);
+}
+
+function* watchUpdateMyNickname() {
+  yield takeLatest(UPDATE_MY_NICKNAME_REQUEST, updateMyNickname);
+}
+
+function* watchUpdateMyDescription() {
+  yield takeLatest(UPDATE_MY_DESCRIPTION_REQUEST, updateMyDescription);
+}
+
 export default function* userSaga() {
   yield all([
     yield fork(watchLoadMyInfo),
     yield fork(watchLogin),
     yield fork(watchLogout),
     yield fork(watchSignUp),
-    // yield fork(watchLoadUser),
-    // yield fork(watchLoadFollowings),
-    // yield fork(watchLoadFollowers),
-    // yield fork(watchFollow),
-    // yield fork(watchUnFollow),
-    // yield fork(watchRemoveFollower),
-    // yield fork(watchChangeNickname),
+    yield fork(watchUpdateMyInfo),
+    yield fork(watchUpdateMyFriendsInfo),
+    yield fork(watchUpdateMyNickname),
+    yield fork(watchUpdateMyDescription),
   ]);
 }

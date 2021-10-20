@@ -49,8 +49,11 @@ export const ContentText = styled.div`
 
 export const InfoButtonWrapper = styled.div`
   display: table-cell;
+  table-layout: fixed;
   vertical-align: top !important;
-  
+  & > div {
+    width: 80px;
+  }
   & > button {
     padding: 0;
   }
