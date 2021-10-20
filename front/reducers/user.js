@@ -4,6 +4,9 @@ const initialState = {
   loadMyInfoLoading: false,
   loadMyInfoDone: false,
   loadMyInfoError: null,
+  loadProfileInfoLoading: false,
+  loadProfileInfoDone: false,
+  loadProfileInfoError: null,
   loginLoading: false,
   loginDone: false,
   loginError: null,
@@ -67,11 +70,16 @@ const initialState = {
   signupStepFriendsInfo: null,
   selectedGym: null,
   me: null,
+  profile: null,
 };
 
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
 export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS';
 export const LOAD_MY_INFO_ERROR = 'LOAD_MY_INFO_ERROR';
+
+export const LOAD_PROFILE_INFO_REQUEST = 'LOAD_PROFILE_INFO_REQUEST';
+export const LOAD_PROFILE_INFO_SUCCESS = 'LOAD_PROFILE_INFO_SUCCESS';
+export const LOAD_PROFILE_INFO_ERROR = 'LOAD_PROFILE_INFO_ERROR';
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
@@ -126,6 +134,20 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case LOAD_MY_INFO_ERROR:
       draft.loadMyInfoError = action.error;
       draft.loadMyInfoLoading = false;
+      break;
+    case LOAD_PROFILE_INFO_REQUEST:
+      draft.loadProfileInfoLoading = true;
+      draft.loadProfileInfoDone = false;
+      draft.loadProfileInfoError = null;
+      break;
+    case LOAD_PROFILE_INFO_SUCCESS:
+      draft.loadProfileInfoLoading = false;
+      draft.loadProfileInfoDone = true;
+      draft.profile = action.data;
+      break;
+    case LOAD_PROFILE_INFO_ERROR:
+      draft.loadProfileInfoError = action.error;
+      draft.loadProfileInfoLoading = false;
       break;
     case LOG_IN_REQUEST:
       draft.loginLoading = true;

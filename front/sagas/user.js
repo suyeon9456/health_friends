@@ -1,7 +1,13 @@
 import { all, fork, call, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-import { LOAD_MY_INFO_ERROR, LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS, LOG_IN_ERROR,
+import { LOAD_MY_INFO_ERROR,
+  LOAD_MY_INFO_REQUEST,
+  LOAD_MY_INFO_SUCCESS,
+  LOAD_PROFILE_INFO_ERROR,
+  LOAD_PROFILE_INFO_REQUEST,
+  LOAD_PROFILE_INFO_SUCCESS,
+  LOG_IN_ERROR,
   LOG_IN_REQUEST,
   LOG_IN_SUCCESS,
   LOG_OUT_ERROR,
@@ -38,6 +44,25 @@ function* loadMyInfo(action) {
   } catch (error) {
     yield put({
       type: LOAD_MY_INFO_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function loadProfileInfoAPI(data) {
+  return axios.get(`/user/profile/${data}`);
+}
+
+function* loadProfileInfo(action) {
+  try {
+    const result = yield call(loadProfileInfoAPI, action.data);
+    yield put({
+      type: LOAD_PROFILE_INFO_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: LOAD_PROFILE_INFO_ERROR,
       error: error.response.data,
     });
   }
@@ -181,6 +206,10 @@ function* watchLoadMyInfo() {
   yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
 
+function* watchLoadProfileInfo() {
+  yield takeLatest(LOAD_PROFILE_INFO_REQUEST, loadProfileInfo);
+}
+
 function* watchLogin() {
   yield takeLatest(LOG_IN_REQUEST, login);
 }
@@ -212,6 +241,7 @@ function* watchUpdateMyDescription() {
 export default function* userSaga() {
   yield all([
     yield fork(watchLoadMyInfo),
+    yield fork(watchLoadProfileInfo),
     yield fork(watchLogin),
     yield fork(watchLogout),
     yield fork(watchSignUp),

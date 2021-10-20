@@ -8,7 +8,7 @@ import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, SideBarWrappe
 import Progress from '../../../molecules/Progress';
 
 const SideBar = () => {
-  const { me } = useSelector((state) => state.user);
+  const { profile } = useSelector((state) => state.user);
   return (
     <SideBarWrapper>
       <AvatarWrapper>
@@ -33,7 +33,7 @@ const SideBar = () => {
           </InfoIconWrapper>
           <div>
             <span>이용중인 헬스장: </span>
-            {me.Gyms.map((gym) => (
+            {profile?.Gyms.map((gym) => (
               <div>{gym.address} <a>{gym.name}</a></div>
             ))}
           </div>

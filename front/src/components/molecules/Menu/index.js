@@ -68,7 +68,7 @@ const Menu = ({ type }) => {
               style={{ order: '4' }}
             >
               <MenuTitle>
-                <Link href="/profile">
+                <Link href={`/profile/${me?.id}`}>
                   <MenuText>
                     프로필
                   </MenuText>

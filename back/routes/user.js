@@ -39,6 +39,35 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get('/profile/:userId', async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: { id: req.params.userId },
+      attributes: {
+        exclude: ['password'],
+      },
+      include: [{
+        model: Userdetail,
+        attributes: [
+          'description',
+          'startTime',
+          'endTime',
+          'friendsAge',
+          'friendsCareer',
+          'friendsGender',
+          'friendsRole'
+        ],
+      }, {
+        model: Gym,
+      }]
+    });
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 router.post('/login', isNotLoggedIn, (req, res, next) => {
   passport.authenticate('local', (error, user, info) => { // 서버에러, 성공객체, 정보(클라이언트 에러)
     if (error) {

@@ -9,7 +9,9 @@ import { ContentText, ContentTitle, InfoBody, InfoButtonWrapper, InfoContent, In
 import { UPDATE_MY_DESCRIPTION_REQUEST, UPDATE_MY_NICKNAME_REQUEST } from '../../../../../reducers/user';
 
 const Info = () => {
-  const { me, updateMyNicknameDone, updateMyDescriptionDone } = useSelector((state) => state.user);
+  const { me,
+    profile,
+    updateMyNicknameDone, updateMyDescriptionDone } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   // const [stateWarning, setStateWarning] = useState(false);
   const [isEditNickname, setIsEditNickname] = useState(false);
@@ -61,7 +63,7 @@ const Info = () => {
   return (
     <InfoWrapper>
       <InfoHeader>
-        <h2>{me?.nickname}님의 프로필</h2>
+        <h2>{profile?.nickname}님의 프로필</h2>
       </InfoHeader>
       <InfoBody>
         <InfoContentWrapper key="nickname">
@@ -69,23 +71,25 @@ const Info = () => {
             <ContentTitle>
               <h4>닉네임</h4>
             </ContentTitle>
-            {isEditNickname
+            {isEditNickname && me?.id === profile?.id
               ? <Input size="small" value={nickname} onChange={onChangeNickname} />
               : (
                 <ContentText>
-                  {me?.nickname}
+                  {profile?.nickname}
                 </ContentText>
               )}
           </InfoContent>
           <InfoButtonWrapper>
-            {isEditNickname
-              ? (
-                <div>
-                  <Button type="text" size="small" onClick={onUpdateNickname}>저장</Button>
-                  <Button type="text" size="small" onClick={onChangeIsEditNickname}>취소</Button>
-                </div>
-              )
-              : <Button icon={<EditOutlined />} type="text" onClick={onChangeIsEditNickname} />}
+            {me?.id === profile?.id && (
+              isEditNickname && me.id === profile?.id
+                ? (
+                  <div>
+                    <Button type="text" size="small" onClick={onUpdateNickname}>저장</Button>
+                    <Button type="text" size="small" onClick={onChangeIsEditNickname}>취소</Button>
+                  </div>
+                )
+                : <Button icon={<EditOutlined />} type="text" onClick={onChangeIsEditNickname} />
+            )}
           </InfoButtonWrapper>
         </InfoContentWrapper>
         <InfoContentWrapper key="description">
@@ -93,23 +97,25 @@ const Info = () => {
             <ContentTitle>
               <h4>간단소개</h4>
             </ContentTitle>
-            {isEditDescription
+            {isEditDescription && me?.id === profile?.id
               ? <Input size="small" value={description} onChange={onChangeDescription} />
               : (
                 <ContentText>
-                  {me?.Userdetail?.description}
+                  {profile?.Userdetail?.description}
                 </ContentText>
               )}
           </InfoContent>
           <InfoButtonWrapper>
-            {isEditDescription
-              ? (
-                <div>
-                  <Button type="text" size="small" onClick={onUpdatDescription}>저장</Button>
-                  <Button type="text" size="small" onClick={onChangeIsEditDescription}>취소</Button>
-                </div>
-              )
-              : <Button icon={<EditOutlined />} type="text" onClick={onChangeIsEditDescription} />}
+            {me?.id === profile?.id && (
+              isEditDescription && me?.id === profile?.id
+                ? (
+                  <div>
+                    <Button type="text" size="small" onClick={onUpdatDescription}>저장</Button>
+                    <Button type="text" size="small" onClick={onChangeIsEditDescription}>취소</Button>
+                  </div>
+                )
+                : <Button icon={<EditOutlined />} type="text" onClick={onChangeIsEditDescription} />
+            )}
           </InfoButtonWrapper>
         </InfoContentWrapper>
       </InfoBody>
