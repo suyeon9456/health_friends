@@ -71,17 +71,17 @@ const EditInfoForm = ({
 
 EditInfoForm.propTypes = {
   targetId: PropTypes.string.isRequired,
-  age: PropTypes.string.isRequired,
+  age: PropTypes.node.isRequired,
   onChangeAge: PropTypes.func.isRequired,
   startDate: PropTypes.instanceOf(Date).isRequired,
   onChangeStartDate: PropTypes.func.isRequired,
   endDate: PropTypes.instanceOf(Date).isRequired,
   onChangeEndDate: PropTypes.func.isRequired,
-  career: PropTypes.number.isRequired,
+  career: PropTypes.node.isRequired,
   onChangeCareer: PropTypes.func.isRequired,
-  gender: PropTypes.number.isRequired,
+  gender: PropTypes.node.isRequired,
   onChangeGender: PropTypes.func.isRequired,
-  role: PropTypes.string.isRequired,
+  role: PropTypes.node.isRequired,
   onChangeRole: PropTypes.func.isRequired,
 };
 

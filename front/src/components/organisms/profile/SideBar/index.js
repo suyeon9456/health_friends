@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import { CommentOutlined, HomeOutlined, TrophyOutlined } from '@ant-design/icons';
 
 import Avatar from '../../../atoms/Avatar';
-import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, SideBarWrapper, SideMenu, SideMenuWrapper } from './style';
 import Progress from '../../../molecules/Progress';
+import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, SideBarWrapper, SideMenu, SideMenuWrapper } from './style';
 
 const SideBar = () => {
   const { profile } = useSelector((state) => state.user);
@@ -34,7 +34,7 @@ const SideBar = () => {
           <div>
             <span>이용중인 헬스장: </span>
             {profile?.Gyms.map((gym) => (
-              <div>{gym.address} <a>{gym.name}</a></div>
+              <div key={gym.id}>{gym.address} <a>{gym.name}</a></div>
             ))}
           </div>
         </InfoContent>

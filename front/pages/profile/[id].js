@@ -35,7 +35,7 @@ const Profile = () => {
         </Col>
         <Col xs={24} md={16}>
           <Info />
-          {/* <MoreInfo /> */}
+          <MoreInfo />
         </Col>
       </Row>
     </AppLayout>

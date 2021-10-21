@@ -26,7 +26,7 @@ const MoreInfo = () => {
         <MoreInfoContent key="more-info">
           <ContentTitle>
             <h4>추가정보</h4>
-            {me.id === profile?.id && (
+            {me?.id === profile?.id && (
               <Button
                 id="more-info"
                 type="primary"
@@ -72,7 +72,7 @@ const MoreInfo = () => {
         <MoreInfoContent key="more-friends-info">
           <ContentTitle>
             <h4>매칭되고 싶은 친구정보</h4>
-            {me.id === profile?.id && (
+            {me?.id === profile?.id && (
               <Button
                 id="friends-info"
                 type="primary"
