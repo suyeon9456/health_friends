@@ -1,14 +1,19 @@
-import React from 'react';
-import Link from 'next/link';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { CommentOutlined, HomeOutlined, TrophyOutlined } from '@ant-design/icons';
 
 import Avatar from '../../../atoms/Avatar';
 import Progress from '../../../molecules/Progress';
 import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, SideBarWrapper, SideMenu, SideMenuWrapper } from './style';
 
-const SideBar = () => {
+const SideBar = ({ profileMenu, setProfileMenu }) => {
   const { profile } = useSelector((state) => state.user);
+
+  const onClickMenu = useCallback((e) => {
+    console.log(e.target.id);
+    setProfileMenu(e.target.id);
+  }, [profileMenu]);
   return (
     <SideBarWrapper>
       <AvatarWrapper>
@@ -40,24 +45,35 @@ const SideBar = () => {
         </InfoContent>
       </InfoWrapper>
       <SideMenuWrapper>
-        <SideMenu key="matching-date">
-          <Link href="/">
-            <a>매칭일정</a>
-          </Link>
+        <SideMenu
+          key="calendar"
+          id="calendar"
+          onClick={onClickMenu}
+        >
+          매칭일정
         </SideMenu>
-        <SideMenu key="matching-record">
-          <Link href="/">
-            <a>매칭기록</a>
-          </Link>
+        <SideMenu
+          key="record"
+          id="record"
+          onClick={onClickMenu}
+        >
+          매칭기록
         </SideMenu>
-        <SideMenu key="liked-friends">
-          <Link href="/">
-            <a>좋아요한 친구</a>
-          </Link>
+        <SideMenu
+          key="liked-friends"
+          id="liked-friends"
+          onClick={onClickMenu}
+        >
+          좋아요한 친구
         </SideMenu>
       </SideMenuWrapper>
     </SideBarWrapper>
   );
+};
+
+SideBar.propTypes = {
+  profileMenu: PropTypes.string.isRequired,
+  setProfileMenu: PropTypes.func.isRequired,
 };
 
 export default SideBar;

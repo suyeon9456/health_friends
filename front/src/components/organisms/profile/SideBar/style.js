@@ -73,16 +73,13 @@ export const SideMenuWrapper = styled.div`
 
 export const SideMenu = styled.div`
   margin: 15px 0;
-  & a {
-    text-decoration: none;
-    color: #000000d9;
-    touch-action: manipulation;
-    font-weight: 600;
-  }
+  /* text-decoration: none; */
+  color: #000000d9;
+  touch-action: manipulation;
+  font-weight: 600;
+  cursor: pointer;
 
   &:hover {
-    & a {
-      color: #9254de;
-    }
+    color: #9254de;
   }
 `;
