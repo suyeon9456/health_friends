@@ -26,7 +26,7 @@ router.get('/', async (req, res, next) => { // GET /gyms/
       limit: 5,
       include: [{
         model: User,
-        attribute: ['id'],
+        attributes: ['id'],
       }]
     });
     res.status(200).json(gyms);

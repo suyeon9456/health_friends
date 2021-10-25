@@ -14,30 +14,116 @@ export const CalendarWrap = styled.div`
   margin-top: 10px;
   padding: 30px 0px;
 
+  & .rbc-toolbar{
+    & > .rbc-btn-group {
+      margin-bottom: 15px;
+      & > button {
+        height: 32px;
+        border-radius: 2px;
+        border: 1px solid #d9d9d9;
+        border-top-width: 1.02px;
+        font-size: 14px;
+        cursor: pointer;
+        
+        &:not(:first-child) {
+          border-left-width: 0;
+        }
+
+        &:not(:last-child) {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+      }
+
+      & > .rbc-active {
+        background: #e9d8fd;
+        border-color: #b37feb;
+        color: #9254de;
+        box-shadow: none;
+      }
+    }
+  }
+
   & .rbc-month-view {
     border: 0;
   }
+
+  & .rbc-month-header {
+    justify-content: space-between;
+  }
   
   & .rbc-header {
+    flex: none;
+    width: 13%;
     font-weight: normal;
-    margin: 0 12px 5px 0;
     border: 0;
     border-bottom: 2px solid #f0f0f0;
+    padding: 0 12px 5px 0;
+    /* &:not(:last-child) {
+      margin: 0 12px 5px 0;
+    }
+    &:last-child {
+      margin: 0 0 5px 0;
+    } */
   }
 
-  & .rbc-day-bg + .rbc-day-bg {
+  & .rbc-month-row {
+    /* justify-content: space-between; */
     border: 0;
-  }
-
-  & .rbc-month-row + .rbc-month-row {
-    border-top: 2px solid #f0f0f0;
   }
 
   & .rbc-off-range-bg {
     background-color: #fff;
   }
 
-  & .rbc-date-cell {
-    margin: 0 12px 5px 0;
+  & .rbc-month-view {
+    padding: 0 12px;
   }
+
+  & .rbc-row-bg {
+    justify-content: space-between;
+  }
+
+  & .rbc-day-bg {
+    flex: none;
+    width: 13%;
+    border: 0;
+    border-bottom: 2px solid #f0f0f0;
+    padding: 0 12px 0 0;
+    /* &:not(:last-child) {
+      margin: 0 12px 0 0;
+    } */
+  }
+
+  & .rbc-row-content {
+    & .rbc-row:first-child {
+      justify-content: space-between;
+  
+      & > .rbc-date-cell {
+        flex: none;
+        width: 13%;
+      }
+    }
+  }
+
+  & .rbc-today {
+    /* background-color: #e9d8fd; */
+  }
+
+  & .rbc-event {
+    background-color: #faad14;
+    /* width: 6px; */
+    /* height: 6px; */
+    color: black;
+    padding: 0 5px;
+    border-radius: 50px;
+  }
+
+  & .event-title {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: lighter;
+  }
+
+  
 `;

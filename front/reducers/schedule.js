@@ -4,11 +4,19 @@ const initialState = {
   addScheduleLoading: false,
   addScheduleDone: false,
   addScheduleError: null,
+  loadScheduleLoading: false,
+  loadScheduleDone: false,
+  loadScheduleError: null,
+  schedules: [],
 };
 
 export const ADD_SCHEDULE_REQUEST = 'ADD_SCHEDULE_REQUEST';
 export const ADD_SCHEDULE_SUCCESS = 'ADD_SCHEDULE_SUCCESS';
 export const ADD_SCHEDULE_ERROR = 'ADD_SCHEDULE_ERROR';
+
+export const LOAD_SCHEDULE_REQUEST = 'LOAD_SCHEDULE_REQUEST';
+export const LOAD_SCHEDULE_SUCCESS = 'LOAD_SCHEDULE_SUCCESS';
+export const LOAD_SCHEDULE_ERROR = 'LOAD_SCHEDULE_ERROR';
 
 const reducer = (state = initialState, action) => (produce(state, (draft) => {
   switch (action.type) {
@@ -26,6 +34,22 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.addGymLoading = false;
       draft.addGymDone = false;
       draft.addGymError = draft.error;
+      break;
+    case LOAD_SCHEDULE_REQUEST:
+      draft.loadGymLoading = true;
+      draft.loadGymDone = false;
+      draft.loadGymError = null;
+      break;
+    case LOAD_SCHEDULE_SUCCESS:
+      draft.loadGymLoading = false;
+      draft.loadGymDone = true;
+      draft.loadGymError = null;
+      draft.schedules = action.data;
+      break;
+    case LOAD_SCHEDULE_ERROR:
+      draft.loadGymLoading = false;
+      draft.loadGymDone = false;
+      draft.loadGymError = draft.error;
       break;
     default:
       break;

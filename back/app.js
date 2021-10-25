@@ -9,6 +9,7 @@ const userRouter = require('./routes/user');
 const gymRouter = require('./routes/gym');
 const gymsRouter = require('./routes/gyms');
 const scheduleRouter = require('./routes/schedule');
+const schedulesRouter = require('./routes/schedules');
 
 const db = require('./models');
 const passportConfig = require('./passport');
@@ -47,6 +48,7 @@ app.use('/user', userRouter);
 app.use('/gym', gymRouter);
 app.use('/gyms', gymsRouter);
 app.use('/schedule', scheduleRouter);
+app.use('/schedules', schedulesRouter);
 
 app.listen(6015, () => {
   console.log('backend server start');
