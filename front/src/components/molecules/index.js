@@ -15,6 +15,7 @@ import PropfileCard from './PropfileCard';
 import SimpleMatchingCard from './SimpleMatchingCard';
 import Steps from './Steps';
 import Tabs from './Tabs';
+import BigCalendar from './BigCalendar';
 
 export {
   Alert,
@@ -34,4 +35,5 @@ export {
   SimpleMatchingCard,
   Steps,
   Tabs,
+  BigCalendar,
 };

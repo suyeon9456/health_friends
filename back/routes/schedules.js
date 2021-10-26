@@ -1,5 +1,5 @@
 const express = require('express');
-const { Schedule, User } = require('../models');
+const { Schedule, User, Gym } = require('../models');
 
 const router = express.Router();
 
@@ -11,6 +11,9 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         model: User,
         as: 'Friend',
         attributes: ['id', 'nickname'],
+      }, {
+        model: Gym,
+        attributes: ['address'],
       }],
     })
     res.status(201).json(schedule);

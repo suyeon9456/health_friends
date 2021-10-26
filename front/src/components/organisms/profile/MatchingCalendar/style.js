@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 export const CalendarWrap = styled.div`
   display: flex;
+  position: relative;
   align-items: center;
   flex-direction: column;
   flex-wrap: nowrap;
   width: 100% - 10px;
-  /* height: 100%; */
   background-color: #ffffff;
   border-radius: 5px;
   border: 1px solid #f0f0f0;
@@ -50,26 +50,43 @@ export const CalendarWrap = styled.div`
 
   & .rbc-month-header {
     justify-content: space-between;
+
+    & > .rbc-header {
+      flex: none;
+      width: 13%;
+      font-weight: normal;
+      border: 0;
+      border-bottom: 2px solid #f0f0f0;
+      padding: 0 12px 5px 0;
+    }
   }
   
-  & .rbc-header {
+  /* & .rbc-header {
     flex: none;
     width: 13%;
     font-weight: normal;
     border: 0;
     border-bottom: 2px solid #f0f0f0;
     padding: 0 12px 5px 0;
-    /* &:not(:last-child) {
-      margin: 0 12px 5px 0;
-    }
-    &:last-child {
-      margin: 0 0 5px 0;
-    } */
-  }
+  } */
 
   & .rbc-month-row {
     /* justify-content: space-between; */
     border: 0;
+
+    & > .rbc-row-bg {
+      justify-content: space-between;
+      & .rbc-day-bg {
+        flex: none;
+        width: 13%;
+        border: 0;
+        border-bottom: 2px solid #f0f0f0;
+        padding: 0 12px 0 0;
+        /* &:not(:last-child) {
+          margin: 0 12px 0 0;
+        } */
+      }
+    }
   }
 
   & .rbc-off-range-bg {
@@ -80,20 +97,9 @@ export const CalendarWrap = styled.div`
     padding: 0 12px;
   }
 
-  & .rbc-row-bg {
+  /* & .rbc-row-bg {
     justify-content: space-between;
-  }
-
-  & .rbc-day-bg {
-    flex: none;
-    width: 13%;
-    border: 0;
-    border-bottom: 2px solid #f0f0f0;
-    padding: 0 12px 0 0;
-    /* &:not(:last-child) {
-      margin: 0 12px 0 0;
-    } */
-  }
+  } */
 
   & .rbc-row-content {
     & .rbc-row:first-child {
@@ -126,4 +132,11 @@ export const CalendarWrap = styled.div`
   }
 
   
+`;
+
+export const CardWrap = styled.div`
+  position: absolute;
+  top: 30%;
+  /* left: 50%; */
+  z-index: 5;
 `;

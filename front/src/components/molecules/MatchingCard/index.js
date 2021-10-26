@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { UserOutlined } from '@ant-design/icons';
+
 import { Card, CardBody, CardCover, CardMeta, MetaDescription, MetaDate, MetaTitle, CardActions, Action } from './style';
 
 const MatchingCard = ({
@@ -11,7 +13,7 @@ const MatchingCard = ({
 }) => (
   <Card>
     <CardCover>
-      {image ? <img src={image} alt={image} /> : null}
+      {image ? <img src={image} alt={image} /> : <UserOutlined />}
     </CardCover>
     <CardBody>
       <CardMeta>
@@ -21,7 +23,7 @@ const MatchingCard = ({
       </CardMeta>
     </CardBody>
     <CardActions>
-      {actions.map((action) => (
+      {actions?.map((action) => (
         <Action key={action.key}>
           {action.icon}
         </Action>

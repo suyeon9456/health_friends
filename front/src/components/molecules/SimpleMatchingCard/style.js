@@ -15,6 +15,7 @@ export const SimpleCard = styled.div`
   border-radius: 2px;
   padding: 24px;
   border: 1px solid #f0f0f0;
+  box-shadow: 0 2px 8px #e8e9e9;
 
   &::before {
     display: table;
@@ -57,6 +58,11 @@ export const MetaAddress = styled.div`
 
 export const MatchingDateWrapper = styled.div`
   margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+
+  & > * {
+  }
 `;
 
 export const MatchingDate = styled.div`
@@ -66,4 +72,34 @@ export const MatchingDate = styled.div`
   line-height: 1.5715;
   list-style: none;
   font-feature-settings: "tnum";
+`;
+
+export const CardClose = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  padding: 0;
+  color: #00000073;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  background: 0 0;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  transition: color .3s;
+  -webkit-appearance: button;
+
+  & > * {
+    display: block;
+    width: 56px;
+    height: 56px;
+    font-size: 16px;
+    font-style: normal;
+    line-height: 56px;
+    text-align: center;
+    text-transform: none;
+    text-rendering: auto;
+  }
 `;
