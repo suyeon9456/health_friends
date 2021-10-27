@@ -9,6 +9,7 @@ import Info from '../../src/components/organisms/profile/Info';
 import MoreInfo from '../../src/components/organisms/profile/MoreInfo';
 import MatchingCalendar from '../../src/components/organisms/profile/MatchingCalendar';
 import { LOAD_MY_INFO_REQUEST, LOAD_PROFILE_INFO_REQUEST } from '../../reducers/user';
+import MatchingRecord from '../../src/components/organisms/profile/MatchingRecord';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ const Profile = () => {
         <Col xs={24} md={16}>
           {{
             calendar: <MatchingCalendar />,
+            record: <MatchingRecord />,
             profile: (
               <div>
                 <Info />

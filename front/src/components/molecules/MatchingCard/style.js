@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 
 export const Card = styled.div`
+  display: inline-block;
   width: 300px;
+  /* min-width: 250px; */
   border: 1px solid #f0f0f0;
   box-sizing: border-box;
   margin: 0;
@@ -34,6 +36,16 @@ export const CardCover = styled.div`
     vertical-align: middle;
     border-style: none;
     object-fit:contain;
+  }
+
+  & > div {
+    height: 100%;
+    border-radius: 2px 2px 0 0;
+    background-color: #cccccc;
+    color: #ffffff;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 90px;
   }
 `;
 
@@ -125,13 +137,13 @@ export const Action = styled.li`
     line-height: 22px;
 
     &:hover {
-      color: #1890ff;
+      color: #9254de;
     }
   }
 
   &:hover {
     & > * {
-      color: #1890ff;
+      color: #9254de;
     }
   }
 `;

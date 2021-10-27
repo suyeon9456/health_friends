@@ -1,6 +1,4 @@
 import produce from 'immer';
-import { parse } from 'date-fns';
-import { ko } from 'date-fns/locale';
 
 const initialState = {
   addScheduleLoading: false,
@@ -46,12 +44,15 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadGymLoading = false;
       draft.loadGymDone = true;
       draft.loadGymError = null;
-      draft.schedules = action.data.map((schedule) => ({
-        start: parse(schedule.date, 'yyyy/MM/dd kk:mm:ss', new Date(), { locale: ko }),
-        end: parse(schedule.date, 'yyyy/MM/dd kk:mm:ss', new Date(), { locale: ko }),
-        nickname: schedule.Friend.nickname,
-        address: schedule.Gym.address,
-      }));
+      draft.schedules = action.data.map((schedule) => {
+        console.log('date', new Date(schedule.date));
+        return ({
+          start: new Date(schedule.date),
+          end: new Date(schedule.date),
+          nickname: schedule.Friend.nickname,
+          address: schedule.Gym.address,
+        });
+      });
       break;
     case LOAD_SCHEDULE_ERROR:
       draft.loadGymLoading = false;

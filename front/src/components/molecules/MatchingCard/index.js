@@ -13,7 +13,7 @@ const MatchingCard = ({
 }) => (
   <Card>
     <CardCover>
-      {image ? <img src={image} alt={image} /> : <UserOutlined />}
+      {image ? <img src={image} alt={image} /> : <div><UserOutlined /></div>}
     </CardCover>
     <CardBody>
       <CardMeta>

@@ -24,7 +24,7 @@ Tabs.propTypes = {
   tabs: PropTypes.array.isRequired,
   size: PropTypes.string,
   block: PropTypes.bool,
-  selectedTab: PropTypes.number,
+  selectedTab: PropTypes.string,
   onChangeSelectedTab: PropTypes.func,
 };
 

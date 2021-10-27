@@ -22,8 +22,8 @@ function* addSchedule(action) {
   }
 }
 
-function loadScheduleAPI() {
-  return axios.get('/schedules');
+function loadScheduleAPI(data) {
+  return axios.get(`/schedules?type=${data.type || 'scheduledRecord'}&limit=${data.limit}`);
 }
 
 function* loadSchedule(action) {

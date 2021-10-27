@@ -23,7 +23,7 @@ Tab.propTypes = {
   children: PropTypes.node.isRequired,
   value: PropTypes.number.isRequired,
   size: PropTypes.string,
-  selectedValue: PropTypes.number,
+  selectedValue: PropTypes.string,
   onClick: PropTypes.func,
 };
 

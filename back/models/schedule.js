@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Schedule = sequelize.define('Schedule', {
     date: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.DATE,
       allowNull: false,
     },
     description: {
