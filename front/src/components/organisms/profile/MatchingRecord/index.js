@@ -1,18 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
-import { EditOutlined, PlusOutlined, RetweetOutlined } from '@ant-design/icons';
+import { EditOutlined, PlusOutlined, RetweetOutlined, SelectOutlined } from '@ant-design/icons';
 
 import { LOAD_SCHEDULE_REQUEST } from '../../../../../reducers/schedule';
 import { Button } from '../../../atoms';
 import { Tabs, MatchingCard } from '../../../molecules';
 import { RecordBody, RecordFooter, RecordWrap, TabList } from './style';
+import ModalMatchingDetail from '../ModalMatchingDetail';
 
 const MatchingRecord = () => {
   const { schedules } = useSelector((state) => state.schedule);
   const dispatch = useDispatch();
   const [selectedTab, setSelectedTab] = useState('scheduledRecord');
   const [schedulesLimit, setSchedulesLimit] = useState(3);
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState('view');
   const onChangeSelectedTab = useCallback((tab) => () => {
     setSelectedTab(tab);
   }, [selectedTab]);
@@ -20,6 +23,10 @@ const MatchingRecord = () => {
   const onMoreSchedule = useCallback(() => {
     setSchedulesLimit((prev) => prev + 3);
   }, [schedulesLimit]);
+
+  const onChangeShowModal = useCallback(() => {
+    setShowModal((prev) => !prev);
+  }, [showModal]);
 
   useEffect(() => {
     dispatch({
@@ -47,11 +54,15 @@ const MatchingRecord = () => {
           return (
             <MatchingCard
               key={schedule.id}
+              id={schedule.id}
               nickname={schedule.nickname}
               description={schedule.address}
               date={date}
               actions={[{ icon: <RetweetOutlined />, key: 'rematch' },
+                // { icon: <SelectOutlined />, key: 'view' },
                 { icon: <EditOutlined />, key: 'edit' }]}
+              setShowModal={setShowModal}
+              setModalType={setModalType}
             />
           );
         })}
@@ -65,6 +76,11 @@ const MatchingRecord = () => {
           더보기
         </Button>
       </RecordFooter>
+      <ModalMatchingDetail
+        show={showModal}
+        onCancel={onChangeShowModal}
+        type={modalType}
+      />
     </RecordWrap>
   );
 };
