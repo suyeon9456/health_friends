@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
-import { EditOutlined, PlusOutlined, RetweetOutlined, SelectOutlined } from '@ant-design/icons';
+import { EditOutlined, PlusOutlined, RetweetOutlined } from '@ant-design/icons';
 
-import { LOAD_SCHEDULE_REQUEST } from '../../../../../reducers/schedule';
+import { LOAD_SCHEDULES_REQUEST } from '../../../../../reducers/schedule';
 import { Button } from '../../../atoms';
 import { Tabs, MatchingCard } from '../../../molecules';
 import { RecordBody, RecordFooter, RecordWrap, TabList } from './style';
@@ -30,7 +30,7 @@ const MatchingRecord = () => {
 
   useEffect(() => {
     dispatch({
-      type: LOAD_SCHEDULE_REQUEST,
+      type: LOAD_SCHEDULES_REQUEST,
       data: { type: selectedTab, limit: schedulesLimit },
     });
   }, [selectedTab, schedulesLimit]);
@@ -59,7 +59,6 @@ const MatchingRecord = () => {
               description={schedule.address}
               date={date}
               actions={[{ icon: <RetweetOutlined />, key: 'rematch' },
-                // { icon: <SelectOutlined />, key: 'view' },
                 { icon: <EditOutlined />, key: 'edit' }]}
               setShowModal={setShowModal}
               setModalType={setModalType}

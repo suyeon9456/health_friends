@@ -1,6 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Schedule = sequelize.define('Schedule', {
-    date: {
+    startDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    endDate: {
       type: DataTypes.DATE,
       allowNull: false,
     },
@@ -12,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },
+    isPermitted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    }
   }, {
     charset: 'utf8mb4',
     collate: 'utf8mb4_general_ci',

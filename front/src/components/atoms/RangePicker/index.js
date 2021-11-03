@@ -11,6 +11,7 @@ const RangePicker = ({ type, size, placeholder }) => {
   return (
     <DatePicker
       selectsRange
+      showTimeSelect
       startDate={startDate}
       endDate={endDate}
       placeholderText={placeholder}

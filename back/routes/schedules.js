@@ -10,14 +10,19 @@ router.get('/', async (req, res, next) => { // GET /schedules/
       UserId: req.user.id,
     }
     if (req.query.type === 'scheduledRecord') {
-      where.date = {
+      where.startDate = {
         [Op.gte]: new Date(),
-      }
+      };
+      where.isPermitted = true;
+      where.permission = true;
     } else if (req.query.type === 'lastRecord') {
-      where.date = {
+      where.startDate = {
         [Op.lt]: new Date(),
-      }
+      };
+      where.isPermitted = true;
+      where.permission = true;
     } else if (req.query.type === 'rejectedRecord') {
+      where.isPermitted = true;
       where.permission = false;
     }
     const schedule = await Schedule.findAll({
@@ -27,7 +32,8 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         'id',
         'description',
         'permission',
-        [Sequelize.fn('date_format', Sequelize.col('date'), '%Y-%m-%d %H:%i'), 'date']
+        [Sequelize.fn('date_format', Sequelize.col('startDate'), '%Y-%m-%d %H:%i'), 'startDate'],
+        [Sequelize.fn('date_format', Sequelize.col('endDate'), '%Y-%m-%d %H:%i'), 'endDate']
       ],
       include: [{
         model: User,

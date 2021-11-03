@@ -8,23 +8,35 @@ import { MatchingInfoWrap,
   UserInfoWrap,
   Content,
   DescriptionWrap } from './style';
-import { FormDatePicker, FormInput, FormTextarea } from '../../molecules';
+import { FormInput, FormTextarea, FormDateTimePicker } from '../../molecules';
 import { Avatar } from '../../atoms';
 
-const MatchingRequestForm = ({ friend, date, setDate, description, onChangeDescription }) => {
+const MatchingRequestForm = ({ type = 'add', friend, startDate,
+  endDate,
+  onChangeStartDate,
+  onChangeEndDate, description, onChangeDescription }) => {
   const { me } = useSelector((state) => state.user);
   const { gym } = useSelector((state) => state.gym);
+  const { schedule } = useSelector((state) => state.schedule);
 
   return (
     <RequestFriendWrap>
       <MatchingInfoWrap>
         <h4>매칭정보</h4>
-        <FormDatePicker
+        <FormDateTimePicker
           label="날짜"
-          startDate={date}
-          setStartDate={setDate}
+          startDate={startDate}
+          endDate={endDate}
+          onChangeStartDate={onChangeStartDate}
+          onChangeEndDate={onChangeEndDate}
+          essential
         />
-        <FormInput label="헬스장" value={gym.name} disabled />
+        <FormInput
+          label="헬스장"
+          value={type === 'add' ? gym.name : schedule?.address}
+          disabled
+          essential
+        />
       </MatchingInfoWrap>
       <UserInfoWrap>
         <InfoContent id="my_info">
@@ -63,9 +75,12 @@ const MatchingRequestForm = ({ friend, date, setDate, description, onChangeDescr
 };
 
 MatchingRequestForm.propTypes = {
-  friend: PropTypes.node.isRequired,
-  date: PropTypes.instanceOf(Date).isRequired,
-  setDate: PropTypes.func.isRequired,
+  type: PropTypes.string,
+  friend: PropTypes.any,
+  startDate: PropTypes.instanceOf(Date).isRequired,
+  endDate: PropTypes.instanceOf(Date).isRequired,
+  onChangeStartDate: PropTypes.func.isRequired,
+  onChangeEndDate: PropTypes.func.isRequired,
   description: PropTypes.string.isRequired,
   onChangeDescription: PropTypes.func.isRequired,
 };

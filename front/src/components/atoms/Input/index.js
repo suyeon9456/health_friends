@@ -14,6 +14,7 @@ const Input = React.forwardRef(({
   placeholder,
   validationErrors,
   feedback,
+  disabled,
   ...props
 }, ref) => {
   const [passwordType, setPasswordType] = useState(true);
@@ -63,13 +64,14 @@ const Input = React.forwardRef(({
       <InputWrapBox>
         <InputContent>
           <InputContainer
-            value={value}
+            value={value || ''}
             onChange={onChange}
             size={size}
             placeholder={placeholder}
             validationErrors={validationErrors}
             feedback={feedback}
             ref={ref}
+            readOnly={disabled}
             {...props}
           />
           {validationErrors && (
@@ -99,6 +101,7 @@ Input.propTypes = {
   onChange: PropTypes.func,
   validationErrors: PropTypes.node,
   feedback: PropTypes.string,
+  disabled: PropTypes.bool,
   props: PropTypes.any,
 };
 

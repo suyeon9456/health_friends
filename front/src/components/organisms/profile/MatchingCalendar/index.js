@@ -4,7 +4,7 @@ import { EditOutlined, UserAddOutlined } from '@ant-design/icons';
 import { format } from 'date-fns';
 import * as _ from 'lodash';
 
-import { LOAD_SCHEDULE_REQUEST } from '../../../../../reducers/schedule';
+import { LOAD_SCHEDULES_REQUEST } from '../../../../../reducers/schedule';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { BigCalendar, SimpleMatchingCard } from '../../../molecules';
 import { CalendarWrap, CardWrap } from './style';
@@ -38,7 +38,7 @@ const MatchingCalendar = () => {
 
   useEffect(() => {
     dispatch({
-      type: LOAD_SCHEDULE_REQUEST,
+      type: LOAD_SCHEDULES_REQUEST,
     });
   }, []);
 

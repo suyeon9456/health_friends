@@ -6,6 +6,7 @@ import FormInputNumber from './FormInputNumber';
 import FormSelect from './FormSelect';
 import FormTextarea from './FormTextarea';
 import FormTimePicker from './FormTimePicker';
+import FormDateTimePicker from './FormDateTimePicker';
 import List from './List';
 import MatchingCard from './MatchingCard';
 import Menu from './Menu';
@@ -36,4 +37,5 @@ export {
   Steps,
   Tabs,
   BigCalendar,
+  FormDateTimePicker,
 };

@@ -15,6 +15,7 @@ const CustomPickerInput = forwardRef(({ value, onClick, type, size, placeholder 
         onClick={onClick}
         ref={ref}
         placeholder={placeholder}
+        readOnly
       />
       <PickerSuffix>
         {type === 'date' ? <CalendarOutlined /> : <ClockCircleOutlined />}
