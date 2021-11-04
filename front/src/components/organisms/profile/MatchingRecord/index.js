@@ -16,6 +16,7 @@ const MatchingRecord = () => {
   const [schedulesLimit, setSchedulesLimit] = useState(3);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('view');
+
   const onChangeSelectedTab = useCallback((tab) => () => {
     setSelectedTab(tab);
   }, [selectedTab]);
@@ -42,7 +43,7 @@ const MatchingRecord = () => {
             { value: 'scheduledRecord', text: '예정된매칭' },
             { value: 'lastRecord', text: '지난매칭' },
             { value: 'rejectedRecord', text: '거절된매칭' }]}
-          selectedTab="scheduledRecord"
+          selectedTab={selectedTab}
           onChangeSelectedTab={onChangeSelectedTab}
         />
       </TabList>

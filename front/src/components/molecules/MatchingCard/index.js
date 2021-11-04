@@ -19,6 +19,7 @@ const MatchingCard = ({
   const dispatch = useDispatch();
   const [isClickedCard, setIsClickedCard] = useState(false);
   const onShowScheduleModal = useCallback(() => {
+    setModalType(() => 'view');
     setIsClickedCard(true);
     setShowModal((prev) => !prev);
   }, [id]);
@@ -30,7 +31,6 @@ const MatchingCard = ({
 
   useEffect(() => {
     if (isClickedCard) {
-      console.log('click!!');
       dispatch({
         type: LOAD_SCHEDULE_REQUEST,
         data: id,

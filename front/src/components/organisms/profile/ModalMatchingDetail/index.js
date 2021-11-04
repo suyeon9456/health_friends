@@ -15,8 +15,8 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
   const { schedule } = useSelector((state) => state.schedule);
   const { me } = useSelector((state) => state.user);
 
-  const [startDate, setStartDate] = useState(me?.Userdetail?.startDate || new Date());
-  const [endDate, setEndDate] = useState(me?.Userdetail?.endDate || new Date());
+  const [startDate, setStartDate] = useState(schedule?.start || new Date());
+  const [endDate, setEndDate] = useState(schedule?.end || new Date());
   // const [startTime, setStartTime] = useState('');
   // const [endTime, setEndTime] = useState('');
   const onChangeStartDate = useCallback((data) => {
@@ -27,7 +27,7 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
   }, []);
 
   const [formatDate, setFormatDate] = useState('');
-  const [description, onChangeDescription] = useInput(schedule?.description || '');
+  const [description, onChangeDescription, setDescription] = useInput(schedule?.description || '');
   const onSubmit = useCallback(async () => {
     const date = useDateFormat(startDate, 'yyyy-MM-dd');
     const time = useDateFormat(endDate, 'HH:mm');
@@ -45,6 +45,9 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
       const end = useDateFormat(schedule?.end, 'HH:mm');
       const matchingDate = [start, ' ~ ', end].join('');
       setFormatDate(matchingDate);
+      setStartDate(schedule.start);
+      setEndDate(schedule.end);
+      setDescription(schedule.description);
     }
   }, [schedule]);
 

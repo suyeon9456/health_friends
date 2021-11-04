@@ -62,11 +62,9 @@ router.put('/', async (req, res, next) => { // PUT /schedule/
     const schedule = await Schedule.update({
       startDate: req.body.startDate,
       endDate: req.body.endDate,
-      description: req.body.description,
-      where: {
-        id: req.body.id,
-        UserId: req.user.id,
-      }
+      description: req.body.description
+    }, {
+      where: { id: req.body.id }
     });
     res.status(201).json(schedule);
   } catch (error) {
