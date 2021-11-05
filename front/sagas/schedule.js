@@ -28,6 +28,7 @@ function loadSchedulesAPI(data) {
 
 function* loadSchedules(action) {
   try {
+    console.log('load');
     const result = yield call(loadSchedulesAPI, action.data);
     yield put({
       type: LOAD_SCHEDULES_SUCCESS,

@@ -22,6 +22,8 @@ const MatchingCalendar = () => {
   const [nickname, setNickname] = useState('');
   const [address, setAddress] = useState('');
   const [date, setDate] = useState('');
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   const onSelectEvent = useCallback((event) => {
     // console.log('event 클릭', events);
@@ -36,9 +38,22 @@ const MatchingCalendar = () => {
     setShowCard(false);
   }, [showCard]);
 
+  const onRangeChange = useCallback((changeDate) => {
+    if (changeDate) {
+      console.log('?', changeDate);
+      // const { start, end } = changeDate;
+      // setNowDate(changeDate);
+    }
+  }, []);
+
+  const onNavigate = useCallback((tDate) => {
+    console.log('date? ', tDate);
+  }, []);
+
   useEffect(() => {
     dispatch({
       type: LOAD_SCHEDULES_REQUEST,
+      data: { type: 'scheduledRecord', limit: 3 },
     });
   }, []);
 
@@ -50,7 +65,11 @@ const MatchingCalendar = () => {
 
   return (
     <CalendarWrap>
-      <BigCalendar events={events} onSelectEvent={onSelectEvent} />
+      <BigCalendar
+        events={events}
+        onSelectEvent={onSelectEvent}
+        onRangeChange={onRangeChange}
+      />
       {showCard && (
         <CardWrap>
           <SimpleMatchingCard
@@ -59,6 +78,7 @@ const MatchingCalendar = () => {
             actions={actions}
             date={date}
             onChangeShow={onChangeShowCard}
+            onNavigate={onNavigate}
           />
         </CardWrap>
       )}

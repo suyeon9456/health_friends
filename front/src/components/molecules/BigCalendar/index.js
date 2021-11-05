@@ -37,7 +37,7 @@ const EventAgenda = ({ event }) => (
   </span>
 );
 
-const BigCalendar = ({ events, onSelectEvent }) => (
+const BigCalendar = ({ events, onSelectEvent, onRangeChange, onNavigate }) => (
   <Calendar
     views={['month', 'week', 'day']}
     formats={formats}
@@ -47,6 +47,8 @@ const BigCalendar = ({ events, onSelectEvent }) => (
     endAccessor="end"
     style={{ height: 520, width: '100%' }}
     onSelectEvent={onSelectEvent}
+    onRangeChange={onRangeChange}
+    onNavigate={onNavigate}
     components={{
       event: Event,
       agenda: { event: EventAgenda },
@@ -66,6 +68,8 @@ EventAgenda.propTypes = {
 BigCalendar.propTypes = {
   events: PropTypes.array,
   onSelectEvent: PropTypes.func,
+  onRangeChange: PropTypes.func,
+  onNavigate: PropTypes.func,
 };
 
 export default BigCalendar;

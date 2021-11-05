@@ -25,6 +25,7 @@ router.get('/', async (req, res, next) => { // GET /schedules/
       where.isPermitted = true;
       where.permission = false;
     }
+
     const schedule = await Schedule.findAll({
       where,
       limit: parseInt(req.query.limit, 10),
