@@ -46,14 +46,10 @@ const MatchingCalendar = () => {
     }
   }, []);
 
-  const onNavigate = useCallback((tDate) => {
-    console.log('date? ', tDate);
-  }, []);
-
   useEffect(() => {
     dispatch({
       type: LOAD_SCHEDULES_REQUEST,
-      data: { type: 'scheduledRecord', limit: 3 },
+      data: { type: 'calendar' },
     });
   }, []);
 
@@ -78,7 +74,6 @@ const MatchingCalendar = () => {
             actions={actions}
             date={date}
             onChangeShow={onChangeShowCard}
-            onNavigate={onNavigate}
           />
         </CardWrap>
       )}

@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => { // GET /schedules/
   try {
+    console.log(req.query);
     const where = {
       UserId: req.user.id,
     }
@@ -28,7 +29,7 @@ router.get('/', async (req, res, next) => { // GET /schedules/
 
     const schedule = await Schedule.findAll({
       where,
-      limit: parseInt(req.query.limit, 10),
+      limit: req.query.type === 'calendar' ? null : parseInt(req.query.limit, 10),
       attributes: [
         'id',
         'description',

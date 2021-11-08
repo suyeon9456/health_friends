@@ -14,6 +14,29 @@ export const CalendarWrap = styled.div`
   margin-top: 10px;
   padding: 30px 0px;
 
+  & > .rbc-calendar {
+    
+    & > .rbc-month-view {
+      & > .rbc-month-row {
+        & > .rbc-row-content {
+          & > .rbc-row {
+            & > .rbc-row-segment {
+              & > .rbc-event {
+                & > .rbc-event-content {
+                  
+                  .last-event-title & {
+                    background-color: red;
+
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   & .rbc-toolbar{
     & > .rbc-btn-group {
       margin-bottom: 15px;
@@ -129,6 +152,10 @@ export const CalendarWrap = styled.div`
     color: #ffffff;
     font-size: 12px;
     font-weight: lighter;
+  }
+
+  .last-event-title &{
+    background-color: red !important;
   }
 
   

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
-import { format, parse, startOfWeek, getDay } from 'date-fns';
+import { format, parse, startOfWeek, getDay, compareAsc } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import PropTypes from 'prop-types';
 
@@ -23,12 +23,19 @@ const formats = {
   dayHeaderFormat: (date) => localizer.format(date, 'yyyy년 MM월 dd일', locales.ko),
 };
 
-const Event = ({ event }) => (
-  <span className="event-title">
-    <strong>{event?.nickname}</strong>
-    {event.desc}
-  </span>
-);
+const Event = ({ event }) => {
+  console.log('event', event);
+  console.log('event', new Date());
+  console.log('compareAsc', compareAsc(new Date(event.start), new Date()));
+  // 오늘 일자보다 전 일자의 event는 -1을 리턴한다.
+  const compareToday = compareAsc(new Date(event.start), new Date());
+  return (
+    <span className={compareToday < 0 ? 'last-event-title' : 'event-title'}>
+      <strong>{event?.nickname}</strong>
+      {event.desc}
+    </span>
+  );
+};
 
 const EventAgenda = ({ event }) => (
   <span>
@@ -37,7 +44,7 @@ const EventAgenda = ({ event }) => (
   </span>
 );
 
-const BigCalendar = ({ events, onSelectEvent, onRangeChange, onNavigate }) => (
+const BigCalendar = ({ events, onSelectEvent, onRangeChange }) => (
   <Calendar
     views={['month', 'week', 'day']}
     formats={formats}
@@ -48,7 +55,6 @@ const BigCalendar = ({ events, onSelectEvent, onRangeChange, onNavigate }) => (
     style={{ height: 520, width: '100%' }}
     onSelectEvent={onSelectEvent}
     onRangeChange={onRangeChange}
-    onNavigate={onNavigate}
     components={{
       event: Event,
       agenda: { event: EventAgenda },
@@ -69,7 +75,6 @@ BigCalendar.propTypes = {
   events: PropTypes.array,
   onSelectEvent: PropTypes.func,
   onRangeChange: PropTypes.func,
-  onNavigate: PropTypes.func,
 };
 
 export default BigCalendar;
