@@ -20,31 +20,27 @@ const MoreGymInfoForm = () => {
 
   const [startDate, setStartDate] = useState(signupStepGymInfo?.startDate || new Date());
   const [endDate, setEndDate] = useState(signupStepGymInfo?.endDate || new Date());
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
   const [gym, onChangeGym, setGym] = useInput(signupStepGymInfo?.gym?.name || selectedGym?.name || '');
   const [description, onChangeDescription] = useInput(signupStepGymInfo?.description || '');
 
   const onChangeStartDate = useCallback((data) => {
-    setStartTime(format(data, 'HH:mm'));
     setStartDate(data);
   }, []);
   const onChangeEndDate = useCallback((data) => {
-    setEndTime(format(data, 'HH:mm'));
     setEndDate(data);
   }, []);
 
   const onClickStepHandler = useCallback((e) => {
     dispatch({
       type: SIGN_UP_STEP_GYM_INFO_SAVE,
-      data: { startDate, endDate, gym, description },
+      data: { startTime: format(startDate, 'HH:mm'), endTime: format(endDate, 'HH:mm'), gym, description },
     });
     if (e.target.id === 'next') {
       dispatch({ type: SIGN_UP_STEP_NEXT });
     } else {
       dispatch({ type: SIGN_UP_STEP_PREV });
     }
-  }, [startTime, endTime, gym, description]);
+  }, [startDate, endDate, gym, description]);
   return (
     <FormWrapper>
       <FormTimePicker

@@ -13,7 +13,7 @@ const MoreInfoForm = () => {
     signupStepMoreInfo,
     genderOptions } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const [gender, onChangeGender] = useInput(signupStepMoreInfo?.gender || '');
+  const [gender, onChangeGender] = useInput(signupStepMoreInfo?.gender || 'male');
   const [age, onChangeAge, setAge] = useInput(signupStepMoreInfo?.age || 0);
   const [career, onChangeCareer] = useInput(signupStepMoreInfo?.career || 1);
   const [role, onChangeRole] = useInput(signupStepMoreInfo?.role || 1);

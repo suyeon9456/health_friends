@@ -17,8 +17,7 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
 
   const [startDate, setStartDate] = useState(schedule?.start || new Date());
   const [endDate, setEndDate] = useState(schedule?.end || new Date());
-  // const [startTime, setStartTime] = useState('');
-  // const [endTime, setEndTime] = useState('');
+
   const onChangeStartDate = useCallback((data) => {
     setStartDate(data);
   }, []);

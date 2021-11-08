@@ -6,18 +6,20 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => { // GET /gyms/
   try {
-    console.log('swLat: ', req.query.swLat);
-    console.log('neLat: ', req.query.neLat);
-    console.log('swLon: ', req.query.swLon);
-    console.log('neLon: ', req.query.neLon);
     const where = {
-      name: { [Op.like]: "%" + req.query.searchWord + "%" },
-      address: { [Op.like]: "%" + req.query.searchWord + "%" },
-      latitude: { [Op.between]: [req.query.swLat, req.query.neLat] },
-      longitude: { [Op.between]: [req.query.swLon, req.query.neLon] },
+      [Op.or]: [{
+        name: { [Op.like]: "%" + req.query.searchWord + "%" },
+      }, {
+        address: { [Op.like]: "%" + req.query.searchWord + "%" },
+      }],
+    }
+
+    if (!(req.query.swLat && req.query.neLat && req.query.swLon && req.query.neLon)) {
+      where.latitude = { [Op.between]: [req.query.swLat, req.query.neLat] };
+      where.longitude = { [Op.between]: [req.query.swLon, req.query.neLon] };
     }
     
-    if(parseInt(req.query.lastId, 10)) {
+    if (parseInt(req.query.lastId, 10)) {
       where.id = { [Op.lt]: parseInt(req.query.lastId, 10) }
     }
     const gyms = await Gym.findAll({

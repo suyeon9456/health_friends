@@ -62,7 +62,7 @@ const initialState = {
     { value: 'male', text: '남성' },
     { value: 'female', text: '여성' },
   ],
-  searchGymTabs: [{ value: 1, text: '헬스장 찾기' }, { value: 2, text: '헬스장 등록' }],
+  searchGymTabs: [{ value: 'search', text: '헬스장 찾기' }, { value: 'add', text: '헬스장 등록' }],
   signupProcess: 1,
   signupStepInfo: null,
   signupStepMoreInfo: null,

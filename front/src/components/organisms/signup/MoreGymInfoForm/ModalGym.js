@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { ADD_GYM_REQUEST, LOAD_GYM_REQUEST } from '../../../../../reducers/gym';
+import { ADD_GYM_REQUEST } from '../../../../../reducers/gym';
 import useInput from '../../../../hooks/useInput';
 import { Modal, Tabs } from '../../../molecules';
 import ModalSearchGym from '../../ModalSearchGym';
@@ -11,19 +11,14 @@ import { ModalBodyBox } from './style';
 
 const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }) => {
   const { searchGymTabs } = useSelector((state) => state.user);
-  const { gyms } = useSelector((state) => state.gym);
   const dispatch = useDispatch();
-  const [selectedTab, setSelectedTab] = useState(1);
+  const [selectedTab, setSelectedTab] = useState('search');
   const [sido, setSido] = useState('');
   const [sigungu, setSigungu] = useState('');
   const [address, setAddress] = useState('');
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
   const [name, onChangeName] = useInput('');
-
-  useEffect(() => {
-    dispatch({ type: LOAD_GYM_REQUEST });
-  }, []);
 
   const onChangeSelectedTab = useCallback((tab) => () => {
     setSelectedTab(tab);
@@ -53,8 +48,8 @@ const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }) => 
           onChangeSelectedTab={onChangeSelectedTab}
           block
         />
-        {selectedTab === 1
-          ? <ModalSearchGym list={gyms} setShowModal={setShowModal} setGym={setGym} />
+        {selectedTab === 'search'
+          ? <ModalSearchGym setShowModal={setShowModal} setGym={setGym} />
           : (
             <ModalCreateGym
               sido={sido}

@@ -16,7 +16,7 @@ const RangeTimePicker = ({ size, startDate, endDate, onChangeStartDate, onChange
       showTimeSelectOnly
       timeIntervals={15}
       timeCaption="Time"
-      dateFormat="HH:mm aa"
+      dateFormat="HH:mm"
       // placeholderText={placeholder}
       customInput={<CustomPickerInput type="time" size={size} />}
       calendarContainer={CustomCalendar}
@@ -33,7 +33,7 @@ const RangeTimePicker = ({ size, startDate, endDate, onChangeStartDate, onChange
       showTimeSelectOnly
       timeIntervals={15}
       timeCaption="Time"
-      dateFormat="h:mm aa"
+      dateFormat="HH:mm"
       customInput={<CustomPickerInput type="time" size={size} />}
       calendarContainer={CustomCalendar}
     />

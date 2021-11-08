@@ -126,7 +126,7 @@ router.post('/', async (req, res, next) => { // POST /user/
       startTime: gymInfo.startTime,
       endTime: gymInfo.endTime,
       description: gymInfo.description,
-      friendsGender: moreInfo.friendsGender,
+      friendsGender: friendsInfo.friendsGender,
       friendsAge: friendsInfo.friendsAge,
       friendsCareer: friendsInfo.friendsCareer,
       friendsRole: friendsInfo.friendsRole,

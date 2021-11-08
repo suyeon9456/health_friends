@@ -1,13 +1,18 @@
-import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import useInput from '../../../hooks/useInput';
 import { SELECT_GYM } from '../../../../reducers/user';
 import { BoxContent, GymListWrap, ListCard } from './style';
 import { Search, Item } from '../../atoms';
+import { LOAD_GYM_REQUEST } from '../../../../reducers/gym';
 
-const ModalSearchGym = ({ list, setShowModal, setGym }) => {
+const ModalSearchGym = ({ setShowModal, setGym }) => {
   const dispatch = useDispatch();
+  const { gyms } = useSelector((state) => state.gym);
+
+  const [searchWord, onChangeSearchWord] = useInput('');
 
   const onClick = useCallback((gym) => {
     dispatch({
@@ -16,13 +21,33 @@ const ModalSearchGym = ({ list, setShowModal, setGym }) => {
     });
     setGym(gym.name);
     setShowModal(false);
-  }, [list]);
+  }, [gyms]);
+
+  const onSearch = useCallback(() => {
+    dispatch({
+      type: LOAD_GYM_REQUEST,
+      data: { searchWord },
+    });
+  }, [searchWord]);
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_GYM_REQUEST,
+      data: { searchWord },
+    });
+  }, []);
+
   return (
     <BoxContent>
-      <Search enterButton />
+      <Search
+        value={searchWord}
+        onChange={onChangeSearchWord}
+        onSearch={onSearch}
+        enterButton
+      />
       <GymListWrap>
         <ListCard>
-          {list.map((gym) => (
+          {gyms.map((gym) => (
             <Item
               key={gym.id}
               title={gym.name}
@@ -37,7 +62,6 @@ const ModalSearchGym = ({ list, setShowModal, setGym }) => {
 };
 
 ModalSearchGym.propTypes = {
-  list: PropTypes.array,
   setShowModal: PropTypes.func,
   setGym: PropTypes.func,
 };
