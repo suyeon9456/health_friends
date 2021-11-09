@@ -73,4 +73,50 @@ router.put('/', async (req, res, next) => { // PUT /schedule/
   }
 });
 
+router.put('/permission', async (req, res, next) => { // PUT /schedule/permission
+  try {
+    console.log(req.body);
+    console.log(req.user.id);
+    const schedule = await Schedule.update({
+      permission: req.body.permission,
+      isPermitted: true
+    }, {
+      where: {
+        id: req.body.scheduleId,
+        FriendId: req.user.id,
+      }
+    });
+    console.log('schedule', schedule);
+
+    const fullSchedule = await Schedule.findOne({
+      where: {
+        id: req.body.scheduleId,
+      },
+      attributes: [
+        'id',
+        'description',
+        'permission',
+        [Sequelize.fn('date_format', Sequelize.col('startDate'), '%Y-%m-%d %H:%i'), 'startDate'],
+        [Sequelize.fn('date_format', Sequelize.col('endDate'), '%Y-%m-%d %H:%i'), 'endDate']
+      ],
+      include: [{
+        model: User,
+        as: 'Friend',
+        attributes: [
+          'id',
+          'nickname'
+        ],
+      }, {
+        model: Gym,
+        attributes: ['address'],
+      }],
+    });
+    console.log(fullSchedule);
+    res.status(201).json(fullSchedule);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 module.exports = router;

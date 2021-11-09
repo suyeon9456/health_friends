@@ -13,6 +13,9 @@ const initialState = {
   updateScheduleLoading: false,
   updateScheduleDone: false,
   updateScheduleError: null,
+  updatePermissionLoading: false,
+  updatePermissionDone: false,
+  updatePermissionError: null,
   schedules: [],
   schedule: null,
 };
@@ -32,6 +35,10 @@ export const LOAD_SCHEDULE_ERROR = 'LOAD_SCHEDULE_ERROR';
 export const UPDATE_SCHEDULE_REQUEST = 'UPDATE_SCHEDULE_REQUEST';
 export const UPDATE_SCHEDULE_SUCCESS = 'UPDATE_SCHEDULE_SUCCESS';
 export const UPDATE_SCHEDULE_ERROR = 'UPDATE_SCHEDULE_ERROR';
+
+export const UPDATE_PERMISSION_REQUEST = 'UPDATE_PERMISSION_REQUEST';
+export const UPDATE_PERMISSION_SUCCESS = 'UPDATE_PERMISSION_SUCCESS';
+export const UPDATE_PERMISSION_ERROR = 'UPDATE_PERMISSION_ERROR';
 
 const reducer = (state = initialState, action) => (produce(state, (draft) => {
   switch (action.type) {
@@ -59,16 +66,16 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadSchedulesLoading = false;
       draft.loadSchedulesDone = true;
       draft.loadSchedulesError = null;
-      draft.schedules = action.data.map((schedule) => {
-        console.log('date', new Date(schedule));
+      draft.schedules = action.data.map((item) => {
+        console.log('date', new Date(item));
         return ({
-          id: schedule.id,
-          start: new Date(schedule.startDate),
-          end: new Date(schedule.endDate),
-          nickname: schedule.Friend.nickname,
-          address: schedule.Gym.address,
-          description: schedule.description,
-          friend: schedule.Friend,
+          id: item.id,
+          start: new Date(item.startDate),
+          end: new Date(item.endDate),
+          nickname: item.Friend.nickname,
+          address: item.Gym.address,
+          description: item.description,
+          friend: item.Friend,
         });
       });
       break;
@@ -111,11 +118,31 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.updateScheduleDone = true;
       draft.updateScheduleError = null;
       draft.schedule = null;
+      draft.schedules = draft.schedules.map((item) => (
+        item.id === action.data.id ? action.data : item
+      ));
       break;
     case UPDATE_SCHEDULE_ERROR:
       draft.updateScheduleLoading = false;
       draft.updateScheduleDone = false;
       draft.updateScheduleError = action.error;
+      break;
+    case UPDATE_PERMISSION_REQUEST:
+      draft.updatePermissionLoading = true;
+      draft.updatePermissionDone = false;
+      draft.updatePermissionError = null;
+      break;
+    case UPDATE_PERMISSION_SUCCESS:
+      draft.updatePermissionLoading = false;
+      draft.updatePermissionDone = true;
+      draft.updatePermissionError = null;
+      draft.schedule = null;
+      draft.schedules = draft.schedules.filter((item) => item.id !== action.data.id);
+      break;
+    case UPDATE_PERMISSION_ERROR:
+      draft.updatePermissionLoading = false;
+      draft.updatePermissionDone = false;
+      draft.updatePermissionError = action.error;
       break;
     default:
       break;

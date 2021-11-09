@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import * as _ from 'lodash';
 import { CloseOutlined } from '@ant-design/icons';
 
 import { ModalBody, ModalBox, ModalClose, ModalContent, ModalFooter, ModalHeader, ModalMask, ModalRoot, ModalTitle, ModalWrap } from './style';
@@ -11,6 +12,7 @@ const Modal = ({ show,
   onSubmit,
   className,
   children,
+  actions,
   footer }) => {
   useEffect(() => {
     if (show) {
@@ -46,10 +48,24 @@ const Modal = ({ show,
             <ModalBody>
               {children}
             </ModalBody>
-            {footer && (
+            {(footer || !_.isEmpty(actions)) && (
               <ModalFooter>
-                <Button onClick={onCancel}>취소</Button>
-                <Button type="primary" onClick={onSubmit}>확인</Button>
+                {_.isEmpty(actions)
+                  ? (
+                    <>
+                      <Button onClick={onCancel}>취소</Button>
+                      <Button type="primary" onClick={onSubmit}>확인</Button>
+                    </>
+                  )
+                  : actions.map((action) => (
+                    <Button
+                      key={action.id}
+                      type={action.type}
+                      onClick={action.onClick}
+                    >
+                      {action.title}
+                    </Button>
+                  ))}
               </ModalFooter>
             )}
           </ModalContent>
@@ -66,6 +82,7 @@ Modal.propTypes = {
   onSubmit: PropTypes.func,
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
+  actions: PropTypes.array,
   footer: PropTypes.bool.isRequired,
 };
 

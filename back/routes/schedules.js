@@ -7,25 +7,53 @@ const router = express.Router();
 router.get('/', async (req, res, next) => { // GET /schedules/
   try {
     console.log(req.query);
-    const where = {
-      UserId: req.user.id,
-    }
+    let where = {}
     if (req.query.type === 'scheduledRecord') {
-      where.startDate = {
-        [Op.gte]: new Date(),
-      };
-      where.isPermitted = true;
-      where.permission = true;
+      where = {
+        startDate: { [Op.gte]: new Date() },
+        isPermitted: true,
+        permission: true,
+        [Op.or]: [{
+          UserId: req.user.id,
+        }, {
+          FriendId: req.user.id,
+        }],
+      } 
     } else if (req.query.type === 'lastRecord') {
-      where.startDate = {
-        [Op.lt]: new Date(),
-      };
-      where.isPermitted = true;
-      where.permission = true;
+      where = {
+        startDate: { [Op.lt]: new Date() },
+        isPermitted: true,
+        permission: true,
+        [Op.or]: [{
+          UserId: req.user.id,
+        }, {
+          FriendId: req.user.id,
+        }],
+      }
     } else if (req.query.type === 'rejectedRecord') {
-      where.isPermitted = true;
-      where.permission = false;
+      where = {
+        isPermitted: true,
+        permission: false,
+        [Op.or]: [{
+          UserId: req.user.id,
+        }, {
+          FriendId: req.user.id,
+        }],
+      }
+    } else if (req.query.type === 'receiveRecord') {
+      where = {
+        isPermitted: false,
+        permission: false,
+        FriendId: req.user.id,
+      }
+    } else if (req.query.type === 'requestRecord') {
+      where = {
+        isPermitted: false,
+        permission: false,
+        UserId: req.user.id,
+      }
     }
+    console.log(where);
 
     const schedule = await Schedule.findAll({
       where,

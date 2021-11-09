@@ -42,7 +42,9 @@ const MatchingRecord = () => {
           tabs={[
             { value: 'scheduledRecord', text: '예정된매칭' },
             { value: 'lastRecord', text: '지난매칭' },
-            { value: 'rejectedRecord', text: '거절된매칭' }]}
+            { value: 'rejectedRecord', text: '취소된매칭' },
+            { value: 'requestRecord', text: '보낸매칭' },
+            { value: 'receiveRecord', text: '받은매칭' }]}
           selectedTab={selectedTab}
           onChangeSelectedTab={onChangeSelectedTab}
         />
@@ -80,6 +82,7 @@ const MatchingRecord = () => {
         show={showModal}
         onCancel={onChangeShowModal}
         type={modalType}
+        selectedTab={selectedTab}
       />
     </RecordWrap>
   );

@@ -8,9 +8,9 @@ import { Modal } from '../../../molecules';
 import MatchingRequestForm from '../../MatchingRequestForm';
 import { Content, DescriptionWrap, InfoContent } from '../../MatchingRequestForm/style';
 import { MatchingInfoWrap, RequestFriendWrap, UserInfoWrap } from './style';
-import { UPDATE_SCHEDULE_REQUEST } from '../../../../../reducers/schedule';
+import { UPDATE_PERMISSION_REQUEST, UPDATE_SCHEDULE_REQUEST } from '../../../../../reducers/schedule';
 
-const ModalMatchingDetail = ({ show, onCancel, type }) => {
+const ModalMatchingDetail = ({ show, onCancel, type, selectedTab }) => {
   const dispatch = useDispatch();
   const { schedule } = useSelector((state) => state.schedule);
   const { me } = useSelector((state) => state.user);
@@ -38,6 +38,22 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
       data: { startDate, endDate, description, id: schedule.id },
     });
   }, [startDate, endDate, description, schedule]);
+
+  const onAccept = useCallback(() => {
+    dispatch({
+      type: UPDATE_PERMISSION_REQUEST,
+      data: { scheduleId: schedule.id, permission: true },
+    });
+    onCancel();
+  }, [schedule]);
+
+  const onRefuse = useCallback(() => {
+    dispatch({
+      type: UPDATE_PERMISSION_REQUEST,
+      data: { scheduleId: schedule.id, permission: false },
+    });
+    onCancel();
+  }, [schedule]);
   useEffect(() => {
     if (schedule) {
       const start = useDateFormat(schedule?.start, 'yyyy년 MM월 dd일 HH:mm');
@@ -57,6 +73,10 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
       onCancel={onCancel}
       onSubmit={onSubmit}
       footer={type !== 'view'}
+      actions={type === 'view' && selectedTab === 'receiveRecord'
+        ? [{ id: 'refuse', title: '거절', onClick: onRefuse },
+          { id: 'accept', title: '수락', type: 'primary', onClick: onAccept }]
+        : []}
     >
       {type === 'view'
         ? (
@@ -112,6 +132,7 @@ ModalMatchingDetail.propTypes = {
   show: PropTypes.bool,
   onCancel: PropTypes.func,
   type: PropTypes.string,
+  selectedTab: PropTypes.string,
 };
 
 export default ModalMatchingDetail;
