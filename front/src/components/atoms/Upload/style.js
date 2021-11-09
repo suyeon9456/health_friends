@@ -2,8 +2,8 @@ import { UploadOutlined } from '@ant-design/icons';
 import styled, { css } from 'styled-components';
 
 export const UploadContainer = styled.div`
-  width: 104px;
-  height: 104px;
+  width: 120px;
+  height: 120px;
   margin-right: 8px;
   margin-bottom: 8px;
   text-align: center;

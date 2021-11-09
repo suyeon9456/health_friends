@@ -1,17 +1,18 @@
 import React, { useCallback, useRef } from 'react';
+import PropTypes from 'prop-types';
 import Error from './Error';
 
 import { UploadContainer, UploadIcon, UploadInput, UploadText, UploadWrap } from './style';
 import Thumbnail from './Thumbnail';
 
-const Upload = () => {
+const Upload = ({ id, src }) => {
   const uploadRef = useRef();
   const uploadImage = useCallback(() => {
     uploadRef.current.click();
   }, []);
 
-  const ProfileImage = { id: 1, src: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png' };
-  const ImageUploadError = true;
+  // const ProfileImage = { id: 1, src: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png' };
+  const ImageUploadError = false;
 
   if (ImageUploadError) {
     return (
@@ -22,8 +23,8 @@ const Upload = () => {
   }
   return (
     <UploadContainer>
-      {ProfileImage?.id
-        ? <Thumbnail src={ProfileImage.src} />
+      {id
+        ? <Thumbnail src={src} />
         : (
           <UploadWrap
             role="button"
@@ -41,6 +42,11 @@ const Upload = () => {
         )}
     </UploadContainer>
   );
+};
+
+Upload.propTypes = {
+  id: PropTypes.number,
+  src: PropTypes.string,
 };
 
 export default Upload;

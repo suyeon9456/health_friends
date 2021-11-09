@@ -3,21 +3,23 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { CommentOutlined, HomeOutlined, TrophyOutlined } from '@ant-design/icons';
 
-import Avatar from '../../../atoms/Avatar';
+import { Upload } from '../../../atoms';
 import Progress from '../../../molecules/Progress';
 import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, SideBarWrapper, SideMenu, SideMenuWrapper } from './style';
 
 const SideBar = ({ profileMenu, setProfileMenu }) => {
-  const { profile } = useSelector((state) => state.user);
+  const { profile, me } = useSelector((state) => state.user);
 
   const onClickMenu = useCallback((e) => {
-    console.log(e.target.id);
     setProfileMenu(e.target.id);
   }, [profileMenu]);
   return (
     <SideBarWrapper>
       <AvatarWrapper>
-        <Avatar size={128} />
+        {/* <Avatar size={128} /> */}
+        <form encType="multipart/form-data">
+          <Upload src={me?.profileImage?.src} id={me?.profileImage?.id} />
+        </form>
       </AvatarWrapper>
       <InfoWrapper>
         <InfoContent key="matching">

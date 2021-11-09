@@ -28,6 +28,9 @@ import { LOAD_MY_INFO_ERROR,
   UPDATE_MY_NICKNAME_ERROR,
   UPDATE_MY_NICKNAME_REQUEST,
   UPDATE_MY_NICKNAME_SUCCESS,
+  UPLOAD_PROFILEIMAGE_ERROR,
+  UPLOAD_PROFILEIMAGE_REQUEST,
+  UPLOAD_PROFILEIMAGE_SUCCESS,
 } from '../reducers/user';
 
 function loadMyInfoAPI() {
@@ -202,6 +205,25 @@ function* updateMyDescription(action) {
   }
 }
 
+function uploadProfileImageAPI(data) {
+  return axios.post('/user/image', data);
+}
+
+function* uploadProfileImage(action) {
+  try {
+    const result = yield call(uploadProfileImageAPI, action.data);
+    yield put({
+      type: UPLOAD_PROFILEIMAGE_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: UPLOAD_PROFILEIMAGE_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function* watchLoadMyInfo() {
   yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
@@ -238,6 +260,10 @@ function* watchUpdateMyDescription() {
   yield takeLatest(UPDATE_MY_DESCRIPTION_REQUEST, updateMyDescription);
 }
 
+function* watchUploadProfileImage() {
+  yield takeLatest(UPLOAD_PROFILEIMAGE_REQUEST, uploadProfileImage);
+}
+
 export default function* userSaga() {
   yield all([
     yield fork(watchLoadMyInfo),
@@ -249,5 +275,6 @@ export default function* userSaga() {
     yield fork(watchUpdateMyFriendsInfo),
     yield fork(watchUpdateMyNickname),
     yield fork(watchUpdateMyDescription),
+    yield fork(watchUploadProfileImage),
   ]);
 }

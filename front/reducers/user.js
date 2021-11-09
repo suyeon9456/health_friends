@@ -28,6 +28,9 @@ const initialState = {
   updateMyDescriptionLoading: false,
   updateMyDescriptionDone: false,
   updateMyDescriptionError: null,
+  uploadProfileImageLoading: false,
+  uploadProfileImageDone: false,
+  uploadProfileImageError: null,
   signupSteps: [
     { id: 1, type: 'process', step: 1, title: 'STEP1', description: '회원 정보' },
     { id: 2, type: 'wait', step: 2, title: 'STEP2', description: '추가 정보' },
@@ -118,6 +121,10 @@ export const UPDATE_MY_NICKNAME_ERROR = 'UPDATE_MY_NICKNAME_ERROR';
 export const UPDATE_MY_DESCRIPTION_REQUEST = 'UPDATE_MY_DESCRIPTION_REQUEST';
 export const UPDATE_MY_DESCRIPTION_SUCCESS = 'UPDATE_MY_DESCRIPTION_SUCCESS';
 export const UPDATE_MY_DESCRIPTION_ERROR = 'UPDATE_MY_DESCRIPTION_ERROR';
+
+export const UPLOAD_PROFILEIMAGE_REQUEST = 'UPLOAD_PROFILEIMAGE_REQUEST';
+export const UPLOAD_PROFILEIMAGE_SUCCESS = 'UPLOAD_PROFILEIMAGE_SUCCESS';
+export const UPLOAD_PROFILEIMAGE_ERROR = 'UPLOAD_PROFILEIMAGE_ERROR';
 
 const reducer = (state = initialState, action) => (produce(state, (draft) => {
   switch (action.type) {
@@ -275,6 +282,21 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case UPDATE_MY_DESCRIPTION_ERROR:
       draft.updateMyDescriptionLoading = false;
       draft.updateMyDescriptionError = action.error;
+      break;
+    case UPLOAD_PROFILEIMAGE_REQUEST:
+      draft.uploadProfileImageLoading = true;
+      draft.uploadProfileImageDone = false;
+      draft.uploadProfileImageError = null;
+      break;
+    case UPLOAD_PROFILEIMAGE_SUCCESS:
+      draft.uploadProfileImageLoading = false;
+      draft.uploadProfileImageDone = true;
+      draft.uploadProfileImageError = null;
+      draft.me.profileImage = action.data;
+      break;
+    case UPLOAD_PROFILEIMAGE_ERROR:
+      draft.uploadProfileImageLoading = false;
+      draft.uploadProfileImageError = action.error;
       break;
     default:
       break;
