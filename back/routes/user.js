@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, Userdetail, Gym } = require('../models');
+const { User, Userdetail, Gym, Schedule } = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 
@@ -59,6 +59,14 @@ router.get('/profile/:userId', async (req, res, next) => {
         ],
       }, {
         model: Gym,
+      }, {
+        model: Schedule,
+        as: 'Me',
+        attributes: ['id']
+      }, {
+        model: Schedule,
+        as: 'Friend',
+        attributes: ['id', 'isPermitted']
       }]
     });
     res.status(200).json(user);

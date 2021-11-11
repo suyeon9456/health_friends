@@ -1,18 +1,29 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { CommentOutlined, HomeOutlined, TrophyOutlined } from '@ant-design/icons';
 
+import useRate from '../../../../hooks/useRate';
 import { Avatar, Upload } from '../../../atoms';
 import Progress from '../../../molecules/Progress';
 import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, SideBarWrapper, SideMenu, SideMenuWrapper } from './style';
 
 const SideBar = ({ profileMenu, setProfileMenu }) => {
   const { profile, me } = useSelector((state) => state.user);
+  const [responseRate,
+    onChangeResponseRate] = useRate({
+    total: profile?.Friend?.length || 0,
+    number: profile?.Friend?.filter((f) => f.isPermitted).length || 0,
+  });
 
   const onClickMenu = useCallback((e) => {
     setProfileMenu(e.target.id);
   }, [profileMenu]);
+
+  useEffect(() => {
+    onChangeResponseRate();
+  }, [profile]);
+
   return (
     <SideBarWrapper>
       <AvatarWrapper>
@@ -35,7 +46,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           <InfoIconWrapper>
             <CommentOutlined />
           </InfoIconWrapper>
-          <Progress label="응답률" percent={90} />
+          <Progress label="응답률" percent={responseRate} />
         </InfoContent>
         <InfoContent key="address">
           <InfoIconWrapper>
