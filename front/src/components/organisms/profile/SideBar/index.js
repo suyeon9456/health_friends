@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import * as _ from 'lodash';
 import { CommentOutlined, HomeOutlined, TrophyOutlined } from '@ant-design/icons';
 
 import useRate from '../../../../hooks/useRate';
@@ -10,19 +11,46 @@ import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, SideBarWrappe
 
 const SideBar = ({ profileMenu, setProfileMenu }) => {
   const { profile, me } = useSelector((state) => state.user);
+  const [totalMatching, setTotalMatching] = useState(0);
+  const [rematching, setRematching] = useState(0);
   const [responseRate,
     onChangeResponseRate] = useRate({
-    total: profile?.Friend?.length || 0,
-    number: profile?.Friend?.filter((f) => f.isPermitted).length || 0,
+    total: profile?.resSchedule?.length || 0,
+    number: profile?.resSchedule?.filter((f) => f.isPermitted).length || 0,
+  });
+
+  const [rematchingRate,
+    onChangeRematchingRate] = useRate({
+    total: totalMatching,
+    number: rematching,
   });
 
   const onClickMenu = useCallback((e) => {
     setProfileMenu(e.target.id);
   }, [profileMenu]);
 
-  useEffect(() => {
-    onChangeResponseRate();
+  useEffect(async () => {
+    if (profile) {
+      onChangeResponseRate();
+      const { reqSchedule, resSchedule } = profile;
+      const schedules = _.concat(reqSchedule, resSchedule);
+      const matchings = schedules.filter(({ permission }) => permission);
+      setTotalMatching(matchings.length);
+      const groupByTotalMatching = _.groupBy(matchings, 'FriendId');
+      let rematchingLength = 0;
+      await _.forIn(groupByTotalMatching,
+        (value) => {
+          if (value.length >= 2) {
+            rematchingLength += (value.length - 1);
+          }
+        });
+      setRematching(rematchingLength);
+    }
   }, [profile]);
+
+  useEffect(() => {
+    onChangeRematchingRate();
+  }, [rematching]);
 
   return (
     <SideBarWrapper>
@@ -40,7 +68,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           <InfoIconWrapper>
             <TrophyOutlined />
           </InfoIconWrapper>
-          <Progress label="재매칭률" percent={70} />
+          <Progress label="재매칭률" percent={rematchingRate} />
         </InfoContent>
         <InfoContent key="response">
           <InfoIconWrapper>

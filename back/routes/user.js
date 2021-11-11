@@ -61,12 +61,12 @@ router.get('/profile/:userId', async (req, res, next) => {
         model: Gym,
       }, {
         model: Schedule,
-        as: 'Me',
-        attributes: ['id']
+        as: 'reqSchedule',
+        attributes: ['id', 'permission', 'FriendId']
       }, {
         model: Schedule,
-        as: 'Friend',
-        attributes: ['id', 'isPermitted']
+        as: 'resSchedule',
+        attributes: ['id', 'isPermitted', 'permission', [Sequelize.col('UserId'), 'FriendId']]
       }]
     });
     res.status(200).json(user);
