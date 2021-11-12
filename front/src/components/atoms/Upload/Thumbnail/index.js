@@ -5,13 +5,13 @@ import { ThumbnailContainer,
   ThumbnailWrap,
   ThumbnailImage,
   ThumbnailButtonWrap,
-  ThumbnailPreviewButton,
+  ThumbnailUploadCheckButton,
   ThumbnailRemoveButton } from './style';
 
-const Thumbnail = ({ src, onPreivew, onRemove }) => (
+const Thumbnail = ({ src, onAddImage, onRemove }) => (
   <ThumbnailContainer>
     <ThumbnailButtonWrap className="thumbnail-button">
-      <ThumbnailPreviewButton onClick={onPreivew} />
+      <ThumbnailUploadCheckButton onClick={onAddImage} />
       <ThumbnailRemoveButton onClick={onRemove} />
     </ThumbnailButtonWrap>
     <ThumbnailWrap className="thumbnail-image">
@@ -22,7 +22,7 @@ const Thumbnail = ({ src, onPreivew, onRemove }) => (
 
 Thumbnail.propTypes = {
   src: PropTypes.string,
-  onPreivew: PropTypes.func,
+  onAddImage: PropTypes.func,
   onRemove: PropTypes.func,
 };
 

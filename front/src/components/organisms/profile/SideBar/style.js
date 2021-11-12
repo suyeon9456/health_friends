@@ -19,6 +19,13 @@ export const AvatarWrapper = styled.div`
   color: #000000d9;
   background: #fff;
   border-radius: 2px 2px 0 0;
+
+  & > div {
+    text-align: center;
+    & > a {
+      color: #9254de;
+    }
+  }
 `;
 
 export const InfoWrapper = styled.div`

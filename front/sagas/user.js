@@ -1,7 +1,8 @@
 import { all, fork, call, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-import { LOAD_MY_INFO_ERROR,
+import { ADD_PROFILEIMAGE_ERROR, ADD_PROFILEIMAGE_REQUEST, ADD_PROFILEIMAGE_SUCCESS,
+  LOAD_MY_INFO_ERROR,
   LOAD_MY_INFO_REQUEST,
   LOAD_MY_INFO_SUCCESS,
   LOAD_PROFILE_INFO_ERROR,
@@ -224,6 +225,25 @@ function* uploadProfileImage(action) {
   }
 }
 
+function addProfileImageAPI(data) {
+  return axios.post('/user/profileimage', data);
+}
+
+function* addProfileImage(action) {
+  try {
+    const result = yield call(addProfileImageAPI, action.data);
+    yield put({
+      type: ADD_PROFILEIMAGE_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: ADD_PROFILEIMAGE_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function* watchLoadMyInfo() {
   yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
@@ -264,6 +284,10 @@ function* watchUploadProfileImage() {
   yield takeLatest(UPLOAD_PROFILEIMAGE_REQUEST, uploadProfileImage);
 }
 
+function* watchAddProfileImage() {
+  yield takeLatest(ADD_PROFILEIMAGE_REQUEST, addProfileImage);
+}
+
 export default function* userSaga() {
   yield all([
     yield fork(watchLoadMyInfo),
@@ -276,5 +300,6 @@ export default function* userSaga() {
     yield fork(watchUpdateMyNickname),
     yield fork(watchUpdateMyDescription),
     yield fork(watchUploadProfileImage),
+    yield fork(watchAddProfileImage),
   ]);
 }

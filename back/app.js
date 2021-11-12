@@ -4,6 +4,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const dotenv = require('dotenv');
+const path = require('path');
 
 const userRouter = require('./routes/user');
 const gymRouter = require('./routes/gym');
@@ -29,6 +30,7 @@ app.use(cors({
   origin: 'http://localhost:6010',
   credentials: true,
 }));
+app.use('/', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));

@@ -31,6 +31,9 @@ const initialState = {
   uploadProfileImageLoading: false,
   uploadProfileImageDone: false,
   uploadProfileImageError: null,
+  addProfileImageLoading: false,
+  addProfileImageDone: false,
+  addProfileImageError: null,
   signupSteps: [
     { id: 1, type: 'process', step: 1, title: 'STEP1', description: '회원 정보' },
     { id: 2, type: 'wait', step: 2, title: 'STEP2', description: '추가 정보' },
@@ -74,6 +77,7 @@ const initialState = {
   selectedGym: null,
   me: null,
   profile: null,
+  imagePath: null,
 };
 
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
@@ -125,6 +129,12 @@ export const UPDATE_MY_DESCRIPTION_ERROR = 'UPDATE_MY_DESCRIPTION_ERROR';
 export const UPLOAD_PROFILEIMAGE_REQUEST = 'UPLOAD_PROFILEIMAGE_REQUEST';
 export const UPLOAD_PROFILEIMAGE_SUCCESS = 'UPLOAD_PROFILEIMAGE_SUCCESS';
 export const UPLOAD_PROFILEIMAGE_ERROR = 'UPLOAD_PROFILEIMAGE_ERROR';
+
+export const ADD_PROFILEIMAGE_REQUEST = 'ADD_PROFILEIMAGE_REQUEST';
+export const ADD_PROFILEIMAGE_SUCCESS = 'ADD_PROFILEIMAGE_SUCCESS';
+export const ADD_PROFILEIMAGE_ERROR = 'ADD_PROFILEIMAGE_ERROR';
+
+export const REMOVE_PROFILEIMAGE = 'REMOVE_PROFILEIMAGE';
 
 const reducer = (state = initialState, action) => (produce(state, (draft) => {
   switch (action.type) {
@@ -292,11 +302,30 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.uploadProfileImageLoading = false;
       draft.uploadProfileImageDone = true;
       draft.uploadProfileImageError = null;
-      draft.me.profileImage = action.data;
+      draft.imagePath = action.data;
       break;
     case UPLOAD_PROFILEIMAGE_ERROR:
       draft.uploadProfileImageLoading = false;
       draft.uploadProfileImageError = action.error;
+      break;
+    case ADD_PROFILEIMAGE_REQUEST:
+      draft.addProfileImageLoading = true;
+      draft.addProfileImageDone = false;
+      draft.addProfileImageError = null;
+      break;
+    case ADD_PROFILEIMAGE_SUCCESS:
+      draft.addProfileImageLoading = false;
+      draft.addProfileImageDone = true;
+      draft.addProfileImageError = null;
+      draft.profile = action.data;
+      draft.imagePath = null;
+      break;
+    case ADD_PROFILEIMAGE_ERROR:
+      draft.addProfileImageLoading = false;
+      draft.addProfileImageError = action.error;
+      break;
+    case REMOVE_PROFILEIMAGE:
+      draft.imagePath = null;
       break;
     default:
       break;

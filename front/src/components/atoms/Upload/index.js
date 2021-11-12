@@ -5,16 +5,13 @@ import Error from './Error';
 import { UploadContainer, UploadIcon, UploadInput, UploadText, UploadWrap } from './style';
 import Thumbnail from './Thumbnail';
 
-const Upload = ({ id, src }) => {
+const Upload = ({ id, src, name, onChange, uploadError, onAddImage, onRemove }) => {
   const uploadRef = useRef();
   const uploadImage = useCallback(() => {
     uploadRef.current.click();
   }, []);
 
-  // const ProfileImage = { id: 1, src: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png' };
-  const ImageUploadError = false;
-
-  if (ImageUploadError) {
+  if (uploadError) {
     return (
       <UploadContainer error>
         <Error name="filename.png" />
@@ -24,15 +21,23 @@ const Upload = ({ id, src }) => {
   return (
     <UploadContainer>
       {id
-        ? <Thumbnail src={src} />
+        ? (
+          <Thumbnail
+            src={src}
+            onAddImage={onAddImage}
+            onRemove={onRemove}
+          />
+        )
         : (
           <UploadWrap
             role="button"
             onClick={uploadImage}
           >
             <UploadInput
+              name={name}
               type="file"
               ref={uploadRef}
+              onChange={onChange}
             />
             <div>
               <UploadIcon />
@@ -45,8 +50,13 @@ const Upload = ({ id, src }) => {
 };
 
 Upload.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.string,
   src: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onAddImage: PropTypes.func,
+  onRemove: PropTypes.func,
+  uploadError: PropTypes.bool,
 };
 
 export default Upload;

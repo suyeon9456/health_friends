@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
-import Search from '../../atoms/Search';
 import { LOG_OUT_REQUEST } from '../../../../reducers/user';
+import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
+import { Search, Avatar } from '../../atoms';
 
 const SearchBox = styled(Search)`
   vertical-align: middle;
@@ -69,9 +69,7 @@ const Menu = ({ type }) => {
             >
               <MenuTitle>
                 <Link href={`/profile/${me?.id}`}>
-                  <MenuText>
-                    프로필
-                  </MenuText>
+                  <Avatar size="small" src={me?.Image ? `http://localhost:6015/${me?.Image?.src}` : ''} />
                 </Link>
               </MenuTitle>
             </MenuItem>

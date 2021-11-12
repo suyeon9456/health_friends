@@ -1,4 +1,4 @@
-import { DeleteOutlined, PictureOutlined } from '@ant-design/icons';
+import { CheckSquareOutlined, DeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 export const ThumbnailContainer = styled.div`
@@ -63,7 +63,7 @@ export const ThumbnailButtonWrap = styled.span`
   transition: all .3s;
 `;
 
-export const ThumbnailPreviewButton = styled(PictureOutlined)`
+export const ThumbnailUploadCheckButton = styled(CheckSquareOutlined)`
   transition: color .3s ease;
   color: #fff;
   font-size: 16px;

@@ -1,11 +1,22 @@
 const express = require('express');
-const { User, Userdetail, Gym, Schedule } = require('../models');
+const { User, Userdetail, Gym, Schedule, Image } = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs'); // 파일시스템을 조작할 수 있다.
 
 const { isNotLoggedIn, isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
+
+try {
+  fs.accessSync('uploads');
+} catch (error) {
+  console.log('uploads 폴더 생성');
+  fs.mkdirSync('uploads');
+}
+
 router.get('/', async (req, res, next) => {
   try {
     if (req.user) {
@@ -27,6 +38,8 @@ router.get('/', async (req, res, next) => {
           ],
         }, {
           model: Gym,
+        }, {
+          model: Image,
         }]
       });
       res.status(200).json(user);
@@ -67,6 +80,8 @@ router.get('/profile/:userId', async (req, res, next) => {
         model: Schedule,
         as: 'resSchedule',
         attributes: ['id', 'isPermitted', 'permission', [Sequelize.col('UserId'), 'FriendId']]
+      }, {
+        model: Image,
       }]
     });
     res.status(200).json(user);
@@ -251,6 +266,85 @@ router.put('/detail', isLoggedIn, async (req, res, next) => {
       }]
     });
     res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+const upload = multer({ // multer에 옵션 설정
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, 'uploads');
+    },
+    filename(req, file, done) { // test.png
+      const ext = path.extname(file.originalname); // 확장자 추출
+      const basename = path.basename(file.originalname, ext); // test
+      done(null, basename + '_' + new Date().getTime() + ext); // test1518545.png
+    },
+  }),
+  limits: { fileSize: 20 * 1024 * 1024 }, // 20mb
+});
+
+router.post('/image', isLoggedIn, upload.single('image'), async (req, res, next) => { // POST /user/image
+  // upload 후에 실행됨
+  // 업로드된 파일은 req.files를 확인
+  console.log(req.file);
+  res.json(req.file.filename);
+});
+
+router.post('/profileimage', isLoggedIn, async (req, res, next) => { // POST /user/profileimage
+  try {
+    const user = await User.findOne({
+      where: { id: req.user.id }
+    });
+
+    const prevProfileImage = await user.getImage();
+    console.log('prevProfileImage: ', prevProfileImage);
+    if (prevProfileImage) {
+      await Image.destroy({
+        where: { 
+          id: prevProfileImage.id,
+          UserId: req.user.id
+        }
+      });
+    }
+  
+    const image = await Image.create({ src: req.body.image });
+  
+    await user.setImage(image);
+    console.log(req.file);
+    const fullUser = await User.findOne({
+      where: { id: user.id },
+      attributes: {
+        exclude: ['password'],
+      },
+      include: [{
+        model: Userdetail,
+        attributes: [
+          'description',
+          'startTime',
+          'endTime',
+          'friendsAge',
+          'friendsCareer',
+          'friendsGender',
+          'friendsRole'
+        ],
+      }, {
+        model: Gym,
+      }, {
+        model: Schedule,
+        as: 'reqSchedule',
+        attributes: ['id', 'permission', 'FriendId']
+      }, {
+        model: Schedule,
+        as: 'resSchedule',
+        attributes: ['id', 'isPermitted', 'permission', [Sequelize.col('UserId'), 'FriendId']]
+      }, {
+        model: Image,
+      }]
+    });
+    res.status(200).json(fullUser);
   } catch (error) {
     console.error(error);
     next(error);

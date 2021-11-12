@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as _ from 'lodash';
 import { CommentOutlined, HomeOutlined, TrophyOutlined } from '@ant-design/icons';
@@ -8,11 +8,14 @@ import useRate from '../../../../hooks/useRate';
 import { Avatar, Upload } from '../../../atoms';
 import Progress from '../../../molecules/Progress';
 import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, SideBarWrapper, SideMenu, SideMenuWrapper } from './style';
+import { ADD_PROFILEIMAGE_REQUEST, REMOVE_PROFILEIMAGE, UPLOAD_PROFILEIMAGE_REQUEST } from '../../../../../reducers/user';
 
 const SideBar = ({ profileMenu, setProfileMenu }) => {
-  const { profile, me } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { profile, me, imagePath, uploadProfileImageError } = useSelector((state) => state.user);
   const [totalMatching, setTotalMatching] = useState(0);
   const [rematching, setRematching] = useState(0);
+  const [uploadState, setUploadState] = useState(false);
   const [responseRate,
     onChangeResponseRate] = useRate({
     total: profile?.resSchedule?.length || 0,
@@ -48,6 +51,35 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
     }
   }, [profile]);
 
+  const onChangeImage = useCallback((e) => {
+    const imageFormData = new FormData();
+    [].forEach.call(e.target.files, (f) => {
+      imageFormData.append('image', f);
+    });
+    dispatch({
+      type: UPLOAD_PROFILEIMAGE_REQUEST,
+      data: imageFormData,
+    });
+  }, []);
+
+  const onChangeUploadState = useCallback(() => {
+    setUploadState((prev) => !prev);
+  }, [uploadState]);
+
+  const onAddProfileImage = useCallback(() => {
+    dispatch({
+      type: ADD_PROFILEIMAGE_REQUEST,
+      data: { image: imagePath },
+    });
+    onChangeUploadState();
+  }, [imagePath]);
+
+  const onRemoveUploadImage = useCallback(() => {
+    dispatch({
+      type: REMOVE_PROFILEIMAGE,
+    });
+  }, []);
+
   useEffect(() => {
     onChangeRematchingRate();
   }, [rematching]);
@@ -55,13 +87,35 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
   return (
     <SideBarWrapper>
       <AvatarWrapper>
-        {me?.id
+        {me?.id && uploadState
           ? (
-            <form encType="multipart/form-data">
-              <Upload src={me?.profileImage?.src} id={me?.profileImage?.id} />
-            </form>
+            <>
+              <form encType="multipart/form-data">
+                <Upload
+                  id={imagePath}
+                  name="image"
+                  src={`http://localhost:6015/${imagePath}`}
+                  onChange={onChangeImage}
+                  uploadError={uploadProfileImageError}
+                  onAddImage={onAddProfileImage}
+                  onRemove={onRemoveUploadImage}
+                />
+              </form>
+              <div>
+                <a onClick={onChangeUploadState}>취소</a>
+              </div>
+            </>
           )
-          : <Avatar size={128} />}
+          : (
+            <>
+              <Avatar size={128} src={me?.Image ? `http://localhost:6015/${me?.Image?.src}` : ''} />
+              {me?.id && (
+                <div>
+                  <a onClick={onChangeUploadState}>프로필 사진 변경하기</a>
+                </div>
+              )}
+            </>
+          )}
       </AvatarWrapper>
       <InfoWrapper>
         <InfoContent key="matching">

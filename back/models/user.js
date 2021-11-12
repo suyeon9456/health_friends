@@ -40,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     db.User.hasMany(db.Schedule, { as: 'reqSchedule', foreignKey: 'UserId' });
     db.User.hasMany(db.Schedule, { as: 'resSchedule', foreignKey: 'FriendId' });
     db.User.hasOne(db.Userdetail);
+    db.User.hasOne(db.Image);
   };
   return User;
 };
