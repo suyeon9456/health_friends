@@ -52,6 +52,7 @@ const SearchFriends = ({ foldedGym,
             gym?.Users.map((user) => (
               <PropfileCard
                 key={user.id}
+                image={user.Image ? `http://localhost:6015/${user.Image.src}` : ''}
                 nickname={user.nickname}
                 description={user.Userdetail.description}
                 date={user.Userdetail.startTime}

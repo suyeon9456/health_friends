@@ -148,13 +148,20 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }) => {
 
         gym.Users.forEach((user, i) => {
           if (i <= 3) {
-            avatar.appendChild(anticon);
+            if (user.Image) {
+              const avatarImage = document.createElement('img');
+              avatarImage.src = user.Image?.src;
+              avatar.appendChild(avatarImage);
+            } else {
+              avatar.appendChild(anticon);
+            }
             avatarGroup.appendChild(avatar);
           }
         });
         avatarGroup.appendChild(plusAvatar);
       } else {
         gym.Users.forEach((user) => {
+          console.log('user:: ', user);
           const anticon = document.createElement('a');
           anticon.className = `${styles.anticon}`;
           anticon.innerHTML = anticonUser;
@@ -163,7 +170,13 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }) => {
           });
           const avatar = document.createElement('span');
           avatar.className = `${styles.avatar}`;
-          avatar.appendChild(anticon);
+          if (user.Image) {
+            const avatarImage = document.createElement('img');
+            avatarImage.src = user.Image?.src;
+            avatar.appendChild(avatarImage);
+          } else {
+            avatar.appendChild(anticon);
+          }
           avatarGroup.appendChild(avatar);
         });
       }

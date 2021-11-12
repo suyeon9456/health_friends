@@ -35,10 +35,11 @@ export const CardCover = styled.div`
 
   & > * {
     /* display: block; */
-    width: 100%;
+    height: 100%;
   }
 
   & > img {
+    width: 100px;
     height: 100%;
     border-radius: 2px 2px 0 0;
     vertical-align: middle;

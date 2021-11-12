@@ -14,7 +14,7 @@ const ProfileCard = ({
 }) => (
   <Card>
     <CardCover>
-      {image ? <img src={image} alt={image} /> : <Avatar size={72} />}
+      {image ? <img src={image} alt={image} /> : <Avatar size={100} />}
     </CardCover>
     <CardBody>
       <CardMeta>

@@ -1,5 +1,5 @@
 const express = require('express');
-const { Gym, User, Userdetail } = require('../models');
+const { Gym, User, Userdetail, Image } = require('../models');
 
 const router = express.Router();
 router.get('/', async (req, res, next) => { // GET /gym/
@@ -58,6 +58,8 @@ router.get('/:gymId', async (req, res, next) => { // GET /gym/1
         include: [{
           model: Userdetail,
           attributes: ['startTime', 'endTime', 'description'],
+        }, {
+          model: Image,
         }]
       }],
     });
