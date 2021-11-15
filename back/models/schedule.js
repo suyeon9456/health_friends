@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     collate: 'utf8mb4_general_ci',
   });
   Schedule.associate = (db) => {
-    db.Schedule.belongsTo(db.User, { as: 'User', foreignKey: 'UserId' });
+    db.Schedule.belongsTo(db.User, { as: 'Requester', foreignKey: 'UserId' });
     db.Schedule.belongsTo(db.User, { as: 'Friend', foreignKey: 'FriendId' });
     db.Schedule.belongsTo(db.Gym);
   };

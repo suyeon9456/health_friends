@@ -18,6 +18,9 @@ const ModalMatchingDetail = ({ show, onCancel, type, selectedTab }) => {
   const [startDate, setStartDate] = useState(schedule?.start || new Date());
   const [endDate, setEndDate] = useState(schedule?.end || new Date());
 
+  // const [nickname, setNickname] = useState('');
+  const [fNickname, setFNickname] = useState('');
+
   const onChangeStartDate = useCallback((data) => {
     setStartDate(data);
   }, []);
@@ -30,12 +33,11 @@ const ModalMatchingDetail = ({ show, onCancel, type, selectedTab }) => {
   const onSubmit = useCallback(async () => {
     const date = useDateFormat(startDate, 'yyyy-MM-dd');
     const time = useDateFormat(endDate, 'HH:mm');
+    const startDateTime = useDateFormat(startDate, 'yyyy-MM-dd HH:mm');
     const dateTime = [date, time].join(' ');
-    await setEndDate(new Date(dateTime));
-
     dispatch({
       type: UPDATE_SCHEDULE_REQUEST,
-      data: { startDate, endDate, description, id: schedule.id },
+      data: { startDate: startDateTime, endDate: dateTime, description, id: schedule.id },
     });
   }, [startDate, endDate, description, schedule]);
 
@@ -54,8 +56,19 @@ const ModalMatchingDetail = ({ show, onCancel, type, selectedTab }) => {
     });
     onCancel();
   }, [schedule]);
+
   useEffect(() => {
     if (schedule) {
+      const friend = schedule?.Friend?.id;
+      // setNickname(friend === me?.id
+      //   ? schedule?.requester?.nickname
+      //   : schedule?.friend?.nicknam);
+      setFNickname(friend === me?.id
+        ? schedule?.requester?.nickname
+        : schedule?.friend?.nickname);
+      console.log('schedule::', schedule);
+      console.log('friend === me?.id::', friend === me?.id);
+      console.log('fNickname::', fNickname);
       const start = useDateFormat(schedule?.start, 'yyyy년 MM월 dd일 HH:mm');
       const end = useDateFormat(schedule?.end, 'HH:mm');
       const matchingDate = [start, ' ~ ', end].join('');
@@ -69,7 +82,7 @@ const ModalMatchingDetail = ({ show, onCancel, type, selectedTab }) => {
   return (
     <Modal
       show={show}
-      title={`${schedule?.nickname}님과의 매칭${type !== 'view' ? '수정' : '정보'}`}
+      title={`${fNickname}님과의 매칭${type !== 'view' ? '수정' : '정보'}`}
       onCancel={onCancel}
       onSubmit={onSubmit}
       footer={type !== 'view'}
@@ -101,7 +114,7 @@ const ModalMatchingDetail = ({ show, onCancel, type, selectedTab }) => {
                 <Content>
                   <Avatar size={62} />
                   <div>
-                    <div className="nickname">{schedule?.nickname}</div>
+                    <div className="nickname">{fNickname}</div>
                   </div>
                 </Content>
               </InfoContent>

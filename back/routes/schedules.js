@@ -53,7 +53,7 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         UserId: req.user.id,
       }
     }
-    console.log(where);
+    console.log('where:::::::::::::::::::::::::::::::::');
 
     const schedule = await Schedule.findAll({
       where,
@@ -66,6 +66,13 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         [Sequelize.fn('date_format', Sequelize.col('endDate'), '%Y-%m-%d %H:%i'), 'endDate']
       ],
       include: [{
+        model: User,
+        as: 'Requester',
+        attributes: [
+          'id',
+          'nickname'
+        ],
+      }, {
         model: User,
         as: 'Friend',
         attributes: [

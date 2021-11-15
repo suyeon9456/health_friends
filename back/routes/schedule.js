@@ -14,7 +14,7 @@ router.post('/', async (req, res, next) => { // POST /schedule/
     })
     if (schedule) {
       console.log('req.body', req.body);
-      await schedule.setUser(req.body.userId);
+      await schedule.setRequester(req.body.userId);
       await schedule.setFriend(req.body.friendId);
       await schedule.setGym(req.body.gymId);
     }
@@ -41,6 +41,13 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
       ],
       include: [{
         model: User,
+        as: 'Requester',
+        attributes: [
+          'id',
+          'nickname'
+        ],
+      }, {
+        model: User,
         as: 'Friend',
         attributes: [
           'id',
@@ -60,6 +67,8 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
 
 router.put('/', async (req, res, next) => { // PUT /schedule/
   try {
+    console.log('req.body:: ', req.body);
+    console.log('start:: ', new Date(req.body.startDate));
     const schedule = await Schedule.update({
       startDate: req.body.startDate,
       endDate: req.body.endDate,

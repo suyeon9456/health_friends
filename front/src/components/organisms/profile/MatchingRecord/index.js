@@ -10,6 +10,7 @@ import { RecordBody, RecordFooter, RecordWrap, TabList } from './style';
 import ModalMatchingDetail from '../ModalMatchingDetail';
 
 const MatchingRecord = () => {
+  const { me } = useSelector((state) => state.user);
   const { schedules } = useSelector((state) => state.schedule);
   const dispatch = useDispatch();
   const [selectedTab, setSelectedTab] = useState('scheduledRecord');
@@ -54,11 +55,15 @@ const MatchingRecord = () => {
           const startDate = format(schedule.start, 'yyyy년 MM월 dd일 HH:mm');
           const endDate = format(schedule.end, 'HH:mm');
           const date = [startDate, ' ~ ', endDate].join('');
+          const friend = schedule?.friend?.id;
+          const nickname = friend === me?.id
+            ? schedule?.requester?.nickname
+            : schedule?.friend?.nickname;
           return (
             <MatchingCard
               key={schedule.id}
               id={schedule.id}
-              nickname={schedule.nickname}
+              nickname={nickname}
               description={schedule.address}
               date={date}
               actions={[{ icon: <RetweetOutlined />, key: 'rematch' },

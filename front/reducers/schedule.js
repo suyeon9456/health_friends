@@ -67,15 +67,16 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadSchedulesDone = true;
       draft.loadSchedulesError = null;
       draft.schedules = action.data.map((item) => {
-        console.log('date', new Date(item));
+        console.log('date', item);
         return ({
           id: item.id,
           start: new Date(item.startDate),
           end: new Date(item.endDate),
-          nickname: item.Friend.nickname,
+          // nickname: item.Friend.nickname,
           address: item.Gym.address,
           description: item.description,
           friend: item.Friend,
+          requester: item.Requester,
         });
       });
       break;
@@ -101,6 +102,7 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
         address: action.data.Gym.address,
         description: action.data.description,
         friend: action.data.Friend,
+        requester: action.data.Requester,
       };
       break;
     case LOAD_SCHEDULE_ERROR:
