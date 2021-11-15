@@ -14,28 +14,56 @@ export const CalendarWrap = styled.div`
   margin-top: 10px;
   padding: 30px 0px;
 
-  & > .rbc-calendar {
-    
-    & > .rbc-month-view {
-      & > .rbc-month-row {
-        & > .rbc-row-content {
-          & > .rbc-row {
-            & > .rbc-row-segment {
-              & > .rbc-event {
-                & > .rbc-event-content {
-                  
-                  .last-event-title & {
-                    background-color: red;
+.event-title {
+  display: block;
+  position: relative;
+  font-size: 12px;
+  font-weight: lighter;
+  width: 100%;
+  height: 100%;
 
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+  &::before {
+    position: absolute;
+    top: calc(50% - 2px);
+    background-color: #faad14;
+    border-radius: 50%;
+    content: ' ';
+    width: 5px;
+    height: 5px;
   }
+  & > .friend-nickname {
+    padding-left: 10px;
+    color: rgba(0,0,0,0.85);
+    font-size: 12px;
+    font-weight: lighter;
+  }
+}
+.last-event-title {
+  display: block;
+  position: relative;
+  font-size: 12px;
+  font-weight: lighter;
+  width: 100%;
+  height: 100%;
+
+  &::before {
+    position: absolute;
+    top: calc(50% - 2px);
+    background-color: #00000073;
+    border-radius: 50%;
+    content: ' ';
+    width: 5px;
+    height: 5px;
+  }
+
+  & > .friend-nickname {
+    padding-left: 10px;
+    color: #00000073;
+    font-size: 12px;
+    font-weight: lighter;
+    text-decoration:line-through;
+  }
+}
 
   & .rbc-toolbar{
     & > .rbc-btn-group {
@@ -140,25 +168,29 @@ export const CalendarWrap = styled.div`
   }
 
   & .rbc-event {
-    background-color: #faad14;
-    /* width: 6px; */
-    /* height: 6px; */
+    /* background-color: #faad14; */
+    background-color: #fff0;
     color: black;
-    padding: 0 5px;
-    border-radius: 50px;
+    padding: 0;
+    /* padding-right: 5px; */
+    /* padding: 0 5px;
+    border-radius: 50px; */
   }
 
-  & .event-title {
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: lighter;
+  & .rbc-day-slot .rbc-events-container {
+    margin: 0;
   }
 
-  .last-event-title &{
-    background-color: red !important;
-  }
+  & .rbc-day-slot .rbc-event {
+    border-color: #b37feb;
+    background: #e9d8fd;
+    border-radius: 0;
+    margin: 0;
 
-  
+    & > {
+      width: 100%;
+    }
+  }
 `;
 
 export const CardWrap = styled.div`

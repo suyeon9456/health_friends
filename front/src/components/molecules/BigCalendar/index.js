@@ -24,16 +24,15 @@ const formats = {
 };
 
 const Event = ({ event }) => {
-  console.log('event', event);
-  console.log('event', new Date());
-  console.log('compareAsc', compareAsc(new Date(event.start), new Date()));
   // 오늘 일자보다 전 일자의 event는 -1을 리턴한다.
   const compareToday = compareAsc(new Date(event.start), new Date());
   return (
-    <span className={compareToday < 0 ? 'last-event-title' : 'event-title'}>
-      <strong>{event?.nickname}</strong>
-      {event.desc}
-    </span>
+    <div className={compareToday < 0 ? 'last-event-title' : 'event-title'}>
+      <span className="friend-nickname">
+        <strong>{event?.nickname}</strong>
+        {event.desc}
+      </span>
+    </div>
   );
 };
 

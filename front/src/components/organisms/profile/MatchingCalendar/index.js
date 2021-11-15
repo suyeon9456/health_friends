@@ -13,6 +13,7 @@ const actions = [{ icon: <UserAddOutlined />, key: 'rematch' }, { icon: <EditOut
 const MatchingCalendar = () => {
   const dispatch = useDispatch();
   const { schedules } = useSelector((state) => state.schedule);
+  const { me } = useSelector((state) => state.user);
   // let myEventsList = [
   //   { start: new Date('2021-10-26'), end: new Date('2021-10-26'), nickname: 'jaeuk1' },
   //   // { start: new Date('2021-10-26'), end: new Date('2021-10-26'), nickname: 'jaeuk2' },
@@ -22,12 +23,12 @@ const MatchingCalendar = () => {
   const [nickname, setNickname] = useState('');
   const [address, setAddress] = useState('');
   const [date, setDate] = useState('');
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  // const [startDate, setStartDate] = useState(new Date());
+  // const [endDate, setEndDate] = useState(new Date());
 
   const onSelectEvent = useCallback((event) => {
     // console.log('event 클릭', events);
-    console.log(event);
+    // console.log(event);
     setNickname(event.nickname);
     setAddress(event.address);
     setDate(format(event.start, 'yyyy-MM-dd HH:mm'));
@@ -40,7 +41,7 @@ const MatchingCalendar = () => {
 
   const onRangeChange = useCallback((changeDate) => {
     if (changeDate) {
-      console.log('?', changeDate);
+      // console.log('?', changeDate);
       // const { start, end } = changeDate;
       // setNowDate(changeDate);
     }
@@ -55,7 +56,13 @@ const MatchingCalendar = () => {
 
   useEffect(() => {
     if (!_.isEmpty(schedules)) {
-      setEvents(schedules);
+      console.log(schedules);
+      setEvents(schedules.map((schedule) => {
+        const nickname = schedule?.Friend?.id === me?.id
+          ? schedule?.requester?.nickname
+          : schedule?.friend?.nickname;
+        return { ...schedule, nickname };
+      }));
     }
   }, [schedules]);
 
