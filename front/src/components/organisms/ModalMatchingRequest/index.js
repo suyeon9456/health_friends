@@ -13,7 +13,17 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend }) => {
   const { me } = useSelector((state) => state.user);
   const { gym } = useSelector((state) => state.gym);
   const { addScheduleDone } = useSelector((state) => state.schedule);
-  const [date, setDate] = useState(new Date());
+
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  const onChangeStartDate = useCallback((data) => {
+    setStartDate(data);
+  }, []);
+  const onChangeEndDate = useCallback((data) => {
+    setEndDate(data);
+  }, []);
+
   const [description, onChangeDescription] = useInput('');
   useEffect(() => {
     if (addScheduleDone) {
@@ -29,14 +39,16 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend }) => {
     dispatch({
       type: ADD_SCHEDULE_REQUEST,
       data: {
-        date,
+        startDate,
+        endDate,
         description,
         userId: me?.id,
         friendId: friend?.id,
         gymId: gym?.id,
       },
     });
-  }, [date, description]);
+    onChangeShowModal();
+  }, [startDate, endDate, description]);
 
   return (
     <Modal
@@ -53,11 +65,14 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend }) => {
       footer
     >
       <MatchingRequestForm
+        type="add"
         friend={friend}
-        date={date}
-        setDate={setDate}
         description={description}
         onChangeDescription={onChangeDescription}
+        startDate={startDate}
+        onChangeStartDate={onChangeStartDate}
+        endDate={endDate}
+        onChangeEndDate={onChangeEndDate}
       />
     </Modal>
   );

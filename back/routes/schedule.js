@@ -6,7 +6,8 @@ const router = express.Router();
 router.post('/', async (req, res, next) => { // POST /schedule/
   try {
     const schedule = await Schedule.create({
-      date: req.body.date,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
       description: req.body.description,
       permission: false,
       isPermitted: false,
