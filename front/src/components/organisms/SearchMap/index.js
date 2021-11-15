@@ -150,7 +150,8 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }) => {
           if (i <= 3) {
             if (user.Image) {
               const avatarImage = document.createElement('img');
-              avatarImage.src = user.Image?.src;
+              avatarImage.className = `${styles.avatarImage}`;
+              avatarImage.src = `http://localhost:6015/${user.Image?.src}`;
               avatar.appendChild(avatarImage);
             } else {
               avatar.appendChild(anticon);
@@ -171,8 +172,10 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }) => {
           const avatar = document.createElement('span');
           avatar.className = `${styles.avatar}`;
           if (user.Image) {
+            console.log('userImage', user.Image);
             const avatarImage = document.createElement('img');
-            avatarImage.src = user.Image?.src;
+            avatarImage.className = `${styles.avatarImage}`;
+            avatarImage.src = `http://localhost:6015/${user.Image?.src}`;
             avatar.appendChild(avatarImage);
           } else {
             avatar.appendChild(anticon);
