@@ -1,4 +1,5 @@
 const express = require('express');
+const { Op } = require('sequelize');
 const { Gym, User, Userdetail, Image } = require('../models');
 
 const router = express.Router();
@@ -48,12 +49,19 @@ router.get('/:gymId', async (req, res, next) => { // GET /gym/1
     // if(parseInt(req.query.lastId, 10)) {
     //   where.id = { [Op.lt]: parseInt(req.query.lastId, 10) }
     // }
+    const userWhere = {};
+    if (req.user) {
+      userWhere.id = {
+        [Op.ne]: req.user.id,
+      }
+    }
 
     const gymWithFriends = await Gym.findOne({
       where: { id: gym.id },
       attributes: ['id', 'name', 'latitude', 'longitude', 'address'],
       include: [{
         model: User,
+        where: userWhere,
         attributes: ['id', 'nickname', 'gender'],
         include: [{
           model: Userdetail,
