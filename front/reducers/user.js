@@ -273,6 +273,7 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.updateMyNicknameDone = true;
       draft.updateMyNicknameError = null;
       draft.me.nickname = action.data.nickname;
+      draft.profile.nickname = action.data.nickname;
       break;
     case UPDATE_MY_NICKNAME_ERROR:
       draft.updateMyNicknameLoading = false;
@@ -288,6 +289,7 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.updateMyDescriptionDone = true;
       draft.updateMyDescriptionError = null;
       draft.me.description = action.data.description;
+      draft.profile.Userdetail.description = action.data.description;
       break;
     case UPDATE_MY_DESCRIPTION_ERROR:
       draft.updateMyDescriptionLoading = false;

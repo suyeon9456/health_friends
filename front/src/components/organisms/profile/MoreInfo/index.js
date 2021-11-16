@@ -17,8 +17,10 @@ const MoreInfo = () => {
   const [targetId, setTargetId] = useState('');
 
   const onChangeShowEditModal = useCallback((e) => {
-    setTargetId(e.target.id);
-    setShowEditModal((prev) => !prev);
+    if (e) {
+      setTargetId(e.target.id);
+      setShowEditModal((prev) => !prev);
+    }
   }, [showEditModal]);
   return (
     <MoreInfoWrapper>

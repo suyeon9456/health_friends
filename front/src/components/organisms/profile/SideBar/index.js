@@ -108,7 +108,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           )
           : (
             <>
-              <Avatar size={128} src={me?.Image ? `http://localhost:6015/${me?.Image?.src}` : ''} />
+              <Avatar size={128} src={profile?.Image ? `http://localhost:6015/${profile?.Image?.src}` : ''} />
               {me?.id && (
                 <div>
                   <a onClick={onChangeUploadState}>프로필 사진 변경하기</a>
@@ -122,13 +122,13 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           <InfoIconWrapper>
             <TrophyOutlined />
           </InfoIconWrapper>
-          <Progress label="재매칭률" percent={rematchingRate} />
+          <Progress label="재매칭률" percent={rematchingRate || 0} />
         </InfoContent>
         <InfoContent key="response">
           <InfoIconWrapper>
             <CommentOutlined />
           </InfoIconWrapper>
-          <Progress label="응답률" percent={responseRate} />
+          <Progress label="응답률" percent={responseRate || 0} />
         </InfoContent>
         <InfoContent key="address">
           <InfoIconWrapper>

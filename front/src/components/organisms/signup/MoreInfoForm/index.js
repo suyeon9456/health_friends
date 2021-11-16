@@ -4,17 +4,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SIGN_UP_STEP_MORE_INFO_SAVE, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV } from '../../../../../reducers/user';
 import useInput from '../../../../hooks/useInput';
 import { Button } from '../../../atoms';
-import { FormSelect, FormInputNumber } from '../../../molecules';
+import { FormSelect } from '../../../molecules';
 import { ButtonWrap, MoreInfoFormWrapper } from './style';
 
 const MoreInfoForm = () => {
   const { careerOptions,
     roleOptions,
     signupStepMoreInfo,
-    genderOptions } = useSelector((state) => state.user);
+    genderOptions,
+    ageOptions } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [gender, onChangeGender] = useInput(signupStepMoreInfo?.gender || 'male');
-  const [age, onChangeAge, setAge] = useInput(signupStepMoreInfo?.age || 0);
+  const [age, onChangeAge] = useInput(signupStepMoreInfo?.age || 0);
   const [career, onChangeCareer] = useInput(signupStepMoreInfo?.career || 1);
   const [role, onChangeRole] = useInput(signupStepMoreInfo?.role || 1);
 
@@ -39,13 +40,12 @@ const MoreInfoForm = () => {
         value={gender}
         onChange={onChangeGender}
       />
-      <FormInputNumber
+      <FormSelect
         label="나이"
-        placeholder="나이(숫자만)를 입력해주세요."
         size="large"
+        options={ageOptions}
         value={age}
         onChange={onChangeAge}
-        setValue={setAge}
       />
       <FormSelect
         label="운동경력"

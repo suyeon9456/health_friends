@@ -52,6 +52,7 @@ const MatchingRecord = () => {
       </TabList>
       <RecordBody schedules={schedules.length}>
         {schedules?.map((schedule) => {
+          console.log('schedule: ', schedule);
           const startDate = format(schedule.start, 'yyyy년 MM월 dd일 HH:mm');
           const endDate = format(schedule.end, 'HH:mm');
           const date = [startDate, ' ~ ', endDate].join('');
@@ -59,12 +60,16 @@ const MatchingRecord = () => {
           const nickname = friend === me?.id
             ? schedule?.requester?.nickname
             : schedule?.friend?.nickname;
+          const imageSrc = friend === me?.id
+            ? schedule?.requester?.Image?.src
+            : schedule?.friend?.Image?.src;
           return (
             <MatchingCard
               key={schedule.id}
               id={schedule.id}
               nickname={nickname}
               description={schedule.address}
+              image={`http://localhost:6015/${imageSrc}`}
               date={date}
               actions={[{ icon: <RetweetOutlined />, key: 'rematch' },
                 { icon: <EditOutlined />, key: 'edit' }]}

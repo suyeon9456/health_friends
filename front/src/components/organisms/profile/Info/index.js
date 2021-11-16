@@ -17,8 +17,10 @@ const Info = () => {
   const [isEditNickname, setIsEditNickname] = useState(false);
   const [isEditDescription, setIsEditDescription] = useState(false);
 
-  const [nickname, onChangeNickname] = useInput('');
-  const [description, onChangeDescription] = useInput('');
+  const [nickname, onChangeNickname, setNickname] = useInput('');
+  const [description,
+    onChangeDescription,
+    setDescription] = useInput('');
 
   const onChangeIsEditNickname = useCallback(() => {
     setIsEditNickname((prev) => !prev);
@@ -49,6 +51,11 @@ const Info = () => {
     //   setStateWarning(true);
     // }
   }, [me && me.id]);
+
+  useEffect(() => {
+    setNickname(profile?.nickname);
+    setDescription(profile?.Userdetail?.description);
+  }, [profile]);
 
   useEffect(() => {
     if (updateMyNicknameDone) {

@@ -25,6 +25,7 @@ const formats = {
 
 const Event = ({ event }) => {
   // 오늘 일자보다 전 일자의 event는 -1을 리턴한다.
+  console.log('event: ', event);
   const compareToday = compareAsc(new Date(event.start), new Date());
   return (
     <div className={compareToday < 0 ? 'last-event-title' : 'event-title'}>

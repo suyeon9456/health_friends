@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const Card = styled.div`
   display: inline-block;
   width: 300px;
-  /* min-width: 250px; */
   border: 1px solid #f0f0f0;
   box-sizing: border-box;
   margin: 0;
@@ -35,7 +34,7 @@ export const CardCover = styled.div`
     border-radius: 2px 2px 0 0;
     vertical-align: middle;
     border-style: none;
-    object-fit:contain;
+    object-fit: cover;
   }
 
   & > div {

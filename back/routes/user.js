@@ -194,6 +194,7 @@ router.patch('/description', isLoggedIn, async (req, res, next) => {
 
 router.put('/', isLoggedIn, async (req, res, next) => {
   try {
+    console.log('req.body', req.body);
     await User.update({
       nickname: req.body.nickname,
       gender: req.body.gender,
@@ -227,6 +228,18 @@ router.put('/', isLoggedIn, async (req, res, next) => {
           'friendsGender',
           'friendsRole'
         ],
+      }, {
+        model: Gym,
+      }, {
+        model: Schedule,
+        as: 'reqSchedule',
+        attributes: ['id', 'permission', 'FriendId']
+      }, {
+        model: Schedule,
+        as: 'resSchedule',
+        attributes: ['id', 'isPermitted', 'permission', [Sequelize.col('UserId'), 'FriendId']]
+      }, {
+        model: Image,
       }]
     });
     res.status(200).json(user);

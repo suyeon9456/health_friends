@@ -7,7 +7,6 @@ import useInput from '../../../../hooks/useInput';
 import { ButtonWrap, FormWrapper } from './style';
 import Button from '../../../atoms/Button';
 import FormSelect from '../../../molecules/FormSelect';
-import FormInputNumber from '../../../molecules/FormInputNumber';
 
 const FriendsInfoForm = () => {
   const dispatch = useDispatch();
@@ -15,6 +14,7 @@ const FriendsInfoForm = () => {
     genderOptions,
     careerOptions,
     roleOptions,
+    ageOptions,
     selectedGym,
     signupStepInfo: info,
     signupStepMoreInfo: moreInfo,
@@ -24,7 +24,7 @@ const FriendsInfoForm = () => {
   const [friendsGender, onChangeFriendsGender] = useInput(signupStepFriendsInfo?.friendsGender || 'male');
   const [friendsCareer, onChangeFriendsCareer] = useInput(signupStepFriendsInfo?.friendsCareer
     || 1);
-  const [friendsAge, onChangeFriendsAge, setFriendsAge] = useInput(signupStepFriendsInfo?.friendsAge
+  const [friendsAge, onChangeFriendsAge] = useInput(signupStepFriendsInfo?.friendsAge
     || 0);
   const [friendsRole, onChangeFriendsRole] = useInput(signupStepFriendsInfo?.friendsRole || 1);
   const onClickPrev = useCallback(() => {
@@ -62,13 +62,12 @@ const FriendsInfoForm = () => {
         value={friendsGender}
         onChange={onChangeFriendsGender}
       />
-      <FormInputNumber
+      <FormSelect
         label="나이"
         size="large"
-        placeholder="나이(숫자만)를 입력해주세요."
+        options={ageOptions}
         value={friendsAge}
         onChange={onChangeFriendsAge}
-        setValue={setFriendsAge}
       />
       <FormSelect
         label="운동경력"

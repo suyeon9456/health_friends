@@ -1,13 +1,20 @@
 const express = require('express');
 const { Op } = Sequelize = require('sequelize');
-const { Schedule, User, Gym } = require('../models');
+const { Schedule, User, Gym, Image } = require('../models');
 
 const router = express.Router();
 
 router.get('/', async (req, res, next) => { // GET /schedules/
   try {
     console.log(req.query);
-    let where = {}
+    console.log('user: ', req.user);
+    let where = {
+      [Op.or]: [{
+          UserId: req.user.id,
+        }, {
+          FriendId: req.user.id,
+      }],
+    }
     if (req.query.type === 'scheduledRecord') {
       where = {
         startDate: { [Op.gte]: new Date() },
@@ -53,7 +60,7 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         UserId: req.user.id,
       }
     }
-    console.log('where:::::::::::::::::::::::::::::::::');
+    console.log('where:::::::::::::::::::::::::::::::::', where);
 
     const schedule = await Schedule.findAll({
       where,
@@ -72,6 +79,9 @@ router.get('/', async (req, res, next) => { // GET /schedules/
           'id',
           'nickname'
         ],
+        include: [{
+          model: Image,
+        }],
       }, {
         model: User,
         as: 'Friend',
@@ -79,6 +89,9 @@ router.get('/', async (req, res, next) => { // GET /schedules/
           'id',
           'nickname'
         ],
+        include: [{
+          model: Image,
+        }],
       }, {
         model: Gym,
         attributes: ['address'],

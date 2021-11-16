@@ -7,6 +7,7 @@ import useInput from '../../../hooks/useInput';
 import { Avatar } from '../../atoms';
 import { Modal } from '../../molecules';
 import MatchingRequestForm from '../MatchingRequestForm';
+import { useDateFormat } from '../../../hooks';
 
 const ModalMatchingRequest = ({ showModal, setShowModal, friend }) => {
   const dispatch = useDispatch();
@@ -36,11 +37,14 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend }) => {
   }, []);
 
   const onMatchingRequest = useCallback(() => {
+    const date = useDateFormat(startDate, 'yyyy-MM-dd');
+    const time = useDateFormat(endDate, 'HH:mm');
+    const end = new Date([date, time].join(' '));
     dispatch({
       type: ADD_SCHEDULE_REQUEST,
       data: {
         startDate,
-        endDate,
+        endDate: end,
         description,
         userId: me?.id,
         friendId: friend?.id,
@@ -81,7 +85,7 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend }) => {
 ModalMatchingRequest.propTypes = {
   showModal: PropTypes.bool.isRequired,
   setShowModal: PropTypes.func.isRequired,
-  friend: PropTypes.object,
+  friend: PropTypes.any,
 };
 
 export default ModalMatchingRequest;
