@@ -66,7 +66,7 @@ export const MenuItem = styled.li`
     content: "";
   }
 
-  ${({ type }) => type === 'search' && css`
+  ${({ type }) => type === 'right' && css`
     opacity: 1;
     order: 2;
     float: right;

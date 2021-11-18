@@ -2,18 +2,12 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
 
 import { LOG_OUT_REQUEST } from '../../../../reducers/user';
 import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
-import { Search, Avatar } from '../../atoms';
+import { Avatar } from '../../atoms';
 
-const SearchBox = styled(Search)`
-  vertical-align: middle;
-  width: 300px;
-`;
-
-const Menu = ({ type }) => {
+const Menu = () => {
   const { me } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const onLogout = useCallback(() => {
@@ -22,7 +16,7 @@ const Menu = ({ type }) => {
   return (
     <MenuList>
       <MenuItem
-        type={type}
+        type="left"
       >
         <MenuTitle>
           <Link href="/">
@@ -33,7 +27,7 @@ const Menu = ({ type }) => {
         </MenuTitle>
       </MenuItem>
       <MenuItem
-        type={type}
+        type="left"
       >
         <MenuTitle>
           <Link href="/friends">
@@ -43,19 +37,12 @@ const Menu = ({ type }) => {
           </Link>
         </MenuTitle>
       </MenuItem>
-      <MenuItem
-        type="search"
-      >
-        <MenuTitle>
-          <SearchBox enterButton />
-        </MenuTitle>
-      </MenuItem>
       { me
         ? (
           <>
             <MenuItem
-              type={type}
-              style={{ order: '3' }}
+              type="right"
+              style={{ order: '2' }}
             >
               <MenuTitle>
                 <MenuText onClick={onLogout}>
@@ -64,8 +51,8 @@ const Menu = ({ type }) => {
               </MenuTitle>
             </MenuItem>
             <MenuItem
-              type={type}
-              style={{ order: '4' }}
+              type="left"
+              style={{ order: '3' }}
             >
               <MenuTitle>
                 <Link href={`/profile/${me?.id}`}>
@@ -78,8 +65,8 @@ const Menu = ({ type }) => {
         : (
           <>
             <MenuItem
-              type={type}
-              style={{ order: '3' }}
+              type="right"
+              style={{ order: '2' }}
             >
               <MenuTitle>
                 <Link href="/login">
@@ -90,8 +77,8 @@ const Menu = ({ type }) => {
               </MenuTitle>
             </MenuItem>
             <MenuItem
-              type={type}
-              style={{ order: '4' }}
+              type="left"
+              style={{ order: '3' }}
             >
               <MenuTitle>
                 <Link href="/signup">
@@ -105,11 +92,6 @@ const Menu = ({ type }) => {
         )}
     </MenuList>
   );
-};
-
-Menu.propTypes = {
-  type: PropTypes.string,
-  // props: PropTypes.any,
 };
 
 export default Menu;
