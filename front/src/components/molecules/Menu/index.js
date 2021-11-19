@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import Link from 'next/link';
+import { MenuOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { LOG_OUT_REQUEST } from '../../../../reducers/user';
@@ -16,7 +16,8 @@ const Menu = () => {
   return (
     <MenuList>
       <MenuItem
-        type="left"
+        type="home"
+        align="left"
       >
         <MenuTitle>
           <Link href="/">
@@ -27,7 +28,8 @@ const Menu = () => {
         </MenuTitle>
       </MenuItem>
       <MenuItem
-        type="left"
+        align="left"
+        type="pc"
       >
         <MenuTitle>
           <Link href="/friends">
@@ -41,7 +43,8 @@ const Menu = () => {
         ? (
           <>
             <MenuItem
-              type="right"
+              type="pc"
+              align="right"
               style={{ order: '2' }}
             >
               <MenuTitle>
@@ -51,7 +54,8 @@ const Menu = () => {
               </MenuTitle>
             </MenuItem>
             <MenuItem
-              type="left"
+              type="pc"
+              align="left"
               style={{ order: '3' }}
             >
               <MenuTitle>
@@ -65,7 +69,8 @@ const Menu = () => {
         : (
           <>
             <MenuItem
-              type="right"
+              type="pc"
+              align="right"
               style={{ order: '2' }}
             >
               <MenuTitle>
@@ -77,7 +82,8 @@ const Menu = () => {
               </MenuTitle>
             </MenuItem>
             <MenuItem
-              type="left"
+              type="pc"
+              align="left"
               style={{ order: '3' }}
             >
               <MenuTitle>
@@ -90,6 +96,19 @@ const Menu = () => {
             </MenuItem>
           </>
         )}
+      <MenuItem
+        type="tablet-phone"
+        align="right"
+        style={{ order: '2' }}
+      >
+        <MenuTitle>
+          <Link href="/signup">
+            <MenuText>
+              <MenuOutlined />
+            </MenuText>
+          </Link>
+        </MenuTitle>
+      </MenuItem>
     </MenuList>
   );
 };

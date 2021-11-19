@@ -13,13 +13,11 @@ export const MenuList = styled.ul`
   padding-left: 0;
   color: rgba(0, 0, 0, 0.85);
   font-size: 14px;
-  line-height: 0;
   text-align: left;
   list-style: none;
   background: #fff;
   outline: none;
   -webkit-box-shadow: 0 3px 6px -4px rgb(0 0 0 / 12%), 0 6px 16px 0 rgb(0 0 0 / 8%), 0 9px 28px 8px rgb(0 0 0 / 5%);
-  /* box-shadow: 0 3px 6px -4px rgb(0 0 0 / 12%), 0 6px 16px 0 rgb(0 0 0 / 8%), 0 9px 28px 8px rgb(0 0 0 / 5%); */
   -webkit-transition: background 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
   -moz-transition: background 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
   transition: background 0.3s, width 0.3s cubic-bezier(0.2, 0, 0, 1) 0s;
@@ -40,9 +38,7 @@ export const MenuList = styled.ul`
 
 export const MenuItem = styled.li`
   position: relative;
-  display: block;
   margin: 0;
-  padding: 0 20px;
   white-space: nowrap;
   cursor: pointer;
   -webkit-transition: border-color 0.3s, background 0.3s, padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -51,7 +47,6 @@ export const MenuItem = styled.li`
   margin-top: -1px;
   margin-bottom: 0;
   padding: 0 20px;
-  position: relative;
   top: 1px;
   display: inline-block;
   transition: border-color 0.3s, background 0.3s;
@@ -66,12 +61,38 @@ export const MenuItem = styled.li`
     content: "";
   }
 
-  ${({ type }) => type === 'right' && css`
+  ${({ align }) => align === 'right' && css`
     opacity: 1;
     order: 2;
     float: right;
     margin-left: auto;
   `}
+  @media (min-width: 768px) {
+    ${({ type }) => {
+    if (type === 'tablet-phone') {
+      return css`
+        display: none;
+      `;
+    }
+
+    return css`
+      display: inline-block;
+    `;
+  }}
+  }
+
+  @media (max-width: 767px) {
+    ${({ type }) => {
+    if (type === 'pc') {
+      return css`
+        display: none;
+      `;
+    }
+    return css`
+      display: inline-block;
+    `;
+  }}
+  }
 
   &:hover {
     & > span > a {
@@ -96,7 +117,6 @@ export const MenuTitle = styled.span`
 `;
 
 export const MenuText = styled.a`
-  color: #1890ff;
   text-decoration: none;
   background-color: transparent;
   outline: none;
