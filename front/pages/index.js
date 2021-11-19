@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 
 import AppLayout from '../src/components/organisms/AppLayout';
+import DrawerMenu from '../src/components/molecules/DrawerMenu';
 
 import wrapper from '../store/configureStore';
 
@@ -19,6 +20,7 @@ const Home = () => {
       <div>
         background image
       </div>
+      <DrawerMenu />
     </AppLayout>
   );
 };

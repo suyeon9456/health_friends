@@ -27,7 +27,7 @@ export const DrawerMask = styled.div`
 export const DrawerContentWrap = styled.div`
   position: absolute;
   height: 100%;
-  min-width: 350px;
+  width: 300px;
   right: 0;
   transition: transform .3s cubic-bezier(.23,1,.32,1),box-shadow .3s cubic-bezier(.23,1,.32,1);
   box-shadow: -6px 0 16px -8px #00000014, -9px 0 28px #0000000d, -12px 0 48px 16px #00000008;
@@ -79,7 +79,7 @@ export const DrawerHeaderTitle = styled.div`
 `;
 
 export const DrawerTitle = styled.div`
-  width: 260px;
+  width: 220px;
   margin: 0;
   color: #000000d9;
   font-weight: 500;
