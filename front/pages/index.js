@@ -8,6 +8,9 @@ import DrawerMenu from '../src/components/molecules/DrawerMenu';
 import wrapper from '../store/configureStore';
 
 const Home = () => {
+  // const { drawerShow } = useShowState();
+  // const contextDispatch = useShowDispatch();
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({
@@ -20,7 +23,7 @@ const Home = () => {
       <div>
         background image
       </div>
-      <DrawerMenu />
+      {/* <DrawerMenu drawerShow={drawerShow} /> */}
     </AppLayout>
   );
 };

@@ -1,26 +1,38 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Drawer = styled.div`
   position: fixed;
-  width: 100%;
-  height: 100%;
-  transition: transform .3s cubic-bezier(.23,1,.32,1);
+  width: 0;
+  height: 0;
   right: 0;
   top: 0;
   z-index: 1000;
+  transition: width 0s ease .3s,height 0s ease .3s;
+  
+  ${({ drawerShow }) => drawerShow === true && css`
+    width: 100%;
+    height: 100%;
+    transition: transform .3s cubic-bezier(.23,1,.32,1);
+
+    & > .mask {
+      pointer-events: auto;
+      transition: none;
+      opacity: 1;
+      height: 100%;
+
+    }
+  `}
 `;
 
 export const DrawerMask = styled.div`
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 0;
   top: 0;
   left: 0;
-  opacity: 1;
-  transition: none;
-  /* animation: antdDrawerFadeIn .3s cubic-bezier(.23,1,.32,1); */
+  opacity: 0;
   transition: opacity .3s linear,height 0s ease .3s;
-  pointer-events: auto;
+  pointer-events: none;
   background-color: #00000073;
 `;
 
@@ -30,7 +42,18 @@ export const DrawerContentWrap = styled.div`
   width: 300px;
   right: 0;
   transition: transform .3s cubic-bezier(.23,1,.32,1),box-shadow .3s cubic-bezier(.23,1,.32,1);
-  box-shadow: -6px 0 16px -8px #00000014, -9px 0 28px #0000000d, -12px 0 48px 16px #00000008;
+  ${({ drawerShow }) => {
+    if (drawerShow) {
+      return css`
+        transform: none;
+        box-shadow: -6px 0 16px -8px #00000014, -9px 0 28px #0000000d, -12px 0 48px 16px #00000008;
+        transition: transform .3s cubic-bezier(.23,1,.32,1),box-shadow .3s cubic-bezier(.23,1,.32,1);
+      `;
+    }
+    return css`
+      transform: translateX(100%);
+    `;
+  }}
 `;
 
 export const DrawerContent = styled.div`

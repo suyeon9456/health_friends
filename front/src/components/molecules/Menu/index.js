@@ -4,15 +4,27 @@ import { MenuOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { LOG_OUT_REQUEST } from '../../../../reducers/user';
+import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
 import { Avatar } from '../../atoms';
 
 const Menu = () => {
   const { me } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  const { drawerShow } = useShowState();
+  const contextDispatch = useShowDispatch();
   const onLogout = useCallback(() => {
     dispatch({ type: LOG_OUT_REQUEST });
   }, []);
+
+  const changeShowDrawerMenu = useCallback(() => {
+    console.log('test');
+    contextDispatch({
+      type: 'CHANGE_STATE',
+      value: !drawerShow,
+    });
+  }, [drawerShow]);
   return (
     <MenuList>
       <MenuItem
@@ -102,11 +114,9 @@ const Menu = () => {
         style={{ order: '2' }}
       >
         <MenuTitle>
-          <Link href="/signup">
-            <MenuText>
-              <MenuOutlined />
-            </MenuText>
-          </Link>
+          <MenuText onClick={changeShowDrawerMenu}>
+            <MenuOutlined />
+          </MenuText>
         </MenuTitle>
       </MenuItem>
     </MenuList>

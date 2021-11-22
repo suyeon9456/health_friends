@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import { CloseOutlined, LoginOutlined, LogoutOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
 
 import { Button, Avatar } from '../../atoms';
@@ -8,18 +9,29 @@ import { Button, Avatar } from '../../atoms';
 import { Drawer, DrawerBody, DrawerContent, DrawerContentWrap, DrawerHeader, DrawerHeaderTitle, DrawerMask, DrawerTitle, DrawerWrapBody, MemberMenu, MemberMenuItem, Menu, MenuItem, MenuText, MenuTitle } from './style';
 // import { MenuItem, MenuText, MenuTitle } from '../Menu/style';
 import { LOG_OUT_REQUEST } from '../../../../reducers/user';
+import { useShowDispatch } from '../../../../store/contextStore';
 
-const DrawerMenu = () => {
+const DrawerMenu = ({ drawerShow }) => {
   const { me } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  const contextDispatch = useShowDispatch();
 
   const onLogout = useCallback(() => {
     dispatch({ type: LOG_OUT_REQUEST });
   }, []);
+
+  const changeShowDrawerMenu = useCallback(() => {
+    console.log('test');
+    contextDispatch({
+      type: 'CHANGE_STATE',
+      value: !drawerShow,
+    });
+  }, [drawerShow]);
   return (
-    <Drawer>
-      <DrawerMask />
-      <DrawerContentWrap>
+    <Drawer drawerShow={drawerShow}>
+      <DrawerMask className="mask" />
+      <DrawerContentWrap className="wrap" drawerShow={drawerShow}>
         <DrawerContent>
           <DrawerWrapBody>
             <DrawerHeader>
@@ -30,7 +42,7 @@ const DrawerMenu = () => {
                     {me?.nickname}님, 안녕하세요.
                   </DrawerTitle>
                 )}
-                <Button type="text" icon={<CloseOutlined />} />
+                <Button type="text" icon={<CloseOutlined />} onClick={changeShowDrawerMenu} />
               </DrawerHeaderTitle>
             </DrawerHeader>
             {
@@ -99,6 +111,10 @@ const DrawerMenu = () => {
       </DrawerContentWrap>
     </Drawer>
   );
+};
+
+DrawerMenu.propTypes = {
+  drawerShow: PropTypes.bool.isRequired,
 };
 
 export default DrawerMenu;
