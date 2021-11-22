@@ -7,6 +7,15 @@ export const SearchWrapper = styled.section`
   border: 1px solid #f0f0f0;
   overflow: hidden;
   box-sizing: border-box;
+  height: 581px;
+
+  ${({ foldedBlock }) => foldedBlock && css`
+    height: 43px;
+  `}
+
+  ${({ foldedOnlyGym }) => foldedOnlyGym && css`
+    height: 537px;
+  `}
 
   @media (min-width: 768px) {
     height: 100%;
@@ -77,7 +86,7 @@ export const GymWrapper = styled.div`
   `}
   
   @media (min-width: 768px) {
-    width: calc(100% - 40px);
+    width: calc(100% - 43px);
     height: 100%;
     border-radius: 0 5px 5px 0;
     ${({ foldedGym }) => foldedGym && css`

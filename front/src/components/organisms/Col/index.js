@@ -13,9 +13,9 @@ const Col = ({ span, xs, md, children }) => (
 );
 
 Col.propTypes = {
-  span: PropTypes.string,
+  span: PropTypes.node,
   xs: PropTypes.number,
-  md: PropTypes.number,
+  md: PropTypes.node,
   children: PropTypes.node,
 };
 

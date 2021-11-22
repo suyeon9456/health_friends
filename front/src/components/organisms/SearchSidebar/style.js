@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const Sidebar = styled.div`
   position: relative;
@@ -22,15 +22,12 @@ export const Sidebar = styled.div`
         color: #00000073;
         font-size: 16px;
         padding-left: 7px;
-        ${({ foldedGym }) => !foldedGym && css`
-          color: #b37feb;
-        `}
       }
     }
   
   @media (min-width: 768px) {
     border: 0;
-    width: 40px;
+    width: 43px;
     height: 100%;
     padding: 16px 0;
     float: left;

@@ -10,6 +10,7 @@ import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 
 const Friends = () => {
   const [foldedFriends, setFoldedFriends] = useState(true);
+  const [foldedGym, setFoldedGym] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({
@@ -20,13 +21,15 @@ const Friends = () => {
   return (
     <AppLayout>
       <Row>
-        <Col xs={24} md={8}>
+        <Col xs={24} md={(foldedGym && foldedFriends) ? 1 : 8}>
           <SearchGyms
             foldedFriends={foldedFriends}
             setFoldedFriends={setFoldedFriends}
+            foldedGym={foldedGym}
+            setFoldedGym={setFoldedGym}
           />
         </Col>
-        <Col xs={24} md={16}>
+        <Col xs={24} md={(foldedGym && foldedFriends) ? 23 : 16}>
           <SearchMap
             foldedFriends={foldedFriends}
             setFoldedFriends={setFoldedFriends}

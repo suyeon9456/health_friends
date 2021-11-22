@@ -6,7 +6,7 @@ export const SearchFriendsWrapper = styled.div`
   width: 100%;
   max-height: 535px;
   left: 0;
-  top: 589px;
+  top: 590px;
   flex-direction: column;
   flex-wrap: nowrap;
   background-color: #ffffff;
@@ -17,20 +17,21 @@ export const SearchFriendsWrapper = styled.div`
   border: 1px solid #f0f0f0;
   z-index: 5;
   transition: all .35s;
+  height: 504px;
 
   ${({ foldedGym }) => foldedGym && css`
-    top: calc(0% + 40px);
+    top: calc(0% + 43px);
   `}
   
   @media (min-width: 768px) {
-    width: calc(100% - 40px);
+    width: calc(100% - 43px);
     max-height: none;
     height: 100%;
     left: calc(100% - 1px);
     top: 10px;
     ${({ foldedGym }) => foldedGym && css`
       top: 10px;
-      left: calc(0% + 40px);
+      left: calc(0% + 43px);
     `}
   }
 

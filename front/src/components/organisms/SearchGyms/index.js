@@ -17,7 +17,7 @@ import SearchFriends from '../SearchFriends';
 import SearchSidebar from '../SearchSidebar';
 import ModalMatchingRequest from '../ModalMatchingRequest';
 
-const SearchGyms = ({ foldedFriends, setFoldedFriends }) => {
+const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }) => {
   const dispatch = useDispatch();
   const { mapBounds,
     gyms,
@@ -26,7 +26,7 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends }) => {
     isLoadGyms } = useSelector((state) => state.gym);
 
   const [browserHeight, setBrowserHeight] = useState('');
-  const [foldedGym, setFoldedGym] = useState(false);
+  // const [foldedGym, setFoldedGym] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [friend, setFriend] = useState(false);
   const [stateWarning, setStateWarning] = useState(false);
@@ -103,8 +103,11 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends }) => {
   }, [stateWarning]);
 
   return (
-    <SearchWrapper>
-      <SearchSidebar foldedGym={foldedGym} />
+    <SearchWrapper
+      foldedBlock={foldedGym && foldedFriends}
+      foldedOnlyGym={foldedGym && !foldedFriends}
+    >
+      <SearchSidebar foldedGym={foldedGym} setFoldedGym={setFoldedGym} />
       {foldedFriends || (
         <FoldButton foldedGym={foldedGym} onClick={changeFoldedGym} className="fold-button">
           {foldedGym ? <RightOutlined /> : <LeftOutlined />}
@@ -175,6 +178,8 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends }) => {
 SearchGyms.propTypes = {
   foldedFriends: PropTypes.bool,
   setFoldedFriends: PropTypes.func,
+  foldedGym: PropTypes.bool,
+  setFoldedGym: PropTypes.func,
 };
 
 export default SearchGyms;
