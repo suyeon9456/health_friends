@@ -8,14 +8,14 @@ import { useShowState } from '../../../store/contextStore';
 import Row from './Row';
 import Col from './Col';
 
-const AppLayout = ({ children }) => {
+const AppLayout = ({ children, spanNumber }) => {
   const { drawerShow } = useShowState();
   return (
     <div>
       <Menu />
       <Row justify="center">
         {/* <Col xs={24} md={20} offset={2}> */}
-        <Col span={22}>
+        <Col span={spanNumber || 22}>
           {children}
         </Col>
       </Row>
@@ -26,6 +26,7 @@ const AppLayout = ({ children }) => {
 
 AppLayout.propTypes = {
   children: PropTypes.node.isRequired,
+  spanNumber: PropTypes.number,
 };
 
 export default AppLayout;

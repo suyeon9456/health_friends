@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
-import { Col, Row } from 'antd';
+// import { Col, Row } from 'antd';
 
 import AppLayout from '../../src/components/organisms/AppLayout';
 import SideBar from '../../src/components/organisms/profile/SideBar';
@@ -10,6 +10,8 @@ import MoreInfo from '../../src/components/organisms/profile/MoreInfo';
 import MatchingCalendar from '../../src/components/organisms/profile/MatchingCalendar';
 import { LOAD_MY_INFO_REQUEST, LOAD_PROFILE_INFO_REQUEST } from '../../reducers/user';
 import MatchingRecord from '../../src/components/organisms/profile/MatchingRecord';
+import Row from '../../src/components/organisms/Row';
+import Col from '../../src/components/organisms/Col';
 
 const Profile = () => {
   const dispatch = useDispatch();
