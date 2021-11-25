@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { EnvironmentOutlined } from '@ant-design/icons';
-import { FriendsWrap, FriendsTitle, FriendsBody, FriendsCardList, FriendsCard, CardAvatarWrap } from './style';
+import { FriendsWrap, FriendsTitle, FriendsBody, FriendsCardList, FriendsCard, CardAvatarWrap, CardContentWrap, ContentTitile, ContentDescription } from './style';
 import { Avatar } from '../../../atoms';
 
 const RecommendFriends = () => {
@@ -17,21 +17,37 @@ const RecommendFriends = () => {
             <CardAvatarWrap>
               <Avatar size={82} src={`http://localhost:6015/${me?.Image?.src}`} />
             </CardAvatarWrap>
+            <CardContentWrap>
+              <ContentTitile>뚜오니</ContentTitile>
+              <ContentDescription>간단소개 들어갈 부분...</ContentDescription>
+            </CardContentWrap>
           </FriendsCard>
           <FriendsCard>
             <CardAvatarWrap>
-              <Avatar size={82} />
+              <Avatar size={82} src={`http://localhost:6015/${me?.Image?.src}`} />
             </CardAvatarWrap>
+            <CardContentWrap>
+              <ContentTitile>뚜오니</ContentTitile>
+              <ContentDescription>간단소개 들어갈 부분...</ContentDescription>
+            </CardContentWrap>
           </FriendsCard>
           <FriendsCard>
             <CardAvatarWrap>
-              <Avatar size={82} />
+              <Avatar size={82} src={`http://localhost:6015/${me?.Image?.src}`} />
             </CardAvatarWrap>
+            <CardContentWrap>
+              <ContentTitile>뚜오니</ContentTitile>
+              <ContentDescription>간단소개 들어갈 부분...</ContentDescription>
+            </CardContentWrap>
           </FriendsCard>
           <FriendsCard>
             <CardAvatarWrap>
-              <Avatar size={82} />
+              <Avatar size={82} src={`http://localhost:6015/${me?.Image?.src}`} />
             </CardAvatarWrap>
+            <CardContentWrap>
+              <ContentTitile>뚜오니</ContentTitile>
+              <ContentDescription>간단소개 들어갈 부분...</ContentDescription>
+            </CardContentWrap>
           </FriendsCard>
         </FriendsCardList>
       </FriendsBody>

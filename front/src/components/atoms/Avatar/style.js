@@ -16,7 +16,7 @@ export const StyledAvatar = styled.span`
   text-align: center;
   vertical-align: middle;
   background: #ccc;
-  border-radius: 2px;
+  border-radius: 5px;
 
   ${({ size }) => {
     if (size === 'small') {

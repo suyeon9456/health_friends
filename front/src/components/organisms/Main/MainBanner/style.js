@@ -1,48 +1,39 @@
 import styled from 'styled-components';
 
-export const BannerWrap = styled.div`
-  /* position: relative;
-  display: inline-block; */
+export const BannerWrap = styled.section`
+  position: relative;
   width: 100%;
-  /* max-width: 1280px; */
-  height: 400px;
-  /* text-align: center; */
-  background-color: #B5B5B5;
-  /* text-align: right; */
-  /* background-image: url('/images/banner.jpg'); */
 `;
 
 export const BannerImageWrap = styled.div`
-  position: relative;
-  display: inline-block;
+  position: absolute;
+  background-color: #B5B5B5;
   width: 100%;
-  /* max-width: 1280px; */
-  text-align: right;
-  & > img {
-    width: 100%;
-    max-width: 1280px;
-    height: 100%;
-    object-fit: cover;
-  }
+  height: 400px;
 `;
 
-export const BannerContentWrap = styled.div`
-  position: relative;
+export const BannerImage = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-image: url('/images/banner.jpg');
   display: inline-block;
   width: 100%;
   max-width: 1280px;
-  bottom: 90%;
+  height: 400px;
 `;
 
-export const BannerContent = styled.div`
-  text-align: left;
-  display: inline-block;
+export const BannerHeader = styled.div`
   position: relative;
-  /* bottom: 90%; */
-  width: 80%;
+  display: inline-block;
+  top: 0;
+  width: 100%;
+  max-width: 1280px;
+  text-align: left;
+  padding: 20px 128px;
 `;
 
-export const ContentTitle = styled.div`
+export const BannerHeaderTitle = styled.div`
   margin-top: 20px;
   font-size: 32px;
   color: #ffffff;
@@ -54,4 +45,16 @@ export const ContentTitle = styled.div`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+`;
+
+export const BannerContentWrap = styled.div`
+  position: relative;
+  display: inline-block;
+  padding: 20px 128px;
+  width: 100%;
+  max-width: 1280px;
+`;
+
+export const BannerContent = styled.div`
+  text-align: left;
 `;

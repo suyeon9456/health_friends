@@ -1,8 +1,9 @@
 import React from 'react';
 import MainBanner from './MainBanner';
-import RecommendFriends from './RecommendFriends';
+import RankedFriends from './RankedFriends';
+import RealTimeMatchingCouple from './RealTimeMatchingCouple';
 
-import { MainBannerWrap, MainBodyWrap, MainWrap, RecommendFriendsWrap } from './style';
+import { MainBannerWrap, MainBodyWrap, MainWrap } from './style';
 
 const Main = () => (
   <MainWrap>
@@ -10,9 +11,8 @@ const Main = () => (
       <MainBanner />
     </MainBannerWrap>
     <MainBodyWrap>
-      {/* <RecommendFriendsWrap>
-        <RecommendFriends />
-      </RecommendFriendsWrap> */}
+      <RankedFriends />
+      <RealTimeMatchingCouple />
     </MainBodyWrap>
   </MainWrap>
 );
