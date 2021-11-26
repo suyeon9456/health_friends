@@ -19,21 +19,29 @@ export const FriendsBody = styled.div`
 
 export const FriendsCardList = styled.div`
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  justify-content: space-between; */
   margin-top: 20px;
-  flex-wrap: wrap;
-  align-content: flex-start;
+  /* flex-wrap: wrap;
+  align-content: flex-start; */
+  & .slick-slide {
+    margin-bottom: 20px;
+  }
 `;
 
 export const FriendsCard = styled.div`
-  position: relative;
-  width: 200px;
+  margin: 10px 0 !important;
+  width: 200px !important;
   height: 200px;
   background-color: #ffffff;
   border: 1px solid rgb(230, 230, 230);
   border-radius: 5px;
   box-shadow: rgb(0 0 0 / 3%) 0px 5px 16px 0px;
+
+  &:hover {
+    box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
+    border-color: transparent;
+  }
 `;
 
 export const CardAvatarWrap = styled.div`
@@ -44,10 +52,6 @@ export const CardAvatarWrap = styled.div`
   background-color: rgb(244, 245, 247);
   text-align: center;
   border-radius: 5px;
-  /* background-image: url(); */
-  /* ${({ src }) => src && css`
-    background-image: url(src);
-  `} */
 `;
 
 export const CardContentWrap = styled.div`

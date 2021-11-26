@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../src/scss/css/global.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import wrapper from '../store/configureStore';
 import { ShowStateContext, reducer, initialState, ShowDispatchContext } from '../store/contextStore';
 

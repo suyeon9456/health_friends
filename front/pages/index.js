@@ -4,6 +4,7 @@ import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 
 import AppLayout from '../src/components/organisms/AppLayout';
 import Main from '../src/components/organisms/Main';
+import Footer from '../src/components/organisms/Footer';
 
 import wrapper from '../store/configureStore';
 
@@ -24,6 +25,7 @@ const Home = () => {
         <Main />
       </div>
       {/* <DrawerMenu drawerShow={drawerShow} /> */}
+      <Footer />
     </AppLayout>
   );
 };
