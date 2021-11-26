@@ -1,7 +1,7 @@
 import React from 'react';
-import { BarChartOutlined } from '@ant-design/icons';
+// import { BarChartOutlined } from '@ant-design/icons';
 
-import { RankTitle, RankCard, RankCardList, RankCardWrap, RankedFriendsBody, RankedFriendsHeader, RankedFriendsWrap } from './style';
+import { RankItem, RankTitle, RankCard, RankCardList, RankCardWrap, RankedFriendsBody, RankedFriendsHeader, RankedFriendsWrap, RankItemWrap } from './style';
 
 const RankedFriends = () => (
   <RankedFriendsWrap>
@@ -15,7 +15,32 @@ const RankedFriends = () => (
             재매칭 순위 TOP 5
           </RankTitle>
           <RankCard>
-            test
+            <RankItemWrap>
+              <RankItem>
+                <span>1.</span>
+                닉네임
+              </RankItem>
+            </RankItemWrap>
+            <RankItemWrap>
+              <RankItem>
+                <span>1.</span>
+              </RankItem>
+            </RankItemWrap>
+            <RankItemWrap>
+              <RankItem>
+                <span>1.</span>
+              </RankItem>
+            </RankItemWrap>
+            <RankItemWrap>
+              <RankItem>
+                <span>1.</span>
+              </RankItem>
+            </RankItemWrap>
+            <RankItemWrap>
+              <RankItem>
+                <span>1.</span>
+              </RankItem>
+            </RankItemWrap>
           </RankCard>
         </RankCardWrap>
         <RankCardWrap>
@@ -23,7 +48,32 @@ const RankedFriends = () => (
             매칭 순위 TOP 5
           </RankTitle>
           <RankCard>
-            test
+            <RankItemWrap>
+              <RankItem>
+                <span>1.</span>
+                닉네임
+              </RankItem>
+            </RankItemWrap>
+            <RankItemWrap>
+              <RankItem>
+                <span>1.</span>
+              </RankItem>
+            </RankItemWrap>
+            <RankItemWrap>
+              <RankItem>
+                <span>1.</span>
+              </RankItem>
+            </RankItemWrap>
+            <RankItemWrap>
+              <RankItem>
+                <span>1.</span>
+              </RankItem>
+            </RankItemWrap>
+            <RankItemWrap>
+              <RankItem>
+                <span>1.</span>
+              </RankItem>
+            </RankItemWrap>
           </RankCard>
         </RankCardWrap>
       </RankCardList>
