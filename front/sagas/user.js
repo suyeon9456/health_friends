@@ -8,6 +8,9 @@ import { ADD_PROFILEIMAGE_ERROR, ADD_PROFILEIMAGE_REQUEST, ADD_PROFILEIMAGE_SUCC
   LOAD_PROFILE_INFO_ERROR,
   LOAD_PROFILE_INFO_REQUEST,
   LOAD_PROFILE_INFO_SUCCESS,
+  LOAD_RECOMMEND_FRIENDS_ERROR,
+  LOAD_RECOMMEND_FRIENDS_REQUEST,
+  LOAD_RECOMMEND_FRIENDS_SUCCESS,
   LOG_IN_ERROR,
   LOG_IN_REQUEST,
   LOG_IN_SUCCESS,
@@ -244,6 +247,25 @@ function* addProfileImage(action) {
   }
 }
 
+function loadRecommendFriendsAPI(data) {
+  return axios.get(`/users/recommendFriends?si=${data.si}&gu=${data.gu}&dong=${data.dong}&mainAddressNo=${data.mainAddressNo}`);
+}
+
+function* loadRecommendFriends(action) {
+  try {
+    const result = yield call(loadRecommendFriendsAPI, action.data);
+    yield put({
+      type: LOAD_RECOMMEND_FRIENDS_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: LOAD_RECOMMEND_FRIENDS_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function* watchLoadMyInfo() {
   yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
@@ -288,6 +310,10 @@ function* watchAddProfileImage() {
   yield takeLatest(ADD_PROFILEIMAGE_REQUEST, addProfileImage);
 }
 
+function* watchLoadRecommendFriends() {
+  yield takeLatest(LOAD_RECOMMEND_FRIENDS_REQUEST, loadRecommendFriends);
+}
+
 export default function* userSaga() {
   yield all([
     yield fork(watchLoadMyInfo),
@@ -301,5 +327,6 @@ export default function* userSaga() {
     yield fork(watchUpdateMyDescription),
     yield fork(watchUploadProfileImage),
     yield fork(watchAddProfileImage),
+    yield fork(watchLoadRecommendFriends),
   ]);
 }

@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 
 const userRouter = require('./routes/user');
+const usersRouter = require('./routes/users');
 const gymRouter = require('./routes/gym');
 const gymsRouter = require('./routes/gyms');
 const scheduleRouter = require('./routes/schedule');
@@ -47,6 +48,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/user', userRouter);
+app.use('/users', usersRouter);
 app.use('/gym', gymRouter);
 app.use('/gyms', gymsRouter);
 app.use('/schedule', scheduleRouter);

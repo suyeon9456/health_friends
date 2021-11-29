@@ -12,6 +12,14 @@ export const FriendsTitle = styled.div`
   color: #fafafa;
 `;
 
+export const FriendsSubTitle = styled.div`
+  padding-left: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fafafa;
+  cursor: pointer;
+`;
+
 export const FriendsBody = styled.div`
   width: 100%;
   /* text-align: center; */
@@ -27,6 +35,32 @@ export const FriendsCardList = styled.div`
   & .slick-slide {
     margin-bottom: 20px;
   }
+`;
+
+export const FriendsCardsWrap = styled.div`
+  width: 100%;
+  display: flex;
+  margin-top: 20px;
+  ${({ friendsLength }) => {
+    if (friendsLength >= 2) {
+      return css`
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        align-content: flex-start;
+      `;
+    }
+    if (friendsLength === 4) {
+      return css`
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-content: flex-start;
+      `;
+    }
+    return css`
+      flex-wrap: wrap;
+      align-content: flex-start;
+    `;
+  }}
 `;
 
 export const FriendsCard = styled.div`

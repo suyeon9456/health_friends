@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { SearchOutlined } from '@ant-design/icons';
 
 import { Button } from '../../../atoms';
 import RecommendFriends from '../RecommendFriends';
 import { BannerWrap, BannerImage, BannerContent, BannerContentWrap, BannerHeader, BannerHeaderTitle, BannerImageWrap } from './style';
 
-const MainBanner = () => (
+const MainBanner = ({ location }) => (
   <BannerWrap>
     <BannerImageWrap />
     <BannerImage />
@@ -23,10 +24,14 @@ const MainBanner = () => (
     </BannerHeader>
     <BannerContentWrap>
       <BannerContent>
-        <RecommendFriends />
+        <RecommendFriends location={location} />
       </BannerContent>
     </BannerContentWrap>
   </BannerWrap>
 );
+
+MainBanner.propTypes = {
+  location: PropTypes.node,
+};
 
 export default MainBanner;

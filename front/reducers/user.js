@@ -34,6 +34,9 @@ const initialState = {
   addProfileImageLoading: false,
   addProfileImageDone: false,
   addProfileImageError: null,
+  loadRecommendFriendsLoading: false,
+  loadRecommendFriendsDone: false,
+  loadRecommendFriendsError: null,
   signupSteps: [
     { id: 1, type: 'process', step: 1, title: 'STEP1', description: '회원 정보' },
     { id: 2, type: 'wait', step: 2, title: 'STEP2', description: '추가 정보' },
@@ -78,6 +81,9 @@ const initialState = {
   me: null,
   profile: null,
   imagePath: null,
+  recommendedFriends: [],
+  closedFriends: [],
+  additionalFriends: [],
 };
 
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
@@ -133,6 +139,10 @@ export const UPLOAD_PROFILEIMAGE_ERROR = 'UPLOAD_PROFILEIMAGE_ERROR';
 export const ADD_PROFILEIMAGE_REQUEST = 'ADD_PROFILEIMAGE_REQUEST';
 export const ADD_PROFILEIMAGE_SUCCESS = 'ADD_PROFILEIMAGE_SUCCESS';
 export const ADD_PROFILEIMAGE_ERROR = 'ADD_PROFILEIMAGE_ERROR';
+
+export const LOAD_RECOMMEND_FRIENDS_REQUEST = 'LOAD_RECOMMEND_FRIENDS_REQUEST';
+export const LOAD_RECOMMEND_FRIENDS_SUCCESS = 'LOAD_RECOMMEND_FRIENDS_SUCCESS';
+export const LOAD_RECOMMEND_FRIENDS_ERROR = 'LOAD_RECOMMEND_FRIENDS_ERROR';
 
 export const REMOVE_PROFILEIMAGE = 'REMOVE_PROFILEIMAGE';
 
@@ -325,6 +335,22 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case ADD_PROFILEIMAGE_ERROR:
       draft.addProfileImageLoading = false;
       draft.addProfileImageError = action.error;
+      break;
+    case LOAD_RECOMMEND_FRIENDS_REQUEST:
+      draft.loadRecommendFriendsLoading = true;
+      draft.loadRecommendFriendsDone = false;
+      draft.loadRecommendFriendsError = null;
+      break;
+    case LOAD_RECOMMEND_FRIENDS_SUCCESS:
+      draft.loadRecommendFriendsLoading = false;
+      draft.loadRecommendFriendsDone = true;
+      draft.closedFriends = action.data.recommendFriends;
+      draft.additionalFriends = action.data.additionalFriends;
+      draft.recommendedFriends = action.data.recommendFriends.concat(action.data.additionalFriends);
+      break;
+    case LOAD_RECOMMEND_FRIENDS_ERROR:
+      draft.loadRecommendFriendsError = action.error;
+      draft.loadRecommendFriendsLoading = false;
       break;
     case REMOVE_PROFILEIMAGE:
       draft.imagePath = null;
