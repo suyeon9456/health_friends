@@ -5,7 +5,7 @@ import { EnvironmentOutlined, LeftOutlined, RightOutlined } from '@ant-design/ic
 import Slider from 'react-slick';
 import * as _ from 'lodash';
 
-import { FriendsWrap, FriendsTitle, FriendsSubTitle, FriendsBody, FriendsCardList, FriendsCardsWrap, FriendsCard, CardAvatarWrap, CardContentWrap, ContentTitile, ContentDescription } from './style';
+import { FriendsWrap, FriendsTitle, FriendsSubTitle, FriendsBody, FriendsCardList, FriendsCard, CardAvatarWrap, CardContentWrap, ContentTitile, ContentDescription } from './style';
 import { Avatar } from '../../../atoms';
 
 const RecommendFriends = ({ location }) => {
@@ -38,22 +38,22 @@ const RecommendFriends = ({ location }) => {
         실제위치와 일치하지 않으신가요?
       </FriendsSubTitle>
       <FriendsBody>
-        <FriendsCardList>
+        <FriendsCardList friendsLength={recommendedFriends.length || 0}>
           {!_.isEmpty(recommendedFriends)
             ? recommendedFriends.map((friend) => {
               if (recommendedFriends.length < 5) {
                 return (
-                  <FriendsCardsWrap friendsLength={recommendedFriends.length}>
-                    <FriendsCard>
-                      <CardAvatarWrap>
-                        <Avatar size={82} src={`http://localhost:6015/${friend?.Image?.src}`} />
-                      </CardAvatarWrap>
-                      <CardContentWrap>
-                        <ContentTitile>{friend?.nickname}</ContentTitile>
-                        <ContentDescription>{friend?.Gym?.address}</ContentDescription>
-                      </CardContentWrap>
-                    </FriendsCard>
-                  </FriendsCardsWrap>
+                  // <FriendsCardsWrap friendsLength={recommendedFriends.length}>
+                  <FriendsCard key={friend.id}>
+                    <CardAvatarWrap>
+                      <Avatar size={82} src={friend?.Image ? `http://localhost:6015/${friend?.Image?.src}` : ''} />
+                    </CardAvatarWrap>
+                    <CardContentWrap>
+                      <ContentTitile>{friend?.nickname}</ContentTitile>
+                      <ContentDescription>{friend?.Gyms[0]?.address}</ContentDescription>
+                    </CardContentWrap>
+                  </FriendsCard>
+                  // </FriendsCardsWrap>
                 );
               }
               return (
@@ -71,17 +71,17 @@ const RecommendFriends = ({ location }) => {
               );
             })
             : (
-              <FriendsCardsWrap friendsLength={1}>
-                <FriendsCard>
-                  <CardAvatarWrap>
-                    <Avatar size={82} src={`http://localhost:6015/${me?.Image?.src}`} />
-                  </CardAvatarWrap>
-                  <CardContentWrap>
-                    <ContentTitile>뚜오니</ContentTitile>
-                    <ContentDescription>간단소개 들어갈 부분...</ContentDescription>
-                  </CardContentWrap>
-                </FriendsCard>
-              </FriendsCardsWrap>
+              // <FriendsCardsWrap friendsLength={1}>
+              <FriendsCard>
+                <CardAvatarWrap>
+                  <Avatar size={82} src={`http://localhost:6015/${me?.Image?.src}`} />
+                </CardAvatarWrap>
+                <CardContentWrap>
+                  <ContentTitile>뚜오니</ContentTitile>
+                  <ContentDescription>간단소개 들어갈 부분...</ContentDescription>
+                </CardContentWrap>
+              </FriendsCard>
+              // </FriendsCardsWrap>
             )}
         </FriendsCardList>
       </FriendsBody>

@@ -1,5 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
   const Userdetail = sequelize.define('Userdetail', {
+    rematchingRate: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
     startTime: {
       type: DataTypes.STRING(30),
       allowNull: true,

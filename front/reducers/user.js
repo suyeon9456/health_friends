@@ -37,6 +37,9 @@ const initialState = {
   loadRecommendFriendsLoading: false,
   loadRecommendFriendsDone: false,
   loadRecommendFriendsError: null,
+  loadRankedFriendsLoading: false,
+  loadRankedFriendsDone: false,
+  loadRankedFriendsError: null,
   signupSteps: [
     { id: 1, type: 'process', step: 1, title: 'STEP1', description: '회원 정보' },
     { id: 2, type: 'wait', step: 2, title: 'STEP2', description: '추가 정보' },
@@ -84,6 +87,7 @@ const initialState = {
   recommendedFriends: [],
   closedFriends: [],
   additionalFriends: [],
+  rankedFriends: null,
 };
 
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
@@ -143,6 +147,10 @@ export const ADD_PROFILEIMAGE_ERROR = 'ADD_PROFILEIMAGE_ERROR';
 export const LOAD_RECOMMEND_FRIENDS_REQUEST = 'LOAD_RECOMMEND_FRIENDS_REQUEST';
 export const LOAD_RECOMMEND_FRIENDS_SUCCESS = 'LOAD_RECOMMEND_FRIENDS_SUCCESS';
 export const LOAD_RECOMMEND_FRIENDS_ERROR = 'LOAD_RECOMMEND_FRIENDS_ERROR';
+
+export const LOAD_RANKED_FRIENDS_REQUEST = 'LOAD_RANKED_FRIENDS_REQUEST';
+export const LOAD_RANKED_FRIENDS_SUCCESS = 'LOAD_RANKED_FRIENDS_SUCCESS';
+export const LOAD_RANKED_FRIENDS_ERROR = 'LOAD_RANKED_FRIENDS_ERROR';
 
 export const REMOVE_PROFILEIMAGE = 'REMOVE_PROFILEIMAGE';
 
@@ -351,6 +359,20 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case LOAD_RECOMMEND_FRIENDS_ERROR:
       draft.loadRecommendFriendsError = action.error;
       draft.loadRecommendFriendsLoading = false;
+      break;
+    case LOAD_RANKED_FRIENDS_REQUEST:
+      draft.loadRankedFriendsLoading = true;
+      draft.loadRankedFriendsDone = false;
+      draft.loadRankedFriendsError = null;
+      break;
+    case LOAD_RANKED_FRIENDS_SUCCESS:
+      draft.loadRankedFriendsLoading = false;
+      draft.loadRankedFriendsDone = true;
+      draft.rankedFriends = action.data;
+      break;
+    case LOAD_RANKED_FRIENDS_ERROR:
+      draft.loadRankedFriendsError = action.error;
+      draft.loadRankedFriendsLoading = false;
       break;
     case REMOVE_PROFILEIMAGE:
       draft.imagePath = null;

@@ -22,28 +22,19 @@ export const FriendsSubTitle = styled.div`
 
 export const FriendsBody = styled.div`
   width: 100%;
-  /* text-align: center; */
 `;
 
 export const FriendsCardList = styled.div`
   width: 100%;
-  /* display: flex;
-  justify-content: space-between; */
   margin-top: 20px;
-  /* flex-wrap: wrap;
-  align-content: flex-start; */
   & .slick-slide {
     margin-bottom: 20px;
   }
-`;
 
-export const FriendsCardsWrap = styled.div`
-  width: 100%;
-  display: flex;
-  margin-top: 20px;
   ${({ friendsLength }) => {
-    if (friendsLength >= 2) {
+    if (friendsLength <= 2) {
       return css`
+        display: flex;
         justify-content: space-evenly;
         flex-wrap: wrap;
         align-content: flex-start;
@@ -51,17 +42,48 @@ export const FriendsCardsWrap = styled.div`
     }
     if (friendsLength === 4) {
       return css`
+        display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
         align-content: flex-start;
       `;
     }
+    if (friendsLength > 4) {
+      return false;
+    }
     return css`
+      display: flex;
       flex-wrap: wrap;
       align-content: flex-start;
     `;
   }}
 `;
+
+// export const FriendsCardsWrap = styled.div`
+//   width: 100%;
+//   display: flex;
+//   margin-top: 20px;
+//   ${({ friendsLength }) => {
+//     if (friendsLength <= 2) {
+//       return css`
+//         justify-content: space-evenly;
+//         flex-wrap: wrap;
+//         align-content: flex-start;
+//       `;
+//     }
+//     if (friendsLength === 4) {
+//       return css`
+//         justify-content: space-between;
+//         /* flex-wrap: wrap; */
+//         /* align-content: flex-start; */
+//       `;
+//     }
+//     return css`
+//       flex-wrap: wrap;
+//       align-content: flex-start;
+//     `;
+//   }}
+// `;
 
 export const FriendsCard = styled.div`
   margin: 10px 0 !important;
@@ -99,5 +121,5 @@ export const ContentTitile = styled.span`
 `;
 
 export const ContentDescription = styled.div`
-
+  text-align: left;
 `;
