@@ -1,4 +1,6 @@
 import produce from 'immer';
+import * as _ from 'lodash';
+import { assign } from 'lodash';
 
 const initialState = {
   loadMyInfoLoading: false,
@@ -365,11 +367,28 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadRankedFriendsDone = false;
       draft.loadRankedFriendsError = null;
       break;
-    case LOAD_RANKED_FRIENDS_SUCCESS:
+    case LOAD_RANKED_FRIENDS_SUCCESS: {
+      const idGroup = _.groupBy(action.data?.matching, 'id');
+      const matching = [];
+      _.forIn(idGroup, (value) => {
+        if (value.length > 1) {
+          const req = { ...value[0],
+            count: value[0].reqSchedule.length + value[1].resSchedule.length };
+          // const res = { ...value[1],
+          //   count: value[1].reqSchedule.length + value[1].resSchedule.length };
+          return matching.push(req);
+        }
+        return matching.push({ ...value[0],
+          count: value[0].reqSchedule?.length + value[0].resSchedule?.length });
+      });
       draft.loadRankedFriendsLoading = false;
       draft.loadRankedFriendsDone = true;
-      draft.rankedFriends = action.data;
+      draft.rankedFriends = {
+        rematching: action.data?.rematching,
+        matching: _.sortBy(matching, ['count']),
+      };
       break;
+    }
     case LOAD_RANKED_FRIENDS_ERROR:
       draft.loadRankedFriendsError = action.error;
       draft.loadRankedFriendsLoading = false;

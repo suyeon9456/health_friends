@@ -67,7 +67,15 @@ const RankedFriends = () => {
               매칭 순위 TOP 5
             </RankTitle>
             <RankCard>
-              <RankItemWrap>
+              {rankedFriends?.matching?.map((friend, index) => (
+                <RankItemWrap>
+                  <RankItem>
+                    <span>{index + 1}.</span>
+                    {friend.nickname}
+                  </RankItem>
+                </RankItemWrap>
+              ))}
+              {/* <RankItemWrap>
                 <RankItem>
                   <span>1.</span>
                   닉네임
@@ -92,7 +100,7 @@ const RankedFriends = () => {
                 <RankItem>
                   <span>1.</span>
                 </RankItem>
-              </RankItemWrap>
+              </RankItemWrap> */}
             </RankCard>
           </RankCardWrap>
         </RankCardList>

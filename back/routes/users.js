@@ -84,41 +84,65 @@ router.get('/rankedFriends', async (req, res, next) => { // GET /users/rankedFri
       }],
       order: [ [Userdetail, 'rematchingRate', 'DESC'] ],
     });
-    // const matching = await User.findAll({
-    //   attributes: ['id', 'nickname'],
-    //   // where,
-    //   include: [{
-    //     model: Schedule,
-    //     as: 'reqSchedule',
-    //     attributes: [[Sequelize.fn('count', '*'), 'count']],
-    //     // group: "UserId",
-    //   }, {
-    //     model: Schedule,
-    //     as: 'resSchedule',
-    //     attributes: ['id'],
-    //   }],
-    //   // order: [ [Userdetail, 'rematchingRate', 'DESC'] ],
-    // });
-  
-    // console.log('rematching: ', rematching);
-    // console.log('matching: ', matching);
-    const matching = await Schedule.findAll({
-      where: {
-        permission: true,
-        isPermitted: true,
-      },
-      attributes: ['UserId', [Sequelize.fn('count', '*'), 'count']],
-      group: 'UserId',
+    const reqMatching = await User.findAll({
+      attributes: ['id', 'nickname'],
+      limit: 5,
       include: [{
-        model: User,
-        as: 'Requester',
-      }, {
-        model: User,
-        as: 'Friend',
+        model: Schedule,
+        as: 'reqSchedule',
+        where: {
+          permission: true,
+          isPermitted: true,
+        },
+        attributes: ['id'],
       }],
-      order: [[Sequelize.literal('count'), 'DESC']],
-    })
-    res.status(200).json({ rematching, matching });
+    });
+    const resMatching = await User.findAll({
+      attributes: ['id', 'nickname'],
+      limit: 5,
+      include: [{
+        model: Schedule,
+        as: 'resSchedule',
+        where: {
+          permission: true,
+          isPermitted: true,
+        },
+        attributes: ['id'],
+      }],
+    });
+    // const reqMatching = await Schedule.findAll({
+    //   where: {
+    //     permission: true,
+    //     isPermitted: true,
+    //   },
+    //   limit: 5,
+    //   attributes: ['UserId', [Sequelize.fn('count', '*'), 'count']],
+    //   include: [{
+    //     model: User,
+    //     as: 'Requester',
+    //     attributes: ['nickname'],
+    //   }],
+    //   group: 'UserId',
+    //   order: [[Sequelize.literal('count'), 'DESC']],
+    // });
+    // const resMatching = await Schedule.findAll({
+    //   where: {
+    //     permission: true,
+    //     isPermitted: true,
+    //   },
+    //   limit: 5,
+    //   attributes: [['FriendId', 'UserId'], [Sequelize.fn('count', '*'), 'count']],
+    //   include: [{
+    //     model: User,
+    //     as: 'Friend',
+    //     attributes: ['nickname'],
+    //   }],
+    //   group: 'FriendId',
+    //   order: [[Sequelize.literal('count'), 'DESC']],
+    // });
+
+    console.log('test', reqMatching.concat(resMatching))
+    res.status(200).json({ rematching, matching: reqMatching.concat(resMatching) });
   } catch (error) {
     console.error(error);
     next(error);
