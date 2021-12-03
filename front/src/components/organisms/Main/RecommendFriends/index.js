@@ -5,8 +5,10 @@ import { EnvironmentOutlined, LeftOutlined, RightOutlined } from '@ant-design/ic
 import Slider from 'react-slick';
 import * as _ from 'lodash';
 
-import { FriendsWrap, FriendsTitle, FriendsSubTitle, FriendsBody, FriendsCardList, FriendsCard, CardAvatarWrap, CardContentWrap, ContentTitile, ContentDescription } from './style';
+import { FriendsWrap, FriendsTitle, FriendsSubTitle, FriendsBody, FriendsCardList, FriendsCard, CardAvatarWrap, CardContentWrap, ContentTitile, ContentDescription, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
 import { Avatar } from '../../../atoms';
+// import NoDataIcon from '../../../atoms/NoDataIcon';
+import NoDataIcon from '../../../atoms/NoDataIcon';
 
 const RecommendFriends = ({ location }) => {
   const settings = {
@@ -55,7 +57,6 @@ const RecommendFriends = ({ location }) => {
             ? recommendedFriends.map((friend) => {
               if (recommendedFriends.length < 5) {
                 return (
-                  // <FriendsCardsWrap friendsLength={recommendedFriends.length}>
                   <FriendsCard key={friend.id}>
                     <CardAvatarWrap>
                       <Avatar size={82} src={friend?.Image ? `http://localhost:6015/${friend?.Image?.src}` : ''} />
@@ -65,7 +66,6 @@ const RecommendFriends = ({ location }) => {
                       <ContentDescription>{friend?.Gyms[0]?.address}</ContentDescription>
                     </CardContentWrap>
                   </FriendsCard>
-                  // </FriendsCardsWrap>
                 );
               }
               return (
@@ -83,17 +83,16 @@ const RecommendFriends = ({ location }) => {
               );
             })
             : (
-              // <FriendsCardsWrap friendsLength={1}>
-              <FriendsCard>
-                <CardAvatarWrap>
-                  <Avatar size={82} src={`http://localhost:6015/${me?.Image?.src}`} />
-                </CardAvatarWrap>
-                <CardContentWrap>
-                  <ContentTitile>뚜오니</ContentTitile>
-                  <ContentDescription>간단소개 들어갈 부분...</ContentDescription>
-                </CardContentWrap>
-              </FriendsCard>
-              // </FriendsCardsWrap>
+              <NoDataCard>
+                <NoDataContent>
+                  <NoDataIconWrap>
+                    <NoDataIcon width={62} height={62} color="#00000040" />
+                  </NoDataIconWrap>
+                  <NoDataText>
+                    <span>활동하는 친구가 없습니다.</span>
+                  </NoDataText>
+                </NoDataContent>
+              </NoDataCard>
             )}
         </FriendsCardList>
       </FriendsBody>

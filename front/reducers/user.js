@@ -363,6 +363,7 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadRecommendFriendsDone = true;
       draft.closedFriends = action.data.recommendFriends;
       draft.additionalFriends = action.data.additionalFriends;
+      // draft.recommendedFriends = [];
       draft.recommendedFriends = action.data.recommendFriends.concat(action.data.additionalFriends);
       break;
     case LOAD_RECOMMEND_FRIENDS_ERROR:
