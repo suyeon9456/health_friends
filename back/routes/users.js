@@ -45,7 +45,6 @@ router.get('/recommendFriends', async (req, res, next) => { // GET /users/recomm
     if (recommendFriends.length < 4) {
       const additionalLength = 4 - recommendFriends.length;
       const additionalId = recommendFriends.map((friend) => friend.id);
-      console.log('id', additionalId);
       additionalFriends = await User.findAll({
         attributes: ['id', 'nickname'],
         limit: additionalLength,
@@ -63,8 +62,6 @@ router.get('/recommendFriends', async (req, res, next) => { // GET /users/recomm
         }],
       });
     }
-    // console.log('test', additionalFriends);
-    // console.log('??', recommendFriends.concat(additionalFriends));
     
     res.status(200).json({ recommendFriends, additionalFriends });
   } catch (error) {
@@ -140,9 +137,52 @@ router.get('/rankedFriends', async (req, res, next) => { // GET /users/rankedFri
     //   group: 'FriendId',
     //   order: [[Sequelize.literal('count'), 'DESC']],
     // });
-
-    console.log('test', reqMatching.concat(resMatching))
     res.status(200).json({ rematching, matching: reqMatching.concat(resMatching) });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.get('/realtimeMathcing', async (req, res, next) => { // GET /users/realtimeMathcing
+  try {
+    const now = new Date();
+    const realtimeMatching = await User.findAll({
+      attributes: ['id', 'nickname'],
+      include: [{
+        model: Image,
+        attributes: ['id', 'src'],
+      }, {
+        model: Schedule,
+        as: 'reqSchedule',
+        where: {
+          [Op.and]: [{
+            startDate: {[Op.lte]: now},
+          }, {
+            endDate: {[Op.gte]: now},
+          }, {
+            isPermitted: true,
+          }, {
+            permission: true,
+          }],
+        },
+        attributes: ['id', 'UserId'],
+        include: [{
+          model: Gym,
+          attributes: ['id', 'name'],
+        }, {
+          model: User,
+          as: 'Friend',
+          attributes: ['id', 'nickname'],
+          include: [{
+            model: Image,
+            attributes: ['id', 'src'],
+          },]
+        }],
+      }],
+    });
+
+    res.status(200).json(realtimeMatching);
   } catch (error) {
     console.error(error);
     next(error);

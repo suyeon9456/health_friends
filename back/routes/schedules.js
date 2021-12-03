@@ -6,8 +6,6 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => { // GET /schedules/
   try {
-    console.log(req.query);
-    console.log('user: ', req.user);
     let where = {
       [Op.or]: [{
           UserId: req.user.id,

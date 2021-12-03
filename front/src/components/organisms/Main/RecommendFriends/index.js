@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { EnvironmentOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
@@ -22,13 +22,25 @@ const RecommendFriends = ({ location }) => {
     // autoplaySpeed: 2000,
     // cssEase: 'linear',
   };
+  const [browserWidth, setBrowserWidth] = useState(null);
 
   const reLoadLocation = useCallback(() => {
     console.log('??');
   }, []);
 
+  useEffect(() => {
+    const onResize = () => {
+      console.log('widthL ', window.innerWidth);
+      setBrowserWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('resize', onResize);
+    };
+  }, []);
+
   const { me,
-    recommendedFriends, additionalFriends, closedFriends } = useSelector((state) => state.user);
+    recommendedFriends, closedFriends } = useSelector((state) => state.user);
   return (
     <FriendsWrap>
       <FriendsTitle>

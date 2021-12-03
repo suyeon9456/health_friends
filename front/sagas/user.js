@@ -11,6 +11,9 @@ import { ADD_PROFILEIMAGE_ERROR, ADD_PROFILEIMAGE_REQUEST, ADD_PROFILEIMAGE_SUCC
   LOAD_RANKED_FRIENDS_ERROR,
   LOAD_RANKED_FRIENDS_REQUEST,
   LOAD_RANKED_FRIENDS_SUCCESS,
+  LOAD_REALTIME_MATCHING_ERROR,
+  LOAD_REALTIME_MATCHING_REQUEST,
+  LOAD_REALTIME_MATCHING_SUCCESS,
   LOAD_RECOMMEND_FRIENDS_ERROR,
   LOAD_RECOMMEND_FRIENDS_REQUEST,
   LOAD_RECOMMEND_FRIENDS_SUCCESS,
@@ -288,6 +291,25 @@ function* loadRankedFriends() {
   }
 }
 
+function loadRealtimeMathcingAPI() {
+  return axios.get('/users/realtimeMathcing');
+}
+
+function* loadRealtimeMathcing() {
+  try {
+    const result = yield call(loadRealtimeMathcingAPI);
+    yield put({
+      type: LOAD_REALTIME_MATCHING_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: LOAD_REALTIME_MATCHING_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function* watchLoadMyInfo() {
   yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
@@ -340,6 +362,10 @@ function* watchLoadRankedFriends() {
   yield takeLatest(LOAD_RANKED_FRIENDS_REQUEST, loadRankedFriends);
 }
 
+function* watchLoadRealtimeMathcing() {
+  yield takeLatest(LOAD_REALTIME_MATCHING_REQUEST, loadRealtimeMathcing);
+}
+
 export default function* userSaga() {
   yield all([
     yield fork(watchLoadMyInfo),
@@ -355,5 +381,6 @@ export default function* userSaga() {
     yield fork(watchAddProfileImage),
     yield fork(watchLoadRecommendFriends),
     yield fork(watchLoadRankedFriends),
+    yield fork(watchLoadRealtimeMathcing),
   ]);
 }

@@ -1,6 +1,5 @@
 import produce from 'immer';
 import * as _ from 'lodash';
-import { assign } from 'lodash';
 
 const initialState = {
   loadMyInfoLoading: false,
@@ -42,6 +41,9 @@ const initialState = {
   loadRankedFriendsLoading: false,
   loadRankedFriendsDone: false,
   loadRankedFriendsError: null,
+  loadRealtimeMatchingLoading: false,
+  loadRealtimeMatchingDone: false,
+  loadRealtimeMatchingError: null,
   signupSteps: [
     { id: 1, type: 'process', step: 1, title: 'STEP1', description: '회원 정보' },
     { id: 2, type: 'wait', step: 2, title: 'STEP2', description: '추가 정보' },
@@ -90,6 +92,7 @@ const initialState = {
   closedFriends: [],
   additionalFriends: [],
   rankedFriends: null,
+  realtimeMatching: null,
 };
 
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
@@ -153,6 +156,10 @@ export const LOAD_RECOMMEND_FRIENDS_ERROR = 'LOAD_RECOMMEND_FRIENDS_ERROR';
 export const LOAD_RANKED_FRIENDS_REQUEST = 'LOAD_RANKED_FRIENDS_REQUEST';
 export const LOAD_RANKED_FRIENDS_SUCCESS = 'LOAD_RANKED_FRIENDS_SUCCESS';
 export const LOAD_RANKED_FRIENDS_ERROR = 'LOAD_RANKED_FRIENDS_ERROR';
+
+export const LOAD_REALTIME_MATCHING_REQUEST = 'LOAD_REALTIME_MATCHING_REQUEST';
+export const LOAD_REALTIME_MATCHING_SUCCESS = 'LOAD_REALTIME_MATCHING_SUCCESS';
+export const LOAD_REALTIME_MATCHING_ERROR = 'LOAD_REALTIME_MATCHING_ERROR';
 
 export const REMOVE_PROFILEIMAGE = 'REMOVE_PROFILEIMAGE';
 
@@ -374,24 +381,36 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
         if (value.length > 1) {
           const req = { ...value[0],
             count: value[0].reqSchedule.length + value[1].resSchedule.length };
-          // const res = { ...value[1],
-          //   count: value[1].reqSchedule.length + value[1].resSchedule.length };
           return matching.push(req);
         }
         return matching.push({ ...value[0],
-          count: value[0].reqSchedule?.length + value[0].resSchedule?.length });
+          count: value[0].reqSchedule?.length || 0 + value[0].resSchedule?.length || 0 });
       });
       draft.loadRankedFriendsLoading = false;
       draft.loadRankedFriendsDone = true;
       draft.rankedFriends = {
         rematching: action.data?.rematching,
-        matching: _.sortBy(matching, ['count']),
+        matching: _.orderBy(matching, ['count'], ['desc']),
       };
       break;
     }
     case LOAD_RANKED_FRIENDS_ERROR:
       draft.loadRankedFriendsError = action.error;
       draft.loadRankedFriendsLoading = false;
+      break;
+    case LOAD_REALTIME_MATCHING_REQUEST:
+      draft.loadRealtimeMatchingLoading = true;
+      draft.loadRealtimeMatchingDone = false;
+      draft.loadRealtimeMatchingError = null;
+      break;
+    case LOAD_REALTIME_MATCHING_SUCCESS:
+      draft.loadRealtimeMatchingLoading = false;
+      draft.loadRealtimeMatchingDone = true;
+      draft.realtimeMatching = action.data;
+      break;
+    case LOAD_REALTIME_MATCHING_ERROR:
+      draft.loadRealtimeMatchingError = action.error;
+      draft.loadRealtimeMatchingLoading = false;
       break;
     case REMOVE_PROFILEIMAGE:
       draft.imagePath = null;
