@@ -42,7 +42,7 @@ const RankedFriends = () => {
             </RankTitle>
             <RankCard>
               {rankedFriends?.matching?.map((friend, index) => (
-                <RankItemWrap>
+                <RankItemWrap key={friend.id}>
                   <RankItem>
                     <span>{index + 1}.</span>
                     {friend.nickname}

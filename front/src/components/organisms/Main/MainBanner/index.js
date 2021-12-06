@@ -31,7 +31,7 @@ const MainBanner = ({ location }) => (
 );
 
 MainBanner.propTypes = {
-  location: PropTypes.node,
+  location: PropTypes.any,
 };
 
 export default MainBanner;

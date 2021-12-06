@@ -76,13 +76,13 @@ const RecommendFriends = ({ location }) => {
             ? (
               <Slider {...settings}>
                 {recommendedFriends.map((friend) => (
-                  <FriendsCard>
+                  <FriendsCard key={friend.id}>
                     <CardAvatarWrap>
                       <Avatar size={82} src={friend?.Image ? `http://localhost:6015/${friend?.Image?.src}` : ''} />
                     </CardAvatarWrap>
                     <CardContentWrap>
                       <ContentTitile>{friend.nickname}</ContentTitile>
-                      <ContentDescription>{friend?.Userdetail?.description}</ContentDescription>
+                      <ContentDescription>{friend?.Gyms[0]?.address}</ContentDescription>
                     </CardContentWrap>
                   </FriendsCard>
                 ))}
@@ -107,7 +107,7 @@ const RecommendFriends = ({ location }) => {
 };
 
 RecommendFriends.propTypes = {
-  location: PropTypes.node,
+  location: PropTypes.any,
 };
 
 export default RecommendFriends;
