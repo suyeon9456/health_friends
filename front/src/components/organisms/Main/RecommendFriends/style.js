@@ -40,22 +40,11 @@ export const FriendsCardList = styled.div`
         align-content: flex-start;
       `;
     }
-    if (friendsLength === 4) {
-      return css`
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        align-content: flex-start;
-      `;
-    }
-    if (friendsLength > 4) {
-      return false;
-    }
-    return css`
-      display: flex;
-      flex-wrap: wrap;
-      align-content: flex-start;
-    `;
+    // return css`
+    //   display: flex;
+    //   flex-wrap: wrap;
+    //   align-content: flex-start;
+    // `;
   }}
 `;
 
