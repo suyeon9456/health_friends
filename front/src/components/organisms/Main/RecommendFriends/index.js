@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { EnvironmentOutlined } from '@ant-design/icons';
@@ -81,7 +82,9 @@ const RecommendFriends = ({ location }) => {
                       <Avatar size={82} src={friend?.Image ? `http://localhost:6015/${friend?.Image?.src}` : ''} />
                     </CardAvatarWrap>
                     <CardContentWrap>
-                      <ContentTitile>{friend.nickname}</ContentTitile>
+                      <Link href={`/profile/${friend?.id}`}>
+                        <ContentTitile>{friend.nickname}</ContentTitile>
+                      </Link>
                       <ContentDescription>{friend?.Gyms[0]?.address}</ContentDescription>
                     </CardContentWrap>
                   </FriendsCard>

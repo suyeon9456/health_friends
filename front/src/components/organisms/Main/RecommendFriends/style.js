@@ -136,6 +136,7 @@ export const CardContentWrap = styled.div`
 export const ContentTitile = styled.span`
   font-size: 14px;
   font-weight: 600;
+  cursor: pointer;
 `;
 
 export const ContentDescription = styled.div`

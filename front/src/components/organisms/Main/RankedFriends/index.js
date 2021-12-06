@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import * as _ from 'lodash';
 import { LOAD_RANKED_FRIENDS_REQUEST } from '../../../../../reducers/user';
@@ -30,7 +31,9 @@ const RankedFriends = () => {
                 <RankItemWrap key={friend.id}>
                   <RankItem>
                     <span>{index + 1}.</span>
-                    {friend.nickname}
+                    <Link href={`/profile/${friend?.id}`}>
+                      <a>{friend.nickname}</a>
+                    </Link>
                   </RankItem>
                 </RankItemWrap>
               ))}
@@ -45,7 +48,9 @@ const RankedFriends = () => {
                 <RankItemWrap key={friend.id}>
                   <RankItem>
                     <span>{index + 1}.</span>
-                    {friend.nickname}
+                    <Link href={`/profile/${friend?.id}`}>
+                      <a>{friend.nickname}</a>
+                    </Link>
                   </RankItem>
                 </RankItemWrap>
               ))}
