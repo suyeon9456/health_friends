@@ -34,7 +34,7 @@ const Menu = () => {
         <MenuTitle>
           <Link href="/">
             <MenuText>
-              HOME
+              <img src="/images/logo.png" alt="logo" />
             </MenuText>
           </Link>
         </MenuTitle>

@@ -128,4 +128,8 @@ export const MenuText = styled.a`
   touch-action: manipulation;
   color: rgba(0, 0, 0, 0.85);
   vertical-align: middle;
+
+  & > img {
+    height: 46px;
+  }
 `;
