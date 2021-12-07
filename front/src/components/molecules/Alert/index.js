@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { AlertBox, AlertContainer, AlertContent, AlertErrorIcon, AlertIconWrapper, AlertPrimaryIcon, AlertSuccessIcon, AlertWarningIcon } from './style';
 
-const Alert = ({ type, message, action }) => (
-  <AlertContainer>
+const Alert = ({ show, type, message, action }) => (
+  <AlertContainer show={show}>
     <AlertBox>
       <AlertIconWrapper>
         {(
@@ -29,6 +29,7 @@ const Alert = ({ type, message, action }) => (
 );
 
 Alert.propTypes = {
+  show: PropTypes.bool,
   type: PropTypes.string,
   message: PropTypes.string,
   action: PropTypes.node,

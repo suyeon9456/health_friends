@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
-import { CheckCircleOutlined, CloseCircleOutlined, ExclamationCircleOutlined, WarningOutlined } from '@ant-design/icons';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
-export const AlertContainer = styled.div`
+export const ConfirmContainer = styled.div`
   overflow-y: auto;
   align-items: center;
   background: rgba(0,0,0,.4);
@@ -23,7 +23,7 @@ export const AlertContainer = styled.div`
   `}
 `;
 
-export const AlertBox = styled.div`
+export const ConfirmBox = styled.div`
   font-feature-settings: "tnum";
   line-height: 1.5715;
   font-size: 14px;
@@ -46,33 +46,26 @@ export const AlertBox = styled.div`
   width: 32em;
 `;
 
-export const AlertIconWrapper = styled.div`
+export const ConfirmIconWrapper = styled.div`
   display: block;
   text-align: center;
   width: 100%;
 `;
 
-export const AlertErrorIcon = styled(CloseCircleOutlined)`
-  font-size: 40px;
-  color: #ff4d4f;
-`;
-
-export const AlertWarningIcon = styled(WarningOutlined)`
+export const ConfirmPrimaryIcon = styled(QuestionCircleOutlined)`
   font-size: 40px;
   color: #faad14;
 `;
 
-export const AlertSuccessIcon = styled(CheckCircleOutlined)`
-  font-size: 40px;
-  color: #1890ff;
-`;
-
-export const AlertPrimaryIcon = styled(ExclamationCircleOutlined)`
-  font-size: 40px;
-  color: #b37feb;
-`;
-
-export const AlertContent = styled.div`
+export const ConfirmContent = styled.div`
   text-align: center;
   margin: 20px 0;
+`;
+
+export const ButtonWrap = styled.div`
+  text-align: center;
+
+  & > button {
+    margin: 0 5px !important;
+  }
 `;

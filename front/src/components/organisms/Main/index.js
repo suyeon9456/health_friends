@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { LOAD_MY_INFO_REQUEST, LOAD_RECOMMEND_FRIENDS_REQUEST } from '../../../../reducers/user';
 import MainBanner from './MainBanner';
@@ -6,12 +6,18 @@ import RankedFriends from './RankedFriends';
 import RealTimeMatchingCouple from './RealTimeMatchingCouple';
 
 import { MainBannerWrap, MainBodyWrap, MainWrap } from './style';
+import { Alert } from '../../molecules';
+import { Button } from '../../atoms';
 
 const Main = () => {
   const dispatch = useDispatch();
   const [location, setLocation] = useState(null);
+  const [locationYn, setLocationYn] = useState(false);
   // const { drawerShow } = useShowState();
   // const contextDispatch = useShowDispatch();
+  const onChangeLocationYn = useCallback(() => {
+    setLocationYn((prev) => !prev);
+  }, []);
   useEffect(() => {
     dispatch({
       type: LOAD_MY_INFO_REQUEST,
@@ -22,7 +28,9 @@ const Main = () => {
     const geocoder = new kakao.maps.services.Geocoder();
     console.log('navigator', navigator.geolocation);
     if (navigator.geolocation) {
+      console.log('?');
       navigator.geolocation.getCurrentPosition((position) => {
+        console.log('position : ', position);
         const lat = position.coords.latitude; // 위도
         const lon = position.coords.longitude; // 경도
         // const locPosition = new kakao.maps.LatLng(lat, lon);
@@ -45,6 +53,18 @@ const Main = () => {
             });
           }
         });
+      }, ({ code: errorCode }) => {
+        console.error(errorCode);
+        if (errorCode === 1) {
+          setLocationYn(true);
+
+          setLocation({
+            regionSiName: '서울시',
+            regionGuName: '중구',
+            regionDongName: '명동',
+            mainAddressNo: '',
+          });
+        }
       });
     } else {
       console.log('X');
@@ -87,6 +107,21 @@ const Main = () => {
         <RankedFriends />
         <RealTimeMatchingCouple />
       </MainBodyWrap>
+      <Alert
+        show={locationYn}
+        type="warning"
+        action={(
+          <Button
+            type="warning"
+            onClick={onChangeLocationYn}
+            block
+          >
+            확인
+            {locationYn}
+          </Button>
+        )}
+        message="현재위치에서 활동중인 친구가 궁금하다면 위치 엑세스를 허용해주세요."
+      />
     </MainWrap>
   );
 };
