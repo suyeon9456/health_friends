@@ -1,8 +1,10 @@
 import { EditOutlined, UserAddOutlined } from '@ant-design/icons';
 import React, { useCallback, useState } from 'react';
 import { StyledButton } from '../src/components/atoms/Button/style';
+import { Filter } from '../src/components/molecules';
 import Alert from '../src/components/molecules/Alert';
 import AvatarGroup from '../src/components/molecules/AvatarGroup';
+import BasicList from '../src/components/molecules/BasicList';
 import FormInput from '../src/components/molecules/FormInput';
 import FormSelect from '../src/components/molecules/FormSelect';
 import FormTextarea from '../src/components/molecules/FormTextarea';
@@ -189,6 +191,9 @@ const Molecules = () => {
       >
         <p>Basic Content</p>
       </Modal> */}
+      <div>
+        <Filter />
+      </div>
     </div>
   );
 };

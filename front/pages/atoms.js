@@ -19,6 +19,7 @@ import InputDatePicker from '../src/components/atoms/InputDatePicker';
 import RangePicker from '../src/components/atoms/RangePicker';
 import RangeTimePicker from '../src/components/atoms/RangeTimePicker';
 import Textarea from '../src/components/atoms/Textarea';
+import CheckBox from '../src/components/atoms/CheckBox';
 
 const Atoms = () => {
   const options = [{ value: 1, text: 'test1' }, { value: 2, text: 'test2' }, { value: 3, text: 'test3' }];
@@ -181,6 +182,11 @@ const Atoms = () => {
       <h3>RangeTimePicker</h3>
       <div style={{ padding: '10px' }}>
         <RangeTimePicker type="time" placeholder="0000/00/00 - 0000/00/00" />
+      </div>
+      <h3>CheckBOx</h3>
+      <div style={{ padding: '10px' }}>
+        {/* <CheckBox type="primary" label="test" /> */}
+        <CheckBox type="button" label="test" />
       </div>
     </>
   );

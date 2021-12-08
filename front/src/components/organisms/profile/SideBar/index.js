@@ -13,19 +13,11 @@ import { ADD_PROFILEIMAGE_REQUEST, REMOVE_PROFILEIMAGE, UPLOAD_PROFILEIMAGE_REQU
 const SideBar = ({ profileMenu, setProfileMenu }) => {
   const dispatch = useDispatch();
   const { profile, me, imagePath, uploadProfileImageError } = useSelector((state) => state.user);
-  const [totalMatching, setTotalMatching] = useState(0);
-  const [rematching, setRematching] = useState(0);
   const [uploadState, setUploadState] = useState(false);
   const [responseRate,
     onChangeResponseRate] = useRate({
     total: profile?.resSchedule?.length || 0,
     number: profile?.resSchedule?.filter((f) => f.isPermitted).length || 0,
-  });
-
-  const [rematchingRate,
-    onChangeRematchingRate] = useRate({
-    total: totalMatching,
-    number: rematching,
   });
 
   const onClickMenu = useCallback((e) => {
@@ -35,19 +27,6 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
   useEffect(async () => {
     if (profile) {
       onChangeResponseRate();
-      const { reqSchedule, resSchedule } = profile;
-      const schedules = _.concat(reqSchedule, resSchedule);
-      const matchings = schedules.filter(({ permission }) => permission);
-      setTotalMatching(matchings.length);
-      const groupByTotalMatching = _.groupBy(matchings, 'FriendId');
-      let rematchingLength = 0;
-      await _.forIn(groupByTotalMatching,
-        (value) => {
-          if (value.length >= 2) {
-            rematchingLength += (value.length - 1);
-          }
-        });
-      setRematching(rematchingLength);
     }
   }, [profile]);
 
@@ -79,10 +58,6 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
       type: REMOVE_PROFILEIMAGE,
     });
   }, []);
-
-  useEffect(() => {
-    onChangeRematchingRate();
-  }, [rematching]);
 
   return (
     <SideBarWrapper>
@@ -122,7 +97,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           <InfoIconWrapper>
             <TrophyOutlined />
           </InfoIconWrapper>
-          <Progress label="재매칭률" percent={rematchingRate || 0} />
+          <Progress label="재매칭률" percent={profile?.Userdetail?.rematchingRate} />
         </InfoContent>
         <InfoContent key="response">
           <InfoIconWrapper>

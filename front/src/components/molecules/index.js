@@ -18,6 +18,8 @@ import SimpleMatchingCard from './SimpleMatchingCard';
 import Steps from './Steps';
 import Tabs from './Tabs';
 import BigCalendar from './BigCalendar';
+import BasicList from './BasicList';
+import Filter from './Filter';
 
 export {
   Alert,
@@ -40,4 +42,6 @@ export {
   Tabs,
   BigCalendar,
   FormDateTimePicker,
+  BasicList,
+  Filter,
 };

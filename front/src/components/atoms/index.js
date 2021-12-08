@@ -19,6 +19,7 @@ import Tag from './Tag';
 import Textarea from './Textarea';
 import Tooltip from './Tooltip';
 import Upload from './Upload';
+import CheckBox from './CheckBox';
 
 export {
   Avatar,
@@ -42,4 +43,5 @@ export {
   Textarea,
   Tooltip,
   Upload,
+  CheckBox,
 };

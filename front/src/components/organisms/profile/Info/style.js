@@ -10,6 +10,10 @@ export const InfoWrapper = styled.section`
   border: 1px solid #f0f0f0;
   margin-left: 10px;
   margin-top: 10px;
+
+  @media (max-width: 767px) {
+    margin-left: 0;
+  }
 `;
 
 export const InfoHeader = styled.div`

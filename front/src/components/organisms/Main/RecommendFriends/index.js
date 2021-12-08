@@ -45,28 +45,16 @@ const RecommendFriends = ({ location }) => {
       },
     }],
   };
-  // const [browserWidth, setBrowserWidth] = useState(null);
 
   const reLoadLocation = useCallback(() => {
     console.log('??');
   }, []);
 
-  // useEffect(() => {
-  //   const onResize = () => {
-  //     console.log('widthL ', window.innerWidth);
-  //     setBrowserWidth(window.innerWidth);
-  //   };
-  //   window.addEventListener('resize', onResize);
-  //   return () => {
-  //     window.removeEventListener('resize', onResize);
-  //   };
-  // }, []);
-
   const { recommendedFriends, closedFriends } = useSelector((state) => state.user);
   return (
     <FriendsWrap>
       <FriendsTitle>
-        <EnvironmentOutlined /> {`${location?.regionSiName} ${location?.regionGuName} ${location?.regionDongName}`}에서 활동하는 친구 {closedFriends?.length}명
+        <EnvironmentOutlined /> {`${location?.regionSiName || ''} ${location?.regionGuName || ''} ${location?.regionDongName || ''}`}에서 활동하는 친구 {closedFriends?.length}명
       </FriendsTitle>
       <FriendsSubTitle onClick={reLoadLocation}>
         실제위치와 일치하지 않으신가요?

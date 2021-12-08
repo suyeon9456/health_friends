@@ -23,12 +23,15 @@ function* addSchedule(action) {
 }
 
 function loadSchedulesAPI(data) {
-  return axios.get(`/schedules?type=${data.type || 'scheduledRecord'}&limit=${data.limit}`);
+  const termquery = data.term.length < 1 ? '' : `&${data.term.map((m) => `${m}=true`).join('&')}`;
+  const typequery = data.type.length < 1 ? '' : `&${data.type.map((m) => `${m}=true`).join('&')}`;
+  console.log('datadata', `/schedules?limit=${data.limit}${termquery}${typequery}`);
+  return axios.get(`/schedules?limit=${data.limit}&rejectedMatching=${data.rejectedMatching}${termquery}${typequery}`);
 }
 
 function* loadSchedules(action) {
   try {
-    console.log('load');
+    console.log('load', action.data);
     const result = yield call(loadSchedulesAPI, action.data);
     yield put({
       type: LOAD_SCHEDULES_SUCCESS,

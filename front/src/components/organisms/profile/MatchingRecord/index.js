@@ -4,9 +4,9 @@ import { format } from 'date-fns';
 import { EditOutlined, PlusOutlined, RetweetOutlined } from '@ant-design/icons';
 
 import { LOAD_SCHEDULES_REQUEST } from '../../../../../reducers/schedule';
-import { Button } from '../../../atoms';
-import { Tabs, MatchingCard } from '../../../molecules';
-import { RecordBody, RecordFooter, RecordWrap, TabList } from './style';
+import { Button, CheckBox } from '../../../atoms';
+import { Tabs, MatchingCard, Filter } from '../../../molecules';
+import { CancelYnCheckBoxWrap, FilterList, RecordBody, RecordFooter, RecordWrap, TabList, MatchingCardListWrap } from './style';
 import ModalMatchingDetail from '../ModalMatchingDetail';
 
 const MatchingRecord = () => {
@@ -16,7 +16,12 @@ const MatchingRecord = () => {
   const [selectedTab, setSelectedTab] = useState('scheduledRecord');
   const [schedulesLimit, setSchedulesLimit] = useState(3);
   const [showModal, setShowModal] = useState(false);
+  // const [showFilter, setShowFilter] = useState('');
   const [modalType, setModalType] = useState('view');
+
+  const [term, setTerm] = useState([]);
+  const [type, setType] = useState([]);
+  const [rejectedMatching, setRejectedMatching] = useState(false);
 
   const onChangeSelectedTab = useCallback((tab) => () => {
     setSelectedTab(tab);
@@ -30,15 +35,51 @@ const MatchingRecord = () => {
     setShowModal((prev) => !prev);
   }, [showModal]);
 
+  const onChangeTerm = useCallback((checked, value) => {
+    console.log('checked', checked);
+    if (checked) {
+      setTerm([...term, value]);
+    } else {
+      // 체크 해제
+      setTerm(term.filter((el) => el !== value));
+    }
+  }, [term]);
+
+  const onChangeType = useCallback((checked, value) => {
+    console.log('checked', checked);
+    if (checked) {
+      setType([...type, value]);
+    } else {
+      // 체크 해제
+      setType(type.filter((el) => el !== value));
+    }
+  }, [type]);
+
+  const onChangeRejectedMatching = useCallback((e, value) => {
+    console.log('checked', e);
+    if (e.currentTarget.checked) {
+      setRejectedMatching(true);
+    } else {
+      // 체크 해제
+      setRejectedMatching(false);
+    }
+  }, [rejectedMatching]);
+
+  // const onChangeShowFilter = useCallback((value) => {
+  //   setShowFilter(value);
+  // }, [showModal]);
+
   useEffect(() => {
+    console.log('term', term);
+    // const []
     dispatch({
       type: LOAD_SCHEDULES_REQUEST,
-      data: { type: selectedTab, limit: schedulesLimit },
+      data: { limit: schedulesLimit, term, type, rejectedMatching },
     });
-  }, [selectedTab, schedulesLimit]);
+  }, [term, type, rejectedMatching, schedulesLimit]);
   return (
     <RecordWrap>
-      <TabList>
+      {/* <TabList>
         <Tabs
           tabs={[
             { value: 'scheduledRecord', text: '예정된매칭' },
@@ -49,35 +90,68 @@ const MatchingRecord = () => {
           selectedTab={selectedTab}
           onChangeSelectedTab={onChangeSelectedTab}
         />
-      </TabList>
+      </TabList> */}
+
+      <FilterList>
+        <Filter
+          key="period"
+          label="매칭기간"
+          value="period"
+          items={[
+            { value: 'scheduledRecord', text: '예정된매칭' },
+            { value: 'lastRecord', text: '지난매칭' }]}
+          onChange={onChangeTerm}
+          checkList={term}
+          />
+        <Filter
+          key="type"
+          label="매칭유형"
+          value="term"
+          items={[
+            { value: 'requestRecord', text: '보낸매칭' },
+            { value: 'receiveRecord', text: '받은매칭' }]}
+          onChange={onChangeType}
+          checkList={type}
+          />
+      </FilterList>
+      <CancelYnCheckBoxWrap>
+        <CheckBox
+          label="취소된 매칭으로 보기"
+          value={rejectedMatching}
+          checked={rejectedMatching}
+          onChange={onChangeRejectedMatching}
+        />
+      </CancelYnCheckBoxWrap>
       <RecordBody schedules={schedules.length}>
-        {schedules?.map((schedule) => {
-          console.log('schedule: ', schedule);
-          const startDate = format(schedule.start, 'yyyy년 MM월 dd일 HH:mm');
-          const endDate = format(schedule.end, 'HH:mm');
-          const date = [startDate, ' ~ ', endDate].join('');
-          const friend = schedule?.friend?.id;
-          const nickname = friend === me?.id
-            ? schedule?.requester?.nickname
-            : schedule?.friend?.nickname;
-          const imageSrc = friend === me?.id
-            ? schedule?.requester?.Image?.src
-            : schedule?.friend?.Image?.src;
-          return (
-            <MatchingCard
-              key={schedule.id}
-              id={schedule.id}
-              nickname={nickname}
-              description={schedule.address}
-              image={`http://localhost:6015/${imageSrc}`}
-              date={date}
-              actions={[{ icon: <RetweetOutlined />, key: 'rematch' },
-                { icon: <EditOutlined />, key: 'edit' }]}
-              setShowModal={setShowModal}
-              setModalType={setModalType}
-            />
-          );
-        })}
+        <MatchingCardListWrap>
+          {schedules?.map((schedule) => {
+            console.log('schedule: ', schedule);
+            const startDate = format(schedule.start, 'yyyy년 MM월 dd일 HH:mm');
+            const endDate = format(schedule.end, 'HH:mm');
+            const date = [startDate, ' ~ ', endDate].join('');
+            const friend = schedule?.friend?.id;
+            const nickname = friend === me?.id
+              ? schedule?.requester?.nickname
+              : schedule?.friend?.nickname;
+            const imageSrc = friend === me?.id
+              ? schedule?.requester?.Image?.src
+              : schedule?.friend?.Image?.src;
+            return (
+              <MatchingCard
+                key={schedule.id}
+                id={schedule.id}
+                nickname={nickname}
+                description={schedule.address}
+                image={imageSrc ? `http://localhost:6015/${imageSrc}` : ''}
+                date={date}
+                actions={[{ icon: <RetweetOutlined />, key: 'rematch' },
+                  { icon: <EditOutlined />, key: 'edit' }]}
+                setShowModal={setShowModal}
+                setModalType={setModalType}
+              />
+            );
+          })}
+        </MatchingCardListWrap>
       </RecordBody>
       <RecordFooter>
         <Button

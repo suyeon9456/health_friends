@@ -68,7 +68,8 @@ router.get('/profile/:userId', async (req, res, next) => {
           'friendsAge',
           'friendsCareer',
           'friendsGender',
-          'friendsRole'
+          'friendsRole',
+          'rematchingRate'
         ],
       }, {
         model: Gym,

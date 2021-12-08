@@ -10,6 +10,11 @@ export const MoreInfoWrapper = styled.section`
   border: 1px solid #f0f0f0;
   margin-left: 10px;
   margin-top: 10px;
+
+  @media (max-width: 767px) {
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
 `;
 
 export const MoreInfoBody = styled.div`
@@ -25,6 +30,19 @@ export const MoreInfoContent = styled.div`
 
   &:not(:last-child) {
     border-right: 1px solid #f0f0f0;
+  }
+
+  @media (max-width: 865px) {
+    display: block;
+    width: 100%;
+    padding: 24px 24px 0 24px;
+    &:not(:last-child) {
+      border-right: none;
+      border-bottom: 1px solid #f0f0f0;
+      padding: 0 24px 24px 24px;
+    }
+    /* margin-left: 0;
+    margin-bottom: 10px; */
   }
 `;
 
