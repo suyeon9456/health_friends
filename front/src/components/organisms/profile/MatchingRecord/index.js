@@ -65,9 +65,18 @@ const MatchingRecord = () => {
     }
   }, [rejectedMatching]);
 
-  // const onChangeShowFilter = useCallback((value) => {
-  //   setShowFilter(value);
-  // }, [showModal]);
+  const [isPayModalClicked, setIsPayModalClicked] = useState(false);
+
+  const handlePayModalOff = (e) => {
+
+    const clicked = e.target.closest('.paymodal');
+
+    if (clicked) return;
+    
+    else {
+      setIsPayModalClicked(false);
+    }
+  };
 
   useEffect(() => {
     console.log('term', term);
