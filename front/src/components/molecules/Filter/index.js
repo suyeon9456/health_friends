@@ -10,26 +10,23 @@ const Filter = ({ label, items, onChange, checkList }) => {
   const filterSelectorEl = useRef();
   const [show, setShow] = useState(false);
 
-  const handleFilterOff = useCallback((e) => {
-    console.log('e: ', e);
-    // console.log('123456789', filterEl.current.contains(e.target));
-    console.log('show: ', show);
-    if (show && !filterSelectorEl.current.contains(e.target) && !filterEl.current.contains(e.target)) {
-      console.log('test', show);
-      setShow(false);
-    }
-  }, [show]);
   const onChangeShow = useCallback(() => {
-    console.log('???????????????');
     setShow((prev) => !prev);
   }, [show]);
 
   useEffect(() => {
+    const handleFilterOff = (e) => {
+      if (show
+        && !filterSelectorEl.current.contains(e.target)
+        && !filterEl.current.contains(e.target)) {
+        setShow(false);
+      }
+    };
     window.addEventListener('click', handleFilterOff);
     return () => {
       window.removeEventListener('click', handleFilterOff);
     };
-  }, []);
+  }, [show]);
   return (
     <FilterWrap>
       <FilterSelectorWrap ref={filterSelectorEl} onClick={onChangeShow}>

@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 export const FilterWrap = styled.div`
-
+  position: relative;
 `;
 
 export const FilterSelectorWrap = styled.div`
@@ -65,8 +65,9 @@ export const FilterArrrowWrap = styled.span`
 export const FilterContent = styled.div`
   display: inline-block;
   z-index: 5;
-  top: 50px;
-  left: 10px;
+  top: 40px;
+  /* left: 10px; */
+  left: 0;
   position: absolute;
   background-color: #fff;
   padding: 12px;
@@ -74,6 +75,7 @@ export const FilterContent = styled.div`
   border: 1px solid #f0f0f0;
   width: 300px;
   border-radius: 5px; 
+  box-shadow: 0 2px 8px #e8e9e9;
 
   ${({ show }) => !show && css`
     display: none;
