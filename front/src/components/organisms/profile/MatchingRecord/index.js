@@ -5,27 +5,22 @@ import { EditOutlined, PlusOutlined, RetweetOutlined } from '@ant-design/icons';
 
 import { LOAD_SCHEDULES_REQUEST } from '../../../../../reducers/schedule';
 import { Button, CheckBox } from '../../../atoms';
-import { Tabs, MatchingCard, Filter } from '../../../molecules';
-import { CancelYnCheckBoxWrap, FilterList, RecordBody, RecordFooter, RecordWrap, TabList, MatchingCardListWrap } from './style';
+import { MatchingCard, Filter } from '../../../molecules';
+import { CancelYnCheckBoxWrap, FilterList, RecordBody, RecordFooter, RecordWrap, MatchingCardListWrap } from './style';
 import ModalMatchingDetail from '../ModalMatchingDetail';
 
 const MatchingRecord = () => {
   const { me } = useSelector((state) => state.user);
   const { schedules } = useSelector((state) => state.schedule);
   const dispatch = useDispatch();
-  const [selectedTab, setSelectedTab] = useState('scheduledRecord');
   const [schedulesLimit, setSchedulesLimit] = useState(3);
   const [showModal, setShowModal] = useState(false);
-  // const [showFilter, setShowFilter] = useState('');
   const [modalType, setModalType] = useState('view');
 
+  const [status, setStatus] = useState([]);
   const [term, setTerm] = useState([]);
   const [type, setType] = useState([]);
   const [rejectedMatching, setRejectedMatching] = useState(false);
-
-  const onChangeSelectedTab = useCallback((tab) => () => {
-    setSelectedTab(tab);
-  }, [selectedTab]);
 
   const onMoreSchedule = useCallback(() => {
     setSchedulesLimit((prev) => prev + 3);
@@ -35,8 +30,16 @@ const MatchingRecord = () => {
     setShowModal((prev) => !prev);
   }, [showModal]);
 
+  const onChangeStatus = useCallback((checked, value) => {
+    if (checked) {
+      setStatus([...status, value]);
+    } else {
+      // 체크 해제
+      setStatus(status.filter((el) => el !== value));
+    }
+  }, [status]);
+
   const onChangeTerm = useCallback((checked, value) => {
-    console.log('checked', checked);
     if (checked) {
       setTerm([...term, value]);
     } else {
@@ -46,7 +49,6 @@ const MatchingRecord = () => {
   }, [term]);
 
   const onChangeType = useCallback((checked, value) => {
-    console.log('checked', checked);
     if (checked) {
       setType([...type, value]);
     } else {
@@ -55,8 +57,7 @@ const MatchingRecord = () => {
     }
   }, [type]);
 
-  const onChangeRejectedMatching = useCallback((e, value) => {
-    console.log('checked', e);
+  const onChangeRejectedMatching = useCallback((e) => {
     if (e.currentTarget.checked) {
       setRejectedMatching(true);
     } else {
@@ -65,63 +66,42 @@ const MatchingRecord = () => {
     }
   }, [rejectedMatching]);
 
-  const [isPayModalClicked, setIsPayModalClicked] = useState(false);
-
-  const handlePayModalOff = (e) => {
-
-    const clicked = e.target.closest('.paymodal');
-
-    if (clicked) return;
-    
-    else {
-      setIsPayModalClicked(false);
-    }
-  };
-
   useEffect(() => {
-    console.log('term', term);
-    // const []
     dispatch({
       type: LOAD_SCHEDULES_REQUEST,
-      data: { limit: schedulesLimit, term, type, rejectedMatching },
+      data: { profileMenu: 'record', limit: schedulesLimit, term, type, status, rejectedMatching },
     });
-  }, [term, type, rejectedMatching, schedulesLimit]);
+  }, [term, type, status, rejectedMatching, schedulesLimit]);
   return (
     <RecordWrap>
-      {/* <TabList>
-        <Tabs
-          tabs={[
-            { value: 'scheduledRecord', text: '예정된매칭' },
-            { value: 'lastRecord', text: '지난매칭' },
-            { value: 'rejectedRecord', text: '취소된매칭' },
-            { value: 'requestRecord', text: '보낸매칭' },
-            { value: 'receiveRecord', text: '받은매칭' }]}
-          selectedTab={selectedTab}
-          onChangeSelectedTab={onChangeSelectedTab}
-        />
-      </TabList> */}
-
       <FilterList>
+        <Filter
+          key="state"
+          label="매칭상태"
+          items={[
+            { value: 'before', text: '매칭수락 후' },
+            { value: 'after', text: '매칭수락 전' }]}
+          onChange={onChangeStatus}
+          checkList={status}
+        />
         <Filter
           key="period"
           label="매칭기간"
-          value="period"
           items={[
             { value: 'scheduledRecord', text: '예정된매칭' },
             { value: 'lastRecord', text: '지난매칭' }]}
           onChange={onChangeTerm}
           checkList={term}
-          />
+        />
         <Filter
           key="type"
           label="매칭유형"
-          value="term"
           items={[
             { value: 'requestRecord', text: '보낸매칭' },
             { value: 'receiveRecord', text: '받은매칭' }]}
           onChange={onChangeType}
           checkList={type}
-          />
+        />
       </FilterList>
       <CancelYnCheckBoxWrap>
         <CheckBox
@@ -151,7 +131,7 @@ const MatchingRecord = () => {
                 id={schedule.id}
                 nickname={nickname}
                 description={schedule.address}
-                image={imageSrc ? `http://localhost:6015/${imageSrc}` : ''}
+                // image={imageSrc ? `http://localhost:6015/${imageSrc}` : ''}
                 date={date}
                 actions={[{ icon: <RetweetOutlined />, key: 'rematch' },
                   { icon: <EditOutlined />, key: 'edit' }]}
@@ -175,7 +155,7 @@ const MatchingRecord = () => {
         show={showModal}
         onCancel={onChangeShowModal}
         type={modalType}
-        selectedTab={selectedTab}
+        // selectedTab={selectedTab}
       />
     </RecordWrap>
   );

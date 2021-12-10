@@ -50,7 +50,7 @@ const MatchingCalendar = () => {
   useEffect(() => {
     dispatch({
       type: LOAD_SCHEDULES_REQUEST,
-      data: { type: 'calendar' },
+      data: { profileMenu: 'calendar' },
     });
   }, []);
 

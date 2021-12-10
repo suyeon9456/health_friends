@@ -107,11 +107,11 @@ router.get('/', async (req, res, next) => { // GET /schedules/
   try {
     console.log('testtest', req.query);
 
-    const { scheduledRecord, lastRecord, requestRecord, receiveRecord, rejectedMatching } = req.query;
+    const { before, after, scheduledRecord, lastRecord, requestRecord, receiveRecord, rejectedMatching } = req.query;
 
     const where = {
-      isPermitted: true,
-      permission: true,
+      isPermitted: { [Op.or]: [false, true] },
+      permission: { [Op.or]: [false, true] },
       [Op.or]: [{
           UserId: req.user.id,
         }, {
@@ -133,23 +133,27 @@ router.get('/', async (req, res, next) => { // GET /schedules/
     }
 
     if (requestRecord || receiveRecord) {
-      // where = {
-        //         isPermitted: false,
-        //         permission: false,
-        //         FriendId: req.user.id,
-        //       }
-        //     } else if (req.query.type === 'requestRecord') {
-        //       where = {
-        //         isPermitted: false,
-        //         permission: false,
-        //         UserId: req.user.id,
-        //       }
       if (requestRecord && !receiveRecord) {
         where.UserId = req.user.id;
         where.FriendId = { [Op.not]: req.user.id };
       }
       if (receiveRecord && !requestRecord) {
         where.FriendId = req.user.id;
+      }
+    }
+
+    if (before || after) {
+      if (before || !after) {
+        where.isPermitted = false;
+        where.permission = false;
+      }
+      if (after || !before) {
+        where.isPermitted = true;
+        where.permission = { [Op.or]: [false, true] }
+      }
+      if (after && before) {
+        where.isPermitted = { [Op.or]: [false, true] }
+        where.permission = { [Op.or]: [false, true] }
       }
     }
 
@@ -166,7 +170,7 @@ router.get('/', async (req, res, next) => { // GET /schedules/
 
     const schedule = await Schedule.findAll({
       where,
-      limit: req.query.type === 'calendar' ? null : parseInt(req.query.limit, 10),
+      limit: req.query.profileMenu === 'calendar' ? null : parseInt(req.query.limit, 10),
       attributes: [
         'id',
         'description',

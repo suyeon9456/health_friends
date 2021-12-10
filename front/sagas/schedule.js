@@ -23,10 +23,15 @@ function* addSchedule(action) {
 }
 
 function loadSchedulesAPI(data) {
+  console.log('test');
+  if (data.profileMenu === 'calendar') {
+    return axios.get(`/schedules?profileMenu=${data.profileMenu}`);
+  }
+  const statusquery = data.status.length < 1 ? '' : `&${data.status.map((m) => `${m}=true`).join('&')}`;
   const termquery = data.term.length < 1 ? '' : `&${data.term.map((m) => `${m}=true`).join('&')}`;
   const typequery = data.type.length < 1 ? '' : `&${data.type.map((m) => `${m}=true`).join('&')}`;
-  console.log('datadata', `/schedules?limit=${data.limit}${termquery}${typequery}`);
-  return axios.get(`/schedules?limit=${data.limit}&rejectedMatching=${data.rejectedMatching}${termquery}${typequery}`);
+  console.log('datadata', `/schedules?limit=${data?.limit}${termquery}${typequery}`);
+  return axios.get(`/schedules?profileMenu=${data.profileMenu}&limit=${data?.limit}&rejectedMatching=${data?.rejectedMatching}${termquery}${typequery}${statusquery}`);
 }
 
 function* loadSchedules(action) {
