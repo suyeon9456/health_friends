@@ -10,7 +10,7 @@ import { Content, DescriptionWrap, InfoContent } from '../../MatchingRequestForm
 import { MatchingInfoWrap, RequestFriendWrap, UserInfoWrap } from './style';
 import { UPDATE_PERMISSION_REQUEST, UPDATE_SCHEDULE_REQUEST } from '../../../../../reducers/schedule';
 
-const ModalMatchingDetail = ({ show, onCancel, type, selectedTab }) => {
+const ModalMatchingDetail = ({ show, onCancel, type }) => {
   const dispatch = useDispatch();
   const { schedule } = useSelector((state) => state.schedule);
   const { me } = useSelector((state) => state.user);
@@ -59,16 +59,10 @@ const ModalMatchingDetail = ({ show, onCancel, type, selectedTab }) => {
 
   useEffect(() => {
     if (schedule) {
-      const friend = schedule?.Friend?.id;
-      // setNickname(friend === me?.id
-      //   ? schedule?.requester?.nickname
-      //   : schedule?.friend?.nicknam);
+      const friend = schedule?.friend?.id;
       setFNickname(friend === me?.id
         ? schedule?.requester?.nickname
         : schedule?.friend?.nickname);
-      console.log('schedule::', schedule);
-      console.log('friend === me?.id::', friend === me?.id);
-      console.log('fNickname::', fNickname);
       const start = useDateFormat(schedule?.start, 'yyyy년 MM월 dd일 HH:mm');
       const end = useDateFormat(schedule?.end, 'HH:mm');
       const matchingDate = [start, ' ~ ', end].join('');
@@ -86,7 +80,7 @@ const ModalMatchingDetail = ({ show, onCancel, type, selectedTab }) => {
       onCancel={onCancel}
       onSubmit={onSubmit}
       footer={type !== 'view'}
-      actions={type === 'view' && selectedTab === 'receiveRecord'
+      actions={type === 'view' && schedule?.friend?.id === me?.id
         ? [{ id: 'refuse', title: '거절', onClick: onRefuse },
           { id: 'accept', title: '수락', type: 'primary', onClick: onAccept }]
         : []}
@@ -145,7 +139,6 @@ ModalMatchingDetail.propTypes = {
   show: PropTypes.bool,
   onCancel: PropTypes.func,
   type: PropTypes.string,
-  selectedTab: PropTypes.string,
 };
 
 export default ModalMatchingDetail;

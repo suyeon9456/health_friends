@@ -1,21 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { format } from 'date-fns';
-import { EditOutlined, PlusOutlined, RetweetOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 
 import { LOAD_SCHEDULES_REQUEST } from '../../../../../reducers/schedule';
 import { Button, CheckBox } from '../../../atoms';
-import { MatchingCard, Filter } from '../../../molecules';
-import { CancelYnCheckBoxWrap, FilterList, RecordBody, RecordFooter, RecordWrap, MatchingCardListWrap } from './style';
-import ModalMatchingDetail from '../ModalMatchingDetail';
+import { Filter } from '../../../molecules';
+import { CancelYnCheckBoxWrap, FilterList, RecordBody, RecordFooter, RecordWrap } from './style';
+import MatchingCardList from '../../MatchingCardList';
 
 const MatchingRecord = () => {
-  const { me } = useSelector((state) => state.user);
   const { schedules } = useSelector((state) => state.schedule);
   const dispatch = useDispatch();
   const [schedulesLimit, setSchedulesLimit] = useState(3);
-  const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState('view');
 
   const [status, setStatus] = useState([]);
   const [term, setTerm] = useState([]);
@@ -25,10 +21,6 @@ const MatchingRecord = () => {
   const onMoreSchedule = useCallback(() => {
     setSchedulesLimit((prev) => prev + 3);
   }, [schedulesLimit]);
-
-  const onChangeShowModal = useCallback(() => {
-    setShowModal((prev) => !prev);
-  }, [showModal]);
 
   const onChangeStatus = useCallback((checked, value) => {
     if (checked) {
@@ -112,35 +104,7 @@ const MatchingRecord = () => {
         />
       </CancelYnCheckBoxWrap>
       <RecordBody schedules={schedules.length}>
-        <MatchingCardListWrap>
-          {schedules?.map((schedule) => {
-            console.log('schedule: ', schedule);
-            const startDate = format(schedule.start, 'yyyy년 MM월 dd일 HH:mm');
-            const endDate = format(schedule.end, 'HH:mm');
-            const date = [startDate, ' ~ ', endDate].join('');
-            const friend = schedule?.friend?.id;
-            const nickname = friend === me?.id
-              ? schedule?.requester?.nickname
-              : schedule?.friend?.nickname;
-            const imageSrc = friend === me?.id
-              ? schedule?.requester?.Image?.src
-              : schedule?.friend?.Image?.src;
-            return (
-              <MatchingCard
-                key={schedule.id}
-                id={schedule.id}
-                nickname={nickname}
-                description={schedule.address}
-                // image={imageSrc ? `http://localhost:6015/${imageSrc}` : ''}
-                date={date}
-                actions={[{ icon: <RetweetOutlined />, key: 'rematch' },
-                  { icon: <EditOutlined />, key: 'edit' }]}
-                setShowModal={setShowModal}
-                setModalType={setModalType}
-              />
-            );
-          })}
-        </MatchingCardListWrap>
+        <MatchingCardList schedules={schedules} />
       </RecordBody>
       <RecordFooter>
         <Button
@@ -151,12 +115,6 @@ const MatchingRecord = () => {
           더보기
         </Button>
       </RecordFooter>
-      <ModalMatchingDetail
-        show={showModal}
-        onCancel={onChangeShowModal}
-        type={modalType}
-        // selectedTab={selectedTab}
-      />
     </RecordWrap>
   );
 };

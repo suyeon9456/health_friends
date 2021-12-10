@@ -1,0 +1,67 @@
+import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { format } from 'date-fns';
+import { EditOutlined, RetweetOutlined } from '@ant-design/icons';
+
+import ModalMatchingDetail from '../profile/ModalMatchingDetail';
+import { MatchingCardListWrap } from './style';
+import { MatchingCard } from '../../molecules';
+
+const MatchingCardList = ({
+  schedules,
+}) => {
+  // const dispatch = useDispatch();
+  const { me } = useSelector((state) => state.user);
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState('view');
+
+  const onChangeShowModal = useCallback(() => {
+    setShowModal((prev) => !prev);
+  }, [showModal]);
+
+  return (
+    <>
+      <MatchingCardListWrap>
+        {schedules?.map((schedule) => {
+          console.log('schedule: ', schedule);
+          const startDate = format(schedule.start, 'yyyy년 MM월 dd일 HH:mm');
+          const endDate = format(schedule.end, 'HH:mm');
+          const date = [startDate, ' ~ ', endDate].join('');
+          const friend = schedule?.friend?.id;
+          const nickname = friend === me?.id
+            ? schedule?.requester?.nickname
+            : schedule?.friend?.nickname;
+          const imageSrc = friend === me?.id
+            ? schedule?.requester?.Image?.src
+            : schedule?.friend?.Image?.src;
+          return (
+            <MatchingCard
+              key={schedule.id}
+              id={schedule.id}
+              nickname={nickname}
+              description={schedule.address}
+              image={imageSrc ? `http://localhost:6015/${imageSrc}` : ''}
+              date={date}
+              actions={[{ icon: <RetweetOutlined />, key: 'rematch' },
+                { icon: <EditOutlined />, key: 'edit' }]}
+              setShowModal={setShowModal}
+              setModalType={setModalType}
+            />
+          );
+        })}
+      </MatchingCardListWrap>
+      <ModalMatchingDetail
+        show={showModal}
+        onCancel={onChangeShowModal}
+        type={modalType}
+      />
+    </>
+  );
+};
+
+MatchingCardList.propTypes = {
+  schedules: PropTypes.array,
+};
+
+export default MatchingCardList;

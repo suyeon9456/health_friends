@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { UserOutlined } from '@ant-design/icons';
@@ -17,26 +17,33 @@ const MatchingCard = ({
   setModalType,
 }) => {
   const dispatch = useDispatch();
-  const [isClickedCard, setIsClickedCard] = useState(false);
+  // const [isClickedCard, setIsClickedCard] = useState(false);
   const onShowScheduleModal = useCallback(() => {
     setModalType(() => 'view');
-    setIsClickedCard(true);
+    console.log('view: ', id);
+    dispatch({
+      type: LOAD_SCHEDULE_REQUEST,
+      data: id,
+    });
     setShowModal((prev) => !prev);
   }, [id]);
   const onClickAction = useCallback(() => {
     setModalType(() => 'edit');
-    setIsClickedCard(true);
+    dispatch({
+      type: LOAD_SCHEDULE_REQUEST,
+      data: id,
+    });
     setShowModal((prev) => !prev);
   }, [id]);
 
-  useEffect(() => {
-    if (isClickedCard) {
-      dispatch({
-        type: LOAD_SCHEDULE_REQUEST,
-        data: id,
-      });
-    }
-  }, [isClickedCard]);
+  // useEffect(() => {
+  //   if (isClickedCard) {
+  //     dispatch({
+  //       type: LOAD_SCHEDULE_REQUEST,
+  //       data: id,
+  //     });
+  //   }
+  // }, [isClickedCard]);
 
   return (
     <Card>

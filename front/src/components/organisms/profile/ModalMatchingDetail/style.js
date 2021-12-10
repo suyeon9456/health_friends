@@ -6,6 +6,7 @@ export const RequestFriendWrap = styled.div`
   padding: 10px 24px;
   font-variant: tabular-nums;
   font-feature-settings: 'tnum';
+  text-align: left;
 `;
 
 export const MatchingInfoWrap = styled.div`

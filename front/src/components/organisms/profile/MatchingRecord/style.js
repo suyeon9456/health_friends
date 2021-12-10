@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const RecordWrap = styled.div`
   display: flex;
@@ -17,20 +17,6 @@ export const RecordWrap = styled.div`
   overflow: hidden;
 `;
 
-// export const TabList = styled.div`
-//   position: relative;
-//   display: flex;
-//   flex: none;
-//   align-items: flex-end;
-//   &::before {
-//     position: absolute;
-//     right: 0;
-//     left: 0;
-//     border-bottom: 1px solid #f0f0f0;
-//     content: "";
-//   }
-// `;
-
 export const FilterList = styled.div`
   padding: 0 10px;
   position: relative;
@@ -48,28 +34,7 @@ export const CancelYnCheckBoxWrap = styled.div`
 `;
 
 export const RecordBody = styled.div`
-  /* display: flex;
-  flex-wrap: wrap; */
-  /* align-content: space-around; */
-  /* justify-content: center; */
-  /* padding: 20px 20px; */
   text-align: center;
-  /* width: 100%; */
-`;
-
-export const MatchingCardListWrap = styled.div`
-  width: auto;
-  display: flex;
-  flex-wrap: wrap;
-
-  & > div {
-    width: 45%;
-    margin: 10px;
-    @media (min-width: 768px) {
-      /* flex: 1 1 30%; */
-      width: 30%;
-    }
-  }
 `;
 
 export const RecordFooter = styled.div`
