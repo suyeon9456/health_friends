@@ -9,11 +9,25 @@ module.exports = {
   },
   withImages: withImages(),
   webpack(config) {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    });
+    console.log('config: ', { ...config.module });
+    // config.module.rules.push({
+    //   test: /\.svg$/,
+    //   use: ['@svgr/webpack'],
+    // });
 
-    return config;
+    // return config;
+    return {
+      ...config,
+      module: {
+        ...config.module,
+        rules: [
+          ...config.module.rules,
+          {
+            test: /\.svg$/,
+            use: ['@svgr/webpack'],
+          },
+        ],
+      },
+    };
   },
 };
