@@ -4,7 +4,7 @@ import { CheckOutlined } from '@ant-design/icons';
 
 import { StepTitle, StepContentWrap, StepIconWrap, StepWrap, StepDescription } from './style';
 
-const Step = ({ type, step, title, description, process }) => (
+const Step = ({ type, step, title, description }) => (
   <StepWrap>
     <StepIconWrap
       type={type}
@@ -27,7 +27,6 @@ Step.propTypes = {
   step: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
-  process: PropTypes.number.isRequired,
 };
 
 export default Step;

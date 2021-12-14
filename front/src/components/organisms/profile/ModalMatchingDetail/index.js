@@ -30,7 +30,7 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
 
   const [formatDate, setFormatDate] = useState('');
   const [description, onChangeDescription, setDescription] = useInput(schedule?.description || '');
-  const onSubmit = useCallback(async () => {
+  const onSubmit = useCallback(() => {
     const date = useDateFormat(startDate, 'yyyy-MM-dd');
     const time = useDateFormat(endDate, 'HH:mm');
     const startDateTime = useDateFormat(startDate, 'yyyy-MM-dd HH:mm');

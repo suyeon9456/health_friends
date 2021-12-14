@@ -24,7 +24,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
     setProfileMenu(e.target.id);
   }, [profileMenu]);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (profile) {
       onChangeResponseRate();
     }
