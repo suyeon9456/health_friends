@@ -27,34 +27,40 @@ const RealTimeMatchingCouple = () => {
       <MatchingCoupleBody>
         <CoupleCardList>
           {!_.isEmpty(realtimeMatching)
-          ? (realtimeMatching?.map((matching) => (
-              <CoupleCard key={matching.id}>
-                <AvatarWrap>
-                  <Avatar size={82} src={matching?.Image?.src ? `http://localhost:6015/${matching.Image.src}` : ''} />
-                  { matching.nickname }
-                </AvatarWrap>
-                <MatchingIcon>
-                  <EnvironmentOutlined />
-                  <span className="gym-name">{ matching.reqSchedule[0].Gym.name }</span>
-                </MatchingIcon>
-                <AvatarWrap>
-                  <Avatar size={82} src={matching?.Image?.src ? `http://localhost:6015/${matching.reqSchedule[0].Friend.Image.src}` : ''}/>
-                  { matching.reqSchedule[0].Friend.nickname }
-                </AvatarWrap>
-              </CoupleCard>
-            )))
-          : (
-            <NoDataCard>
-              <NoDataContent>
-                <NoDataIconWrap>
-                  <NoDataIcon width={62} height={62} color="#00000040" />
-                </NoDataIconWrap>
-                <NoDataText>
-                  <span>현재 운동중인 매칭이 없습니다.</span>
-                </NoDataText>
-              </NoDataContent>
-            </NoDataCard>
-          )}
+            ? (realtimeMatching?.map((matching) => {
+              const reqImageSrc = matching?.Image?.src;
+              const reqAvatarSrc = reqImageSrc ? ['http://localhost:6015/', reqImageSrc].join('') : '';
+              const resImageSrc = matching?.reqSchedule[0]?.Friend?.Image?.src;
+              const resAvatarSrc = resImageSrc ? ['http://localhost:6015/', resImageSrc].join('') : '';
+              return (
+                <CoupleCard key={matching.id}>
+                  <AvatarWrap>
+                    <Avatar size={82} src={reqAvatarSrc} />
+                    { matching.nickname }
+                  </AvatarWrap>
+                  <MatchingIcon>
+                    <EnvironmentOutlined />
+                    <span className="gym-name">{ matching.reqSchedule[0].Gym.name }</span>
+                  </MatchingIcon>
+                  <AvatarWrap>
+                    <Avatar size={82} src={resAvatarSrc} />
+                    { matching.reqSchedule[0].Friend.nickname }
+                  </AvatarWrap>
+                </CoupleCard>
+              );
+            }))
+            : (
+              <NoDataCard>
+                <NoDataContent>
+                  <NoDataIconWrap>
+                    <NoDataIcon width={62} height={62} color="#00000040" />
+                  </NoDataIconWrap>
+                  <NoDataText>
+                    <span>현재 운동중인 매칭이 없습니다.</span>
+                  </NoDataText>
+                </NoDataContent>
+              </NoDataCard>
+            )}
         </CoupleCardList>
       </MatchingCoupleBody>
     </MatchingCoupleWrap>

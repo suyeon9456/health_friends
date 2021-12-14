@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { TextareaWrap, TextareaBox } from './style';
-import useTextareaLength from '../../../hooks/useTextareaLength';
+// import useTextareaLength from '../../../hooks/useTextareaLength';
 
 const Textarea = ({
   showCount = false,
@@ -13,7 +13,8 @@ const Textarea = ({
   placeholder,
   ...props
 }) => {
-  const [dataCount, setDataCount] = useState(0);
+  console.log('수정필요');
+  // const [dataCount, setDataCount] = useState(0);
 
   // const onChangeDataCount = useCallback((e) => {
   //   // onChange();
@@ -30,7 +31,8 @@ const Textarea = ({
   return (
     <TextareaWrap
       showCount={showCount}
-      data-count={dataCount || `0 / ${maxLength}`}
+      // data-count={dataCount || `0 / ${maxLength}`}
+      data-count={maxLength}
     >
       <TextareaBox
         value={value}

@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import * as _ from 'lodash';
 import { CommentOutlined, HomeOutlined, TrophyOutlined } from '@ant-design/icons';
 
 import useRate from '../../../../hooks/useRate';
-import { Avatar, Upload } from '../../../atoms';
+import { Avatar, Button, Upload } from '../../../atoms';
 import Progress from '../../../molecules/Progress';
 import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, SideBarWrapper, SideMenu, SideMenuWrapper } from './style';
 import { ADD_PROFILEIMAGE_REQUEST, REMOVE_PROFILEIMAGE, UPLOAD_PROFILEIMAGE_REQUEST } from '../../../../../reducers/user';
@@ -77,7 +76,8 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
                 />
               </form>
               <div>
-                <a onClick={onChangeUploadState}>취소</a>
+                {/* <a onClick={onChangeUploadState}>취소</a> */}
+                <Button type="text" onClick={onChangeUploadState}>취소</Button>
               </div>
             </>
           )
@@ -86,7 +86,8 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
               <Avatar size={128} src={profile?.Image ? `http://localhost:6015/${profile?.Image?.src}` : ''} />
               {me?.id && (
                 <div>
-                  <a onClick={onChangeUploadState}>프로필 사진 변경하기</a>
+                  {/* <a onClick={onChangeUploadState}>프로필 사진 변경하기</a> */}
+                  <Button type="text" onClick={onChangeUploadState}>프로필 사진 변경하기</Button>
                 </div>
               )}
             </>

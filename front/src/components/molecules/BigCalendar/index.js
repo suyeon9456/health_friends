@@ -19,7 +19,10 @@ const localizer = dateFnsLocalizer({
 const formats = {
   weekdayFormat: (date) => localizer.format(date, 'EEE', locales.ko),
   monthHeaderFormat: (date) => localizer.format(date, 'yyyy년 MM월', locales.ko),
-  dayRangeHeaderFormat: ({ start, end }) => localizer.format(start, 'MM월 dd일', locales.ko) + ' — ' + localizer.format(end, 'MM월 dd일', locales.ko),
+  dayRangeHeaderFormat: ({ start, end }) => [
+    localizer.format(start, 'MM월 dd일', locales.ko), localizer.format(end, 'MM월 dd일', locales.ko)].join(' — '),
+  // dayRangeHeaderFormat: ({ start, end }) => localizer.format(start, 'MM월 dd일', locales.ko) +
+  // ' — ' + localizer.format(end, 'MM월 dd일', locales.ko),
   dayHeaderFormat: (date) => localizer.format(date, 'yyyy년 MM월 dd일', locales.ko),
 };
 

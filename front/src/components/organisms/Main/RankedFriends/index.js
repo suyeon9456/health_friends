@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
-import * as _ from 'lodash';
 import { LOAD_RANKED_FRIENDS_REQUEST } from '../../../../../reducers/user';
 
 import { RankItem, RankTitle, RankCard, RankCardList, RankCardWrap, RankedFriendsBody, RankedFriendsHeader, RankedFriendsWrap, RankItemWrap } from './style';
@@ -27,16 +26,24 @@ const RankedFriends = () => {
               재매칭 순위 TOP 5
             </RankTitle>
             <RankCard>
-              {rankedFriends?.rematching?.map((friend, index) => (
-                <RankItemWrap key={friend.id}>
-                  <RankItem>
-                    <span>{index + 1}.</span>
-                    <Link href={`/profile/${friend?.id}`}>
-                      <a>{friend.nickname}</a>
-                    </Link>
-                  </RankItem>
-                </RankItemWrap>
-              ))}
+              {rankedFriends?.rematching?.map((friend, index) => {
+                const friendId = friend.id;
+                const profileUrl = ['/profile/', friendId].join('');
+                return (
+                  <RankItemWrap key={friend.id}>
+                    <RankItem>
+                      <span>{index + 1}.</span>
+                      {friend
+                        ? (
+                          <Link href={profileUrl}>
+                            <a>{friend.nickname}</a>
+                          </Link>
+                        )
+                        : <div>없음</div>}
+                    </RankItem>
+                  </RankItemWrap>
+                );
+              })}
             </RankCard>
           </RankCardWrap>
           <RankCardWrap>
@@ -44,16 +51,24 @@ const RankedFriends = () => {
               매칭 순위 TOP 5
             </RankTitle>
             <RankCard>
-              {rankedFriends?.matching?.map((friend, index) => (
-                <RankItemWrap key={friend.id}>
-                  <RankItem>
-                    <span>{index + 1}.</span>
-                    <Link href={`/profile/${friend?.id}`}>
-                      <a>{friend.nickname}</a>
-                    </Link>
-                  </RankItem>
-                </RankItemWrap>
-              ))}
+              {rankedFriends?.matching?.map((friend, index) => {
+                const friendId = friend.id;
+                const profileUrl = ['/profile/', friendId].join('');
+                return (
+                  <RankItemWrap key={friend.id}>
+                    <RankItem>
+                      <span>{index + 1}.</span>
+                      {friend
+                        ? (
+                          <Link href={profileUrl}>
+                            <a>{friend.nickname}</a>
+                          </Link>
+                        )
+                        : <div>없음</div>}
+                    </RankItem>
+                  </RankItemWrap>
+                );
+              })}
             </RankCard>
           </RankCardWrap>
         </RankCardList>

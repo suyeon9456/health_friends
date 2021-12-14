@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { LOAD_MY_INFO_REQUEST, LOAD_RECOMMEND_FRIENDS_REQUEST } from '../../../../reducers/user';
@@ -28,7 +29,6 @@ const Main = () => {
     const geocoder = new kakao.maps.services.Geocoder();
     console.log('navigator', navigator.geolocation);
     if (navigator.geolocation) {
-      console.log('?');
       navigator.geolocation.getCurrentPosition((position) => {
         console.log('position : ', position);
         const lat = position.coords.latitude; // 위도

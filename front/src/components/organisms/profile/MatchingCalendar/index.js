@@ -56,12 +56,11 @@ const MatchingCalendar = () => {
 
   useEffect(() => {
     if (!_.isEmpty(schedules)) {
-      console.log(schedules);
       setEvents(schedules.map((schedule) => {
-        const nickname = schedule?.Friend?.id === me?.id
+        const eventNickname = schedule?.Friend?.id === me?.id
           ? schedule?.requester?.nickname
           : schedule?.friend?.nickname;
-        return { ...schedule, nickname };
+        return { ...schedule, nickname: eventNickname };
       }));
     }
   }, [schedules]);

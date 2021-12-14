@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
@@ -35,13 +35,14 @@ const MatchingCardList = ({
           const imageSrc = friend === me?.id
             ? schedule?.requester?.Image?.src
             : schedule?.friend?.Image?.src;
+          const cardImageSrc = imageSrc ? ['http://localhost:6015/', imageSrc].join('') : '';
           return (
             <MatchingCard
               key={schedule.id}
               id={schedule.id}
               nickname={nickname}
               description={schedule.address}
-              image={imageSrc ? `http://localhost:6015/${imageSrc}` : ''}
+              image={cardImageSrc}
               date={date}
               actions={[{ icon: <RetweetOutlined />, key: 'rematch' },
                 { icon: <EditOutlined />, key: 'edit' }]}

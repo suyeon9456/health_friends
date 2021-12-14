@@ -49,18 +49,22 @@ const SearchFriends = ({ foldedGym,
         </SearchHeader>
         <FriendsListWrapper>
           {gym?.Users && (
-            gym?.Users.map((user) => (
-              <PropfileCard
-                key={user.id}
-                image={user.Image ? `http://localhost:6015/${user.Image.src}` : ''}
-                nickname={user.nickname}
-                description={user.Userdetail.description}
-                date={user.Userdetail.startTime}
-                percent={30}
-                onClick={onShowMatchingModal(user)}
-                // actions={actions}
-              />
-            ))
+            gym?.Users.map((user) => {
+              const imageSrc = user?.Image?.src;
+              const cardImageSrc = imageSrc ? ['http://localhost:6015/', imageSrc].join('') : '';
+              return (
+                <PropfileCard
+                  key={user.id}
+                  image={cardImageSrc}
+                  nickname={user.nickname}
+                  description={user.Userdetail.description}
+                  date={user.Userdetail.startTime}
+                  percent={30}
+                  onClick={onShowMatchingModal(user)}
+                  // actions={actions}
+                />
+              );
+            })
           )}
         </FriendsListWrapper>
       </SearchFriendsWrapper>

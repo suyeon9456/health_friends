@@ -71,11 +71,17 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }) => {
     map.current.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
     // 지도 영역정보를 얻어옵니다
-    const bounds = map.current.getBounds();
+    const mapBounds = map.current.getBounds();
     // 영역정보의 남서쪽 정보를 얻어옵니다
-    const swLatlng = bounds.getSouthWest();
+    const swLatlng = mapBounds.getSouthWest();
     // 영역정보의 북동쪽 정보를 얻어옵니다
-    const neLatlng = bounds.getNorthEast();
+    const neLatlng = mapBounds.getNorthEast();
+    // // 지도 영역정보를 얻어옵니다
+    // const bounds = map.current.getBounds();
+    // // 영역정보의 남서쪽 정보를 얻어옵니다
+    // const swLatlng = bounds.getSouthWest();
+    // // 영역정보의 북동쪽 정보를 얻어옵니다
+    // const neLatlng = bounds.getNorthEast();
 
     const { La: swLon, Ma: swLat } = swLatlng;
     const { La: neLon, Ma: neLat } = neLatlng;
