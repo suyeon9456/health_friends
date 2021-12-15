@@ -2,3 +2,5 @@ node_modules
 dist/*
 *.log
 .next
+health-friends.pem
+.env

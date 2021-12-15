@@ -1,23 +1,24 @@
 const path = require('path');
 const withImages = require('next-images');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE = 'true',
+});
 // module.exports = withImages();
 
-module.exports = {
+module.exports = withBundleAnalyzer({
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
     reactStrictMode: true,
   },
+  compress: true,
   withImages: withImages(),
   webpack(config) {
-    console.log('config: ', { ...config.module });
-    // config.module.rules.push({
-    //   test: /\.svg$/,
-    //   use: ['@svgr/webpack'],
-    // });
-
-    // return config;
+    const prod = process.env.NODE_ENV === 'production';
+    const plugins = [...config.plugins];
     return {
       ...config,
+      mode: prod ? 'production' : 'development',
+      devtool: prod ? 'hidden-source-map' : 'eval',
       module: {
         ...config.module,
         rules: [
@@ -28,6 +29,7 @@ module.exports = {
           },
         ],
       },
+      plugins,
     };
   },
-};
+});

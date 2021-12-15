@@ -5,16 +5,18 @@
   "main": "index.js",
   "scripts": {
     "dev": "next -p 6010",
-    "build": "next build",
-    "start": "next start"
+    "build": "cross-env ANALYZE=true NODE_ENV=production next build",
+    "start": "cross-env NODE_ENV=production next start -p 6010"
   },
   "author": "suyeon",
   "license": "ISC",
   "dependencies": {
     "@ant-design/icons": "^4.6.4",
+    "@next/bundle-analyzer": "^12.0.7",
     "antd": "^4.16.7",
     "axios": "^0.22.0",
     "babel-plugin-styled-components": "^1.13.2",
+    "cross-env": "^7.0.3",
     "date-fns": "^2.25.0",
     "immer": "^9.0.6",
     "lodash": "^4.17.21",
