@@ -4,3 +4,4 @@ dist/*
 .next
 health-friends.pem
 .env
+database.js
