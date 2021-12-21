@@ -31,6 +31,7 @@ module.exports = {
     "database": "health-friends-db",
     "host": "health-friends-db.cdofxfi7sta7.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql",
+    "logging": console.log,
     "port": "3306"
   }
 }
