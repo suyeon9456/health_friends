@@ -28,7 +28,7 @@ module.exports = {
   "production": {
     "username": "admin",
     "password": process.env.DB_PASSWORD,
-    "database": "health-friends-db",
+    "database": "mysql",
     "host": "health-friends-db.cdofxfi7sta7.ap-northeast-2.rds.amazonaws.com",
     // "dialect": "mysql",
     // "logging": console.log,
