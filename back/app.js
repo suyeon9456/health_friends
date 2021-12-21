@@ -55,5 +55,5 @@ app.use('/schedule', scheduleRouter);
 app.use('/schedules', schedulesRouter);
 
 app.listen(6015, () => {
-  console.log('backend server start');
+  console.log('backend server start', process.env.NODE_ENV);
 });
