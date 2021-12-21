@@ -34,7 +34,7 @@ module.exports = {
     // "logging": console.log,
     "logging": console.log,
     "maxConcurrentQueries": 100,
-    "dialect": 'postgres',
+    "dialect": 'mysql',
     "dialectOptions": {
         ssl:'Amazon RDS'
     },
