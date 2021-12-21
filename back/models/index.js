@@ -8,7 +8,7 @@ db.User = require('./user')(sequelize, Sequelize);
 db.Gym = require('./gym')(sequelize, Sequelize);
 db.Schedule = require('./schedule')(sequelize, Sequelize);
 db.Userdetail = require('./userdetail')(sequelize, Sequelize);
-db.Image = require('./Image')(sequelize, Sequelize);
+db.Image = require('./image')(sequelize, Sequelize);
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
