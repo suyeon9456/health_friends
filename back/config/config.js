@@ -17,6 +17,7 @@ module.exports = {
     "host": "health-friends-db.cdofxfi7sta7.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql",
     "timezone": "+09:00",
+    "port": 3306
   },
   "test": {
     "username": "root",
