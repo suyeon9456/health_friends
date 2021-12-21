@@ -18,9 +18,9 @@ module.exports = {
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
+    "username": "health-friends-db.cdofxfi7sta7.ap-northeast-2.rds.amazonaws.com",
     "password": process.env.DB_PASSWORD,
-    "database": "health-friends",
+    "database": "health-friends-db",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
