@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app",
-    "start": "node app"
+    "start": "NODE_ENV=production node app"
   },
   "author": "suyeon",
   "license": "ISC",
