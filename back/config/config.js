@@ -1,8 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-console.log('확ㅇ니', process.env.DB_PASSWORD);
-
 module.exports = {
   // "development": {
   //   "username": "root",
@@ -15,10 +13,9 @@ module.exports = {
   "development": {
     "username": "admin",
     "password": process.env.DB_PASSWORD,
-    "database": "health-friends-db",
+    "database": "health-friends",
     "host": "health-friends-db.cdofxfi7sta7.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql",
-    "timezone": "+09:00",
     "port": "3306"
   },
   "test": {
@@ -33,6 +30,7 @@ module.exports = {
     "password": process.env.DB_PASSWORD,
     "database": "health-friends-db",
     "host": "health-friends-db.cdofxfi7sta7.ap-northeast-2.rds.amazonaws.com",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "port": "3306"
   }
 }
