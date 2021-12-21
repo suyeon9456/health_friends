@@ -11,6 +11,7 @@ db.Userdetail = require('./userdetail')(sequelize, Sequelize);
 db.Image = require('./image')(sequelize, Sequelize);
 
 Object.keys(db).forEach(modelName => {
+  console.log('env', env);
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
