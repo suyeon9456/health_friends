@@ -20,6 +20,8 @@ const { urlencoded } = require('express');
 dotenv.config();
 
 const app = express();
+console.log('db: ', db);
+console.log('db.sequelize: ', db.sequelize);
 db.sequelize.sync()
   .then(() => {
     console.log('db connection success');
