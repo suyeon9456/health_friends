@@ -19,7 +19,7 @@ module.exports = {
   },
   "production": {
     "username": "admin",
-    "password": 'test',
+    "password": process.env.DB_PASSWORD,
     "database": "mysql",
     "host": "hf-db.cdofxfi7sta7.ap-northeast-2.rds.amazonaws.com",
     "logging": console.log,
