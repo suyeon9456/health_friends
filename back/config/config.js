@@ -21,7 +21,7 @@ module.exports = {
     "username": "admin",
     "password": process.env.DB_PASSWORD,
     "database": "mysql",
-    "host": "health-friends-rds.cdofxfi7sta7.ap-northeast-2.rds.amazonaws.com",
+    "host": "hf-db.cdofxfi7sta7.ap-northeast-2.rds.amazonaws.com",
     "logging": console.log,
     "maxConcurrentQueries": 100,
     "dialect": 'mysql',
