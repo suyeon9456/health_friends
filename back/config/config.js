@@ -19,7 +19,7 @@ module.exports = {
   },
   "production": {
     "username": "admin",
-    "password": process.env.DB_PASSWORD,
+    "password": 'test',
     "database": "mysql",
     "host": "hf-db.cdofxfi7sta7.ap-northeast-2.rds.amazonaws.com",
     "logging": console.log,
@@ -27,6 +27,6 @@ module.exports = {
     "dialect": 'mysql',
     "ssl": true,
     "pool": { maxConnections: 5, maxIdleTime: 30},
-    "port": "3306"
+    "port": 3306
   }
 }
