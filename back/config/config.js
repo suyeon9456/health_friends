@@ -2,21 +2,13 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 module.exports = {
-  // "development": {
-  //   "username": "root",
-  //   "password": process.env.DB_PASSWORD,
-  //   "database": "health-friends",
-  //   "host": "127.0.0.1",
-  //   "dialect": "mysql",
-  //   "timezone": "+09:00",
-  // },
   "development": {
-    "username": "admin",
+    "username": "root",
     "password": process.env.DB_PASSWORD,
     "database": "health-friends",
-    "host": "health-friends-db.cdofxfi7sta7.ap-northeast-2.rds.amazonaws.com",
+    "host": "127.0.0.1",
     "dialect": "mysql",
-    "port": "3306"
+    "timezone": "+09:00",
   },
   "test": {
     "username": "root",
@@ -29,15 +21,10 @@ module.exports = {
     "username": "admin",
     "password": process.env.DB_PASSWORD,
     "database": "mysql",
-    "host": "health-friends-db.cdofxfi7sta7.ap-northeast-2.rds.amazonaws.com",
-    // "dialect": "mysql",
-    // "logging": console.log,
+    "host": "health-friends-rds.cdofxfi7sta7.ap-northeast-2.rds.amazonaws.com",
     "logging": console.log,
     "maxConcurrentQueries": 100,
     "dialect": 'mysql',
-    // "dialectOptions": {
-    //     ssl:'Amazon RDS'
-    // },
     "ssl": true,
     "pool": { maxConnections: 5, maxIdleTime: 30},
     "port": "3306"
