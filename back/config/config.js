@@ -20,7 +20,7 @@ module.exports = {
   "production": {
     "username": "admin",
     "password": process.env.DB_PASSWORD,
-    "database": "mysql",
+    "database": "hf_rds",
     "host": "hf-db.cdofxfi7sta7.ap-northeast-2.rds.amazonaws.com",
     "logging": console.log,
     "maxConcurrentQueries": 100,
