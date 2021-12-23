@@ -25,7 +25,11 @@ module.exports = {
     "logging": console.log,
     "maxConcurrentQueries": 100,
     "dialect": 'mysql',
-    "ssl": true,
+    "dialectOptions": {
+      ssl: false,
+      // connectTimeout: isReal ? undefined : 10000,
+    },
+    // "ssl": true,
     "pool": { maxConnections: 5, maxIdleTime: 30},
     "port": 3306
   }
