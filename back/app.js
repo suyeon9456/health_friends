@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('dev'));
 }
 app.use(cors({
-  origin: ['http://localhost:6010', 'healthfriends.com'],
+  origin: ['http://localhost:6010', 'healthfriends.com', 'http://13.125.96.64'],
   credentials: true,
 }));
 app.use('/', express.static(path.join(__dirname, 'uploads')));
