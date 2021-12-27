@@ -8,6 +8,7 @@ import { Avatar, Button, Upload } from '../../../atoms';
 import Progress from '../../../molecules/Progress';
 import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, SideBarWrapper, SideMenu, SideMenuWrapper } from './style';
 import { ADD_PROFILEIMAGE_REQUEST, REMOVE_PROFILEIMAGE, UPLOAD_PROFILEIMAGE_REQUEST } from '../../../../../reducers/user';
+import { backUrl } from '../../../../../config/config';
 
 const SideBar = ({ profileMenu, setProfileMenu }) => {
   const dispatch = useDispatch();
@@ -68,7 +69,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
                 <Upload
                   id={imagePath}
                   name="image"
-                  src={`http://localhost:6015/${imagePath}`}
+                  src={`${backUrl}/${imagePath}`}
                   onChange={onChangeImage}
                   uploadError={uploadProfileImageError}
                   onAddImage={onAddProfileImage}
@@ -83,7 +84,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           )
           : (
             <>
-              <Avatar size={128} src={profile?.Image ? `http://localhost:6015/${profile?.Image?.src}` : ''} />
+              <Avatar size={128} src={profile?.Image ? `${backUrl}/${profile?.Image?.src}` : ''} />
               {me?.id && (
                 <div>
                   {/* <a onClick={onChangeUploadState}>프로필 사진 변경하기</a> */}

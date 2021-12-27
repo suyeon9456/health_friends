@@ -9,6 +9,7 @@ import { MapWrap } from './style';
 import { Button } from '../../atoms';
 import { CHANGE_MAP_BOUNDS, IS_LOAD_GYMS, LOAD_FRIENDS_REQUEST } from '../../../../reducers/gym';
 import styles from '../../../scss/searchMap.module.scss';
+import { backUrl } from '../../../../config/config';
 
 const SearchMap = ({ foldedFriends, setFoldedFriends }) => {
   const map = useRef(null);
@@ -157,7 +158,7 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }) => {
             if (user.Image) {
               const avatarImage = document.createElement('img');
               avatarImage.className = `${styles.avatarImage}`;
-              avatarImage.src = `http://localhost:6015/${user.Image?.src}`;
+              avatarImage.src = `${backUrl}/${user.Image?.src}`;
               avatar.appendChild(avatarImage);
             } else {
               avatar.appendChild(anticon);
@@ -181,7 +182,7 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }) => {
             console.log('userImage', user.Image);
             const avatarImage = document.createElement('img');
             avatarImage.className = `${styles.avatarImage}`;
-            avatarImage.src = `http://localhost:6015/${user.Image?.src}`;
+            avatarImage.src = `${backUrl}/${user.Image?.src}`;
             avatar.appendChild(avatarImage);
           } else {
             avatar.appendChild(anticon);

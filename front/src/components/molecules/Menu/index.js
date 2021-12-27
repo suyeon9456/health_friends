@@ -7,6 +7,7 @@ import { LOG_OUT_REQUEST } from '../../../../reducers/user';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
 import { Avatar } from '../../atoms';
+import { backUrl } from '../../../../config/config';
 
 const Menu = () => {
   const { me } = useSelector((state) => state.user);
@@ -72,7 +73,7 @@ const Menu = () => {
             >
               <MenuTitle>
                 <Link href={`/profile/${me?.id}`}>
-                  <Avatar size="small" src={me?.Image ? `http://localhost:6015/${me?.Image?.src}` : ''} />
+                  <Avatar size="small" src={me?.Image ? `${backUrl}/${me?.Image?.src}` : ''} />
                 </Link>
               </MenuTitle>
             </MenuItem>

@@ -12,6 +12,7 @@ import { Avatar } from '../../../atoms';
 import NoDataIcon from '../../../atoms/NoDataIcon';
 import ReactSliderNextButton from '../../../atoms/ReactSliderNextButton';
 import ReactSliderPrevButton from '../../../atoms/ReactSliderPrevButton';
+import { backUrl } from '../../../../../config/config';
 
 const RecommendFriends = ({ location }) => {
   const settings = {
@@ -67,7 +68,7 @@ const RecommendFriends = ({ location }) => {
                 {recommendedFriends.map((friend) => (
                   <FriendsCard key={friend.id}>
                     <CardAvatarWrap>
-                      <Avatar size={82} src={friend?.Image ? `http://localhost:6015/${friend?.Image?.src}` : ''} />
+                      <Avatar size={82} src={friend?.Image ? `${backUrl}/${friend?.Image?.src}` : ''} />
                     </CardAvatarWrap>
                     <CardContentWrap>
                       <Link href={`/profile/${friend?.id}`}>

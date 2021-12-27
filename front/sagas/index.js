@@ -4,8 +4,10 @@ import axios from 'axios';
 import userSaga from './user';
 import gymSaga from './gym';
 import scheduleSaga from './schedule';
+import { backUrl } from '../config/config';
 
-axios.defaults.baseURL = 'http://localhost:6015';
+axios.defaults.baseURL = backUrl;
+// axios.defaults.baseURL = 'http://localhost:6015';
 axios.defaults.withCredentials = true;
 
 export default function* rootSaga() {

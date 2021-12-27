@@ -7,6 +7,7 @@ import { Avatar } from '../../../atoms';
 import NoDataIcon from '../../../atoms/NoDataIcon';
 import { AvatarWrap, CoupleCard, MatchingIcon, CoupleCardList, CoupleHeaderTitle, MatchingCoupleBody, MatchingCoupleHeader, MatchingCoupleWrap, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
 import { LOAD_REALTIME_MATCHING_REQUEST } from '../../../../../reducers/user';
+import { backUrl } from '../../../../../config/config';
 
 const RealTimeMatchingCouple = () => {
   const { realtimeMatching } = useSelector((state) => state.user);
@@ -29,9 +30,9 @@ const RealTimeMatchingCouple = () => {
           {!_.isEmpty(realtimeMatching)
             ? (realtimeMatching?.map((matching) => {
               const reqImageSrc = matching?.Image?.src;
-              const reqAvatarSrc = reqImageSrc ? ['http://localhost:6015/', reqImageSrc].join('') : '';
+              const reqAvatarSrc = reqImageSrc ? [backUrl, '/', reqImageSrc].join('') : '';
               const resImageSrc = matching?.reqSchedule[0]?.Friend?.Image?.src;
-              const resAvatarSrc = resImageSrc ? ['http://localhost:6015/', resImageSrc].join('') : '';
+              const resAvatarSrc = resImageSrc ? [backUrl, '/', resImageSrc].join('') : '';
               return (
                 <CoupleCard key={matching.id}>
                   <AvatarWrap>

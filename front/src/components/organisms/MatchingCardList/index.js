@@ -7,6 +7,7 @@ import { EditOutlined, RetweetOutlined } from '@ant-design/icons';
 import ModalMatchingDetail from '../profile/ModalMatchingDetail';
 import { MatchingCardListWrap } from './style';
 import { MatchingCard } from '../../molecules';
+import { backUrl } from '../../../../config/config';
 
 const MatchingCardList = ({
   schedules,
@@ -35,7 +36,7 @@ const MatchingCardList = ({
           const imageSrc = friend === me?.id
             ? schedule?.requester?.Image?.src
             : schedule?.friend?.Image?.src;
-          const cardImageSrc = imageSrc ? ['http://localhost:6015/', imageSrc].join('') : '';
+          const cardImageSrc = imageSrc ? [backUrl, '/', imageSrc].join('') : '';
           return (
             <MatchingCard
               key={schedule.id}

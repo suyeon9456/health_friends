@@ -6,6 +6,7 @@ import { CloseOutlined } from '@ant-design/icons';
 import Button from '../../atoms/Button';
 import { PropfileCard } from '../../molecules';
 import { FriendsListWrapper, SearchFriendsWrapper, SearchHeader, SearchTitle } from './style';
+import { backUrl } from '../../../../config/config';
 
 const SearchFriends = ({ foldedGym,
   foldedFriends,
@@ -51,7 +52,7 @@ const SearchFriends = ({ foldedGym,
           {gym?.Users && (
             gym?.Users.map((user) => {
               const imageSrc = user?.Image?.src;
-              const cardImageSrc = imageSrc ? ['http://localhost:6015/', imageSrc].join('') : '';
+              const cardImageSrc = imageSrc ? [backUrl, '/', imageSrc].join('') : '';
               return (
                 <PropfileCard
                   key={user.id}
