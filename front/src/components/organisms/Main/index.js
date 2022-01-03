@@ -19,11 +19,11 @@ const Main = () => {
   const onChangeLocationYn = useCallback(() => {
     setLocationYn((prev) => !prev);
   }, []);
-  useEffect(() => {
-    dispatch({
-      type: LOAD_MY_INFO_REQUEST,
-    });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: LOAD_MY_INFO_REQUEST,
+  //   });
+  // }, []);
 
   useEffect(() => {
     const geocoder = new kakao.maps.services.Geocoder();
@@ -125,5 +125,19 @@ const Main = () => {
     </MainWrap>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req }) => {
+  console.log('storestorestorestorestorestorestorestorestore', store);
+  const cookie = req ? req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  if (req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
+  store.dispatch({
+    type: LOAD_MY_INFO_REQUEST,
+  });
+  store.dispatch(END);
+  await store.sagaTask.toPromise();
+});
 
 export default Main;
