@@ -18,6 +18,7 @@ try {
 }
 
 router.get('/', async (req, res, next) => {
+  console.log('이거뜨나?');
   try {
     if (req.user) {
       const user = await User.findOne({
