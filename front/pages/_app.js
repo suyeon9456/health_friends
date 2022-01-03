@@ -18,6 +18,7 @@ const App = ({ Component }) => {
       <Head>
         <meta charSet="utf-8" />
         <title>health-friends</title>
+        <script src="https://developers.kakao.com/sdk/js/kakao.js" />
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b59bfdf3af450270c49c69d14f47cdd5&libraries=services" />
       </Head>
       <ShowStateContext.Provider value={state}>
