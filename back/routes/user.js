@@ -115,7 +115,8 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
         attributes: {
           exclude: ['password'],
         }
-      })
+      });
+      console.log('풀 유저: ', fullUser);
       return res.json(fullUser);
     })
   })(req, res, next); // 미들웨어 확장
