@@ -18,7 +18,7 @@ try {
 }
 
 router.get('/', async (req, res, next) => {
-  console.log('이거뜨나?');
+  console.log('이거뜨나?', req.user);
   try {
     if (req.user) {
       const user = await User.findOne({
@@ -43,6 +43,7 @@ router.get('/', async (req, res, next) => {
           model: Image,
         }]
       });
+      console.log('조회됨?', user);
       res.status(200).json(user);
     } else {
       res.status(200).json(null);
