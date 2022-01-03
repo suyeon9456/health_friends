@@ -33,7 +33,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ({
     즉 누군가 로그인을 하고난 후 다른 유저가 사이트에 방문했을 때 처음 로그인한 유저의 정보로 로그인 되어있는 상태가 발생한다.
     따라서 아래와 같이 설정해 주는 것이 중요하다.
   */
-  console.log('req', req);
+  console.log('storestorestorestorestorestorestorestorestore', store);
   const cookie = req ? req.headers.cookie : '';
   axios.defaults.headers.Cookie = '';
   if (req && cookie) {
