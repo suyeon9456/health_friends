@@ -5,6 +5,7 @@ import { LOAD_MY_INFO_REQUEST, LOAD_RECOMMEND_FRIENDS_REQUEST } from '../../../.
 import MainBanner from './MainBanner';
 import RankedFriends from './RankedFriends';
 import RealTimeMatchingCouple from './RealTimeMatchingCouple';
+import wrapper from '../../../../store/configureStore';
 
 import { MainBannerWrap, MainBodyWrap, MainWrap } from './style';
 import { Alert } from '../../molecules';
@@ -127,7 +128,7 @@ const Main = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req }) => {
-  console.log('storestorestorestorestorestorestorestorestore', store);
+  console.log('2storestorestorestorestorestorestorestorestore', store);
   const cookie = req ? req.headers.cookie : '';
   axios.defaults.headers.Cookie = '';
   if (req && cookie) {
