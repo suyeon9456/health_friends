@@ -1,1 +1,1 @@
-export const backUrl = 'http://54.180.2.51';
+export const backUrl = 'http://api.health-friends.com';

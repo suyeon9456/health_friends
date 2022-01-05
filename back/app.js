@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('dev'));
 }
 app.use(cors({
-  origin: ['http://localhost:6010', 'healthfriends.com', 'http://3.34.97.35'],
+  origin: ['http://localhost:6010', 'http://health-friends.com'],
   credentials: true,
 }));
 app.use('/', express.static(path.join(__dirname, 'uploads')));
@@ -49,6 +49,11 @@ app.use(session({
   saveUninitialized: false,
   resave: false,
   secret: process.env.COOKIE_SECRET,
+  cookie: {
+    httpOnly: true, // 자바스크립트로 접근 불가
+    secure: false,
+    domain: process.env.NODE_ENV === 'production' && '.health-friends.com',
+  }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
