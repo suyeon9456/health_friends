@@ -10,7 +10,6 @@ import { Drawer, DrawerBody, DrawerContent, DrawerContentWrap, DrawerHeader, Dra
 // import { MenuItem, MenuText, MenuTitle } from '../Menu/style';
 import { LOG_OUT_REQUEST } from '../../../../reducers/user';
 import { useShowDispatch } from '../../../../store/contextStore';
-import { backUrl } from '../../../../config/config';
 
 const DrawerMenu = ({ drawerShow }) => {
   const { me } = useSelector((state) => state.user);
@@ -39,7 +38,7 @@ const DrawerMenu = ({ drawerShow }) => {
               <DrawerHeaderTitle>
                 { (me && me?.id) && (
                   <DrawerTitle>
-                    <Avatar src={me?.Image ? `${backUrl}/${me?.Image?.src}` : ''} />
+                    <Avatar src={me?.Image ? `${me?.Image?.src}` : ''} />
                     {me?.nickname}님, 안녕하세요.
                   </DrawerTitle>
                 )}

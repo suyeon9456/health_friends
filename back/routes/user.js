@@ -5,6 +5,8 @@ const passport = require('passport');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs'); // 파일시스템을 조작할 수 있다.
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
 
 const { isNotLoggedIn, isLoggedIn } = require('./middlewares');
 
@@ -289,16 +291,29 @@ router.put('/detail', isLoggedIn, async (req, res, next) => {
   }
 });
 
+AWS.config.update({
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  region: 'ap-northeast-2',
+})
+
 const upload = multer({ // multer에 옵션 설정
-  storage: multer.diskStorage({
-    destination(req, file, done) {
-      done(null, 'uploads');
-    },
-    filename(req, file, done) { // test.png
-      const ext = path.extname(file.originalname); // 확장자 추출
-      const basename = path.basename(file.originalname, ext); // test
-      done(null, basename + '_' + new Date().getTime() + ext); // test1518545.png
-    },
+  // storage: multer.diskStorage({
+  //   destination(req, file, done) {
+  //     done(null, 'uploads');
+  //   },
+  //   filename(req, file, done) { // test.png
+  //     const ext = path.extname(file.originalname); // 확장자 추출
+  //     const basename = path.basename(file.originalname, ext); // test
+  //     done(null, basename + '_' + new Date().getTime() + ext); // test1518545.png
+  //   },
+  // }),
+  storage: multerS3({
+    s3: new AWS.S3(),
+    bucket: 'health-friends-s3',
+    key(req, file, cb) {
+      cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`)
+    }
   }),
   limits: { fileSize: 20 * 1024 * 1024 }, // 20mb
 });
@@ -306,8 +321,9 @@ const upload = multer({ // multer에 옵션 설정
 router.post('/image', isLoggedIn, upload.single('image'), async (req, res, next) => { // POST /user/image
   // upload 후에 실행됨
   // 업로드된 파일은 req.files를 확인
-  console.log(req.file);
-  res.json(req.file.filename);
+  // console.log(req.file);
+  // res.json(req.file.filename);
+  res.json(req.file.location);
 });
 
 router.post('/profileimage', isLoggedIn, async (req, res, next) => { // POST /user/profileimage
