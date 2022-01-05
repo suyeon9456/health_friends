@@ -34,13 +34,18 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('combined'));
   app.use(hpp());
   app.use(helmet());
+  app.use(cors({
+    origin: 'http://health-friends.com',
+    credentials: true,
+  }));
 } else {
   app.use(morgan('dev'));
+  app.use(cors({
+    origin: 'http://localhost:6010',
+    credentials: true,
+  }));
 }
-app.use(cors({
-  origin: ['http://localhost:6010', 'http://health-friends.com'],
-  credentials: true,
-}));
+
 app.use('/', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
