@@ -10,22 +10,21 @@ exports.handler = async (event, context, callback) => {
   const filename = Key.split('/')[Key.split('/').length - 1]; // 파일 이름만 추출
   const ext = Key.split('.')[Key.split('.').length - 1].toLowerCase(); // 확장자
   const requiredFormat = ext === 'jpg' ? 'jpeg' : ext; // 확장자가 jpg일 경우만 jpeg로
-  console.log('filename: ', filename);
-  console.log('ext: ', ext);
+  console.log('filename', filename, 'ext', ext);
 
   try {
-    const s3Object = await s3.getObject({ Bucket, key }).promise();
-    console.log('original파일 바이트 확인', s3Object.Body.length);
+    const s3Object = await s3.getObject({ Bucket, Key }).promise();
+    console.log('original', s3Object.Body.length);
     const resizedImage = await sharp(s3Object.Body)
       .resize(400, 400, { fit: 'inside' })
       .toFormat(requiredFormat)
       .toBuffer();
     await s3.putObject({
       Bucket,
-      key: `thumb/${filename}`,
+      Key: `thumb/${filename}`,
       Body: resizedImage,
     }).promise();
-    console.log('put: ', resizedImage.length);
+    console.log('put', resizedImage.length);
 
     return callback(null, `thumb/${filename}`);
   } catch (error) {
