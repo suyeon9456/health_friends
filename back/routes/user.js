@@ -323,7 +323,7 @@ router.post('/image', isLoggedIn, upload.single('image'), async (req, res, next)
   // 업로드된 파일은 req.files를 확인
   // console.log(req.file);
   // res.json(req.file.filename);
-  res.json(req.file.location);
+  res.json(req.file.location.replace(/\/original\//, '/thumb'));
 });
 
 router.post('/profileimage', isLoggedIn, async (req, res, next) => { // POST /user/profileimage
