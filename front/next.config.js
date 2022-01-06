@@ -1,7 +1,8 @@
 const path = require('path');
 const withImages = require('next-images');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE = 'true',
+  // enabled: process.env.ANALYZE = 'true',
+  enabled: false,
 });
 // module.exports = withImages();
 
