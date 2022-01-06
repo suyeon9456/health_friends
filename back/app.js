@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(hpp());
   app.use(helmet());
   app.use(cors({
-    origin: ['http://health-friends.com', 'http://localhost:6010'],
+    origin: 'http://health-friends.com',
     credentials: true,
   }));
 } else {
