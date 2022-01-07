@@ -358,14 +358,33 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadRecommendFriendsDone = false;
       draft.loadRecommendFriendsError = null;
       break;
-    case LOAD_RECOMMEND_FRIENDS_SUCCESS:
+    case LOAD_RECOMMEND_FRIENDS_SUCCESS: {
+      const rFriends = action.data.recommendFriends.concat(action.data.additionalFriends);
+      let recommendedFriends = null;
       draft.loadRecommendFriendsLoading = false;
       draft.loadRecommendFriendsDone = true;
       draft.closedFriends = action.data.recommendFriends;
       draft.additionalFriends = action.data.additionalFriends;
       // draft.recommendedFriends = [];
-      draft.recommendedFriends = action.data.recommendFriends.concat(action.data.additionalFriends);
+      if (rFriends.length < 4) {
+        recommendedFriends = rFriends
+          .concat(Array.from({ length: (4 - rFriends.length) }, () => 0).map((_f, i) => {
+            const key = `null${_f}${i}`;
+            return (
+              {
+                id: key,
+                Image: null,
+                nickname: '추천친구 없음',
+                Gyms: [{
+                  address: '추천친구 없음',
+                }],
+              }
+            );
+          }));
+      }
+      draft.recommendedFriends = rFriends.length < 4 ? recommendedFriends : rFriends;
       break;
+    }
     case LOAD_RECOMMEND_FRIENDS_ERROR:
       draft.loadRecommendFriendsError = action.error;
       draft.loadRecommendFriendsLoading = false;

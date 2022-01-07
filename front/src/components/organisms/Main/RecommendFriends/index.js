@@ -60,7 +60,7 @@ const RecommendFriends = ({ location }) => {
         실제위치와 일치하지 않으신가요?
       </FriendsSubTitle>
       <FriendsBody>
-        <FriendsCardList friendsLength={recommendedFriends.length || 0}>
+        <FriendsCardList>
           {!_.isEmpty(recommendedFriends)
             ? (
               <Slider {...settings}>

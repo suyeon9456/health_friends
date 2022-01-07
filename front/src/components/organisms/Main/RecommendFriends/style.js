@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const FriendsWrap = styled.div`
   width: 100%;
@@ -40,49 +40,7 @@ export const FriendsCardList = styled.div`
   & .slick-slide {
     margin-bottom: 20px;
   }
-
-  ${({ friendsLength }) => {
-    if (friendsLength <= 2) {
-      return css`
-        display: flex;
-        justify-content: space-evenly;
-        flex-wrap: wrap;
-        align-content: flex-start;
-      `;
-    }
-    // return css`
-    //   display: flex;
-    //   flex-wrap: wrap;
-    //   align-content: flex-start;
-    // `;
-  }}
 `;
-
-// export const FriendsCardsWrap = styled.div`
-//   width: 100%;
-//   display: flex;
-//   margin-top: 20px;
-//   ${({ friendsLength }) => {
-//     if (friendsLength <= 2) {
-//       return css`
-//         justify-content: space-evenly;
-//         flex-wrap: wrap;
-//         align-content: flex-start;
-//       `;
-//     }
-//     if (friendsLength === 4) {
-//       return css`
-//         justify-content: space-between;
-//         /* flex-wrap: wrap; */
-//         /* align-content: flex-start; */
-//       `;
-//     }
-//     return css`
-//       flex-wrap: wrap;
-//       align-content: flex-start;
-//     `;
-//   }}
-// `;
 
 export const FriendsCard = styled.div`
   margin: 10px 0 !important;
