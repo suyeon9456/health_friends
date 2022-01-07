@@ -50,6 +50,7 @@ export const RankTitle = styled.span`
 
 export const RankCard = styled.div`
   /* height: 300px; */
+  height: 236px;
   background-color: #ffffff;
   border: 1px solid rgb(230, 230, 230);
   box-shadow: rgb(0 0 0 / 3%) 0px 5px 16px 0px;
@@ -92,4 +93,33 @@ export const RankItem = styled.div`
   & a {
     color: #000000d9;
   }
+`;
+
+export const NoDataCard = styled.div`
+  position: relative;
+  width: 100% !important;
+  height: 100%;
+  background-color: #ffffff;
+  border-bottom: 1px solid rgb(230, 230, 230);
+  border-radius: 5px;
+  box-shadow: rgb(0 0 0 / 3%) 0px 5px 16px 0px;
+  display: flex;
+  align-items: center;
+`;
+
+export const NoDataContent = styled.div`
+  width: 100%;
+`;
+
+export const NoDataIconWrap = styled.div`
+  text-align: center;
+  width: 100%;
+`;
+
+export const NoDataText = styled.div`
+  text-align: center;
+  width: 100%;
+  font-size: 14px;
+  font-weight: bold;
+  color: #00000040;
 `;

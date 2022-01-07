@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
+import * as _ from 'lodash';
 import { LOAD_RANKED_FRIENDS_REQUEST } from '../../../../../reducers/user';
 
-import { RankItem, RankTitle, RankCard, RankCardList, RankCardWrap, RankedFriendsBody, RankedFriendsHeader, RankedFriendsWrap, RankItemWrap } from './style';
+import { RankItem, RankTitle, RankCard, RankCardList, RankCardWrap, RankedFriendsBody, RankedFriendsHeader, RankedFriendsWrap, RankItemWrap, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
+import NoDataIcon from '../../../atoms/NoDataIcon';
 
 const RankedFriends = () => {
   const dispatch = useDispatch();
@@ -26,24 +28,37 @@ const RankedFriends = () => {
               재매칭 순위 TOP 5
             </RankTitle>
             <RankCard>
-              {rankedFriends?.rematching?.map((friend, index) => {
-                const friendId = friend.id;
-                const profileUrl = ['/profile/', friendId].join('');
-                return (
-                  <RankItemWrap key={friend.id}>
-                    <RankItem>
-                      <span>{index + 1}.</span>
-                      {friend
-                        ? (
-                          <Link href={profileUrl}>
-                            <a>{friend.nickname}</a>
-                          </Link>
-                        )
-                        : <div>없음</div>}
-                    </RankItem>
-                  </RankItemWrap>
-                );
-              })}
+              {!_.isEmpty(rankedFriends?.rematching)
+                ? rankedFriends?.rematching?.map((friend, index) => {
+                  const friendId = friend.id;
+                  const profileUrl = ['/profile/', friendId].join('');
+                  return (
+                    <RankItemWrap key={friend.id}>
+                      <RankItem>
+                        <span>{index + 1}.</span>
+                        {friend
+                          ? (
+                            <Link href={profileUrl}>
+                              <a>{friend.nickname}</a>
+                            </Link>
+                          )
+                          : <div>없음</div>}
+                      </RankItem>
+                    </RankItemWrap>
+                  );
+                })
+                : (
+                  <NoDataCard>
+                    <NoDataContent>
+                      <NoDataIconWrap>
+                        <NoDataIcon width={62} height={62} color="#00000040" />
+                      </NoDataIconWrap>
+                      <NoDataText>
+                        <span>랭킹이 없습니다.</span>
+                      </NoDataText>
+                    </NoDataContent>
+                  </NoDataCard>
+                )}
             </RankCard>
           </RankCardWrap>
           <RankCardWrap>
@@ -51,24 +66,37 @@ const RankedFriends = () => {
               매칭 순위 TOP 5
             </RankTitle>
             <RankCard>
-              {rankedFriends?.matching?.map((friend, index) => {
-                const friendId = friend.id;
-                const profileUrl = ['/profile/', friendId].join('');
-                return (
-                  <RankItemWrap key={friend.id}>
-                    <RankItem>
-                      <span>{index + 1}.</span>
-                      {friend
-                        ? (
-                          <Link href={profileUrl}>
-                            <a>{friend.nickname}</a>
-                          </Link>
-                        )
-                        : <div>없음</div>}
-                    </RankItem>
-                  </RankItemWrap>
-                );
-              })}
+              {!_.isEmpty(rankedFriends?.matching)
+                ? rankedFriends?.matching?.map((friend, index) => {
+                  const friendId = friend.id;
+                  const profileUrl = ['/profile/', friendId].join('');
+                  return (
+                    <RankItemWrap key={friend.id}>
+                      <RankItem>
+                        <span>{index + 1}.</span>
+                        {friend
+                          ? (
+                            <Link href={profileUrl}>
+                              <a>{friend.nickname}</a>
+                            </Link>
+                          )
+                          : <div>없음</div>}
+                      </RankItem>
+                    </RankItemWrap>
+                  );
+                })
+                : (
+                  <NoDataCard>
+                    <NoDataContent>
+                      <NoDataIconWrap>
+                        <NoDataIcon width={62} height={62} color="#00000040" />
+                      </NoDataIconWrap>
+                      <NoDataText>
+                        <span>랭킹이 없습니다.</span>
+                      </NoDataText>
+                    </NoDataContent>
+                  </NoDataCard>
+                )}
             </RankCard>
           </RankCardWrap>
         </RankCardList>
