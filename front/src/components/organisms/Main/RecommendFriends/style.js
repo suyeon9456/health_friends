@@ -4,12 +4,17 @@ export const FriendsWrap = styled.div`
   width: 100%;
   height: 100%;
   margin-top: 40px;
+  text-align: center;
 `;
 
 export const FriendsTitle = styled.div`
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   color: #fafafa;
+  text-align: left;
+  @media (min-width: 768px) {
+    font-size: 20px;
+  }
 `;
 
 export const FriendsSubTitle = styled.div`
@@ -18,10 +23,15 @@ export const FriendsSubTitle = styled.div`
   font-weight: 600;
   color: #fafafa;
   cursor: pointer;
+  text-align: left;
 `;
 
 export const FriendsBody = styled.div`
-  width: 100%;
+  width: 90%;
+  display: inline-block;
+  @media (min-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export const FriendsCardList = styled.div`

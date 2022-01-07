@@ -21,6 +21,13 @@ export const FooterContent = styled.div`
   color: rgb(89,89,89);
   height: 120px;
   align-items: center;
+  @media (max-width: 767px) {
+    flex-wrap: wrap;
+    & > div {
+      flex: 1 1 100%;
+      padding: 10px 0;
+    }
+  }
 `;
 
 export const LogoWrap = styled.div`
@@ -34,6 +41,9 @@ export const LogoWrap = styled.div`
 export const InfoWrap = styled.div`
   flex: 2 1 0;
   text-align: left;
+  @media (max-width: 767px) {
+    text-align: center;
+  }
 `;
 
 export const BlogWrap = styled.div`

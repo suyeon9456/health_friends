@@ -3,11 +3,17 @@ import styled from 'styled-components';
 export const RankedFriendsWrap = styled.section`
   width: 100%;
   text-align: left;
-  padding: 20px 128px;
+  padding: 20px 18px;
+  @media (min-width: 768px) {
+    padding: 20px 128px;
+  }
 `;
 
 export const RankedFriendsHeader = styled.div`
-  font-size: 32px;
+  font-size: 24px;
+  @media (min-width: 768px) {
+    font-size: 32px;
+  }
   font-weight: 800;
   color: rgb(89,89,89);
 `;
@@ -29,8 +35,10 @@ export const RankCardList = styled.div`
 
 export const RankCardWrap = styled.div`
   width: 450px;
-  & + & {
-    margin-left: 10px;
+  @media (min-width: 768px) {
+    & + & {
+      margin-left: 10px;
+    }
   }
 `;
 

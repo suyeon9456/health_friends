@@ -128,7 +128,6 @@ const Main = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req }) => {
-  console.log('2storestorestorestorestorestorestorestorestore', store);
   const cookie = req ? req.headers.cookie : '';
   axios.defaults.headers.Cookie = '';
   if (req && cookie) {

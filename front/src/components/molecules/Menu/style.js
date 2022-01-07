@@ -47,6 +47,9 @@ export const MenuItem = styled.li`
   margin-top: -1px;
   margin-bottom: 0;
   padding: 0 20px;
+  @media (max-width: 767px) {
+    padding: 0 10px;
+  }
   top: 1px;
   display: inline-block;
   transition: border-color 0.3s, background 0.3s;

@@ -19,7 +19,6 @@ const Menu = () => {
   }, []);
 
   const changeShowDrawerMenu = useCallback(() => {
-    console.log('test');
     contextDispatch({
       type: 'CHANGE_STATE',
       value: !drawerShow,

@@ -30,29 +30,41 @@ export const BannerHeader = styled.div`
   width: 100%;
   max-width: 1280px;
   text-align: left;
-  padding: 20px 128px;
+  padding: 20px 18px;
+  
+  @media (min-width: 768px) {
+    padding: 20px 128px;
+  }
 `;
 
 export const BannerHeaderTitle = styled.div`
   margin-top: 20px;
-  font-size: 32px;
   color: #ffffff;
+  font-size: 24px;
   font-weight: 800;
 
   & > .project-name {
-    font-size: 40px;
+    font-size: 32px;
     background: linear-gradient(to right,rgb(146,84,222) 0%,rgb(196,29,127) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 32px;
   }
 `;
 
 export const BannerContentWrap = styled.div`
   position: relative;
   display: inline-block;
-  padding: 20px 128px;
+  padding: 20px 18px;
   width: 100%;
   max-width: 1280px;
+
+  @media (min-width: 768px) {
+    padding: 20px 128px;
+  }
 `;
 
 export const BannerContent = styled.div`
