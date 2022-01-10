@@ -7,7 +7,6 @@ import { CloseOutlined, LoginOutlined, LogoutOutlined, SearchOutlined, UserOutli
 import { Button, Avatar } from '../../atoms';
 
 import { Drawer, DrawerBody, DrawerContent, DrawerContentWrap, DrawerHeader, DrawerHeaderTitle, DrawerMask, DrawerTitle, DrawerWrapBody, MemberMenu, MemberMenuItem, Menu, MenuItem, MenuText, MenuTitle } from './style';
-// import { MenuItem, MenuText, MenuTitle } from '../Menu/style';
 import { LOG_OUT_REQUEST } from '../../../../reducers/user';
 import { useShowDispatch } from '../../../../store/contextStore';
 
@@ -22,7 +21,6 @@ const DrawerMenu = ({ drawerShow }) => {
   }, []);
 
   const changeShowDrawerMenu = useCallback(() => {
-    console.log('test');
     contextDispatch({
       type: 'CHANGE_STATE',
       value: !drawerShow,
@@ -84,7 +82,7 @@ const DrawerMenu = ({ drawerShow }) => {
                   me && me?.id && (
                     <MenuItem>
                       <MenuTitle>
-                        <Link href={`/profile/${me?.id}`}>
+                        <Link href="/profile/myinfo">
                           <MenuText>
                             <UserOutlined />
                             {me?.nickname}님 프로필

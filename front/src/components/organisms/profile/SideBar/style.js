@@ -69,6 +69,7 @@ export const InfoIconWrapper = styled.div`
 `;
 
 export const SideMenuWrapper = styled.div`
+  /* display: flex; */
   width: 86%;
   position: relative;
   padding: 30px 0px;
@@ -76,6 +77,12 @@ export const SideMenuWrapper = styled.div`
   background: #fff;
   /* border-bottom: 1px solid #f0f0f0; */
   border-radius: 2px 2px 0 0;
+
+  @media (max-width: 767px) {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0px;
+  }
 `;
 
 export const SideMenu = styled.div`
@@ -85,6 +92,15 @@ export const SideMenu = styled.div`
   touch-action: manipulation;
   font-weight: 600;
   cursor: pointer;
+
+  @media (max-width: 767px) {
+    min-width: 80px;
+    text-align: center;
+    margin: 5px 0;
+    & + & {
+      border-left: 1px solid #f0f0f0;
+    }
+  }
 
   &:hover {
     color: #9254de;

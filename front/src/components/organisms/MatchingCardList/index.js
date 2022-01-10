@@ -24,7 +24,6 @@ const MatchingCardList = ({
     <>
       <MatchingCardListWrap>
         {schedules?.map((schedule) => {
-          console.log('schedule: ', schedule);
           const startDate = format(schedule.start, 'yyyy년 MM월 dd일 HH:mm');
           const endDate = format(schedule.end, 'HH:mm');
           const date = [startDate, ' ~ ', endDate].join('');

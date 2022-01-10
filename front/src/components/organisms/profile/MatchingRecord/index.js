@@ -9,7 +9,7 @@ import { CancelYnCheckBoxWrap, FilterList, RecordBody, RecordFooter, RecordWrap 
 import MatchingCardList from '../../MatchingCardList';
 
 const MatchingRecord = () => {
-  const { schedules } = useSelector((state) => state.schedule);
+  const { schedules, schedulesCount } = useSelector((state) => state.schedule);
   const dispatch = useDispatch();
   const [schedulesLimit, setSchedulesLimit] = useState(3);
 
@@ -109,6 +109,7 @@ const MatchingRecord = () => {
       <RecordFooter>
         <Button
           type="primary"
+          disabled={schedulesCount <= schedules.length}
           icon={<PlusOutlined />}
           onClick={onMoreSchedule}
         >

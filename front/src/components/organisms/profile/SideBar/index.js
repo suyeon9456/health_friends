@@ -8,11 +8,13 @@ import { Avatar, Button, Upload } from '../../../atoms';
 import Progress from '../../../molecules/Progress';
 import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, SideBarWrapper, SideMenu, SideMenuWrapper } from './style';
 import { ADD_PROFILEIMAGE_REQUEST, REMOVE_PROFILEIMAGE, UPLOAD_PROFILEIMAGE_REQUEST } from '../../../../../reducers/user';
+import ModalMatchingRequest from '../../ModalMatchingRequest';
 
 const SideBar = ({ profileMenu, setProfileMenu }) => {
   const dispatch = useDispatch();
   const { profile, me, imagePath, uploadProfileImageError } = useSelector((state) => state.user);
   const [uploadState, setUploadState] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [responseRate,
     onChangeResponseRate] = useRate({
     total: profile?.resSchedule?.length || 0,
@@ -58,6 +60,13 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
     });
   }, []);
 
+  const onShowMatchingModal = useCallback(() => {
+    // if (!(me && me.id)) {
+    //   return setStateWarning(true);
+    // }
+    setShowModal(true);
+  }, [me && me.id]);
+
   return (
     <SideBarWrapper>
       <AvatarWrapper>
@@ -76,7 +85,6 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
                 />
               </form>
               <div>
-                {/* <a onClick={onChangeUploadState}>취소</a> */}
                 <Button type="text" onClick={onChangeUploadState}>취소</Button>
               </div>
             </>
@@ -84,10 +92,13 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           : (
             <>
               <Avatar size={128} src={profile?.Image ? `${profile?.Image?.src}` : ''} />
-              {me?.id && (
+              {(me?.id && (profile?.id === me?.id)) ? (
                 <div>
-                  {/* <a onClick={onChangeUploadState}>프로필 사진 변경하기</a> */}
                   <Button type="text" onClick={onChangeUploadState}>프로필 사진 변경하기</Button>
+                </div>
+              ) : (
+                <div>
+                  <Button type="signature" onClick={onShowMatchingModal}>매칭신청</Button>
                 </div>
               )}
             </>
@@ -120,6 +131,13 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
       </InfoWrapper>
       <SideMenuWrapper>
         <SideMenu
+          key="info"
+          id="info"
+          onClick={onClickMenu}
+        >
+          내정보
+        </SideMenu>
+        <SideMenu
           key="calendar"
           id="calendar"
           onClick={onClickMenu}
@@ -133,14 +151,19 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
         >
           매칭기록
         </SideMenu>
-        <SideMenu
+        {/* <SideMenu
           key="liked-friends"
           id="liked-friends"
           onClick={onClickMenu}
         >
           좋아요한 친구
-        </SideMenu>
+        </SideMenu> */}
       </SideMenuWrapper>
+      <ModalMatchingRequest
+        showModal={showModal}
+        setShowModal={setShowModal}
+        friend={profile}
+      />
     </SideBarWrapper>
   );
 };

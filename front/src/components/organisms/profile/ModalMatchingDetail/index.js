@@ -88,13 +88,8 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
       {type === 'view'
         ? (
           <RequestFriendWrap>
-            <MatchingInfoWrap>
-              <h4>매칭정보</h4>
-              <div>일정: {formatDate}</div>
-              <div>헬스장: {schedule?.address}</div>
-            </MatchingInfoWrap>
             <UserInfoWrap>
-              <InfoContent id="my_info">
+              {/* <InfoContent id="my_info">
                 <h4>내정보</h4>
                 <Content>
                   <Avatar size={62} />
@@ -102,17 +97,21 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
                     <div className="nickname">{me?.nickname}</div>
                   </div>
                 </Content>
-              </InfoContent>
+              </InfoContent> */}
               <InfoContent id="friend_info">
-                <h4>친구정보</h4>
                 <Content>
                   <Avatar size={62} />
-                  <div>
-                    <div className="nickname">{fNickname}</div>
-                  </div>
                 </Content>
+                <div className="nickname">
+                  <div className="nickname">{fNickname}</div>
+                </div>
               </InfoContent>
             </UserInfoWrap>
+            <MatchingInfoWrap>
+              <h4>매칭정보</h4>
+              <div>{formatDate}</div>
+              <div>{schedule?.address}</div>
+            </MatchingInfoWrap>
             <DescriptionWrap>
               <h4>요청 또는 전하고 싶은 말</h4>
               <div>{schedule?.description}</div>

@@ -32,13 +32,10 @@ export const AlertBox = styled.div`
   box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
-
-  /* background-color: #fff2f0; */
-  /* border: 1px solid #ffccc7; */
   background-color: #fff;
 
   background-clip: padding-box;
-  border-radius: 2px;
+  border-radius: 5px;
   box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
 
   padding: 12px 16px;

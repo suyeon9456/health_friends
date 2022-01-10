@@ -4,13 +4,20 @@ export const MatchingCardListWrap = styled.div`
   width: auto;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 
   & > div {
-    width: 45%;
-    margin: 10px;
-    @media (min-width: 768px) {
+    width: 30%;
+    margin: 10px 0;
+    /* margin: 10px; */
+
+    @media (max-width: 1129px) {
+      width: 45%;
+    }
+
+    @media (max-width: 767px) {
       /* flex: 1 1 30%; */
-      width: 30%;
+      width: 100%;
     }
   }
 `;

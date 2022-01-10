@@ -16,6 +16,11 @@ export const Card = styled.div`
   position: relative;
   background: #fff;
   border-radius: 2px;
+
+  &:hover {
+    box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
+    border-color: transparent;
+  }
 `;
 
 export const CardCover = styled.div`
@@ -101,6 +106,7 @@ export const MetaDescription = styled.div`
   line-height: 1.5715;
   list-style: none;
   font-feature-settings: "tnum";
+  text-align: left;
 `;
 
 export const CardActions = styled.ul`

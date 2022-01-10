@@ -30,6 +30,7 @@ export const RankCardList = styled.div`
   @media (max-width: 767px) {
     flex-wrap: wrap;
     align-content: flex-start;
+    justify-content: center;
   }
 `;
 
@@ -50,9 +51,7 @@ export const RankTitle = styled.span`
 
 export const RankCard = styled.div`
   /* height: 300px; */
-  height: 236px;
-  background-color: #ffffff;
-  border: 1px solid rgb(230, 230, 230);
+  /* height: 236px; */
   box-shadow: rgb(0 0 0 / 3%) 0px 5px 16px 0px;
   border-radius: 5px;
 
@@ -65,14 +64,21 @@ export const RankCard = styled.div`
   line-height: 1.5715;
   list-style: none;
   font-feature-settings: "tnum";
-  background-color: #fafafa;
-  border: 1px solid #d9d9d9;
   border-bottom: 0;
   margin: 10px 0;
 `;
 
 export const RankItemWrap = styled.div`
   border-bottom: 1px solid #d9d9d9;
+  border: 1px solid rgb(230, 230, 230);
+  border-radius: 5px;
+  background-color: #ffffff;
+  margin-bottom: 4px;
+  box-sizing: border-box;
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 20px -15px rgb(0 0 0 / 5%);
+  }
 `;
 
 export const RankItem = styled.div`

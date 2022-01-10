@@ -15,7 +15,7 @@ export const SimpleCard = styled.div`
   border-radius: 2px;
   padding: 24px;
   border: 1px solid #f0f0f0;
-  box-shadow: 0 2px 8px #e8e9e9;
+  box-shadow: 0 2px 20px 6px #e8e9e9;
 
   &::before {
     display: table;

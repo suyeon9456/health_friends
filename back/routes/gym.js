@@ -65,7 +65,7 @@ router.get('/:gymId', async (req, res, next) => { // GET /gym/1
         attributes: ['id', 'nickname', 'gender'],
         include: [{
           model: Userdetail,
-          attributes: ['startTime', 'endTime', 'description'],
+          attributes: ['startTime', 'endTime', 'description', 'rematchingRate'],
         }, {
           model: Image,
         }]

@@ -13,11 +13,6 @@ const SearchFriends = ({ foldedGym,
   setFriend,
   setShowModal,
   setStateWarning }) => {
-  // const actions = [
-  //   { icon: <UserAddOutlined />, key: 'rematch' },
-  //   { icon: <EditOutlined />, key: 'edit' },
-  // ];
-
   const { gym } = useSelector((state) => state.gym);
   const { me } = useSelector((state) => state.user);
 
@@ -59,9 +54,8 @@ const SearchFriends = ({ foldedGym,
                   nickname={user.nickname}
                   description={user.Userdetail.description}
                   date={user.Userdetail.startTime}
-                  percent={30}
+                  percent={user.Userdetail.rematchingRate}
                   onClick={onShowMatchingModal(user)}
-                  // actions={actions}
                 />
               );
             })

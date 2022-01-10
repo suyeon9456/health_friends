@@ -8,6 +8,9 @@ import { ADD_PROFILEIMAGE_ERROR, ADD_PROFILEIMAGE_REQUEST, ADD_PROFILEIMAGE_SUCC
   LOAD_PROFILE_INFO_ERROR,
   LOAD_PROFILE_INFO_REQUEST,
   LOAD_PROFILE_INFO_SUCCESS,
+  LOAD_PROFILE_MYINFO_ERROR,
+  LOAD_PROFILE_MYINFO_REQUEST,
+  LOAD_PROFILE_MYINFO_SUCCESS,
   LOAD_RANKED_FRIENDS_ERROR,
   LOAD_RANKED_FRIENDS_REQUEST,
   LOAD_RANKED_FRIENDS_SUCCESS,
@@ -77,6 +80,25 @@ function* loadProfileInfo(action) {
   } catch (error) {
     yield put({
       type: LOAD_PROFILE_INFO_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function loadProfileMyinfoAPI() {
+  return axios.get('/user/profile/myinfo');
+}
+
+function* loadProfileMyinfo() {
+  try {
+    const result = yield call(loadProfileMyinfoAPI);
+    yield put({
+      type: LOAD_PROFILE_MYINFO_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: LOAD_PROFILE_MYINFO_ERROR,
       error: error.response.data,
     });
   }
@@ -319,6 +341,10 @@ function* watchLoadProfileInfo() {
   yield takeLatest(LOAD_PROFILE_INFO_REQUEST, loadProfileInfo);
 }
 
+function* watchLoadProfileMyinfo() {
+  yield takeLatest(LOAD_PROFILE_MYINFO_REQUEST, loadProfileMyinfo);
+}
+
 function* watchLogin() {
   yield takeLatest(LOG_IN_REQUEST, login);
 }
@@ -371,6 +397,7 @@ export default function* userSaga() {
   yield all([
     yield fork(watchLoadMyInfo),
     yield fork(watchLoadProfileInfo),
+    yield fork(watchLoadProfileMyinfo),
     yield fork(watchLogin),
     yield fork(watchLogout),
     yield fork(watchSignUp),

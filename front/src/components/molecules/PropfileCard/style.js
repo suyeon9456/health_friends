@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Card = styled.div`
   display: flex;
   width: 400px;
+  height: 70px;
   border: 1px solid #f0f0f0;
   box-sizing: border-box;
   margin: 0;
@@ -16,12 +17,17 @@ export const Card = styled.div`
   position: relative;
   background: #fff;
   border-radius: 2px;
+
+  & > div {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 export const CardCover = styled.div`
-  padding: 14px;
+  padding: 10px 0;
+  justify-content: center;
   flex-grow: 1;
-  height: 130px;
 
   &::before {
     display: table;
@@ -31,11 +37,6 @@ export const CardCover = styled.div`
     display: table;
     clear: both;
     content: "";
-  }
-
-  & > * {
-    /* display: block; */
-    height: 100%;
   }
 
   & > img {
@@ -49,8 +50,8 @@ export const CardCover = styled.div`
 `;
 
 export const CardBody = styled.div`
-  padding: 14px;
-  flex-grow: 6;
+  padding: 10px 0;
+  flex-grow: 5;
   &::before {
     display: table;
     content: "";
@@ -82,7 +83,7 @@ export const MetaTitle = styled.div`
   font-size: 16px;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
 `;
 
 export const MetaDescription = styled.div`
@@ -104,9 +105,17 @@ export const MetaPercent = styled.div`
 `;
 
 export const CardActions = styled.div`
-  margin-top: 10px;
-  color: #00000073;
-  width: 100%;
+  flex-grow: 1;
+  justify-content: center;
+  &::before {
+    display: table;
+    content: "";
+  }
+  &::after {
+    display: table;
+    clear: both;
+    content: "";
+  }
 
   & > span {
     font-size: 16px;

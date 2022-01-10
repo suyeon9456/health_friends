@@ -9,6 +9,9 @@ export const RecordWrap = styled.div`
   background-color: #ffffff;
   border-radius: 5px;
   border: 1px solid #f0f0f0;
+  @media (max-width: 767px) {
+    margin-left: 0;
+  }
   margin-left: 10px;
   margin-top: 10px;
   padding: 10px 0px;
@@ -27,6 +30,15 @@ export const FilterList = styled.div`
   & > div:not(:first-child) {
     margin-left: 10px;
   }
+
+  @media (max-width: 767px) {
+    margin-left: 0;
+    flex-wrap: wrap;
+    & > div:last-child {
+      margin-left: 0;
+      margin-top: 5px;
+    }
+  }
 `;
 
 export const CancelYnCheckBoxWrap = styled.div`
@@ -35,6 +47,7 @@ export const CancelYnCheckBoxWrap = styled.div`
 
 export const RecordBody = styled.div`
   text-align: center;
+  padding: 0 10px;
 `;
 
 export const RecordFooter = styled.div`

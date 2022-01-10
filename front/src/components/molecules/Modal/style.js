@@ -114,6 +114,7 @@ export const ModalBody = styled.div`
   font-size: 14px;
   line-height: 1.5715;
   word-wrap: break-word;
+  text-align: left;
 `;
 
 export const ModalFooter = styled.div`

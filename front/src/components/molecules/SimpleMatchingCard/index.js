@@ -20,7 +20,7 @@ const SimpleMatchingCard = ({ nickname, address, date, avatarSize, onChangeShow 
     </SimpleCardMeta>
     <MatchingDateWrapper>
       <MatchingDate>{date}</MatchingDate>
-      <Button type="line-primary" size="small">상세확인 <RightOutlined /></Button>
+      <Button type="signature" size="small">상세확인 <RightOutlined /></Button>
     </MatchingDateWrapper>
   </SimpleCard>
 );

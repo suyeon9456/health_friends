@@ -4,6 +4,7 @@ export const SearchFriendsWrapper = styled.div`
   position: absolute;
   display: flex;
   width: 100%;
+  height: auto;
   max-height: 535px;
   left: 0;
   top: 590px;
@@ -17,7 +18,6 @@ export const SearchFriendsWrapper = styled.div`
   border: 1px solid #f0f0f0;
   z-index: 5;
   transition: all .35s;
-  height: 504px;
 
   ${({ foldedGym }) => foldedGym && css`
     top: calc(0% + 43px);
@@ -75,6 +75,7 @@ export const SearchTitle = styled.div`
 
 export const FriendsListWrapper = styled.div`
   position: relative;
+  padding: 0 14px;
   width: 100%;
   color: #000000d9;
   background: #fff;
@@ -84,7 +85,6 @@ export const FriendsListWrapper = styled.div`
     border-left: none;
     border-right: none;
     border-top: none;
-    margin: 10px 0;
     width: 100%;
   }
 `;

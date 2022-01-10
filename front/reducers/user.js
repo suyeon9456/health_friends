@@ -8,6 +8,9 @@ const initialState = {
   loadProfileInfoLoading: false,
   loadProfileInfoDone: false,
   loadProfileInfoError: null,
+  loadProfileMyinfoLoading: false,
+  loadProfileMyinfoDone: false,
+  loadProfileMyinfoError: null,
   loginLoading: false,
   loginDone: false,
   loginError: null,
@@ -103,6 +106,10 @@ export const LOAD_PROFILE_INFO_REQUEST = 'LOAD_PROFILE_INFO_REQUEST';
 export const LOAD_PROFILE_INFO_SUCCESS = 'LOAD_PROFILE_INFO_SUCCESS';
 export const LOAD_PROFILE_INFO_ERROR = 'LOAD_PROFILE_INFO_ERROR';
 
+export const LOAD_PROFILE_MYINFO_REQUEST = 'LOAD_PROFILE_MYINFO_REQUEST';
+export const LOAD_PROFILE_MYINFO_SUCCESS = 'LOAD_PROFILE_MYINFO_SUCCESS';
+export const LOAD_PROFILE_MYINFO_ERROR = 'LOAD_PROFILE_MYINFO_ERROR';
+
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
 export const LOG_IN_ERROR = 'LOG_IN_ERROR';
@@ -192,6 +199,20 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case LOAD_PROFILE_INFO_ERROR:
       draft.loadProfileInfoError = action.error;
       draft.loadProfileInfoLoading = false;
+      break;
+    case LOAD_PROFILE_MYINFO_REQUEST:
+      draft.loadProfileMyinfoLoading = true;
+      draft.loadProfileMyinfoDone = false;
+      draft.loadProfileMyinfoError = null;
+      break;
+    case LOAD_PROFILE_MYINFO_SUCCESS:
+      draft.loadProfileMyinfoLoading = false;
+      draft.loadProfileMyinfoDone = true;
+      draft.profile = action.data;
+      break;
+    case LOAD_PROFILE_MYINFO_ERROR:
+      draft.loadProfileMyinfoError = action.error;
+      draft.loadProfileMyinfoLoading = false;
       break;
     case LOG_IN_REQUEST:
       draft.loginLoading = true;

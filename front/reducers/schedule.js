@@ -17,6 +17,7 @@ const initialState = {
   updatePermissionDone: false,
   updatePermissionError: null,
   schedules: [],
+  schedulesCount: 0,
   schedule: null,
 };
 
@@ -61,12 +62,13 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadSchedulesLoading = true;
       draft.loadSchedulesDone = false;
       draft.loadSchedulesError = null;
+      draft.schedulesCount = 0;
       break;
     case LOAD_SCHEDULES_SUCCESS:
       draft.loadSchedulesLoading = false;
       draft.loadSchedulesDone = true;
       draft.loadSchedulesError = null;
-      draft.schedules = action.data.map((item) => ({
+      draft.schedules = action.data.schedules.map((item) => ({
         id: item.id,
         start: new Date(item.startDate),
         end: new Date(item.endDate),
@@ -75,6 +77,7 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
         friend: item.Friend,
         requester: item.Requester,
       }));
+      draft.schedulesCount = action.data.count;
       break;
     case LOAD_SCHEDULES_ERROR:
       draft.loadSchedulesLoading = false;

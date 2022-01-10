@@ -105,7 +105,7 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => { // GET /schedules/
   try {
-    console.log('testtest', req.query);
+    console.log('req.query: ', req.query);
 
     const { before, after, scheduledRecord, lastRecord, requestRecord, receiveRecord, rejectedMatching } = req.query;
 
@@ -156,19 +156,14 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         where.permission = { [Op.or]: [false, true] }
       }
     }
-
-    // isPermitted: true,
-//         permission: false,
-//         [Op.or]: [{
-//           UserId: req.user.id,
-//         }, {
-//           FriendId: req.user.id,
-//         }],
     if (rejectedMatching === 'true') {
       where.permission = false;
     }
 
-    const schedule = await Schedule.findAll({
+    const schedulesCount = await Schedule.findAndCountAll({ where });
+    console.log('count: ', schedulesCount.count);
+
+    const schedules = await Schedule.findAll({
       where,
       limit: req.query.profileMenu === 'calendar' ? null : parseInt(req.query.limit, 10),
       attributes: [
@@ -204,7 +199,7 @@ router.get('/', async (req, res, next) => { // GET /schedules/
       }],
     });
 
-    res.status(201).json(schedule);
+    res.status(201).json({ schedules, count: schedulesCount.count });
   } catch (error) {
     console.error(error);
     next(error);

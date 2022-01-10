@@ -11,6 +11,9 @@ export const CalendarWrap = styled.div`
   border-radius: 5px;
   border: 1px solid #f0f0f0;
   margin-left: 10px;
+  @media (max-width: 767px) {
+    margin-left: 0;
+  }
   margin-top: 10px;
   padding: 30px 0px;
 

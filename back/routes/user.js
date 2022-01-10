@@ -20,7 +20,6 @@ try {
 }
 
 router.get('/', async (req, res, next) => {
-  console.log('이거뜨나?', req.headers);
   try {
     if (req.user) {
       const user = await User.findOne({
@@ -45,11 +44,50 @@ router.get('/', async (req, res, next) => {
           model: Image,
         }]
       });
-      console.log('조회됨?', user);
       res.status(200).json(user);
     } else {
       res.status(200).json(null);
     }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.get('/profile/myinfo', isLoggedIn, async (req, res, next) => {
+  try {
+    const myinfo = await User.findOne({
+      where: { id: req.user.id },
+      attributes: {
+        exclude: ['password'],
+      },
+      include: [{
+        model: Userdetail,
+        attributes: [
+          'description',
+          'startTime',
+          'endTime',
+          'friendsAge',
+          'friendsCareer',
+          'friendsGender',
+          'friendsRole',
+          'rematchingRate'
+        ],
+      }, {
+        model: Gym,
+      }, {
+        model: Schedule,
+        as: 'reqSchedule',
+        attributes: ['id', 'permission', 'FriendId']
+      }, {
+        model: Schedule,
+        as: 'resSchedule',
+        attributes: ['id', 'isPermitted', 'permission', [Sequelize.col('UserId'), 'FriendId']]
+      }, {
+        model: Image,
+      }]
+    });
+    res.status(200).json(myinfo);
   } catch (error) {
     console.error(error);
     next(error);

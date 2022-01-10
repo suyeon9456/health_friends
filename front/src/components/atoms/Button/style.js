@@ -75,13 +75,14 @@ ${({ styleType, buttonLoading }) => {
     }
     if (styleType === 'warning') {
       return css`
-        color: #faad14;
-        background: #fff;
-        border-color: #ffe58f;
+        color: #fff;
+        background: #faad14;
+        border-color: #faad14;
+        box-shadow: 0 12px 12px -11px #faad1480;
         &:hover, &:focus {
-          color: #faad14;
-          background: #fffbe6;
-          border-color: #ffccc7;
+          color: #fff;
+          background: #ffcb66;
+          border-color: #ffcb66;
         }
       `;
     }
@@ -120,6 +121,27 @@ ${({ styleType, buttonLoading }) => {
           color: #fff;
           background: #b37feb;
           border-color: #b37feb;
+        }
+      `;
+    }
+    if (styleType === 'signature') {
+      return buttonLoading
+        ? css`
+          color: #fff;
+          background: #b37feb;
+          /* border-color: #b37feb; */
+          pointer-events: none;
+        `
+        : css`
+        color: #fff;
+        background-image: linear-gradient(to right,rgb(146,84,222) 0%,rgb(196,29,127) 100%);
+        /* border-color: #9254de; */
+        &:hover, &:focus {
+          color: #fff;
+          background-image: linear-gradient(to right,rgb(146,84,222) 0%,rgb(196,29,127) 100%);
+          /* background: #b37feb; */
+          /* border-color: #b37feb; */
+          box-shadow: 0px 8px 10px 2px #e8e9e9;
         }
       `;
     }

@@ -26,7 +26,6 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
     isLoadGyms } = useSelector((state) => state.gym);
 
   const [browserHeight, setBrowserHeight] = useState('');
-  // const [foldedGym, setFoldedGym] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [friend, setFriend] = useState(false);
   const [stateWarning, setStateWarning] = useState(false);
@@ -157,20 +156,20 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
         setShowModal={setShowModal}
         friend={friend}
       />
-      {stateWarning && (
-        <Alert
-          type="warning"
-          action={(
-            <Button
-              block
-              onClick={onChangeStateWarning}
-            >
-              확인
-            </Button>
-          )}
-          message="로그인이 필요한 페이지입니다."
-        />
-      )}
+      <Alert
+        show={stateWarning}
+        type="warning"
+        action={(
+          <Button
+            block
+            type="warning"
+            onClick={onChangeStateWarning}
+          >
+            확인
+          </Button>
+        )}
+        message="로그인이 필요한 페이지입니다."
+      />
     </SearchWrapper>
   );
 };
