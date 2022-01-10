@@ -48,7 +48,7 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend }) => {
         description,
         userId: me?.id,
         friendId: friend?.id,
-        gymId: gym?.id,
+        gymId: friend?.Gyms[0]?.id || gym?.id,
       },
     });
     onChangeShowModal();

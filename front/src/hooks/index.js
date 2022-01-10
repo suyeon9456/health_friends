@@ -1,9 +1,9 @@
 import useDateFormat from './useDateFormat';
 import useInput from './useInput';
-import useTextareaLength from './useTextareaLength';
+import useTextarea from './useTextarea';
 
 export {
   useDateFormat,
   useInput,
-  useTextareaLength,
+  useTextarea,
 };

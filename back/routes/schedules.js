@@ -170,6 +170,7 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         'id',
         'description',
         'permission',
+        'isPermitted',
         [Sequelize.fn('date_format', Sequelize.col('startDate'), '%Y-%m-%d %H:%i'), 'startDate'],
         [Sequelize.fn('date_format', Sequelize.col('endDate'), '%Y-%m-%d %H:%i'), 'endDate']
       ],
@@ -200,6 +201,41 @@ router.get('/', async (req, res, next) => { // GET /schedules/
     });
 
     res.status(201).json({ schedules, count: schedulesCount.count });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.get('/calendar', async (req, res, next) => { // GET /schedules/calendar
+  try {
+    console.log('req.query: ', req.query);
+
+    const { start, end } = req.query;
+
+    const where = {
+      startDate: { [Op.gte]: new Date(start) },
+      endDate: { [Op.lt]: new Date(end) },
+      [Op.or]: [{
+          UserId: req.user.id,
+        }, {
+          FriendId: req.user.id,
+      }],
+    }
+
+    const schedules = await Schedule.findAll({
+      where,
+      attributes: [
+        'id',
+        'description',
+        'permission',
+        'isPermitted',
+        [Sequelize.fn('date_format', Sequelize.col('startDate'), '%Y-%m-%d %H:%i'), 'startDate'],
+        [Sequelize.fn('date_format', Sequelize.col('endDate'), '%Y-%m-%d %H:%i'), 'endDate']
+      ]
+    });
+
+    res.status(201).json(schedules);
   } catch (error) {
     console.error(error);
     next(error);

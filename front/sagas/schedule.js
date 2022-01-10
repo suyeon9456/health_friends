@@ -1,7 +1,7 @@
 import { all, fork, call, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-import { ADD_SCHEDULE_ERROR, ADD_SCHEDULE_REQUEST, ADD_SCHEDULE_SUCCESS, LOAD_SCHEDULES_ERROR, LOAD_SCHEDULES_REQUEST, LOAD_SCHEDULES_SUCCESS, LOAD_SCHEDULE_ERROR, LOAD_SCHEDULE_REQUEST, LOAD_SCHEDULE_SUCCESS, UPDATE_PERMISSION_ERROR, UPDATE_PERMISSION_REQUEST, UPDATE_PERMISSION_SUCCESS, UPDATE_SCHEDULE_ERROR, UPDATE_SCHEDULE_REQUEST, UPDATE_SCHEDULE_SUCCESS } from '../reducers/schedule';
+import { ADD_SCHEDULE_ERROR, ADD_SCHEDULE_REQUEST, ADD_SCHEDULE_SUCCESS, LOAD_CALENDAR_SCHEDULES_ERROR, LOAD_CALENDAR_SCHEDULES_REQUEST, LOAD_CALENDAR_SCHEDULES_SUCCESS, LOAD_SCHEDULES_ERROR, LOAD_SCHEDULES_REQUEST, LOAD_SCHEDULES_SUCCESS, LOAD_SCHEDULE_ERROR, LOAD_SCHEDULE_REQUEST, LOAD_SCHEDULE_SUCCESS, UPDATE_PERMISSION_ERROR, UPDATE_PERMISSION_REQUEST, UPDATE_PERMISSION_SUCCESS, UPDATE_SCHEDULE_ERROR, UPDATE_SCHEDULE_REQUEST, UPDATE_SCHEDULE_SUCCESS } from '../reducers/schedule';
 
 function addScheduleAPI(data) {
   return axios.post('/schedule', data);
@@ -45,6 +45,25 @@ function* loadSchedules(action) {
   } catch (error) {
     yield put({
       type: LOAD_SCHEDULES_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function loadCalendarSchedulesAPI(data) {
+  axios.get(`/schedules/calendar?start=${data.start}&end=${data.end}`);
+}
+
+function* loadCalendarSchedules(action) {
+  try {
+    const result = yield call(loadCalendarSchedulesAPI, action.data);
+    yield put({
+      type: LOAD_CALENDAR_SCHEDULES_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: LOAD_CALENDAR_SCHEDULES_ERROR,
       error: error.response.data,
     });
   }
@@ -115,6 +134,10 @@ function* watchLoadSchedules() {
   yield takeLatest(LOAD_SCHEDULES_REQUEST, loadSchedules);
 }
 
+function* watchLoadCalendarSchedules() {
+  yield takeLatest(LOAD_CALENDAR_SCHEDULES_REQUEST, loadCalendarSchedules);
+}
+
 function* watchLoadSchedule() {
   yield takeLatest(LOAD_SCHEDULE_REQUEST, loadSchedule);
 }
@@ -131,6 +154,7 @@ export default function* userSaga() {
   yield all([
     yield fork(watchAddGym),
     yield fork(watchLoadSchedules),
+    yield fork(watchLoadCalendarSchedules),
     yield fork(watchLoadSchedule),
     yield fork(watchUpdateSchedule),
     yield fork(watchUpdatePermission),

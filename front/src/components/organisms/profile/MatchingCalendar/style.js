@@ -40,7 +40,20 @@ export const CalendarWrap = styled.div`
     font-size: 12px;
     font-weight: lighter;
   }
+
+  &, .before-permission {
+    &::before {
+      position: absolute;
+      top: calc(50% - 2px);
+      background-color: #ff4d4f;
+      border-radius: 50%;
+      content: ' ';
+      width: 5px;
+      height: 5px;
+    }
+  }
 }
+
 .last-event-title {
   display: block;
   position: relative;
@@ -69,8 +82,22 @@ export const CalendarWrap = styled.div`
 }
 
   & .rbc-toolbar{
+    /* & > .rbc-toolbar-label {
+      width: auto;
+      @media (max-width: 767px) {
+        text-align: center;
+        width: 100%;
+        margin-bottom: 12px;
+      }
+    } */
     & > .rbc-btn-group {
       margin-bottom: 15px;
+      /* width: auto;
+
+      @media (max-width: 767px) {
+        text-align: center;
+        width: 100%;
+      } */
       & > button {
         height: 32px;
         border-radius: 2px;

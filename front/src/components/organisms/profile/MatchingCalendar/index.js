@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { EditOutlined, UserAddOutlined } from '@ant-design/icons';
-import { format } from 'date-fns';
+import { format, startOfMonth, endOfMonth, addDays } from 'date-fns';
 import * as _ from 'lodash';
 
-import { LOAD_SCHEDULES_REQUEST } from '../../../../../reducers/schedule';
+import { LOAD_CALENDAR_SCHEDULES_REQUEST } from '../../../../../reducers/schedule';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { BigCalendar, SimpleMatchingCard } from '../../../molecules';
 import { CalendarWrap, CardWrap } from './style';
+import { useDateFormat } from '../../../../hooks';
 
 const actions = [{ icon: <UserAddOutlined />, key: 'rematch' }, { icon: <EditOutlined />, key: 'edit' }];
 const MatchingCalendar = () => {
@@ -20,6 +21,7 @@ const MatchingCalendar = () => {
   // ];
   const [events, setEvents] = useState([]);
   const [showCard, setShowCard] = useState(false);
+  // const [isPermitted, setIsPermitted] = useState(false);
   const [nickname, setNickname] = useState('');
   const [address, setAddress] = useState('');
   const [date, setDate] = useState('');
@@ -27,8 +29,6 @@ const MatchingCalendar = () => {
   // const [endDate, setEndDate] = useState(new Date());
 
   const onSelectEvent = useCallback((event) => {
-    // console.log('event 클릭', events);
-    // console.log(event);
     setNickname(event.nickname);
     setAddress(event.address);
     setDate(format(event.start, 'yyyy-MM-dd HH:mm'));
@@ -41,16 +41,20 @@ const MatchingCalendar = () => {
 
   const onRangeChange = useCallback((changeDate) => {
     if (changeDate) {
-      // console.log('?', changeDate);
+      console.log('?', changeDate);
       // const { start, end } = changeDate;
       // setNowDate(changeDate);
     }
   }, []);
 
   useEffect(() => {
-    dispatch({
-      type: LOAD_SCHEDULES_REQUEST,
-      data: { profileMenu: 'calendar' },
+    Promise.all([addDays(startOfMonth(new Date(2022, 0)), -7),
+      addDays(endOfMonth(new Date(2022, 0)), 7)]).then((values) => {
+      const [start, end] = values;
+      dispatch({
+        type: LOAD_CALENDAR_SCHEDULES_REQUEST,
+        data: { start: useDateFormat(start, 'yyyy-MM-dd'), end: useDateFormat(end, 'yyyy-MM-dd') },
+      });
     });
   }, []);
 

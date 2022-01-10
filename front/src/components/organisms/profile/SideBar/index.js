@@ -129,13 +129,13 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           </div>
         </InfoContent>
       </InfoWrapper>
-      <SideMenuWrapper>
+      <SideMenuWrapper active={profileMenu}>
         <SideMenu
           key="info"
           id="info"
           onClick={onClickMenu}
         >
-          내정보
+          {(me?.id && (profile?.id === me?.id)) ? '내정보' : '정보'}
         </SideMenu>
         <SideMenu
           key="calendar"
@@ -151,13 +151,6 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
         >
           매칭기록
         </SideMenu>
-        {/* <SideMenu
-          key="liked-friends"
-          id="liked-friends"
-          onClick={onClickMenu}
-        >
-          좋아요한 친구
-        </SideMenu> */}
       </SideMenuWrapper>
       <ModalMatchingRequest
         showModal={showModal}

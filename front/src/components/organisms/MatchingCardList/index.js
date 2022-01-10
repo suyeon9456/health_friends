@@ -12,7 +12,7 @@ const MatchingCardList = ({
   schedules,
 }) => {
   // const dispatch = useDispatch();
-  const { me } = useSelector((state) => state.user);
+  const { me, profile } = useSelector((state) => state.user);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('view');
 
@@ -43,8 +43,8 @@ const MatchingCardList = ({
               description={schedule.address}
               image={cardImageSrc}
               date={date}
-              actions={[{ icon: <RetweetOutlined />, key: 'rematch' },
-                { icon: <EditOutlined />, key: 'edit' }]}
+              actions={me?.id === profile?.id ? [{ icon: <RetweetOutlined />, key: 'rematch' },
+                { icon: <EditOutlined />, key: 'edit' }] : []}
               setShowModal={setShowModal}
               setModalType={setModalType}
             />

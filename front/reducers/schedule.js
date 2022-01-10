@@ -7,6 +7,9 @@ const initialState = {
   loadSchedulesLoading: false,
   loadSchedulesDone: false,
   loadSchedulesError: null,
+  loadCalendarSchedulesLoading: false,
+  loadCalendarSchedulesDone: false,
+  loadCalendarSchedulesError: null,
   loadScheduleLoading: false,
   loadScheduleDone: false,
   loadScheduleError: null,
@@ -28,6 +31,10 @@ export const ADD_SCHEDULE_ERROR = 'ADD_SCHEDULE_ERROR';
 export const LOAD_SCHEDULES_REQUEST = 'LOAD_SCHEDULES_REQUEST';
 export const LOAD_SCHEDULES_SUCCESS = 'LOAD_SCHEDULES_SUCCESS';
 export const LOAD_SCHEDULES_ERROR = 'LOAD_SCHEDULES_ERROR';
+
+export const LOAD_CALENDAR_SCHEDULES_REQUEST = 'LOAD_CALENDAR_SCHEDULES_REQUEST';
+export const LOAD_CALENDAR_SCHEDULES_SUCCESS = 'LOAD_CALENDAR_SCHEDULES_SUCCESS';
+export const LOAD_CALENDAR_SCHEDULES_ERROR = 'LOAD_CALENDAR_SCHEDULES_ERROR';
 
 export const LOAD_SCHEDULE_REQUEST = 'LOAD_SCHEDULE_REQUEST';
 export const LOAD_SCHEDULE_SUCCESS = 'LOAD_SCHEDULE_SUCCESS';
@@ -76,6 +83,7 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
         description: item.description,
         friend: item.Friend,
         requester: item.Requester,
+        isPermitted: item.isPermitted,
       }));
       draft.schedulesCount = action.data.count;
       break;
@@ -83,6 +91,32 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadSchedulesLoading = false;
       draft.loadSchedulesDone = false;
       draft.loadSchedulesError = action.error;
+      break;
+    case LOAD_CALENDAR_SCHEDULES_REQUEST:
+      draft.loadCalendarSchedulesLoading = true;
+      draft.loadCalendarSchedulesDone = false;
+      draft.loadCalendarSchedulesError = null;
+      draft.schedulesCount = 0;
+      break;
+    case LOAD_CALENDAR_SCHEDULES_SUCCESS:
+      draft.loadCalendarSchedulesLoading = false;
+      draft.loadCalendarSchedulesDone = true;
+      draft.loadCalendarSchedulesError = null;
+      draft.schedules = action.data.map((item) => ({
+        id: item.id,
+        start: new Date(item.startDate),
+        end: new Date(item.endDate),
+        address: item.Gym.address,
+        description: item.description,
+        friend: item.Friend,
+        requester: item.Requester,
+        isPermitted: item.isPermitted,
+      }));
+      break;
+    case LOAD_CALENDAR_SCHEDULES_ERROR:
+      draft.loadCalendarSchedulesLoading = false;
+      draft.loadCalendarSchedulesDone = false;
+      draft.loadCalendarSchedulesError = action.error;
       break;
     case LOAD_SCHEDULE_REQUEST:
       draft.loadScheduleLoading = true;

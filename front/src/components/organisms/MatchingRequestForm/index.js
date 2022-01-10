@@ -33,7 +33,7 @@ const MatchingRequestForm = ({ type = 'add', friend, startDate,
         />
         <FormInput
           label="헬스장"
-          value={type === 'add' ? gym.name : schedule?.address}
+          value={type === 'add' ? (friend?.Gyms[0]?.name || gym.name) : schedule?.address}
           disabled
           essential
         />

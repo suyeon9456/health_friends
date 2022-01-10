@@ -27,7 +27,7 @@ const Profile = () => {
   const [profileMenu, setProfileMenu] = useState('info');
 
   useEffect(() => {
-    if (!me) {
+    if (id === 'myinfo' && !me) {
       setIsNotloggedIn(true);
     }
   }, [me]);

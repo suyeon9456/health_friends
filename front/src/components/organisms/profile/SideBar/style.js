@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const SideBarWrapper = styled.section`
   display: flex;
@@ -83,6 +83,33 @@ export const SideMenuWrapper = styled.div`
     justify-content: space-between;
     padding: 10px 0px;
   }
+
+  ${({ active }) => {
+    if (active === 'info') {
+      return css`
+        & #info {
+          color: #9254de;
+        }
+      `;
+    }
+    if (active === 'calendar') {
+      return css`
+        & #calendar {
+          color: #9254de;
+        }
+      `;
+    }
+    if (active === 'record') {
+      return css`
+        & #record {
+          color: #9254de;
+        }
+      `;
+    }
+    return css`
+      color: #000000d9;
+    `;
+  }}
 `;
 
 export const SideMenu = styled.div`

@@ -31,7 +31,7 @@ const Event = ({ event }) => {
   console.log('event: ', event);
   const compareToday = compareAsc(new Date(event.start), new Date());
   return (
-    <div className={compareToday < 0 ? 'last-event-title' : 'event-title'}>
+    <div className={[compareToday < 0 ? 'last-event-title' : 'event-title', !event.isPermitted && 'before-permission'].join(' ')}>
       <span className="friend-nickname">
         <strong>{event?.nickname}</strong>
         {event.desc}
