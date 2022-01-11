@@ -1,4 +1,5 @@
 import produce from 'immer';
+import * as _ from 'lodash';
 
 const initialState = {
   addScheduleLoading: false,
@@ -123,21 +124,83 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadScheduleDone = false;
       draft.loadScheduleError = null;
       break;
-    case LOAD_SCHEDULE_SUCCESS:
+    case LOAD_SCHEDULE_SUCCESS: {
+      const friendMatchingInfo = [...action.data.friendReqRematchingInfo,
+        ...action.data.friendResRematchingInfo];
+      const userMatchingInfo = [...action.data.userReqRematchingInfo,
+        ...action.data.userResRematchingInfo];
+      let friendTotalCount = 0;
+      let userTotalCount = 0;
+      let friendRematchingCount = 0;
+      let userRematchingCount = 0;
+      let friendTotalMatching = {};
+      let userTotalMatching = {};
+      let friendRematching = {};
+      let userRematching = {};
+
+      friendMatchingInfo.forEach((matching) => {
+        friendTotalCount += matching.count;
+        if (friendTotalMatching[matching.FriendId]) {
+          friendTotalMatching = {
+            ...friendTotalMatching,
+            ...{
+              [matching.FriendId]: friendTotalMatching[matching.FriendId] + matching.count,
+            } };
+          return;
+        }
+        friendTotalMatching = {
+          ...friendTotalMatching, ...{ [matching.FriendId]: matching.count } };
+      });
+      userMatchingInfo.forEach((matching) => {
+        userTotalCount += matching.count;
+        if (userTotalMatching[matching.FriendId]) {
+          userTotalMatching = {
+            ...userTotalMatching,
+            ...{
+              [matching.FriendId]: userTotalMatching[matching.FriendId] + matching.count,
+            } };
+          return;
+        }
+        userTotalMatching = {
+          ...userTotalMatching, ...{ [matching.FriendId]: matching.count } };
+      });
+      _.forIn(userTotalMatching, (value, key) => {
+        console.log(key);
+        if (value >= 2) {
+          userRematchingCount += value;
+          userRematching = { ...userRematching, [key]: value };
+        }
+      });
+      _.forIn(friendTotalMatching, (value, key) => {
+        console.log(key);
+        if (value >= 2) {
+          friendRematchingCount += value;
+          friendRematching = { ...friendRematching, [key]: value };
+        }
+      });
       draft.loadScheduleLoading = false;
       draft.loadScheduleDone = true;
       draft.loadScheduleError = null;
       draft.schedule = {
-        id: action.data.id,
-        start: new Date(action.data.startDate),
-        end: new Date(action.data.endDate),
-        nickname: action.data.Friend.nickname,
-        address: action.data.Gym.address,
-        description: action.data.description,
-        friend: action.data.Friend,
-        requester: action.data.Requester,
+        id: action.data.schedule.id,
+        start: new Date(action.data.schedule.startDate),
+        end: new Date(action.data.schedule.endDate),
+        nickname: action.data.schedule.Friend.nickname,
+        address: action.data.schedule.Gym.address,
+        description: action.data.schedule.description,
+        friend: action.data.schedule.Friend,
+        requester: action.data.schedule.Requester,
+        friendTotalCount,
+        userTotalCount,
+        friendRematchingCount,
+        userRematchingCount,
+        friendRematching,
+        userRematching,
+        friendTotalMatching,
+        userTotalMatching,
       };
       break;
+    }
     case LOAD_SCHEDULE_ERROR:
       draft.loadScheduleLoading = false;
       draft.loadScheduleDone = false;

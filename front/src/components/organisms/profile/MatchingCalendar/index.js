@@ -21,12 +21,9 @@ const MatchingCalendar = () => {
   // ];
   const [events, setEvents] = useState([]);
   const [showCard, setShowCard] = useState(false);
-  // const [isPermitted, setIsPermitted] = useState(false);
   const [nickname, setNickname] = useState('');
   const [address, setAddress] = useState('');
   const [date, setDate] = useState('');
-  // const [startDate, setStartDate] = useState(new Date());
-  // const [endDate, setEndDate] = useState(new Date());
 
   const onSelectEvent = useCallback((event) => {
     setNickname(event.nickname);
@@ -41,9 +38,11 @@ const MatchingCalendar = () => {
 
   const onRangeChange = useCallback((changeDate) => {
     if (changeDate) {
-      console.log('?', changeDate);
-      // const { start, end } = changeDate;
-      // setNowDate(changeDate);
+      const { start, end } = changeDate;
+      dispatch({
+        type: LOAD_CALENDAR_SCHEDULES_REQUEST,
+        data: { start: useDateFormat(start, 'yyyy-MM-dd'), end: useDateFormat(end, 'yyyy-MM-dd') },
+      });
     }
   }, []);
 

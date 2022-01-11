@@ -1,5 +1,6 @@
 const express = require('express');
-const { Schedule, User, Gym } = require('../models');
+const { Op } = require('sequelize');
+const { Schedule, User, Gym, Userdetail } = require('../models');
 
 const router = express.Router();
 
@@ -36,8 +37,9 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
         'id',
         'description',
         'permission',
-        [Sequelize.fn('date_format', Sequelize.col('startDate'), '%Y-%m-%d %H:%i'), 'startDate'],
-        [Sequelize.fn('date_format', Sequelize.col('endDate'), '%Y-%m-%d %H:%i'), 'endDate']
+        'isPermitted',
+        [Sequelize.fn('date_format', Sequelize.col('Schedule.startDate'), '%Y-%m-%d %H:%i'), 'startDate'],
+        [Sequelize.fn('date_format', Sequelize.col('Schedule.endDate'), '%Y-%m-%d %H:%i'), 'endDate']
       ],
       include: [{
         model: User,
@@ -46,6 +48,7 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
           'id',
           'nickname'
         ],
+        //     [Sequelize.fn('count', Sequelize.col('Requester->reqSchedule.id')), 'count'],
       }, {
         model: User,
         as: 'Friend',
@@ -57,8 +60,42 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
         model: Gym,
         attributes: ['address'],
       }],
-    })
-    res.status(201).json(schedule);
+    });
+
+    const userReqRematchingInfo = await Schedule.findAll({
+      attributes: [
+        [Sequelize.fn('count', Sequelize.col('id')), 'count'],
+        'FriendId',
+      ],
+      where: { UserId: req.user.id, permission: true, isPermitted: true },
+      group: ['FriendId']
+    });
+    const userResRematchingInfo = await Schedule.findAll({
+      attributes: [
+        [Sequelize.fn('count', Sequelize.col('id')), 'count'],
+        ['UserId', 'FriendId'],
+      ],
+      where: { FriendId: req.user.id, permission: true, isPermitted: true },
+      group: ['UserId']
+    });
+    const friendReqRematchingInfo = await Schedule.findAll({
+      attributes: [
+        [Sequelize.fn('count', Sequelize.col('id')), 'count'],
+        'FriendId',
+      ],
+      where: { UserId: schedule.Requester.id === req.user.id ? schedule.Friend.id : schedule.Requester.id, permission: true, isPermitted: true },
+      group: ['FriendId']
+    });
+    const friendResRematchingInfo = await Schedule.findAll({
+      attributes: [
+        [Sequelize.fn('count', Sequelize.col('id')), 'count'],
+        ['UserId', 'FriendId'],
+      ],
+      where: { FriendId: schedule.Requester.id === req.user.id ? schedule.Friend.id : schedule.Requester.id, permission: true, isPermitted: true },
+      group: ['UserId']
+    });
+
+    res.status(201).json({ schedule, userReqRematchingInfo, userResRematchingInfo, friendReqRematchingInfo, friendResRematchingInfo });
   } catch (error) {
     console.error(error);
     next(error);
@@ -67,8 +104,6 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
 
 router.put('/', async (req, res, next) => { // PUT /schedule/
   try {
-    console.log('req.body:: ', req.body);
-    console.log('start:: ', new Date(req.body.startDate));
     const schedule = await Schedule.update({
       startDate: req.body.startDate,
       endDate: req.body.endDate,
@@ -87,16 +122,32 @@ router.put('/permission', async (req, res, next) => { // PUT /schedule/permissio
   try {
     console.log(req.body);
     console.log(req.user.id);
+    const { scheduleId, permission, myRematchingRate, friendId, friendRematchingRate } = req.body;
+
     const schedule = await Schedule.update({
-      permission: req.body.permission,
+      permission: permission,
       isPermitted: true
     }, {
       where: {
-        id: req.body.scheduleId,
+        id: scheduleId,
         FriendId: req.user.id,
       }
     });
-    console.log('schedule', schedule);
+
+    const user = await Userdetail.update({
+      rematchingRate: myRematchingRate
+    }, {
+      where: {
+        UserId: req.user.id,
+      }
+    });
+    const friend = await Userdetail.update({
+      rematchingRate: friendRematchingRate
+    }, {
+      where: {
+        UserId: friendId,
+      }
+    });
 
     const fullSchedule = await Schedule.findOne({
       where: {
@@ -121,7 +172,6 @@ router.put('/permission', async (req, res, next) => { // PUT /schedule/permissio
         attributes: ['address'],
       }],
     });
-    console.log(fullSchedule);
     res.status(201).json(fullSchedule);
   } catch (error) {
     console.error(error);

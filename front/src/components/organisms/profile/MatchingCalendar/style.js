@@ -82,22 +82,8 @@ export const CalendarWrap = styled.div`
 }
 
   & .rbc-toolbar{
-    /* & > .rbc-toolbar-label {
-      width: auto;
-      @media (max-width: 767px) {
-        text-align: center;
-        width: 100%;
-        margin-bottom: 12px;
-      }
-    } */
     & > .rbc-btn-group {
       margin-bottom: 15px;
-      /* width: auto;
-
-      @media (max-width: 767px) {
-        text-align: center;
-        width: 100%;
-      } */
       & > button {
         height: 32px;
         border-radius: 2px;

@@ -51,12 +51,13 @@ function* loadSchedules(action) {
 }
 
 function loadCalendarSchedulesAPI(data) {
-  axios.get(`/schedules/calendar?start=${data.start}&end=${data.end}`);
+  return axios.get(`/schedules/calendar?start=${data.start}&end=${data.end}`);
 }
 
 function* loadCalendarSchedules(action) {
   try {
     const result = yield call(loadCalendarSchedulesAPI, action.data);
+    console.log('result: ', result);
     yield put({
       type: LOAD_CALENDAR_SCHEDULES_SUCCESS,
       data: result.data,

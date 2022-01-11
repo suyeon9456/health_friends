@@ -18,8 +18,8 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
   const [startDate, setStartDate] = useState(schedule?.start || new Date());
   const [endDate, setEndDate] = useState(schedule?.end || new Date());
 
-  // const [nickname, setNickname] = useState('');
   const [fNickname, setFNickname] = useState('');
+  const [fId, setFId] = useState(-1);
 
   const onChangeStartDate = useCallback((data) => {
     setStartDate(data);
@@ -41,13 +41,37 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
     });
   }, [startDate, endDate, description, schedule]);
 
-  const onAccept = useCallback(() => {
-    dispatch({
-      type: UPDATE_PERMISSION_REQUEST,
-      data: { scheduleId: schedule.id, permission: true },
-    });
-    onCancel();
-  }, [schedule]);
+  const onAccept = useCallback(async () => {
+    const { id, isPermitted, friendRematching, friendRematchingCount,
+      userTotalMatching, userRematchingCount, userTotalCount, friendTotalCount } = schedule;
+
+    if (!isPermitted) {
+      Promise.all([
+        userTotalMatching[fId]
+          ? userRematchingCount + 1
+          : userRematchingCount,
+        friendRematching[me?.id]
+          ? friendRematchingCount + 1
+          : friendRematchingCount,
+      ]).then((values) => {
+        const [myRematchingCount, fRematchingCount] = values;
+        const myRematchingRate = (myRematchingCount / (userTotalCount + 1)) * 100;
+        const friendRematchingRate = (fRematchingCount / (friendTotalCount + 1)) * 100;
+        return [myRematchingRate, friendRematchingRate];
+      }).then((values) => {
+        const [myRematchingRate, friendRematchingRate] = values;
+        dispatch({
+          type: UPDATE_PERMISSION_REQUEST,
+          data: { scheduleId: id,
+            permission: true,
+            friendId: fId,
+            myRematchingRate,
+            friendRematchingRate },
+        });
+        onCancel();
+      });
+    }
+  }, [schedule, fId]);
 
   const onRefuse = useCallback(() => {
     dispatch({
@@ -63,6 +87,9 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
       setFNickname(friend === me?.id
         ? schedule?.requester?.nickname
         : schedule?.friend?.nickname);
+      setFId(friend === me?.id
+        ? schedule?.requester?.id
+        : friend);
       const start = useDateFormat(schedule?.start, 'yyyy년 MM월 dd일 HH:mm');
       const end = useDateFormat(schedule?.end, 'HH:mm');
       const matchingDate = [start, ' ~ ', end].join('');
@@ -89,15 +116,6 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
         ? (
           <RequestFriendWrap>
             <UserInfoWrap>
-              {/* <InfoContent id="my_info">
-                <h4>내정보</h4>
-                <Content>
-                  <Avatar size={62} />
-                  <div>
-                    <div className="nickname">{me?.nickname}</div>
-                  </div>
-                </Content>
-              </InfoContent> */}
               <InfoContent id="friend_info">
                 <Content>
                   <Avatar size={62} />

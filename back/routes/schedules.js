@@ -232,8 +232,33 @@ router.get('/calendar', async (req, res, next) => { // GET /schedules/calendar
         'isPermitted',
         [Sequelize.fn('date_format', Sequelize.col('startDate'), '%Y-%m-%d %H:%i'), 'startDate'],
         [Sequelize.fn('date_format', Sequelize.col('endDate'), '%Y-%m-%d %H:%i'), 'endDate']
-      ]
+      ],
+      include: [{
+        model: User,
+        as: 'Requester',
+        attributes: [
+          'id',
+          'nickname'
+        ],
+        include: [{
+          model: Image,
+        }],
+      }, {
+        model: User,
+        as: 'Friend',
+        attributes: [
+          'id',
+          'nickname'
+        ],
+        include: [{
+          model: Image,
+        }],
+      }, {
+        model: Gym,
+        attributes: ['address'],
+      }],
     });
+    console.log('스케줄: ', schedules);
 
     res.status(201).json(schedules);
   } catch (error) {
