@@ -9,7 +9,7 @@ import { Modal } from '../../molecules';
 import MatchingRequestForm from '../MatchingRequestForm';
 import { useDateFormat } from '../../../hooks';
 
-const ModalMatchingRequest = ({ showModal, setShowModal, friend }) => {
+const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }) => {
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
   const { gym } = useSelector((state) => state.gym);
@@ -71,6 +71,7 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend }) => {
       <MatchingRequestForm
         type="add"
         friend={friend}
+        gymName={gymName}
         description={description}
         onChangeDescription={onChangeDescription}
         startDate={startDate}
@@ -86,6 +87,7 @@ ModalMatchingRequest.propTypes = {
   showModal: PropTypes.bool.isRequired,
   setShowModal: PropTypes.func.isRequired,
   friend: PropTypes.any,
+  gymName: PropTypes.any,
 };
 
 export default ModalMatchingRequest;

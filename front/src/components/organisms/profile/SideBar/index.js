@@ -156,6 +156,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
         showModal={showModal}
         setShowModal={setShowModal}
         friend={profile}
+        gymName={profile?.Gyms[0]?.name}
       />
     </SideBarWrapper>
   );

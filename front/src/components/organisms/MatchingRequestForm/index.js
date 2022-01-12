@@ -14,7 +14,7 @@ import { Avatar } from '../../atoms';
 const MatchingRequestForm = ({ type = 'add', friend, startDate,
   endDate,
   onChangeStartDate,
-  onChangeEndDate, description, onChangeDescription }) => {
+  onChangeEndDate, description, onChangeDescription, gymName }) => {
   const { me } = useSelector((state) => state.user);
   const { gym } = useSelector((state) => state.gym);
   const { schedule } = useSelector((state) => state.schedule);
@@ -33,7 +33,7 @@ const MatchingRequestForm = ({ type = 'add', friend, startDate,
         />
         <FormInput
           label="헬스장"
-          value={type === 'add' ? gym.name : schedule?.address}
+          value={type === 'add' ? (gymName || gym.name) : schedule?.address}
           disabled
           essential
         />
@@ -77,6 +77,7 @@ const MatchingRequestForm = ({ type = 'add', friend, startDate,
 MatchingRequestForm.propTypes = {
   type: PropTypes.string,
   friend: PropTypes.any,
+  gymName: PropTypes.any,
   startDate: PropTypes.instanceOf(Date).isRequired,
   endDate: PropTypes.instanceOf(Date).isRequired,
   onChangeStartDate: PropTypes.func.isRequired,
