@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(hpp());
   app.use(helmet());
   app.use(cors({
-    origin: 'http://health-friends.com',
+    origin: 'https://health-friends.com',
     credentials: true,
   }));
 } else {
@@ -56,7 +56,8 @@ app.use(session({
   secret: process.env.COOKIE_SECRET,
   cookie: {
     httpOnly: true, // 자바스크립트로 접근 불가
-    secure: false,
+    // secure: false,
+    secure: true,
     domain: process.env.NODE_ENV === 'production' && '.health-friends.com',
   }
 }));
