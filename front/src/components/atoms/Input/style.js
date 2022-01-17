@@ -4,7 +4,6 @@ export const InputWrap = styled.span`
   position: relative;
   width: 100%;
   min-width: 0;
-  /* padding: 4px 11px; */
   padding-right: 6px;
   color: rgba(0, 0, 0, 0.85);
   font-size: 14px;
@@ -40,20 +39,18 @@ export const InputWrap = styled.span`
     cursor: pointer;
   }
 
-  ${({ validationState }) => validationState === 'error'
-    && css`
-      background-color: #fff;
+  ${(({ error }) => error && css`
       border-color: #ff4d4f;
       &:hover {
-        border-color: #ff7875;
+        border-color: #ff4d4f;
       }
-      &:focus-within {
+      &:focus {
         border-color: #ff7875;
         box-shadow: 0 0 0 2px rgb(255 77 79 / 20%);
         border-right-width: 1px!important;
         outline: 0;
       }
-  `}
+  `)}
 `;
 
 export const InputControlWrap = styled.div`
@@ -119,13 +116,10 @@ export const InputContainer = styled.input`
     }
   `}
 
-  ${({ validationState, passwordType }) => validationState === 'error'
-    && passwordType !== 'password'
-    && css`
-      background-color: #fff;
+  ${(({ error }) => error && css`
       border-color: #ff4d4f;
       &:hover {
-        border-color: #ff7875;
+        border-color: #ff4d4f;
       }
       &:focus {
         border-color: #ff7875;
@@ -133,7 +127,7 @@ export const InputContainer = styled.input`
         border-right-width: 1px!important;
         outline: 0;
       }
-  `}
+  `)}
 `;
 
 export const ValidationIconWrap = styled.span`

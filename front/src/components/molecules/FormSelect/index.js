@@ -1,29 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Controller } from 'react-hook-form';
 
-import { Essential, Label } from './style';
-import Select from '../../atoms/Select';
+import { FormSelectWrap, Essential, Label } from './style';
+import { Select, ErrorMessage } from '../../atoms';
 
-const FormSelect = ({
-  size,
-  label,
-  options,
-  essential,
-  value,
-  onChange,
-}) => (
-  <div>
-    <Label>
-      {label}
-      {essential && <Essential />}
-    </Label>
-    <Select
-      size={size}
-      options={options}
-      value={value}
-      onChange={onChange}
-    />
-  </div>
+const FormSelect = ({ size, label, options, id,
+  essential, control, error }) => (
+    <FormSelectWrap>
+      <Label>
+        {label}
+        {essential && <Essential />}
+      </Label>
+      <Controller
+        control={control}
+        name={id}
+        render={({ field: { value, onChange } }) => (
+          <Select
+            name={id}
+            value={value}
+            error={error}
+            onChange={onChange}
+            size={size}
+            options={options}
+          />
+        )}
+      />
+      {error && (
+        <ErrorMessage>{error.message}</ErrorMessage>
+      )}
+    </FormSelectWrap>
 );
 
 FormSelect.propTypes = {
@@ -31,8 +37,9 @@ FormSelect.propTypes = {
   label: PropTypes.string,
   options: PropTypes.array,
   essential: PropTypes.bool,
-  value: PropTypes.node,
-  onChange: PropTypes.func,
+  id: PropTypes.string,
+  control: PropTypes.any,
+  error: PropTypes.any,
 };
 
 export default FormSelect;

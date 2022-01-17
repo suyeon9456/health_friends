@@ -1,45 +1,43 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { CheckCircleFilled, CloseCircleFilled, LockOutlined, UnlockOutlined } from '@ant-design/icons';
+import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
 
-import { ValidationIconWrap, Feedback, FeedbackWrap, InputContainer, InputContent, InputControlWrap, InputWrap, InputWrapBox } from './style';
+import { InputContainer, InputContent, InputControlWrap, InputWrap, InputWrapBox } from './style';
 
-const Input = React.forwardRef(({
+const Input = ({
   size = 'default',
   type = 'text',
   loading,
   value,
   onChange,
   placeholder,
-  validationErrors,
-  feedback,
   disabled,
+  error,
   ...props
-}, ref) => {
+}) => {
   const [passwordType, setPasswordType] = useState(true);
 
   const onChangePasswordType = useCallback(() => {
     setPasswordType((prev) => !prev);
   }, []);
-  // console.log('validationErrors', validationErrors);
 
   if (type === 'password') {
     return (
       <InputControlWrap>
         <InputWrapBox>
           <InputContent>
-            <InputWrap validationErrors={validationErrors}>
+            <InputWrap error={error}>
               <InputContainer
+                rules={{
+                  required: true,
+                }}
                 type={passwordType ? 'password' : 'text'}
                 passwordType={type}
                 value={value}
                 onChange={onChange}
                 size={size}
                 placeholder={placeholder}
-                validationErrors={validationErrors}
-                feedback={feedback}
-                ref={ref}
                 {...props}
               />
               <span>
@@ -50,11 +48,6 @@ const Input = React.forwardRef(({
             </InputWrap>
           </InputContent>
         </InputWrapBox>
-        {feedback && (
-          <FeedbackWrap>
-            <Feedback>{feedback}</Feedback>
-          </FeedbackWrap>
-        )}
       </InputControlWrap>
     );
   }
@@ -68,29 +61,15 @@ const Input = React.forwardRef(({
             onChange={onChange}
             size={size}
             placeholder={placeholder}
-            validationErrors={validationErrors}
-            feedback={feedback}
-            ref={ref}
             readOnly={disabled}
+            error={error}
             {...props}
           />
-          {validationErrors && (
-            <ValidationIconWrap validationState={validationErrors}>
-              {validationErrors === 'error'
-                ? <CloseCircleFilled />
-                : <CheckCircleFilled />}
-            </ValidationIconWrap>
-          )}
         </InputContent>
       </InputWrapBox>
-      {feedback && (
-        <FeedbackWrap>
-          <Feedback>{feedback}</Feedback>
-        </FeedbackWrap>
-      )}
     </InputControlWrap>
   );
-});
+};
 
 Input.propTypes = {
   size: PropTypes.string,
@@ -99,9 +78,8 @@ Input.propTypes = {
   loading: PropTypes.bool,
   value: PropTypes.node,
   onChange: PropTypes.func,
-  validationErrors: PropTypes.node,
-  feedback: PropTypes.string,
   disabled: PropTypes.bool,
+  error: PropTypes.any,
   props: PropTypes.any,
 };
 

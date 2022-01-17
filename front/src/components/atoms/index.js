@@ -20,6 +20,8 @@ import Textarea from './Textarea';
 import Tooltip from './Tooltip';
 import Upload from './Upload';
 import CheckBox from './CheckBox';
+import Form from './Form';
+import ErrorMessage from './ErrorMessage';
 
 export {
   Avatar,
@@ -44,4 +46,6 @@ export {
   Tooltip,
   Upload,
   CheckBox,
+  Form,
+  ErrorMessage,
 };

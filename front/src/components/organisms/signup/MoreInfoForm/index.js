@@ -1,84 +1,85 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 
 import { SIGN_UP_STEP_MORE_INFO_SAVE, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV } from '../../../../../reducers/user';
-import useInput from '../../../../hooks/useInput';
-import { Button } from '../../../atoms';
+import { Button, Form } from '../../../atoms';
 import { FormSelect } from '../../../molecules';
 import { ButtonWrap, MoreInfoFormWrapper } from './style';
 
 const MoreInfoForm = () => {
-  const { careerOptions,
-    roleOptions,
-    signupStepMoreInfo,
-    genderOptions,
-    ageOptions } = useSelector((state) => state.user);
+  const { careerOptions, roleOptions, signupStepMoreInfo,
+    genderOptions, ageOptions } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const [gender, onChangeGender] = useInput(signupStepMoreInfo?.gender || 'male');
-  const [age, onChangeAge] = useInput(signupStepMoreInfo?.age || 0);
-  const [career, onChangeCareer] = useInput(signupStepMoreInfo?.career || 1);
-  const [role, onChangeRole] = useInput(signupStepMoreInfo?.role || 1);
 
-  const onClickStepHandler = useCallback((e) => {
-    dispatch({
-      type: SIGN_UP_STEP_MORE_INFO_SAVE,
-      data: { gender, age, career, role },
-    });
-    if (e.target.id === 'next') {
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      gender: signupStepMoreInfo?.gender || 'male',
+      age: signupStepMoreInfo?.age || 0,
+      career: signupStepMoreInfo?.career || 1,
+      role: signupStepMoreInfo?.role || 1,
+    },
+  });
+
+  const onClickStepHandler = useCallback((data, e) => {
+    dispatch({ type: SIGN_UP_STEP_MORE_INFO_SAVE, data });
+    if (e.nativeEvent.submitter.name === 'next') {
       dispatch({ type: SIGN_UP_STEP_NEXT });
     } else {
       dispatch({ type: SIGN_UP_STEP_PREV });
     }
-  }, [gender, age, career, role]);
+  }, []);
 
   return (
     <MoreInfoFormWrapper>
-      <FormSelect
-        label="성별"
-        options={genderOptions}
-        size="large"
-        value={gender}
-        onChange={onChangeGender}
-      />
-      <FormSelect
-        label="나이"
-        size="large"
-        options={ageOptions}
-        value={age}
-        onChange={onChangeAge}
-      />
-      <FormSelect
-        label="운동경력"
-        options={careerOptions}
-        size="large"
-        value={career}
-        onChange={onChangeCareer}
-      />
-      <FormSelect
-        label="친구와의 역할"
-        options={roleOptions}
-        size="large"
-        value={role}
-        onChange={onChangeRole}
-      />
-      <ButtonWrap>
-        <Button
-          type="line-primary"
+      <Form onSubmit={handleSubmit(onClickStepHandler)}>
+        <FormSelect
+          label="성별"
+          id="gender"
+          options={genderOptions}
           size="large"
-          id="prev"
-          onClick={onClickStepHandler}
-        >
-          이전단계
-        </Button>
-        <Button
-          type="line-primary"
+          control={control}
+        />
+        <FormSelect
+          label="나이"
+          id="age"
           size="large"
-          id="next"
-          onClick={onClickStepHandler}
-        >
-          다음단계
-        </Button>
-      </ButtonWrap>
+          options={ageOptions}
+          control={control}
+        />
+        <FormSelect
+          label="운동경력"
+          id="career"
+          options={careerOptions}
+          size="large"
+          control={control}
+        />
+        <FormSelect
+          label="친구와의 역할"
+          id="role"
+          options={roleOptions}
+          size="large"
+          control={control}
+        />
+        <ButtonWrap>
+          <Button
+            type="line-primary"
+            size="large"
+            name="prev"
+            submit
+          >
+            이전단계
+          </Button>
+          <Button
+            type="line-primary"
+            size="large"
+            name="next"
+            submit
+          >
+            다음단계
+          </Button>
+        </ButtonWrap>
+      </Form>
     </MoreInfoFormWrapper>
   );
 };

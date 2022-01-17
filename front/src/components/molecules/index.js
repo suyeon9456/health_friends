@@ -20,6 +20,7 @@ import Tabs from './Tabs';
 import BigCalendar from './BigCalendar';
 import BasicList from './BasicList';
 import Filter from './Filter';
+import FormRangeTimePicker from './FormRangeTimePicker';
 
 export {
   Alert,
@@ -44,4 +45,5 @@ export {
   FormDateTimePicker,
   BasicList,
   Filter,
+  FormRangeTimePicker,
 };
