@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const FormWrapper = styled.div`
   width: 100%;
   padding: 10px 100px;
-  & > div:not(.gym-modal) {
+  & > form > div:not(.gym-modal) {
     margin: 0 auto;
     max-width: 600px;
     &:not(:first-child) {

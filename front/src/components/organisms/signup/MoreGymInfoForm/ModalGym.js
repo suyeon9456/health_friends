@@ -29,7 +29,7 @@ const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }) => 
       type: ADD_GYM_REQUEST,
       data: { sido, sigungu, address, name, latitude, longitude },
     });
-    setGym(name);
+    setGym('gym', name);
     setShowModal(false);
   }, [show, selectedTab, sido, sigungu, address, name]);
   return (
@@ -74,7 +74,7 @@ ModalGym.propTypes = {
   title: PropTypes.string.isRequired,
   onCancel: PropTypes.func,
   setShowModal: PropTypes.func,
-  setGym: PropTypes.func,
+  setGym: PropTypes.any,
   props: PropTypes.any,
 };
 

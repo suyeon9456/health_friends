@@ -35,7 +35,7 @@ const InfoForm = () => {
       checkPassword: '',
       nickname: signupStepInfo?.nickname || '',
     },
-    // resolver: yupResolver(schema),
+    resolver: yupResolver(schema),
   });
 
   const onNextClick = useCallback((data) => {

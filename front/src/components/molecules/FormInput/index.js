@@ -1,47 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Controller } from 'react-hook-form';
 
-import Input from '../../atoms/Input';
-import { Essential, Label } from './style';
+import { Input, ErrorMessage } from '../../atoms';
+import { Essential, FormInputWrap, Label } from './style';
 
-const FormInput = ({
-  label,
-  placeholder,
-  size,
-  essential,
-  // validationErrors,
-  // feedback,
-  id,
-  // register,
-  // required,
+const FormInput = ({ label, placeholder, essential, id,
+  control, error,
   ...props }) => (
-    <div>
+    <FormInputWrap>
       <Label>
         {label}
         {essential && <Essential />}
       </Label>
-      <Input
-        placeholder={placeholder}
-        size={size}
-        // validationErrors={validationErrors}
-        // feedback={feedback}
-        // {...register(id, { required })}
-        {...props}
+      <Controller
+        control={control}
+        name={id}
+        render={({ field: { value, onChange } }) => (
+          <Input
+            name={id}
+            placeholder={placeholder}
+            value={value}
+            error={error}
+            onChange={onChange}
+            {...props}
+          />
+        )}
       />
-    </div>
+      {error && (
+        <ErrorMessage>{error.message}</ErrorMessage>
+      )}
+    </FormInputWrap>
 );
 
 FormInput.propTypes = {
   label: PropTypes.string,
   placeholder: PropTypes.string,
-  size: PropTypes.string,
   essential: PropTypes.bool,
-  // validationErrors: PropTypes.node,
-  // feedback: PropTypes.string,
-  props: PropTypes.any,
   id: PropTypes.string,
-  // required: PropTypes.bool,
-  // register: PropTypes.any,
+  control: PropTypes.any,
+  error: PropTypes.any,
+  props: PropTypes.any,
 };
 
 export default FormInput;

@@ -19,7 +19,7 @@ const ModalSearchGym = ({ setShowModal, setGym }) => {
       type: SELECT_GYM,
       data: { id: gym.id, name: gym.name },
     });
-    setGym(gym.name);
+    setGym('gym', gym.name);
     setShowModal(false);
   }, [gyms]);
 
