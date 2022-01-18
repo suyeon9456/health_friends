@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 export const FormSelectWrap = styled.div`
  min-height: 100px;
+ margin: 0 auto;
+ max-width: 600px;
 
  & > select {
   margin-top: 10px;

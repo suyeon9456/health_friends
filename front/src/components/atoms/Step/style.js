@@ -23,7 +23,8 @@ export const StepIconWrap = styled.div`
   border: 1px solid rgba(0,0,0,.25);
   border-radius: 32px;
   transition: background-color .3s,border-color .3s;
-  border-color: var(--ant-primary-color); */
+  border-color: var(--ant-primary-color);
+  margin: 0 auto;
   & > span {
     position: relative;
     top: -1.5px;
@@ -57,11 +58,23 @@ export const StepIconWrap = styled.div`
       }
     `;
   }}
+  @media (max-width: 767px) {
+    display: block;
+    margin: 0 auto;
+  }
 `;
 
 export const StepContentWrap = styled.div`
   display: inline-block;
   vertical-align: top;
+  text-align: left;
+  margin-left: 10px;
+
+  @media (max-width: 767px) {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+  }
 `;
 
 export const StepTitle = styled.div`
@@ -73,24 +86,37 @@ export const StepTitle = styled.div`
   color: #000000d9;
 
   &::after {
-    position: absolute;
-    top: 16px;
-    left: 100%;
-    display: block;
-    width: 9999px;
-    height: 1px;
-    background: #f0f0f0;
-    content: "";
-
-    ${({ type }) => type === 'finished' && css`
-      background-image: linear-gradient(to right,rgb(146,84,222) 0%,rgb(196,29,127) 100%);
-    `}
+    @media (min-width: 768px) {
+      position: absolute;
+      top: 16px;
+      left: 100%;
+      display: block;
+      width: 9999px;
+      height: 1px;
+      background: #f0f0f0;
+      content: "";
+  
+      ${({ type }) => type === 'finished' && css`
+        background-image: linear-gradient(to right,rgb(146,84,222) 0%,rgb(196,29,127) 100%);
+      `}
+    }
+  }
+  @media (max-width: 767px) {
+    padding-right: 0;
+    display: none;
   }
 `;
 
 export const StepDescription = styled.div`
+  display: block;
   color: #00000073;
   max-width: 160px;
   white-space: normal;
   font-size: 14px;
+  font-weight: 400;
+
+  @media (max-width: 767px) {
+    color: #000000d9;
+    font-weight: 600;
+  }
 `;

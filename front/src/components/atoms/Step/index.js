@@ -15,7 +15,7 @@ const Step = ({ type, step, title, description }) => (
       <StepTitle type={type}>
         {title}
       </StepTitle>
-      <StepDescription>
+      <StepDescription type={type}>
         {description}
       </StepDescription>
     </StepContentWrap>
