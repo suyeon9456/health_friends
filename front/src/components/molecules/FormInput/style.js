@@ -1,7 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const FormInputWrap = styled.div`
  min-height: 100px;
+
+ ${({ label }) => !label && css`
+    min-height: 60px;
+ `}
 `;
 
 export const Label = styled.label`

@@ -51,13 +51,14 @@ export const StyledButton = styled.button`
 ${({ styleType, buttonLoading }) => {
     if (styleType === 'error') {
       return css`
-        color: #ff4d4f;
-        background: #fff;
-        border-color: #ffccc7;
+        color: #fff;
+        background: #ff4d4f;
+        border-color: #ff4d4f;
+        box-shadow: 0 12px 12px -11px #ff4d4f80;
         &:hover, &:focus {
-          color: #ff4d4f;
-          background: #fff2f0;
-          border-color: #ffccc7;
+          color: #fff;
+          background: #ff7779;
+          border-color: #ff7779;
         }
       `;
     }

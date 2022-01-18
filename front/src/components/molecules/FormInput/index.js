@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Controller } from 'react-hook-form';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import { Input, ErrorMessage } from '../../atoms';
 import { Essential, FormInputWrap, Label } from './style';
@@ -8,11 +9,13 @@ import { Essential, FormInputWrap, Label } from './style';
 const FormInput = ({ label, placeholder, essential, id,
   control, error,
   ...props }) => (
-    <FormInputWrap>
-      <Label>
-        {label}
-        {essential && <Essential />}
-      </Label>
+    <FormInputWrap label={label}>
+      {label && (
+        <Label>
+          {label}
+          {essential && <Essential />}
+        </Label>
+      )}
       <Controller
         control={control}
         name={id}
@@ -28,7 +31,7 @@ const FormInput = ({ label, placeholder, essential, id,
         )}
       />
       {error && (
-        <ErrorMessage>{error.message}</ErrorMessage>
+        <ErrorMessage><ExclamationCircleOutlined /> {error.message}</ErrorMessage>
       )}
     </FormInputWrap>
 );
