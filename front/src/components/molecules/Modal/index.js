@@ -5,6 +5,7 @@ import { CloseOutlined } from '@ant-design/icons';
 
 import { ModalBody, ModalBox, ModalClose, ModalContent, ModalFooter, ModalHeader, ModalMask, ModalRoot, ModalTitle, ModalWrap } from './style';
 import Button from '../../atoms/Button';
+import { Form } from '../../atoms';
 
 const Modal = ({ show,
   title,
@@ -13,6 +14,7 @@ const Modal = ({ show,
   className,
   children,
   actions,
+  form,
   footer }) => {
   useEffect(() => {
     if (show) {
@@ -45,29 +47,61 @@ const Modal = ({ show,
                 {title}
               </ModalTitle>
             </ModalHeader>
-            <ModalBody>
-              {children}
-            </ModalBody>
-            {(footer || !_.isEmpty(actions)) && (
-              <ModalFooter>
-                {_.isEmpty(actions)
-                  ? (
-                    <>
-                      <Button onClick={onCancel}>취소</Button>
-                      <Button type="primary" onClick={onSubmit}>확인</Button>
-                    </>
-                  )
-                  : actions.map((action) => (
-                    <Button
-                      key={action.id}
-                      type={action.type}
-                      onClick={action.onClick}
-                    >
-                      {action.title}
-                    </Button>
-                  ))}
-              </ModalFooter>
-            )}
+            {form
+              ? (
+                <Form onSubmit={onSubmit}>
+                  <ModalBody>
+                    {children}
+                  </ModalBody>
+                  {(footer || !_.isEmpty(actions)) && (
+                    <ModalFooter>
+                      {_.isEmpty(actions)
+                        ? (
+                          <>
+                            <Button onClick={onCancel}>취소</Button>
+                            <Button type="primary" submit>확인</Button>
+                          </>
+                        )
+                        : actions.map((action) => (
+                          <Button
+                            key={action.id}
+                            type={action.type}
+                            onClick={action.onClick}
+                          >
+                            {action.title}
+                          </Button>
+                        ))}
+                    </ModalFooter>
+                  )}
+                </Form>
+              )
+              : (
+                <>
+                  <ModalBody>
+                    {children}
+                  </ModalBody>
+                  {(footer || !_.isEmpty(actions)) && (
+                    <ModalFooter>
+                      {_.isEmpty(actions)
+                        ? (
+                          <>
+                            <Button onClick={onCancel}>취소</Button>
+                            <Button type="primary" onClick={onSubmit}>확인</Button>
+                          </>
+                        )
+                        : actions.map((action) => (
+                          <Button
+                            key={action.id}
+                            type={action.type}
+                            onClick={action.onClick}
+                          >
+                            {action.title}
+                          </Button>
+                        ))}
+                    </ModalFooter>
+                  )}
+                </>
+              )}
           </ModalContent>
         </ModalBox>
       </ModalWrap>
@@ -83,6 +117,7 @@ Modal.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
   actions: PropTypes.array,
+  form: PropTypes.bool,
   footer: PropTypes.bool.isRequired,
 };
 

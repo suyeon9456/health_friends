@@ -2,24 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { FormSelect, FormTimePicker } from '../../../molecules';
+import { FormRangeTimePicker, FormSelect } from '../../../molecules';
 import { FormWrap } from './style';
 
-const EditInfoForm = ({
-  targetId,
-  age,
-  onChangeAge,
-  startDate,
-  onChangeStartDate,
-  endDate,
-  onChangeEndDate,
-  career,
-  onChangeCareer,
-  gender,
-  onChangeGender,
-  role,
-  onChangeRole,
-}) => {
+const EditInfoForm = ({ targetId, control }) => {
   const { careerOptions,
     roleOptions,
     genderOptions,
@@ -28,42 +14,38 @@ const EditInfoForm = ({
     <FormWrap>
       <FormSelect
         label="연령"
+        id="age"
         options={ageOptions}
         size="small"
-        value={age}
-        onChange={onChangeAge}
+        control={control}
       />
       {targetId === 'more-info' && (
-        <FormTimePicker
+        <FormRangeTimePicker
           label="운동시간"
-          type="range"
           size="small"
-          startDate={startDate}
-          onChangeStartDate={onChangeStartDate}
-          endDate={endDate}
-          onChangeEndDate={onChangeEndDate}
+          control={control}
         />
       )}
       <FormSelect
         label="운동경력"
+        id="career"
         options={careerOptions}
         size="small"
-        value={career}
-        onChange={onChangeCareer}
+        control={control}
       />
       <FormSelect
         label="성별"
+        id="gender"
         options={genderOptions}
         size="small"
-        value={gender}
-        onChange={onChangeGender}
+        control={control}
       />
       <FormSelect
         label="친구와의 역할"
+        id="role"
         options={roleOptions}
         size="small"
-        value={role}
-        onChange={onChangeRole}
+        control={control}
       />
     </FormWrap>
   );
@@ -71,18 +53,7 @@ const EditInfoForm = ({
 
 EditInfoForm.propTypes = {
   targetId: PropTypes.string.isRequired,
-  age: PropTypes.node,
-  onChangeAge: PropTypes.func.isRequired,
-  startDate: PropTypes.instanceOf(Date).isRequired,
-  onChangeStartDate: PropTypes.func.isRequired,
-  endDate: PropTypes.instanceOf(Date).isRequired,
-  onChangeEndDate: PropTypes.func.isRequired,
-  career: PropTypes.node,
-  onChangeCareer: PropTypes.func.isRequired,
-  gender: PropTypes.node,
-  onChangeGender: PropTypes.func.isRequired,
-  role: PropTypes.node,
-  onChangeRole: PropTypes.func.isRequired,
+  control: PropTypes.any,
 };
 
 export default EditInfoForm;

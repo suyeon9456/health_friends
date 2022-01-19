@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { CommentOutlined, HomeOutlined, TrophyOutlined } from '@ant-design/icons';
 
 import useRate from '../../../../hooks/useRate';
-import { Avatar, Button, Upload } from '../../../atoms';
+import { Avatar, Button, Form, Upload } from '../../../atoms';
 import Progress from '../../../molecules/Progress';
 import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, SideBarWrapper, SideMenu, SideMenuWrapper } from './style';
 import { ADD_PROFILEIMAGE_REQUEST, REMOVE_PROFILEIMAGE, UPLOAD_PROFILEIMAGE_REQUEST } from '../../../../../reducers/user';
@@ -73,7 +73,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
         {me?.id && uploadState
           ? (
             <>
-              <form encType="multipart/form-data">
+              <Form encType="multipart/form-data">
                 <Upload
                   id={imagePath}
                   name="image"
@@ -83,7 +83,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
                   onAddImage={onAddProfileImage}
                   onRemove={onRemoveUploadImage}
                 />
-              </form>
+              </Form>
               <div>
                 <Button type="text" onClick={onChangeUploadState}>취소</Button>
               </div>

@@ -11,13 +11,8 @@ import { MatchingInfoWrap,
 import { FormInput, FormTextarea, FormDateTimePicker } from '../../molecules';
 import { Avatar } from '../../atoms';
 
-const MatchingRequestForm = ({ type = 'add', friend, startDate,
-  endDate,
-  onChangeStartDate,
-  onChangeEndDate, description, onChangeDescription, gymName }) => {
+const MatchingRequestForm = ({ friend, control, errors }) => {
   const { me } = useSelector((state) => state.user);
-  const { gym } = useSelector((state) => state.gym);
-  const { schedule } = useSelector((state) => state.schedule);
 
   return (
     <RequestFriendWrap>
@@ -25,15 +20,15 @@ const MatchingRequestForm = ({ type = 'add', friend, startDate,
         <h4>매칭정보</h4>
         <FormDateTimePicker
           label="날짜"
-          startDate={startDate}
-          endDate={endDate}
-          onChangeStartDate={onChangeStartDate}
-          onChangeEndDate={onChangeEndDate}
           essential
+          control={control}
+          error={{ startError: errors?.startDate, endError: errors?.endDate }}
         />
         <FormInput
           label="헬스장"
-          value={type === 'add' ? (gymName || gym.name) : schedule?.address}
+          id="gym"
+          control={control}
+          error={errors?.gym}
           disabled
           essential
         />
@@ -63,11 +58,11 @@ const MatchingRequestForm = ({ type = 'add', friend, startDate,
       <DescriptionWrap>
         <h4>요청 또는 전하고 싶은 말</h4>
         <FormTextarea
-          value={description}
-          onChange={onChangeDescription}
+          id="description"
           placeholder="내용을 입력해주세요."
           maxLength={100}
           showCount
+          control={control}
         />
       </DescriptionWrap>
     </RequestFriendWrap>
@@ -75,15 +70,11 @@ const MatchingRequestForm = ({ type = 'add', friend, startDate,
 };
 
 MatchingRequestForm.propTypes = {
-  type: PropTypes.string,
   friend: PropTypes.any,
-  gymName: PropTypes.any,
-  startDate: PropTypes.instanceOf(Date).isRequired,
-  endDate: PropTypes.instanceOf(Date).isRequired,
-  onChangeStartDate: PropTypes.func.isRequired,
-  onChangeEndDate: PropTypes.func.isRequired,
+  // startDate: PropTypes.instanceOf(Date).isRequired,
   description: PropTypes.string.isRequired,
-  onChangeDescription: PropTypes.func.isRequired,
+  errors: PropTypes.object,
+  control: PropTypes.any,
 };
 
 export default MatchingRequestForm;

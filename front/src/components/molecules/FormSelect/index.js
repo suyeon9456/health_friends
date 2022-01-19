@@ -7,7 +7,7 @@ import { Select, ErrorMessage } from '../../atoms';
 
 const FormSelect = ({ size, label, options, id,
   essential, control, error }) => (
-    <FormSelectWrap>
+    <FormSelectWrap size={size}>
       <Label>
         {label}
         {essential && <Essential />}
@@ -15,16 +15,19 @@ const FormSelect = ({ size, label, options, id,
       <Controller
         control={control}
         name={id}
-        render={({ field: { value, onChange } }) => (
-          <Select
-            name={id}
-            value={value}
-            error={error}
-            onChange={onChange}
-            size={size}
-            options={options}
-          />
-        )}
+        render={({ field: { value, onChange } }) => {
+          console.log('?', value);
+          return (
+            <Select
+              name={id}
+              value={value}
+              error={error}
+              onChange={onChange}
+              size={size}
+              options={options}
+            />
+          );
+        }}
       />
       {error && (
         <ErrorMessage>{error.message}</ErrorMessage>

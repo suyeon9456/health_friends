@@ -290,7 +290,8 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.updateMyInfoLoading = false;
       draft.updateMyInfoDone = true;
       draft.updateMyInfoError = null;
-      draft.me = action.data;
+      draft.profile = action.data;
+      // draft.me = action.data;
       break;
     case UPDATE_MY_INFO_ERROR:
       draft.updateMyInfoLoading = false;
@@ -305,7 +306,8 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.updateMyFriendsInfoLoading = false;
       draft.updateMyFriendsInfoDone = true;
       draft.updateMyFriendsInfoError = null;
-      draft.me = action.data;
+      draft.profile = action.data;
+      // draft.me = action.data;
       break;
     case UPDATE_MY_FRIENDS_INFO_ERROR:
       draft.updateMyFriendsInfoLoading = false;

@@ -28,8 +28,6 @@ const MoreGymInfoForm = () => {
   }, [showModal]);
 
   const onClickStepHandler = useCallback((data, e) => {
-    console.log(data);
-    console.log(e);
     dispatch({
       type: SIGN_UP_STEP_GYM_INFO_SAVE,
       data: { ...data,

@@ -8,10 +8,7 @@ import ModalMatchingDetail from '../profile/ModalMatchingDetail';
 import { MatchingCardListWrap } from './style';
 import { MatchingCard } from '../../molecules';
 
-const MatchingCardList = ({
-  schedules,
-}) => {
-  // const dispatch = useDispatch();
+const MatchingCardList = ({ schedules }) => {
   const { me, profile } = useSelector((state) => state.user);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState('view');

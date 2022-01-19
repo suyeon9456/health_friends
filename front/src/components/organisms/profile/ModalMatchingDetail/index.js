@@ -1,8 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import format from 'date-fns/format';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
-import { useInput, useDateFormat } from '../../../../hooks';
+import { useDateFormat } from '../../../../hooks';
 import { Avatar } from '../../../atoms';
 import { Modal } from '../../../molecules';
 import MatchingRequestForm from '../../MatchingRequestForm';
@@ -10,36 +14,41 @@ import { Content, DescriptionWrap, InfoContent } from '../../MatchingRequestForm
 import { MatchingInfoWrap, RequestFriendWrap, UserInfoWrap } from './style';
 import { UPDATE_PERMISSION_REQUEST, UPDATE_SCHEDULE_REQUEST } from '../../../../../reducers/schedule';
 
+const schema = yup.object({
+  startDate: yup.string().required('날짜는 필수 항목입니다.'),
+  endDate: yup.string().required('날짜는 필수 항목입니다.'),
+  gym: yup.string().required('헬스장은 필수 항목입니다.'),
+}).required();
+
 const ModalMatchingDetail = ({ show, onCancel, type }) => {
   const dispatch = useDispatch();
   const { schedule } = useSelector((state) => state.schedule);
   const { me } = useSelector((state) => state.user);
 
-  const [startDate, setStartDate] = useState(schedule?.start || new Date());
-  const [endDate, setEndDate] = useState(schedule?.end || new Date());
-
   const [fNickname, setFNickname] = useState('');
   const [fId, setFId] = useState(-1);
 
-  const onChangeStartDate = useCallback((data) => {
-    setStartDate(data);
-  }, []);
-  const onChangeEndDate = useCallback((data) => {
-    setEndDate(data);
-  }, []);
+  const { handleSubmit, control, setValue, formState: { errors } } = useForm({
+    defaultValues: {
+      startDate: schedule?.start || new Date(),
+      endDate: schedule?.end || new Date(),
+      gym: schedule?.address || '',
+      description: '',
+    },
+    resolver: yupResolver(schema),
+  });
 
   const [formatDate, setFormatDate] = useState('');
-  const [description, onChangeDescription, setDescription] = useInput(schedule?.description || '');
-  const onSubmit = useCallback(() => {
-    const date = useDateFormat(startDate, 'yyyy-MM-dd');
-    const time = useDateFormat(endDate, 'HH:mm');
-    const startDateTime = useDateFormat(startDate, 'yyyy-MM-dd HH:mm');
+  const onSubmit = useCallback((data) => {
+    const date = format(new Date(data.startDate), 'yyyy-MM-dd');
+    const time = format(new Date(data.endDate), 'HH:mm');
+    const startDateTime = format(new Date(data.startDate), 'yyyy-MM-dd HH:mm');
     const dateTime = [date, time].join(' ');
     dispatch({
       type: UPDATE_SCHEDULE_REQUEST,
-      data: { startDate: startDateTime, endDate: dateTime, description, id: schedule.id },
+      data: { ...data, startDate: startDateTime, endDate: dateTime, id: schedule.id },
     });
-  }, [startDate, endDate, description, schedule]);
+  }, []);
 
   const onAccept = useCallback(async () => {
     const { id, isPermitted, friendRematching, friendRematchingCount,
@@ -94,9 +103,10 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
       const end = useDateFormat(schedule?.end, 'HH:mm');
       const matchingDate = [start, ' ~ ', end].join('');
       setFormatDate(matchingDate);
-      setStartDate(schedule.start);
-      setEndDate(schedule.end);
-      setDescription(schedule.description);
+      setValue('startDate', schedule.start);
+      setValue('endDate', schedule.end);
+      setValue('gym', schedule.address);
+      setValue('description', schedule.description);
     }
   }, [schedule]);
 
@@ -105,12 +115,13 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
       show={show}
       title={`${fNickname}님과의 매칭${type !== 'view' ? '수정' : '정보'}`}
       onCancel={onCancel}
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       footer={type !== 'view'}
       actions={type === 'view' && schedule?.friend?.id === me?.id
         ? [{ id: 'refuse', title: '거절', onClick: onRefuse },
           { id: 'accept', title: '수락', type: 'primary', onClick: onAccept }]
         : []}
+      form
     >
       {type === 'view'
         ? (
@@ -140,12 +151,8 @@ const ModalMatchingDetail = ({ show, onCancel, type }) => {
           <MatchingRequestForm
             type="update"
             friend={schedule?.friend}
-            description={description}
-            onChangeDescription={onChangeDescription}
-            startDate={startDate}
-            onChangeStartDate={onChangeStartDate}
-            endDate={endDate}
-            onChangeEndDate={onChangeEndDate}
+            control={control}
+            errors={errors}
           />
         )}
     </Modal>

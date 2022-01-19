@@ -17,7 +17,6 @@ const MatchingCard = ({
   setModalType,
 }) => {
   const dispatch = useDispatch();
-  // const [isClickedCard, setIsClickedCard] = useState(false);
   const onShowScheduleModal = useCallback(() => {
     setModalType(() => 'view');
     console.log('view: ', id);

@@ -18,33 +18,6 @@ const FormRangeTimePicker = ({ label, essential, size, control, error }) => (
       <Controller
         control={control}
         name="startTime"
-        render={({ field: { value, onChange } }) => {
-          console.log(value);
-          return (
-            <DatePicker
-              name="startTime"
-              selected={value}
-              error={error}
-              onChange={onChange}
-              showTimeSelect
-              showTimeSelectOnly
-              timeIntervals={15}
-              timeCaption="Time"
-              dateFormat="HH:mm"
-              customInput={<CustomPickerInput type="time" size={size} />}
-              calendarContainer={CustomCalendar}
-            />
-          );
-        }}
-      />
-      <RangeSeparator>
-        <Separator>
-          <SwapRightOutlined />
-        </Separator>
-      </RangeSeparator>
-      <Controller
-        control={control}
-        name="endTime"
         render={({ field: { value, onChange } }) => (
           <DatePicker
             name="startTime"
@@ -60,6 +33,33 @@ const FormRangeTimePicker = ({ label, essential, size, control, error }) => (
             calendarContainer={CustomCalendar}
           />
         )}
+      />
+      <RangeSeparator>
+        <Separator>
+          <SwapRightOutlined />
+        </Separator>
+      </RangeSeparator>
+      <Controller
+        control={control}
+        name="endTime"
+        render={({ field: { value, onChange } }) => {
+          console.log(value);
+          return (
+            <DatePicker
+              name="endTime"
+              selected={value}
+              error={error}
+              onChange={onChange}
+              showTimeSelect
+              showTimeSelectOnly
+              timeIntervals={15}
+              timeCaption="Time"
+              dateFormat="HH:mm"
+              customInput={<CustomPickerInput type="time" size={size} />}
+              calendarContainer={CustomCalendar}
+            />
+          );
+        }}
       />
     </RangeTimePickerWrap>
   </div>

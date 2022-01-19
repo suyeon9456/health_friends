@@ -4,7 +4,6 @@ import { EditOutlined } from '@ant-design/icons';
 
 import useInput from '../../../../hooks/useInput';
 import { Button, Input } from '../../../atoms';
-// import { Alert } from '../../../molecules';
 import { ContentText, ContentTitle, InfoBody, InfoButtonWrapper, InfoContent, InfoContentWrapper, InfoHeader, InfoWrapper } from './style';
 import { UPDATE_MY_DESCRIPTION_REQUEST, UPDATE_MY_NICKNAME_REQUEST } from '../../../../../reducers/user';
 
@@ -13,7 +12,6 @@ const Info = () => {
     profile,
     updateMyNicknameDone, updateMyDescriptionDone } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  // const [stateWarning, setStateWarning] = useState(false);
   const [isEditNickname, setIsEditNickname] = useState(false);
   const [isEditDescription, setIsEditDescription] = useState(false);
 
@@ -126,20 +124,6 @@ const Info = () => {
           </InfoButtonWrapper>
         </InfoContentWrapper>
       </InfoBody>
-      {/* {stateWarning && (
-        <Alert
-          type="warning"
-          action={(
-            <Button
-              block
-              // onClick={onChangeStateWarning}
-            >
-              확인
-            </Button>
-          )}
-          message="로그인이 필요한 페이지입니다."
-        />
-      )} */}
     </InfoWrapper>
   );
 };

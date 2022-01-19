@@ -1,13 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 import { ADD_SCHEDULE_REQUEST } from '../../../../reducers/schedule';
-import useInput from '../../../hooks/useInput';
 import { Avatar } from '../../atoms';
 import { Modal } from '../../molecules';
 import MatchingRequestForm from '../MatchingRequestForm';
 import { useDateFormat } from '../../../hooks';
+
+const schema = yup.object({
+  startDate: yup.string().required('날짜는 필수 항목입니다.'),
+  endDate: yup.string().required('날짜는 필수 항목입니다.'),
+  gym: yup.string().required('헬스장은 필수 항목입니다.'),
+}).required();
 
 const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }) => {
   const dispatch = useDispatch();
@@ -15,44 +23,48 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }) => {
   const { gym } = useSelector((state) => state.gym);
   const { addScheduleDone } = useSelector((state) => state.schedule);
 
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-
-  const onChangeStartDate = useCallback((data) => {
-    setStartDate(data);
-  }, []);
-  const onChangeEndDate = useCallback((data) => {
-    setEndDate(data);
-  }, []);
-
-  const [description, onChangeDescription] = useInput('');
-  useEffect(() => {
-    if (addScheduleDone) {
-      setShowModal(false);
-    }
-  }, [addScheduleDone]);
+  const { handleSubmit, control, setValue } = useForm({
+    defaultValues: {
+      startDate: new Date(),
+      endDate: new Date(),
+      gym: gymName || gym.name,
+      description: '',
+    },
+    resolver: yupResolver(schema),
+  });
 
   const onChangeShowModal = useCallback(() => {
     setShowModal(false);
   }, []);
 
-  const onMatchingRequest = useCallback(() => {
-    const date = useDateFormat(startDate, 'yyyy-MM-dd');
-    const time = useDateFormat(endDate, 'HH:mm');
+  const onMatchingRequest = useCallback((data) => {
+    const date = useDateFormat(new Date(data.startDate), 'yyyy-MM-dd');
+    const time = useDateFormat(new Date(data.endDate), 'HH:mm');
     const end = new Date([date, time].join(' '));
     dispatch({
       type: ADD_SCHEDULE_REQUEST,
       data: {
-        startDate,
+        ...data,
         endDate: end,
-        description,
         userId: me?.id,
         friendId: friend?.id,
-        gymId: friend?.Gyms[0]?.id || gym?.id,
+        gymId: friend?.UserGym?.GymId || gym?.id,
       },
     });
     onChangeShowModal();
-  }, [startDate, endDate, description]);
+  }, []);
+
+  useEffect(() => {
+    if (gym) {
+      setValue(`${gym?.address}${gym?.name}`);
+    }
+  }, [gym]);
+
+  useEffect(() => {
+    if (addScheduleDone) {
+      setShowModal(false);
+    }
+  }, [addScheduleDone]);
 
   return (
     <Modal
@@ -65,19 +77,14 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }) => {
       )}
       className="matching-modal"
       onCancel={onChangeShowModal}
-      onSubmit={onMatchingRequest}
+      onSubmit={handleSubmit(onMatchingRequest)}
+      form
       footer
     >
       <MatchingRequestForm
         type="add"
-        friend={friend}
-        gymName={gymName}
-        description={description}
-        onChangeDescription={onChangeDescription}
-        startDate={startDate}
-        onChangeStartDate={onChangeStartDate}
-        endDate={endDate}
-        onChangeEndDate={onChangeEndDate}
+        control={control}
+        setValue={setValue}
       />
     </Modal>
   );

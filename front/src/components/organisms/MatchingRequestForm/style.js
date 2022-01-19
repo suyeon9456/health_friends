@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const RequestFriendWrap = styled.div`
   width: 100%;
-  height: 420px;
+  min-height: 450px;
   padding: 10px 24px;
   font-variant: tabular-nums;
   font-feature-settings: 'tnum';
@@ -18,11 +18,11 @@ export const MatchingInfoWrap = styled.div`
   }
 
   & > div {
+    min-height: 70px;
     &:not(:last-child) {
       margin-bottom: 5px;
     }
     & > label {
-      color: #00000073;
       font-weight: 500;
       font-size: 14px;
     }

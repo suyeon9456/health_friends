@@ -117,6 +117,7 @@ const MoreInfo = () => {
         title={targetId === 'more-info' ? '추가정보 수정' : '친구정보 수정'}
         targetId={targetId}
         show={showEditModal}
+        setCloseModal={setShowEditModal}
         onCancel={onChangeShowEditModal}
       />
     </MoreInfoWrapper>

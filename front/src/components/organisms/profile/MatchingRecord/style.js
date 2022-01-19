@@ -31,7 +31,7 @@ export const FilterList = styled.div`
     margin-left: 10px;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 447px) {
     margin-left: 0;
     flex-wrap: wrap;
     & > div:last-child {
