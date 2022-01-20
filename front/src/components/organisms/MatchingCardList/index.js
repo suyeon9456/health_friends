@@ -1,21 +1,44 @@
 import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
-import { EditOutlined, RetweetOutlined } from '@ant-design/icons';
+import { format, compareAsc } from 'date-fns';
+import { EditOutlined, PushpinOutlined, RetweetOutlined } from '@ant-design/icons';
 
 import ModalMatchingDetail from '../profile/ModalMatchingDetail';
 import { MatchingCardListWrap } from './style';
 import { MatchingCard } from '../../molecules';
+import { LOAD_SCHEDULE_REQUEST } from '../../../../reducers/schedule';
+import ModalMatchingEdit from '../profile/ModalMatchingEdit';
 
 const MatchingCardList = ({ schedules }) => {
+  const dispatch = useDispatch();
   const { me, profile } = useSelector((state) => state.user);
-  const [showModal, setShowModal] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [modalType, setModalType] = useState('view');
 
-  const onChangeShowModal = useCallback(() => {
-    setShowModal((prev) => !prev);
-  }, [showModal]);
+  const onChangeShowEditModal = useCallback(() => {
+    setShowEditModal((prev) => !prev);
+  }, [showEditModal]);
+
+  const onChangeShowDetailModal = useCallback(() => {
+    setShowDetailModal((prev) => !prev);
+  }, [showEditModal]);
+
+  const onClickAction = useCallback(({ key, id }) => {
+    console.log(key);
+    setModalType(key);
+    dispatch({
+      type: LOAD_SCHEDULE_REQUEST,
+      data: id,
+    });
+    if (key === 'view') {
+      setShowDetailModal((prev) => !prev);
+    }
+    if (key === 'edit' || key === 'rematch') {
+      setShowEditModal((prev) => !prev);
+    }
+  }, [showDetailModal, showEditModal, modalType]);
 
   return (
     <>
@@ -32,26 +55,30 @@ const MatchingCardList = ({ schedules }) => {
             ? schedule?.requester?.Image?.src
             : schedule?.friend?.Image?.src;
           const cardImageSrc = imageSrc || '';
+          // 오늘 일자보다 전 일자의 event는 -1을 리턴한다.
+          const compareToday = compareAsc(new Date(schedule.start), new Date());
           return (
             <MatchingCard
               key={schedule.id}
               id={schedule.id}
               nickname={nickname}
-              description={schedule.address}
+              description={schedule.address + schedule.gymName}
               image={cardImageSrc}
               date={date}
-              actions={me?.id === profile?.id ? [{ icon: <RetweetOutlined />, key: 'rematch' },
-                { icon: <EditOutlined />, key: 'edit' }] : []}
-              setShowModal={setShowModal}
-              setModalType={setModalType}
+              start={schedule.start}
+              onClickView={onClickAction}
+              actions={me?.id === profile?.id ? [{ icon: <PushpinOutlined />, key: 'fix', onClick: onClickAction },
+                { icon: <RetweetOutlined />, key: 'rematch', onClick: onClickAction },
+                { icon: <EditOutlined />, key: 'edit', onClick: onClickAction, disabled: compareToday < 0 }] : []}
             />
           );
         })}
       </MatchingCardListWrap>
-      <ModalMatchingDetail
-        show={showModal}
-        onCancel={onChangeShowModal}
-        type={modalType}
+      <ModalMatchingDetail show={showDetailModal} onCancel={onChangeShowDetailModal} />
+      <ModalMatchingEdit
+        show={showEditModal}
+        onCancel={onChangeShowEditModal}
+        mode={modalType}
       />
     </>
   );

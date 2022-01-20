@@ -26,8 +26,57 @@ router.post('/', async (req, res, next) => { // POST /schedule/
   }
 });
 
+router.post('/re', async (req, res, next) => { // POST /schedule/re
+  try {
+    console.log('req.body', req.body);
+    const { friendId, userId, gymId } = req.body;
+
+    const friend = await User.findOne({
+      where: { id: friendId },
+      attributes: ['id'],
+    });
+
+    if (!friend || friendId === -1) {
+      res.status(403).send('존재하지 않는 사용자입니다.');
+    }
+
+    const schedulesCount = await Schedule.findAndCountAll({ where: {
+      [Op.or]: [{
+        UserId: req.user.id,
+        FriendId: friendId,
+      }, {
+        FriendId: req.user.id,
+        UserId: friendId,
+      }],
+    } });
+
+    if (schedulesCount < 1) {
+      res.status(403).send('해당 사용자와는 매칭이력이 없습니다.');
+    }
+
+    const schedule = await Schedule.create({
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      description: req.body.description,
+      permission: false,
+      isPermitted: false,
+      RematchId: friendId,
+    })
+    if (schedule) {
+      await schedule.setRequester(userId);
+      await schedule.setFriend(friendId);
+      await schedule.setGym(gymId);
+    }
+    res.status(201).json(schedule);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 router.get('/:id', async (req, res, next) => { // GET /schedule/
   try {
+    console.log(req.params);
     const where = {
       id: req.params.id,
     }
@@ -58,7 +107,7 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
         ],
       }, {
         model: Gym,
-        attributes: ['address'],
+        attributes: ['id', 'address', 'name'],
       }],
     });
 
@@ -67,7 +116,12 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
         [Sequelize.fn('count', Sequelize.col('id')), 'count'],
         'FriendId',
       ],
-      where: { UserId: req.user.id, permission: true, isPermitted: true },
+      where: {
+        UserId: req.user.id,
+        permission: true,
+        isPermitted: true,
+        RematchId: { [Op.not]: null },
+      },
       group: ['FriendId']
     });
     const userResRematchingInfo = await Schedule.findAll({
@@ -75,7 +129,7 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
         [Sequelize.fn('count', Sequelize.col('id')), 'count'],
         ['UserId', 'FriendId'],
       ],
-      where: { FriendId: req.user.id, permission: true, isPermitted: true },
+      where: { FriendId: req.user.id, permission: true, isPermitted: true, RematchId: { [Op.not]: null } },
       group: ['UserId']
     });
     const friendReqRematchingInfo = await Schedule.findAll({
@@ -83,7 +137,12 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
         [Sequelize.fn('count', Sequelize.col('id')), 'count'],
         'FriendId',
       ],
-      where: { UserId: schedule.Requester.id === req.user.id ? schedule.Friend.id : schedule.Requester.id, permission: true, isPermitted: true },
+      where: {
+        UserId: schedule.Requester.id === req.user.id ? schedule.Friend.id : schedule.Requester.id,
+        permission: true,
+        isPermitted: true,
+        RematchId: { [Op.not]: null },
+      },
       group: ['FriendId']
     });
     const friendResRematchingInfo = await Schedule.findAll({
@@ -91,7 +150,12 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
         [Sequelize.fn('count', Sequelize.col('id')), 'count'],
         ['UserId', 'FriendId'],
       ],
-      where: { FriendId: schedule.Requester.id === req.user.id ? schedule.Friend.id : schedule.Requester.id, permission: true, isPermitted: true },
+      where: {
+        FriendId: schedule.Requester.id === req.user.id ? schedule.Friend.id : schedule.Requester.id,
+        permission: true,
+        isPermitted: true,
+        RematchId: { [Op.not]: null },
+      },
       group: ['UserId']
     });
 

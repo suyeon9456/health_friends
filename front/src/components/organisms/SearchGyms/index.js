@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 import { LeftOutlined, RightOutlined, TeamOutlined } from '@ant-design/icons';
 
 import { LOAD_GYM_REQUEST, LOAD_FRIENDS_REQUEST } from '../../../../reducers/gym';
@@ -18,6 +19,8 @@ import SearchSidebar from '../SearchSidebar';
 import ModalMatchingRequest from '../ModalMatchingRequest';
 
 const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }) => {
+  const router = useRouter();
+  const { searchText } = router.query;
   const dispatch = useDispatch();
   const { mapBounds,
     gyms,
@@ -30,6 +33,32 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
   const [friend, setFriend] = useState(false);
   const [stateWarning, setStateWarning] = useState(false);
   const [searchWord, onChangeSearchWord] = useInput('');
+
+  const changeFoldedGym = useCallback(() => {
+    setFoldedGym((prev) => !prev);
+  }, [foldedGym]);
+
+  const onSearchGyms = useCallback(() => {
+    dispatch({
+      type: LOAD_GYM_REQUEST,
+      data: { searchWord },
+    });
+    router.push(`?searchText=${searchWord}`, undefined, { shallow: true });
+  }, [searchWord]);
+
+  const onClickGym = useCallback((gymId) => () => {
+    if (foldedFriends) {
+      setFoldedFriends(false);
+    }
+    dispatch({
+      type: LOAD_FRIENDS_REQUEST,
+      data: { gymId },
+    });
+  }, [foldedFriends]);
+
+  const onChangeStateWarning = useCallback(() => {
+    setStateWarning(false);
+  }, [stateWarning]);
 
   useEffect(() => {
     if (isLoadGyms && mapBounds) {
@@ -76,30 +105,12 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
     setBrowserHeight(document.documentElement.clientHeight);
   }, [browserHeight]);
 
-  const changeFoldedGym = useCallback(() => {
-    setFoldedGym((prev) => !prev);
-  }, [foldedGym]);
-
-  const onSearchGyms = useCallback(() => {
+  useEffect(() => {
     dispatch({
       type: LOAD_GYM_REQUEST,
-      data: { searchWord },
+      data: { searchWord: searchText },
     });
-  }, [searchWord]);
-
-  const onClickGym = useCallback((gymId) => () => {
-    if (foldedFriends) {
-      setFoldedFriends(false);
-    }
-    dispatch({
-      type: LOAD_FRIENDS_REQUEST,
-      data: { gymId },
-    });
-  }, [foldedFriends]);
-
-  const onChangeStateWarning = useCallback(() => {
-    setStateWarning(false);
-  }, [stateWarning]);
+  }, []);
 
   return (
     <SearchWrapper

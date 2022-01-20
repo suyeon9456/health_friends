@@ -5,6 +5,9 @@ const initialState = {
   addScheduleLoading: false,
   addScheduleDone: false,
   addScheduleError: null,
+  addReScheduleLoading: false,
+  addReScheduleDone: false,
+  addReScheduleError: null,
   loadSchedulesLoading: false,
   loadSchedulesDone: false,
   loadSchedulesError: null,
@@ -29,6 +32,10 @@ export const ADD_SCHEDULE_REQUEST = 'ADD_SCHEDULE_REQUEST';
 export const ADD_SCHEDULE_SUCCESS = 'ADD_SCHEDULE_SUCCESS';
 export const ADD_SCHEDULE_ERROR = 'ADD_SCHEDULE_ERROR';
 
+export const ADD_RE_SCHEDULE_REQUEST = 'ADD_RE_SCHEDULE_REQUEST';
+export const ADD_RE_SCHEDULE_SUCCESS = 'ADD_RE_SCHEDULE_SUCCESS';
+export const ADD_RE_SCHEDULE_ERROR = 'ADD_RE_SCHEDULE_ERROR';
+
 export const LOAD_SCHEDULES_REQUEST = 'LOAD_SCHEDULES_REQUEST';
 export const LOAD_SCHEDULES_SUCCESS = 'LOAD_SCHEDULES_SUCCESS';
 export const LOAD_SCHEDULES_ERROR = 'LOAD_SCHEDULES_ERROR';
@@ -52,19 +59,34 @@ export const UPDATE_PERMISSION_ERROR = 'UPDATE_PERMISSION_ERROR';
 const reducer = (state = initialState, action) => (produce(state, (draft) => {
   switch (action.type) {
     case ADD_SCHEDULE_REQUEST:
-      draft.addGymLoading = true;
-      draft.addGymDone = false;
-      draft.addGymError = null;
+      draft.addScheduleLoading = true;
+      draft.addScheduleDone = false;
+      draft.addScheduleError = null;
       break;
     case ADD_SCHEDULE_SUCCESS:
-      draft.addGymLoading = false;
-      draft.addGymDone = true;
-      draft.addGymError = null;
+      draft.addScheduleLoading = false;
+      draft.addScheduleDone = true;
+      draft.addScheduleError = null;
       break;
     case ADD_SCHEDULE_ERROR:
-      draft.addGymLoading = false;
-      draft.addGymDone = false;
-      draft.addGymError = action.error;
+      draft.addScheduleLoading = false;
+      draft.addScheduleDone = false;
+      draft.addScheduleError = action.error;
+      break;
+    case ADD_RE_SCHEDULE_REQUEST:
+      draft.addReScheduleLoading = true;
+      draft.addReScheduleDone = false;
+      draft.addReScheduleError = null;
+      break;
+    case ADD_RE_SCHEDULE_SUCCESS:
+      draft.addReScheduleLoading = false;
+      draft.addReScheduleDone = true;
+      draft.addReScheduleError = null;
+      break;
+    case ADD_RE_SCHEDULE_ERROR:
+      draft.addReScheduleLoading = false;
+      draft.addReScheduleDone = false;
+      draft.addReScheduleError = action.error;
       break;
     case LOAD_SCHEDULES_REQUEST:
       draft.loadSchedulesLoading = true;
@@ -108,6 +130,7 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
         start: new Date(item.startDate),
         end: new Date(item.endDate),
         address: item.Gym.address,
+        gymName: item.Gym.name,
         description: item.description,
         friend: item.Friend,
         requester: item.Requester,
@@ -183,10 +206,13 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadScheduleError = null;
       draft.schedule = {
         id: action.data.schedule.id,
+        isPermitted: action.data.schedule.isPermitted,
         start: new Date(action.data.schedule.startDate),
         end: new Date(action.data.schedule.endDate),
         nickname: action.data.schedule.Friend.nickname,
         address: action.data.schedule.Gym.address,
+        gymId: action.data.schedule.Gym.id,
+        gymName: action.data.schedule.Gym.name,
         description: action.data.schedule.description,
         friend: action.data.schedule.Friend,
         requester: action.data.schedule.Requester,

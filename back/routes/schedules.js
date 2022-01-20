@@ -105,8 +105,6 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => { // GET /schedules/
   try {
-    console.log('req.query: ', req.query);
-
     const { before, after, scheduledRecord, lastRecord, requestRecord, receiveRecord, rejectedMatching } = req.query;
 
     const where = {
@@ -161,7 +159,6 @@ router.get('/', async (req, res, next) => { // GET /schedules/
     }
 
     const schedulesCount = await Schedule.findAndCountAll({ where });
-    console.log('count: ', schedulesCount.count);
 
     const schedules = await Schedule.findAll({
       where,
@@ -196,7 +193,7 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         }],
       }, {
         model: Gym,
-        attributes: ['address'],
+        attributes: ['address', 'name'],
       }],
     });
 

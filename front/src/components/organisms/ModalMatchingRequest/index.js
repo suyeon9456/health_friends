@@ -81,11 +81,7 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }) => {
       form
       footer
     >
-      <MatchingRequestForm
-        type="add"
-        control={control}
-        setValue={setValue}
-      />
+      <MatchingRequestForm control={control} />
     </Modal>
   );
 };

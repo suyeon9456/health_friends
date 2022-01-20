@@ -39,7 +39,6 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    console.log(id);
     if (id === 'myinfo') {
       return dispatch({ type: LOAD_PROFILE_MYINFO_REQUEST });
     }

@@ -1,7 +1,7 @@
 import { all, fork, call, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-import { ADD_SCHEDULE_ERROR, ADD_SCHEDULE_REQUEST, ADD_SCHEDULE_SUCCESS, LOAD_CALENDAR_SCHEDULES_ERROR, LOAD_CALENDAR_SCHEDULES_REQUEST, LOAD_CALENDAR_SCHEDULES_SUCCESS, LOAD_SCHEDULES_ERROR, LOAD_SCHEDULES_REQUEST, LOAD_SCHEDULES_SUCCESS, LOAD_SCHEDULE_ERROR, LOAD_SCHEDULE_REQUEST, LOAD_SCHEDULE_SUCCESS, UPDATE_PERMISSION_ERROR, UPDATE_PERMISSION_REQUEST, UPDATE_PERMISSION_SUCCESS, UPDATE_SCHEDULE_ERROR, UPDATE_SCHEDULE_REQUEST, UPDATE_SCHEDULE_SUCCESS } from '../reducers/schedule';
+import { ADD_RE_SCHEDULE_ERROR, ADD_RE_SCHEDULE_REQUEST, ADD_RE_SCHEDULE_SUCCESS, ADD_SCHEDULE_ERROR, ADD_SCHEDULE_REQUEST, ADD_SCHEDULE_SUCCESS, LOAD_CALENDAR_SCHEDULES_ERROR, LOAD_CALENDAR_SCHEDULES_REQUEST, LOAD_CALENDAR_SCHEDULES_SUCCESS, LOAD_SCHEDULES_ERROR, LOAD_SCHEDULES_REQUEST, LOAD_SCHEDULES_SUCCESS, LOAD_SCHEDULE_ERROR, LOAD_SCHEDULE_REQUEST, LOAD_SCHEDULE_SUCCESS, UPDATE_PERMISSION_ERROR, UPDATE_PERMISSION_REQUEST, UPDATE_PERMISSION_SUCCESS, UPDATE_SCHEDULE_ERROR, UPDATE_SCHEDULE_REQUEST, UPDATE_SCHEDULE_SUCCESS } from '../reducers/schedule';
 
 function addScheduleAPI(data) {
   return axios.post('/schedule', data);
@@ -22,21 +22,37 @@ function* addSchedule(action) {
   }
 }
 
+function addReScheduleAPI(data) {
+  return axios.post('/schedule/re', data);
+}
+
+function* addReSchedule(action) {
+  try {
+    const result = yield call(addReScheduleAPI, action.data);
+    yield put({
+      type: ADD_RE_SCHEDULE_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: ADD_RE_SCHEDULE_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function loadSchedulesAPI(data) {
-  console.log('test');
   if (data.profileMenu === 'calendar') {
     return axios.get(`/schedules?profileMenu=${data.profileMenu}`);
   }
   const statusquery = data.status.length < 1 ? '' : `&${data.status.map((m) => `${m}=true`).join('&')}`;
   const termquery = data.term.length < 1 ? '' : `&${data.term.map((m) => `${m}=true`).join('&')}`;
   const typequery = data.type.length < 1 ? '' : `&${data.type.map((m) => `${m}=true`).join('&')}`;
-  console.log('datadata', `/schedules?limit=${data?.limit}${termquery}${typequery}`);
   return axios.get(`/schedules?profileMenu=${data.profileMenu}&limit=${data?.limit}&rejectedMatching=${data?.rejectedMatching}${termquery}${typequery}${statusquery}`);
 }
 
 function* loadSchedules(action) {
   try {
-    console.log('load', action.data);
     const result = yield call(loadSchedulesAPI, action.data);
     yield put({
       type: LOAD_SCHEDULES_SUCCESS,
@@ -57,7 +73,6 @@ function loadCalendarSchedulesAPI(data) {
 function* loadCalendarSchedules(action) {
   try {
     const result = yield call(loadCalendarSchedulesAPI, action.data);
-    console.log('result: ', result);
     yield put({
       type: LOAD_CALENDAR_SCHEDULES_SUCCESS,
       data: result.data,
@@ -127,8 +142,12 @@ function* updatePermission(action) {
   }
 }
 
-function* watchAddGym() {
+function* watchAddSchedule() {
   yield takeLatest(ADD_SCHEDULE_REQUEST, addSchedule);
+}
+
+function* watchAddReSchedule() {
+  yield takeLatest(ADD_RE_SCHEDULE_REQUEST, addReSchedule);
 }
 
 function* watchLoadSchedules() {
@@ -153,7 +172,8 @@ function* watchUpdatePermission() {
 
 export default function* userSaga() {
   yield all([
-    yield fork(watchAddGym),
+    yield fork(watchAddSchedule),
+    yield fork(watchAddReSchedule),
     yield fork(watchLoadSchedules),
     yield fork(watchLoadCalendarSchedules),
     yield fork(watchLoadSchedule),

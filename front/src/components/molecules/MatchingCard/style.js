@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Card = styled.div`
   display: inline-block;
@@ -15,7 +15,7 @@ export const Card = styled.div`
   font-feature-settings: "tnum";
   position: relative;
   background: #fff;
-  border-radius: 2px;
+  border-radius: 8px;
 
   &:hover {
     box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
@@ -44,7 +44,7 @@ export const CardCover = styled.div`
 
   & > div {
     height: 100%;
-    border-radius: 2px 2px 0 0;
+    border-radius: 8px 8px 0 0;
     background-color: #cccccc;
     color: #ffffff;
     vertical-align: middle;
@@ -116,6 +116,7 @@ export const CardActions = styled.ul`
   list-style: none;
   background: #fff;
   border-top: 1px solid #f0f0f0;
+  border-radius: 0 0 8px 8px;
     &::before {
       display: table;
       content: "";
@@ -133,7 +134,7 @@ export const CardActions = styled.ul`
 export const Action = styled.li`
   float: left;
   margin: 12px 0;
-  color: #00000073;
+  color: #555555;
   text-align: center;
   flex-grow: 1;
   cursor: pointer;
@@ -152,4 +153,14 @@ export const Action = styled.li`
       color: #9254de;
     }
   }
+
+  ${({ disabled }) => disabled && css`
+    color: #00000040;
+    cursor: default;
+    &:hover {
+      & > * {
+        color: #00000040;
+      }
+    }
+  `}
 `;
