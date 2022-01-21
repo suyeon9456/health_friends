@@ -62,7 +62,7 @@ const MatchingCardList = ({ schedules }) => {
               key={schedule.id}
               id={schedule.id}
               nickname={nickname}
-              description={schedule.address + schedule.gymName}
+              description={schedule.address + schedule.gym}
               image={cardImageSrc}
               date={date}
               start={schedule.start}

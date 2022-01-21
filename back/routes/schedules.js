@@ -195,6 +195,7 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         model: Gym,
         attributes: ['address', 'name'],
       }],
+      order: [ ['startDate', 'DESC'] ],
     });
 
     res.status(201).json({ schedules, count: schedulesCount.count });

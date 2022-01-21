@@ -19,32 +19,37 @@ const ModalMatchingDetail = ({ show, onCancel }) => {
 
   const [formatDate, setFormatDate] = useState('');
 
-  const onAccept = useCallback(async () => {
-    const { id, isPermitted, friendRematching, friendRematchingCount,
-      userTotalMatching, userRematchingCount, userTotalCount, friendTotalCount } = schedule;
+  const onAccept = useCallback(() => {
+    const { id,
+      isPermitted,
+      userMathcing, userTotalCount, userReCount,
+      friendMathcing, friendTotalCount, friendReCount } = schedule;
+
+    console.log(userMathcing.includes(fId));
+    console.log(friendMathcing.includes(me?.id));
+    console.log(isPermitted);
+    console.log(!isPermitted);
 
     if (!isPermitted) {
       Promise.all([
-        userTotalMatching[fId]
-          ? userRematchingCount + 1
-          : userRematchingCount,
-        friendRematching[me?.id]
-          ? friendRematchingCount + 1
-          : friendRematchingCount,
+        userMathcing.includes(fId),
+        friendMathcing.includes(me?.id),
       ]).then((values) => {
-        const [myRematchingCount, fRematchingCount] = values;
-        const myRematchingRate = (myRematchingCount / (userTotalCount + 1)) * 100;
-        const friendRematchingRate = (fRematchingCount / (friendTotalCount + 1)) * 100;
-        return [myRematchingRate, friendRematchingRate];
+        const [userRematchYn, friendRematchYn] = values;
+        const userRematchRate = userRematchYn ? (userReCount / (userTotalCount + 1)) * 100 : null;
+        const friendRematchRate = friendRematchYn
+          ? (friendReCount / (friendTotalCount + 1)) * 100
+          : null;
+        return [userRematchRate, friendRematchRate];
       }).then((values) => {
-        const [myRematchingRate, friendRematchingRate] = values;
+        const [userRematchRate, friendRematchRate] = values;
         dispatch({
           type: UPDATE_PERMISSION_REQUEST,
           data: { scheduleId: id,
             permission: true,
             friendId: fId,
-            myRematchingRate,
-            friendRematchingRate },
+            userRematchRate,
+            friendRematchRate },
         });
         onCancel();
       });

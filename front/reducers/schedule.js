@@ -1,5 +1,4 @@
 import produce from 'immer';
-import * as _ from 'lodash';
 
 const initialState = {
   addScheduleLoading: false,
@@ -103,6 +102,7 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
         start: new Date(item.startDate),
         end: new Date(item.endDate),
         address: item.Gym.address,
+        gym: item.Gym.name,
         description: item.description,
         friend: item.Friend,
         requester: item.Requester,
@@ -148,82 +148,32 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadScheduleError = null;
       break;
     case LOAD_SCHEDULE_SUCCESS: {
-      const friendMatchingInfo = [...action.data.friendReqRematchingInfo,
-        ...action.data.friendResRematchingInfo];
-      const userMatchingInfo = [...action.data.userReqRematchingInfo,
-        ...action.data.userResRematchingInfo];
-      let friendTotalCount = 0;
-      let userTotalCount = 0;
-      let friendRematchingCount = 0;
-      let userRematchingCount = 0;
-      let friendTotalMatching = {};
-      let userTotalMatching = {};
-      let friendRematching = {};
-      let userRematching = {};
-
-      friendMatchingInfo.forEach((matching) => {
-        friendTotalCount += matching.count;
-        if (friendTotalMatching[matching.FriendId]) {
-          friendTotalMatching = {
-            ...friendTotalMatching,
-            ...{
-              [matching.FriendId]: friendTotalMatching[matching.FriendId] + matching.count,
-            } };
-          return;
-        }
-        friendTotalMatching = {
-          ...friendTotalMatching, ...{ [matching.FriendId]: matching.count } };
-      });
-      userMatchingInfo.forEach((matching) => {
-        userTotalCount += matching.count;
-        if (userTotalMatching[matching.FriendId]) {
-          userTotalMatching = {
-            ...userTotalMatching,
-            ...{
-              [matching.FriendId]: userTotalMatching[matching.FriendId] + matching.count,
-            } };
-          return;
-        }
-        userTotalMatching = {
-          ...userTotalMatching, ...{ [matching.FriendId]: matching.count } };
-      });
-      _.forIn(userTotalMatching, (value, key) => {
-        console.log(key);
-        if (value >= 2) {
-          userRematchingCount += value;
-          userRematching = { ...userRematching, [key]: value };
-        }
-      });
-      _.forIn(friendTotalMatching, (value, key) => {
-        console.log(key);
-        if (value >= 2) {
-          friendRematchingCount += value;
-          friendRematching = { ...friendRematching, [key]: value };
-        }
-      });
+      const { schedule, userMatching, friendMatching } = action.data;
+      const userTotalCount = userMatching.length > 0 ? userMatching[0].matchingCount : 0;
+      const userReCount = userMatching.length > 0 ? userMatching[0].rematchingCount : 0;
+      const friendTotalCount = friendMatching.length > 0 ? friendMatching[0].matchingCount : 0;
+      const friendReCount = friendMatching.length > 0 ? friendMatching[0].rematchingCount : 0;
       draft.loadScheduleLoading = false;
       draft.loadScheduleDone = true;
       draft.loadScheduleError = null;
       draft.schedule = {
-        id: action.data.schedule.id,
-        isPermitted: action.data.schedule.isPermitted,
-        start: new Date(action.data.schedule.startDate),
-        end: new Date(action.data.schedule.endDate),
-        nickname: action.data.schedule.Friend.nickname,
-        address: action.data.schedule.Gym.address,
-        gymId: action.data.schedule.Gym.id,
-        gymName: action.data.schedule.Gym.name,
-        description: action.data.schedule.description,
-        friend: action.data.schedule.Friend,
-        requester: action.data.schedule.Requester,
-        friendTotalCount,
+        id: schedule.id,
+        isPermitted: schedule.isPermitted,
+        start: new Date(schedule.startDate),
+        end: new Date(schedule.endDate),
+        nickname: schedule.Friend.nickname,
+        address: schedule.Gym.address,
+        gymId: schedule.Gym.id,
+        gymName: schedule.Gym.name,
+        description: schedule.description,
+        friend: schedule.Friend,
+        requester: schedule.Requester,
+        userMathcing: userMatching.map(({ FriendId }) => FriendId),
         userTotalCount,
-        friendRematchingCount,
-        userRematchingCount,
-        friendRematching,
-        userRematching,
-        friendTotalMatching,
-        userTotalMatching,
+        userReCount,
+        friendMathcing: friendMatching.map(({ FriendId }) => FriendId),
+        friendTotalCount,
+        friendReCount,
       };
       break;
     }
