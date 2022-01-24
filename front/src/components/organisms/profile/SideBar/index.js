@@ -151,6 +151,13 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
         >
           매칭기록
         </SideMenu>
+        <SideMenu
+          key="liked"
+          id="liked"
+          onClick={onClickMenu}
+        >
+          관심친구
+        </SideMenu>
       </SideMenuWrapper>
       <ModalMatchingRequest
         showModal={showModal}

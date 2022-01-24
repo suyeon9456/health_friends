@@ -84,6 +84,17 @@ export const MetaTitle = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
   /* margin-bottom: 8px; */
+
+  & > span {
+    color: #00000073;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:hover {
+      color: #555;
+    }
+  }
 `;
 
 export const MetaDescription = styled.div`

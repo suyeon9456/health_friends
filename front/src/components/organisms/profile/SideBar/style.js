@@ -124,9 +124,6 @@ export const SideMenu = styled.div`
     min-width: 80px;
     text-align: center;
     margin: 5px 0;
-    & + & {
-      border-left: 1px solid #f0f0f0;
-    }
   }
 
   &:hover {

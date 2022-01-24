@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { LikeOutlined } from '@ant-design/icons';
 
 import { Card, CardActions, CardBody, CardCover, CardMeta, MetaPercent, MetaTitle } from './style';
 import { Avatar, Button } from '../../atoms';
@@ -9,6 +10,7 @@ const ProfileCard = ({
   image,
   percent,
   onClick,
+  onLike,
 }) => (
   <Card>
     <CardCover>
@@ -16,7 +18,9 @@ const ProfileCard = ({
     </CardCover>
     <CardBody>
       <CardMeta>
-        <MetaTitle>{nickname}</MetaTitle>
+        <MetaTitle>
+          {nickname} <LikeOutlined onClick={onLike} />
+        </MetaTitle>
         <MetaPercent>재매칭률: {percent}%</MetaPercent>
       </CardMeta>
     </CardBody>
@@ -37,6 +41,7 @@ ProfileCard.propTypes = {
   image: PropTypes.string,
   percent: PropTypes.number,
   onClick: PropTypes.func,
+  onLike: PropTypes.func,
 };
 
 export default ProfileCard;

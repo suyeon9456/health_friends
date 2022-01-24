@@ -422,4 +422,22 @@ router.post('/profileimage', isLoggedIn, async (req, res, next) => { // POST /us
   }
 });
 
+router.patch('/:userId/like', isLoggedIn, async (req, res, next) => {
+  try {
+    console.log(req.params);
+    const user = await User.findOne({
+      where: { id: req.params.userId }
+    });
+    console.log('user', user);
+    if(!user) {
+      return res.status(403).send('해당 사용자가 존재하지 않습니다.');
+    }
+    await user.addLiker(req.user.id);
+    res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 module.exports = router;

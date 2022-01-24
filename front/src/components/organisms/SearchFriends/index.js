@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { CloseOutlined } from '@ant-design/icons';
 
 import Button from '../../atoms/Button';
 import { PropfileCard } from '../../molecules';
 import { FriendsListWrapper, SearchFriendsWrapper, SearchHeader, SearchTitle } from './style';
+import { ADD_LIKE_REQUEST } from '../../../../reducers/user';
 
 const SearchFriends = ({ foldedGym,
   foldedFriends,
@@ -13,6 +14,7 @@ const SearchFriends = ({ foldedGym,
   setFriend,
   setShowModal,
   setStateWarning }) => {
+  const dispatch = useDispatch();
   const { gym } = useSelector((state) => state.gym);
   const { me } = useSelector((state) => state.user);
 
@@ -27,6 +29,13 @@ const SearchFriends = ({ foldedGym,
     setFriend(user);
     setShowModal(true);
   }, [me && me.id]);
+
+  const onLike = useCallback((user) => () => {
+    dispatch({
+      type: ADD_LIKE_REQUEST,
+      data: user.id,
+    });
+  }, []);
 
   return (
     <>
@@ -56,6 +65,7 @@ const SearchFriends = ({ foldedGym,
                   date={user.Userdetail.startTime}
                   percent={user.Userdetail.rematchingRate}
                   onClick={onShowMatchingModal(user)}
+                  onLike={onLike(user)}
                 />
               );
             })

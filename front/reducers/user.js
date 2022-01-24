@@ -47,6 +47,9 @@ const initialState = {
   loadRealtimeMatchingLoading: false,
   loadRealtimeMatchingDone: false,
   loadRealtimeMatchingError: null,
+  addLikeLoading: false,
+  addLikeDone: false,
+  addLikeError: null,
   signupSteps: [
     { id: 1, type: 'process', step: 1, title: 'STEP1', description: '회원 정보' },
     { id: 2, type: 'wait', step: 2, title: 'STEP2', description: '추가 정보' },
@@ -167,6 +170,10 @@ export const LOAD_RANKED_FRIENDS_ERROR = 'LOAD_RANKED_FRIENDS_ERROR';
 export const LOAD_REALTIME_MATCHING_REQUEST = 'LOAD_REALTIME_MATCHING_REQUEST';
 export const LOAD_REALTIME_MATCHING_SUCCESS = 'LOAD_REALTIME_MATCHING_SUCCESS';
 export const LOAD_REALTIME_MATCHING_ERROR = 'LOAD_REALTIME_MATCHING_ERROR';
+
+export const ADD_LIKE_REQUEST = 'ADD_LIKE_REQUEST';
+export const ADD_LIKE_SUCCESS = 'ADD_LIKE_SUCCESS';
+export const ADD_LIKE_ERROR = 'ADD_LIKE_ERROR';
 
 export const REMOVE_PROFILEIMAGE = 'REMOVE_PROFILEIMAGE';
 
@@ -454,6 +461,20 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case LOAD_REALTIME_MATCHING_ERROR:
       draft.loadRealtimeMatchingError = action.error;
       draft.loadRealtimeMatchingLoading = false;
+      break;
+    case ADD_LIKE_REQUEST:
+      draft.addLikeLoading = true;
+      draft.addLikeDone = false;
+      draft.addLikeError = null;
+      break;
+    case ADD_LIKE_SUCCESS:
+      draft.addLikeLoading = false;
+      draft.addLikeDone = true;
+      draft.realtimeMatching = action.data;
+      break;
+    case ADD_LIKE_ERROR:
+      draft.addLikeError = action.error;
+      draft.addLikeLoading = false;
       break;
     case REMOVE_PROFILEIMAGE:
       draft.imagePath = null;

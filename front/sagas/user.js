@@ -1,7 +1,8 @@
 import { all, fork, call, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-import { ADD_PROFILEIMAGE_ERROR, ADD_PROFILEIMAGE_REQUEST, ADD_PROFILEIMAGE_SUCCESS,
+import { ADD_LIKE_ERROR, ADD_LIKE_REQUEST,
+  ADD_LIKE_SUCCESS, ADD_PROFILEIMAGE_ERROR, ADD_PROFILEIMAGE_REQUEST, ADD_PROFILEIMAGE_SUCCESS,
   LOAD_MY_INFO_ERROR,
   LOAD_MY_INFO_REQUEST,
   LOAD_MY_INFO_SUCCESS,
@@ -333,6 +334,25 @@ function* loadRealtimeMathcing() {
   }
 }
 
+function addLikeAPI(data) {
+  return axios.patch(`/user/${data}/like`);
+}
+
+function* addLike(action) {
+  try {
+    const result = yield call(addLikeAPI, action.data);
+    yield put({
+      type: ADD_LIKE_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: ADD_LIKE_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function* watchLoadMyInfo() {
   yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
@@ -393,6 +413,10 @@ function* watchLoadRealtimeMathcing() {
   yield takeLatest(LOAD_REALTIME_MATCHING_REQUEST, loadRealtimeMathcing);
 }
 
+function* watchAddLike() {
+  yield takeLatest(ADD_LIKE_REQUEST, addLike);
+}
+
 export default function* userSaga() {
   yield all([
     yield fork(watchLoadMyInfo),
@@ -410,5 +434,6 @@ export default function* userSaga() {
     yield fork(watchLoadRecommendFriends),
     yield fork(watchLoadRankedFriends),
     yield fork(watchLoadRealtimeMathcing),
+    yield fork(watchAddLike),
   ]);
 }
