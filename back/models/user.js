@@ -39,6 +39,8 @@ module.exports = (sequelize, DataTypes) => {
     db.User.belongsToMany(db.User, { through: 'Like', as: 'Liked', foreignKey: 'LikerId' });
     db.User.hasMany(db.Schedule, { as: 'reqSchedule', foreignKey: 'UserId' });
     db.User.hasMany(db.Schedule, { as: 'resSchedule', foreignKey: 'FriendId' });
+    db.User.hasMany(db.ScheduleDetail, { as: 'reqCancellation', foreignKey: 'RequestId' });
+    db.User.hasMany(db.ScheduleDetail, { as: 'resCancellation', foreignKey: 'ResponseId' });
     db.User.hasOne(db.Userdetail);
     db.User.hasOne(db.Image);
   };

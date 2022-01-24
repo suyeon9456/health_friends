@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     db.Schedule.belongsTo(db.User, { as: 'Friend', foreignKey: 'FriendId' });
     db.Schedule.belongsTo(db.Gym);
     db.Schedule.belongsTo(db.Schedule, { as: 'Rematch' }); // schedule.addRematch 생성
+    db.Schedule.hasOne(db.ScheduleDetail, { as: 'Cancel', foreignKey: 'ScheduleId' });
   };
   return Schedule;
 }

@@ -17,7 +17,6 @@ const Modal = ({ show,
   form,
   footer }) => {
   useEffect(() => {
-    console.log('actions', actions);
     if (show) {
       document.body.style.cssText = `
         top: -${window.scrollY}px;

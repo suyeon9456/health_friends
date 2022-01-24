@@ -47,13 +47,13 @@ const MatchingCardList = ({ schedules }) => {
           const startDate = format(schedule.start, 'yyyy년 MM월 dd일 HH:mm');
           const endDate = format(schedule.end, 'HH:mm');
           const date = [startDate, ' ~ ', endDate].join('');
-          const friend = schedule?.friend?.id;
+          const friend = schedule?.Friend?.id;
           const nickname = friend === me?.id
-            ? schedule?.requester?.nickname
-            : schedule?.friend?.nickname;
+            ? schedule?.Requester?.nickname
+            : schedule?.Friend?.nickname;
           const imageSrc = friend === me?.id
-            ? schedule?.requester?.Image?.src
-            : schedule?.friend?.Image?.src;
+            ? schedule?.Requester?.Image?.src
+            : schedule?.Friend?.Image?.src;
           const cardImageSrc = imageSrc || '';
           // 오늘 일자보다 전 일자의 event는 -1을 리턴한다.
           const compareToday = compareAsc(new Date(schedule.start), new Date());

@@ -61,8 +61,8 @@ const MatchingCalendar = () => {
     if (!_.isEmpty(schedules)) {
       setEvents(schedules.map((schedule) => {
         const eventNickname = schedule?.Friend?.id === me?.id
-          ? schedule?.requester?.nickname
-          : schedule?.friend?.nickname;
+          ? schedule?.Requester?.nickname
+          : schedule?.Friend?.nickname;
         return { ...schedule, nickname: eventNickname };
       }));
     }

@@ -1,6 +1,6 @@
 const express = require('express');
 const { Op } = require('sequelize');
-const { Schedule, User, Gym, Userdetail } = require('../models');
+const { Schedule, ScheduleDetail, User, Gym, Userdetail, Image } = require('../models');
 
 const { isLoggedIn } = require('./middlewares');
 
@@ -96,18 +96,25 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
         model: User,
         as: 'Requester',
         attributes: [ 'id', 'nickname' ],
+        include: [{
+          model: Image,
+        }],
         //     [Sequelize.fn('count', Sequelize.col('Requester->reqSchedule.id')), 'count'],
       }, {
         model: User,
         as: 'Friend',
         attributes: [ 'id', 'nickname', ],
+        include: [{
+          model: Image,
+        }],
       }, {
         model: Gym,
         attributes: ['id', 'address', 'name'],
+      }, {
+        model: ScheduleDetail,
+        as: 'Cancel'
       }],
     });
-
-    console.log(schedule);
 
     const userMatching = await Schedule.findAll({
       attributes: [
@@ -224,6 +231,117 @@ router.put('/permission', isLoggedIn, async (req, res, next) => { // PUT /schedu
       }, {
         model: Gym,
         attributes: ['id', 'address', 'name'],
+      }, {
+        model: ScheduleDetail,
+        as: 'Cancel'
+      }],
+    });
+    res.status(201).json(updatedSchedule);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.post('/cancel', isLoggedIn, async (req, res, next) => { // POST /schedule/cancel
+  try {
+    console.log(req.user.id);
+    const schedule = await Schedule.findOne({ where: { id: req.body.id }, attributes: ['id'] });
+
+    if (!schedule) {
+      res.status(403).send('존재하지 않는 매칭입니다.');
+    }
+    
+    await ScheduleDetail.create({
+      RequestId: req.user.id,
+      ScheduleId: schedule.id,
+    });
+
+    const updatedSchedule = await Schedule.findOne({
+      where: { id: schedule.id },
+      attributes: [
+        'id',
+        'description',
+        'permission',
+        'isPermitted',
+        [Sequelize.fn('date_format', Sequelize.col('Schedule.startDate'), '%Y-%m-%d %H:%i'), 'startDate'],
+        [Sequelize.fn('date_format', Sequelize.col('Schedule.endDate'), '%Y-%m-%d %H:%i'), 'endDate']
+      ],
+      include: [{
+        model: User,
+        as: 'Requester',
+        attributes: [ 'id', 'nickname' ],
+      }, {
+        model: User,
+        as: 'Friend',
+        attributes: [ 'id', 'nickname', ],
+      }, {
+        model: Gym,
+        attributes: ['id', 'address', 'name'],
+      }, {
+        model: ScheduleDetail,
+        as: 'Cancel'
+      }],
+    });
+    res.status(201).json(updatedSchedule);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.put('/cancel', isLoggedIn, async (req, res, next) => { // PUT /schedule/cancel
+  try {
+    console.log(req.body);
+    const schedule = await Schedule.findOne({ where: { id: req.body.id }, attributes: ['id'] });
+
+    if (!schedule) {
+      res.status(403).send('존재하지 않는 매칭입니다.');
+    }
+    
+    await Schedule.update({ permission: false }, {
+      where: { id: req.body.id }
+    });
+
+    await ScheduleDetail.update({
+      ResponseId: req.user.id,
+      isCanceled: true,
+    }, {
+      where: { ScheduleId: req.body.id }
+    });
+
+    await Userdetail.update({ rematchingRate: req.body.userRematchRate }, {
+      where: { UserId: req.user.id }
+    });
+
+    await Userdetail.update({ rematchingRate: req.body.friendRematchRate }, {
+      where: { UserId: req.body.friendId }
+    });
+
+    const updatedSchedule = await Schedule.findOne({
+      where: { id: schedule.id },
+      attributes: [
+        'id',
+        'description',
+        'permission',
+        'isPermitted',
+        [Sequelize.fn('date_format', Sequelize.col('Schedule.startDate'), '%Y-%m-%d %H:%i'), 'startDate'],
+        [Sequelize.fn('date_format', Sequelize.col('Schedule.endDate'), '%Y-%m-%d %H:%i'), 'endDate']
+      ],
+      include: [{
+        model: User,
+        as: 'Requester',
+        attributes: [ 'id', 'nickname' ],
+      }, {
+        model: User,
+        as: 'Friend',
+        attributes: [ 'id', 'nickname', ],
+      }, {
+        model: Gym,
+        attributes: ['id', 'address', 'name'],
+      }, {
+        model: ScheduleDetail,
+        as: 'Cancel'
       }],
     });
     res.status(201).json(updatedSchedule);

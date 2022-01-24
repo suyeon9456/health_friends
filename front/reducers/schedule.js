@@ -22,6 +22,12 @@ const initialState = {
   updatePermissionLoading: false,
   updatePermissionDone: false,
   updatePermissionError: null,
+  addCancellationLoading: false,
+  addCancellationDone: false,
+  addCancellationError: null,
+  updateCancellationLoading: false,
+  updateCancellationDone: false,
+  updateCancellationError: null,
   schedules: [],
   schedulesCount: 0,
   schedule: null,
@@ -54,6 +60,14 @@ export const UPDATE_SCHEDULE_ERROR = 'UPDATE_SCHEDULE_ERROR';
 export const UPDATE_PERMISSION_REQUEST = 'UPDATE_PERMISSION_REQUEST';
 export const UPDATE_PERMISSION_SUCCESS = 'UPDATE_PERMISSION_SUCCESS';
 export const UPDATE_PERMISSION_ERROR = 'UPDATE_PERMISSION_ERROR';
+
+export const ADD_CANCELLATION_REQUEST = 'ADD_CANCELLATION_REQUEST';
+export const ADD_CANCELLATION_SUCCESS = 'ADD_CANCELLATION_SUCCESS';
+export const ADD_CANCELLATION_ERROR = 'ADD_CANCELLATION_ERROR';
+
+export const UPDATE_CANCELLATION_REQUEST = 'UPDATE_CANCELLATION_REQUEST';
+export const UPDATE_CANCELLATION_SUCCESS = 'UPDATE_CANCELLATION_SUCCESS';
+export const UPDATE_CANCELLATION_ERROR = 'UPDATE_CANCELLATION_ERROR';
 
 const reducer = (state = initialState, action) => (produce(state, (draft) => {
   switch (action.type) {
@@ -98,15 +112,11 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadSchedulesDone = true;
       draft.loadSchedulesError = null;
       draft.schedules = action.data.schedules.map((item) => ({
-        id: item.id,
+        ...item,
         start: new Date(item.startDate),
         end: new Date(item.endDate),
         address: item.Gym.address,
         gym: item.Gym.name,
-        description: item.description,
-        friend: item.Friend,
-        requester: item.Requester,
-        isPermitted: item.isPermitted,
       }));
       draft.schedulesCount = action.data.count;
       break;
@@ -126,15 +136,11 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadCalendarSchedulesDone = true;
       draft.loadCalendarSchedulesError = null;
       draft.schedules = action.data.map((item) => ({
-        id: item.id,
+        ...item,
         start: new Date(item.startDate),
         end: new Date(item.endDate),
         address: item.Gym.address,
         gymName: item.Gym.name,
-        description: item.description,
-        friend: item.Friend,
-        requester: item.Requester,
-        isPermitted: item.isPermitted,
       }));
       break;
     case LOAD_CALENDAR_SCHEDULES_ERROR:
@@ -157,17 +163,13 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadScheduleDone = true;
       draft.loadScheduleError = null;
       draft.schedule = {
-        id: schedule.id,
-        isPermitted: schedule.isPermitted,
+        ...schedule,
         start: new Date(schedule.startDate),
         end: new Date(schedule.endDate),
         nickname: schedule.Friend.nickname,
         address: schedule.Gym.address,
         gymId: schedule.Gym.id,
         gymName: schedule.Gym.name,
-        description: schedule.description,
-        friend: schedule.Friend,
-        requester: schedule.Requester,
         userMathcing: userMatching.map(({ FriendId }) => FriendId),
         userTotalCount,
         userReCount,
@@ -214,6 +216,36 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.schedules = draft.schedules.filter((item) => item.id !== action.data.id);
       break;
     case UPDATE_PERMISSION_ERROR:
+      draft.updatePermissionLoading = false;
+      draft.updatePermissionDone = false;
+      draft.updatePermissionError = action.error;
+      break;
+    case ADD_CANCELLATION_REQUEST:
+      draft.addPermissionLoading = true;
+      draft.addPermissionDone = false;
+      draft.addPermissionError = null;
+      break;
+    case ADD_CANCELLATION_SUCCESS:
+      draft.addPermissionLoading = false;
+      draft.addPermissionDone = true;
+      draft.addPermissionError = null;
+      break;
+    case ADD_CANCELLATION_ERROR:
+      draft.addPermissionLoading = false;
+      draft.addPermissionDone = false;
+      draft.addPermissionError = action.error;
+      break;
+    case UPDATE_CANCELLATION_REQUEST:
+      draft.updatePermissionLoading = true;
+      draft.updatePermissionDone = false;
+      draft.updatePermissionError = null;
+      break;
+    case UPDATE_CANCELLATION_SUCCESS:
+      draft.updatePermissionLoading = false;
+      draft.updatePermissionDone = true;
+      draft.updatePermissionError = null;
+      break;
+    case UPDATE_CANCELLATION_ERROR:
       draft.updatePermissionLoading = false;
       draft.updatePermissionDone = false;
       draft.updatePermissionError = action.error;

@@ -1,7 +1,7 @@
 import { all, fork, call, put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
-import { ADD_RE_SCHEDULE_ERROR, ADD_RE_SCHEDULE_REQUEST, ADD_RE_SCHEDULE_SUCCESS, ADD_SCHEDULE_ERROR, ADD_SCHEDULE_REQUEST, ADD_SCHEDULE_SUCCESS, LOAD_CALENDAR_SCHEDULES_ERROR, LOAD_CALENDAR_SCHEDULES_REQUEST, LOAD_CALENDAR_SCHEDULES_SUCCESS, LOAD_SCHEDULES_ERROR, LOAD_SCHEDULES_REQUEST, LOAD_SCHEDULES_SUCCESS, LOAD_SCHEDULE_ERROR, LOAD_SCHEDULE_REQUEST, LOAD_SCHEDULE_SUCCESS, UPDATE_PERMISSION_ERROR, UPDATE_PERMISSION_REQUEST, UPDATE_PERMISSION_SUCCESS, UPDATE_SCHEDULE_ERROR, UPDATE_SCHEDULE_REQUEST, UPDATE_SCHEDULE_SUCCESS } from '../reducers/schedule';
+import { ADD_CANCELLATION_ERROR, ADD_CANCELLATION_REQUEST, ADD_CANCELLATION_SUCCESS, ADD_RE_SCHEDULE_ERROR, ADD_RE_SCHEDULE_REQUEST, ADD_RE_SCHEDULE_SUCCESS, ADD_SCHEDULE_ERROR, ADD_SCHEDULE_REQUEST, ADD_SCHEDULE_SUCCESS, LOAD_CALENDAR_SCHEDULES_ERROR, LOAD_CALENDAR_SCHEDULES_REQUEST, LOAD_CALENDAR_SCHEDULES_SUCCESS, LOAD_SCHEDULES_ERROR, LOAD_SCHEDULES_REQUEST, LOAD_SCHEDULES_SUCCESS, LOAD_SCHEDULE_ERROR, LOAD_SCHEDULE_REQUEST, LOAD_SCHEDULE_SUCCESS, UPDATE_CANCELLATION_ERROR, UPDATE_CANCELLATION_REQUEST, UPDATE_CANCELLATION_SUCCESS, UPDATE_PERMISSION_ERROR, UPDATE_PERMISSION_REQUEST, UPDATE_PERMISSION_SUCCESS, UPDATE_SCHEDULE_ERROR, UPDATE_SCHEDULE_REQUEST, UPDATE_SCHEDULE_SUCCESS } from '../reducers/schedule';
 
 function addScheduleAPI(data) {
   return axios.post('/schedule', data);
@@ -142,6 +142,44 @@ function* updatePermission(action) {
   }
 }
 
+function addCancellationAPI(data) {
+  return axios.post('/schedule/cancel', data);
+}
+
+function* addCancellation(action) {
+  try {
+    const result = yield call(addCancellationAPI, action.data);
+    yield put({
+      type: ADD_CANCELLATION_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: ADD_CANCELLATION_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function updateCancellationAPI(data) {
+  return axios.put('/schedule/cancel', data);
+}
+
+function* updateCancellation(action) {
+  try {
+    const result = yield call(updateCancellationAPI, action.data);
+    yield put({
+      type: UPDATE_CANCELLATION_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: UPDATE_CANCELLATION_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function* watchAddSchedule() {
   yield takeLatest(ADD_SCHEDULE_REQUEST, addSchedule);
 }
@@ -170,6 +208,14 @@ function* watchUpdatePermission() {
   yield takeLatest(UPDATE_PERMISSION_REQUEST, updatePermission);
 }
 
+function* watchAddCancellation() {
+  yield takeLatest(ADD_CANCELLATION_REQUEST, addCancellation);
+}
+
+function* watchUpdateCancellation() {
+  yield takeLatest(UPDATE_CANCELLATION_REQUEST, updateCancellation);
+}
+
 export default function* userSaga() {
   yield all([
     yield fork(watchAddSchedule),
@@ -179,5 +225,7 @@ export default function* userSaga() {
     yield fork(watchLoadSchedule),
     yield fork(watchUpdateSchedule),
     yield fork(watchUpdatePermission),
+    yield fork(watchAddCancellation),
+    yield fork(watchUpdateCancellation),
   ]);
 }

@@ -67,7 +67,7 @@ const ModalMatchingEdit = ({ show, onCancel, mode }) => {
       console.log(friendId);
       setFNickname(friendId === me?.id ? requester?.nickname : friend?.nickname);
       setFId(friend === me?.id
-        ? schedule?.requester?.id
+        ? schedule?.Requester?.id
         : friendId);
       if (mode === 'edit') {
         setValue('startDate', start);
@@ -88,7 +88,7 @@ const ModalMatchingEdit = ({ show, onCancel, mode }) => {
       form
     >
       <MatchingRequestForm
-        friend={schedule?.friend}
+        friend={schedule?.Friend}
         control={control}
         errors={errors}
       />
