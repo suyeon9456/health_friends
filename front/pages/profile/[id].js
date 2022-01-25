@@ -12,6 +12,7 @@ import MoreInfo from '../../src/components/organisms/profile/MoreInfo';
 import MatchingCalendar from '../../src/components/organisms/profile/MatchingCalendar';
 import { LOAD_MY_INFO_REQUEST, LOAD_PROFILE_INFO_REQUEST, LOAD_PROFILE_MYINFO_REQUEST } from '../../reducers/user';
 import MatchingRecord from '../../src/components/organisms/profile/MatchingRecord';
+import LikedList from '../../src/components/organisms/profile/LikedList';
 import Row from '../../src/components/organisms/Row';
 import Col from '../../src/components/organisms/Col';
 import { Alert } from '../../src/components/molecules';
@@ -63,6 +64,7 @@ const Profile = () => {
         </Col>
         <Col xs={24} md={16}>
           {{
+            liked: <LikedList />,
             calendar: <MatchingCalendar />,
             record: <MatchingRecord />,
             info: (

@@ -27,7 +27,6 @@ export const CoupleHeaderTitle = styled.div`
 `;
 
 export const MatchingCoupleBody = styled.div`
-  /* background-color: red; */
   position: relative;
   padding: 20px 18px;
   @media (min-width: 768px) {

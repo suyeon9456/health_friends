@@ -85,6 +85,10 @@ router.get('/profile/myinfo', isLoggedIn, async (req, res, next) => {
         attributes: ['id', 'isPermitted', 'permission', [Sequelize.col('UserId'), 'FriendId']]
       }, {
         model: Image,
+      }, {
+        model: User,
+        as: 'Liked',
+        attributes: ['id'],
       }]
     });
     res.status(200).json(myinfo);
@@ -434,6 +438,20 @@ router.patch('/:userId/like', isLoggedIn, async (req, res, next) => {
     }
     await user.addLiker(req.user.id);
     res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
+router.get('/like', isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: { id: req.user.id },
+      attributes: ['id'],
+    });
+    const likedFriends = await user.getLiked({ attributes: ['id', 'nickname'] });
+    res.status(200).json(likedFriends);
   } catch (error) {
     console.log(error);
     next(error);

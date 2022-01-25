@@ -76,7 +76,12 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         model: User,
         as: 'Requester',
         attributes: ['id', 'nickname'],
-        include: [{ model: Image }],
+        include: [{
+          model: Image
+        }, {
+          model: User,
+          as: 'Liker',
+        }],
       }, {
         model: User,
         as: 'Friend',

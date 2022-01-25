@@ -28,6 +28,7 @@ export const CardCover = styled.div`
   margin-right: -1px;
   margin-left: -1px;
   height: 180px;
+  padding: 10px 0;
 
   & > * {
     display: block;
@@ -35,11 +36,12 @@ export const CardCover = styled.div`
   }
 
   & > img {
-    height: 100%;
-    border-radius: 2px 2px 0 0;
-    vertical-align: middle;
+    height: 160px;
+    width: 160px;
+    border-radius: 50%;
     border-style: none;
-    object-fit: cover;
+    /* object-fit: cover; */
+    margin: 0 auto;
   }
 
   & > div {

@@ -50,6 +50,9 @@ const initialState = {
   addLikeLoading: false,
   addLikeDone: false,
   addLikeError: null,
+  loadLikeLoading: false,
+  loadLikeDone: false,
+  loadLikeError: null,
   signupSteps: [
     { id: 1, type: 'process', step: 1, title: 'STEP1', description: '회원 정보' },
     { id: 2, type: 'wait', step: 2, title: 'STEP2', description: '추가 정보' },
@@ -99,6 +102,7 @@ const initialState = {
   additionalFriends: [],
   rankedFriends: null,
   realtimeMatching: null,
+  likedFriends: null,
 };
 
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
@@ -175,6 +179,10 @@ export const ADD_LIKE_REQUEST = 'ADD_LIKE_REQUEST';
 export const ADD_LIKE_SUCCESS = 'ADD_LIKE_SUCCESS';
 export const ADD_LIKE_ERROR = 'ADD_LIKE_ERROR';
 
+export const LOAD_LIKE_REQUEST = 'LOAD_LIKE_REQUEST';
+export const LOAD_LIKE_SUCCESS = 'LOAD_LIKE_SUCCESS';
+export const LOAD_LIKE_ERROR = 'LOAD_LIKE_ERROR';
+
 export const REMOVE_PROFILEIMAGE = 'REMOVE_PROFILEIMAGE';
 
 const reducer = (state = initialState, action) => (produce(state, (draft) => {
@@ -215,7 +223,7 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case LOAD_PROFILE_MYINFO_SUCCESS:
       draft.loadProfileMyinfoLoading = false;
       draft.loadProfileMyinfoDone = true;
-      draft.profile = action.data;
+      draft.profile = { ...action.data, Liked: action.data.Liked.map(({ id }) => id) };
       break;
     case LOAD_PROFILE_MYINFO_ERROR:
       draft.loadProfileMyinfoError = action.error;
@@ -470,11 +478,25 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case ADD_LIKE_SUCCESS:
       draft.addLikeLoading = false;
       draft.addLikeDone = true;
-      draft.realtimeMatching = action.data;
+      draft.addLikeError = null;
       break;
     case ADD_LIKE_ERROR:
       draft.addLikeError = action.error;
       draft.addLikeLoading = false;
+      break;
+    case LOAD_LIKE_REQUEST:
+      draft.loadLikeLoading = true;
+      draft.loadLikeDone = false;
+      draft.loadLikeError = null;
+      break;
+    case LOAD_LIKE_SUCCESS:
+      draft.loadLikeLoading = false;
+      draft.loadLikeDone = true;
+      draft.likedFriends = action.data;
+      break;
+    case LOAD_LIKE_ERROR:
+      draft.loadLikeError = action.error;
+      draft.loadLikeLoading = false;
       break;
     case REMOVE_PROFILEIMAGE:
       draft.imagePath = null;

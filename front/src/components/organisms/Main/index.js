@@ -15,16 +15,9 @@ const Main = () => {
   const dispatch = useDispatch();
   const [location, setLocation] = useState(null);
   const [locationYn, setLocationYn] = useState(false);
-  // const { drawerShow } = useShowState();
-  // const contextDispatch = useShowDispatch();
   const onChangeLocationYn = useCallback(() => {
     setLocationYn((prev) => !prev);
   }, []);
-  // useEffect(() => {
-  //   dispatch({
-  //     type: LOAD_MY_INFO_REQUEST,
-  //   });
-  // }, []);
 
   useEffect(() => {
     const geocoder = new kakao.maps.services.Geocoder();

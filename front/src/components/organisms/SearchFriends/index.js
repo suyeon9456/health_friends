@@ -65,6 +65,7 @@ const SearchFriends = ({ foldedGym,
                   date={user.Userdetail.startTime}
                   percent={user.Userdetail.rematchingRate}
                   onClick={onShowMatchingModal(user)}
+                  // likeAction={profile?.Liked.includes(id) ? <LikeTwoTone twoToneColor="#9254de" /> : <LikeOutlined />}
                   onLike={onLike(user)}
                 />
               );

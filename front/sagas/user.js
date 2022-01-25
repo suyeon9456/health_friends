@@ -3,6 +3,9 @@ import axios from 'axios';
 
 import { ADD_LIKE_ERROR, ADD_LIKE_REQUEST,
   ADD_LIKE_SUCCESS, ADD_PROFILEIMAGE_ERROR, ADD_PROFILEIMAGE_REQUEST, ADD_PROFILEIMAGE_SUCCESS,
+  LOAD_LIKE_ERROR,
+  LOAD_LIKE_REQUEST,
+  LOAD_LIKE_SUCCESS,
   LOAD_MY_INFO_ERROR,
   LOAD_MY_INFO_REQUEST,
   LOAD_MY_INFO_SUCCESS,
@@ -353,6 +356,25 @@ function* addLike(action) {
   }
 }
 
+function loadLikeAPI() {
+  return axios.get('/user/like');
+}
+
+function* loadLike() {
+  try {
+    const result = yield call(loadLikeAPI);
+    yield put({
+      type: LOAD_LIKE_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: LOAD_LIKE_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function* watchLoadMyInfo() {
   yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
@@ -417,6 +439,10 @@ function* watchAddLike() {
   yield takeLatest(ADD_LIKE_REQUEST, addLike);
 }
 
+function* watchLoadLike() {
+  yield takeLatest(LOAD_LIKE_REQUEST, loadLike);
+}
+
 export default function* userSaga() {
   yield all([
     yield fork(watchLoadMyInfo),
@@ -435,5 +461,6 @@ export default function* userSaga() {
     yield fork(watchLoadRankedFriends),
     yield fork(watchLoadRealtimeMathcing),
     yield fork(watchAddLike),
+    yield fork(watchLoadLike),
   ]);
 }

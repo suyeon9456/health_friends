@@ -6,7 +6,7 @@ import { CommentOutlined, HomeOutlined, TrophyOutlined } from '@ant-design/icons
 import useRate from '../../../../hooks/useRate';
 import { Avatar, Button, Form, Upload } from '../../../atoms';
 import Progress from '../../../molecules/Progress';
-import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, SideBarWrapper, SideMenu, SideMenuWrapper } from './style';
+import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, SideBarWrapper, SideMenu, SideMenuWrap } from './style';
 import { ADD_PROFILEIMAGE_REQUEST, REMOVE_PROFILEIMAGE, UPLOAD_PROFILEIMAGE_REQUEST } from '../../../../../reducers/user';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
 
@@ -129,11 +129,12 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           </div>
         </InfoContent>
       </InfoWrapper>
-      <SideMenuWrapper active={profileMenu}>
+      <SideMenuWrap active={profileMenu}>
         <SideMenu
           key="info"
           id="info"
           onClick={onClickMenu}
+          className={profileMenu === 'info' && 'active'}
         >
           {(me?.id && (profile?.id === me?.id)) ? '내정보' : '정보'}
         </SideMenu>
@@ -141,6 +142,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           key="calendar"
           id="calendar"
           onClick={onClickMenu}
+          className={profileMenu === 'calendar' && 'active'}
         >
           매칭일정
         </SideMenu>
@@ -148,6 +150,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           key="record"
           id="record"
           onClick={onClickMenu}
+          className={profileMenu === 'record' && 'active'}
         >
           매칭기록
         </SideMenu>
@@ -155,10 +158,11 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           key="liked"
           id="liked"
           onClick={onClickMenu}
+          className={profileMenu === 'liked' && 'active'}
         >
           관심친구
         </SideMenu>
-      </SideMenuWrapper>
+      </SideMenuWrap>
       <ModalMatchingRequest
         showModal={showModal}
         setShowModal={setShowModal}

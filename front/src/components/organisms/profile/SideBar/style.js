@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const SideBarWrapper = styled.section`
   display: flex;
@@ -10,7 +10,6 @@ export const SideBarWrapper = styled.section`
   border-radius: 5px;
   border: 1px solid #f0f0f0;
   margin-top: 10px;
-  /* box-shadow: -60px 0px 100px -90px #000000, 60px 0px 100px -90px #000000; */
 `;
 
 export const AvatarWrapper = styled.div`
@@ -68,14 +67,12 @@ export const InfoIconWrapper = styled.div`
   }
 `;
 
-export const SideMenuWrapper = styled.div`
-  /* display: flex; */
+export const SideMenuWrap = styled.div`
   width: 86%;
   position: relative;
   padding: 30px 0px;
   color: #000000d9;
   background: #fff;
-  /* border-bottom: 1px solid #f0f0f0; */
   border-radius: 2px 2px 0 0;
 
   @media (max-width: 767px) {
@@ -84,37 +81,15 @@ export const SideMenuWrapper = styled.div`
     padding: 10px 0px;
   }
 
-  ${({ active }) => {
-    if (active === 'info') {
-      return css`
-        & #info {
-          color: #9254de;
-        }
-      `;
-    }
-    if (active === 'calendar') {
-      return css`
-        & #calendar {
-          color: #9254de;
-        }
-      `;
-    }
-    if (active === 'record') {
-      return css`
-        & #record {
-          color: #9254de;
-        }
-      `;
-    }
-    return css`
-      color: #000000d9;
-    `;
-  }}
+  color: #000000d9;
+
+  & > .active {
+    color: #9254de;
+  }
 `;
 
 export const SideMenu = styled.div`
   margin: 15px 0;
-  /* text-decoration: none; */
   color: #000000d9;
   touch-action: manipulation;
   font-weight: 600;
