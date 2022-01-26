@@ -12,14 +12,16 @@ const MainBanner = ({ location }) => (
     <BannerImageWrap />
     <BannerImage />
     <BannerHeader>
-      <Link href="/friends">
-        <Button
-          type="primary"
-          size="large"
-          icon={<SearchOutlined />}
-        >
-          친구찾으러 가기
-        </Button>
+      <Link href="/friends" passHref>
+        <a>
+          <Button
+            type="primary"
+            size="large"
+            icon={<SearchOutlined />}
+          >
+            친구찾으러 가기
+          </Button>
+        </a>
       </Link>
       <BannerHeaderTitle>
         <span className="project-name">HEALTH FRIENDS</span> 에서<br />운동같이 할 친구찾기

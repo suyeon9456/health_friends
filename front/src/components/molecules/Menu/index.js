@@ -70,8 +70,10 @@ const Menu = () => {
               style={{ order: '3' }}
             >
               <MenuTitle>
-                <Link href="/profile/myinfo">
-                  <Avatar size="small" src={me?.Image ? `${me?.Image?.src}` : ''} />
+                <Link href="/profile/myinfo" passHref>
+                  <a>
+                    <Avatar size="small" src={me?.Image ? `${me?.Image?.src}` : ''} />
+                  </a>
                 </Link>
               </MenuTitle>
             </MenuItem>
