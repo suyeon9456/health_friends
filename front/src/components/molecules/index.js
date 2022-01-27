@@ -21,6 +21,7 @@ import BigCalendar from './BigCalendar';
 import BasicList from './BasicList';
 import Filter from './Filter';
 import FormRangeTimePicker from './FormRangeTimePicker';
+import BigCalendarToolbar from './BigCalendarToolbar';
 
 export {
   Alert,
@@ -46,4 +47,5 @@ export {
   BasicList,
   Filter,
   FormRangeTimePicker,
+  BigCalendarToolbar,
 };

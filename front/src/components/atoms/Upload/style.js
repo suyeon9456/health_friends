@@ -1,5 +1,5 @@
-import { UploadOutlined } from '@ant-design/icons';
 import styled, { css } from 'styled-components';
+import { BiUpload } from 'react-icons/bi';
 
 export const UploadContainer = styled.div`
   width: 120px;
@@ -51,7 +51,7 @@ export const UploadInput = styled.input`
   cursor: pointer;
 `;
 
-export const UploadIcon = styled(UploadOutlined)`
+export const UploadIcon = styled(BiUpload)`
   font-size: 20px;
   color: #969faf;
   width: 100%;

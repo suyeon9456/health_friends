@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { FormOutlined, HeartOutlined, MoreOutlined, UserOutlined } from '@ant-design/icons';
+import { BiDotsVerticalRounded, BiEdit, BiHeart, BiUser } from 'react-icons/bi';
+import { ImDrawer2 } from 'react-icons/im';
 
-import { LikedListWrap, LikedListBody, Card, CardCover, CardBody, CardMeta, MetaTitle, MetaActions, Action } from './style';
+import { LikedListWrap, LikedListBody, Card, CardCover, CardBody, CardMeta, MetaTitle, MetaActions, Action, Empty } from './style';
 import { LOAD_LIKE_REQUEST } from '../../../../../reducers/user';
+import { Icon } from '../../../atoms';
 
 const LikedList = () => {
   const dispatch = useDispatch();
@@ -15,34 +17,44 @@ const LikedList = () => {
     });
   }, []);
   return (
-    <LikedListWrap>
+    <LikedListWrap dataSize={likedFriends?.length}>
       <LikedListBody>
-        {likedFriends.map((friend) => (
-          <Card>
-            <CardCover>
-              {/* <img src="https://health-friends-s3.s3.ap-northeast-2.amazon…mb/1642487607429_KakaoTalk_20210720_234119257.jpg" alt="Test" /> */}
-              <div>
-                <UserOutlined />
-              </div>
-            </CardCover>
-            <CardBody>
-              <CardMeta>
-                <MetaTitle>{friend?.nickname}</MetaTitle>
-                <MetaActions>
-                  <Action>
-                    <HeartOutlined />
-                  </Action>
-                  <Action>
-                    <FormOutlined />
-                  </Action>
-                  <Action>
-                    <MoreOutlined />
-                  </Action>
-                </MetaActions>
-              </CardMeta>
-            </CardBody>
-          </Card>
-        ))}
+        {likedFriends?.length > 0
+          ? likedFriends.map((friend) => (
+            <Card key={friend.id}>
+              <CardCover>
+                {friend.Image
+                  ? <img src={friend.Image?.src} alt="profile_image" />
+                  : (
+                    <div>
+                      <Icon icon={<BiUser />} />
+                    </div>
+                  )}
+              </CardCover>
+              <CardBody>
+                <CardMeta>
+                  <MetaTitle>{friend.nickname}</MetaTitle>
+                  <MetaActions>
+                    <Action>
+                      <Icon icon={<BiHeart />} />
+                    </Action>
+                    <Action>
+                      <Icon icon={<BiEdit />} />
+                    </Action>
+                    <Action>
+                      <Icon icon={<BiDotsVerticalRounded />} />
+                    </Action>
+                  </MetaActions>
+                </CardMeta>
+              </CardBody>
+            </Card>
+          ))
+          : (
+            <Empty>
+              <Icon icon={<ImDrawer2 />} />
+              <div>데이터 없음</div>
+            </Empty>
+          )}
       </LikedListBody>
     </LikedListWrap>
   );

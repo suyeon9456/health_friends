@@ -4,6 +4,7 @@ import { format, parse, startOfWeek, getDay, compareAsc } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import PropTypes from 'prop-types';
 
+import BigCalendarToolbar from '../BigCalendarToolbar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const locales = { ko };
@@ -61,8 +62,8 @@ const BigCalendar = ({ events, onSelectEvent, onRangeChange }) => (
     components={{
       event: Event,
       agenda: { event: EventAgenda },
+      toolbar: BigCalendarToolbar,
     }}
-    tooltipAccessor="test"
   />
 );
 

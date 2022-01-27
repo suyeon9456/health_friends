@@ -450,7 +450,12 @@ router.get('/like', isLoggedIn, async (req, res, next) => {
       where: { id: req.user.id },
       attributes: ['id'],
     });
-    const likedFriends = await user.getLiked({ attributes: ['id', 'nickname'] });
+    const likedFriends = await user.getLiked({
+      attributes: ['id', 'nickname'],
+      include: [{
+        model: Image,
+      }]
+    });
     res.status(200).json(likedFriends);
   } catch (error) {
     console.log(error);

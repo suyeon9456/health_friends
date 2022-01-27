@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { CommentOutlined, HomeOutlined, TrophyOutlined } from '@ant-design/icons';
+import { BiTrophy, BiCommentCheck, BiBuildingHouse, BiUser, BiCalendar, BiReceipt, BiHeart } from 'react-icons/bi';
 
 import useRate from '../../../../hooks/useRate';
-import { Avatar, Button, Form, Upload } from '../../../atoms';
+import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
 import Progress from '../../../molecules/Progress';
-import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, SideBarWrapper, SideMenu, SideMenuWrap } from './style';
+import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, MenuText, SideBarWrapper, SideMenu, SideMenuWrap } from './style';
 import { ADD_PROFILEIMAGE_REQUEST, REMOVE_PROFILEIMAGE, UPLOAD_PROFILEIMAGE_REQUEST } from '../../../../../reducers/user';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
 
@@ -21,8 +21,8 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
     number: profile?.resSchedule?.filter((f) => f.isPermitted).length || 0,
   });
 
-  const onClickMenu = useCallback((e) => {
-    setProfileMenu(e.target.id);
+  const onClickMenu = useCallback((menu) => {
+    setProfileMenu(menu);
   }, [profileMenu]);
 
   useEffect(() => {
@@ -61,9 +61,6 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
   }, []);
 
   const onShowMatchingModal = useCallback(() => {
-    // if (!(me && me.id)) {
-    //   return setStateWarning(true);
-    // }
     setShowModal(true);
   }, [me && me.id]);
 
@@ -107,24 +104,24 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
       <InfoWrapper>
         <InfoContent key="matching">
           <InfoIconWrapper>
-            <TrophyOutlined />
+            <Icon icon={<BiTrophy />} />
           </InfoIconWrapper>
           <Progress label="재매칭률" percent={profile?.Userdetail?.rematchingRate} />
         </InfoContent>
         <InfoContent key="response">
           <InfoIconWrapper>
-            <CommentOutlined />
+            <Icon icon={<BiCommentCheck />} />
           </InfoIconWrapper>
           <Progress label="응답률" percent={responseRate || 0} />
         </InfoContent>
         <InfoContent key="address">
           <InfoIconWrapper>
-            <HomeOutlined />
+            <Icon icon={<BiBuildingHouse />} />
           </InfoIconWrapper>
           <div>
             <span>이용중인 헬스장: </span>
             {profile?.Gyms.map((gym) => (
-              <div key={gym.id}>{gym.address} <a>{gym.name}</a></div>
+              <div className="user-gym" key={gym.id}>{gym.address} <a>{gym.name}</a></div>
             ))}
           </div>
         </InfoContent>
@@ -133,34 +130,38 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
         <SideMenu
           key="info"
           id="info"
-          onClick={onClickMenu}
+          onClick={() => onClickMenu('info')}
           className={profileMenu === 'info' && 'active'}
         >
-          {(me?.id && (profile?.id === me?.id)) ? '내정보' : '정보'}
+          <Icon icon={<BiUser />} />
+          <MenuText>{(me?.id && (profile?.id === me?.id)) ? '내정보' : '정보'}</MenuText>
         </SideMenu>
         <SideMenu
           key="calendar"
           id="calendar"
-          onClick={onClickMenu}
+          onClick={() => onClickMenu('calendar')}
           className={profileMenu === 'calendar' && 'active'}
         >
-          매칭일정
+          <Icon icon={<BiCalendar />} />
+          <MenuText>매칭일정</MenuText>
         </SideMenu>
         <SideMenu
           key="record"
           id="record"
-          onClick={onClickMenu}
+          onClick={() => onClickMenu('record')}
           className={profileMenu === 'record' && 'active'}
         >
-          매칭기록
+          <Icon icon={<BiReceipt />} />
+          <MenuText>매칭기록</MenuText>
         </SideMenu>
         <SideMenu
           key="liked"
           id="liked"
-          onClick={onClickMenu}
+          onClick={() => onClickMenu('liked')}
           className={profileMenu === 'liked' && 'active'}
         >
-          관심친구
+          <Icon icon={<BiHeart />} />
+          <MenuText>관심친구</MenuText>
         </SideMenu>
       </SideMenuWrap>
       <ModalMatchingRequest

@@ -28,7 +28,6 @@ export const CardCover = styled.div`
   margin-right: -1px;
   margin-left: -1px;
   height: 180px;
-  padding: 10px 0;
 
   & > * {
     display: block;
@@ -36,12 +35,10 @@ export const CardCover = styled.div`
   }
 
   & > img {
-    height: 160px;
-    width: 160px;
-    border-radius: 50%;
+    height: 100%;
+    border-radius: 8px 8px 0 0;
     border-style: none;
-    /* object-fit: cover; */
-    margin: 0 auto;
+    object-fit: cover;
   }
 
   & > div {
@@ -136,7 +133,7 @@ export const CardActions = styled.ul`
 export const Action = styled.li`
   float: left;
   margin: 12px 0;
-  color: #555555;
+  color: #00000073;
   text-align: center;
   flex-grow: 1;
   cursor: pointer;

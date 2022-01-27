@@ -41,7 +41,7 @@ const Upload = ({ id, src, name, onChange, uploadError, onAddImage, onRemove }) 
             />
             <div>
               <UploadIcon />
-              <UploadText>profile image</UploadText>
+              <UploadText>프로필 이미지 선택</UploadText>
             </div>
           </UploadWrap>
         )}

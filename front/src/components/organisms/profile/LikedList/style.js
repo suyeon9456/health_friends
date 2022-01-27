@@ -1,53 +1,39 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const LikedListWrap = styled.div`
-  display: flex;
   position: relative;
-  flex-direction: column;
-  flex-wrap: nowrap;
   width: 100% - 10px;
-  background-color: #ffffff;
+  min-height: 626px;
   border-radius: 5px;
-  border: 1px solid #f0f0f0;
   @media (max-width: 767px) {
     margin-left: 0;
   }
   margin-left: 10px;
   margin-top: 10px;
-  padding: 10px 0px;
   box-sizing: border-box;
-  color: #000000d9;
   overflow: hidden;
+  ${({ dataSize }) => dataSize <= 0 && css`
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff;
+    border: 1px solid #f0f0f0;
+    text-align: center;
+    min-height: 326px;
+    & > div {
+      align-self: center;
+    }
+  `}
 `;
 
 export const LikedListBody = styled.div`
-  text-align: center;
-  padding: 0 10px;
-
+  display: block;
   width: auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-
-  & > div {
-    /* width: 30%; */
-    margin: 10px 0;
-    /* margin: 10px; */
-
-    @media (max-width: 1129px) {
-      /* width: 45%; */
-    }
-
-    @media (max-width: 767px) {
-      /* flex: 1 1 30%; */
-      /* width: 100%; */
-    }
-  }
+  text-align: left;
 `;
 
 export const Card = styled.div`
   display: inline-block;
-  width: 200px;
+  width: 24%;
   height: 190px;
   border: 1px solid #f0f0f0;
   box-sizing: border-box;
@@ -61,7 +47,30 @@ export const Card = styled.div`
   font-feature-settings: "tnum";
   position: relative;
   background: #fff;
-  border-radius: 20px;
+  border-radius: 8px;
+  text-align: center;
+
+  @media(min-width: 951px) {
+    &:nth-child(2n){
+      margin: 0 5px;
+    }
+    &:not(:nth-child(-n+4)) {
+      margin-top: 4px;
+    }
+  }
+  box-sizing: border-box;
+  @media(max-width: 950px) {
+    width: 32%;
+    &:not(:nth-child(3n)):not(:nth-child(3n + 1)) {
+      margin: 0 5px;
+    }
+    &:not(:nth-child(-n+3)) {
+      margin-top: 4px;
+    }
+  }
+  @media(max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 export const CardCover = styled.div`
@@ -131,17 +140,71 @@ export const MetaTitle = styled.div`
 
 export const MetaActions = styled.div`
   display: flex;
-  justify-content: space-around;
   margin: 0;
-  padding: 0 10px;
+  padding: 0;
+  list-style: none;
+  background: #fff;
+  border-top: 1px solid #f0f0f0;
+  border-radius: 0 0 8px 8px;
+    &::before {
+      display: table;
+      content: "";
+    }
+    &::after {
+      display: table;
+      clear: both;
+      content: "";
+    }
+    & > li:not(:last-child) {
+      border-right: 1px solid #f0f0f0;
+    }
 `;
 
-export const Action = styled.div`
-  width: 50px;
-  height: 40px;
-  border: 1px solid #f0f0f0;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #555555;
-  padding: 6px 0;
+export const Action = styled.li`
+  float: left;
+  margin: 12px 0;
+  color: #00000073;
+  text-align: center;
+  flex-grow: 1;
+  cursor: pointer;
+  
+  & > * {
+    font-size: 16px;
+    line-height: 22px;
+
+    &:hover {
+      color: #9254de;
+    }
+  }
+
+  &:hover {
+    & > * {
+      color: #9254de;
+    }
+  }
+
+  ${({ disabled }) => disabled && css`
+    color: #00000040;
+    cursor: default;
+    &:hover {
+      & > * {
+        color: #00000040;
+      }
+    }
+  `}
+`;
+
+export const Empty = styled.div`
+  text-align: center;
+  align-self: center;
+  & > .icon {
+    font-size: 150px;
+    @media (max-width: 767px) {
+      font-size: 100px;
+    }
+  }
+  
+  & > * {
+    color: #00000012;
+  }
 `;

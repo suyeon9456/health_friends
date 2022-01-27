@@ -2,10 +2,11 @@ import React, { useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { format, compareAsc } from 'date-fns';
-import { EditOutlined, PushpinOutlined, RetweetOutlined } from '@ant-design/icons';
+import { BiEdit, BiPin, BiRepeat } from 'react-icons/bi';
 
 import ModalMatchingDetail from '../profile/ModalMatchingDetail';
 import { MatchingCardListWrap } from './style';
+import { Icon } from '../../atoms';
 import { MatchingCard } from '../../molecules';
 import { LOAD_SCHEDULE_REQUEST } from '../../../../reducers/schedule';
 import ModalMatchingEdit from '../profile/ModalMatchingEdit';
@@ -67,9 +68,9 @@ const MatchingCardList = ({ schedules }) => {
               date={date}
               start={schedule.start}
               onClickView={onClickAction}
-              actions={me?.id === profile?.id ? [{ icon: <PushpinOutlined />, key: 'fix', onClick: onClickAction },
-                { icon: <RetweetOutlined />, key: 'rematch', onClick: onClickAction },
-                { icon: <EditOutlined />, key: 'edit', onClick: onClickAction, disabled: compareToday < 0 }] : []}
+              actions={me?.id === profile?.id ? [{ icon: <Icon icon={<BiPin />} />, key: 'fix', onClick: onClickAction },
+                { icon: <Icon icon={<BiRepeat />} />, key: 'rematch', onClick: onClickAction },
+                { icon: <Icon icon={<BiEdit />} />, key: 'edit', onClick: onClickAction, disabled: compareToday < 0 }] : []}
             />
           );
         })}

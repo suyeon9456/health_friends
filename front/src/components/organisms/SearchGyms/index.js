@@ -73,7 +73,7 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
         },
       });
     }
-  }, [isLoadGyms]);
+  }, [isLoadGyms, mapBounds]);
 
   useEffect(() => {
     if (!foldedFriends) {

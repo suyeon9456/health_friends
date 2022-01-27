@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../src/scss/css/global.css';
 import 'slick-carousel/slick/slick.css';

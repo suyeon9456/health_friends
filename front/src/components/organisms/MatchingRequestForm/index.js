@@ -72,7 +72,6 @@ const MatchingRequestForm = ({ friend, control, errors }) => {
 MatchingRequestForm.propTypes = {
   friend: PropTypes.any,
   // startDate: PropTypes.instanceOf(Date).isRequired,
-  description: PropTypes.string.isRequired,
   errors: PropTypes.object,
   control: PropTypes.any,
 };

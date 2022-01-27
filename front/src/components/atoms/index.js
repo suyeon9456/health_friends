@@ -22,6 +22,7 @@ import Upload from './Upload';
 import CheckBox from './CheckBox';
 import Form from './Form';
 import ErrorMessage from './ErrorMessage';
+import Icon from './Icon';
 
 export {
   Avatar,
@@ -48,4 +49,5 @@ export {
   CheckBox,
   Form,
   ErrorMessage,
+  Icon,
 };

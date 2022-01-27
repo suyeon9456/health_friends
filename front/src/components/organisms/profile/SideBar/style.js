@@ -53,16 +53,18 @@ export const InfoContent = styled.div`
   }
   & > div {
     overflow: hidden;
-    & > div {
+    & > .user-gym {
       color: #00000073;
+      font-size: 14px;
     }
   }
 `;
 
 export const InfoIconWrapper = styled.div`
   float: left;
-  & .anticon {
+  & > .icon {
     font-size: 18px;
+    line-height: 1.7;
     margin-right: 10px;
   }
 `;
@@ -70,7 +72,7 @@ export const InfoIconWrapper = styled.div`
 export const SideMenuWrap = styled.div`
   width: 86%;
   position: relative;
-  padding: 30px 0px;
+  padding: 0 0 30px 0;
   color: #000000d9;
   background: #fff;
   border-radius: 2px 2px 0 0;
@@ -78,13 +80,15 @@ export const SideMenuWrap = styled.div`
   @media (max-width: 767px) {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0px;
+    padding: 10px 0;
   }
 
   color: #000000d9;
 
   & > .active {
-    color: #9254de;
+    & > span {
+      color: #9254de;
+    }
   }
 `;
 
@@ -95,13 +99,32 @@ export const SideMenu = styled.div`
   font-weight: 600;
   cursor: pointer;
 
+  & > .icon {
+    display: none;
+    color: #00000073;
+    font-size: 22px;
+
+    @media (max-width: 767px) {
+      display: inline-block;
+    }
+    &:hover {
+      color: #9254de;
+    }
+  }
+
   @media (max-width: 767px) {
     min-width: 80px;
     text-align: center;
     margin: 5px 0;
   }
+`;
 
-  &:hover {
-    color: #9254de;
+export const MenuText = styled.span`
+  display: inline-block;
+  margin-left: 2px;
+  font-size: 14px;
+
+  @media (max-width: 767px) {
+    display: none;
   }
 `;
