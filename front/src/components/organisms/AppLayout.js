@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { useShowState } from '../../../store/contextStore';
 
 import { Menu, DrawerMenu } from '../molecules';
-import { Row, Col } from './index';
+import Row from './Row';
+import Col from './Col';
 
 const AppLayout = ({ children, spanNumber }) => {
   const { drawerShow } = useShowState();

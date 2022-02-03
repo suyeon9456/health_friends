@@ -14,6 +14,9 @@ import SearchFriends from './SearchFriends';
 import SearchMap from './SearchMap';
 import SearchSidebar from './SearchSidebar';
 import AppLayout from './AppLayout';
+import SideBar from './profile/SideBar';
+import Info from './profile/Info';
+import MoreInfo from './profile/MoreInfo';
 
 export {
   Col,
@@ -32,4 +35,7 @@ export {
   SearchMap,
   SearchSidebar,
   AppLayout,
+  SideBar,
+  Info,
+  MoreInfo,
 };
