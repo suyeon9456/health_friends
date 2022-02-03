@@ -9,7 +9,9 @@ import useInput from '../../../hooks/useInput';
 
 import { Search, Item, Button } from '../../atoms';
 import { Alert } from '../../molecules';
-import { SearchFriends, SearchSidebar, ModalMatchingRequest } from '../index';
+import SearchFriends from '../SearchFriends';
+import SearchSidebar from '../SearchSidebar';
+import ModalMatchingRequest from '../ModalMatchingRequest';
 import { SearchHeader, SearchWrapper, SearchTitle, SearchFormWrapper, SearchListWrapper, GymWrapper, FoldButton } from './style';
 
 const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }) => {
