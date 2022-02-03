@@ -5,20 +5,19 @@ import { format, startOfMonth, endOfMonth, addDays } from 'date-fns';
 import * as _ from 'lodash';
 
 import { LOAD_CALENDAR_SCHEDULES_REQUEST } from '../../../../../reducers/schedule';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { useDateFormat } from '../../../../hooks';
+
 import { BigCalendar, SimpleMatchingCard } from '../../../molecules';
 import { CalendarWrap, CardWrap } from './style';
-import { useDateFormat } from '../../../../hooks';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const actions = [{ icon: <UserAddOutlined />, key: 'rematch' }, { icon: <EditOutlined />, key: 'edit' }];
 const MatchingCalendar = () => {
   const dispatch = useDispatch();
+
   const { schedules } = useSelector((state) => state.schedule);
   const { me } = useSelector((state) => state.user);
-  // let myEventsList = [
-  //   { start: new Date('2021-10-26'), end: new Date('2021-10-26'), nickname: 'jaeuk1' },
-  //   // { start: new Date('2021-10-26'), end: new Date('2021-10-26'), nickname: 'jaeuk2' },
-  // ];
+
   const [events, setEvents] = useState([]);
   const [showCard, setShowCard] = useState(false);
   const [nickname, setNickname] = useState('');

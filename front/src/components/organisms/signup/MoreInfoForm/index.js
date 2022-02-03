@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 import { SIGN_UP_STEP_MORE_INFO_SAVE, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV } from '../../../../../reducers/user';
+
 import { Button, Form } from '../../../atoms';
 import { FormSelect } from '../../../molecules';
 import { ButtonWrap, MoreInfoFormWrapper } from './style';
 
 const MoreInfoForm = () => {
-  const { careerOptions, roleOptions, signupStepMoreInfo,
-    genderOptions, ageOptions } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  const { careerOptions, roleOptions, signupStepMoreInfo,
+    genderOptions, ageOptions } = useSelector((state) => state.user);
   const { handleSubmit, control } = useForm({
     defaultValues: {
       gender: signupStepMoreInfo?.gender || 'male',

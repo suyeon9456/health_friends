@@ -5,17 +5,11 @@ export const ShowDispatchContext = createContext(null);
 
 export const initialState = {
   drawerShow: false,
+  alertShow: false,
+  modalShow: false,
+  editNickname: false,
+  editDescription: false,
 };
-
-// const ShowStateStore = ({ children }) => {
-//   const [state, dispatch] = useReducer(movieReducer, initialState);
-
-//   return (
-//     <ShowStateContext.Provider>
-//       {children}
-//     </ShowStateContext.Provider>
-//   );
-// };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -23,6 +17,16 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         drawerShow: action.value,
+      };
+    case 'CHANGE_STATE_ALERT':
+      return {
+        ...state,
+        alertShow: action.value,
+      };
+    case 'CHANGE_STATE_MODAL':
+      return {
+        ...state,
+        modalShow: action.value,
       };
     default:
       return state;
@@ -36,6 +40,6 @@ export const useShowState = () => {
 };
 export const useShowDispatch = () => {
   const dispatch = useContext(ShowDispatchContext);
-  if (!dispatch) throw new Error('errorororoor');
+  if (!dispatch) throw new Error('error');
   return dispatch;
 };

@@ -1,27 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 import { LeftOutlined, RightOutlined, TeamOutlined } from '@ant-design/icons';
 
 import { LOAD_GYM_REQUEST, LOAD_FRIENDS_REQUEST } from '../../../../reducers/gym';
 import useInput from '../../../hooks/useInput';
-import { SearchHeader,
-  SearchWrapper,
-  SearchTitle,
-  SearchFormWrapper,
-  SearchListWrapper,
-  GymWrapper, FoldButton } from './style';
+
 import { Search, Item, Button } from '../../atoms';
 import { Alert } from '../../molecules';
-import SearchFriends from '../SearchFriends';
-import SearchSidebar from '../SearchSidebar';
-import ModalMatchingRequest from '../ModalMatchingRequest';
+import { SearchFriends, SearchSidebar, ModalMatchingRequest } from '../index';
+import { SearchHeader, SearchWrapper, SearchTitle, SearchFormWrapper, SearchListWrapper, GymWrapper, FoldButton } from './style';
 
 const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }) => {
   const router = useRouter();
-  const { searchText } = router.query;
   const dispatch = useDispatch();
+
+  const { searchText } = router.query;
   const { mapBounds,
     gyms,
     hasMoreGyms,

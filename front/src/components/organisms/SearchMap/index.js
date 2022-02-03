@@ -1,22 +1,25 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as _ from 'lodash';
 import PropTypes from 'prop-types';
+import * as _ from 'lodash';
 import { ReloadOutlined } from '@ant-design/icons';
 
-import { MapWrap } from './style';
-import { Button } from '../../atoms';
 import { CHANGE_MAP_BOUNDS, IS_LOAD_GYMS, LOAD_FRIENDS_REQUEST } from '../../../../reducers/gym';
+
+import { Button } from '../../atoms';
+import { MapWrap } from './style';
 import styles from '../../../scss/searchMap.module.scss';
 
 const SearchMap = ({ foldedFriends, setFoldedFriends }) => {
+  const dispatch = useDispatch();
+
+  const { gym, gyms } = useSelector((state) => state.gym);
+
   const map = useRef(null);
   const customOverlay = useRef(null);
-  const [showButton, setShowButton] = useState(false);
 
-  const dispatch = useDispatch();
-  const { gym, gyms } = useSelector((state) => state.gym);
+  const [showButton, setShowButton] = useState(false);
   const [browserHeight, setBrowserHeight] = useState(500);
   const [bounds, setBounds] = useState(null);
 
@@ -25,7 +28,7 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }) => {
       type: IS_LOAD_GYMS,
       data: true,
     });
-  }, [bounds]);
+  }, []);
 
   const onClickGym = useCallback((gymId) => () => {
     if (foldedFriends) {

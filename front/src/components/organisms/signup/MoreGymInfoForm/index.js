@@ -4,16 +4,17 @@ import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 
 import { SIGN_UP_STEP_GYM_INFO_SAVE, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV } from '../../../../../reducers/user';
+
 import { Button, Form } from '../../../atoms';
 import { FormInput, FormRangeTimePicker, FormTextarea } from '../../../molecules';
 import ModalGym from './ModalGym';
 import { ButtonWrap, FormSearchGymWrap, FormWrapper } from './style';
 
 const MoreGymInfoForm = () => {
-  const { signupStepGymInfo, selectedGym } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(false);
 
+  const { signupStepGymInfo, selectedGym } = useSelector((state) => state.user);
+  const [showModal, setShowModal] = useState(false);
   const { handleSubmit, control, setValue } = useForm({
     defaultValues: {
       startTime: signupStepGymInfo?.startDate || new Date(),

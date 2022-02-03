@@ -4,17 +4,17 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { CloseOutlined, LoginOutlined, LogoutOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
 
-import { Button, Avatar } from '../../atoms';
-
-import { Drawer, DrawerBody, DrawerContent, DrawerContentWrap, DrawerHeader, DrawerHeaderTitle, DrawerMask, DrawerTitle, DrawerWrapBody, MemberMenu, MemberMenuItem, Menu, MenuItem, MenuText, MenuTitle } from './style';
 import { LOG_OUT_REQUEST } from '../../../../reducers/user';
 import { useShowDispatch } from '../../../../store/contextStore';
 
-const DrawerMenu = ({ drawerShow }) => {
-  const { me } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+import { Button, Avatar } from '../../atoms';
+import { Drawer, DrawerBody, DrawerContent, DrawerContentWrap, DrawerHeader, DrawerHeaderTitle, DrawerMask, DrawerTitle, DrawerWrapBody, MemberMenu, MemberMenuItem, Menu, MenuItem, MenuText, MenuTitle } from './style';
 
+const DrawerMenu = ({ drawerShow }) => {
+  const dispatch = useDispatch();
   const contextDispatch = useShowDispatch();
+
+  const { me } = useSelector((state) => state.user);
 
   const onLogout = useCallback(() => {
     dispatch({ type: LOG_OUT_REQUEST });
@@ -26,6 +26,7 @@ const DrawerMenu = ({ drawerShow }) => {
       value: !drawerShow,
     });
   }, [drawerShow]);
+
   return (
     <Drawer drawerShow={drawerShow}>
       <DrawerMask className="mask" />
@@ -79,10 +80,10 @@ const DrawerMenu = ({ drawerShow }) => {
             <DrawerBody>
               <Menu>
                 {
-                  me && me?.id && (
+                  me?.id && (
                     <MenuItem>
                       <MenuTitle>
-                        <Link href="/profile/myinfo">
+                        <Link href="/myinfo">
                           <MenuText>
                             <UserOutlined />
                             {me?.nickname}님 프로필

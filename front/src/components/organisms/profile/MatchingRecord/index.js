@@ -3,16 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PlusOutlined } from '@ant-design/icons';
 
 import { LOAD_SCHEDULES_REQUEST } from '../../../../../reducers/schedule';
+
 import { Button, CheckBox } from '../../../atoms';
 import { Filter } from '../../../molecules';
-import { CancelYnCheckBoxWrap, FilterList, RecordBody, RecordFooter, RecordWrap } from './style';
 import MatchingCardList from '../../MatchingCardList';
+import { CancelYnCheckBoxWrap, FilterList, RecordBody, RecordFooter, RecordWrap } from './style';
 
 const MatchingRecord = () => {
-  const { schedules, schedulesCount } = useSelector((state) => state.schedule);
   const dispatch = useDispatch();
-  const [schedulesLimit, setSchedulesLimit] = useState(3);
 
+  const { schedules, schedulesCount } = useSelector((state) => state.schedule);
+  const [schedulesLimit, setSchedulesLimit] = useState(3);
   const [status, setStatus] = useState([]);
   const [term, setTerm] = useState([]);
   const [type, setType] = useState([]);

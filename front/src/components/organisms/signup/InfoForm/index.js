@@ -5,9 +5,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { SIGN_UP_STEP_INFO_SAVE, SIGN_UP_STEP_NEXT } from '../../../../../reducers/user';
-import { ButtonWrap, InfoFormWrapper } from './style';
+
 import { Button, Form } from '../../../atoms';
 import { FormInput } from '../../../molecules';
+import { ButtonWrap, InfoFormWrapper } from './style';
 
 const schema = yup.object({
   email: yup.string()
@@ -25,9 +26,9 @@ const schema = yup.object({
 }).required();
 
 const InfoForm = () => {
-  const { signupStepInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  const { signupStepInfo } = useSelector((state) => state.user);
   const { handleSubmit, control, formState: { errors } } = useForm({
     defaultValues: {
       email: signupStepInfo?.email || '',
@@ -39,7 +40,6 @@ const InfoForm = () => {
   });
 
   const onNextClick = useCallback((data) => {
-    console.log(data);
     dispatch({
       type: SIGN_UP_STEP_INFO_SAVE,
       data,

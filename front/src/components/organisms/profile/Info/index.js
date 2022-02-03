@@ -2,23 +2,22 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BiEdit } from 'react-icons/bi';
 
+import { UPDATE_MY_DESCRIPTION_REQUEST, UPDATE_MY_NICKNAME_REQUEST } from '../../../../../reducers/user';
 import useInput from '../../../../hooks/useInput';
+
 import { Button, Icon, Input } from '../../../atoms';
 import { ContentText, ContentTitle, InfoBody, InfoButtonWrapper, InfoContent, InfoContentWrapper, InfoHeader, InfoWrapper } from './style';
-import { UPDATE_MY_DESCRIPTION_REQUEST, UPDATE_MY_NICKNAME_REQUEST } from '../../../../../reducers/user';
 
 const Info = () => {
-  const { me,
-    profile,
-    updateMyNicknameDone, updateMyDescriptionDone } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  const { me, profile,
+    updateMyNicknameDone, updateMyDescriptionDone } = useSelector((state) => state.user);
   const [isEditNickname, setIsEditNickname] = useState(false);
   const [isEditDescription, setIsEditDescription] = useState(false);
 
-  const [nickname, onChangeNickname, setNickname] = useInput('');
-  const [description,
-    onChangeDescription,
-    setDescription] = useInput('');
+  const [nickname, onChangeNickname] = useInput(profile?.nickname || '');
+  const [description, onChangeDescription] = useInput(profile?.description || '');
 
   const onChangeIsEditNickname = useCallback(() => {
     setIsEditNickname((prev) => !prev);
@@ -41,19 +40,6 @@ const Info = () => {
       data: { description },
     });
   }, [description]);
-
-  useEffect(() => {
-    // console.log(stateWarning);
-    // console.log(!(me && me.id));
-    // if (!(me && me.id)) {
-    //   setStateWarning(true);
-    // }
-  }, [me && me.id]);
-
-  useEffect(() => {
-    setNickname(profile?.nickname);
-    setDescription(profile?.Userdetail?.description);
-  }, [profile]);
 
   useEffect(() => {
     if (updateMyNicknameDone) {

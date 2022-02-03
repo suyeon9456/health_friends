@@ -1,45 +1,50 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import Link from 'next/link';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { LOG_IN_REQUEST } from '../../../../reducers/user';
 import { Button, Form } from '../../atoms';
-import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
 import { Alert, FormInput } from '../../molecules';
+import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
+import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 
 const schema = yup.object({
   email: yup.string()
     .email('email 형식이 아닙니다.')
     .required('email은 필수 항목입니다.'),
-  password: yup.string()
-    .required('비밀번호는 필수 항목입니다.'),
+  password: yup.string().required('비밀번호는 필수 항목입니다.'),
 }).required();
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const contextDispatch = useShowDispatch();
+
   const { loginError } = useSelector((state) => state.user);
-  const [loginErrorAlert, setLoginErrorAlert] = useState(loginError);
+  const { alertShow } = useShowState();
 
   const { handleSubmit, control, formState: { errors } } = useForm({
     defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema),
   });
 
+  const changeShowAlert = useCallback(() => {
+    contextDispatch({
+      type: 'CHANGE_STATE_ALERT',
+      value: !alertShow,
+    });
+  }, [alertShow]);
+
   const onLogin = useCallback((data, e) => {
     e.preventDefault();
     dispatch({ type: LOG_IN_REQUEST, data });
   }, []);
 
-  const onChangeLoginErrorAlert = useCallback(() => {
-    setLoginErrorAlert(false);
-  }, []);
-
   useEffect(() => {
     if (loginError) {
-      setLoginErrorAlert(true);
+      changeShowAlert();
     }
   }, [loginError]);
 
@@ -70,12 +75,12 @@ const LoginForm = () => {
       <ButtonWrapper>
         <div>
           <Button>
-            <Link href="/">
+            <Link href="/" passHref>
               <a>아이디 찾기</a>
             </Link>
           </Button>
           <Button>
-            <Link href="/">
+            <Link href="/" passHref>
               <a>비밀번호 찾기</a>
             </Link>
           </Button>
@@ -87,12 +92,12 @@ const LoginForm = () => {
         </Button>
       </ButtonWrapper>
       <Alert
-        show={loginErrorAlert}
+        show={alertShow}
         type="error"
         action={(
           <Button
             type="error"
-            onClick={onChangeLoginErrorAlert}
+            onClick={changeShowAlert}
             block
           >
             확인

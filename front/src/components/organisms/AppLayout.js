@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Row, Col } from 'antd';
 
-import Menu from '../molecules/Menu';
-import DrawerMenu from '../molecules/DrawerMenu';
 import { useShowState } from '../../../store/contextStore';
-import Row from './Row';
-import Col from './Col';
+
+import { Menu, DrawerMenu } from '../molecules';
+import { Row, Col } from './index';
 
 const AppLayout = ({ children, spanNumber }) => {
   const { drawerShow } = useShowState();
@@ -14,7 +12,6 @@ const AppLayout = ({ children, spanNumber }) => {
     <div>
       <Menu />
       <Row justify="center">
-        {/* <Col xs={24} md={20} offset={2}> */}
         <Col span={spanNumber || 22}>
           {children}
         </Col>

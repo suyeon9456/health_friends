@@ -11,7 +11,6 @@ import { ShowStateContext, reducer, initialState, ShowDispatchContext } from '..
 
 const App = ({ Component }) => {
   // Component는 index.js 의 리턴 부분
-  console.log('App');
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <>
