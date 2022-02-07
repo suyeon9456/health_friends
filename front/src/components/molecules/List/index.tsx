@@ -1,10 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Item from '../../atoms/Item';
 import { ListCard } from './style';
 
-const List = ({ list, ...props }) => (
+const List = ({ list, ...props }: { list: Array<{ title: string, description: string }> }) => (
   <ListCard
     {...props}
   >
@@ -13,10 +12,5 @@ const List = ({ list, ...props }) => (
     ))}
   </ListCard>
 );
-
-List.propTypes = {
-  list: PropTypes.array,
-  props: PropTypes.any,
-};
 
 export default List;

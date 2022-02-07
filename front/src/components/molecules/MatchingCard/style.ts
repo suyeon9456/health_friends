@@ -130,7 +130,7 @@ export const CardActions = styled.ul`
     }
 `;
 
-export const Action = styled.li`
+export const Action = styled.li<{ disabled: boolean }>`
   float: left;
   margin: 12px 0;
   color: #00000073;
