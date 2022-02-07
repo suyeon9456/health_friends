@@ -1,17 +1,25 @@
 import React, { useReducer } from 'react';
 import Head from 'next/head';
-import PropTypes from 'prop-types';
-// import 'antd/dist/antd.css';
+import { AppProps } from 'next/app';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../src/scss/css/global.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import wrapper from '../store/configureStore';
-import { ShowStateContext, reducer, initialState, ShowDispatchContext } from '../store/contextStore';
+import { ShowStateContext, reducer, ShowDispatchContext } from '../store/contextStore';
+import { myTheme } from '../src/styles/theme';
+import { ThemeProvider } from 'styled-components';
 
-const App = ({ Component }) => {
+const App = ({ Component }: AppProps) => {
   // Component는 index.js 의 리턴 부분
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, {
+    drawerShow: false,
+    alertShow: false,
+    modalShow: false,
+    editNickname: false,
+    editDescription: false,
+  });
+  console.log('dispatch  ', dispatch);
   return (
     <>
       <Head>
@@ -22,15 +30,13 @@ const App = ({ Component }) => {
       </Head>
       <ShowStateContext.Provider value={state}>
         <ShowDispatchContext.Provider value={dispatch}>
-          <Component />
+          <ThemeProvider theme={myTheme}>
+            <Component />
+          </ThemeProvider>
         </ShowDispatchContext.Provider>
       </ShowStateContext.Provider>
     </>
   );
-};
-
-App.propTypes = {
-  Component: PropTypes.elementType.isRequired,
 };
 
 export default wrapper.withRedux(App);
