@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { useShowState } from '../../../store/contextStore';
 
@@ -7,7 +6,8 @@ import { Menu, DrawerMenu } from '../molecules';
 import Row from './Row';
 import Col from './Col';
 
-const AppLayout = ({ children, spanNumber }) => {
+const AppLayout = ({ children, spanNumber }:
+  { children: React.ReactNode, spanNumber: number  }) => {
   const { drawerShow } = useShowState();
   return (
     <div>
@@ -20,11 +20,6 @@ const AppLayout = ({ children, spanNumber }) => {
       <DrawerMenu drawerShow={drawerShow} />
     </div>
   );
-};
-
-AppLayout.propTypes = {
-  children: PropTypes.node.isRequired,
-  spanNumber: PropTypes.number,
 };
 
 export default AppLayout;

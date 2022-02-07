@@ -1,10 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { StepsWrapper } from './style';
-import Step from '../../atoms/Step';
+import { Step } from '../../atoms';
 
-const Steps = ({ steps, process }) => (
+const Steps = ({ steps, process }: {
+  steps: Array<{ step: number; id: number | string; title: string; description: string }>,
+  process: number,
+}) => (
   <StepsWrapper>
     {steps.map((step) => {
       let type = 'wait';
@@ -22,16 +24,10 @@ const Steps = ({ steps, process }) => (
           step={step.step}
           title={step.title}
           description={step.description}
-          process={process}
         />
       );
     })}
   </StepsWrapper>
 );
-
-Steps.propTypes = {
-  steps: PropTypes.array.isRequired,
-  process: PropTypes.number.isRequired,
-};
 
 export default Steps;

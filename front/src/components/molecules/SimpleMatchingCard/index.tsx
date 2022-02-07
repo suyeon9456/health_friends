@@ -1,12 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { CloseOutlined, RightOutlined } from '@ant-design/icons';
 
 import Avatar from '../../atoms/Avatar';
 import { SimpleCard, SimpleCardMeta, MetaTitle, AvatarWrapper, MetaAddress, MatchingDateWrapper, MatchingDate, CardClose } from './style';
 import { Button } from '../../atoms';
 
-const SimpleMatchingCard = ({ nickname, address, date, avatarSize, onChangeShow }) => (
+const SimpleMatchingCard = ({ nickname, address, date, avatarSize, onChangeShow }: {
+  nickname: string,
+  address: string,
+  date: string,
+  avatarSize?: string,
+  onChangeShow?: () => void,
+}) => (
   <SimpleCard>
     <CardClose>
       <CloseOutlined onClick={onChangeShow} />
@@ -24,13 +29,5 @@ const SimpleMatchingCard = ({ nickname, address, date, avatarSize, onChangeShow 
     </MatchingDateWrapper>
   </SimpleCard>
 );
-
-SimpleMatchingCard.propTypes = {
-  nickname: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  avatarSize: PropTypes.string,
-  onChangeShow: PropTypes.func,
-};
 
 export default SimpleMatchingCard;

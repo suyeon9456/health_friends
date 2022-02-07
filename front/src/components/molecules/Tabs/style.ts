@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const TabsWrapper = styled.div`
+export const TabsWrapper = styled.div<{ block: boolean }>`
   display: flex;
   width: 100%;
 
