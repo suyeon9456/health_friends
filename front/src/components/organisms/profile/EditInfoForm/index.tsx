@@ -1,15 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
+import { RootState } from '@/../store/configureStore';
 import { FormRangeTimePicker, FormSelect } from '../../../molecules';
 import { FormWrap } from './style';
 
-const EditInfoForm = ({ targetId, control }) => {
+const EditInfoForm = ({ targetId, control }: {
+  targetId: string,
+  control: any,
+}) => {
   const { careerOptions,
     roleOptions,
     genderOptions,
-    ageOptions } = useSelector((state) => state.user);
+    ageOptions } = useSelector((state: RootState) => state.user);
   return (
     <FormWrap>
       <FormSelect
@@ -49,11 +52,6 @@ const EditInfoForm = ({ targetId, control }) => {
       />
     </FormWrap>
   );
-};
-
-EditInfoForm.propTypes = {
-  targetId: PropTypes.string.isRequired,
-  control: PropTypes.any,
 };
 
 export default EditInfoForm;

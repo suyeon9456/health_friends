@@ -10,6 +10,7 @@ const SimpleMatchingCard = ({ nickname, address, date, avatarSize, onChangeShow 
   address: string,
   date: string,
   avatarSize?: string,
+  actions?: Array<{ icon: React.ReactNode, key: string }>,
   onChangeShow?: () => void,
 }) => (
   <SimpleCard>

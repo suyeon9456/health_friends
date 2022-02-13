@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import { RootState } from '@/../store/configureStore';
 import { ADD_SCHEDULE_REQUEST } from '../../../../reducers/schedule';
 import { Avatar } from '../../atoms';
 import { Modal } from '../../molecules';
@@ -17,11 +17,16 @@ const schema = yup.object({
   gym: yup.string().required('헬스장은 필수 항목입니다.'),
 }).required();
 
-const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }) => {
+const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }: {
+  showModal: boolean,
+  setShowModal: (prop: boolean) => void,
+  friend: { id: number, nickname: string, UserGym: { GymId?: number } }
+  gymName?: string,
+}) => {
   const dispatch = useDispatch();
-  const { me } = useSelector((state) => state.user);
-  const { gym } = useSelector((state) => state.gym);
-  const { addScheduleDone } = useSelector((state) => state.schedule);
+  const { me } = useSelector((state: RootState) => state.user);
+  const { gym } = useSelector((state: RootState) => state.gym);
+  const { addScheduleDone } = useSelector((state: RootState) => state.schedule);
 
   const { handleSubmit, control, setValue } = useForm({
     defaultValues: {
@@ -56,7 +61,7 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }) => {
 
   useEffect(() => {
     if (gym) {
-      setValue(`${gym?.address}${gym?.name}`);
+      setValue('gym', `${gym?.address}${gym?.name}`);
     }
   }, [gym]);
 
@@ -71,7 +76,7 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }) => {
       show={showModal}
       title={(
         <div>
-          <Avatar size="small" style={{ marginRight: '10px' }} />
+          <Avatar size="small" {...{ style: { marginRight: '10px' } }} />
           {friend?.nickname}님에게 매칭신청
         </div>
       )}
@@ -84,13 +89,6 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }) => {
       <MatchingRequestForm control={control} />
     </Modal>
   );
-};
-
-ModalMatchingRequest.propTypes = {
-  showModal: PropTypes.bool.isRequired,
-  setShowModal: PropTypes.func.isRequired,
-  friend: PropTypes.any,
-  gymName: PropTypes.any,
 };
 
 export default ModalMatchingRequest;

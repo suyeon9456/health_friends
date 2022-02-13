@@ -7,12 +7,13 @@ import useInput from '../../../../hooks/useInput';
 
 import { Button, Icon, Input } from '../../../atoms';
 import { ContentText, ContentTitle, InfoBody, InfoButtonWrapper, InfoContent, InfoContentWrapper, InfoHeader, InfoWrapper } from './style';
+import { RootState } from '@/../store/configureStore';
 
 const Info = () => {
   const dispatch = useDispatch();
 
   const { me, profile,
-    updateMyNicknameDone, updateMyDescriptionDone } = useSelector((state) => state.user);
+    updateMyNicknameDone, updateMyDescriptionDone } = useSelector((state: RootState) => state.user);
   const [isEditNickname, setIsEditNickname] = useState(false);
   const [isEditDescription, setIsEditDescription] = useState(false);
 

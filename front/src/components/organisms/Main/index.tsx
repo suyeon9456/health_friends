@@ -1,30 +1,45 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { LOAD_MY_INFO_REQUEST, LOAD_RECOMMEND_FRIENDS_REQUEST } from '../../../../reducers/user';
+import { END } from 'redux-saga';
+import { GetServerSideProps } from 'next';
 import MainBanner from './MainBanner';
 import RankedFriends from './RankedFriends';
 import RealTimeMatchingCouple from './RealTimeMatchingCouple';
 import wrapper from '../../../../store/configureStore';
+import axios from 'axios';
 
+import { Store } from 'redux';
+import { LOAD_MY_INFO_REQUEST, LOAD_RECOMMEND_FRIENDS_REQUEST } from '../../../../reducers/user';
 import { MainBannerWrap, MainBodyWrap, MainWrap } from './style';
 import { Alert } from '../../molecules';
 import { Button } from '../../atoms';
 
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 const Main = () => {
   const dispatch = useDispatch();
-  const [location, setLocation] = useState(null);
-  const [locationYn, setLocationYn] = useState(false);
+  const [location, setLocation] = useState<{
+    regionSiName: string | null,
+    regionGuName: string | null,
+    regionDongName: string | null,
+    mainAddressNo: string | null,
+  } | null>(null);
+  const [locationYn, setLocationYn] = useState<boolean>(false);
+
   const onChangeLocationYn = useCallback(() => {
     setLocationYn((prev) => !prev);
   }, []);
 
   useEffect(() => {
-    const geocoder = new kakao.maps.services.Geocoder();
-    console.log('navigator', navigator.geolocation);
+    const geocoder = new window.kakao.maps.services.Geocoder();
+    // console.log('navigator', navigator.geolocation);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log('position : ', position);
         const lat = position.coords.latitude; // 위도
         const lon = position.coords.longitude; // 경도
         // const locPosition = new kakao.maps.LatLng(lat, lon);
@@ -32,21 +47,22 @@ const Main = () => {
         // const message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
         // // 마커와 인포윈도우를 표시합니다
         // displayMarker(locPosition, message);
-        geocoder.coord2Address(lon, lat, (result, status) => {
-          if (status === kakao.maps.services.Status.OK) {
-            console.log('address', result[0].address);
-            const regionSiName = result[0].address.region_1depth_name;
-            const regionGuName = result[0].address.region_2depth_name;
-            const regionDongName = result[0].address.region_3depth_name;
-            const mainAddressNo = result[0].address.main_address_no;
-            setLocation({
-              regionSiName,
-              regionGuName,
-              regionDongName,
-              mainAddressNo,
-            });
-          }
-        });
+        geocoder.coord2Address(lon, lat, (
+          result: Array<{ address: {[k: string]: any} | null, load_address: object | null }>, status: string) => {
+            if (status === window.kakao.maps.services.Status.OK) {
+              console.log('address', result[0].address);
+              const regionSiName = result[0]?.address?.region_1depth_name;
+              const regionGuName = result[0]?.address?.region_2depth_name;
+              const regionDongName = result[0]?.address?.region_3depth_name;
+              const mainAddressNo = result[0]?.address?.main_address_no;
+              setLocation({
+                regionSiName,
+                regionGuName,
+                regionDongName,
+                mainAddressNo,
+              });
+            }
+          });
       }, ({ code: errorCode }) => {
         console.error(errorCode);
         if (errorCode === 1) {
@@ -61,16 +77,15 @@ const Main = () => {
         }
       });
     } else {
-      console.log('X');
       // const locPosition = new kakao.maps.LatLng(33.450701, 126.570667);
       // const message = 'geolocation을 사용할수 없어요..';
-      geocoder.coord2Address(33.450701, 126.570667, (result, status) => {
-        if (status === kakao.maps.services.Status.OK) {
-          // console.log(result);
-          const regionSiName = result[0].address.region_1depth_name;
-          const regionGuName = result[0].address.region_2depth_name;
-          const regionDongName = result[0].address.region_3depth_name;
-          const mainAddressNo = result[0].address.main_address_no;
+      geocoder.coord2Address(33.450701, 126.570667, (
+        result: Array<{ address: {[k: string]: any} | null, load_address: object | null }>, status: string) => {
+        if (status === window.kakao.maps.services.Status.OK) {
+          const regionSiName = result[0]?.address?.region_1depth_name;
+          const regionGuName = result[0]?.address?.region_2depth_name;
+          const regionDongName = result[0]?.address?.region_3depth_name;
+          const mainAddressNo = result[0]?.address?.main_address_no;
           setLocation({
             regionSiName,
             regionGuName,
@@ -120,17 +135,23 @@ const Main = () => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req }) => {
-  const cookie = req ? req.headers.cookie : '';
-  axios.defaults.headers.Cookie = '';
-  if (req && cookie) {
-    axios.defaults.headers.Cookie = cookie;
-  }
-  store.dispatch({
-    type: LOAD_MY_INFO_REQUEST,
+export const getServerSideProps: GetServerSideProps = wrapper
+  .getServerSideProps((store) => async ({ req }) => {
+    const cookie = req ? req.headers.cookie : '';
+    axios!.defaults!.headers!.Cookie = '';
+    if (req && cookie) {
+      axios!.defaults!.headers!.Cookie = cookie;
+    }
+    store.dispatch({
+      type: LOAD_MY_INFO_REQUEST,
+    });
+    store.dispatch(END);
+    await (store as Store).sagaTask!.toPromise();
+    return {
+      props: {
+        allPostsData: {},
+      },
+    };
   });
-  store.dispatch(END);
-  await store.sagaTask.toPromise();
-});
 
 export default Main;

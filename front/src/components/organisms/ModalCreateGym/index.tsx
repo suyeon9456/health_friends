@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
 
 import { CreateFormWrap, FormSearchPostcode } from './style';
 import { Button } from '../../atoms';
@@ -16,6 +15,17 @@ const ModalCreateGym = ({ sido,
   setLongitude,
   name,
   onChangeName,
+}: {
+  sido: string,
+  setSido: () => void,
+  sigungu: string,
+  setSigungu: () => void,
+  address: string,
+  setAddress: () => void,
+  setLatitude: () => void,
+  setLongitude: () => void,
+  name: string,
+  onChangeName: () => void,
 }) => {
   const [showPostcode, setShowPostcode] = useState(false);
   const changeShowPostcode = useCallback(() => {
@@ -29,8 +39,8 @@ const ModalCreateGym = ({ sido,
           label="시 / 도"
           placeholder="주소를 검색해주세요."
           essential
-          value={sido}
           disabled
+          {...{ value: sido }}
         />
         <div className="button-wrap">
           <div />
@@ -46,22 +56,21 @@ const ModalCreateGym = ({ sido,
         label="시 / 군 / 구"
         placeholder="주소를 검색해주세요."
         essential
-        value={sigungu}
         disabled
+        {...{ value: sigungu }}
       />
       <FormInput
         label="상세주소"
         placeholder="주소를 검색해주세요."
         essential
-        value={address}
         disabled
+        {...{ value: address }}
       />
       <FormInput
         label="헬스장명"
         placeholder="헬스장명을 입력해주세요."
         essential
-        value={name}
-        onChange={onChangeName}
+        {...{ value: name, onChange: onChangeName }}
       />
       {showPostcode && (
         <KakaoPostcode
@@ -77,19 +86,6 @@ const ModalCreateGym = ({ sido,
       )}
     </CreateFormWrap>
   );
-};
-
-ModalCreateGym.propTypes = {
-  sido: PropTypes.string,
-  setSido: PropTypes.func,
-  sigungu: PropTypes.string,
-  setSigungu: PropTypes.func,
-  address: PropTypes.string,
-  setAddress: PropTypes.func,
-  setLatitude: PropTypes.func,
-  setLongitude: PropTypes.func,
-  name: PropTypes.string,
-  onChangeName: PropTypes.func,
 };
 
 export default ModalCreateGym;

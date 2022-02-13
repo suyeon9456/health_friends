@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { format, compareAsc } from 'date-fns';
 import { BiEdit, BiPin, BiRepeat } from 'react-icons/bi';
 
@@ -10,10 +9,30 @@ import { Icon } from '../../atoms';
 import { MatchingCard } from '../../molecules';
 import { LOAD_SCHEDULE_REQUEST } from '../../../../reducers/schedule';
 import ModalMatchingEdit from '../profile/ModalMatchingEdit';
+import { RootState } from '@/../store/configureStore';
 
-const MatchingCardList = ({ schedules }) => {
+interface Schedules {
+  schedules: Array<{
+    id: number,
+    description: string,
+    permission: boolean,
+    isPermitted: boolean,
+    startDate: string,
+    endDate: string,
+    start: Date | number,
+    end: Date | number,
+    address: string,
+    gym: string,
+    Requester: { nickname: string, Image: { src: string } },
+    Friend: { id: number, nickname: string, Image: { src: string } },
+    Gym: Array<any>,
+    Cancel: object,
+  }>
+}
+
+const MatchingCardList = ({ schedules }: Schedules) => {
   const dispatch = useDispatch();
-  const { me, profile } = useSelector((state) => state.user);
+  const { me, profile } = useSelector((state: RootState) => state.user);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [modalType, setModalType] = useState('view');
@@ -45,8 +64,8 @@ const MatchingCardList = ({ schedules }) => {
     <>
       <MatchingCardListWrap>
         {schedules?.map((schedule) => {
-          const startDate = format(schedule.start, 'yyyy년 MM월 dd일 HH:mm');
-          const endDate = format(schedule.end, 'HH:mm');
+          const startDate = format(schedule?.start, 'yyyy년 MM월 dd일 HH:mm');
+          const endDate = format(schedule?.end, 'HH:mm');
           const date = [startDate, ' ~ ', endDate].join('');
           const friend = schedule?.Friend?.id;
           const nickname = friend === me?.id
@@ -61,12 +80,11 @@ const MatchingCardList = ({ schedules }) => {
           return (
             <MatchingCard
               key={schedule.id}
-              id={schedule.id}
+              matchingId={schedule.id}
               nickname={nickname}
               description={schedule.address + schedule.gym}
               image={cardImageSrc}
               date={date}
-              start={schedule.start}
               onClickView={onClickAction}
               actions={me?.id === profile?.id ? [{ icon: <Icon icon={<BiPin />} />, key: 'fix', onClick: onClickAction },
                 { icon: <Icon icon={<BiRepeat />} />, key: 'rematch', onClick: onClickAction },
@@ -83,10 +101,6 @@ const MatchingCardList = ({ schedules }) => {
       />
     </>
   );
-};
-
-MatchingCardList.propTypes = {
-  schedules: PropTypes.array,
 };
 
 export default MatchingCardList;

@@ -1,16 +1,19 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 
+import { RootState } from '@/../store/configureStore';
 import useInput from '../../../hooks/useInput';
 import { SELECT_GYM } from '../../../../reducers/user';
-import { BoxContent, GymListWrap, ListCard } from './style';
-import { Search, Item } from '../../atoms';
 import { LOAD_GYM_REQUEST } from '../../../../reducers/gym';
+import { Search, Item } from '../../atoms';
+import { BoxContent, GymListWrap, ListCard } from './style';
 
-const ModalSearchGym = ({ setShowModal, setGym }) => {
+const ModalSearchGym = ({ setShowModal, setGym }: {
+  setShowModal: (state: boolean) => void,
+  setGym: (name: string, value: string) => void,
+}) => {
   const dispatch = useDispatch();
-  const { gyms } = useSelector((state) => state.gym);
+  const { gyms } = useSelector((state: RootState) => state.gym);
 
   const [searchWord, onChangeSearchWord] = useInput('');
 
@@ -47,7 +50,11 @@ const ModalSearchGym = ({ setShowModal, setGym }) => {
       />
       <GymListWrap>
         <ListCard>
-          {gyms.map((gym) => (
+          {gyms.map((gym: {
+            id: number,
+            name: string,
+            address: string,
+          }) => (
             <Item
               key={gym.id}
               title={gym.name}
@@ -59,11 +66,6 @@ const ModalSearchGym = ({ setShowModal, setGym }) => {
       </GymListWrap>
     </BoxContent>
   );
-};
-
-ModalSearchGym.propTypes = {
-  setShowModal: PropTypes.func,
-  setGym: PropTypes.func,
 };
 
 export default ModalSearchGym;

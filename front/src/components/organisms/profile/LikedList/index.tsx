@@ -3,13 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { BiDotsVerticalRounded, BiEdit, BiHeart, BiUser } from 'react-icons/bi';
 import { ImDrawer2 } from 'react-icons/im';
 
-import { LikedListWrap, LikedListBody, Card, CardCover, CardBody, CardMeta, MetaTitle, MetaActions, Action, Empty } from './style';
+import { RootState } from '@/../store/configureStore';
 import { LOAD_LIKE_REQUEST } from '../../../../../reducers/user';
 import { Icon } from '../../../atoms';
+import { LikedListWrap, LikedListBody, Card, CardCover, CardBody, CardMeta, MetaTitle, MetaActions, Action, Empty } from './style';
 
 const LikedList = () => {
   const dispatch = useDispatch();
-  const { likedFriends } = useSelector((state) => state.user);
+  const { likedFriends } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     dispatch({
@@ -20,7 +21,11 @@ const LikedList = () => {
     <LikedListWrap dataSize={likedFriends?.length}>
       <LikedListBody>
         {likedFriends?.length > 0
-          ? likedFriends.map((friend) => (
+          ? likedFriends.map((friend: {
+            id: number,
+            Image: { src: string },
+            nickname: string,
+          }) => (
             <Card key={friend.id}>
               <CardCover>
                 {friend.Image

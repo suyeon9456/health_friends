@@ -4,8 +4,9 @@ import { EditOutlined, UserAddOutlined } from '@ant-design/icons';
 import { format, startOfMonth, endOfMonth, addDays } from 'date-fns';
 import * as _ from 'lodash';
 
-import { LOAD_CALENDAR_SCHEDULES_REQUEST } from '../../../../../reducers/schedule';
+import { RootState } from '@/../store/configureStore';
 import { useDateFormat } from '../../../../hooks';
+import { LOAD_CALENDAR_SCHEDULES_REQUEST } from '../../../../../reducers/schedule';
 
 import { BigCalendar, SimpleMatchingCard } from '../../../molecules';
 import { CalendarWrap, CardWrap } from './style';
@@ -15,14 +16,14 @@ const actions = [{ icon: <UserAddOutlined />, key: 'rematch' }, { icon: <EditOut
 const MatchingCalendar = () => {
   const dispatch = useDispatch();
 
-  const { schedules } = useSelector((state) => state.schedule);
-  const { me } = useSelector((state) => state.user);
+  const { schedules } = useSelector((state: RootState) => state.schedule);
+  const { me } = useSelector((state: RootState) => state.user);
 
   const [events, setEvents] = useState([]);
-  const [showCard, setShowCard] = useState(false);
-  const [nickname, setNickname] = useState('');
-  const [address, setAddress] = useState('');
-  const [date, setDate] = useState('');
+  const [showCard, setShowCard] = useState<boolean>(false);
+  const [nickname, setNickname] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [date, setDate] = useState<string>('');
 
   const onSelectEvent = useCallback((event) => {
     setNickname(event.nickname);
@@ -58,7 +59,10 @@ const MatchingCalendar = () => {
 
   useEffect(() => {
     if (!_.isEmpty(schedules)) {
-      setEvents(schedules.map((schedule) => {
+      setEvents(schedules.map((schedule: {
+        Friend: { id: number, nickname: string },
+        Requester: { nickname: string },
+      }) => {
         const eventNickname = schedule?.Friend?.id === me?.id
           ? schedule?.Requester?.nickname
           : schedule?.Friend?.nickname;

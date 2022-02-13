@@ -6,10 +6,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { LOG_IN_REQUEST } from '../../../../reducers/user';
-import { Button, Form } from '../../atoms';
-import { Alert, FormInput } from '../../molecules';
+import { Alert, FormInput } from '@/components/molecules';
+import { Button, Form } from '@/components/atoms';
 import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
+import { RootState } from '@/../store/configureStore';
 
 const schema = yup.object({
   email: yup.string()
@@ -22,7 +23,7 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const contextDispatch = useShowDispatch();
 
-  const { loginError } = useSelector((state) => state.user);
+  const { loginError } = useSelector((state: RootState) => state.user);
   const { alertShow } = useShowState();
 
   const { handleSubmit, control, formState: { errors } } = useForm({
@@ -43,6 +44,7 @@ const LoginForm = () => {
   }, []);
 
   useEffect(() => {
+    console.log('control', control);
     if (loginError) {
       changeShowAlert();
     }

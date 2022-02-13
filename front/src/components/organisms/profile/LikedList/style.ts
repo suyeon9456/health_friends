@@ -12,7 +12,7 @@ export const LikedListWrap = styled.div`
   margin-top: 10px;
   box-sizing: border-box;
   overflow: hidden;
-  ${({ dataSize }) => dataSize <= 0 && css`
+  ${({ dataSize }: { dataSize: number }) => dataSize <= 0 && css`
     display: flex;
     justify-content: center;
     background-color: #ffffff;
@@ -183,7 +183,7 @@ export const Action = styled.li`
     }
   }
 
-  ${({ disabled }) => disabled && css`
+  ${({ disabled }: { disabled?: boolean }) => disabled && css`
     color: #00000040;
     cursor: default;
     &:hover {
