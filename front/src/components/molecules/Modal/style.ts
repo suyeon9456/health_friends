@@ -16,7 +16,7 @@ export const ModalMask = styled.div`
   background-color: #00000073;
 `;
 
-export const ModalWrap = styled.div`
+export const ModalWrap = styled.div<{ show?: boolean }>`
   position: fixed;
   top: 0;
   right: 0;

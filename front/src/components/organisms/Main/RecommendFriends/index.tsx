@@ -1,19 +1,20 @@
 import React, { useCallback } from 'react';
 import Link from 'next/link';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { EnvironmentOutlined } from '@ant-design/icons';
 import Slider from 'react-slick';
 import * as _ from 'lodash';
 
+import { RootState } from '@/../store/configureStore';
+import { BiCurrentLocation } from 'react-icons/bi';
 import { FriendsWrap, FriendsTitle, FriendsSubTitle, FriendsBody, FriendsCardList, FriendsCard, CardAvatarWrap, CardContentWrap, ContentTitile, ContentDescription, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
-import { Avatar } from '../../../atoms';
-// import NoDataIcon from '../../../atoms/NoDataIcon';
-import NoDataIcon from '../../../atoms/NoDataIcon';
-import ReactSliderNextButton from '../../../atoms/ReactSliderNextButton';
-import ReactSliderPrevButton from '../../../atoms/ReactSliderPrevButton';
+import { Avatar, Icon, NoDataIcon, ReactSliderNextButton, ReactSliderPrevButton } from '../../../atoms';
 
-const RecommendFriends = ({ location }) => {
+const RecommendFriends = ({ location }: { location: {
+    regionSiName: string | null,
+    regionGuName: string | null,
+    regionDongName: string | null,
+    mainAddressNo: string | null,
+  } | null }) => {
   const settings = {
     dots: true,
     speed: 500,
@@ -46,15 +47,16 @@ const RecommendFriends = ({ location }) => {
     }],
   };
 
+  const { recommendedFriends, closedFriends } = useSelector((state: RootState) => state.user);
+
   const reLoadLocation = useCallback(() => {
     console.log('??');
   }, []);
 
-  const { recommendedFriends, closedFriends } = useSelector((state) => state.user);
   return (
     <FriendsWrap>
       <FriendsTitle>
-        <EnvironmentOutlined /> {`${location?.regionSiName || ''} ${location?.regionGuName || ''} ${location?.regionDongName || ''}`}에서 활동하는 친구 {closedFriends?.length}명
+        <Icon icon={<BiCurrentLocation />} /> {`${location?.regionSiName || ''} ${location?.regionGuName || ''} ${location?.regionDongName || ''}`}에서 활동하는 친구 {closedFriends?.length}명
       </FriendsTitle>
       <FriendsSubTitle onClick={reLoadLocation}>
         실제위치와 일치하지 않으신가요?
@@ -64,7 +66,12 @@ const RecommendFriends = ({ location }) => {
           {!_.isEmpty(recommendedFriends)
             ? (
               <Slider {...settings}>
-                {recommendedFriends.map((friend) => (
+                {recommendedFriends.map((friend: {
+                  id: number,
+                  Image: { src: string } | null,
+                  nickname: string,
+                  Gyms: Array<{ address: string }>
+                }) => (
                   <FriendsCard key={friend.id}>
                     <CardAvatarWrap>
                       <Avatar size={82} src={friend?.Image ? `${friend?.Image?.src}` : ''} />
@@ -95,10 +102,6 @@ const RecommendFriends = ({ location }) => {
       </FriendsBody>
     </FriendsWrap>
   );
-};
-
-RecommendFriends.propTypes = {
-  location: PropTypes.any,
 };
 
 export default RecommendFriends;

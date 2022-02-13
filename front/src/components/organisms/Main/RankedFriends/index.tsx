@@ -2,14 +2,29 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import * as _ from 'lodash';
-import { LOAD_RANKED_FRIENDS_REQUEST } from '../../../../../reducers/user';
+import { RootState } from '@/../store/configureStore';
 
+import { LOAD_RANKED_FRIENDS_REQUEST } from '../../../../../reducers/user';
 import { RankItem, RankTitle, RankCard, RankCardList, RankCardWrap, RankedFriendsBody, RankedFriendsHeader, RankedFriendsWrap, RankItemWrap, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
 import NoDataIcon from '../../../atoms/NoDataIcon';
 
+interface Matching {
+  count: number,
+  id: number
+  nickname: string,
+  reqSchedule: Array<{ id: number }>,
+}
+
+interface ReMatching {
+  count: number,
+  id: number
+  nickname: string,
+  reqSchedule: Array<{ id: number }>,
+}
+
 const RankedFriends = () => {
   const dispatch = useDispatch();
-  const { rankedFriends } = useSelector((state) => state.user);
+  const { rankedFriends } = useSelector((state: RootState) => state.user);
   useEffect(() => {
     dispatch({
       type: LOAD_RANKED_FRIENDS_REQUEST,
@@ -29,7 +44,7 @@ const RankedFriends = () => {
             </RankTitle>
             <RankCard>
               {!_.isEmpty(rankedFriends?.rematching)
-                ? rankedFriends?.rematching?.map((friend, index) => {
+                ? rankedFriends?.rematching?.map((friend: Matching, index: number) => {
                   const friendId = friend.id;
                   const profileUrl = ['/profile/', friendId].join('');
                   return (
@@ -67,7 +82,7 @@ const RankedFriends = () => {
             </RankTitle>
             <RankCard>
               {!_.isEmpty(rankedFriends?.matching)
-                ? rankedFriends?.matching?.map((friend, index) => {
+                ? rankedFriends?.matching?.map((friend: ReMatching, index: number) => {
                   const friendId = friend.id;
                   const profileUrl = ['/profile/', friendId].join('');
                   return (

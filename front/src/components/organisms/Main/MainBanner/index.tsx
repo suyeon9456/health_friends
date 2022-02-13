@@ -1,13 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
-import PropTypes from 'prop-types';
-import { SearchOutlined } from '@ant-design/icons';
+import { BiSearchAlt } from 'react-icons/bi';
 
-import { Button } from '../../../atoms';
+import { Button, Icon } from '../../../atoms';
 import RecommendFriends from '../RecommendFriends';
 import { BannerWrap, BannerImage, BannerContent, BannerContentWrap, BannerHeader, BannerHeaderTitle, BannerImageWrap } from './style';
 
-const MainBanner = ({ location }) => (
+const MainBanner = ({ location }: { location?: {
+  regionSiName: string | null,
+  regionGuName: string | null,
+  regionDongName: string | null,
+  mainAddressNo: string | null,
+} | null}) => (
   <BannerWrap>
     <BannerImageWrap />
     <BannerImage />
@@ -17,9 +21,8 @@ const MainBanner = ({ location }) => (
           <Button
             type="primary"
             size="large"
-            icon={<SearchOutlined />}
-          >
-            친구찾으러 가기
+            icon={<Icon icon={<BiSearchAlt />} />}
+          > 친구찾으러 가기
           </Button>
         </a>
       </Link>
@@ -34,9 +37,5 @@ const MainBanner = ({ location }) => (
     </BannerContentWrap>
   </BannerWrap>
 );
-
-MainBanner.propTypes = {
-  location: PropTypes.any,
-};
 
 export default MainBanner;

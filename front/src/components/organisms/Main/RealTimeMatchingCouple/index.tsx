@@ -1,16 +1,23 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { EnvironmentOutlined, TeamOutlined } from '@ant-design/icons';
 import * as _ from 'lodash';
 
-import { Avatar } from '../../../atoms';
-import NoDataIcon from '../../../atoms/NoDataIcon';
+import { BiGroup, BiMap } from 'react-icons/bi';
+import { Avatar, Icon, NoDataIcon } from '../../../atoms';
 import { AvatarWrap, CoupleCard, MatchingIcon, CoupleCardList, CoupleHeaderTitle, MatchingCoupleBody, MatchingCoupleHeader, MatchingCoupleWrap, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
 import { LOAD_REALTIME_MATCHING_REQUEST } from '../../../../../reducers/user';
+import { RootState } from '@/../store/configureStore';
+
+interface Mathcing {
+  id: number,
+  nickname: string,
+  Image: { src: string },
+  reqSchedule: Array<{ Friend: any, Gym: any }>,
+}
 
 const RealTimeMatchingCouple = () => {
-  const { realtimeMatching } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const { realtimeMatching } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     dispatch({
@@ -21,13 +28,13 @@ const RealTimeMatchingCouple = () => {
     <MatchingCoupleWrap>
       <MatchingCoupleHeader>
         <CoupleHeaderTitle>
-          <TeamOutlined /> 실시간 운동중인 매칭커플
+          <Icon icon={<BiGroup />} /> 실시간 운동중인 매칭커플
         </CoupleHeaderTitle>
       </MatchingCoupleHeader>
       <MatchingCoupleBody>
         <CoupleCardList>
           {!_.isEmpty(realtimeMatching)
-            ? (realtimeMatching?.map((matching) => {
+            ? (realtimeMatching?.map((matching: Mathcing) => {
               const reqImageSrc = matching?.Image?.src;
               const reqAvatarSrc = reqImageSrc || '';
               const resImageSrc = matching?.reqSchedule[0]?.Friend?.Image?.src;
@@ -39,7 +46,7 @@ const RealTimeMatchingCouple = () => {
                     { matching.nickname }
                   </AvatarWrap>
                   <MatchingIcon>
-                    <EnvironmentOutlined />
+                    <Icon icon={<BiMap />} />
                     <span className="gym-name">{ matching.reqSchedule[0].Gym.name }</span>
                   </MatchingIcon>
                   <AvatarWrap>
