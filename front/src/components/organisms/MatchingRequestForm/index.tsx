@@ -1,18 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { MatchingInfoWrap,
-  InfoContent,
-  RequestFriendWrap,
-  UserInfoWrap,
-  Content,
-  DescriptionWrap } from './style';
+import { RootState } from '@/../store/configureStore';
+import { MatchingInfoWrap, InfoContent, RequestFriendWrap, UserInfoWrap, Content, DescriptionWrap } from './style';
 import { FormInput, FormTextarea, FormDateTimePicker } from '../../molecules';
 import { Avatar } from '../../atoms';
 
-const MatchingRequestForm = ({ friend, control, errors }) => {
-  const { me } = useSelector((state) => state.user);
+const MatchingRequestForm = ({ friend, control, errors }: {
+  friend?: { nickname: string, Userdetail: { description: string } },
+  control: any, 
+  errors?: any,
+}) => {
+  const { me } = useSelector((state: RootState) => state.user);
 
   return (
     <RequestFriendWrap>
@@ -67,13 +66,6 @@ const MatchingRequestForm = ({ friend, control, errors }) => {
       </DescriptionWrap>
     </RequestFriendWrap>
   );
-};
-
-MatchingRequestForm.propTypes = {
-  friend: PropTypes.any,
-  // startDate: PropTypes.instanceOf(Date).isRequired,
-  errors: PropTypes.object,
-  control: PropTypes.any,
 };
 
 export default MatchingRequestForm;

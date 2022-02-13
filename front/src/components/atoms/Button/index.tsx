@@ -18,7 +18,7 @@ const Button = ({
   children?: React.ReactNode,
   icon?: React.ReactNode,
   size?: string,
-  type: string,
+  type?: string,
   buttonLoading?: boolean,
   block?: boolean,
   disabled?: boolean,

@@ -1,12 +1,19 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
 import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
 
-import { InputContainer, InputContent, InputControlWrap, InputWrap, InputWrapBox } from './style';
+import { InputContainer, InputContent, InputWrap, InputWrapBox } from './style';
+import { Message, MultipleFieldErrors } from 'react-hook-form';
+
+export type FieldError = {
+  type: string;
+  types?: MultipleFieldErrors;
+  message?: Message;
+};
+
 
 const Input = ({
-  size = 'default',
+  name,
+  size,
   type = 'text',
   loading,
   value,
@@ -15,6 +22,17 @@ const Input = ({
   disabled,
   error,
   ...props
+}: {
+  name?: any,
+  size?: any,
+  type?: string,
+  loading?: boolean,
+  value: string,
+  onChange: (event:  React.ChangeEvent<HTMLInputElement>)  =>  void,
+  // onChange: (event:  React.MouseEventHandler<HTMLInputElement>)  =>  void,
+  placeholder?: string,
+  disabled?: boolean,
+  error: Array<FieldError>,
 }) => {
   const [passwordType, setPasswordType] = useState(true);
 
@@ -24,14 +42,13 @@ const Input = ({
 
   if (type === 'password') {
     return (
-      <InputControlWrap>
+      <div>
         <InputWrapBox>
           <InputContent>
             <InputWrap error={error}>
               <InputContainer
-                rules={{
-                  required: true,
-                }}
+                name={name}
+                rules={{ required: true }}
                 type={passwordType ? 'password' : 'text'}
                 passwordType={type}
                 value={value}
@@ -48,39 +65,28 @@ const Input = ({
             </InputWrap>
           </InputContent>
         </InputWrapBox>
-      </InputControlWrap>
+      </div>
     );
   }
 
   return (
-    <InputControlWrap>
+    <div>
       <InputWrapBox>
         <InputContent>
           <InputContainer
-            value={value || ''}
+            value={value}
             onChange={onChange}
-            size={size}
+            size={size ?? 'default'}
             placeholder={placeholder}
             readOnly={disabled}
             error={error}
+            name={name}
             {...props}
           />
         </InputContent>
       </InputWrapBox>
-    </InputControlWrap>
+    </div>
   );
-};
-
-Input.propTypes = {
-  size: PropTypes.string,
-  type: PropTypes.string,
-  placeholder: PropTypes.string,
-  loading: PropTypes.bool,
-  value: PropTypes.node,
-  onChange: PropTypes.func,
-  disabled: PropTypes.bool,
-  error: PropTypes.any,
-  props: PropTypes.any,
 };
 
 export default Input;

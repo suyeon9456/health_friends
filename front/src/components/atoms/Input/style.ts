@@ -1,6 +1,20 @@
 import styled, { css } from 'styled-components';
+import { FieldError } from 'react-hook-form';
 
-export const InputWrap = styled.span`
+interface Input {
+  size?: string;
+  type?: string;
+  passwordType?: string;
+  loading?: boolean;
+  value?: string;
+  onChange?: (event:  React.ChangeEvent<HTMLInputElement>)  =>  void;
+  placeholder?: string;
+  disabled?: boolean;
+  error?: Array<FieldError>;
+  rules?: { required: boolean };
+}
+
+export const InputWrap = styled.span<{ error?: Array<FieldError> }>`
   position: relative;
   width: 100%;
   min-width: 0;
@@ -47,14 +61,10 @@ export const InputWrap = styled.span`
       &:focus {
         border-color: #ff7875;
         box-shadow: 0 0 0 2px rgb(255 77 79 / 20%);
-        border-right-width: 1px!important;
+        border-right-width: 1px !important;
         outline: 0;
       }
   `)}
-`;
-
-export const InputControlWrap = styled.div`
-
 `;
 
 export const InputWrapBox = styled.div`
@@ -69,7 +79,7 @@ export const InputContent = styled.div`
   max-width: 100%;
 `;
 
-export const InputContainer = styled.input`
+export const InputContainer = styled.input<Input>`
   box-sizing: border-box;
   margin: 0;
   font-variant: tabular-nums;
@@ -147,9 +157,6 @@ export const ValidationIconWrap = styled.span`
   pointer-events: none;
   animation-name: diffZoomIn2!important;
   color: #ff4d4f;
-  ${({ validationState }) => validationState === 'success' && css`
-      color: #52c41a;
-  `}
 `;
 
 export const FeedbackWrap = styled.div`

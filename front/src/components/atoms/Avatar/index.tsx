@@ -5,8 +5,9 @@ import { UserOutlined } from '@ant-design/icons';
 import { StyledAvatar } from './style';
 
 const Avatar = ({ size = 'default', src, ...props }: {
-  size?: string,
-  src?: string
+  size?: string | number,
+  src?: string,
+  style?: any,
 }) => (
   <StyledAvatar
     size={size}
