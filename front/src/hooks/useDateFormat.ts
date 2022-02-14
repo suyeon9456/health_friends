@@ -1,6 +1,8 @@
 import { format } from 'date-fns';
 
-const useDateFormat = (date, type) => {
+type ReturnTypes = string;
+
+const useDateFormat = (date: Date | number, type: string): ReturnTypes => {
   const formatDate = format(date, type);
   return formatDate;
 };

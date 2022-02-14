@@ -2,8 +2,12 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Router from 'next/router';
 
-const useLoginCheck = () => {
-  const { me } = useSelector((state) => state.user);
+import { RootState } from '@/../store/configureStore';
+
+type ReturnTypes = any;
+
+const useLoginCheck = (): ReturnTypes => {
+  const { me } = useSelector((state: RootState) => state.user);
   useEffect(() => {
     if (me?.id) {
       Router.replace('/');
