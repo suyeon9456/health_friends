@@ -1,17 +1,23 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 
+import { useDateFormat } from '../../../../hooks';
+import { UPDATE_MY_INFO_REQUEST, UPDATE_MY_FRIENDS_INFO_REQUEST } from '../../../../../reducers/user';
 import { Modal } from '../../../molecules';
 import EditInfoForm from '../EditInfoForm';
-import { UPDATE_MY_INFO_REQUEST, UPDATE_MY_FRIENDS_INFO_REQUEST } from '../../../../../reducers/user';
-import { useDateFormat } from '../../../../hooks';
+import { RootState } from '@/../store/configureStore';
 
-const ModalEditInfo = ({ title, targetId, show, onCancel, setCloseModal }) => {
-  const { profile } = useSelector((state) => state.user);
+const ModalEditInfo = ({ title, targetId, show, onCancel, setCloseModal }: {
+  title: string;
+  targetId: string;
+  show: boolean;
+  onCancel: (e?: React.MouseEvent<HTMLElement>) => void;
+  setCloseModal: (close: boolean) => void;
+}) => {
   const dispatch = useDispatch();
+  const { profile } = useSelector((state: RootState) => state.user);
 
   const { handleSubmit, control, setValue } = useForm({
     defaultValues: {
@@ -71,18 +77,9 @@ const ModalEditInfo = ({ title, targetId, show, onCancel, setCloseModal }) => {
       <EditInfoForm
         targetId={targetId}
         control={control}
-        setValue={setValue}
       />
     </Modal>
   );
-};
-
-ModalEditInfo.propTypes = {
-  title: PropTypes.string.isRequired,
-  targetId: PropTypes.string.isRequired,
-  show: PropTypes.bool.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  setCloseModal: PropTypes.func,
 };
 
 export default ModalEditInfo;

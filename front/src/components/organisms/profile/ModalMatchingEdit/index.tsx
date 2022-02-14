@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import { RootState } from '@/../store/configureStore';
+import { ADD_RE_SCHEDULE_REQUEST, UPDATE_SCHEDULE_REQUEST } from '../../../../../reducers/schedule';
 import { Modal } from '../../../molecules';
 import MatchingRequestForm from '../../MatchingRequestForm';
-import { ADD_RE_SCHEDULE_REQUEST, UPDATE_SCHEDULE_REQUEST } from '../../../../../reducers/schedule';
 
 const schema = yup.object({
   startDate: yup.string().required('날짜는 필수 항목입니다.'),
@@ -16,16 +16,22 @@ const schema = yup.object({
   gym: yup.string().required('헬스장은 필수 항목입니다.'),
 }).required();
 
-const ModalMatchingEdit = ({ show, onCancel, mode }) => {
+const ModalMatchingEdit = ({ show, onCancel, mode }: {
+  show: boolean;
+  onCancel: () => void;
+  mode: string;
+}) => {
   const dispatch = useDispatch();
-  const { schedule } = useSelector((state) => state.schedule);
-  const { me } = useSelector((state) => state.user);
+  const { schedule } = useSelector((state: RootState) => state.schedule);
+  const { me } = useSelector((state: RootState) => state.user);
 
   const [fNickname, setFNickname] = useState('');
   const [fId, setFId] = useState(-1);
 
   const { handleSubmit, control, setValue, formState: { errors } } = useForm({
     defaultValues: {
+      startDate: new Date(),
+      endDate: new Date(),
       gym: schedule?.address || '',
       description: '',
     },
@@ -43,7 +49,6 @@ const ModalMatchingEdit = ({ show, onCancel, mode }) => {
         data: { ...data, startDate: startDateTime, endDate: dateTime, id: schedule.id },
       });
     }
-    console.log('mdoe: ', schedule);
     if (mode === 'rematch') {
       dispatch({
         type: ADD_RE_SCHEDULE_REQUEST,
@@ -64,7 +69,6 @@ const ModalMatchingEdit = ({ show, onCancel, mode }) => {
     if (schedule) {
       const { friend, requester, start, end, address, description, gymName } = schedule;
       const friendId = friend?.id;
-      console.log(friendId);
       setFNickname(friendId === me?.id ? requester?.nickname : friend?.nickname);
       setFId(friend === me?.id
         ? schedule?.Requester?.id
@@ -94,12 +98,6 @@ const ModalMatchingEdit = ({ show, onCancel, mode }) => {
       />
     </Modal>
   );
-};
-
-ModalMatchingEdit.propTypes = {
-  show: PropTypes.bool,
-  onCancel: PropTypes.func,
-  mode: PropTypes.node,
 };
 
 export default ModalMatchingEdit;

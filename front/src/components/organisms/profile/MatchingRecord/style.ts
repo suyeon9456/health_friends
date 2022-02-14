@@ -45,7 +45,7 @@ export const CancelYnCheckBoxWrap = styled.div`
   padding: 0 10px;
 `;
 
-export const RecordBody = styled.div`
+export const RecordBody = styled.div<{ schedules: number }>`
   text-align: center;
   padding: 0 10px;
 `;

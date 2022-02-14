@@ -4,20 +4,21 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import { LOAD_SCHEDULES_REQUEST } from '../../../../../reducers/schedule';
 
-import { Button, CheckBox } from '../../../atoms';
+import { RootState } from '@/../store/configureStore';
 import { Filter } from '../../../molecules';
+import { Button, CheckBox } from '../../../atoms';
 import MatchingCardList from '../../MatchingCardList';
 import { CancelYnCheckBoxWrap, FilterList, RecordBody, RecordFooter, RecordWrap } from './style';
 
 const MatchingRecord = () => {
   const dispatch = useDispatch();
 
-  const { schedules, schedulesCount } = useSelector((state) => state.schedule);
-  const [schedulesLimit, setSchedulesLimit] = useState(3);
-  const [status, setStatus] = useState([]);
-  const [term, setTerm] = useState([]);
-  const [type, setType] = useState([]);
-  const [rejectedMatching, setRejectedMatching] = useState(false);
+  const { schedules, schedulesCount } = useSelector((state: RootState) => state.schedule);
+  const [status, setStatus] = useState<string[]>([]);
+  const [term, setTerm] = useState<string[]>([]);
+  const [type, setType] = useState<string[]>([]);
+  const [schedulesLimit, setSchedulesLimit] = useState<number>(3);
+  const [rejectedMatching, setRejectedMatching] = useState<boolean>(false);
 
   const onMoreSchedule = useCallback(() => {
     setSchedulesLimit((prev) => prev + 3);
@@ -99,7 +100,7 @@ const MatchingRecord = () => {
       <CancelYnCheckBoxWrap>
         <CheckBox
           label="취소된 매칭으로 보기"
-          value={rejectedMatching}
+          value="cancel"
           checked={rejectedMatching}
           onChange={onChangeRejectedMatching}
         />

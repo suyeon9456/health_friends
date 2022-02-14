@@ -1,19 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { RowContainer } from './style';
 
-const Row = ({ justify, children }) => (
+const Row = ({ justify, children }: {
+  justify?: string;
+  children?: React.ReactNode;
+}) => (
   <RowContainer
     justify={justify}
   >
     {children}
   </RowContainer>
 );
-
-Row.propTypes = {
-  justify: PropTypes.string,
-  children: PropTypes.node,
-};
 
 export default Row;

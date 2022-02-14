@@ -69,7 +69,7 @@ export const InfoIconWrapper = styled.div`
   }
 `;
 
-export const SideMenuWrap = styled.div`
+export const SideMenuWrap = styled.div<{ active: string }>`
   width: 86%;
   position: relative;
   padding: 0 0 30px 0;
@@ -92,7 +92,12 @@ export const SideMenuWrap = styled.div`
   }
 `;
 
-export const SideMenu = styled.div`
+export const SideMenu = styled.div<{
+  key: string;
+  id: string;
+  onClick: () => void;
+  className: string;
+}>`
   margin: 15px 0;
   color: #000000d9;
   touch-action: manipulation;

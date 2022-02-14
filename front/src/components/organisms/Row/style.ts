@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const RowContainer = styled.div`
+export const RowContainer = styled.div<{ justify?: string }>`
   row-gap: 0px;
   display: flex;
   flex-flow: row wrap;

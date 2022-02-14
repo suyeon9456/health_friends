@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { compareAsc } from 'date-fns';
 
+import { RootState } from '@/../store/configureStore';
 import { useDateFormat } from '../../../../hooks';
 import { Avatar } from '../../../atoms';
 import { Modal } from '../../../molecules';
@@ -10,15 +10,18 @@ import { Content, DescriptionWrap, InfoContent } from '../../MatchingRequestForm
 import { MatchingInfoWrap, RequestFriendWrap, UserInfoWrap } from './style';
 import { ADD_CANCELLATION_REQUEST, UPDATE_CANCELLATION_REQUEST, UPDATE_PERMISSION_REQUEST } from '../../../../../reducers/schedule';
 
-const ModalMatchingDetail = ({ show, onCancel }) => {
+const ModalMatchingDetail = ({ show, onCancel }: {
+  show: boolean;
+  onCancel: () => void;
+}) => {
   const dispatch = useDispatch();
-  const { schedule } = useSelector((state) => state.schedule);
-  const { me } = useSelector((state) => state.user);
+  const { schedule } = useSelector((state: RootState) => state.schedule);
+  const { me } = useSelector((state: RootState) => state.user);
 
-  const [fNickname, setFNickname] = useState('');
-  const [fId, setFId] = useState(-1);
+  const [fNickname, setFNickname] = useState<string>('');
+  const [fId, setFId] = useState<number>(-1);
 
-  const [formatDate, setFormatDate] = useState('');
+  const [formatDate, setFormatDate] = useState<string>('');
 
   const onAccept = useCallback(() => {
     const { id,
@@ -201,11 +204,6 @@ const ModalMatchingDetail = ({ show, onCancel }) => {
       </RequestFriendWrap>
     </Modal>
   );
-};
-
-ModalMatchingDetail.propTypes = {
-  show: PropTypes.bool,
-  onCancel: PropTypes.func,
 };
 
 export default ModalMatchingDetail;

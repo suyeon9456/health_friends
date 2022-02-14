@@ -1,24 +1,32 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, SetStateAction } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { BiTrophy, BiCommentCheck, BiBuildingHouse, BiUser, BiCalendar, BiReceipt, BiHeart } from 'react-icons/bi';
 
+import { RootState } from '@/../store/configureStore';
 import useRate from '../../../../hooks/useRate';
-import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
-import Progress from '../../../molecules/Progress';
-import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, MenuText, SideBarWrapper, SideMenu, SideMenuWrap } from './style';
 import { ADD_PROFILEIMAGE_REQUEST, REMOVE_PROFILEIMAGE, UPLOAD_PROFILEIMAGE_REQUEST } from '../../../../../reducers/user';
+import Progress from '../../../molecules/Progress';
+import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
+import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, MenuText, SideBarWrapper, SideMenu, SideMenuWrap } from './style';
 
-const SideBar = ({ profileMenu, setProfileMenu }) => {
+const SideBar = ({ profileMenu, setProfileMenu }: {
+  profileMenu: string;
+  setProfileMenu: React.Dispatch<SetStateAction<string>>;
+}) => {
   const dispatch = useDispatch();
-  const { profile, me, imagePath, uploadProfileImageError } = useSelector((state) => state.user);
-  const [uploadState, setUploadState] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const { profile, me, imagePath, uploadProfileImageError } = useSelector((state: RootState) => state.user);
+  const [uploadState, setUploadState] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [responseRate,
     onChangeResponseRate] = useRate({
     total: profile?.resSchedule?.length || 0,
-    number: profile?.resSchedule?.filter((f) => f.isPermitted).length || 0,
+    number: profile?.resSchedule?.filter((f: {
+      FriendId: number;
+      id: number;
+      isPermitted: boolean;
+      permission: boolean;
+    }) => f.isPermitted).length || 0,
   });
 
   const onClickMenu = useCallback((menu) => {
@@ -120,7 +128,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           </InfoIconWrapper>
           <div>
             <span>이용중인 헬스장: </span>
-            {profile?.Gyms.map((gym) => (
+            {profile?.Gyms.map((gym: { id: number; address: string; name: string; }) => (
               <div className="user-gym" key={gym.id}>{gym.address} <a>{gym.name}</a></div>
             ))}
           </div>
@@ -131,7 +139,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           key="info"
           id="info"
           onClick={() => onClickMenu('info')}
-          className={profileMenu === 'info' && 'active'}
+          className={profileMenu === 'info' ? 'active' : ''}
         >
           <Icon icon={<BiUser />} />
           <MenuText>{(me?.id && (profile?.id === me?.id)) ? '내정보' : '정보'}</MenuText>
@@ -140,7 +148,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           key="calendar"
           id="calendar"
           onClick={() => onClickMenu('calendar')}
-          className={profileMenu === 'calendar' && 'active'}
+          className={profileMenu === 'calendar' ? 'active' : ''}
         >
           <Icon icon={<BiCalendar />} />
           <MenuText>매칭일정</MenuText>
@@ -149,7 +157,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           key="record"
           id="record"
           onClick={() => onClickMenu('record')}
-          className={profileMenu === 'record' && 'active'}
+          className={profileMenu === 'record' ? 'active' : ''}
         >
           <Icon icon={<BiReceipt />} />
           <MenuText>매칭기록</MenuText>
@@ -158,7 +166,7 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
           key="liked"
           id="liked"
           onClick={() => onClickMenu('liked')}
-          className={profileMenu === 'liked' && 'active'}
+          className={profileMenu === 'liked' ? 'active' : ''}
         >
           <Icon icon={<BiHeart />} />
           <MenuText>관심친구</MenuText>
@@ -172,11 +180,6 @@ const SideBar = ({ profileMenu, setProfileMenu }) => {
       />
     </SideBarWrapper>
   );
-};
-
-SideBar.propTypes = {
-  profileMenu: PropTypes.string.isRequired,
-  setProfileMenu: PropTypes.func.isRequired,
 };
 
 export default SideBar;
