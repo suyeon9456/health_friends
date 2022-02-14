@@ -4,12 +4,13 @@ import { MenuOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { LOG_OUT_REQUEST } from '../../../../reducers/user';
+import { RootState } from '@/../store/configureStore';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
 import { Avatar } from '../../atoms';
 
 const Menu = () => {
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   const { drawerShow } = useShowState();
@@ -56,7 +57,7 @@ const Menu = () => {
             <MenuItem
               type="pc"
               align="right"
-              style={{ order: '2' }}
+              style={{ order: 2 }}
             >
               <MenuTitle>
                 <MenuText onClick={onLogout}>
@@ -67,7 +68,7 @@ const Menu = () => {
             <MenuItem
               type="pc"
               align="left"
-              style={{ order: '3' }}
+              style={{ order: 3 }}
             >
               <MenuTitle>
                 <Link href="/myinfo" passHref>
@@ -84,7 +85,7 @@ const Menu = () => {
             <MenuItem
               type="pc"
               align="right"
-              style={{ order: '2' }}
+              style={{ order: 2 }}
             >
               <MenuTitle>
                 <Link href="/login">
@@ -97,7 +98,7 @@ const Menu = () => {
             <MenuItem
               type="pc"
               align="left"
-              style={{ order: '3' }}
+              style={{ order: 3 }}
             >
               <MenuTitle>
                 <Link href="/signup">
@@ -112,7 +113,7 @@ const Menu = () => {
       <MenuItem
         type="tablet-phone"
         align="right"
-        style={{ order: '2' }}
+        style={{ order: 2 }}
       >
         <MenuTitle>
           <MenuText onClick={changeShowDrawerMenu}>
