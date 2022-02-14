@@ -7,12 +7,13 @@ import { SIGN_UP_STEP_MORE_INFO_SAVE, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV } fro
 import { Button, Form } from '../../../atoms';
 import { FormSelect } from '../../../molecules';
 import { ButtonWrap, MoreInfoFormWrapper } from './style';
+import { RootState } from '@/../store/configureStore';
 
 const MoreInfoForm = () => {
   const dispatch = useDispatch();
 
   const { careerOptions, roleOptions, signupStepMoreInfo,
-    genderOptions, ageOptions } = useSelector((state) => state.user);
+    genderOptions, ageOptions } = useSelector((state: RootState) => state.user);
   const { handleSubmit, control } = useForm({
     defaultValues: {
       gender: signupStepMoreInfo?.gender || 'male',

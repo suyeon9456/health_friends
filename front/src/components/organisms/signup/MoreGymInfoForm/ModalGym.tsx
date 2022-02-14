@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 
+import { RootState } from '@/../store/configureStore';
 import { ADD_GYM_REQUEST } from '../../../../../reducers/gym';
 import useInput from '../../../../hooks/useInput';
 import { Modal, Tabs } from '../../../molecules';
@@ -9,8 +9,14 @@ import ModalSearchGym from '../../ModalSearchGym';
 import ModalCreateGym from '../../ModalCreateGym';
 import { ModalBodyBox } from './style';
 
-const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }) => {
-  const { searchGymTabs } = useSelector((state) => state.user);
+const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }: {
+  show: boolean;
+  title: string;
+  onCancel: () => void;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setGym: (key: string, value: string) => void;
+}) => {
+  const { searchGymTabs } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const [selectedTab, setSelectedTab] = useState('search');
   const [sido, setSido] = useState('');
@@ -67,15 +73,6 @@ const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }) => 
       </ModalBodyBox>
     </Modal>
   );
-};
-
-ModalGym.propTypes = {
-  show: PropTypes.bool.isRequired,
-  title: PropTypes.string.isRequired,
-  onCancel: PropTypes.func,
-  setShowModal: PropTypes.func,
-  setGym: PropTypes.any,
-  props: PropTypes.any,
 };
 
 export default ModalGym;

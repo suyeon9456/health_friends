@@ -9,11 +9,12 @@ import { Button, Form } from '../../../atoms';
 import { FormInput, FormRangeTimePicker, FormTextarea } from '../../../molecules';
 import ModalGym from './ModalGym';
 import { ButtonWrap, FormSearchGymWrap, FormWrapper } from './style';
+import { RootState } from '@/../store/configureStore';
 
 const MoreGymInfoForm = () => {
   const dispatch = useDispatch();
 
-  const { signupStepGymInfo, selectedGym } = useSelector((state) => state.user);
+  const { signupStepGymInfo, selectedGym } = useSelector((state: RootState) => state.user);
   const [showModal, setShowModal] = useState(false);
   const { handleSubmit, control, setValue } = useForm({
     defaultValues: {
@@ -54,9 +55,9 @@ const MoreGymInfoForm = () => {
             label="헬스장"
             id="gym"
             size="large"
-            onClick={changeShowModal}
             control={control}
             disabled
+            {...{ onClick: changeShowModal }}
           />
           <div className="button-wrap">
             <div />

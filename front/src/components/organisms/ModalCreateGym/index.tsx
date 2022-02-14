@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, Dispatch, SetStateAction } from 'react';
 
 import { CreateFormWrap, FormSearchPostcode } from './style';
 import { Button } from '../../atoms';
@@ -17,13 +17,13 @@ const ModalCreateGym = ({ sido,
   onChangeName,
 }: {
   sido: string,
-  setSido: () => void,
+  setSido: Dispatch<SetStateAction<string>>,
   sigungu: string,
-  setSigungu: () => void,
+  setSigungu:  Dispatch<SetStateAction<string>>,
   address: string,
-  setAddress: () => void,
-  setLatitude: () => void,
-  setLongitude: () => void,
+  setAddress:  Dispatch<SetStateAction<string>>,
+  setLatitude:  Dispatch<SetStateAction<string>>,
+  setLongitude:  Dispatch<SetStateAction<string>>,
   name: string,
   onChangeName: () => void,
 }) => {

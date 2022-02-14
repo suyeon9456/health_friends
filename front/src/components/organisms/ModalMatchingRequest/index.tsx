@@ -18,10 +18,14 @@ const schema = yup.object({
 }).required();
 
 const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }: {
-  showModal: boolean,
-  setShowModal: (prop: boolean) => void,
-  friend: { id: number, nickname: string, UserGym: { GymId?: number } }
-  gymName?: string,
+  showModal: boolean;
+  setShowModal: (prop: boolean) => void;
+  friend?: { id?: number;
+    nickname?: string;
+    UserGym?: { GymId?: number };
+    Userdetail?: object;
+    Image?: object; }
+  gymName?: string;
 }) => {
   const dispatch = useDispatch();
   const { me } = useSelector((state: RootState) => state.user);

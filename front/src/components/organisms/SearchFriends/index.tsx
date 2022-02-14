@@ -1,22 +1,35 @@
-import React, { useCallback } from 'react';
+import React, { Dispatch, SetStateAction, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { CloseOutlined } from '@ant-design/icons';
 
 import Button from '../../atoms/Button';
 import { PropfileCard } from '../../molecules';
 import { FriendsListWrapper, SearchFriendsWrapper, SearchHeader, SearchTitle } from './style';
 import { ADD_LIKE_REQUEST } from '../../../../reducers/user';
+import { RootState } from '@/../store/configureStore';
 
 const SearchFriends = ({ foldedGym,
   foldedFriends,
   setFoldedFriends,
   setFriend,
   setShowModal,
-  setStateWarning }) => {
+  setStateWarning }: {
+    foldedGym: boolean;
+    foldedFriends: boolean;
+    setFoldedFriends: Dispatch<SetStateAction<boolean>>;
+    setFriend: Dispatch<SetStateAction<{
+      id?: number;
+      nickname?: string;
+      Userdetail?: object;
+      Image?: object;
+      UserGym?: { GymId?: number };
+     }>>;
+    setShowModal: Dispatch<SetStateAction<boolean>>;
+    setStateWarning: Dispatch<SetStateAction<boolean>>;
+  }) => {
   const dispatch = useDispatch();
-  const { gym } = useSelector((state) => state.gym);
-  const { me } = useSelector((state) => state.user);
+  const { gym } = useSelector((state: RootState) => state.gym);
+  const { me } = useSelector((state: RootState) => state.user);
 
   const onChangeFoldedFriends = useCallback(() => {
     setFoldedFriends((prev) => !prev);
@@ -26,6 +39,7 @@ const SearchFriends = ({ foldedGym,
     if (!(me && me.id)) {
       return setStateWarning(true);
     }
+    console.log('friend', user);
     setFriend(user);
     setShowModal(true);
   }, [me && me.id]);
@@ -53,7 +67,12 @@ const SearchFriends = ({ foldedGym,
         </SearchHeader>
         <FriendsListWrapper>
           {gym?.Users && (
-            gym?.Users.map((user) => {
+            gym?.Users.map((user: {
+              id: number;
+              nickname: string;
+              Userdetail: { description: string; startTime: string; rematchingRate: number };
+              Image: { src: string; };
+            }) => {
               const imageSrc = user?.Image?.src;
               const cardImageSrc = imageSrc || '';
               return (
@@ -76,15 +95,6 @@ const SearchFriends = ({ foldedGym,
       </SearchFriendsWrapper>
     </>
   );
-};
-
-SearchFriends.propTypes = {
-  foldedGym: PropTypes.bool.isRequired,
-  foldedFriends: PropTypes.bool.isRequired,
-  setFoldedFriends: PropTypes.func.isRequired,
-  setFriend: PropTypes.func.isRequired,
-  setShowModal: PropTypes.func.isRequired,
-  setStateWarning: PropTypes.func.isRequired,
 };
 
 export default SearchFriends;

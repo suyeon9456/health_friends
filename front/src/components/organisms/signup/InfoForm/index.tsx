@@ -9,6 +9,7 @@ import { SIGN_UP_STEP_INFO_SAVE, SIGN_UP_STEP_NEXT } from '../../../../../reduce
 import { Button, Form } from '../../../atoms';
 import { FormInput } from '../../../molecules';
 import { ButtonWrap, InfoFormWrapper } from './style';
+import { RootState } from '@/../store/configureStore';
 
 const schema = yup.object({
   email: yup.string()
@@ -28,7 +29,7 @@ const schema = yup.object({
 const InfoForm = () => {
   const dispatch = useDispatch();
 
-  const { signupStepInfo } = useSelector((state) => state.user);
+  const { signupStepInfo } = useSelector((state: RootState) => state.user);
   const { handleSubmit, control, formState: { errors } } = useForm({
     defaultValues: {
       email: signupStepInfo?.email || '',

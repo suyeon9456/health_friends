@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const SearchFriendsWrapper = styled.div`
+export const SearchFriendsWrapper = styled.div<{ foldedGym: boolean; foldedFriends: boolean; }>`
   position: absolute;
   display: flex;
   width: 100%;

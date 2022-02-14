@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
 import { LeftOutlined, RightOutlined, TeamOutlined } from '@ant-design/icons';
 
 import { LOAD_GYM_REQUEST, LOAD_FRIENDS_REQUEST } from '../../../../reducers/gym';
 import useInput from '../../../hooks/useInput';
 
+import { RootState } from '@/../store/configureStore';
 import { Search, Item, Button } from '../../atoms';
 import { Alert } from '../../molecules';
 import SearchFriends from '../SearchFriends';
@@ -14,7 +14,12 @@ import SearchSidebar from '../SearchSidebar';
 import ModalMatchingRequest from '../ModalMatchingRequest';
 import { SearchHeader, SearchWrapper, SearchTitle, SearchFormWrapper, SearchListWrapper, GymWrapper, FoldButton } from './style';
 
-const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }) => {
+const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }: {
+  foldedFriends: boolean;
+  setFoldedFriends: Dispatch<SetStateAction<boolean>>;
+  foldedGym: boolean;
+  setFoldedGym: Dispatch<SetStateAction<boolean>>;
+}) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -23,12 +28,18 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
     gyms,
     hasMoreGyms,
     loadGymLoading,
-    isLoadGyms } = useSelector((state) => state.gym);
+    isLoadGyms } = useSelector((state: RootState) => state.gym);
 
-  const [browserHeight, setBrowserHeight] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [friend, setFriend] = useState(false);
-  const [stateWarning, setStateWarning] = useState(false);
+  const [browserHeight, setBrowserHeight] = useState<number>(0);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [friend, setFriend] = useState<{
+    id?: number;
+    nickname?: string;
+    Userdetail?: object;
+    Image?: object;
+    UserGym?: { GymId?: number };
+   }>({});
+  const [stateWarning, setStateWarning] = useState<boolean>(false);
   const [searchWord, onChangeSearchWord] = useInput('');
 
   const changeFoldedGym = useCallback(() => {
@@ -134,7 +145,12 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
           />
         </SearchFormWrapper>
         <SearchListWrapper browserHeight={browserHeight}>
-          {gyms.map((gym) => (
+          {gyms.map((gym: {
+            id: number;
+            name: string;
+            address: string;
+            Users: Array<any>;
+          }) => (
             <Item
               key={gym.id}
               title={gym.name}
@@ -180,13 +196,6 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
       />
     </SearchWrapper>
   );
-};
-
-SearchGyms.propTypes = {
-  foldedFriends: PropTypes.bool,
-  setFoldedFriends: PropTypes.func,
-  foldedGym: PropTypes.bool,
-  setFoldedGym: PropTypes.func,
 };
 
 export default SearchGyms;

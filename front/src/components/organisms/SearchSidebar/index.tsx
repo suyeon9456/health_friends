@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons';
 
+import { RootState } from '@/../store/configureStore';
 import { Avatar, Button } from '../../atoms';
 import { Sidebar } from './style';
 
-const SearchSidebar = ({ foldedGym, setFoldedGym }) => {
-  const { me } = useSelector((state) => state.user);
+const SearchSidebar = ({ foldedGym, setFoldedGym }: {
+  foldedGym: boolean;
+  setFoldedGym: Dispatch<SetStateAction<boolean>>;
+}) => {
+  const { me } = useSelector((state: RootState) => state.user);
   return (
     <Sidebar>
       <div>
@@ -30,11 +33,6 @@ const SearchSidebar = ({ foldedGym, setFoldedGym }) => {
       </div>
     </Sidebar>
   );
-};
-
-SearchSidebar.propTypes = {
-  foldedGym: PropTypes.bool.isRequired,
-  setFoldedGym: PropTypes.func.isRequired,
 };
 
 export default SearchSidebar;

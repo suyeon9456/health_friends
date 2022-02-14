@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const SearchWrapper = styled.section`
+export const SearchWrapper = styled.section<{ foldedBlock: boolean; foldedOnlyGym: boolean; }>`
   width: 100%;
   margin-top: 10px;
   border-radius: 5px;
@@ -22,7 +22,7 @@ export const SearchWrapper = styled.section`
   }
 `;
 
-export const FoldButton = styled.div`
+export const FoldButton = styled.div<{ foldedGym: boolean }>`
   position: absolute;
   width: 20px;
   height: 60px;
@@ -65,7 +65,7 @@ export const FoldButton = styled.div`
   }
 `;
 
-export const GymWrapper = styled.div`
+export const GymWrapper = styled.div<{ foldedGym: boolean }>`
   position: relative;
   display: flex;
   width: 100%;
@@ -127,7 +127,7 @@ export const SearchFormWrapper = styled.div`
   background: #fff;
 `;
 
-export const SearchListWrapper = styled.div`
+export const SearchListWrapper = styled.div<{ browserHeight: number }>`
   position: relative;
   width: 100%;
   max-height: 390px;

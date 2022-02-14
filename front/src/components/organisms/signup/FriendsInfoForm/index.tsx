@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 import { SIGN_UP_REQUEST, SIGN_UP_STEP_FRIENDS_INFO_SAVE, SIGN_UP_STEP_PREV } from '../../../../../reducers/user';
-import { ButtonWrap, FormWrapper } from './style';
-import { Form, Button } from '../../../atoms';
+import { RootState } from '@/../store/configureStore';
 import { FormSelect } from '../../../molecules';
+import { Form, Button } from '../../../atoms';
+import { ButtonWrap, FormWrapper } from './style';
 
 const FriendsInfoForm = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const FriendsInfoForm = () => {
     signupStepInfo: info,
     signupStepMoreInfo: moreInfo,
     signupStepGymInfo: gymInfo,
-    signupStepFriendsInfo } = useSelector((state) => state.user);
+    signupStepFriendsInfo } = useSelector((state: RootState) => state.user);
 
   const { handleSubmit, control } = useForm({
     defaultValues: {
@@ -31,7 +32,6 @@ const FriendsInfoForm = () => {
   });
 
   const onClickSignup = useCallback((data, e) => {
-    console.log(data);
     if (e.nativeEvent.submitter.name === 'next') {
       return dispatch({
         type: SIGN_UP_REQUEST,
