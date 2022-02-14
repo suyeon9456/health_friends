@@ -11,11 +11,13 @@ const ProfileCard = ({
   onClick,
   onLike,
 }: {
-  nickname: string,
-  image: string,
-  percent: number,
-  onClick: () => void,
-  onLike: () => void
+  nickname: string;
+  description: string;
+  date: string;
+  image: string;
+  percent: number;
+  onClick: () => void;
+  onLike: () => void;
 }) => (
   <Card>
     <CardCover>

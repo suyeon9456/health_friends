@@ -62,7 +62,7 @@ export const FilterArrrowWrap = styled.span`
   pointer-events: none;
 `;
 
-export const FilterContent = styled.div`
+export const FilterContent = styled.div<{ show: boolean }>`
   display: inline-block;
   z-index: 5;
   top: 40px;

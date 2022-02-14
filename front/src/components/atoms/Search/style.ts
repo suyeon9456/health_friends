@@ -1,7 +1,7 @@
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import styled, { css } from 'styled-components';
 
-export const SearchWrap = styled.span`
+export const SearchWrap = styled.span<{ size: string }>`
   position: relative;
   width: 100%;
   min-width: 0;
@@ -97,7 +97,10 @@ export const SearchIcon = styled(SearchOutlined)`
   -webkit-font-smoothing: antialiased;
 `;
 
-export const SearchInput = styled.input`
+export const SearchInput = styled.input<{ 
+  size: any,
+  value: string,
+ }>`
   box-sizing: border-box;
   margin: 0;
   font-variant: tabular-nums;

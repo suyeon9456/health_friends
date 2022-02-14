@@ -1,13 +1,17 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useCallback, useRef, useEffect, ChangeEvent } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 
 import { FilterWrap, FilterSelectorWrap, FilterSelector, FilterSelectorText, FilterArrrowWrap, FilterContent, CheckBoxGroup } from './style';
 import { CheckBox } from '../../atoms';
 
-const Filter = ({ label, items, onChange, checkList }) => {
-  const filterEl = useRef();
-  const filterSelectorEl = useRef();
+const Filter = ({ label, items, onChange, checkList }: {
+  label: string,
+  items: Array<{ value: string, text: string  }>,
+  onChange: (checked: boolean, value: string) => void,
+  checkList: Array<string>,
+}) => {
+  const filterEl = useRef<HTMLInputElement>(null);
+  const filterSelectorEl = useRef<HTMLInputElement>(null);
   const [show, setShow] = useState(false);
 
   const onChangeShow = useCallback(() => {
@@ -15,16 +19,16 @@ const Filter = ({ label, items, onChange, checkList }) => {
   }, [show]);
 
   useEffect(() => {
-    const handleFilterOff = (e) => {
+    const handleFilterOff = (e: { target: Node | null; }) => {
       if (show
-        && !filterSelectorEl.current.contains(e.target)
-        && !filterEl.current.contains(e.target)) {
+        && !filterSelectorEl.current?.contains(e?.target)
+        && !filterEl.current?.contains(e.target)) {
         setShow(false);
       }
     };
-    window.addEventListener('click', handleFilterOff);
+    window.addEventListener('click', (handleFilterOff) as EventListener);
     return () => {
-      window.removeEventListener('click', handleFilterOff);
+      window.removeEventListener('click', (handleFilterOff) as EventListener);
     };
   }, [show]);
   return (
@@ -41,9 +45,9 @@ const Filter = ({ label, items, onChange, checkList }) => {
       </FilterSelectorWrap>
       <FilterContent show={show} ref={filterEl}>
         <CheckBoxGroup>
-          {items.map((item) => (
+          {items.map((item, i) => (
             <CheckBox
-              key={item.value}
+              key={i}
               label={item.text}
               value={item.value}
               checked={checkList.includes(item.value)}
@@ -54,13 +58,6 @@ const Filter = ({ label, items, onChange, checkList }) => {
       </FilterContent>
     </FilterWrap>
   );
-};
-
-Filter.propTypes = {
-  label: PropTypes.string,
-  items: PropTypes.array,
-  onChange: PropTypes.func,
-  checkList: PropTypes.array,
 };
 
 export default Filter;

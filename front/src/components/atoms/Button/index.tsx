@@ -8,6 +8,7 @@ const Button = ({
   icon,
   size = 'default',
   type = 'default',
+  name,
   buttonLoading = false,
   block = false,
   disabled = false,
@@ -15,19 +16,21 @@ const Button = ({
   onClick,
   ...props
 }: {
-  children?: React.ReactNode,
-  icon?: React.ReactNode,
-  size?: string,
-  type?: string,
-  buttonLoading?: boolean,
-  block?: boolean,
-  disabled?: boolean,
-  submit?: boolean,
-  onClick?: () => void,
+  children?: React.ReactNode;
+  icon?: React.ReactNode;
+  size?: string;
+  type?: string;
+  name?: string;
+  buttonLoading?: boolean;
+  block?: boolean;
+  disabled?: boolean;
+  submit?: boolean;
+  onClick?: (e?: React.MouseEvent<HTMLElement>) => void;
 }) => (
   <StyledButton
     size={size}
     styleType={type}
+    name={name}
     block={block}
     buttonLoading={buttonLoading}
     disabled={disabled}

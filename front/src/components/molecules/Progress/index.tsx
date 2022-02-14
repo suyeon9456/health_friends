@@ -5,7 +5,7 @@ import ProgressBar from '../../atoms/ProgressBar';
 
 const Progress = ({ label, percent }: {
   label: string,
-  percent: number
+  percent: number,
 }) => (
   <div>
     <Label>{label}: {percent}%</Label>

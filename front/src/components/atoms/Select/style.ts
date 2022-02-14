@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const SelectContainer = styled.select`
+export const SelectContainer = styled.select<{ size: string }>`
   position: relative;
   background-color: #fff;
   border: 1px solid #d9d9d9;

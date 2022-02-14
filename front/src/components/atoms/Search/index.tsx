@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 
 import { SearchWrap, EnterIconWrapper, SearchLoadingIcon, SearchInput, SearchIcon } from './style';
 
@@ -11,6 +10,14 @@ const Search = ({
   placeholder,
   onSearch,
   ...props
+}: {
+  size?: any,
+  loading?: boolean,
+  value: string,
+  placeholder?: string,
+  enterButton?: boolean,
+  onChange: () => void,
+  onSearch: () => void,
 }) => {
   const handleKeyPress = useCallback((e) => {
     if (e.key === 'Enter') {
@@ -26,6 +33,7 @@ const Search = ({
         {loading ? <SearchLoadingIcon /> : <SearchIcon onClick={onSearch} />}
       </EnterIconWrapper>
       <SearchInput
+        size={size}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
@@ -33,16 +41,6 @@ const Search = ({
       />
     </SearchWrap>
   );
-};
-
-Search.propTypes = {
-  size: PropTypes.string,
-  placeholder: PropTypes.string,
-  loading: PropTypes.bool,
-  value: PropTypes.node,
-  onChange: PropTypes.func,
-  onSearch: PropTypes.func,
-  props: PropTypes.any,
 };
 
 export default Search;

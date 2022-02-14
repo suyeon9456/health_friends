@@ -36,7 +36,7 @@ export const MenuList = styled.ul`
   }
 `;
 
-export const MenuItem = styled.li`
+export const MenuItem = styled.li<{ align: string, type: string | undefined }>`
   position: relative;
   margin: 0;
   white-space: nowrap;

@@ -1,22 +1,18 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 
-import {
-  InputNumberWrap,
-  InputNumberBox,
-  NumberHandlerWrap,
-  NumberHandlerUp,
-  NumberHandlerUpInner,
-  NumberHandlerDown,
-  NumberHandlerDownInner,
-} from './style';
+import { InputNumberWrap, InputNumberBox, NumberHandlerWrap, NumberHandlerUp, NumberHandlerUpInner, NumberHandlerDown, NumberHandlerDownInner } from './style';
 
-const InputNumber = ({ value, onChange, setValue, size, ...props }) => {
+const InputNumber = ({ value, onChange, setValue, size, ...props }: {
+  value: number,
+  onChange: void,
+  setValue:  React.Dispatch<React.SetStateAction<string>>,
+  size: string
+}) => {
   const onChangeUpAge = useCallback(() => {
-    setValue((prev) => parseInt(prev, 10) + 1);
+    setValue((prev: string) => (parseInt(prev, 10) + 1).toString());
   }, [value]);
   const onChangeDownAge = useCallback(() => {
-    setValue((prev) => parseInt(prev, 10) - 1);
+    setValue((prev: string) => (parseInt(prev, 10) - 1).toString());
   }, [value]);
   return (
     <InputNumberWrap
@@ -49,14 +45,6 @@ const InputNumber = ({ value, onChange, setValue, size, ...props }) => {
       />
     </InputNumberWrap>
   );
-};
-
-InputNumber.propTypes = {
-  value: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  setValue: PropTypes.any.isRequired,
-  size: PropTypes.string,
-  props: PropTypes.node,
 };
 
 export default InputNumber;

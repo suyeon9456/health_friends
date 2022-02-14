@@ -32,7 +32,7 @@ const Input = ({
   // onChange: (event:  React.MouseEventHandler<HTMLInputElement>)  =>  void,
   placeholder?: string,
   disabled?: boolean,
-  error: Array<FieldError>,
+  error?: Array<FieldError>,
 }) => {
   const [passwordType, setPasswordType] = useState(true);
 

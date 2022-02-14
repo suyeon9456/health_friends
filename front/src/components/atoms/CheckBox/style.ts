@@ -1,11 +1,12 @@
 import styled, { css } from 'styled-components';
 
-interface CheckBox {
-  type: string;
-  value?: string;
-  checked: boolean;
-  onChange?: (event:  React.MouseEventHandler<HTMLInputElement>)  =>  void;
-}
+// interface CheckBox {
+//   type: string;
+//   value: string | boolean;
+//   checked: boolean;
+//   onChange?: (event:  React.ChangeEvent<HTMLInputElement>)  =>  void;
+//   // onChange?: (event:  React.MouseEventHandler<HTMLInputElement>)  =>  void;
+// }
 
 export const Label = styled.label`
   touch-action: manipulation;
@@ -50,7 +51,7 @@ export const BasicCheckBoxWrap = styled.span`
   cursor: pointer;
 `;
 
-export const BasicCheckBox = styled.input<CheckBox>`
+export const BasicCheckBox = styled.input`
   touch-action: manipulation;
   position: absolute;
   inset: 0;

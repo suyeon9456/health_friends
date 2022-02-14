@@ -16,13 +16,13 @@ const Modal = ({ show,
   footer }: {
     show?: boolean, 
     title: React.ReactNode,
-    onCancel: () => void,
-    onSubmit: () => void,
-    className: string, 
+    className?: string, 
     children: React.ReactNode,
-    actions?: Array<{ id: string, type: string, onClick: () => void, title: string }>
+    actions?: Array<{ id: string, title: string, type?: string, onClick: () => void }> | [],
     form?: boolean,
-    footer: boolean
+    footer: boolean,
+    onCancel: (e?: React.MouseEvent<HTMLElement>) => void,
+    onSubmit?: () => void,
   }) => {
   useEffect(() => {
     if (show) {

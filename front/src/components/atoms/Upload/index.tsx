@@ -8,7 +8,7 @@ const Upload = ({ id, src, name, onChange, uploadError, onAddImage, onRemove }: 
   id: string,
   src?: string,
   name: string,
-  onChange?: () => void,
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
   uploadError?: boolean,
   onAddImage?: () => void,
   onRemove?: () => void,

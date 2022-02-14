@@ -52,7 +52,7 @@ export const CardCover = styled.div`
   }
 `;
 
-export const CardBody = styled.div`
+export const CardBody = styled.div<{ matchingId: number }>`
   padding: 24px;
   cursor: pointer;
   &::before {

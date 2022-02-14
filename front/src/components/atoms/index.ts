@@ -23,6 +23,9 @@ import CheckBox from './CheckBox';
 import Form from './Form';
 import ErrorMessage from './ErrorMessage';
 import Icon from './Icon';
+import NoDataIcon from './NoDataIcon';
+import ReactSliderPrevButton from './ReactSliderPrevButton';
+import ReactSliderNextButton from './ReactSliderNextButton';
 
 export {
   Avatar,
@@ -50,4 +53,7 @@ export {
   Form,
   ErrorMessage,
   Icon,
+  NoDataIcon,
+  ReactSliderPrevButton,
+  ReactSliderNextButton,
 };

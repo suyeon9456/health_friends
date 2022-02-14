@@ -1,20 +1,20 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
-import PropTypes from 'prop-types';
 import { CloseOutlined, LoginOutlined, LogoutOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
 
+import { RootState } from '@/../store/configureStore';
 import { LOG_OUT_REQUEST } from '../../../../reducers/user';
 import { useShowDispatch } from '../../../../store/contextStore';
 
 import { Button, Avatar } from '../../atoms';
 import { Drawer, DrawerBody, DrawerContent, DrawerContentWrap, DrawerHeader, DrawerHeaderTitle, DrawerMask, DrawerTitle, DrawerWrapBody, MemberMenu, MemberMenuItem, Menu, MenuItem, MenuText, MenuTitle } from './style';
 
-const DrawerMenu = ({ drawerShow }) => {
+const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
   const dispatch = useDispatch();
   const contextDispatch = useShowDispatch();
 
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector((state: RootState) => state.user);
 
   const onLogout = useCallback(() => {
     dispatch({ type: LOG_OUT_REQUEST });
@@ -110,10 +110,6 @@ const DrawerMenu = ({ drawerShow }) => {
       </DrawerContentWrap>
     </Drawer>
   );
-};
-
-DrawerMenu.propTypes = {
-  drawerShow: PropTypes.bool.isRequired,
 };
 
 export default DrawerMenu;

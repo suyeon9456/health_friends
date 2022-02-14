@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const Drawer = styled.div`
+export const Drawer = styled.div<{ drawerShow: boolean }>`
   position: fixed;
   width: 0;
   height: 0;
@@ -36,7 +36,7 @@ export const DrawerMask = styled.div`
   background-color: #00000073;
 `;
 
-export const DrawerContentWrap = styled.div`
+export const DrawerContentWrap = styled.div<{ drawerShow: boolean }>`
   position: absolute;
   height: 100%;
   width: 300px;

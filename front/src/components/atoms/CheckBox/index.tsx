@@ -2,10 +2,10 @@ import React from 'react';
 import { BasicCheckBoxInner, BasicCheckBox, BasicCheckBoxWrap, Label, BasicCheckBoxText } from './style';
 
 const CheckBox = ({ label, value, onChange, checked }: {
-  label: string,
-  value: string,
-  onChange: void,
-  checked: boolean,
+  label: string;
+  value: string;
+  onChange?: (event:  React.ChangeEvent<HTMLInputElement>) => void;
+  checked: boolean;
 }) => (
   <Label>
     <BasicCheckBoxWrap>
@@ -13,7 +13,7 @@ const CheckBox = ({ label, value, onChange, checked }: {
         type="checkbox"
         value={value}
         checked={checked}
-        onChange={() => onChange}
+        onChange={onChange}
       />
       <BasicCheckBoxInner checked={checked} />
     </BasicCheckBoxWrap>

@@ -1,9 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { SelectContainer, Options } from './style';
 
-const Select = ({ size, options, value, onChange }) => (
+const Select = ({ size, options, value, onChange }: {
+  size: string,
+  options: Array<{ text: string; value: string | number }>,
+  value: number | string,
+  onChange: () => void
+}) => (
   <SelectContainer
     size={size}
     value={value}
@@ -19,12 +23,5 @@ const Select = ({ size, options, value, onChange }) => (
     ))}
   </SelectContainer>
 );
-
-Select.propTypes = {
-  size: PropTypes.string,
-  options: PropTypes.array,
-  value: PropTypes.node,
-  onChange: PropTypes.func,
-};
 
 export default Select;

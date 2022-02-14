@@ -3,30 +3,30 @@ import { UserOutlined } from '@ant-design/icons';
 
 import { Card, CardBody, CardCover, CardMeta, MetaDescription, MetaDate, MetaTitle, CardActions, Action } from './style';
 
-const MatchingCard = ({ id,
+const MatchingCard = ({ matchingId,
   nickname,
   description,
   date,
   image,
   onClickView,
   actions }: {
-    id: string,
+    matchingId: number,
     nickname: string,
     description: string,
     date: string,
     image?: string,
-    onClickView: ({ key, id }: { key: string, id: string }) => void,
+    onClickView: ({ key, id }: { key: string, id: number }) => void,
     actions?: Array<{
       key: string,
       icon: React.ReactNode,
-      disabled: boolean,
-      onClick: ({ key, id }: { key: string, id: string }) => void }>
+      disabled?: boolean,
+      onClick: ({ key, id }: { key: string, id: number }) => void }>
   }) => (
     <Card>
       <CardCover>
         {image ? <img src={image} alt={image} /> : <div><UserOutlined /></div>}
       </CardCover>
-      <CardBody id={id} onClick={() => onClickView({ key: 'view', id })}>
+      <CardBody matchingId={matchingId} onClick={() => onClickView({ key: 'view', id: matchingId })}>
         <CardMeta>
           <MetaDate>{date}</MetaDate>
           <MetaTitle>{nickname}</MetaTitle>
@@ -37,8 +37,8 @@ const MatchingCard = ({ id,
         {actions?.map(({ key, icon, disabled, onClick }) => (
           <Action
             key={key}
-            onClick={() => onClick({ key, id })}
-            disabled={disabled}
+            onClick={() => onClick({ key, id: matchingId })}
+            disabled={disabled || false}
           >
             {icon}
           </Action>

@@ -62,7 +62,7 @@ export const ModalContent = styled.div`
   pointer-events: auto;
 `;
 
-export const ModalClose = styled.button`
+export const ModalClose = styled.button<{ onClick: (e?: React.MouseEvent<HTMLElement>) => void; }>`
   position: absolute;
   top: 0;
   right: 0;

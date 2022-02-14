@@ -6,7 +6,7 @@ interface Button {
   buttonLoading: boolean;
   block: boolean;
   // onClick?: React.MouseEventHandler<HTMLDivElement>;
-  onClick?: (event:  React.MouseEventHandler<HTMLInputElement>)  =>  void;
+  onClick?: (e:  React.MouseEvent<HTMLElement>)  =>  void;
 }
 
 export const StyledButton = styled.button<Button>`
