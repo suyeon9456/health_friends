@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import { SwapRightOutlined } from '@ant-design/icons';
 
@@ -7,18 +6,25 @@ import { RangeTimePickerWrap, RangeSeparator, Separator } from './style';
 import CustomPickerInput from '../CustomPickerInput';
 import CustomCalendar from '../CustomCalendar';
 
-const RangeTimePicker = ({ size, startDate, endDate, onChangeStartDate, onChangeEndDate }) => (
+const RangeDateTimePicker = ({ size, startDate, endDate, onChangeStartDate, onChangeEndDate }: {
+  size: string;
+  startDate: Date;
+  endDate: Date;
+  onChangeStartDate: (data: Date | null) => void;
+  onChangeEndDate: (data: Date | null) => void;
+}) => (
   <RangeTimePickerWrap>
     <DatePicker
       selected={startDate}
       onChange={(data) => onChangeStartDate(data)}
       showTimeSelect
-      showTimeSelectOnly
+      // showTimeSelectOnly
       timeIntervals={15}
       timeCaption="Time"
-      dateFormat="HH:mm"
+      timeFormat="HH:mm"
+      dateFormat="yyyy년 MM월 dd일 HH:mm"
       // placeholderText={placeholder}
-      customInput={<CustomPickerInput type="time" size={size} />}
+      customInput={<CustomPickerInput type="date" size={size} />}
       calendarContainer={CustomCalendar}
     />
     <RangeSeparator>
@@ -28,7 +34,7 @@ const RangeTimePicker = ({ size, startDate, endDate, onChangeStartDate, onChange
     </RangeSeparator>
     <DatePicker
       selected={endDate}
-      onChange={onChangeEndDate}
+      onChange={(data) => onChangeEndDate(data)}
       showTimeSelect
       showTimeSelectOnly
       timeIntervals={15}
@@ -40,12 +46,4 @@ const RangeTimePicker = ({ size, startDate, endDate, onChangeStartDate, onChange
   </RangeTimePickerWrap>
 );
 
-RangeTimePicker.propTypes = {
-  size: PropTypes.string,
-  startDate: PropTypes.any,
-  onChangeStartDate: PropTypes.func,
-  endDate: PropTypes.any,
-  onChangeEndDate: PropTypes.func,
-};
-
-export default RangeTimePicker;
+export default RangeDateTimePicker;

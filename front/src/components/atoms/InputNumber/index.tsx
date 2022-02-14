@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { Dispatch, SetStateAction, useCallback } from 'react';
 
 import { InputNumberWrap, InputNumberBox, NumberHandlerWrap, NumberHandlerUp, NumberHandlerUpInner, NumberHandlerDown, NumberHandlerDownInner } from './style';
 
 const InputNumber = ({ value, onChange, setValue, size, ...props }: {
   value: number,
-  onChange: void,
-  setValue:  React.Dispatch<React.SetStateAction<string>>,
+  onChange: () => void,
+  setValue: Dispatch<SetStateAction<string>>,
   size: string
 }) => {
   const onChangeUpAge = useCallback(() => {

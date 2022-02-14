@@ -1,11 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 
 import CustomCalendar from '../CustomCalendar';
 import CustomPickerInput from '../CustomPickerInput';
 
-const InputTimePicker = ({ size, value, onChange }) => (
+const InputTimePicker = ({ size, value, onChange }: {
+  size?: string;
+  value: any;
+  onChange: (data: Date | null) => void;
+}) => (
   <DatePicker
     selected={value}
     showTimeSelect
@@ -19,11 +22,5 @@ const InputTimePicker = ({ size, value, onChange }) => (
     onChange={(data) => onChange(data)}
   />
 );
-
-InputTimePicker.propTypes = {
-  size: PropTypes.string,
-  value: PropTypes.any,
-  onChange: PropTypes.func,
-};
 
 export default InputTimePicker;

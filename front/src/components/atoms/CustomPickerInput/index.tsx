@@ -1,10 +1,15 @@
 import React, { forwardRef } from 'react';
-import PropTypes from 'prop-types';
 import { CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons';
 
 import { PickerWrap, PickerInput, PickerInputWrap, PickerSuffix } from './style';
 
-const CustomPickerInput = forwardRef(({ value, onClick, type, size, placeholder }, ref) => (
+const CustomPickerInput = forwardRef(({ value, onClick, type, size, placeholder }: {
+  value?: string;
+  onClick?: () => void;
+  type: string;
+  size?: string;
+  placeholder?: string;
+}, ref) => (
   <PickerWrap
     size={size}
   >
@@ -23,13 +28,5 @@ const CustomPickerInput = forwardRef(({ value, onClick, type, size, placeholder 
     </PickerInputWrap>
   </PickerWrap>
 ));
-
-CustomPickerInput.propTypes = {
-  value: PropTypes.string,
-  onClick: PropTypes.func,
-  type: PropTypes.string,
-  size: PropTypes.string,
-  placeholder: PropTypes.string,
-};
 
 export default CustomPickerInput;

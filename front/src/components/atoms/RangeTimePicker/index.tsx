@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import { SwapRightOutlined } from '@ant-design/icons';
 
@@ -7,19 +6,23 @@ import { RangeTimePickerWrap, RangeSeparator, Separator } from './style';
 import CustomPickerInput from '../CustomPickerInput';
 import CustomCalendar from '../CustomCalendar';
 
-const RangeDateTimePicker = ({ size, startDate, endDate, onChangeStartDate, onChangeEndDate }) => (
+const RangeTimePicker = ({ size, startDate, endDate, onChangeStartDate, onChangeEndDate }: {
+  size?: string;
+  startDate: Date;
+  endDate: Date;
+  onChangeStartDate: (data: Date | null) => void;
+  onChangeEndDate: (data: Date | null) => void;
+}) => (
   <RangeTimePickerWrap>
     <DatePicker
       selected={startDate}
       onChange={(data) => onChangeStartDate(data)}
       showTimeSelect
-      // showTimeSelectOnly
+      showTimeSelectOnly
       timeIntervals={15}
       timeCaption="Time"
-      timeFormat="HH:mm"
-      dateFormat="yyyy년 MM월 dd일 HH:mm"
-      // placeholderText={placeholder}
-      customInput={<CustomPickerInput type="date" size={size} />}
+      dateFormat="HH:mm"
+      customInput={<CustomPickerInput type="time" size={size} />}
       calendarContainer={CustomCalendar}
     />
     <RangeSeparator>
@@ -29,7 +32,7 @@ const RangeDateTimePicker = ({ size, startDate, endDate, onChangeStartDate, onCh
     </RangeSeparator>
     <DatePicker
       selected={endDate}
-      onChange={(data) => onChangeEndDate(data)}
+      onChange={onChangeEndDate}
       showTimeSelect
       showTimeSelectOnly
       timeIntervals={15}
@@ -41,12 +44,4 @@ const RangeDateTimePicker = ({ size, startDate, endDate, onChangeStartDate, onCh
   </RangeTimePickerWrap>
 );
 
-RangeDateTimePicker.propTypes = {
-  size: PropTypes.string,
-  startDate: PropTypes.any,
-  onChangeStartDate: PropTypes.func,
-  endDate: PropTypes.any,
-  onChangeEndDate: PropTypes.func,
-};
-
-export default RangeDateTimePicker;
+export default RangeTimePicker;

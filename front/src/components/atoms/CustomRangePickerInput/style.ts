@@ -36,7 +36,14 @@ export const PickerInputWrap = styled.div`
   width: 100%;
 `;
 
-export const PickerInput = styled.input`
+export const PickerInput = styled.input<{
+  className: string,
+  value?: string;
+  onClick?: () => void;
+  ref: any;
+  size?: any;
+  placeholder?: string;
+}>`
   position: relative;
   display: inline-block;
   width: 100%;

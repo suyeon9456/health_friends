@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const PickerWrap = styled.div`
+export const PickerWrap = styled.div<{ size?: string }>`
   box-sizing: border-box;
   margin: 0;
   color: #000000d9;
@@ -49,7 +49,7 @@ export const PickerInputWrap = styled.div`
   width: 100%;
 `;
 
-export const PickerInput = styled.input`
+export const PickerInput = styled.input<{ ref: any }>`
   position: relative;
   display: inline-block;
   width: 100%;

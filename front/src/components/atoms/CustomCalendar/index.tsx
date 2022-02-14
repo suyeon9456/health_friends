@@ -1,19 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { CalendarContainer } from 'react-datepicker';
 
 import { CalendarBody, CalendarWrap } from './style';
 
-const CustomCalendar = ({ children }) => (
+const CustomCalendar = ({ children }: { children: React.ReactNode }) => (
   <CalendarWrap>
     <CalendarContainer>
       <CalendarBody>{children}</CalendarBody>
     </CalendarContainer>
   </CalendarWrap>
 );
-
-CustomCalendar.propTypes = {
-  children: PropTypes.node,
-};
 
 export default CustomCalendar;

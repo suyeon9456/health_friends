@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 
 import CustomRangePickerInput from '../CustomRangePickerInput';
 import CustomCalendar from '../CustomCalendar';
 
-const RangePicker = ({ type, size, placeholder }) => {
-  const [dateRange, setDateRange] = useState([null, null]);
+const RangePicker = ({ type, size, placeholder }: {
+  type?: string;
+  size?: string;
+  placeholder?: string;
+}) => {
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
   const [startDate, endDate] = dateRange;
   return (
     <DatePicker
@@ -15,7 +18,7 @@ const RangePicker = ({ type, size, placeholder }) => {
       startDate={startDate}
       endDate={endDate}
       placeholderText={placeholder}
-      onChange={(update) => {
+      onChange={(update: [Date | null, Date | null]) => {
         setDateRange(update);
       }}
       // isClearable
@@ -23,12 +26,6 @@ const RangePicker = ({ type, size, placeholder }) => {
       calendarContainer={CustomCalendar}
     />
   );
-};
-
-RangePicker.propTypes = {
-  type: PropTypes.string,
-  size: PropTypes.string,
-  placeholder: PropTypes.string,
 };
 
 export default RangePicker;

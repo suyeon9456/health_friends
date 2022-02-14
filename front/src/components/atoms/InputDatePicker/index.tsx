@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import DatePicker from 'react-datepicker';
-import PropTypes from 'prop-types';
 
 import CustomPickerInput from '../CustomPickerInput';
 import CustomCalendar from '../CustomCalendar';
 
-// const [startDate, setStartDate] = useState(new Date());
-const InputDatePicker = ({ startDate, setStartDate }) => (
+const InputDatePicker = ({ startDate, setStartDate }: {
+  startDate: Date;
+  setStartDate: Dispatch<SetStateAction<Date | null>>;
+}) => (
   <DatePicker
     selected={startDate}
     onChange={(date) => setStartDate(date)}
@@ -20,10 +21,5 @@ const InputDatePicker = ({ startDate, setStartDate }) => (
     calendarContainer={CustomCalendar}
   />
 );
-
-InputDatePicker.propTypes = {
-  startDate: PropTypes.instanceOf(Date),
-  setStartDate: PropTypes.func,
-};
 
 export default InputDatePicker;
