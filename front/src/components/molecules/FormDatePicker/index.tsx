@@ -1,11 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import { Essential, Label } from './style';
 import RangePicker from '../../atoms/RangePicker';
 import InputDatePicker from '../../atoms/InputDatePicker';
 
-const FormDatePicker = ({ label, type, placeholder, size, essential, startDate, setStartDate }) => (
+const FormDatePicker = ({ label, type, placeholder, size, essential, startDate, setStartDate }: {
+  label: string;
+  type?: string;
+  placeholder?: string;
+  size?: string;
+  essential?: boolean;
+  startDate: Date;
+  setStartDate: Dispatch<SetStateAction<Date | null>>;
+}) => (
   <div>
     <Label>
       {label}
@@ -15,7 +22,6 @@ const FormDatePicker = ({ label, type, placeholder, size, essential, startDate, 
       ? <RangePicker size={size} placeholder={placeholder} />
       : (
         <InputDatePicker
-          size={size}
           placeholder={placeholder}
           startDate={startDate}
           setStartDate={setStartDate}
@@ -23,15 +29,5 @@ const FormDatePicker = ({ label, type, placeholder, size, essential, startDate, 
       )}
   </div>
 );
-
-FormDatePicker.propTypes = {
-  label: PropTypes.string,
-  type: PropTypes.string,
-  placeholder: PropTypes.string,
-  size: PropTypes.string,
-  essential: PropTypes.bool,
-  startDate: PropTypes.instanceOf(Date),
-  setStartDate: PropTypes.func,
-};
 
 export default FormDatePicker;

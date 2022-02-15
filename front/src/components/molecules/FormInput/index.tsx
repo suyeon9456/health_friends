@@ -3,7 +3,6 @@ import { Controller } from 'react-hook-form';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import { ErrorMessage, Input } from '@/components/atoms';
-// import Input from '../../atoms/Input';
 import { Essential, Label } from './style';
 
 const FormInput = ({ label,

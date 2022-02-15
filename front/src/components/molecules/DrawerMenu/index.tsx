@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { CloseOutlined, LoginOutlined, LogoutOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
 
 import { RootState } from '@/../store/configureStore';
-import { LOG_OUT_REQUEST } from '../../../../reducers/user';
-import { useShowDispatch } from '../../../../store/contextStore';
+import { LOG_OUT_REQUEST } from '@/../reducers/user';
+import { useShowDispatch } from '@/../store/contextStore';
 
 import { Button, Avatar } from '../../atoms';
 import { Drawer, DrawerBody, DrawerContent, DrawerContentWrap, DrawerHeader, DrawerHeaderTitle, DrawerMask, DrawerTitle, DrawerWrapBody, MemberMenu, MemberMenuItem, Menu, MenuItem, MenuText, MenuTitle } from './style';

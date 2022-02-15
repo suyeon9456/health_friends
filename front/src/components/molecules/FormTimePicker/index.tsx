@@ -1,11 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Controller } from 'react-hook-form';
 
 import { Essential, Label } from './style';
 import { InputTimePicker } from '../../atoms';
 
-const FormTimePicker = ({ label, id, control, error, size, essential }) => (
+const FormTimePicker = ({ label, id, control, error, size, essential }: {
+  id: string;
+  label: string;
+  control?: any;
+  error?: any;
+  size?: string;
+  essential?: boolean;
+}) => (
   <div>
     <Label>
       {label}
@@ -19,21 +25,12 @@ const FormTimePicker = ({ label, id, control, error, size, essential }) => (
           name={id}
           size={size}
           value={value}
-          error={error}
+          // error={error}
           onChange={onChange}
         />
       )}
     />
   </div>
 );
-
-FormTimePicker.propTypes = {
-  label: PropTypes.string,
-  id: PropTypes.string,
-  control: PropTypes.any,
-  error: PropTypes.any,
-  size: PropTypes.string,
-  essential: PropTypes.bool,
-};
 
 export default FormTimePicker;

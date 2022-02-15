@@ -1,12 +1,27 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Controller } from 'react-hook-form';
 
 import { Essential, Label } from './style';
 import Textarea from '../../atoms/Textarea';
 
-const FormTextarea = ({ label, placeholder, maxLength, control, error, id,
-  showCount = false, essential = false }) => (
+const FormTextarea = ({
+  label,
+  placeholder,
+  maxLength,
+  control,
+  error,
+  id,
+  showCount = false,
+  essential = false }: {
+    label: string;
+    placeholder?: string;
+    maxLength?: number;
+    control?: any;
+    error?: any;
+    id: string;
+    showCount?: boolean;
+    essential?: boolean;
+  }) => (
     <div>
       <Label>
         {label}
@@ -22,23 +37,12 @@ const FormTextarea = ({ label, placeholder, maxLength, control, error, id,
             maxLength={maxLength}
             showCount={showCount}
             value={value}
-            error={error}
+            // error={error}
             onChange={onChange}
           />
         )}
       />
     </div>
 );
-
-FormTextarea.propTypes = {
-  label: PropTypes.string,
-  placeholder: PropTypes.string,
-  maxLength: PropTypes.number,
-  showCount: PropTypes.bool,
-  essential: PropTypes.bool,
-  id: PropTypes.string,
-  control: PropTypes.any,
-  error: PropTypes.any,
-};
 
 export default FormTextarea;

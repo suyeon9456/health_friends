@@ -1,11 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { NavigateAction } from 'react-big-calendar';
 import { BiChevronLeft, BiChevronRight, BiRadioCircle } from 'react-icons/bi';
 
 import { ToolbarWrap, RbcBtnGroup, ButtonGroup } from './style';
 
-const BigCalendarToolbar = ({ date, onNavigate }) => {
-  const navigate = (action) => {
+const BigCalendarToolbar = ({ date, onNavigate }: {
+  date: Date;
+  onNavigate: (navigate: NavigateAction, date?: Date) => void;
+}) => {
+  const navigate = (action: NavigateAction) => {
     onNavigate(action);
   };
   return (
@@ -34,11 +37,6 @@ const BigCalendarToolbar = ({ date, onNavigate }) => {
       </RbcBtnGroup>
     </ToolbarWrap>
   );
-};
-
-BigCalendarToolbar.propTypes = {
-  date: PropTypes.any,
-  onNavigate: PropTypes.any,
 };
 
 export default BigCalendarToolbar;

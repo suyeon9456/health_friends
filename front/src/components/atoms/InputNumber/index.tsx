@@ -6,7 +6,7 @@ const InputNumber = ({ value, onChange, setValue, size, ...props }: {
   value: number,
   onChange: () => void,
   setValue: Dispatch<SetStateAction<string>>,
-  size: string
+  size?: string
 }) => {
   const onChangeUpAge = useCallback(() => {
     setValue((prev: string) => (parseInt(prev, 10) + 1).toString());

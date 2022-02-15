@@ -7,6 +7,7 @@ import CustomCalendar from '../CustomCalendar';
 const InputDatePicker = ({ startDate, setStartDate }: {
   startDate: Date;
   setStartDate: Dispatch<SetStateAction<Date | null>>;
+  placeholder?: string;
 }) => (
   <DatePicker
     selected={startDate}

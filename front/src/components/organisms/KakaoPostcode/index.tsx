@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-import React, { useCallback } from 'react';
+import React, { Dispatch, SetStateAction, useCallback } from 'react';
 import DaumPostcode from 'react-daum-postcode';
-import PropTypes from 'prop-types';
+import { UseFormSetValue } from 'react-hook-form';
 
 import { Modal } from '../../molecules';
 import { ModalBodyBox } from './style';
@@ -9,11 +9,19 @@ import { ModalBodyBox } from './style';
 const KakaoPostcode = ({ show,
   onCancel,
   setShowPostcode,
-  setSido,
-  setSigungu,
-  setAddress,
-  setLatitude,
-  setLongitude,
+  setValue,
+}: {
+  show?: boolean;
+  onCancel: () => void;
+  setShowPostcode: Dispatch<SetStateAction<boolean>>;
+  setValue: UseFormSetValue<{
+    sido: string;
+    sigungu: string;
+    address: string;
+    latitude: string;
+    longitude: string;
+    name: string;
+  }>;
 }) => {
   const handleComplete = useCallback((data) => {
     let fullAddress = data.address;
@@ -28,18 +36,25 @@ const KakaoPostcode = ({ show,
       console.log(extraAddress);
       fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
     }
-    const geocoder = new kakao.maps.services.Geocoder();
+    const geocoder = new window.kakao.maps.services.Geocoder();
 
-    geocoder.addressSearch(data.address, (result, status) => {
-      if (status === kakao.maps.services.Status.OK) {
+    geocoder.addressSearch(data.address, (result: Array<{
+      address: object;
+      address_name: string;
+      address_type: string;
+      road_address: object;
+      x: string;
+      y: string;
+    }>, status: string) => {
+      if (status === window.kakao.maps.services.Status.OK) {
         const { x: lon, y: lat } = result[0];
-        setLatitude(lat);
-        setLongitude(lon);
+        setValue('latitude', lat);
+        setValue('longitude', lon);
       }
     });
-    setSido(data.sido);
-    setSigungu(data.sigungu);
-    setAddress(fullAddress);
+    setValue('sido', data.sido);
+    setValue('sigungu', data.sigungu);
+    setValue('address', fullAddress);
     setShowPostcode(false);
   }, []);
   return (
@@ -55,17 +70,6 @@ const KakaoPostcode = ({ show,
       </ModalBodyBox>
     </Modal>
   );
-};
-
-KakaoPostcode.propTypes = {
-  show: PropTypes.bool.isRequired,
-  onCancel: PropTypes.func,
-  setShowPostcode: PropTypes.func,
-  setSido: PropTypes.func,
-  setSigungu: PropTypes.func,
-  setAddress: PropTypes.func,
-  setLatitude: PropTypes.func,
-  setLongitude: PropTypes.func,
 };
 
 export default KakaoPostcode;

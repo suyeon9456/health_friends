@@ -1,14 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import { Controller } from 'react-hook-form';
 import { CalendarOutlined, SwapRightOutlined } from '@ant-design/icons';
 
-import { Essential, Label } from './style';
 import { CustomCalendar, CustomPickerInput, ErrorMessage } from '../../atoms';
 import { RangeSeparator, RangeTimePickerWrap, Separator } from '../../atoms/RangeTimePicker/style';
+import { Essential, Label } from './style';
 
-const FormDateTimePicker = ({ label, control, size, essential, error }) => (
+const FormDateTimePicker = ({ label, control, size, essential, error }: {
+  label: string;
+  control?: any;
+  size?: string;
+  essential?: boolean;
+  error?: any;
+}) => (
   <div>
     <Label>
       {label}
@@ -62,13 +67,5 @@ const FormDateTimePicker = ({ label, control, size, essential, error }) => (
     )}
   </div>
 );
-
-FormDateTimePicker.propTypes = {
-  label: PropTypes.string,
-  size: PropTypes.string,
-  essential: PropTypes.bool,
-  control: PropTypes.any,
-  error: PropTypes.any,
-};
 
 export default FormDateTimePicker;

@@ -1,15 +1,15 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 
 import { SIGN_UP_STEP_GYM_INFO_SAVE, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV } from '../../../../../reducers/user';
 
+import { RootState } from '@/../store/configureStore';
 import { Button, Form } from '../../../atoms';
 import { FormInput, FormRangeTimePicker, FormTextarea } from '../../../molecules';
 import ModalGym from './ModalGym';
 import { ButtonWrap, FormSearchGymWrap, FormWrapper } from './style';
-import { RootState } from '@/../store/configureStore';
 
 const MoreGymInfoForm = () => {
   const dispatch = useDispatch();
@@ -25,7 +25,10 @@ const MoreGymInfoForm = () => {
     },
   });
 
+  useEffect(() => console.log('?????????', showModal), [showModal]);
+
   const changeShowModal = useCallback(() => {
+    console.log('?????????설마?')
     setShowModal((prev) => !prev);
   }, [showModal]);
 
@@ -101,10 +104,10 @@ const MoreGymInfoForm = () => {
       <ModalGym
         show={showModal}
         title="헬스장 찾기/등록"
-        className="gym-modal"
         onCancel={changeShowModal}
         setShowModal={setShowModal}
         setGym={setValue}
+        {...{className: 'gym-modal'}}
       />
     </FormWrapper>
   );

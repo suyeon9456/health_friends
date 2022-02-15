@@ -20,7 +20,7 @@ const Modal = ({ show,
     children: React.ReactNode,
     actions?: Array<{ id: string, title: string, type?: string, onClick: () => void }> | [],
     form?: boolean,
-    footer: boolean,
+    footer?: boolean,
     onCancel: (e?: React.MouseEvent<HTMLElement>) => void,
     onSubmit?: () => void,
   }) => {

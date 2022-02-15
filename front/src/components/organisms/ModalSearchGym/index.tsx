@@ -7,10 +7,16 @@ import { SELECT_GYM } from '../../../../reducers/user';
 import { LOAD_GYM_REQUEST } from '../../../../reducers/gym';
 import { Search, Item } from '../../atoms';
 import { BoxContent, GymListWrap, ListCard } from './style';
+import { UseFormSetValue } from 'react-hook-form';
 
 const ModalSearchGym = ({ setShowModal, setGym }: {
-  setShowModal: (state: boolean) => void,
-  setGym: (name: string, value: string) => void,
+  setShowModal: (state: boolean) => void;
+  setGym: UseFormSetValue<{
+    startTime: Date;
+    endTime: Date;
+    gym: string;
+    description: string;
+  }>;
 }) => {
   const dispatch = useDispatch();
   const { gyms } = useSelector((state: RootState) => state.gym);

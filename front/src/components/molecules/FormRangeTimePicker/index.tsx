@@ -1,14 +1,24 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import { SwapRightOutlined } from '@ant-design/icons';
-import { Controller } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 
 import { RangeTimePickerWrap, RangeSeparator, Separator } from '../../atoms/RangeTimePicker/style';
 import { Label, Essential } from '../FormTimePicker/style';
 import { CustomPickerInput, CustomCalendar } from '../../atoms';
 
-const FormRangeTimePicker = ({ label, essential, size, control, error }) => (
+const FormRangeTimePicker = ({ label, essential, size, control, error }: {
+  label: string;
+  essential?: boolean;
+  size?: string;
+  control?: Control<{
+    startTime: Date;
+    endTime: Date;
+    gym: string;
+    description: string;
+  }, object>;
+  error?: any;
+}) => (
   <div>
     <Label>
       {label}
@@ -22,7 +32,7 @@ const FormRangeTimePicker = ({ label, essential, size, control, error }) => (
           <DatePicker
             name="startTime"
             selected={value}
-            error={error}
+            // error={error}
             onChange={onChange}
             showTimeSelect
             showTimeSelectOnly
@@ -48,7 +58,7 @@ const FormRangeTimePicker = ({ label, essential, size, control, error }) => (
             <DatePicker
               name="endTime"
               selected={value}
-              error={error}
+              // error={error}
               onChange={onChange}
               showTimeSelect
               showTimeSelectOnly
@@ -64,13 +74,5 @@ const FormRangeTimePicker = ({ label, essential, size, control, error }) => (
     </RangeTimePickerWrap>
   </div>
 );
-
-FormRangeTimePicker.propTypes = {
-  label: PropTypes.string,
-  essential: PropTypes.bool,
-  size: PropTypes.string,
-  control: PropTypes.any,
-  error: PropTypes.any,
-};
 
 export default FormRangeTimePicker;

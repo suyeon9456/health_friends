@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { ChangeEvent, useCallback } from 'react';
 
 import { SearchWrap, EnterIconWrapper, SearchLoadingIcon, SearchInput, SearchIcon } from './style';
 
@@ -16,7 +16,7 @@ const Search = ({
   value: string,
   placeholder?: string,
   enterButton?: boolean,
-  onChange: () => void,
+  onChange: (e: ChangeEvent) => void,
   onSearch: () => void,
 }) => {
   const handleKeyPress = useCallback((e) => {

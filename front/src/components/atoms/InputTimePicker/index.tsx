@@ -4,7 +4,8 @@ import DatePicker from 'react-datepicker';
 import CustomCalendar from '../CustomCalendar';
 import CustomPickerInput from '../CustomPickerInput';
 
-const InputTimePicker = ({ size, value, onChange }: {
+const InputTimePicker = ({ name, size, value, onChange }: {
+  name: string;
   size?: string;
   value: any;
   onChange: (data: Date | null) => void;

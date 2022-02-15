@@ -3,47 +3,58 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '@/../store/configureStore';
 import { ADD_GYM_REQUEST } from '../../../../../reducers/gym';
-import useInput from '../../../../hooks/useInput';
 import { Modal, Tabs } from '../../../molecules';
 import ModalSearchGym from '../../ModalSearchGym';
 import ModalCreateGym from '../../ModalCreateGym';
 import { ModalBodyBox } from './style';
+import { useForm, UseFormSetValue } from 'react-hook-form';
 
 const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }: {
   show: boolean;
   title: string;
   onCancel: () => void;
   setShowModal: Dispatch<SetStateAction<boolean>>;
-  setGym: (key: string, value: string) => void;
+  setGym: UseFormSetValue<{
+    startTime: Date;
+    endTime: Date;
+    gym: string;
+    description: string;
+  }>;
 }) => {
   const { searchGymTabs } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
-  const [selectedTab, setSelectedTab] = useState('search');
-  const [sido, setSido] = useState('');
-  const [sigungu, setSigungu] = useState('');
-  const [address, setAddress] = useState('');
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
-  const [name, onChangeName] = useInput('');
 
-  const onChangeSelectedTab = useCallback((tab) => () => {
+  const { handleSubmit, control, setValue } = useForm({
+    defaultValues: {
+      sido: '',
+      sigungu: '',
+      address: '',
+      latitude: '',
+      longitude: '',
+      name: '',
+    },
+  });
+
+  const [selectedTab, setSelectedTab] = useState('search');
+
+  const onChangeSelectedTab = useCallback((tab) => {
+    console.log(tab);
     setSelectedTab(tab);
   }, [selectedTab]);
 
-  const onSubmit = useCallback(() => {
-    dispatch({
-      type: ADD_GYM_REQUEST,
-      data: { sido, sigungu, address, name, latitude, longitude },
-    });
-    setGym('gym', name);
+  const onSubmit = useCallback((data) => {
+    // 이벤트버블링 체크
+    dispatch({ type: ADD_GYM_REQUEST, data });
+    setGym('gym', data.name);
     setShowModal(false);
-  }, [show, selectedTab, sido, sigungu, address, name]);
+  }, [show, selectedTab]);
   return (
     <Modal
       show={show}
       title={title}
       onCancel={onCancel}
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit(onSubmit)}
+      form
       footer
       {...props}
     >
@@ -58,16 +69,8 @@ const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }: {
           ? <ModalSearchGym setShowModal={setShowModal} setGym={setGym} />
           : (
             <ModalCreateGym
-              sido={sido}
-              setSido={setSido}
-              sigungu={sigungu}
-              setSigungu={setSigungu}
-              address={address}
-              setAddress={setAddress}
-              setLatitude={setLatitude}
-              setLongitude={setLongitude}
-              name={name}
-              onChangeName={onChangeName}
+              setValue={setValue}
+              control={control}
             />
           )}
       </ModalBodyBox>

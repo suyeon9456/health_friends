@@ -1,31 +1,23 @@
-import React, { useState, useCallback, Dispatch, SetStateAction } from 'react';
+import React, { useState, useCallback, Dispatch, SetStateAction, ChangeEvent } from 'react';
 
 import { CreateFormWrap, FormSearchPostcode } from './style';
 import { Button } from '../../atoms';
 import { FormInput } from '../../molecules';
 import KakaoPostcode from '../KakaoPostcode';
+import { UseFormSetValue } from 'react-hook-form';
 
-const ModalCreateGym = ({ sido,
-  setSido,
-  sigungu,
-  setSigungu,
-  address,
-  setAddress,
-  setLatitude,
-  setLongitude,
-  name,
-  onChangeName,
+const ModalCreateGym = ({ control,
+  setValue,
 }: {
-  sido: string,
-  setSido: Dispatch<SetStateAction<string>>,
-  sigungu: string,
-  setSigungu:  Dispatch<SetStateAction<string>>,
-  address: string,
-  setAddress:  Dispatch<SetStateAction<string>>,
-  setLatitude:  Dispatch<SetStateAction<string>>,
-  setLongitude:  Dispatch<SetStateAction<string>>,
-  name: string,
-  onChangeName: () => void,
+  control: any;
+  setValue: UseFormSetValue<{
+    sido: string;
+    sigungu: string;
+    address: string;
+    latitude: string;
+    longitude: string;
+    name: string;
+  }>;
 }) => {
   const [showPostcode, setShowPostcode] = useState(false);
   const changeShowPostcode = useCallback(() => {
@@ -37,10 +29,11 @@ const ModalCreateGym = ({ sido,
       <FormSearchPostcode>
         <FormInput
           label="시 / 도"
+          id="sido"
+          control={control}
           placeholder="주소를 검색해주세요."
           essential
           disabled
-          {...{ value: sido }}
         />
         <div className="button-wrap">
           <div />
@@ -54,34 +47,33 @@ const ModalCreateGym = ({ sido,
       </FormSearchPostcode>
       <FormInput
         label="시 / 군 / 구"
+        id="sigungu"
+        control={control}
         placeholder="주소를 검색해주세요."
         essential
         disabled
-        {...{ value: sigungu }}
       />
       <FormInput
         label="상세주소"
+        id="address"
+        control={control}
         placeholder="주소를 검색해주세요."
         essential
         disabled
-        {...{ value: address }}
       />
       <FormInput
         label="헬스장명"
+        id="name"
+        control={control}
         placeholder="헬스장명을 입력해주세요."
         essential
-        {...{ value: name, onChange: onChangeName }}
       />
       {showPostcode && (
         <KakaoPostcode
           show={showPostcode}
           onCancel={changeShowPostcode}
           setShowPostcode={setShowPostcode}
-          setSido={setSido}
-          setSigungu={setSigungu}
-          setAddress={setAddress}
-          setLatitude={setLatitude}
-          setLongitude={setLongitude}
+          setValue={setValue}
         />
       )}
     </CreateFormWrap>
