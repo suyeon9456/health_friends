@@ -4,6 +4,16 @@
     ["babel-plugin-styled-components", {
       "ssr": true,
       "displayName": true
-    }]
+    }],
+    [
+      "module-resolver",
+      {
+        "root": ["."],
+        "alias": {
+          "@": "./src"
+        },
+        "extensions": [".js", ".jsx", ".tsx"]
+      }
+    ]
   ]
 }

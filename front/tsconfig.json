@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "baseUrl": "./src",			/* 절대경로 모듈이 아닌, 모듈이 위치한 기준 디렉토리 */
+    "paths": {				/* baseUrl 기준으로 불러올 모듈의 위치를 재지정하는 엔트리 */
+      "@/*": [
+        "*"
+      ]
+    },
+    "typeRoots": [			/* 타입정의를 포함할 폴더목록, '/node_modules/@types/' 는 기본 포함됨 */
+      "./node_modules/@types/",
+      "./src/types/"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve"
+  },
+  "include": [
+    "next-env.d.ts",
+    "redux.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
