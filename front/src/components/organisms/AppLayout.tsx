@@ -7,7 +7,7 @@ import Row from './Row';
 import Col from './Col';
 
 const AppLayout = ({ children, spanNumber }:
-  { children: React.ReactNode, spanNumber: number  }) => {
+  { children: React.ReactNode, spanNumber?: number  }) => {
   const { drawerShow } = useShowState();
   return (
     <div>

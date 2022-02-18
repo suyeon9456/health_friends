@@ -23,6 +23,7 @@ interface ReMatching {
 }
 
 const RankedFriends = () => {
+  console.log(_.isEmpty);
   const dispatch = useDispatch();
   const { rankedFriends } = useSelector((state: RootState) => state.user);
   useEffect(() => {

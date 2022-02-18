@@ -4,7 +4,7 @@ import { END } from 'redux-saga';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
-import wrapper from '../store/configureStore';
+import wrapper, { RootState } from '../store/configureStore';
 import { LOAD_MY_INFO_REQUEST, LOAD_PROFILE_MYINFO_REQUEST } from '../reducers/user';
 
 import { Button } from '../src/components/atoms';
@@ -13,12 +13,14 @@ import { AppLayout, SideBar, Info, MoreInfo, Row, Col } from '../src/components/
 import MatchingCalendar from '../src/components/organisms/profile/MatchingCalendar';
 import MatchingRecord from '../src/components/organisms/profile/MatchingRecord';
 import LikedList from '../src/components/organisms/profile/LikedList';
+import { Store } from 'redux';
+import { GetServerSideProps } from 'next';
 
 const Myinfo = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector((state: RootState) => state.user);
   const [isNotloggedIn, setIsNotloggedIn] = useState(false);
   const [profileMenu, setProfileMenu] = useState('info');
 
@@ -74,17 +76,24 @@ const Myinfo = () => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async ({ req }) => {
-  const cookie = req ? req.headers.cookie : '';
-  axios.defaults.headers.Cookie = '';
-  if (req && cookie) {
-    axios.defaults.headers.Cookie = cookie;
-  }
-  store.dispatch({
-    type: LOAD_MY_INFO_REQUEST,
+export const getServerSideProps: GetServerSideProps = wrapper
+  .getServerSideProps((store) => async ({ req }) => {
+    const cookie = req ? req.headers.cookie : '';
+    axios!.defaults!.headers!.Cookie = '';
+    if (req && cookie) {
+      axios!.defaults!.headers!.Cookie = cookie;
+    }
+    store.dispatch({
+      type: LOAD_MY_INFO_REQUEST,
+    });
+    store.dispatch(END);
+    await (store as Store).sagaTask!.toPromise();
+
+    return {
+      props: {
+        allPostsData: {},
+      },
+    };
   });
-  store.dispatch(END);
-  await store.sagaTask.toPromise();
-});
 
 export default Myinfo;

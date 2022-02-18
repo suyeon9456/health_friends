@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import Router from 'next/router';
 import { useSelector } from 'react-redux';
 
-import AppLayout from '../src/components/organisms/AppLayout';
-import LoginForm from '../src/components/organisms/LoginForm';
+import { RootState } from '../store/configureStore';
+import { AppLayout, LoginForm } from '@/components/organisms';
 
 const Login = () => {
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector((state: RootState) => state.user);
   useEffect(() => {
     if (me && me.id) {
       Router.replace('/');
