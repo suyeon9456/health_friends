@@ -1,5 +1,5 @@
 import { Store } from 'redux';
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { createWrapper } from 'next-redux-wrapper';
 import createSagaMiddleware, { Task } from 'redux-saga';
 
@@ -29,9 +29,7 @@ const store = () => {
 
 const wrapper = createWrapper(store, { debug: process.env.NODE_ENV === 'development' });
 
-// // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof createStore.getState>;
-// // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof createStore.dispatch;
 
 // export type AppStore = ReturnType<typeof store>;

@@ -19,7 +19,7 @@ const App = ({ Component }: AppProps) => {
     editNickname: false,
     editDescription: false,
   });
-  console.log('dispatch  ', dispatch);
+  
   return (
     <>
       <Head>

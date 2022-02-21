@@ -7,7 +7,7 @@ import { StyledAvatar } from './style';
 const Avatar = ({ size = 'default', src, ...props }: {
   size?: string | number,
   src?: string,
-  style?: any,
+  style?: React.CSSProperties,
 }) => (
   <StyledAvatar
     size={size}

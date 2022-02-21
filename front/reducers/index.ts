@@ -6,7 +6,7 @@ import profile from './profile';
 import gym from './gym';
 import schedule from './schedule';
 
-const rootReducer = (state, action) => {
+const rootReducer = (state: any, action: any) => {
   switch (action.type) {
     case HYDRATE:
       console.log('HYDRATE', HYDRATE);
