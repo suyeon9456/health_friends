@@ -36,7 +36,7 @@ const KakaoPostcode = ({ show,
       console.log(extraAddress);
       fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
     }
-    const geocoder = new window.kakao.maps.services.Geocoder();
+    const geocoder = new (window as any).kakao.maps.services.Geocoder();
 
     geocoder.addressSearch(data.address, (result: Array<{
       address: object;
@@ -46,7 +46,7 @@ const KakaoPostcode = ({ show,
       x: string;
       y: string;
     }>, status: string) => {
-      if (status === window.kakao.maps.services.Status.OK) {
+      if (status === (window as any).kakao.maps.services.Status.OK) {
         const { x: lon, y: lat } = result[0];
         setValue('latitude', lat);
         setValue('longitude', lon);

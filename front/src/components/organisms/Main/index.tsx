@@ -36,7 +36,7 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    const geocoder = new window.kakao.maps.services.Geocoder();
+    const geocoder = new (window as any).kakao.maps.services.Geocoder();
     // console.log('navigator', navigator.geolocation);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -49,7 +49,7 @@ const Main = () => {
         // displayMarker(locPosition, message);
         geocoder.coord2Address(lon, lat, (
           result: Array<{ address: {[k: string]: any} | null, load_address: object | null }>, status: string) => {
-            if (status === window.kakao.maps.services.Status.OK) {
+            if (status === (window as any).kakao.maps.services.Status.OK) {
               console.log('address', result[0].address);
               const regionSiName = result[0]?.address?.region_1depth_name;
               const regionGuName = result[0]?.address?.region_2depth_name;
@@ -81,7 +81,7 @@ const Main = () => {
       // const message = 'geolocation을 사용할수 없어요..';
       geocoder.coord2Address(33.450701, 126.570667, (
         result: Array<{ address: {[k: string]: any} | null, load_address: object | null }>, status: string) => {
-        if (status === window.kakao.maps.services.Status.OK) {
+        if (status === (window as any).kakao.maps.services.Status.OK) {
           const regionSiName = result[0]?.address?.region_1depth_name;
           const regionGuName = result[0]?.address?.region_2depth_name;
           const regionDongName = result[0]?.address?.region_3depth_name;
