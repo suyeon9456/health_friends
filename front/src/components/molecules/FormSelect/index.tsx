@@ -1,25 +1,27 @@
 import React from 'react';
-import { Controller } from 'react-hook-form';
+import { Control, Controller, FieldError, FieldValues, Path } from 'react-hook-form';
 
 import { FormSelectWrap, Essential, Label } from './style';
 import { Select, ErrorMessage } from '../../atoms';
 
-const FormSelect = ({
+interface FormSelectType<T> {
+  label: string;
+  size?: 'default' | 'small' | 'large';
+  options: Array<{ text: string; value: string | number }>;
+  error?: FieldError | undefined;
+  id: Path<T>;
+  essential?: boolean;
+  control: Control<T, object>;
+}
+
+const FormSelect = <T extends FieldValues>({
   size,
   label,
   options,
   id,
   essential,
   control,
-  error }: {
-    label: string;
-    size?: string;
-    options: Array<{ text: string; value: string | number }>;
-    error?: any;
-    id: string;
-    essential?: boolean;
-    control: any;
-  }) => (
+  error }: FormSelectType<T>) => (
     <FormSelectWrap size={size}>
       <Label>
         {label}

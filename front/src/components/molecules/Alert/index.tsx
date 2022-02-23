@@ -3,10 +3,10 @@ import React from 'react';
 import { AlertBox, AlertContainer, AlertContent, AlertErrorIcon, AlertIconWrapper, AlertPrimaryIcon, AlertSuccessIcon, AlertWarningIcon } from './style';
 
 const Alert = ({ show, type, message, action }: {
-  show: boolean,
-  type: string,
-  message: string,
-  action: React.ReactNode
+  show: boolean;
+  type?: 'error' | 'warning' | 'success';
+  message: string;
+  action: React.ReactElement;
 }) => (
   <AlertContainer show={show}>
     <AlertBox>

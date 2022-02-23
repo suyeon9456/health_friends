@@ -1,13 +1,12 @@
 import React from 'react';
-import { AppProps } from 'next/app';
 import { UserOutlined } from '@ant-design/icons';
 
 import { StyledAvatar } from './style';
 
 const Avatar = ({ size = 'default', src, ...props }: {
-  size?: string | number,
-  src?: string,
-  style?: React.CSSProperties,
+  size?: 'small' | 'large' | 'default' | number;
+  src?: string;
+  style?: React.CSSProperties;
 }) => (
   <StyledAvatar
     size={size}

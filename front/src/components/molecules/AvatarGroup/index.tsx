@@ -4,8 +4,8 @@ import { AvatarWrapper } from './style';
 import { Avatar } from '../../atoms';
 
 const AvatarGroup = ({ size, users, ...props }: {
-  size: string,
-  users: Array<{ size: string, id: number | string, src: string }>
+  size?: 'small' | 'large' | 'default' | number;
+  users: Array<{ id: number | string, src: string }>;
 }) => (
   <AvatarWrapper
     {...props}

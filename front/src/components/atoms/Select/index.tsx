@@ -3,14 +3,15 @@ import React from 'react';
 import { SelectContainer, Options } from './style';
 
 const Select = ({ size, options, name, value, onChange }: {
-  size?: string;
+  size?: 'default' | 'small' | 'large';
   options: Array<{ text: string; value: string | number }>;
   name: string;
   value: number | string;
   onChange: () => void;
 }) => (
   <SelectContainer
-    size={size}
+    name={name}
+    selectsize={size}
     value={value}
     onChange={onChange}
   >

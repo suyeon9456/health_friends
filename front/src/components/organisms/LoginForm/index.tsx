@@ -26,7 +26,7 @@ const LoginForm = () => {
   const { loginError } = useSelector((state: RootState) => state.user);
   const { alertShow } = useShowState();
 
-  const { handleSubmit, control, formState: { errors } } = useForm({
+  const { handleSubmit, control, formState: { errors } } = useForm<{ email: string; password: string }>({
     defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema),
   });
@@ -44,7 +44,6 @@ const LoginForm = () => {
   }, []);
 
   useEffect(() => {
-    console.log('control', control);
     if (loginError) {
       changeShowAlert();
     }

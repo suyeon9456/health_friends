@@ -4,11 +4,10 @@ import { Essential, Label } from './style';
 import RangePicker from '../../atoms/RangePicker';
 import InputDatePicker from '../../atoms/InputDatePicker';
 
-const FormDatePicker = ({ label, type, placeholder, size, essential, startDate, setStartDate }: {
+const FormDatePicker = ({ label, type, placeholder, essential, startDate, setStartDate }: {
   label: string;
-  type?: string;
+  type?: 'range';
   placeholder?: string;
-  size?: string;
   essential?: boolean;
   startDate: Date;
   setStartDate: Dispatch<SetStateAction<Date | null>>;
@@ -19,7 +18,7 @@ const FormDatePicker = ({ label, type, placeholder, size, essential, startDate, 
       {essential && <Essential />}
     </Label>
     {type === 'range'
-      ? <RangePicker size={size} placeholder={placeholder} />
+      ? <RangePicker placeholder={placeholder} />
       : (
         <InputDatePicker
           placeholder={placeholder}

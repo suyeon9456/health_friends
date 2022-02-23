@@ -2,18 +2,12 @@ import React, { useCallback, useState } from 'react';
 import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
 
 import { InputContainer, InputContent, InputWrap, InputWrapBox } from './style';
-import { Message, MultipleFieldErrors } from 'react-hook-form';
-
-export type FieldError = {
-  type: string;
-  types?: MultipleFieldErrors;
-  message?: Message;
-};
+import { FieldError } from 'react-hook-form';
 
 
 const Input = ({
   name,
-  size,
+  size = 'default',
   type = 'text',
   loading,
   value,
@@ -23,16 +17,15 @@ const Input = ({
   error,
   ...props
 }: {
-  name?: any,
-  size?: any,
-  type?: string,
-  loading?: boolean,
-  value: string,
-  onChange: (event:  React.ChangeEvent<HTMLInputElement>)  =>  void,
-  // onChange: (event:  React.MouseEventHandler<HTMLInputElement>)  =>  void,
-  placeholder?: string,
-  disabled?: boolean,
-  error?: Array<FieldError>,
+  name?: string,
+  size?: 'default' | 'small' | 'large';
+  type?: 'text' | 'password';
+  loading?: boolean;
+  value: string;
+  onChange: (event:  React.ChangeEvent<HTMLInputElement>)  =>  void;
+  placeholder?: string;
+  disabled?: boolean;
+  error?: FieldError | undefined;
 }) => {
   const [passwordType, setPasswordType] = useState(true);
 
@@ -53,7 +46,7 @@ const Input = ({
                 passwordType={type}
                 value={value}
                 onChange={onChange}
-                size={size}
+                inputsize={size}
                 placeholder={placeholder}
                 {...props}
               />
@@ -76,7 +69,7 @@ const Input = ({
           <InputContainer
             value={value}
             onChange={onChange}
-            size={size ?? 'default'}
+            inputsize={size}
             placeholder={placeholder}
             readOnly={disabled}
             error={error}

@@ -4,7 +4,7 @@ import { ItemWrap, ItemCard, ItemContent, ItemDescription, ItemTitle } from './s
 
 const Item = ({ title, description, onClick }: {
   title: string,
-  description: React.ReactNode,
+  description: React.ReactElement,
   onClick?: () => void,
 }) => (
   <ItemCard>

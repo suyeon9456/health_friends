@@ -16,7 +16,7 @@ const MoreGymInfoForm = () => {
 
   const { signupStepGymInfo, selectedGym } = useSelector((state: RootState) => state.user);
   const [showModal, setShowModal] = useState(false);
-  const { handleSubmit, control, setValue } = useForm({
+  const { handleSubmit, control, setValue } = useForm<{ startTime: Date; endTime: Date; gym: string; description: string;  }>({
     defaultValues: {
       startTime: signupStepGymInfo?.startDate || new Date(),
       endTime: signupStepGymInfo?.endDate || new Date(),
@@ -25,10 +25,7 @@ const MoreGymInfoForm = () => {
     },
   });
 
-  useEffect(() => console.log('?????????', showModal), [showModal]);
-
   const changeShowModal = useCallback(() => {
-    console.log('?????????설마?')
     setShowModal((prev) => !prev);
   }, [showModal]);
 
@@ -49,6 +46,8 @@ const MoreGymInfoForm = () => {
     <FormWrapper>
       <Form onSubmit={handleSubmit(onClickStepHandler)}>
         <FormRangeTimePicker
+          startName="startTime"
+          endName="endTime"
           label="운동시간"
           size="large"
           control={control}

@@ -10,9 +10,19 @@ import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
 import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, MenuText, SideBarWrapper, SideMenu, SideMenuWrap } from './style';
 
+const menu = {
+  INFO: 'INFO',
+  RECORD: 'RECORD',
+  CALENDAR: 'CALENDAR',
+  LIKED: 'LIKED',
+} as const;
+
+type ProfileMenuType = typeof menu[keyof typeof menu];
+
+
 const SideBar = ({ profileMenu, setProfileMenu }: {
-  profileMenu: string;
-  setProfileMenu: React.Dispatch<SetStateAction<string>>;
+  profileMenu: ProfileMenuType;
+  setProfileMenu: React.Dispatch<SetStateAction<ProfileMenuType>>;
 }) => {
   const dispatch = useDispatch();
   const { profile, me, imagePath, uploadProfileImageError } = useSelector((state: RootState) => state.user);
@@ -138,8 +148,8 @@ const SideBar = ({ profileMenu, setProfileMenu }: {
         <SideMenu
           key="info"
           id="info"
-          onClick={() => onClickMenu('info')}
-          className={profileMenu === 'info' ? 'active' : ''}
+          onClick={() => onClickMenu(menu.INFO)}
+          className={profileMenu === menu.INFO ? 'active' : ''}
         >
           <Icon icon={<BiUser />} />
           <MenuText>{(me?.id && (profile?.id === me?.id)) ? '내정보' : '정보'}</MenuText>
@@ -147,8 +157,8 @@ const SideBar = ({ profileMenu, setProfileMenu }: {
         <SideMenu
           key="calendar"
           id="calendar"
-          onClick={() => onClickMenu('calendar')}
-          className={profileMenu === 'calendar' ? 'active' : ''}
+          onClick={() => onClickMenu(menu.CALENDAR)}
+          className={profileMenu === menu.CALENDAR ? 'active' : ''}
         >
           <Icon icon={<BiCalendar />} />
           <MenuText>매칭일정</MenuText>
@@ -156,8 +166,8 @@ const SideBar = ({ profileMenu, setProfileMenu }: {
         <SideMenu
           key="record"
           id="record"
-          onClick={() => onClickMenu('record')}
-          className={profileMenu === 'record' ? 'active' : ''}
+          onClick={() => onClickMenu(menu.RECORD)}
+          className={profileMenu === menu.RECORD ? 'active' : ''}
         >
           <Icon icon={<BiReceipt />} />
           <MenuText>매칭기록</MenuText>
@@ -165,8 +175,8 @@ const SideBar = ({ profileMenu, setProfileMenu }: {
         <SideMenu
           key="liked"
           id="liked"
-          onClick={() => onClickMenu('liked')}
-          className={profileMenu === 'liked' ? 'active' : ''}
+          onClick={() => onClickMenu(menu.LIKED)}
+          className={profileMenu === menu.LIKED ? 'active' : ''}
         >
           <Icon icon={<BiHeart />} />
           <MenuText>관심친구</MenuText>

@@ -17,8 +17,19 @@ const Modal = ({ show,
     show?: boolean, 
     title: React.ReactNode,
     className?: string, 
-    children: React.ReactNode,
-    actions?: Array<{ id: string, title: string, type?: string, onClick: () => void }> | [],
+    children: React.ReactElement,
+    actions?: Array<{
+      id: string,
+      title?: string,
+      type?: 'default'
+        | 'primary'
+        | 'error'
+        | 'success'
+        | 'warning'
+        | 'line-primary'
+        | 'signature'
+        | 'text',
+      onClick: () => void }> | [],
     form?: boolean,
     footer?: boolean,
     onCancel: (e?: React.MouseEvent<HTMLElement>) => void,

@@ -9,7 +9,7 @@ const Steps = ({ steps, process }: {
 }) => (
   <StepsWrapper>
     {steps.map((step) => {
-      let type = 'wait';
+      let type: 'wait' | 'finished' | 'process' = 'wait';
       if (step.step === process) {
         type = 'process';
       } else if (step.step < process) {

@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 interface Avatar {
-  size: string | number;
+  size: 'small' | 'large' | 'default' | number;
   src?: string;
 }
 

@@ -6,7 +6,7 @@ import { Button } from '../../atoms';
 const Confirm = ({ show, message, action, onCancel }: {
   show: boolean,
   message: string,
-  action: React.ReactNode,
+  action: React.ReactElement,
   onCancel: () => void,
 }) => {
   useEffect(() => {

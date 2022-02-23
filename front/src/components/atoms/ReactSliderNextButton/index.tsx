@@ -2,8 +2,8 @@ import React from 'react';
 import { NextButton } from './style';
 
 const ReactSliderNextButton = ({ className, style, onClick }: {
-  className?: any,
-  style?: any,
+  className?: string,
+  style?: React.CSSProperties,
   onClick?: () => void,
 }) => (
   <NextButton

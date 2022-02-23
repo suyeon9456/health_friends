@@ -4,12 +4,21 @@ import { CreateFormWrap, FormSearchPostcode } from './style';
 import { Button } from '../../atoms';
 import { FormInput } from '../../molecules';
 import KakaoPostcode from '../KakaoPostcode';
-import { UseFormSetValue } from 'react-hook-form';
+import { Control, UseFormSetValue } from 'react-hook-form';
+
+interface CreateModalType {
+  sido: string;
+  sigungu: string;
+  address: string;
+  latitude: string;
+  longitude: string;
+  name: string;
+}
 
 const ModalCreateGym = ({ control,
   setValue,
 }: {
-  control: any;
+  control: Control<CreateModalType, object>;
   setValue: UseFormSetValue<{
     sido: string;
     sigungu: string;

@@ -9,7 +9,7 @@ import { BiCurrentLocation } from 'react-icons/bi';
 import { FriendsWrap, FriendsTitle, FriendsSubTitle, FriendsBody, FriendsCardList, FriendsCard, CardAvatarWrap, CardContentWrap, ContentTitile, ContentDescription, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
 import { Avatar, Icon, NoDataIcon, ReactSliderNextButton, ReactSliderPrevButton } from '../../../atoms';
 
-const RecommendFriends = ({ location }: { location: {
+const RecommendFriends = ({ location }: { location?: {
     regionSiName: string | null,
     regionGuName: string | null,
     regionDongName: string | null,

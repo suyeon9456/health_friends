@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const StyledTag = styled.span<{ type: string }>`
+export const StyledTag = styled.span<{ type: 'gender' | 'age' | 'career' | 'position'; }>`
     box-sizing: border-box;
     margin: 0 8px 0 0;
     color: #000000d9;

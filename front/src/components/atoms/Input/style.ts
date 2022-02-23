@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { FieldError } from 'react-hook-form';
 
 interface Input {
-  size?: string;
+  inputsize?: 'default' | 'small' | 'large';
   type?: string;
   passwordType?: string;
   loading?: boolean;
@@ -10,11 +10,11 @@ interface Input {
   onChange?: (event:  React.ChangeEvent<HTMLInputElement>)  =>  void;
   placeholder?: string;
   disabled?: boolean;
-  error?: Array<FieldError>;
+  error?: FieldError | undefined;
   rules?: { required: boolean };
 }
 
-export const InputWrap = styled.span<{ error?: Array<FieldError> }>`
+export const InputWrap = styled.span<{ error?: FieldError | undefined; }>`
   position: relative;
   width: 100%;
   min-width: 0;
@@ -99,13 +99,13 @@ export const InputContainer = styled.input<Input>`
   border-radius: 2px;
   transition: all .3s;
 
-  ${({ size }) => {
-    if (size === 'small') {
+  ${({ inputsize }) => {
+    if (inputsize === 'small') {
       return css`
         height: 24px;
       `;
     }
-    if (size === 'large') {
+    if (inputsize === 'large') {
       return css`
         height: 40px;
       `;

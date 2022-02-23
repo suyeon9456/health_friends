@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, dateFnsLocalizer, DateLocalizer, EventProps } from 'react-big-calendar';
+import { Calendar, dateFnsLocalizer, DateLocalizer, EventProps, stringOrDate } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay, compareAsc } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
@@ -46,13 +46,6 @@ const Event = ({ event }: {
   );
 };
 
-// const EventAgenda = ({ event }: { event: { title: string; desc: string; } }) => (
-//   <span>
-//     <em style={{ color: 'magenta' }}>{event.title}</em>
-//     <p>{event.desc}</p>
-//   </span>
-// );
-
 const BigCalendar = ({ events, onSelectEvent, onRangeChange }: {
   events: Array<{
     Cancel?: {
@@ -64,9 +57,9 @@ const BigCalendar = ({ events, onSelectEvent, onRangeChange }: {
       isCanceled: boolean;
       updatedAt: string;
     };
-    Friend: {id: number; nickname: string; Image: object};
-    Gym: {address: string};
-    Requester: {id: number; nickname: string; Image: object};
+    Friend: { id: number; nickname: string; Image: object };
+    Gym: { address: string };
+    Requester: { id: number; nickname: string; Image: object };
     address: string;
     description: string
     end: Date;
@@ -79,8 +72,8 @@ const BigCalendar = ({ events, onSelectEvent, onRangeChange }: {
     start: Date;
     startDate: boolean;
   }>;
-  onSelectEvent: () => void;
-  onRangeChange: () => void;
+  onSelectEvent: (event: { nickname: string; address: string; start: Date }) => void;
+  onRangeChange: (range: Date[] | { start: stringOrDate; end: stringOrDate }) => void;
 }) => (
   <Calendar
     views={['month', 'week', 'day']}

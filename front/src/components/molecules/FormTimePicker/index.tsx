@@ -1,15 +1,15 @@
 import React from 'react';
-import { Controller } from 'react-hook-form';
+import { Control, Controller, FieldError, FieldValues } from 'react-hook-form';
 
-import { Essential, Label } from './style';
 import { InputTimePicker } from '../../atoms';
+import { Essential, Label } from './style';
 
 const FormTimePicker = ({ label, id, control, error, size, essential }: {
   id: string;
   label: string;
-  control?: any;
-  error?: any;
-  size?: string;
+  control?: Control<FieldValues, object>;
+  error?: FieldError | undefined;
+  size?: 'small' | 'large';
   essential?: boolean;
 }) => (
   <div>
@@ -25,7 +25,6 @@ const FormTimePicker = ({ label, id, control, error, size, essential }: {
           name={id}
           size={size}
           value={value}
-          // error={error}
           onChange={onChange}
         />
       )}

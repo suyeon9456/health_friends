@@ -1,15 +1,23 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Control, FieldErrors, FieldValues } from 'react-hook-form';
 
 import { RootState } from '@/../store/configureStore';
 import { MatchingInfoWrap, InfoContent, RequestFriendWrap, UserInfoWrap, Content, DescriptionWrap } from './style';
 import { FormInput, FormTextarea, FormDateTimePicker } from '../../molecules';
 import { Avatar } from '../../atoms';
 
+interface MatchingFormType {
+  startDate: Date;
+  endDate: Date;
+  gym: string;
+  description: string;
+}
+
 const MatchingRequestForm = ({ friend, control, errors }: {
   friend?: { nickname: string, Userdetail: { description: string } },
-  control: any, 
-  errors?: any,
+  control: Control<MatchingFormType, object>, 
+  errors?: FieldErrors;
 }) => {
   const { me } = useSelector((state: RootState) => state.user);
 
@@ -19,6 +27,8 @@ const MatchingRequestForm = ({ friend, control, errors }: {
         <h4>매칭정보</h4>
         <FormDateTimePicker
           label="날짜"
+          startName="startDate"
+          endName="endDate"
           essential
           control={control}
           error={{ startError: errors?.startDate, endError: errors?.endDate }}

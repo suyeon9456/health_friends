@@ -1,7 +1,7 @@
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import styled, { css } from 'styled-components';
 
-export const SearchWrap = styled.span<{ size: string }>`
+export const SearchWrap = styled.span<{ size?: 'default' | 'small' | 'large' }>`
   position: relative;
   width: 100%;
   min-width: 0;

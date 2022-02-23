@@ -4,9 +4,8 @@ import DatePicker from 'react-datepicker';
 import CustomRangePickerInput from '../CustomRangePickerInput';
 import CustomCalendar from '../CustomCalendar';
 
-const RangePicker = ({ type, size, placeholder }: {
-  type?: string;
-  size?: string;
+const RangePicker = ({ type, placeholder }: {
+  type?: 'date' | 'time';
   placeholder?: string;
 }) => {
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
@@ -22,7 +21,7 @@ const RangePicker = ({ type, size, placeholder }: {
         setDateRange(update);
       }}
       // isClearable
-      customInput={<CustomRangePickerInput type={type} size={size} placeholder={placeholder} />}
+      customInput={<CustomRangePickerInput type={type} placeholder={placeholder} />}
       calendarContainer={CustomCalendar}
     />
   );

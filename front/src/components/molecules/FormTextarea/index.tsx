@@ -1,10 +1,10 @@
 import React from 'react';
-import { Controller } from 'react-hook-form';
+import { Control, Controller, FieldError, FieldValues, Path } from 'react-hook-form';
 
 import { Essential, Label } from './style';
 import Textarea from '../../atoms/Textarea';
 
-const FormTextarea = ({
+const FormTextarea = <T extends FieldValues>({
   label,
   placeholder,
   maxLength,
@@ -13,12 +13,12 @@ const FormTextarea = ({
   id,
   showCount = false,
   essential = false }: {
-    label: string;
+    label?: string;
     placeholder?: string;
     maxLength?: number;
-    control?: any;
-    error?: any;
-    id: string;
+    control?: Control<T, object>;
+    error?: FieldError | undefined;
+    id: Path<T>;
     showCount?: boolean;
     essential?: boolean;
   }) => (
@@ -37,7 +37,6 @@ const FormTextarea = ({
             maxLength={maxLength}
             showCount={showCount}
             value={value}
-            // error={error}
             onChange={onChange}
           />
         )}

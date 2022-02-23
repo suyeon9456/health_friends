@@ -9,6 +9,15 @@ import ModalCreateGym from '../../ModalCreateGym';
 import { ModalBodyBox } from './style';
 import { useForm, UseFormSetValue } from 'react-hook-form';
 
+interface CreateModalType {
+  sido: string;
+  sigungu: string;
+  address: string;
+  latitude: string;
+  longitude: string;
+  name: string;
+}
+
 const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }: {
   show: boolean;
   title: string;
@@ -24,7 +33,7 @@ const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }: {
   const { searchGymTabs } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
-  const { handleSubmit, control, setValue } = useForm({
+  const { handleSubmit, control, setValue } = useForm<CreateModalType>({
     defaultValues: {
       sido: '',
       sigungu: '',

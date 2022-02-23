@@ -17,10 +17,10 @@ const Footer = () => (
         </InfoWrap>
         <BlogWrap>
           <IconWrap>
-            <a href="https://github.com/suyeon9456/health_friends" alt="github"><GithubOutlined /></a>
+            <a href="https://github.com/suyeon9456/health_friends"><GithubOutlined /></a>
           </IconWrap>
           <IconWrap>
-            <a href="https://sparkly-reaction-fac.notion.site/HEALTH_FRIENDS-ecaae7bdb9ad45bb894aa5fed359cc02" alt="notion">
+            <a href="https://sparkly-reaction-fac.notion.site/HEALTH_FRIENDS-ecaae7bdb9ad45bb894aa5fed359cc02">
               <div className="icon-back">B</div>
             </a>
           </IconWrap>

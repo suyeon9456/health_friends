@@ -11,7 +11,7 @@ const Search = ({
   onSearch,
   ...props
 }: {
-  size?: any,
+  size?: 'default' | 'small' | 'large',
   loading?: boolean,
   value: string,
   placeholder?: string,

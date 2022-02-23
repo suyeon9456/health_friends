@@ -1,13 +1,23 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Control, FieldValues } from 'react-hook-form';
 
 import { RootState } from '@/../store/configureStore';
 import { FormRangeTimePicker, FormSelect } from '../../../molecules';
 import { FormWrap } from './style';
 
+interface EditInfoFormType extends FieldValues {
+  startTime: Date;
+  endTime: Date;
+  gender: string;
+  age: number;
+  career: number;
+  role: number;
+}
+
 const EditInfoForm = ({ targetId, control }: {
-  targetId: string,
-  control: any,
+  targetId: string;
+  control: Control<EditInfoFormType, object>;
 }) => {
   const { careerOptions,
     roleOptions,
@@ -24,6 +34,8 @@ const EditInfoForm = ({ targetId, control }: {
       />
       {targetId === 'more-info' && (
         <FormRangeTimePicker
+          startName="startTime"
+          endName="endTime"
           label="운동시간"
           size="small"
           control={control}

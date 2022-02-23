@@ -8,10 +8,10 @@ const Tab = ({
   selectedValue,
   onClick,
 }: {
-  children: React.ReactNode,
-  value: string,
-  selectedValue: string,
-  onClick: () => void
+  children: React.ReactNode;
+  value: string;
+  selectedValue: string;
+  onClick: () => void;
 }) => (
   <TabNav
     key={value}

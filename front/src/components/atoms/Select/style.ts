@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const SelectContainer = styled.select<{ size?: string }>`
+export const SelectContainer = styled.select<{ selectsize?: 'default' | 'small' | 'large' }>`
   position: relative;
   background-color: #fff;
   border: 1px solid #d9d9d9;
@@ -10,13 +10,13 @@ export const SelectContainer = styled.select<{ size?: string }>`
   width: 100%;
   padding: 0 11px;
 
-  ${({ size }) => {
-    if (size === 'small') {
+  ${({ selectsize }) => {
+    if (selectsize === 'small') {
       return css`
         height: 24px;
       `;
     }
-    if (size === 'large') {
+    if (selectsize === 'large') {
       return css`
         height: 40px;
       `;

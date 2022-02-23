@@ -17,9 +17,16 @@ const Button = ({
   ...props
 }: {
   children?: React.ReactNode;
-  icon?: React.ReactNode;
-  size?: string;
-  type?: string;
+  icon?: React.ReactElement;
+  size?: 'default' | 'small' | 'large';
+  type?: 'default'
+    | 'primary'
+    | 'error'
+    | 'success'
+    | 'warning'
+    | 'line-primary'
+    | 'signature'
+    | 'text';
   name?: string;
   buttonLoading?: boolean;
   block?: boolean;

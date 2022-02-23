@@ -1,11 +1,17 @@
 import styled, { css } from 'styled-components';
 
 interface Button {
-  size: string;
-  styleType: string;
+  size: 'default' | 'small' | 'large';
+  styleType: 'default'
+    | 'primary'
+    | 'error'
+    | 'success'
+    | 'warning'
+    | 'line-primary'
+    | 'signature'
+    | 'text';
   buttonLoading: boolean;
   block: boolean;
-  // onClick?: React.MouseEventHandler<HTMLDivElement>;
   onClick?: (e:  React.MouseEvent<HTMLElement>)  =>  void;
 }
 

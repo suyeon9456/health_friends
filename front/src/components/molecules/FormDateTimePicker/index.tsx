@@ -1,19 +1,34 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
-import { Controller } from 'react-hook-form';
+import { Control, Controller, FieldError, FieldValues, Path } from 'react-hook-form';
 import { CalendarOutlined, SwapRightOutlined } from '@ant-design/icons';
 
 import { CustomCalendar, CustomPickerInput, ErrorMessage } from '../../atoms';
 import { RangeSeparator, RangeTimePickerWrap, Separator } from '../../atoms/RangeTimePicker/style';
 import { Essential, Label } from './style';
 
-const FormDateTimePicker = ({ label, control, size, essential, error }: {
+interface FormDateTimeType<T> {
   label: string;
-  control?: any;
-  size?: string;
+  startName: Path<T>;
+  endName: Path<T>;
+  control?: Control<T, object>;
+  size?: 'small' | 'large';
   essential?: boolean;
-  error?: any;
-}) => (
+  error?: {
+    startError: FieldError | undefined,
+    endError: FieldError | undefined,
+  };
+}
+
+const FormDateTimePicker = <T extends FieldValues>({
+  label,
+  startName,
+  endName,
+  control,
+  size,
+  essential,
+  error
+}: FormDateTimeType<T>) => (
   <div>
     <Label>
       {label}
@@ -22,7 +37,7 @@ const FormDateTimePicker = ({ label, control, size, essential, error }: {
     <RangeTimePickerWrap>
       <Controller
         control={control}
-        name="startDate"
+        name={startName}
         render={({ field: { value, onChange } }) => (
           <DatePicker
             selected={value}
@@ -44,7 +59,7 @@ const FormDateTimePicker = ({ label, control, size, essential, error }: {
       </RangeSeparator>
       <Controller
         control={control}
-        name="endDate"
+        name={endName}
         render={({ field: { value, onChange } }) => (
           <DatePicker
             selected={value}

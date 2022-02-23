@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { GetServerSideProps } from 'next';
+import { Store } from 'redux';
 import { END } from 'redux-saga';
 import { useRouter } from 'next/router';
 import axios from 'axios';
@@ -13,8 +15,15 @@ import { AppLayout, SideBar, Info, MoreInfo, Row, Col } from '../src/components/
 import MatchingCalendar from '../src/components/organisms/profile/MatchingCalendar';
 import MatchingRecord from '../src/components/organisms/profile/MatchingRecord';
 import LikedList from '../src/components/organisms/profile/LikedList';
-import { Store } from 'redux';
-import { GetServerSideProps } from 'next';
+
+const menu = {
+  INFO: 'INFO',
+  RECORD: 'RECORD',
+  CALENDAR: 'CALENDAR',
+  LIKED: 'LIKED',
+} as const;
+
+type ProfileMenuType = typeof menu[keyof typeof menu];
 
 const Myinfo = () => {
   const dispatch = useDispatch();
@@ -22,7 +31,7 @@ const Myinfo = () => {
 
   const { me } = useSelector((state: RootState) => state.user);
   const [isNotloggedIn, setIsNotloggedIn] = useState(false);
-  const [profileMenu, setProfileMenu] = useState('info');
+  const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(menu.INFO);
 
   useEffect(() => {
     if (!me) {
@@ -46,10 +55,10 @@ const Myinfo = () => {
         </Col>
         <Col xs={24} md={16}>
           {{
-            liked: <LikedList />,
-            calendar: <MatchingCalendar />,
-            record: <MatchingRecord />,
-            info: (
+            [menu.LIKED]: <LikedList />,
+            [menu.CALENDAR]: <MatchingCalendar />,
+            [menu.RECORD]: <MatchingRecord />,
+            [menu.INFO]: (
               <div>
                 <Info />
                 <MoreInfo />

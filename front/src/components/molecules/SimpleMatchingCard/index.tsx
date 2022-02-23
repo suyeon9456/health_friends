@@ -9,7 +9,7 @@ const SimpleMatchingCard = ({ nickname, address, date, avatarSize, onChangeShow 
   nickname: string,
   address: string,
   date: string,
-  avatarSize?: string,
+  avatarSize?: 'small' | 'large' | 'default' | number;
   actions?: Array<{ icon: React.ReactNode, key: string }>,
   onChangeShow?: () => void,
 }) => (

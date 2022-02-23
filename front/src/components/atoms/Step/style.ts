@@ -10,7 +10,7 @@ export const StepWrap = styled.div`
   vertical-align: top;
 `;
 
-export const StepIconWrap = styled.div<{ type: string }>`
+export const StepIconWrap = styled.div<{ type: 'wait' | 'finished' | 'process' }>`
   display: inline-block;
   vertical-align: top;
   width: 32px;

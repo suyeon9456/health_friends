@@ -6,8 +6,8 @@ import { PickerWrap, PickerInput, PickerInputWrap, PickerSuffix } from './style'
 const CustomPickerInput = forwardRef(({ value, onClick, type, size, placeholder }: {
   value?: string;
   onClick?: () => void;
-  type: string;
-  size?: string;
+  type: 'date' | 'time';
+  size?: 'small' | 'large';
   placeholder?: string;
 }, ref) => (
   <PickerWrap

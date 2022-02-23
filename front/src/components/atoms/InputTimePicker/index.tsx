@@ -6,8 +6,8 @@ import CustomPickerInput from '../CustomPickerInput';
 
 const InputTimePicker = ({ name, size, value, onChange }: {
   name: string;
-  size?: string;
-  value: any;
+  size?: 'small' | 'large';
+  value: Date;
   onChange: (data: Date | null) => void;
 }) => (
   <DatePicker
@@ -19,7 +19,7 @@ const InputTimePicker = ({ name, size, value, onChange }: {
     dateFormat="h:mm aa"
     customInput={<CustomPickerInput type="time" size={size} />}
     calendarContainer={CustomCalendar}
-    value={value}
+    value={String(value)}
     onChange={(data) => onChange(data)}
   />
 );

@@ -16,7 +16,7 @@ const FormInputNumber = ({ label,
   value: number;
   setValue: Dispatch<SetStateAction<string>>;
   onChange: () => void;
-  size?: string;
+  size?: 'small' | 'large';
   placeholder?: string;
   essential?: boolean;
 }) => (

@@ -40,8 +40,7 @@ export const PickerInput = styled.input<{
   className: string,
   value?: string;
   onClick?: () => void;
-  ref: any;
-  size?: any;
+  ref: React.ForwardedRef<HTMLInputElement>;
   placeholder?: string;
 }>`
   position: relative;

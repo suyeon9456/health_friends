@@ -3,7 +3,7 @@ import React from 'react';
 import { RowContainer } from './style';
 
 const Row = ({ justify, children }: {
-  justify?: string;
+  justify?: 'center';
   children?: React.ReactNode;
 }) => (
   <RowContainer

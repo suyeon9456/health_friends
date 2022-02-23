@@ -7,7 +7,7 @@ import CustomPickerInput from '../CustomPickerInput';
 import CustomCalendar from '../CustomCalendar';
 
 const RangeDateTimePicker = ({ size, startDate, endDate, onChangeStartDate, onChangeEndDate }: {
-  size: string;
+  size?: 'small' | 'large';
   startDate: Date;
   endDate: Date;
   onChangeStartDate: (data: Date | null) => void;

@@ -17,7 +17,6 @@ const InputDatePicker = ({ startDate, setStartDate }: {
     timeIntervals={15}
     timeCaption="time"
     dateFormat="yyyy년 MM월 dd일 HH:mm"
-    // withPortal
     customInput={<CustomPickerInput type="date" />}
     calendarContainer={CustomCalendar}
   />

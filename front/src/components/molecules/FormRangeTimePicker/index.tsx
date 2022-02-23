@@ -1,24 +1,31 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import { SwapRightOutlined } from '@ant-design/icons';
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, FieldError, FieldValues, Path } from 'react-hook-form';
 
 import { RangeTimePickerWrap, RangeSeparator, Separator } from '../../atoms/RangeTimePicker/style';
 import { Label, Essential } from '../FormTimePicker/style';
 import { CustomPickerInput, CustomCalendar } from '../../atoms';
 
-const FormRangeTimePicker = ({ label, essential, size, control, error }: {
+interface FormRangeTimePickerType<T> {
   label: string;
   essential?: boolean;
-  size?: string;
-  control?: Control<{
-    startTime: Date;
-    endTime: Date;
-    gym: string;
-    description: string;
-  }, object>;
-  error?: any;
-}) => (
+  startName: Path<T>;
+  endName: Path<T>;
+  size?: 'small' | 'large';
+  control?: Control<T, object>;
+  error?: FieldError | undefined;
+}
+
+const FormRangeTimePicker = <T extends FieldValues>({
+  label,
+  startName,
+  endName,
+  essential,
+  size,
+  control,
+  error
+}: FormRangeTimePickerType<T>) => (
   <div>
     <Label>
       {label}
@@ -27,12 +34,11 @@ const FormRangeTimePicker = ({ label, essential, size, control, error }: {
     <RangeTimePickerWrap>
       <Controller
         control={control}
-        name="startTime"
+        name={startName}
         render={({ field: { value, onChange } }) => (
           <DatePicker
-            name="startTime"
+            name={startName}
             selected={value}
-            // error={error}
             onChange={onChange}
             showTimeSelect
             showTimeSelectOnly
@@ -51,14 +57,13 @@ const FormRangeTimePicker = ({ label, essential, size, control, error }: {
       </RangeSeparator>
       <Controller
         control={control}
-        name="endTime"
+        name={endName}
         render={({ field: { value, onChange } }) => {
           console.log(value);
           return (
             <DatePicker
-              name="endTime"
+              name={endName}
               selected={value}
-              // error={error}
               onChange={onChange}
               showTimeSelect
               showTimeSelectOnly

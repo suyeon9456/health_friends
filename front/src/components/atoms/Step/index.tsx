@@ -4,10 +4,10 @@ import { CheckOutlined } from '@ant-design/icons';
 import { StepTitle, StepContentWrap, StepIconWrap, StepWrap, StepDescription } from './style';
 
 const Step = ({ type, step, title, description }: {
-  type: string,
-  step: number,
-  title: string,
-  description: string
+  type: 'wait' | 'finished' | 'process';
+  step: number;
+  title: string;
+  description: string;
 }) => (
   <StepWrap>
     <StepIconWrap

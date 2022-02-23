@@ -11,6 +11,7 @@ import { LOAD_CALENDAR_SCHEDULES_REQUEST } from '../../../../../reducers/schedul
 import { BigCalendar, SimpleMatchingCard } from '../../../molecules';
 import { CalendarWrap, CardWrap } from './style';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { Event } from 'react-big-calendar';
 
 const actions = [{ icon: <UserAddOutlined />, key: 'rematch' }, { icon: <EditOutlined />, key: 'edit' }];
 const MatchingCalendar = () => {
@@ -25,7 +26,7 @@ const MatchingCalendar = () => {
   const [address, setAddress] = useState<string>('');
   const [date, setDate] = useState<string>('');
 
-  const onSelectEvent = useCallback((event) => {
+  const onSelectEvent: (event: { nickname: string; address: string; start: Date }) => void = useCallback((event) => {
     setNickname(event.nickname);
     setAddress(event.address);
     setDate(format(event.start, 'yyyy-MM-dd HH:mm'));
@@ -36,9 +37,9 @@ const MatchingCalendar = () => {
     setShowCard(false);
   }, [showCard]);
 
-  const onRangeChange = useCallback((changeDate) => {
-    if (changeDate) {
-      const { start, end } = changeDate;
+  const onRangeChange = useCallback((range) => {
+    if (range) {
+      const { start, end } = range;
       dispatch({
         type: LOAD_CALENDAR_SCHEDULES_REQUEST,
         data: { start: useDateFormat(start, 'yyyy-MM-dd'), end: useDateFormat(end, 'yyyy-MM-dd') },

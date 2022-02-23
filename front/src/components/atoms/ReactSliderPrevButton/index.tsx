@@ -2,8 +2,8 @@ import React from 'react';
 import { PrevButton } from './style';
 
 const ReactSliderPrevButton = ({ className, style, onClick }: {
-  className?: any,
-  style?: any,
+  className?: string,
+  style?: React.CSSProperties,
   onClick?: () => void,
 }) => (
   <PrevButton

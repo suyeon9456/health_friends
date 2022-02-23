@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const PickerWrap = styled.div<{ size?: string }>`
+export const PickerWrap = styled.div<{ size?: 'small' | 'large' }>`
   box-sizing: border-box;
   margin: 0;
   color: #000000d9;

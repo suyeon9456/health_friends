@@ -3,13 +3,12 @@ import { CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons';
 
 import { RangePickerWrap, PickerInput, PickerInputWrap, PickerSuffix } from './style';
 
-const CustomRangePickerInput = forwardRef(({ value, onClick, type, size, placeholder }: {
+const CustomRangePickerInput = forwardRef(({ value, onClick, type, placeholder }: {
   value?: string;
   onClick?: () => void;
-  type?: string;
-  size?: string;
+  type?: 'date' | 'time';
   placeholder?: string;
-}, ref) => (
+}, ref: React.ForwardedRef<HTMLInputElement>) => (
   <RangePickerWrap>
     <PickerInputWrap>
       <PickerInput
@@ -17,7 +16,6 @@ const CustomRangePickerInput = forwardRef(({ value, onClick, type, size, placeho
         value={value}
         onClick={onClick}
         ref={ref}
-        size={size}
         placeholder={placeholder}
       />
     </PickerInputWrap>

@@ -3,10 +3,10 @@ import React, { Dispatch, SetStateAction, useCallback } from 'react';
 import { InputNumberWrap, InputNumberBox, NumberHandlerWrap, NumberHandlerUp, NumberHandlerUpInner, NumberHandlerDown, NumberHandlerDownInner } from './style';
 
 const InputNumber = ({ value, onChange, setValue, size, ...props }: {
-  value: number,
-  onChange: () => void,
-  setValue: Dispatch<SetStateAction<string>>,
-  size?: string
+  value: number;
+  onChange: () => void;
+  setValue: Dispatch<SetStateAction<string>>;
+  size?: 'small' | 'large';
 }) => {
   const onChangeUpAge = useCallback(() => {
     setValue((prev: string) => (parseInt(prev, 10) + 1).toString());

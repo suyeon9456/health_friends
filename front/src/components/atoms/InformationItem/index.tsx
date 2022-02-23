@@ -3,7 +3,10 @@ import React from 'react';
 import { Content, InfoWrapper, Title } from './style';
 
 const InformationItem = ({ title, icon, content }: {
-  title: string, icon: React.ReactNode, content: string }) => (
+  title: string;
+  icon: React.ReactElement;
+  content: string;
+}) => (
   <InfoWrapper>
     {icon}
     <Title>{title}:</Title>

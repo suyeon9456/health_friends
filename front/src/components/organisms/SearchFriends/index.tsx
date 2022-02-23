@@ -39,7 +39,6 @@ const SearchFriends = ({ foldedGym,
     if (!(me && me.id)) {
       return setStateWarning(true);
     }
-    console.log('friend', user);
     setFriend(user);
     setShowModal(true);
   }, [me && me.id]);
@@ -84,8 +83,6 @@ const SearchFriends = ({ foldedGym,
                   date={user.Userdetail.startTime}
                   percent={user.Userdetail.rematchingRate}
                   onClick={onShowMatchingModal(user)}
-                  // likeAction={profile?.Liked.includes(id) ?
-                  // <LikeTwoTone twoToneColor="#9254de" /> : <LikeOutlined />}
                   onLike={onLike(user)}
                 />
               );
