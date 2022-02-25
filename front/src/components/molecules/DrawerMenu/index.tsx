@@ -8,7 +8,7 @@ import { useShowDispatch } from '@/../store/contextStore';
 
 import { Button, Avatar } from '../../atoms';
 import { Drawer, DrawerBody, DrawerContent, DrawerContentWrap, DrawerHeader, DrawerHeaderTitle, DrawerMask, DrawerTitle, DrawerWrapBody, MemberMenu, MemberMenuItem, Menu, MenuItem, MenuText, MenuTitle } from './style';
-import { LOG_OUT_REQUEST } from '@/../@types/reducer/useractions';
+import { LOG_OUT_REQUEST } from '@/../@types/utils';
 
 const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
   const dispatch = useDispatch();

@@ -13,7 +13,7 @@ import { Store } from 'redux';
 import { MainBannerWrap, MainBodyWrap, MainWrap } from './style';
 import { Alert } from '../../molecules';
 import { Button } from '../../atoms';
-import { LOAD_MY_INFO_REQUEST, LOAD_RECOMMEND_FRIENDS_REQUEST } from '@/../@types/reducer/useractions';
+import { LOAD_MY_INFO_REQUEST, LOAD_RECOMMEND_FRIENDS_REQUEST } from '@/../@types/utils';
 
 declare global {
   interface Window {

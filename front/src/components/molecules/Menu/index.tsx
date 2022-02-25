@@ -7,7 +7,7 @@ import { RootState } from '@/../store/configureStore';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
 import { Avatar } from '../../atoms';
-import { LOG_OUT_REQUEST } from '@/../@types/reducer/useractions';
+import { LOG_OUT_REQUEST } from '@/../@types/utils';
 
 const Menu = () => {
   const { me } = useSelector((state: RootState) => state.user);
