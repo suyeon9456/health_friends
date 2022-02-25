@@ -6,12 +6,12 @@ import * as _ from 'lodash';
 
 import { RootState } from '@/../store/configureStore';
 import { useDateFormat } from '../../../../hooks';
-import { LOAD_CALENDAR_SCHEDULES_REQUEST } from '../../../../../reducers/schedule';
 
 import { BigCalendar, SimpleMatchingCard } from '../../../molecules';
 import { CalendarWrap, CardWrap } from './style';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Event } from 'react-big-calendar';
+import { LOAD_CALENDAR_SCHEDULES_REQUEST } from '@/../@types/utils';
 
 const actions = [{ icon: <UserAddOutlined />, key: 'rematch' }, { icon: <EditOutlined />, key: 'edit' }];
 const MatchingCalendar = () => {

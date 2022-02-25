@@ -5,14 +5,15 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 
 import wrapper from '../../store/configureStore';
-import { LOAD_MY_INFO_REQUEST, LOAD_PROFILE_INFO_REQUEST } from '../../reducers/user';
 
 import { AppLayout, SideBar, Info, MoreInfo, Row, Col } from '../../src/components/organisms';
 import MatchingCalendar from '../../src/components/organisms/profile/MatchingCalendar';
 import MatchingRecord from '../../src/components/organisms/profile/MatchingRecord';
 import LikedList from '../../src/components/organisms/profile/LikedList';
+
 import { GetServerSideProps } from 'next';
 import { Store } from 'redux';
+import { LOAD_MY_INFO_REQUEST, LOAD_PROFILE_INFO_REQUEST } from '@/../@types/utils';
 
 const menu = {
   INFO: 'INFO',

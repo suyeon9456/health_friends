@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { LeftOutlined, RightOutlined, TeamOutlined } from '@ant-design/icons';
 
-import { LOAD_GYM_REQUEST, LOAD_FRIENDS_REQUEST } from '../../../../reducers/gym';
 import useInput from '../../../hooks/useInput';
 
 import { RootState } from '@/../store/configureStore';
@@ -13,6 +12,7 @@ import SearchFriends from '../SearchFriends';
 import SearchSidebar from '../SearchSidebar';
 import ModalMatchingRequest from '../ModalMatchingRequest';
 import { SearchHeader, SearchWrapper, SearchTitle, SearchFormWrapper, SearchListWrapper, GymWrapper, FoldButton } from './style';
+import { LOAD_FRIENDS_REQUEST, LOAD_GYM_REQUEST } from '@/../@types/utils';
 
 const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }: {
   foldedFriends: boolean;

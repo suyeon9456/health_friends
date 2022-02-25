@@ -1,6 +1,21 @@
 import produce from 'immer';
+import {
+  ADD_GYM_REQUEST,
+  ADD_GYM_SUCCESS,
+  ADD_GYM_ERROR,
+  LOAD_GYM_REQUEST,
+  LOAD_GYM_SUCCESS,
+  LOAD_GYM_ERROR,
+  LOAD_FRIENDS_REQUEST,
+  LOAD_FRIENDS_SUCCESS,
+  LOAD_FRIENDS_ERROR,
+  CHANGE_MAP_BOUNDS,
+  IS_LOAD_GYMS,
+} from '../@types/utils';
+import { GymInitialState } from '../@types/reducer/state';
+import { GymActions } from '../@types/action';
 
-const initialState = {
+const initialState: GymInitialState = {
   addGymLoading: false,
   addGymDone: false,
   addGymError: null,
@@ -17,22 +32,7 @@ const initialState = {
   gym: {},
 };
 
-export const ADD_GYM_REQUEST = 'ADD_GYM_REQUEST';
-export const ADD_GYM_SUCCESS = 'ADD_GYM_SUCCESS';
-export const ADD_GYM_ERROR = 'ADD_GYM_ERROR';
-
-export const LOAD_GYM_REQUEST = 'LOAD_GYM_REQUEST';
-export const LOAD_GYM_SUCCESS = 'LOAD_GYM_SUCCESS';
-export const LOAD_GYM_ERROR = 'LOAD_GYM_ERROR';
-
-export const LOAD_FRIENDS_REQUEST = 'LOAD_FRIENDS_REQUEST';
-export const LOAD_FRIENDS_SUCCESS = 'LOAD_FRIENDS_SUCCESS';
-export const LOAD_FRIENDS_ERROR = 'LOAD_FRIENDS_ERROR';
-
-export const CHANGE_MAP_BOUNDS = 'CHANGE_MAP_BOUNDS';
-export const IS_LOAD_GYMS = 'IS_LOAD_GYMS';
-
-const reducer = (state = initialState, action) => (produce(state, (draft) => {
+const reducer = (state = initialState, action: GymActions) => (produce(state, (draft) => {
   switch (action.type) {
     case ADD_GYM_REQUEST:
       draft.addGymLoading = true;
@@ -47,7 +47,7 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case ADD_GYM_ERROR:
       draft.addGymLoading = false;
       draft.addGymDone = false;
-      draft.addGymError = draft.error;
+      draft.addGymError = action.error;
       break;
     case LOAD_GYM_REQUEST:
       draft.loadGymLoading = true;
@@ -65,7 +65,7 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case LOAD_GYM_ERROR:
       draft.loadGymLoading = false;
       draft.loadGymDone = false;
-      draft.loadGymError = draft.error;
+      draft.loadGymError = action.error;
       break;
     case LOAD_FRIENDS_REQUEST:
       draft.loadFriendsLoading = true;
@@ -81,7 +81,7 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
     case LOAD_FRIENDS_ERROR:
       draft.loadFriendsLoading = false;
       draft.loadFriendsDone = false;
-      draft.loadFriendsError = draft.error;
+      draft.loadFriendsError = action.error;
       break;
     case CHANGE_MAP_BOUNDS:
       draft.mapBounds = action.data;

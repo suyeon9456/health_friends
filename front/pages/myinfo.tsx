@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 
 import wrapper, { RootState } from '../store/configureStore';
-import { LOAD_MY_INFO_REQUEST, LOAD_PROFILE_MYINFO_REQUEST } from '../reducers/user';
 
 import { Button } from '../src/components/atoms';
 import { Alert } from '../src/components/molecules';
@@ -15,6 +14,8 @@ import { AppLayout, SideBar, Info, MoreInfo, Row, Col } from '../src/components/
 import MatchingCalendar from '../src/components/organisms/profile/MatchingCalendar';
 import MatchingRecord from '../src/components/organisms/profile/MatchingRecord';
 import LikedList from '../src/components/organisms/profile/LikedList';
+
+import { LOAD_MY_INFO_REQUEST, LOAD_PROFILE_MYINFO_REQUEST } from '../@types/utils';
 
 const menu = {
   INFO: 'INFO',

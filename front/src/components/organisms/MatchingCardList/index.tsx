@@ -7,9 +7,9 @@ import ModalMatchingDetail from '../profile/ModalMatchingDetail';
 import { MatchingCardListWrap } from './style';
 import { Icon } from '../../atoms';
 import { MatchingCard } from '../../molecules';
-import { LOAD_SCHEDULE_REQUEST } from '../../../../reducers/schedule';
 import ModalMatchingEdit from '../profile/ModalMatchingEdit';
 import { RootState } from '@/../store/configureStore';
+import { LOAD_SCHEDULE_REQUEST } from '@/../@types/utils';
 
 interface Schedules {
   schedules: Array<{

@@ -5,11 +5,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { RootState } from '@/../store/configureStore';
-import { ADD_SCHEDULE_REQUEST } from '../../../../reducers/schedule';
 import { Avatar } from '../../atoms';
 import { Modal } from '../../molecules';
 import MatchingRequestForm from '../MatchingRequestForm';
 import { useDateFormat } from '../../../hooks';
+import { ADD_SCHEDULE_REQUEST } from '@/../@types/utils';
 
 const schema = yup.object({
   startDate: yup.string().required('날짜는 필수 항목입니다.'),

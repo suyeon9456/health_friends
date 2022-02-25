@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '@/../store/configureStore';
 import useInput from '../../../hooks/useInput';
-import { SELECT_GYM } from '../../../../reducers/user';
-import { LOAD_GYM_REQUEST } from '../../../../reducers/gym';
 import { Search, Item } from '../../atoms';
 import { BoxContent, GymListWrap, ListCard } from './style';
 import { UseFormSetValue } from 'react-hook-form';
+import { LOAD_GYM_REQUEST, SELECT_GYM } from '@/../@types/utils';
 
 const ModalSearchGym = ({ setShowModal, setGym }: {
   setShowModal: (state: boolean) => void;

@@ -3,11 +3,11 @@ import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { SIGN_UP_REQUEST, SIGN_UP_STEP_FRIENDS_INFO_SAVE, SIGN_UP_STEP_PREV } from '../../../../../reducers/user';
 import { RootState } from '@/../store/configureStore';
 import { FormSelect } from '../../../molecules';
 import { Form, Button } from '../../../atoms';
 import { ButtonWrap, FormWrapper } from './style';
+import { SIGN_UP_REQUEST, SIGN_UP_STEP_FRIENDS_INFO_SAVE, SIGN_UP_STEP_PREV } from '@/../@types/utils';
 
 const FriendsInfoForm = () => {
   const dispatch = useDispatch();

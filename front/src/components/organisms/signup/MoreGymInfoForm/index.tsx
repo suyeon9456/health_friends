@@ -3,13 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 
-import { SIGN_UP_STEP_GYM_INFO_SAVE, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV } from '../../../../../reducers/user';
-
 import { RootState } from '@/../store/configureStore';
 import { Button, Form } from '../../../atoms';
 import { FormInput, FormRangeTimePicker, FormTextarea } from '../../../molecules';
 import ModalGym from './ModalGym';
 import { ButtonWrap, FormSearchGymWrap, FormWrapper } from './style';
+import { SIGN_UP_STEP_GYM_INFO_SAVE, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV } from '@/../@types/utils';
 
 const MoreGymInfoForm = () => {
   const dispatch = useDispatch();

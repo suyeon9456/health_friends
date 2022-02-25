@@ -29,10 +29,12 @@ const Signup = () => {
           process={signupProcess}
         />
         <div className={styles.contentsWrap}>
-          {{ 1: <InfoForm />,
+          {{
+            1: <InfoForm />,
             2: <MoreInfoForm />,
             3: <MoreGymInfoForm />,
-            4: <FriendsInfoForm /> }[signupProcess]}
+            4: <FriendsInfoForm />
+          }[signupProcess]}
         </div>
       </div>
     </AppLayout>

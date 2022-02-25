@@ -3,11 +3,12 @@ import { GetServerSideProps } from 'next';
 import { END } from 'redux-saga';
 import axios from 'axios';
 
-import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import { AppLayout, Main, Footer } from '../src/components/organisms';
 
 import wrapper from '../store/configureStore';
+
 import { Store } from 'redux';
+import { LOAD_MY_INFO_REQUEST } from '../@types/utils';
 
 const Home = () => (
   <AppLayout spanNumber={24}>

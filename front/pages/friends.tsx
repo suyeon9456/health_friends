@@ -4,9 +4,10 @@ import { END } from 'redux-saga';
 import axios from 'axios';
 
 import wrapper from '../store/configureStore';
-import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 import { AppLayout, SearchGyms, SearchMap, Row, Col } from '../src/components/organisms';
 import { GetServerSideProps } from 'next';
+
+import { LOAD_MY_INFO_REQUEST } from '../@types/utils';
 
 const Friends = () => {
   const [foldedFriends, setFoldedFriends] = useState(true);

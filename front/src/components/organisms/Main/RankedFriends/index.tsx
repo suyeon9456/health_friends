@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as _ from 'lodash';
 import { RootState } from '@/../store/configureStore';
 
-import { LOAD_RANKED_FRIENDS_REQUEST } from '../../../../../reducers/user';
 import { RankItem, RankTitle, RankCard, RankCardList, RankCardWrap, RankedFriendsBody, RankedFriendsHeader, RankedFriendsWrap, RankItemWrap, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
 import NoDataIcon from '../../../atoms/NoDataIcon';
+import { LOAD_RANKED_FRIENDS_REQUEST } from '@/../@types/utils';
 
 interface Matching {
   count: number,

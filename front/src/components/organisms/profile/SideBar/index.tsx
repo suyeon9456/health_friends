@@ -4,11 +4,11 @@ import { BiTrophy, BiCommentCheck, BiBuildingHouse, BiUser, BiCalendar, BiReceip
 
 import { RootState } from '@/../store/configureStore';
 import useRate from '../../../../hooks/useRate';
-import { ADD_PROFILEIMAGE_REQUEST, REMOVE_PROFILEIMAGE, UPLOAD_PROFILEIMAGE_REQUEST } from '../../../../../reducers/user';
 import Progress from '../../../molecules/Progress';
 import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
 import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, MenuText, SideBarWrapper, SideMenu, SideMenuWrap } from './style';
+import { ADD_PROFILEIMAGE_REQUEST, REMOVE_PROFILEIMAGE, UPLOAD_PROFILEIMAGE_REQUEST } from '@/../@types/utils';
 
 const menu = {
   INFO: 'INFO',

@@ -4,13 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as _ from 'lodash';
 import { ReloadOutlined } from '@ant-design/icons';
 
-import { CHANGE_MAP_BOUNDS, IS_LOAD_GYMS, LOAD_FRIENDS_REQUEST } from '../../../../reducers/gym';
-
 import { RootState } from '@/../store/configureStore';
 import { Button } from '../../atoms';
 import { MapWrap } from './style';
 
 import styles from '../../../scss/searchMap.module.scss';
+import { CHANGE_MAP_BOUNDS, IS_LOAD_GYMS, LOAD_FRIENDS_REQUEST } from '@/../@types/utils';
 
 const SearchMap = ({ foldedFriends, setFoldedFriends }: {
   foldedFriends: boolean;

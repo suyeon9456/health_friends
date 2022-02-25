@@ -5,12 +5,12 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { LOG_IN_REQUEST } from '../../../../reducers/user';
 import { Alert, FormInput } from '@/components/molecules';
 import { Button, Form } from '@/components/atoms';
 import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 import { RootState } from '@/../store/configureStore';
+import { LOG_IN_REQUEST } from '@/../@types/utils';
 
 const schema = yup.object({
   email: yup.string()

@@ -8,7 +8,7 @@ import { Avatar } from '../../../atoms';
 import { Modal } from '../../../molecules';
 import { Content, DescriptionWrap, InfoContent } from '../../MatchingRequestForm/style';
 import { MatchingInfoWrap, RequestFriendWrap, UserInfoWrap } from './style';
-import { ADD_CANCELLATION_REQUEST, UPDATE_CANCELLATION_REQUEST, UPDATE_PERMISSION_REQUEST } from '../../../../../reducers/schedule';
+import { ADD_CANCELLATION_REQUEST, UPDATE_CANCELLATION_REQUEST, UPDATE_PERMISSION_REQUEST } from '@/../@types/utils';
 
 const ModalMatchingDetail = ({ show, onCancel }: {
   show: boolean;

@@ -1,6 +1,37 @@
 import produce from 'immer';
+import {
+  ADD_CANCELLATION_ERROR,
+  ADD_CANCELLATION_REQUEST,
+  ADD_CANCELLATION_SUCCESS,
+  ADD_RE_SCHEDULE_ERROR,
+  ADD_RE_SCHEDULE_REQUEST,
+  ADD_RE_SCHEDULE_SUCCESS,
+  ADD_SCHEDULE_ERROR,
+  ADD_SCHEDULE_REQUEST,
+  ADD_SCHEDULE_SUCCESS,
+  LOAD_CALENDAR_SCHEDULES_ERROR,
+  LOAD_CALENDAR_SCHEDULES_REQUEST,
+  LOAD_CALENDAR_SCHEDULES_SUCCESS,
+  LOAD_SCHEDULES_ERROR,
+  LOAD_SCHEDULES_REQUEST,
+  LOAD_SCHEDULES_SUCCESS,
+  LOAD_SCHEDULE_ERROR,
+  LOAD_SCHEDULE_REQUEST,
+  LOAD_SCHEDULE_SUCCESS,
+  UPDATE_CANCELLATION_ERROR,
+  UPDATE_CANCELLATION_REQUEST,
+  UPDATE_CANCELLATION_SUCCESS,
+  UPDATE_PERMISSION_ERROR,
+  UPDATE_PERMISSION_REQUEST,
+  UPDATE_PERMISSION_SUCCESS,
+  UPDATE_SCHEDULE_ERROR,
+  UPDATE_SCHEDULE_REQUEST,
+  UPDATE_SCHEDULE_SUCCESS,
+} from '../@types/utils';
+import { ScheduleInitialState } from '../@types/reducer/state';
+import { ScheduleActions } from '../@types/action';
 
-const initialState = {
+const initialState: ScheduleInitialState = {
   addScheduleLoading: false,
   addScheduleDone: false,
   addScheduleError: null,
@@ -28,48 +59,15 @@ const initialState = {
   updateCancellationLoading: false,
   updateCancellationDone: false,
   updateCancellationError: null,
+  addPermissionLoading: false,
+  addPermissionDone: false,
+  addPermissionError: null,
   schedules: [],
   schedulesCount: 0,
   schedule: null,
 };
 
-export const ADD_SCHEDULE_REQUEST = 'ADD_SCHEDULE_REQUEST';
-export const ADD_SCHEDULE_SUCCESS = 'ADD_SCHEDULE_SUCCESS';
-export const ADD_SCHEDULE_ERROR = 'ADD_SCHEDULE_ERROR';
-
-export const ADD_RE_SCHEDULE_REQUEST = 'ADD_RE_SCHEDULE_REQUEST';
-export const ADD_RE_SCHEDULE_SUCCESS = 'ADD_RE_SCHEDULE_SUCCESS';
-export const ADD_RE_SCHEDULE_ERROR = 'ADD_RE_SCHEDULE_ERROR';
-
-export const LOAD_SCHEDULES_REQUEST = 'LOAD_SCHEDULES_REQUEST';
-export const LOAD_SCHEDULES_SUCCESS = 'LOAD_SCHEDULES_SUCCESS';
-export const LOAD_SCHEDULES_ERROR = 'LOAD_SCHEDULES_ERROR';
-
-export const LOAD_CALENDAR_SCHEDULES_REQUEST = 'LOAD_CALENDAR_SCHEDULES_REQUEST';
-export const LOAD_CALENDAR_SCHEDULES_SUCCESS = 'LOAD_CALENDAR_SCHEDULES_SUCCESS';
-export const LOAD_CALENDAR_SCHEDULES_ERROR = 'LOAD_CALENDAR_SCHEDULES_ERROR';
-
-export const LOAD_SCHEDULE_REQUEST = 'LOAD_SCHEDULE_REQUEST';
-export const LOAD_SCHEDULE_SUCCESS = 'LOAD_SCHEDULE_SUCCESS';
-export const LOAD_SCHEDULE_ERROR = 'LOAD_SCHEDULE_ERROR';
-
-export const UPDATE_SCHEDULE_REQUEST = 'UPDATE_SCHEDULE_REQUEST';
-export const UPDATE_SCHEDULE_SUCCESS = 'UPDATE_SCHEDULE_SUCCESS';
-export const UPDATE_SCHEDULE_ERROR = 'UPDATE_SCHEDULE_ERROR';
-
-export const UPDATE_PERMISSION_REQUEST = 'UPDATE_PERMISSION_REQUEST';
-export const UPDATE_PERMISSION_SUCCESS = 'UPDATE_PERMISSION_SUCCESS';
-export const UPDATE_PERMISSION_ERROR = 'UPDATE_PERMISSION_ERROR';
-
-export const ADD_CANCELLATION_REQUEST = 'ADD_CANCELLATION_REQUEST';
-export const ADD_CANCELLATION_SUCCESS = 'ADD_CANCELLATION_SUCCESS';
-export const ADD_CANCELLATION_ERROR = 'ADD_CANCELLATION_ERROR';
-
-export const UPDATE_CANCELLATION_REQUEST = 'UPDATE_CANCELLATION_REQUEST';
-export const UPDATE_CANCELLATION_SUCCESS = 'UPDATE_CANCELLATION_SUCCESS';
-export const UPDATE_CANCELLATION_ERROR = 'UPDATE_CANCELLATION_ERROR';
-
-const reducer = (state = initialState, action) => (produce(state, (draft) => {
+const reducer = (state = initialState, action: ScheduleActions) => (produce(state, (draft) => {
   switch (action.type) {
     case ADD_SCHEDULE_REQUEST:
       draft.addScheduleLoading = true;
@@ -113,8 +111,8 @@ const reducer = (state = initialState, action) => (produce(state, (draft) => {
       draft.loadSchedulesError = null;
       draft.schedules = action.data.schedules.map((item) => ({
         ...item,
-        start: new Date(item.startDate),
-        end: new Date(item.endDate),
+        start: new Date(item?.startDate),
+        end: new Date(item?.endDate),
         address: item.Gym.address,
         gym: item.Gym.name,
       }));

@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BiEdit } from 'react-icons/bi';
 
-import { UPDATE_MY_DESCRIPTION_REQUEST, UPDATE_MY_NICKNAME_REQUEST } from '../../../../../reducers/user';
 import useInput from '../../../../hooks/useInput';
 
 import { Button, Icon, Input } from '../../../atoms';
 import { ContentText, ContentTitle, InfoBody, InfoButtonWrapper, InfoContent, InfoContentWrapper, InfoHeader, InfoWrapper } from './style';
 import { RootState } from '@/../store/configureStore';
+import { UPDATE_MY_DESCRIPTION_REQUEST, UPDATE_MY_NICKNAME_REQUEST } from '@/../@types/utils';
 
 const Info = () => {
   const dispatch = useDispatch();

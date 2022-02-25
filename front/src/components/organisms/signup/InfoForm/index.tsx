@@ -4,12 +4,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { SIGN_UP_STEP_INFO_SAVE, SIGN_UP_STEP_NEXT } from '../../../../../reducers/user';
-
 import { Button, Form } from '../../../atoms';
 import { FormInput } from '../../../molecules';
 import { ButtonWrap, InfoFormWrapper } from './style';
 import { RootState } from '@/../store/configureStore';
+import { SIGN_UP_STEP_INFO_SAVE, SIGN_UP_STEP_NEXT } from '@/../@types/utils';
 
 const schema = yup.object({
   email: yup.string()

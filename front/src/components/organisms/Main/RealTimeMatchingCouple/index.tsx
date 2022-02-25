@@ -5,8 +5,8 @@ import * as _ from 'lodash';
 import { BiGroup, BiMap } from 'react-icons/bi';
 import { Avatar, Icon, NoDataIcon } from '../../../atoms';
 import { AvatarWrap, CoupleCard, MatchingIcon, CoupleCardList, CoupleHeaderTitle, MatchingCoupleBody, MatchingCoupleHeader, MatchingCoupleWrap, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
-import { LOAD_REALTIME_MATCHING_REQUEST } from '../../../../../reducers/user';
 import { RootState } from '@/../store/configureStore';
+import { LOAD_REALTIME_MATCHING_REQUEST } from '@/../@types/utils';
 
 interface Mathcing {
   id: number,

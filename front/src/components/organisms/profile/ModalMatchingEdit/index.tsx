@@ -6,9 +6,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { RootState } from '@/../store/configureStore';
-import { ADD_RE_SCHEDULE_REQUEST, UPDATE_SCHEDULE_REQUEST } from '../../../../../reducers/schedule';
 import { Modal } from '../../../molecules';
 import MatchingRequestForm from '../../MatchingRequestForm';
+import { ADD_RE_SCHEDULE_REQUEST, UPDATE_SCHEDULE_REQUEST } from '@/../@types/utils';
 
 const schema = yup.object({
   startDate: yup.string().required('날짜는 필수 항목입니다.'),

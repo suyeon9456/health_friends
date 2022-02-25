@@ -5,8 +5,8 @@ import { CloseOutlined } from '@ant-design/icons';
 import Button from '../../atoms/Button';
 import { PropfileCard } from '../../molecules';
 import { FriendsListWrapper, SearchFriendsWrapper, SearchHeader, SearchTitle } from './style';
-import { ADD_LIKE_REQUEST } from '../../../../reducers/user';
 import { RootState } from '@/../store/configureStore';
+import { ADD_LIKE_REQUEST } from '@/../@types/utils';
 
 const SearchFriends = ({ foldedGym,
   foldedFriends,

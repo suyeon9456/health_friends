@@ -4,10 +4,10 @@ import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 
 import { useDateFormat } from '../../../../hooks';
-import { UPDATE_MY_INFO_REQUEST, UPDATE_MY_FRIENDS_INFO_REQUEST } from '../../../../../reducers/user';
 import { Modal } from '../../../molecules';
 import EditInfoForm from '../EditInfoForm';
 import { RootState } from '@/../store/configureStore';
+import { UPDATE_MY_FRIENDS_INFO_REQUEST, UPDATE_MY_INFO_REQUEST } from '@/../@types/utils';
 
 const ModalEditInfo = ({ title, targetId, show, onCancel, setCloseModal }: {
   title: string;

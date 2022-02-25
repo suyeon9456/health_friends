@@ -10,10 +10,10 @@ import wrapper from '../../../../store/configureStore';
 import axios from 'axios';
 
 import { Store } from 'redux';
-import { LOAD_MY_INFO_REQUEST, LOAD_RECOMMEND_FRIENDS_REQUEST } from '../../../../reducers/user';
 import { MainBannerWrap, MainBodyWrap, MainWrap } from './style';
 import { Alert } from '../../molecules';
 import { Button } from '../../atoms';
+import { LOAD_MY_INFO_REQUEST, LOAD_RECOMMEND_FRIENDS_REQUEST } from '@/../@types/reducer/useractions';
 
 declare global {
   interface Window {
@@ -50,7 +50,6 @@ const Main = () => {
         geocoder.coord2Address(lon, lat, (
           result: Array<{ address: {[k: string]: any} | null, load_address: object | null }>, status: string) => {
             if (status === (window as any).kakao.maps.services.Status.OK) {
-              console.log('address', result[0].address);
               const regionSiName = result[0]?.address?.region_1depth_name;
               const regionGuName = result[0]?.address?.region_2depth_name;
               const regionDongName = result[0]?.address?.region_3depth_name;

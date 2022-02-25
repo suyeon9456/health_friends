@@ -25,7 +25,7 @@ router.get('/', async (req, res, next) => {
       const user = await User.findOne({
         where: { id: req.user.id },
         attributes: {
-          exclude: ['password'],
+          exclude: ['password', 'createdAt', 'updatedAt'],
         },
         include: [{
           model: Userdetail,
@@ -375,7 +375,6 @@ router.post('/profileimage', isLoggedIn, async (req, res, next) => { // POST /us
     });
 
     const prevProfileImage = await user.getImage();
-    console.log('prevProfileImage: ', prevProfileImage);
     if (prevProfileImage) {
       await Image.destroy({
         where: { 

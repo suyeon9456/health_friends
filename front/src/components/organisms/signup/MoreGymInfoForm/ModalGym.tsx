@@ -2,12 +2,12 @@ import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '@/../store/configureStore';
-import { ADD_GYM_REQUEST } from '../../../../../reducers/gym';
 import { Modal, Tabs } from '../../../molecules';
 import ModalSearchGym from '../../ModalSearchGym';
 import ModalCreateGym from '../../ModalCreateGym';
 import { ModalBodyBox } from './style';
 import { useForm, UseFormSetValue } from 'react-hook-form';
+import { ADD_GYM_REQUEST } from '@/../@types/utils';
 
 interface CreateModalType {
   sido: string;

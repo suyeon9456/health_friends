@@ -2,12 +2,11 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { SIGN_UP_STEP_MORE_INFO_SAVE, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV } from '../../../../../reducers/user';
-
 import { Button, Form } from '../../../atoms';
 import { FormSelect } from '../../../molecules';
 import { ButtonWrap, MoreInfoFormWrapper } from './style';
 import { RootState } from '@/../store/configureStore';
+import { SIGN_UP_STEP_MORE_INFO_SAVE, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV } from '@/../@types/utils';
 
 const MoreInfoForm = () => {
   const dispatch = useDispatch();

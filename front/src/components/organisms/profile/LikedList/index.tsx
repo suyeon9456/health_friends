@@ -4,9 +4,9 @@ import { BiDotsVerticalRounded, BiEdit, BiHeart, BiUser } from 'react-icons/bi';
 import { ImDrawer2 } from 'react-icons/im';
 
 import { RootState } from '@/../store/configureStore';
-import { LOAD_LIKE_REQUEST } from '../../../../../reducers/user';
 import { Icon } from '../../../atoms';
 import { LikedListWrap, LikedListBody, Card, CardCover, CardBody, CardMeta, MetaTitle, MetaActions, Action, Empty } from './style';
+import { LOAD_LIKE_REQUEST } from '@/../@types/utils';
 
 const LikedList = () => {
   const dispatch = useDispatch();

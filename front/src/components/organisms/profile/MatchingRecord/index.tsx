@@ -2,13 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PlusOutlined } from '@ant-design/icons';
 
-import { LOAD_SCHEDULES_REQUEST } from '../../../../../reducers/schedule';
-
 import { RootState } from '@/../store/configureStore';
 import { Filter } from '../../../molecules';
 import { Button, CheckBox } from '../../../atoms';
 import MatchingCardList from '../../MatchingCardList';
 import { CancelYnCheckBoxWrap, FilterList, RecordBody, RecordFooter, RecordWrap } from './style';
+import { LOAD_SCHEDULES_REQUEST } from '@/../@types/utils';
 
 const MatchingRecord = () => {
   const dispatch = useDispatch();
