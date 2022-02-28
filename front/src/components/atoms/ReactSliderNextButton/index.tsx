@@ -1,11 +1,8 @@
+import { SliderButtonProps } from '@/../@types/atoms';
 import React from 'react';
 import { NextButton } from './style';
 
-const ReactSliderNextButton = ({ className, style, onClick }: {
-  className?: string,
-  style?: React.CSSProperties,
-  onClick?: () => void,
-}) => (
+const ReactSliderNextButton = ({ className, style, onClick }: SliderButtonProps) => (
   <NextButton
     className={className}
     style={style}

@@ -1,3 +1,4 @@
+import { SearchProps } from '@/../@types/atoms';
 import React, { ChangeEvent, useCallback } from 'react';
 
 import { SearchWrap, EnterIconWrapper, SearchLoadingIcon, SearchInput, SearchIcon } from './style';
@@ -10,15 +11,7 @@ const Search = ({
   placeholder,
   onSearch,
   ...props
-}: {
-  size?: 'default' | 'small' | 'large',
-  loading?: boolean,
-  value: string,
-  placeholder?: string,
-  enterButton?: boolean,
-  onChange: (e: ChangeEvent) => void,
-  onSearch: () => void,
-}) => {
+}: SearchProps) => {
   const handleKeyPress = useCallback((e) => {
     if (e.key === 'Enter') {
       onSearch();

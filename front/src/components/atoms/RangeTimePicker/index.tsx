@@ -5,14 +5,15 @@ import { SwapRightOutlined } from '@ant-design/icons';
 import { RangeTimePickerWrap, RangeSeparator, Separator } from './style';
 import CustomPickerInput from '../CustomPickerInput';
 import CustomCalendar from '../CustomCalendar';
+import { RangePickerProps } from '@/../@types/atoms';
 
-const RangeTimePicker = ({ size, startDate, endDate, onChangeStartDate, onChangeEndDate }: {
-  size?: 'small' | 'large';
-  startDate: Date;
-  endDate: Date;
-  onChangeStartDate: (data: Date | null) => void;
-  onChangeEndDate: (data: Date | null) => void;
-}) => (
+const RangeTimePicker = ({
+  size,
+  startDate,
+  endDate,
+  onChangeStartDate,
+  onChangeEndDate
+}: RangePickerProps) => (
   <RangeTimePickerWrap>
     <DatePicker
       selected={startDate}

@@ -3,9 +3,10 @@ import DatePicker from 'react-datepicker';
 
 import CustomRangePickerInput from '../CustomRangePickerInput';
 import CustomCalendar from '../CustomCalendar';
+import { PickerType } from '@/../@types/atoms';
 
 const RangePicker = ({ type, placeholder }: {
-  type?: 'date' | 'time';
+  type?: PickerType;
   placeholder?: string;
 }) => {
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);

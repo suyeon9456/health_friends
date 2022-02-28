@@ -1,7 +1,8 @@
 import styled, { css } from 'styled-components';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import { Size } from '@/../@types/atoms';
 
-export const InputNumberWrap = styled.span<{ size?: 'small' | 'large'; }>`
+export const InputNumberWrap = styled.span<{ size?: Size }>`
   position: relative;
   width: 100%;
   min-width: 0;
