@@ -1,35 +1,7 @@
-import produce from 'immer';
-import {
-  ADD_CANCELLATION_ERROR,
-  ADD_CANCELLATION_REQUEST,
-  ADD_CANCELLATION_SUCCESS,
-  ADD_RE_SCHEDULE_ERROR,
-  ADD_RE_SCHEDULE_REQUEST,
-  ADD_RE_SCHEDULE_SUCCESS,
-  ADD_SCHEDULE_ERROR,
-  ADD_SCHEDULE_REQUEST,
-  ADD_SCHEDULE_SUCCESS,
-  LOAD_CALENDAR_SCHEDULES_ERROR,
-  LOAD_CALENDAR_SCHEDULES_REQUEST,
-  LOAD_CALENDAR_SCHEDULES_SUCCESS,
-  LOAD_SCHEDULES_ERROR,
-  LOAD_SCHEDULES_REQUEST,
-  LOAD_SCHEDULES_SUCCESS,
-  LOAD_SCHEDULE_ERROR,
-  LOAD_SCHEDULE_REQUEST,
-  LOAD_SCHEDULE_SUCCESS,
-  UPDATE_CANCELLATION_ERROR,
-  UPDATE_CANCELLATION_REQUEST,
-  UPDATE_CANCELLATION_SUCCESS,
-  UPDATE_PERMISSION_ERROR,
-  UPDATE_PERMISSION_REQUEST,
-  UPDATE_PERMISSION_SUCCESS,
-  UPDATE_SCHEDULE_ERROR,
-  UPDATE_SCHEDULE_REQUEST,
-  UPDATE_SCHEDULE_SUCCESS,
-} from '../@types/utils';
 import { ScheduleInitialState } from '../@types/reducer/state';
-import { ScheduleActions } from '../@types/action';
+import { LoadSchedulesProps } from '../@types/action';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Schedule, Schedules } from '../@types/schedule';
 
 const initialState: ScheduleInitialState = {
   addScheduleLoading: false,
@@ -67,190 +39,219 @@ const initialState: ScheduleInitialState = {
   schedule: null,
 };
 
-const reducer = (state = initialState, action: ScheduleActions) => (produce(state, (draft) => {
-  switch (action.type) {
-    case ADD_SCHEDULE_REQUEST:
-      draft.addScheduleLoading = true;
-      draft.addScheduleDone = false;
-      draft.addScheduleError = null;
-      break;
-    case ADD_SCHEDULE_SUCCESS:
-      draft.addScheduleLoading = false;
-      draft.addScheduleDone = true;
-      draft.addScheduleError = null;
-      break;
-    case ADD_SCHEDULE_ERROR:
-      draft.addScheduleLoading = false;
-      draft.addScheduleDone = false;
-      draft.addScheduleError = action.error;
-      break;
-    case ADD_RE_SCHEDULE_REQUEST:
-      draft.addReScheduleLoading = true;
-      draft.addReScheduleDone = false;
-      draft.addReScheduleError = null;
-      break;
-    case ADD_RE_SCHEDULE_SUCCESS:
-      draft.addReScheduleLoading = false;
-      draft.addReScheduleDone = true;
-      draft.addReScheduleError = null;
-      break;
-    case ADD_RE_SCHEDULE_ERROR:
-      draft.addReScheduleLoading = false;
-      draft.addReScheduleDone = false;
-      draft.addReScheduleError = action.error;
-      break;
-    case LOAD_SCHEDULES_REQUEST:
-      draft.loadSchedulesLoading = true;
-      draft.loadSchedulesDone = false;
-      draft.loadSchedulesError = null;
-      draft.schedulesCount = 0;
-      break;
-    case LOAD_SCHEDULES_SUCCESS:
-      draft.loadSchedulesLoading = false;
-      draft.loadSchedulesDone = true;
-      draft.loadSchedulesError = null;
-      draft.schedules = action.data.schedules.map((item) => ({
+const userSlice = createSlice({
+  name: 'USER',
+  initialState,
+  reducers: {
+    addScheduleRequest(state, action) {
+      state.addScheduleLoading = true;
+      state.addScheduleDone = false;
+      state.addScheduleError = null;
+    },
+    addScheduleSuccess(state) {
+      state.addScheduleLoading = false;
+      state.addScheduleDone = true;
+      state.addScheduleError = null;
+    },
+    addScheduleError(state, action) {
+      state.addScheduleLoading = false;
+      state.addScheduleDone = false;
+      state.addScheduleError = action.payload;
+    },
+    addReScheduleRequest(state, action) {
+      state.addReScheduleLoading = true;
+      state.addReScheduleDone = false;
+      state.addReScheduleError = null;
+    },
+    addReScheduleSuccess(state) {
+      state.addReScheduleLoading = false;
+      state.addReScheduleDone = true;
+      state.addReScheduleError = null;
+    },
+    addReScheduleError(state, action) {
+      state.addReScheduleLoading = false;
+      state.addReScheduleDone = false;
+      state.addReScheduleError = action.payload;
+    },
+    loadSchedulesRequest(state, action: PayloadAction<LoadSchedulesProps>) {
+      state.loadSchedulesLoading = true;
+      state.loadSchedulesDone = false;
+      state.loadSchedulesError = null;
+      state.schedulesCount = 0;
+    },
+    loadSchedulesSuccess(state, action: PayloadAction<{ schedules: Schedules; count: number }>) {
+      state.loadSchedulesLoading = false;
+      state.loadSchedulesDone = true;
+      state.loadSchedulesError = null;
+      state.schedules = action.payload.schedules.map((item) => ({
         ...item,
         start: new Date(item?.startDate),
         end: new Date(item?.endDate),
         address: item.Gym.address,
         gym: item.Gym.name,
       }));
-      draft.schedulesCount = action.data.count;
-      break;
-    case LOAD_SCHEDULES_ERROR:
-      draft.loadSchedulesLoading = false;
-      draft.loadSchedulesDone = false;
-      draft.loadSchedulesError = action.error;
-      break;
-    case LOAD_CALENDAR_SCHEDULES_REQUEST:
-      draft.loadCalendarSchedulesLoading = true;
-      draft.loadCalendarSchedulesDone = false;
-      draft.loadCalendarSchedulesError = null;
-      draft.schedulesCount = 0;
-      break;
-    case LOAD_CALENDAR_SCHEDULES_SUCCESS:
-      draft.loadCalendarSchedulesLoading = false;
-      draft.loadCalendarSchedulesDone = true;
-      draft.loadCalendarSchedulesError = null;
-      draft.schedules = action.data.map((item) => ({
+      state.schedulesCount = action.payload.count;
+    },
+    loadSchedulesError(state, action) {
+      state.loadSchedulesLoading = false;
+      state.loadSchedulesDone = false;
+      state.loadSchedulesError = action.payload;
+    },
+    loadCalendarSchedulesRequest(state, action) {
+      state.loadCalendarSchedulesLoading = true;
+      state.loadCalendarSchedulesDone = false;
+      state.loadCalendarSchedulesError = null;
+      state.schedulesCount = 0;
+    },
+    loadCalendarSchedulesSuccess(state, action) {
+      state.loadCalendarSchedulesLoading = false;
+      state.loadCalendarSchedulesDone = true;
+      state.loadCalendarSchedulesError = null;
+      state.schedules = action.payload.map((item: Schedule) => ({
         ...item,
         start: new Date(item.startDate),
         end: new Date(item.endDate),
         address: item.Gym.address,
         gymName: item.Gym.name,
       }));
-      break;
-    case LOAD_CALENDAR_SCHEDULES_ERROR:
-      draft.loadCalendarSchedulesLoading = false;
-      draft.loadCalendarSchedulesDone = false;
-      draft.loadCalendarSchedulesError = action.error;
-      break;
-    case LOAD_SCHEDULE_REQUEST:
-      draft.loadScheduleLoading = true;
-      draft.loadScheduleDone = false;
-      draft.loadScheduleError = null;
-      break;
-    case LOAD_SCHEDULE_SUCCESS: {
-      const { schedule, userMatching, friendMatching } = action.data;
+    },
+    loadCalendarSchedulesError(state, action) {
+      state.loadCalendarSchedulesLoading = false;
+      state.loadCalendarSchedulesDone = false;
+      state.loadCalendarSchedulesError = action.payload;
+    },
+    loadScheduleRequest(state, action) {
+      state.loadScheduleLoading = true;
+      state.loadScheduleDone = false;
+      state.loadScheduleError = null;
+    },
+    loadScheduleSuccess(state, action) {
+      const { schedule, userMatching, friendMatching } = action.payload;
       const userTotalCount = userMatching.length > 0 ? userMatching[0].matchingCount : 0;
       const userReCount = userMatching.length > 0 ? userMatching[0].rematchingCount : 0;
       const friendTotalCount = friendMatching.length > 0 ? friendMatching[0].matchingCount : 0;
       const friendReCount = friendMatching.length > 0 ? friendMatching[0].rematchingCount : 0;
-      draft.loadScheduleLoading = false;
-      draft.loadScheduleDone = true;
-      draft.loadScheduleError = null;
-      draft.schedule = {
+      state.loadScheduleLoading = false;
+      state.loadScheduleDone = true;
+      state.loadScheduleError = null;
+      state.schedule = {
         ...schedule,
         start: new Date(schedule.startDate),
         end: new Date(schedule.endDate),
-        nickname: schedule.Friend.nickname,
+        nickname: schedule?.Friend?.nickname,
         address: schedule.Gym.address,
         gymId: schedule.Gym.id,
         gymName: schedule.Gym.name,
-        userMathcing: userMatching.map(({ FriendId }) => FriendId),
+        userMathcing: userMatching.map(({ FriendId }: { FriendId: number }) => FriendId),
         userTotalCount,
         userReCount,
-        friendMathcing: friendMatching.map(({ FriendId }) => FriendId),
+        friendMathcing: friendMatching.map(({ FriendId }: { FriendId: number }) => FriendId),
         friendTotalCount,
         friendReCount,
       };
-      break;
-    }
-    case LOAD_SCHEDULE_ERROR:
-      draft.loadScheduleLoading = false;
-      draft.loadScheduleDone = false;
-      draft.loadScheduleError = action.error;
-      break;
-    case UPDATE_SCHEDULE_REQUEST:
-      draft.updateScheduleLoading = true;
-      draft.updateScheduleDone = false;
-      draft.updateScheduleError = null;
-      break;
-    case UPDATE_SCHEDULE_SUCCESS:
-      draft.updateScheduleLoading = false;
-      draft.updateScheduleDone = true;
-      draft.updateScheduleError = null;
-      draft.schedule = null;
-      draft.schedules = draft.schedules.map((item) => (
-        item.id === action.data.id ? action.data : item
+    },
+    loadScheduleError(state, action) {
+      state.loadScheduleLoading = false;
+      state.loadScheduleDone = false;
+      state.loadScheduleError = action.payload;
+    },
+    updateScheduleRequest(state, action) {
+      state.updateScheduleLoading = true;
+      state.updateScheduleDone = false;
+      state.updateScheduleError = null;
+    },
+    updateScheduleSuccess(state, action) {
+      state.updateScheduleLoading = false;
+      state.updateScheduleDone = true;
+      state.updateScheduleError = null;
+      state.schedule = null;
+      state.schedules = state.schedules.map((item) => (
+        item.id === action.payload.id ? action.payload : item
       ));
-      break;
-    case UPDATE_SCHEDULE_ERROR:
-      draft.updateScheduleLoading = false;
-      draft.updateScheduleDone = false;
-      draft.updateScheduleError = action.error;
-      break;
-    case UPDATE_PERMISSION_REQUEST:
-      draft.updatePermissionLoading = true;
-      draft.updatePermissionDone = false;
-      draft.updatePermissionError = null;
-      break;
-    case UPDATE_PERMISSION_SUCCESS:
-      draft.updatePermissionLoading = false;
-      draft.updatePermissionDone = true;
-      draft.updatePermissionError = null;
-      draft.schedule = null;
-      draft.schedules = draft.schedules.filter((item) => item.id !== action.data.id);
-      break;
-    case UPDATE_PERMISSION_ERROR:
-      draft.updatePermissionLoading = false;
-      draft.updatePermissionDone = false;
-      draft.updatePermissionError = action.error;
-      break;
-    case ADD_CANCELLATION_REQUEST:
-      draft.addPermissionLoading = true;
-      draft.addPermissionDone = false;
-      draft.addPermissionError = null;
-      break;
-    case ADD_CANCELLATION_SUCCESS:
-      draft.addPermissionLoading = false;
-      draft.addPermissionDone = true;
-      draft.addPermissionError = null;
-      break;
-    case ADD_CANCELLATION_ERROR:
-      draft.addPermissionLoading = false;
-      draft.addPermissionDone = false;
-      draft.addPermissionError = action.error;
-      break;
-    case UPDATE_CANCELLATION_REQUEST:
-      draft.updatePermissionLoading = true;
-      draft.updatePermissionDone = false;
-      draft.updatePermissionError = null;
-      break;
-    case UPDATE_CANCELLATION_SUCCESS:
-      draft.updatePermissionLoading = false;
-      draft.updatePermissionDone = true;
-      draft.updatePermissionError = null;
-      break;
-    case UPDATE_CANCELLATION_ERROR:
-      draft.updatePermissionLoading = false;
-      draft.updatePermissionDone = false;
-      draft.updatePermissionError = action.error;
-      break;
-    default:
-      break;
-  }
-}));
+    },
+    updateScheduleError(state, action) {
+      state.updateScheduleLoading = false;
+      state.updateScheduleDone = false;
+      state.updateScheduleError = action.payload;
+    },
+    updatePermissionRequest(state, action) {
+      state.updatePermissionLoading = true;
+      state.updatePermissionDone = false;
+      state.updatePermissionError = null;
+    },
+    updatePermissionSuccess(state, action) {
+      state.updatePermissionLoading = false;
+      state.updatePermissionDone = true;
+      state.updatePermissionError = null;
+      state.schedule = null;
+      state.schedules = state.schedules.filter((item) => item.id !== action.payload.id);
+    },
+    updatePermissionError(state, action) {
+      state.updatePermissionLoading = false;
+      state.updatePermissionDone = false;
+      state.updatePermissionError = action.payload;
+    },
+    addCancellationRequest(state, action) {
+      state.addPermissionLoading = true;
+      state.addPermissionDone = false;
+      state.addPermissionError = null;
+    },
+    addCancellationSuccess(state) {
+      state.addPermissionLoading = false;
+      state.addPermissionDone = true;
+      state.addPermissionError = null;
+    },
+    addCancellationError(state, action) {
+      state.addPermissionLoading = false;
+      state.addPermissionDone = false;
+      state.addPermissionError = action.payload;
+    },
+    updateCancellationRequest(state, action) {
+      state.updatePermissionLoading = true;
+      state.updatePermissionDone = false;
+      state.updatePermissionError = null;
+    },
+    updateCancellationSuccess(state) {
+      state.updatePermissionLoading = false;
+      state.updatePermissionDone = true;
+      state.updatePermissionError = null;
+    },
+    updateCancellationError(state, action) {
+      state.updatePermissionLoading = false;
+      state.updatePermissionDone = false;
+      state.updatePermissionError = action.payload;
+    },
+  },
+})
 
-export default reducer;
+export const {
+  addScheduleRequest,
+  addScheduleSuccess,
+  addScheduleError,
+  addReScheduleRequest,
+  addReScheduleSuccess,
+  addReScheduleError,
+  loadSchedulesRequest,
+  loadSchedulesSuccess,
+  loadSchedulesError,
+  loadCalendarSchedulesRequest,
+  loadCalendarSchedulesSuccess,
+  loadCalendarSchedulesError,
+  loadScheduleRequest,
+  loadScheduleSuccess,
+  loadScheduleError,
+  updateScheduleRequest,
+  updateScheduleSuccess,
+  updateScheduleError,
+  updatePermissionRequest,
+  updatePermissionSuccess,
+  updatePermissionError,
+  addCancellationRequest,
+  addCancellationSuccess,
+  addCancellationError,
+  updateCancellationRequest,
+  updateCancellationSuccess,
+  updateCancellationError,
+} = userSlice.actions
+export default userSlice.reducer;
+

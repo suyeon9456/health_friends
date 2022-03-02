@@ -1,55 +1,50 @@
 import { all, fork, call, put, takeLatest, ForkEffect, AllEffect } from 'redux-saga/effects';
 import axios, { AxiosResponse } from 'axios';
+import { PayloadAction } from '@reduxjs/toolkit';
 import * as _ from 'lodash';
 
-import {
-  ADD_CANCELLATION_ERROR,
-  ADD_CANCELLATION_REQUEST,
-  ADD_CANCELLATION_SUCCESS,
-  ADD_RE_SCHEDULE_ERROR,
-  ADD_RE_SCHEDULE_REQUEST,
-  ADD_RE_SCHEDULE_SUCCESS,
-  ADD_SCHEDULE_ERROR,
-  ADD_SCHEDULE_REQUEST,
-  ADD_SCHEDULE_SUCCESS,
-  LOAD_CALENDAR_SCHEDULES_ERROR,
-  LOAD_CALENDAR_SCHEDULES_REQUEST,
-  LOAD_CALENDAR_SCHEDULES_SUCCESS,
-  LOAD_SCHEDULES_ERROR,
-  LOAD_SCHEDULES_REQUEST,
-  LOAD_SCHEDULES_SUCCESS,
-  LOAD_SCHEDULE_ERROR,
-  LOAD_SCHEDULE_REQUEST,
-  LOAD_SCHEDULE_SUCCESS,
-  UPDATE_CANCELLATION_ERROR,
-  UPDATE_CANCELLATION_REQUEST,
-  UPDATE_CANCELLATION_SUCCESS,
-  UPDATE_PERMISSION_ERROR,
-  UPDATE_PERMISSION_REQUEST,
-  UPDATE_PERMISSION_SUCCESS,
-  UPDATE_SCHEDULE_ERROR,
-  UPDATE_SCHEDULE_REQUEST,
-  UPDATE_SCHEDULE_SUCCESS
-} from '../@types/utils';
 import { Schedule, ScheduleModel, Schedules } from '../@types/schedule';
-import { ActionType, LoadSchedulesProps, UpdateCancellationProps } from '../@types/action';
+import { LoadSchedulesProps, UpdateCancellationProps } from '../@types/action';
+import {
+  addScheduleRequest,
+  addScheduleSuccess,
+  addScheduleError,
+  addReScheduleRequest,
+  addReScheduleSuccess,
+  addReScheduleError,
+  loadSchedulesRequest,
+  loadSchedulesSuccess,
+  loadSchedulesError,
+  loadCalendarSchedulesRequest,
+  loadCalendarSchedulesSuccess,
+  loadCalendarSchedulesError,
+  loadScheduleRequest,
+  loadScheduleSuccess,
+  loadScheduleError,
+  updateScheduleRequest,
+  updateScheduleSuccess,
+  updateScheduleError,
+  updatePermissionRequest,
+  updatePermissionSuccess,
+  updatePermissionError,
+  addCancellationRequest,
+  addCancellationSuccess,
+  addCancellationError,
+  updateCancellationRequest,
+  updateCancellationSuccess,
+  updateCancellationError,
+} from '../reducers/schedule';
 
 function addScheduleAPI(data?: Schedule): Promise<AxiosResponse<Schedule>> {
   return axios.post('/schedule', data);
 }
 
-function* addSchedule(action: ActionType<typeof ADD_SCHEDULE_REQUEST, Schedule>) {
+function* addSchedule(action: PayloadAction<Schedule>) {
   try {
-    const result: AxiosResponse<Schedule> = yield call(addScheduleAPI, action.data);
-    yield put({
-      type: ADD_SCHEDULE_SUCCESS,
-      data: result.data,
-    });
+    yield call(addScheduleAPI, action.payload);
+    yield put(addScheduleSuccess());
   } catch (error: any) {
-    yield put({
-      type: ADD_SCHEDULE_ERROR,
-      error: error.response.data,
-    });
+    yield put(addScheduleError(error.response.data));
   }
 }
 
@@ -57,18 +52,12 @@ function addReScheduleAPI(data?: Schedule): Promise<AxiosResponse<Schedule>> {
   return axios.post('/schedule/re', data);
 }
 
-function* addReSchedule(action: ActionType<typeof ADD_RE_SCHEDULE_REQUEST, Schedule>) {
+function* addReSchedule(action: PayloadAction<Schedule>) {
   try {
-    const result: AxiosResponse<Schedule> = yield call(addReScheduleAPI, action.data);
-    yield put({
-      type: ADD_RE_SCHEDULE_SUCCESS,
-      data: result.data,
-    });
+    yield call(addReScheduleAPI, action.payload);
+    yield put(addReScheduleSuccess());
   } catch (error: any) {
-    yield put({
-      type: ADD_RE_SCHEDULE_ERROR,
-      error: error.response.data,
-    });
+    yield put(addReScheduleError(error.response.data));
   }
 }
 
@@ -82,18 +71,12 @@ function loadSchedulesAPI(data?: LoadSchedulesProps): Promise<AxiosResponse<{ sc
   return axios.get(`/schedules?profileMenu=${data?.profileMenu}&limit=${data?.limit}&rejectedMatching=${data?.rejectedMatching}${termquery}${typequery}${statusquery}`);
 }
 
-function* loadSchedules(action: ActionType<typeof LOAD_SCHEDULES_REQUEST, LoadSchedulesProps>) {
+function* loadSchedules(action: PayloadAction<LoadSchedulesProps>) {
   try {
-    const result: AxiosResponse<{ schedules: Schedules; count: number }> = yield call(loadSchedulesAPI, action.data);
-    yield put({
-      type: LOAD_SCHEDULES_SUCCESS,
-      data: result.data,
-    });
+    const result: AxiosResponse<{ schedules: Schedules; count: number }> = yield call(loadSchedulesAPI, action.payload);
+    yield put(loadSchedulesSuccess(result.data));
   } catch (error: any) {
-    yield put({
-      type: LOAD_SCHEDULES_ERROR,
-      error: error.response.data,
-    });
+    yield put(loadSchedulesError(error.response.data));
   }
 }
 
@@ -101,18 +84,12 @@ function loadCalendarSchedulesAPI(data?: { start: string; end: string }): Promis
   return axios.get(`/schedules/calendar?start=${data?.start}&end=${data?.end}`);
 }
 
-function* loadCalendarSchedules(action: ActionType<typeof LOAD_CALENDAR_SCHEDULES_REQUEST, { start: string; end: string }>) {
+function* loadCalendarSchedules(action: PayloadAction<{ start: string; end: string }>) {
   try {
-    const result: AxiosResponse<Schedules> = yield call(loadCalendarSchedulesAPI, action.data);
-    yield put({
-      type: LOAD_CALENDAR_SCHEDULES_SUCCESS,
-      data: result.data,
-    });
+    const result: AxiosResponse<Schedules> = yield call(loadCalendarSchedulesAPI, action.payload);
+    yield put(loadCalendarSchedulesSuccess(result.data));
   } catch (error: any) {
-    yield put({
-      type: LOAD_CALENDAR_SCHEDULES_ERROR,
-      error: error.response.data,
-    });
+    yield put(loadCalendarSchedulesError(error.response.data));
   }
 }
 
@@ -120,18 +97,12 @@ function loadScheduleAPI(data?: number): Promise<AxiosResponse<Schedule>> {
   return axios.get(`/schedule/${data}`);
 }
 
-function* loadSchedule(action: ActionType<typeof LOAD_SCHEDULE_REQUEST, number>) {
+function* loadSchedule(action: PayloadAction<number>) {
   try {
-    const result: AxiosResponse<Schedule> = yield call(loadScheduleAPI, action.data);
-    yield put({
-      type: LOAD_SCHEDULE_SUCCESS,
-      data: result.data,
-    });
+    const result: AxiosResponse<Schedule> = yield call(loadScheduleAPI, action.payload);
+    yield put(loadScheduleSuccess(result.data));
   } catch (error: any) {
-    yield put({
-      type: LOAD_SCHEDULE_ERROR,
-      error: error.response.data,
-    });
+    yield put(loadScheduleError(error.response.data));
   }
 }
 
@@ -139,18 +110,12 @@ function updateScheduleAPI(data?: ScheduleModel): Promise<AxiosResponse<Schedule
   return axios.put('/schedule', data);
 }
 
-function* updateSchedule(action: ActionType<typeof UPDATE_PERMISSION_REQUEST, ScheduleModel>) {
+function* updateSchedule(action: PayloadAction<ScheduleModel>) {
   try {
-    const result: AxiosResponse<Schedule> = yield call(updateScheduleAPI, action.data);
-    yield put({
-      type: UPDATE_SCHEDULE_SUCCESS,
-      data: result.data,
-    });
+    const result: AxiosResponse<Schedule> = yield call(updateScheduleAPI, action.payload);
+    yield put(updateScheduleSuccess(result.data));
   } catch (error: any) {
-    yield put({
-      type: UPDATE_SCHEDULE_ERROR,
-      error: error.response.data,
-    });
+    yield put(updateScheduleError(error.response.data));
   }
 }
 
@@ -158,18 +123,12 @@ function updatePermissionAPI(data?: { scheduleId: number, permission: boolean })
   return axios.put('/schedule/permission', data);
 }
 
-function* updatePermission(action: ActionType<typeof UPDATE_PERMISSION_REQUEST, { scheduleId: number, permission: boolean }>) {
+function* updatePermission(action: PayloadAction<{ scheduleId: number, permission: boolean }>) {
   try {
-    const result: AxiosResponse<Schedule> = yield call(updatePermissionAPI, action.data);
-    yield put({
-      type: UPDATE_PERMISSION_SUCCESS,
-      data: result.data,
-    });
+    const result: AxiosResponse<Schedule> = yield call(updatePermissionAPI, action.payload);
+    yield put(updatePermissionSuccess(result.data));
   } catch (error: any) {
-    yield put({
-      type: UPDATE_PERMISSION_ERROR,
-      error: error.response.data,
-    });
+    yield put(updatePermissionError(error.response.data));
   }
 }
 
@@ -177,18 +136,12 @@ function addCancellationAPI(data?: { id: number }): Promise<AxiosResponse<Schedu
   return axios.post('/schedule/cancel', data);
 }
 
-function* addCancellation(action: ActionType<typeof ADD_CANCELLATION_REQUEST, { id: number }>) {
+function* addCancellation(action: PayloadAction<{ id: number }>) {
   try {
-    const result: AxiosResponse<Schedule> = yield call(addCancellationAPI, action.data);
-    yield put({
-      type: ADD_CANCELLATION_SUCCESS,
-      data: result.data,
-    });
+    yield call(addCancellationAPI, action.payload);
+    yield put(addCancellationSuccess());
   } catch (error: any) {
-    yield put({
-      type: ADD_CANCELLATION_ERROR,
-      error: error.response.data,
-    });
+    yield put(addCancellationError(error.response.data));
   }
 }
 
@@ -196,55 +149,49 @@ function updateCancellationAPI(data?: UpdateCancellationProps): Promise<AxiosRes
   return axios.put('/schedule/cancel', data);
 }
 
-function* updateCancellation(action: ActionType<typeof UPDATE_CANCELLATION_REQUEST, UpdateCancellationProps>) {
+function* updateCancellation(action: PayloadAction<UpdateCancellationProps>) {
   try {
-    const result: AxiosResponse<Schedule> = yield call(updateCancellationAPI, action.data);
-    yield put({
-      type: UPDATE_CANCELLATION_SUCCESS,
-      data: result.data,
-    });
+    yield call(updateCancellationAPI, action.payload);
+    yield put(updateCancellationSuccess());
   } catch (error: any) {
-    yield put({
-      type: UPDATE_CANCELLATION_ERROR,
-      error: error.response.data,
-    });
+    yield put(updateCancellationError(error.response.data));
   }
 }
 
 function* watchAddSchedule() {
-  yield takeLatest(ADD_SCHEDULE_REQUEST, addSchedule);
+  yield takeLatest(addScheduleRequest, addSchedule);
 }
 
 function* watchAddReSchedule() {
-  yield takeLatest(ADD_RE_SCHEDULE_REQUEST, addReSchedule);
+  yield takeLatest(addReScheduleRequest, addReSchedule);
 }
 
 function* watchLoadSchedules() {
-  yield takeLatest(LOAD_SCHEDULES_REQUEST, loadSchedules);
+  yield takeLatest(loadSchedulesRequest, loadSchedules);
 }
 
 function* watchLoadCalendarSchedules() {
-  yield takeLatest(LOAD_CALENDAR_SCHEDULES_REQUEST, loadCalendarSchedules);
+  yield takeLatest(loadCalendarSchedulesRequest, loadCalendarSchedules);
 }
 
 function* watchLoadSchedule() {
-  yield takeLatest(LOAD_SCHEDULE_REQUEST, loadSchedule);
+  yield takeLatest(loadScheduleRequest, loadSchedule);
 }
 
 function* watchUpdateSchedule() {
-  yield takeLatest(UPDATE_SCHEDULE_REQUEST, updateSchedule);
+  yield takeLatest(updateScheduleRequest, updateSchedule);
 }
 
 function* watchUpdatePermission() {
-  yield takeLatest(UPDATE_PERMISSION_REQUEST, updatePermission);
+  yield takeLatest(updatePermissionRequest, updatePermission);
 }
 
 function* watchAddCancellation() {
-  yield takeLatest(ADD_CANCELLATION_REQUEST, addCancellation);
+  yield takeLatest(addCancellationRequest, addCancellation);
 }
 
 function* watchUpdateCancellation() {
-  yield takeLatest(UPDATE_CANCELLATION_REQUEST, updateCancellation);
+  yield takeLatest(updateCancellationRequest, updateCancellation);
 }
 
 export default function* userSaga(): Generator<ForkEffect<void> | AllEffect<any>, void, any> {
