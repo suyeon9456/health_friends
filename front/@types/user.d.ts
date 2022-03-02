@@ -11,7 +11,7 @@ export interface User {
   id: number;
   email?: string;
   password?: string;
-  nickname?: string;
+  nickname: string;
   gender?: Gender;
   age?: Age;
   career?: Career;

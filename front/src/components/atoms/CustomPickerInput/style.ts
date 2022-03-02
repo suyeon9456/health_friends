@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
+import { Size } from '@/../@types/atoms';
 
-export const PickerWrap = styled.div<{ size?: 'small' | 'large' }>`
+export const PickerWrap = styled.div<{ size?: Size }>`
   box-sizing: border-box;
   margin: 0;
   color: #000000d9;

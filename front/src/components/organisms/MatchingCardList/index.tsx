@@ -64,7 +64,9 @@ const MatchingCardList = ({ schedules }: Schedules) => {
     <>
       <MatchingCardListWrap>
         {schedules?.map((schedule) => {
+          console.log('!!!!!!!!');
           const startDate = format(schedule?.start, 'yyyy년 MM월 dd일 HH:mm');
+          console.log('!!!!!!!!', startDate);
           const endDate = format(schedule?.end, 'HH:mm');
           const date = [startDate, ' ~ ', endDate].join('');
           const friend = schedule?.Friend?.id;

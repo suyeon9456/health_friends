@@ -1,11 +1,7 @@
 import styled, { css } from 'styled-components';
+import { AvatarType } from '@/../@types/atoms';
 
-interface Avatar {
-  size: 'small' | 'large' | 'default' | number;
-  src?: string;
-}
-
-export const StyledAvatar = styled.span<Avatar>`
+export const StyledAvatar = styled.span<AvatarType>`
   box-sizing: border-box;
   margin: 0;
   padding: 0;

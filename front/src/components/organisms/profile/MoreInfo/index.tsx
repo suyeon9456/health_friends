@@ -9,11 +9,11 @@ import ModalEditInfo from '../ModalEditInfo';
 
 const MoreInfo = () => {
   const { me,
-    profile,
     careerOptions,
     genderOptions,
     roleOptions,
     ageOptions } = useSelector((state: RootState) => state.user);
+  const { profile } = useSelector((state: RootState) => state.profile);
   const [showEditModal, setShowEditModal] = useState(false);
   const [targetId, setTargetId] = useState('');
 

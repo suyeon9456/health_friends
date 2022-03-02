@@ -2,6 +2,7 @@ import React from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
 
 import { StyledButton } from './style';
+import { ButtonProps } from '@/../@types/atoms';
 
 const Button = ({
   children,
@@ -15,25 +16,7 @@ const Button = ({
   submit = false,
   onClick,
   ...props
-}: {
-  children?: React.ReactNode;
-  icon?: React.ReactElement;
-  size?: 'default' | 'small' | 'large';
-  type?: 'default'
-    | 'primary'
-    | 'error'
-    | 'success'
-    | 'warning'
-    | 'line-primary'
-    | 'signature'
-    | 'text';
-  name?: string;
-  buttonLoading?: boolean;
-  block?: boolean;
-  disabled?: boolean;
-  submit?: boolean;
-  onClick?: (e?: React.MouseEvent<HTMLElement>) => void;
-}) => (
+}: ButtonProps) => (
   <StyledButton
     size={size}
     styleType={type}

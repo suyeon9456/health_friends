@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
 
 import { InputContainer, InputContent, InputWrap, InputWrapBox } from './style';
-import { FieldError } from 'react-hook-form';
+import { InputProps } from '@/../@types/atoms';
 
 
 const Input = ({
@@ -16,17 +16,7 @@ const Input = ({
   disabled,
   error,
   ...props
-}: {
-  name?: string,
-  size?: 'default' | 'small' | 'large';
-  type?: 'text' | 'password';
-  loading?: boolean;
-  value: string;
-  onChange: (event:  React.ChangeEvent<HTMLInputElement>)  =>  void;
-  placeholder?: string;
-  disabled?: boolean;
-  error?: FieldError | undefined;
-}) => {
+}: InputProps) => {
   const [passwordType, setPasswordType] = useState(true);
 
   const onChangePasswordType = useCallback(() => {

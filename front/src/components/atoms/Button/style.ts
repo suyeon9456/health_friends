@@ -1,15 +1,9 @@
 import styled, { css } from 'styled-components';
+import { Size, Type } from '@/../@types/atoms';
 
 interface Button {
-  size: 'default' | 'small' | 'large';
-  styleType: 'default'
-    | 'primary'
-    | 'error'
-    | 'success'
-    | 'warning'
-    | 'line-primary'
-    | 'signature'
-    | 'text';
+  size: Size | 'default';
+  styleType: Type;
   buttonLoading: boolean;
   block: boolean;
   onClick?: (e:  React.MouseEvent<HTMLElement>)  =>  void;

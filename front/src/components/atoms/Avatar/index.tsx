@@ -2,12 +2,9 @@ import React from 'react';
 import { UserOutlined } from '@ant-design/icons';
 
 import { StyledAvatar } from './style';
+import { AvatarProps } from '@/../@types/atoms';
 
-const Avatar = ({ size = 'default', src, ...props }: {
-  size?: 'small' | 'large' | 'default' | number;
-  src?: string;
-  style?: React.CSSProperties;
-}) => (
+const Avatar = ({ size = 'default', src, ...props }: AvatarProps) => (
   <StyledAvatar
     size={size}
     src={src}

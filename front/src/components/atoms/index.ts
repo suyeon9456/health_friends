@@ -4,7 +4,7 @@ import CustomCalendar from './CustomCalendar';
 import CustomPickerInput from './CustomPickerInput';
 import InformationItem from './InformationItem';
 import Input from './Input';
-import InputDatePicker from './InputDatePicker';
+import DatePickerInput from './DatePickerInput';
 import InputNumber from './InputNumber';
 import InputTimePicker from './InputTimePicker';
 import Item from './Item';
@@ -15,7 +15,6 @@ import Search from './Search';
 import Select from './Select';
 import Step from './Step';
 import Tab from './Tab';
-import Tag from './Tag';
 import Textarea from './Textarea';
 import Tooltip from './Tooltip';
 import Upload from './Upload';
@@ -34,7 +33,7 @@ export {
   CustomPickerInput,
   InformationItem,
   Input,
-  InputDatePicker,
+  DatePickerInput,
   InputNumber,
   InputTimePicker,
   Item,
@@ -45,7 +44,6 @@ export {
   Select,
   Step,
   Tab,
-  Tag,
   Textarea,
   Tooltip,
   Upload,

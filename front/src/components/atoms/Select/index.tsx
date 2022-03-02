@@ -1,14 +1,9 @@
 import React from 'react';
 
 import { SelectContainer, Options } from './style';
+import { SelectProps } from '@/../@types/atoms';
 
-const Select = ({ size, options, name, value, onChange }: {
-  size?: 'default' | 'small' | 'large';
-  options: Array<{ text: string; value: string | number }>;
-  name: string;
-  value: number | string;
-  onChange: () => void;
-}) => (
+const Select = ({ size, options, name, value, onChange }: SelectProps) => (
   <SelectContainer
     name={name}
     selectsize={size}

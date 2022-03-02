@@ -1,13 +1,5 @@
 import styled, { css } from 'styled-components';
 
-// interface CheckBox {
-//   type: string;
-//   value: string | boolean;
-//   checked: boolean;
-//   onChange?: (event:  React.ChangeEvent<HTMLInputElement>)  =>  void;
-//   // onChange?: (event:  React.MouseEventHandler<HTMLInputElement>)  =>  void;
-// }
-
 export const Label = styled.label`
   touch-action: manipulation;
 

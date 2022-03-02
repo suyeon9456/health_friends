@@ -2,9 +2,10 @@ import React from 'react';
 import { CheckOutlined } from '@ant-design/icons';
 
 import { StepTitle, StepContentWrap, StepIconWrap, StepWrap, StepDescription } from './style';
+import { StepType } from '@/../@types/atoms';
 
 const Step = ({ type, step, title, description }: {
-  type: 'wait' | 'finished' | 'process';
+  type: StepType;
   step: number;
   title: string;
   description: string;

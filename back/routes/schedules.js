@@ -106,7 +106,6 @@ router.get('/', async (req, res, next) => { // GET /schedules/
 
 router.get('/calendar', async (req, res, next) => { // GET /schedules/calendar
   try {
-    console.log('req.query: ', req.query);
 
     const { start, end } = req.query;
 

@@ -25,7 +25,7 @@ router.get('/', async (req, res, next) => {
       const user = await User.findOne({
         where: { id: req.user.id },
         attributes: {
-          exclude: ['password', 'createdAt', 'updatedAt'],
+          attributes: ['id', 'nickname', 'updatedAt'],
         },
         include: [{
           model: Userdetail,
@@ -160,7 +160,6 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
           exclude: ['password'],
         }
       });
-      console.log('풀 유저: ', fullUser);
       return res.json(fullUser);
     })
   })(req, res, next); // 미들웨어 확장

@@ -1,13 +1,9 @@
+import { AlertProps } from '@/../@types/molecules';
 import React from 'react';
 
 import { AlertBox, AlertContainer, AlertContent, AlertErrorIcon, AlertIconWrapper, AlertPrimaryIcon, AlertSuccessIcon, AlertWarningIcon } from './style';
 
-const Alert = ({ show, type, message, action }: {
-  show: boolean;
-  type?: 'error' | 'warning' | 'success';
-  message: string;
-  action: React.ReactElement;
-}) => (
+const Alert = ({ show, type, message, action }: AlertProps) => (
   <AlertContainer show={show}>
     <AlertBox>
       <AlertIconWrapper>

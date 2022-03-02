@@ -2,13 +2,9 @@ import React, { useEffect } from 'react';
 
 import { ButtonWrap, ConfirmBox, ConfirmContainer, ConfirmContent, ConfirmIconWrapper, ConfirmPrimaryIcon } from './style';
 import { Button } from '../../atoms';
+import { ConfirmProps } from '@/../@types/molecules';
 
-const Confirm = ({ show, message, action, onCancel }: {
-  show: boolean,
-  message: string,
-  action: React.ReactElement,
-  onCancel: () => void,
-}) => {
+const Confirm = ({ show, message, action, onCancel }: ConfirmProps) => {
   useEffect(() => {
     if (show) {
       document.body.style.cssText = `

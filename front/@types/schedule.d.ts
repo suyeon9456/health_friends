@@ -39,4 +39,12 @@ export interface ScheduledetailModel {
   ScheduleId: number;
 }
 
+export interface MatchingCount {
+  FriendId: number;
+  matchingCount: number;
+  rematchingCount: number;
+}
+
 export type Schedules = Array<Schedule>;
+
+export type MatchingCounts = Array<MatchingCount>;

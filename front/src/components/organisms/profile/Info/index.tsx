@@ -12,13 +12,13 @@ import { UPDATE_MY_DESCRIPTION_REQUEST, UPDATE_MY_NICKNAME_REQUEST } from '@/../
 const Info = () => {
   const dispatch = useDispatch();
 
-  const { me, profile,
-    updateMyNicknameDone, updateMyDescriptionDone } = useSelector((state: RootState) => state.user);
-  const [isEditNickname, setIsEditNickname] = useState(false);
-  const [isEditDescription, setIsEditDescription] = useState(false);
+  const { me } = useSelector((state: RootState) => state.user);
+  const { profile, updateMyNicknameDone, updateMyDescriptionDone } = useSelector((state: RootState) => state.profile);
+  const [isEditNickname, setIsEditNickname] = useState<boolean>(false);
+  const [isEditDescription, setIsEditDescription] = useState<boolean>(false);
 
-  const [nickname, onChangeNickname] = useInput(profile?.nickname || '');
-  const [description, onChangeDescription] = useInput(profile?.description || '');
+  const [nickname, onChangeNickname] = useInput<string>(profile?.nickname || '');
+  const [description, onChangeDescription] = useInput<string>(profile?.description || '');
 
   const onChangeIsEditNickname = useCallback(() => {
     setIsEditNickname((prev) => !prev);
@@ -46,12 +46,13 @@ const Info = () => {
     if (updateMyNicknameDone) {
       setIsEditNickname(false);
     }
-  }, [updateMyNicknameDone]);
+  }, [updateMyNicknameDone, profile]);
   useEffect(() => {
     if (updateMyDescriptionDone) {
       setIsEditDescription(false);
     }
   }, [updateMyDescriptionDone]);
+
   return (
     <InfoWrapper>
       <InfoHeader>

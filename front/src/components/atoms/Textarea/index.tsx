@@ -1,3 +1,4 @@
+import { TextareaProps } from '@/../@types/atoms';
 import React, { useEffect, useState } from 'react';
 
 import { TextareaWrap, TextareaBox } from './style';
@@ -11,15 +12,7 @@ const Textarea = ({
   onChange,
   placeholder,
   ...props
-}: {
-  name: string;
-  showCount?: boolean,
-  maxLength?: number,
-  loading?: boolean,
-  value: string,
-  onChange: () => void,
-  placeholder?: string
-}) => {
+}: TextareaProps) => {
   const [dataCount, setDataCount] = useState(0);
   useEffect(() => {
     setDataCount(value.length);

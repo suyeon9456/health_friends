@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import { Essential, Label } from './style';
 import RangePicker from '../../atoms/RangePicker';
-import InputDatePicker from '../../atoms/InputDatePicker';
+import DatePickerInput from '../../atoms/DatePickerInput';
 
 const FormDatePicker = ({ label, type, placeholder, essential, startDate, setStartDate }: {
   label: string;
@@ -20,7 +20,7 @@ const FormDatePicker = ({ label, type, placeholder, essential, startDate, setSta
     {type === 'range'
       ? <RangePicker placeholder={placeholder} />
       : (
-        <InputDatePicker
+        <DatePickerInput
           placeholder={placeholder}
           startDate={startDate}
           setStartDate={setStartDate}
