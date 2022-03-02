@@ -8,7 +8,7 @@ import { useShowDispatch } from '@/../store/contextStore';
 
 import { Button, Avatar } from '../../atoms';
 import { Drawer, DrawerBody, DrawerContent, DrawerContentWrap, DrawerHeader, DrawerHeaderTitle, DrawerMask, DrawerTitle, DrawerWrapBody, MemberMenu, MemberMenuItem, Menu, MenuItem, MenuText, MenuTitle } from './style';
-import { LOG_OUT_REQUEST } from '@/../@types/utils';
+import { logoutRequest } from '@/../reducers/user';
 
 const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
   const { me } = useSelector((state: RootState) => state.user);
 
   const onLogout = useCallback(() => {
-    dispatch({ type: LOG_OUT_REQUEST });
+    dispatch(logoutRequest());
   }, []);
 
   const changeShowDrawerMenu = useCallback(() => {

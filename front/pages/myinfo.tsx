@@ -15,7 +15,8 @@ import MatchingCalendar from '../src/components/organisms/profile/MatchingCalend
 import MatchingRecord from '../src/components/organisms/profile/MatchingRecord';
 import LikedList from '../src/components/organisms/profile/LikedList';
 
-import { LOAD_MY_INFO_REQUEST, LOAD_PROFILE_MYINFO_REQUEST } from '../@types/utils';
+import { loadMyInfoRequest } from '../reducers/user';
+import { loadProfileMyinfoRequest } from '../reducers/profile';
 
 const menu = {
   INFO: 'INFO',
@@ -38,7 +39,7 @@ const Myinfo = () => {
     if (!me) {
       return setIsNotloggedIn(true);
     }
-    dispatch({ type: LOAD_PROFILE_MYINFO_REQUEST });
+    dispatch(loadProfileMyinfoRequest());
   }, [me]);
 
   const goMain = useCallback(() => {
@@ -93,9 +94,7 @@ export const getServerSideProps: GetServerSideProps = wrapper
     if (req && cookie) {
       axios!.defaults!.headers!.Cookie = cookie;
     }
-    store.dispatch({
-      type: LOAD_MY_INFO_REQUEST,
-    });
+    store.dispatch(loadMyInfoRequest());
     store.dispatch(END);
     await (store as Store).sagaTask!.toPromise();
 

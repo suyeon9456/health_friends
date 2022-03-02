@@ -11,7 +11,7 @@ import { BigCalendar, SimpleMatchingCard } from '../../../molecules';
 import { CalendarWrap, CardWrap } from './style';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Event } from 'react-big-calendar';
-import { LOAD_CALENDAR_SCHEDULES_REQUEST } from '@/../@types/utils';
+import { loadCalendarSchedulesRequest } from '@/../reducers/schedule';
 
 const actions = [{ icon: <UserAddOutlined />, key: 'rematch' }, { icon: <EditOutlined />, key: 'edit' }];
 const MatchingCalendar = () => {
@@ -40,10 +40,10 @@ const MatchingCalendar = () => {
   const onRangeChange = useCallback((range) => {
     if (range) {
       const { start, end } = range;
-      dispatch({
-        type: LOAD_CALENDAR_SCHEDULES_REQUEST,
-        data: { start: useDateFormat(start, 'yyyy-MM-dd'), end: useDateFormat(end, 'yyyy-MM-dd') },
-      });
+      dispatch(loadCalendarSchedulesRequest({
+        start: useDateFormat(start, 'yyyy-MM-dd'),
+        end: useDateFormat(end, 'yyyy-MM-dd'),
+      }));
     }
   }, []);
 
@@ -51,10 +51,10 @@ const MatchingCalendar = () => {
     Promise.all([addDays(startOfMonth(new Date(2022, 0)), -7),
       addDays(endOfMonth(new Date(2022, 0)), 7)]).then((values) => {
       const [start, end] = values;
-      dispatch({
-        type: LOAD_CALENDAR_SCHEDULES_REQUEST,
-        data: { start: useDateFormat(start, 'yyyy-MM-dd'), end: useDateFormat(end, 'yyyy-MM-dd') },
-      });
+      dispatch(loadCalendarSchedulesRequest({
+        start: useDateFormat(start, 'yyyy-MM-dd'),
+        end: useDateFormat(end, 'yyyy-MM-dd')
+      }));
     });
   }, []);
 

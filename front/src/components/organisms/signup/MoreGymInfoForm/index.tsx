@@ -8,7 +8,7 @@ import { Button, Form } from '../../../atoms';
 import { FormInput, FormRangeTimePicker, FormTextarea } from '../../../molecules';
 import ModalGym from './ModalGym';
 import { ButtonWrap, FormSearchGymWrap, FormWrapper } from './style';
-import { SIGN_UP_STEP_GYM_INFO_SAVE, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV } from '@/../@types/utils';
+import { signupStepGymInfoSave, signupStepNext, signupStepPrev } from '@/../reducers/user';
 
 const MoreGymInfoForm = () => {
   const dispatch = useDispatch();
@@ -29,16 +29,15 @@ const MoreGymInfoForm = () => {
   }, [showModal]);
 
   const onClickStepHandler = useCallback((data, e) => {
-    dispatch({
-      type: SIGN_UP_STEP_GYM_INFO_SAVE,
-      data: { ...data,
-        startTime: format(data.startTime, 'HH:mm'),
-        endTime: format(data.endTime, 'HH:mm') },
-    });
+    dispatch(signupStepGymInfoSave({
+      ...data,
+      startTime: format(data.startTime, 'HH:mm'),
+      endTime: format(data.endTime, 'HH:mm')
+    }));
     if (e.nativeEvent.submitter.name === 'next') {
-      dispatch({ type: SIGN_UP_STEP_NEXT });
+      dispatch(signupStepNext());
     } else {
-      dispatch({ type: SIGN_UP_STEP_PREV });
+      dispatch(signupStepPrev());
     }
   }, []);
   return (

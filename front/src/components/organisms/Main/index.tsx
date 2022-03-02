@@ -13,7 +13,7 @@ import { Store } from 'redux';
 import { MainBannerWrap, MainBodyWrap, MainWrap } from './style';
 import { Alert } from '../../molecules';
 import { Button } from '../../atoms';
-import { LOAD_MY_INFO_REQUEST, LOAD_RECOMMEND_FRIENDS_REQUEST } from '@/../@types/utils';
+import { loadMyInfoRequest, loadRecommendFriendsRequest } from '@/../reducers/user';
 
 declare global {
   interface Window {
@@ -100,10 +100,7 @@ const Main = () => {
     if (location) {
       console.log(location);
       const { regionSiName: si, regionGuName: gu, regionDongName: dong, mainAddressNo } = location;
-      dispatch({
-        type: LOAD_RECOMMEND_FRIENDS_REQUEST,
-        data: { si, gu, dong, mainAddressNo },
-      });
+      dispatch(loadRecommendFriendsRequest({ si, gu, dong, mainAddressNo }));
     }
   }, [location]);
   return (
@@ -141,9 +138,7 @@ export const getServerSideProps: GetServerSideProps = wrapper
     if (req && cookie) {
       axios!.defaults!.headers!.Cookie = cookie;
     }
-    store.dispatch({
-      type: LOAD_MY_INFO_REQUEST,
-    });
+    store.dispatch(loadMyInfoRequest());
     store.dispatch(END);
     await (store as Store).sagaTask!.toPromise();
     return {

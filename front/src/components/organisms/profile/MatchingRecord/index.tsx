@@ -7,7 +7,6 @@ import { Filter } from '../../../molecules';
 import { Button, CheckBox } from '../../../atoms';
 import MatchingCardList from '../../MatchingCardList';
 import { CancelYnCheckBoxWrap, FilterList, RecordBody, RecordFooter, RecordWrap } from './style';
-import { LOAD_SCHEDULES_REQUEST } from '@/../@types/utils';
 import { loadSchedulesRequest } from '@/../reducers/schedule';
 
 const MatchingRecord = () => {

@@ -7,7 +7,7 @@ import wrapper from '../store/configureStore';
 import { AppLayout, SearchGyms, SearchMap, Row, Col } from '../src/components/organisms';
 import { GetServerSideProps } from 'next';
 
-import { LOAD_MY_INFO_REQUEST } from '../@types/utils';
+import { loadMyInfoRequest } from '../reducers/user';
 
 const Friends = () => {
   const [foldedFriends, setFoldedFriends] = useState(true);
@@ -42,9 +42,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.
     if (req && cookie) {
       axios!.defaults!.headers!.Cookie = cookie;
     }
-    store.dispatch({
-      type: LOAD_MY_INFO_REQUEST,
-    });
+    store.dispatch(loadMyInfoRequest());
     store.dispatch(END);
     await (store as Store).sagaTask!.toPromise();
 

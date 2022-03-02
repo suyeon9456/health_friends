@@ -6,7 +6,7 @@ import Button from '../../atoms/Button';
 import { PropfileCard } from '../../molecules';
 import { FriendsListWrapper, SearchFriendsWrapper, SearchHeader, SearchTitle } from './style';
 import { RootState } from '@/../store/configureStore';
-import { ADD_LIKE_REQUEST } from '@/../@types/utils';
+import { addLikeRequest } from '@/../reducers/user';
 
 const SearchFriends = ({ foldedGym,
   foldedFriends,
@@ -44,10 +44,7 @@ const SearchFriends = ({ foldedGym,
   }, [me && me.id]);
 
   const onLike = useCallback((user) => () => {
-    dispatch({
-      type: ADD_LIKE_REQUEST,
-      data: user.id,
-    });
+    dispatch(addLikeRequest(user.id));
   }, []);
 
   return (

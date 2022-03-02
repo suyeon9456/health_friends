@@ -7,7 +7,7 @@ import { RootState } from '@/../store/configureStore';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
 import { Avatar } from '../../atoms';
-import { LOG_OUT_REQUEST } from '@/../@types/utils';
+import { logoutRequest } from '@/../reducers/user';
 
 const Menu = () => {
   const { me } = useSelector((state: RootState) => state.user);
@@ -16,7 +16,7 @@ const Menu = () => {
   const { drawerShow } = useShowState();
   const contextDispatch = useShowDispatch();
   const onLogout = useCallback(() => {
-    dispatch({ type: LOG_OUT_REQUEST });
+    dispatch(logoutRequest());
   }, []);
 
   const changeShowDrawerMenu = useCallback(() => {

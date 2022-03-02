@@ -9,7 +9,7 @@ import { Button } from '../../atoms';
 import { MapWrap } from './style';
 
 import styles from '../../../scss/searchMap.module.scss';
-import { CHANGE_MAP_BOUNDS, IS_LOAD_GYMS, LOAD_FRIENDS_REQUEST } from '@/../@types/utils';
+import { changeMapBounds, isLoadGyms, loadFriendsRequest } from '@/../reducers/gym';
 
 const SearchMap = ({ foldedFriends, setFoldedFriends }: {
   foldedFriends: boolean;
@@ -31,29 +31,20 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: {
   }>({});
 
   const onSearchGyms = useCallback(() => {
-    dispatch({
-      type: IS_LOAD_GYMS,
-      data: true,
-    });
+    dispatch(isLoadGyms(true));
   }, []);
 
   const onClickGym = useCallback((gymId) => () => {
     if (foldedFriends) {
       setFoldedFriends(false);
     }
-    dispatch({
-      type: LOAD_FRIENDS_REQUEST,
-      data: { gymId },
-    });
+    dispatch(loadFriendsRequest({ gymId }));
   }, [foldedFriends]);
 
   useEffect(() => {
     if (bounds) {
       const debounce = setTimeout(() => {
-        dispatch({
-          type: CHANGE_MAP_BOUNDS,
-          data: bounds,
-        });
+        dispatch(changeMapBounds(bounds));
         setShowButton(true);
       }, 1000); // setTimeout 설정
       return () => clearTimeout(debounce);
@@ -91,10 +82,7 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: {
 
     const { La: swLon, Ma: swLat } = swLatlng;
     const { La: neLon, Ma: neLat } = neLatlng;
-    dispatch({
-      type: CHANGE_MAP_BOUNDS,
-      data: { swLon, swLat, neLon, neLat },
-    });
+    dispatch(changeMapBounds({ swLon, swLat, neLon, neLat }));
 
     (window as any).kakao.maps.event.addListener(map.current, 'bounds_changed', () => {
       // 지도 영역정보를 얻어옵니다

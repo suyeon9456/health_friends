@@ -8,7 +8,7 @@ import Progress from '../../../molecules/Progress';
 import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
 import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, MenuText, SideBarWrapper, SideMenu, SideMenuWrap } from './style';
-import { ADD_PROFILEIMAGE_REQUEST, REMOVE_PROFILEIMAGE, UPLOAD_PROFILEIMAGE_REQUEST } from '@/../@types/utils';
+import { addProfileImageRequest, removeProfileImage, uploadProfileImageRequest } from '@/../reducers/profile';
 
 const menu = {
   INFO: 'INFO',
@@ -54,10 +54,7 @@ const SideBar = ({ profileMenu, setProfileMenu }: {
     [].forEach.call(e.target.files, (f) => {
       imageFormData.append('image', f);
     });
-    dispatch({
-      type: UPLOAD_PROFILEIMAGE_REQUEST,
-      data: imageFormData,
-    });
+    dispatch(uploadProfileImageRequest(imageFormData));
   }, []);
 
   const onChangeUploadState = useCallback(() => {
@@ -65,17 +62,12 @@ const SideBar = ({ profileMenu, setProfileMenu }: {
   }, [uploadState]);
 
   const onAddProfileImage = useCallback(() => {
-    dispatch({
-      type: ADD_PROFILEIMAGE_REQUEST,
-      data: { image: imagePath },
-    });
+    dispatch(addProfileImageRequest({ image: imagePath }));
     onChangeUploadState();
   }, [imagePath]);
 
   const onRemoveUploadImage = useCallback(() => {
-    dispatch({
-      type: REMOVE_PROFILEIMAGE,
-    });
+    dispatch(removeProfileImage());
   }, []);
 
   const onShowMatchingModal = useCallback(() => {

@@ -8,7 +8,7 @@ import { Avatar } from '../../../atoms';
 import { Modal } from '../../../molecules';
 import { Content, DescriptionWrap, InfoContent } from '../../MatchingRequestForm/style';
 import { MatchingInfoWrap, RequestFriendWrap, UserInfoWrap } from './style';
-import { ADD_CANCELLATION_REQUEST, UPDATE_CANCELLATION_REQUEST, UPDATE_PERMISSION_REQUEST } from '@/../@types/utils';
+import { addCancellationRequest, updateCancellationRequest, updatePermissionRequest } from '@/../reducers/schedule';
 
 const ModalMatchingDetail = ({ show, onCancel }: {
   show: boolean;
@@ -42,32 +42,28 @@ const ModalMatchingDetail = ({ show, onCancel }: {
         return [userRematchRate, friendRematchRate];
       }).then((values) => {
         const [userRematchRate, friendRematchRate] = values;
-        dispatch({
-          type: UPDATE_PERMISSION_REQUEST,
-          data: { scheduleId: id,
-            permission: true,
-            friendId: fId,
-            userRematchRate,
-            friendRematchRate },
-        });
+        dispatch(updatePermissionRequest({
+          scheduleId: id,
+          permission: true,
+          friendId: fId,
+          userRematchRate,
+          friendRematchRate,
+        }));
         onCancel();
       });
     }
   }, [schedule, fId]);
 
   const onRefuse = useCallback(() => {
-    dispatch({
-      type: UPDATE_PERMISSION_REQUEST,
-      data: { scheduleId: schedule.id, permission: false },
-    });
+    dispatch(updatePermissionRequest({
+      scheduleId: schedule.id,
+      permission: false,
+    }));
     onCancel();
   }, [schedule]);
 
   const onCancelRequest = useCallback(() => {
-    dispatch({
-      type: ADD_CANCELLATION_REQUEST,
-      data: { id: schedule.id },
-    });
+    dispatch(addCancellationRequest({ id: schedule.id }));
     onCancel();
   }, [schedule]);
 
@@ -88,14 +84,13 @@ const ModalMatchingDetail = ({ show, onCancel }: {
       return [userRematchRate, friendRematchRate];
     }).then((values) => {
       const [userRematchRate, friendRematchRate] = values;
-      dispatch({
-        type: UPDATE_CANCELLATION_REQUEST,
-        data: { id,
-          friendId: fId,
-          cancelId: Cancel?.id,
-          userRematchRate,
-          friendRematchRate },
-      });
+      dispatch(updateCancellationRequest({
+        id,
+        friendId: fId,
+        cancelId: Cancel?.id,
+        userRematchRate,
+        friendRematchRate,
+      }));
       onCancel();
     });
   }, [schedule]);

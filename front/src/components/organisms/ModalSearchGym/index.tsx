@@ -6,7 +6,8 @@ import useInput from '../../../hooks/useInput';
 import { Search, Item } from '../../atoms';
 import { BoxContent, GymListWrap, ListCard } from './style';
 import { UseFormSetValue } from 'react-hook-form';
-import { LOAD_GYM_REQUEST, SELECT_GYM } from '@/../@types/utils';
+import { selectGym } from '@/../reducers/user';
+import { loadGymRequest } from '@/../reducers/gym';
 
 const ModalSearchGym = ({ setShowModal, setGym }: {
   setShowModal: (state: boolean) => void;
@@ -23,26 +24,17 @@ const ModalSearchGym = ({ setShowModal, setGym }: {
   const [searchWord, onChangeSearchWord] = useInput('');
 
   const onClick = useCallback((gym) => {
-    dispatch({
-      type: SELECT_GYM,
-      data: { id: gym.id, name: gym.name },
-    });
+    dispatch(selectGym({ id: gym.id, name: gym.name }));
     setGym('gym', gym.name);
     setShowModal(false);
   }, [gyms]);
 
   const onSearch = useCallback(() => {
-    dispatch({
-      type: LOAD_GYM_REQUEST,
-      data: { searchWord },
-    });
+    dispatch(loadGymRequest({ searchWord }));
   }, [searchWord]);
 
   useEffect(() => {
-    dispatch({
-      type: LOAD_GYM_REQUEST,
-      data: { searchWord },
-    });
+    dispatch(loadGymRequest({ searchWord }));
   }, []);
 
   return (

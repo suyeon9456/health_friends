@@ -39,8 +39,8 @@ const initialState: ScheduleInitialState = {
   schedule: null,
 };
 
-const userSlice = createSlice({
-  name: 'USER',
+const scheduleSlice = createSlice({
+  name: 'SCHEDULE',
   initialState,
   reducers: {
     addScheduleRequest(state, action) {
@@ -252,6 +252,6 @@ export const {
   updateCancellationRequest,
   updateCancellationSuccess,
   updateCancellationError,
-} = userSlice.actions
-export default userSlice.reducer;
+} = scheduleSlice.actions
+export default scheduleSlice.reducer;
 

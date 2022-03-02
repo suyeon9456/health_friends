@@ -7,7 +7,7 @@ import useInput from '../../../../hooks/useInput';
 import { Button, Icon, Input } from '../../../atoms';
 import { ContentText, ContentTitle, InfoBody, InfoButtonWrapper, InfoContent, InfoContentWrapper, InfoHeader, InfoWrapper } from './style';
 import { RootState } from '@/../store/configureStore';
-import { UPDATE_MY_DESCRIPTION_REQUEST, UPDATE_MY_NICKNAME_REQUEST } from '@/../@types/utils';
+import { updateMyDescriptionRequest, updateMyNicknameRequest } from '@/../reducers/profile';
 
 const Info = () => {
   const dispatch = useDispatch();
@@ -29,17 +29,11 @@ const Info = () => {
   }, [isEditDescription]);
 
   const onUpdateNickname = useCallback(() => {
-    dispatch({
-      type: UPDATE_MY_NICKNAME_REQUEST,
-      data: { nickname },
-    });
+    dispatch(updateMyNicknameRequest({ nickname }));
   }, [nickname]);
 
   const onUpdatDescription = useCallback(() => {
-    dispatch({
-      type: UPDATE_MY_DESCRIPTION_REQUEST,
-      data: { description },
-    });
+    dispatch(updateMyDescriptionRequest({ description }));
   }, [description]);
 
   useEffect(() => {

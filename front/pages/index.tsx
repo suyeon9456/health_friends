@@ -8,7 +8,7 @@ import { AppLayout, Main, Footer } from '../src/components/organisms';
 import wrapper from '../store/configureStore';
 
 import { Store } from 'redux';
-import { LOAD_MY_INFO_REQUEST } from '../@types/utils';
+import { loadMyInfoRequest } from '../reducers/user';
 
 const Home = () => (
   <AppLayout spanNumber={24}>
@@ -39,9 +39,7 @@ export const getServerSideProps: GetServerSideProps = wrapper
     if (req && cookie) {
       axios!.defaults!.headers!.Cookie = cookie;
     }
-    store.dispatch({
-      type: LOAD_MY_INFO_REQUEST,
-    });
+    store.dispatch(loadMyInfoRequest());
     store.dispatch(END);
     await (store as Store).sagaTask!.toPromise();
     return {

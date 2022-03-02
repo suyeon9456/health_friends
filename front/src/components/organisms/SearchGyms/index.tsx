@@ -12,7 +12,7 @@ import SearchFriends from '../SearchFriends';
 import SearchSidebar from '../SearchSidebar';
 import ModalMatchingRequest from '../ModalMatchingRequest';
 import { SearchHeader, SearchWrapper, SearchTitle, SearchFormWrapper, SearchListWrapper, GymWrapper, FoldButton } from './style';
-import { LOAD_FRIENDS_REQUEST, LOAD_GYM_REQUEST } from '@/../@types/utils';
+import { loadFriendsRequest, loadGymRequest } from '@/../reducers/gym';
 
 const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }: {
   foldedFriends: boolean;
@@ -47,10 +47,7 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
   }, [foldedGym]);
 
   const onSearchGyms = useCallback(() => {
-    dispatch({
-      type: LOAD_GYM_REQUEST,
-      data: { searchWord },
-    });
+    dispatch(loadGymRequest({ searchWord }));
     router.push(`?searchText=${searchWord}`, undefined, { shallow: true });
   }, [searchWord]);
 
@@ -58,10 +55,7 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
     if (foldedFriends) {
       setFoldedFriends(false);
     }
-    dispatch({
-      type: LOAD_FRIENDS_REQUEST,
-      data: { gymId },
-    });
+    dispatch(loadFriendsRequest({ gymId }));
   }, [foldedFriends]);
 
   const onChangeStateWarning = useCallback(() => {
@@ -70,16 +64,13 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
 
   useEffect(() => {
     if (isLoadGyms && mapBounds) {
-      dispatch({
-        type: LOAD_GYM_REQUEST,
-        data: {
-          searchWord,
-          swLon: mapBounds.swLon,
-          swLat: mapBounds.swLat,
-          neLon: mapBounds.neLon,
-          neLat: mapBounds.neLat,
-        },
-      });
+      dispatch(loadGymRequest({
+        searchWord,
+        swLon: mapBounds.swLon,
+        swLat: mapBounds.swLat,
+        neLon: mapBounds.neLon,
+        neLat: mapBounds.neLat,
+      }));
     }
   }, [isLoadGyms, mapBounds]);
 
@@ -95,11 +86,10 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
         > document.documentElement.scrollHeight - 300) {
         if (hasMoreGyms && !loadGymLoading) {
           const lastId = gyms[gyms.length - 1]?.id;
-          dispatch({
-            type: LOAD_GYM_REQUEST,
+          dispatch(loadGymRequest({
             lastId,
-            data: { searchWord },
-          });
+            searchWord
+          }));
         }
       }
     }
@@ -114,10 +104,7 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
   }, [browserHeight]);
 
   useEffect(() => {
-    dispatch({
-      type: LOAD_GYM_REQUEST,
-      data: { searchWord: searchText },
-    });
+    dispatch(loadGymRequest({ searchWord: searchText }));
   }, []);
 
   return (

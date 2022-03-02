@@ -93,12 +93,12 @@ export type UserInitialState = {
 
 /* PROFILE INITIAL STATE */
 export type ProfileInitialState = {
-  loadProfileInfoLoading: boolean;
-  loadProfileInfoDone: boolean;
-  loadProfileInfoError: string | null;
-  loadProfileMyinfoLoading: boolean;
-  loadProfileMyinfoDone: boolean;
-  loadProfileMyinfoError: string | null;
+  loadInfoLoading: boolean;
+  loadInfoDone: boolean;
+  loadInfoError: string | null;
+  loadMyinfoLoading: boolean;
+  loadMyinfoDone: boolean;
+  loadMyinfoError: string | null;
   updateMyInfoLoading: boolean;
   updateMyInfoDone: boolean;
   updateMyInfoError: string | null;

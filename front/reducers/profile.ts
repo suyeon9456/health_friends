@@ -1,41 +1,13 @@
-import produce from 'immer';
-import {
-  ADD_PROFILEIMAGE_ERROR,
-  ADD_PROFILEIMAGE_REQUEST,
-  ADD_PROFILEIMAGE_SUCCESS,
-  LOAD_PROFILE_INFO_ERROR,
-  LOAD_PROFILE_INFO_REQUEST,
-  LOAD_PROFILE_INFO_SUCCESS,
-  LOAD_PROFILE_MYINFO_ERROR,
-  LOAD_PROFILE_MYINFO_REQUEST,
-  LOAD_PROFILE_MYINFO_SUCCESS,
-  REMOVE_PROFILEIMAGE,
-  UPDATE_MY_DESCRIPTION_ERROR,
-  UPDATE_MY_DESCRIPTION_REQUEST,
-  UPDATE_MY_DESCRIPTION_SUCCESS,
-  UPDATE_MY_FRIENDS_INFO_ERROR,
-  UPDATE_MY_FRIENDS_INFO_REQUEST,
-  UPDATE_MY_FRIENDS_INFO_SUCCESS,
-  UPDATE_MY_INFO_ERROR,
-  UPDATE_MY_INFO_REQUEST,
-  UPDATE_MY_INFO_SUCCESS,
-  UPDATE_MY_NICKNAME_ERROR,
-  UPDATE_MY_NICKNAME_REQUEST,
-  UPDATE_MY_NICKNAME_SUCCESS,
-  UPLOAD_PROFILEIMAGE_ERROR,
-  UPLOAD_PROFILEIMAGE_REQUEST,
-  UPLOAD_PROFILEIMAGE_SUCCESS
-} from '../@types/utils';
 import { ProfileInitialState } from "../@types/reducer/state";
-import { ProfileActions } from '../@types/action';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState: ProfileInitialState = {
-  loadProfileInfoLoading: false,
-  loadProfileInfoDone: false,
-  loadProfileInfoError: null,
-  loadProfileMyinfoLoading: false,
-  loadProfileMyinfoDone: false,
-  loadProfileMyinfoError: null,
+  loadInfoLoading: false,
+  loadInfoDone: false,
+  loadInfoError: null,
+  loadMyinfoLoading: false,
+  loadMyinfoDone: false,
+  loadMyinfoError: null,
   updateMyInfoLoading: false,
   updateMyInfoDone: false,
   updateMyInfoError: null,
@@ -58,136 +30,171 @@ const initialState: ProfileInitialState = {
   imagePath: null,
 };
 
-const reducer = (state = initialState, action: ProfileActions) => (produce(state, (draft) => {
-  switch (action.type) {
-    case LOAD_PROFILE_INFO_REQUEST:
-      draft.loadProfileInfoLoading = true;
-      draft.loadProfileInfoDone = false;
-      draft.loadProfileInfoError = null;
-      break;
-    case LOAD_PROFILE_INFO_SUCCESS:
-      draft.loadProfileInfoLoading = false;
-      draft.loadProfileInfoDone = true;
-      draft.profile = action.data;
-      break;
-    case LOAD_PROFILE_INFO_ERROR:
-      draft.loadProfileInfoError = action.error;
-      draft.loadProfileInfoLoading = false;
-      break;
-    case LOAD_PROFILE_MYINFO_REQUEST:
-      draft.loadProfileMyinfoLoading = true;
-      draft.loadProfileMyinfoDone = false;
-      draft.loadProfileMyinfoError = null;
-      break;
-    case LOAD_PROFILE_MYINFO_SUCCESS:
-      draft.loadProfileMyinfoLoading = false;
-      draft.loadProfileMyinfoDone = true;
-      draft.profile = { ...action.data, Liked: action.data.Liked.map(({ id }: { id: number }) => id) };
-      break;
-    case LOAD_PROFILE_MYINFO_ERROR:
-      draft.loadProfileMyinfoError = action.error;
-      draft.loadProfileMyinfoLoading = false;
-      break;
-  case UPDATE_MY_INFO_REQUEST:
-    draft.updateMyInfoLoading = true;
-    draft.updateMyInfoDone = false;
-    draft.updateMyInfoError = null;
-    break;
-  case UPDATE_MY_INFO_SUCCESS:
-    draft.updateMyInfoLoading = false;
-    draft.updateMyInfoDone = true;
-    draft.updateMyInfoError = null;
-    draft.profile = action.data;
-    break;
-  case UPDATE_MY_INFO_ERROR:
-    draft.updateMyInfoLoading = false;
-    draft.updateMyInfoError = action.error;
-    break;
-  case UPDATE_MY_FRIENDS_INFO_REQUEST:
-    draft.updateMyFriendsInfoLoading = true;
-    draft.updateMyFriendsInfoDone = false;
-    draft.updateMyFriendsInfoError = null;
-    break;
-  case UPDATE_MY_FRIENDS_INFO_SUCCESS:
-    draft.updateMyFriendsInfoLoading = false;
-    draft.updateMyFriendsInfoDone = true;
-    draft.updateMyFriendsInfoError = null;
-    draft.profile = action.data;
-    // draft.me = action.data;
-    break;
-  case UPDATE_MY_FRIENDS_INFO_ERROR:
-    draft.updateMyFriendsInfoLoading = false;
-    draft.updateMyFriendsInfoError = action.error;
-    break;
-  case UPDATE_MY_NICKNAME_REQUEST:
-    draft.updateMyNicknameLoading = true;
-    draft.updateMyNicknameDone = false;
-    draft.updateMyNicknameError = null;
-    break;
-  case UPDATE_MY_NICKNAME_SUCCESS:
-    draft.updateMyNicknameLoading = false;
-    draft.updateMyNicknameDone = true;
-    draft.updateMyNicknameError = null;
-    draft.me.nickname = action.data.nickname;
-    draft.profile.nickname = action.data.nickname;
-    break;
-  case UPDATE_MY_NICKNAME_ERROR:
-    draft.updateMyNicknameLoading = false;
-    draft.updateMyNicknameError = action.error;
-    break;
-  case UPDATE_MY_DESCRIPTION_REQUEST:
-    draft.updateMyDescriptionLoading = true;
-    draft.updateMyDescriptionDone = false;
-    draft.updateMyDescriptionError = null;
-    break;
-  case UPDATE_MY_DESCRIPTION_SUCCESS:
-    draft.updateMyDescriptionLoading = false;
-    draft.updateMyDescriptionDone = true;
-    draft.updateMyDescriptionError = null;
-    draft.me.description = action.data.description;
-    draft.profile.Userdetail.description = action.data.description;
-    break;
-  case UPDATE_MY_DESCRIPTION_ERROR:
-    draft.updateMyDescriptionLoading = false;
-    draft.updateMyDescriptionError = action.error;
-    break;
-  case UPLOAD_PROFILEIMAGE_REQUEST:
-    draft.uploadProfileImageLoading = true;
-    draft.uploadProfileImageDone = false;
-    draft.uploadProfileImageError = null;
-    break;
-  case UPLOAD_PROFILEIMAGE_SUCCESS:
-    draft.uploadProfileImageLoading = false;
-    draft.uploadProfileImageDone = true;
-    draft.uploadProfileImageError = null;
-    draft.imagePath = action.data;
-    break;
-  case UPLOAD_PROFILEIMAGE_ERROR:
-    draft.uploadProfileImageLoading = false;
-    draft.uploadProfileImageError = action.error;
-    break;
-  case ADD_PROFILEIMAGE_REQUEST:
-    draft.addProfileImageLoading = true;
-    draft.addProfileImageDone = false;
-    draft.addProfileImageError = null;
-    break;
-  case ADD_PROFILEIMAGE_SUCCESS:
-    draft.addProfileImageLoading = false;
-    draft.addProfileImageDone = true;
-    draft.addProfileImageError = null;
-    draft.profile = action.data;
-    draft.imagePath = null;
-    break;
-  case ADD_PROFILEIMAGE_ERROR:
-    draft.addProfileImageLoading = false;
-    draft.addProfileImageError = action.error;
-    break;
-  case REMOVE_PROFILEIMAGE:
-    draft.imagePath = null;
-    break;
-  default:
-    break;
-  }
-}));
+const profileSlice = createSlice({
+  name: 'PROFILE',
+  initialState,
+  reducers: {
+    loadProfileInfoRequest(state, action) {
+      state.loadInfoLoading = true;
+      state.loadInfoDone = false;
+      state.loadInfoError = null;
+    },
+    loadProfileInfoSuccess(state, action) {
+      state.loadInfoLoading = false;
+      state.loadInfoDone = true;
+      state.loadInfoError = null;
+      state.profile = action.payload;
+    },
+    loadProfileInfoError(state, action) {
+      state.loadInfoLoading = false;
+      state.loadInfoDone = false;
+      state.loadInfoError = action.payload;
+    },
+    loadProfileMyinfoRequest(state) {
+      state.loadMyinfoLoading = true;
+      state.loadMyinfoDone = false;
+      state.loadMyinfoError = null;
+    },
+    loadProfileMyinfoSuccess(state, action) {
+      state.loadMyinfoLoading = false;
+      state.loadMyinfoDone = true;
+      state.loadMyinfoError = null;
+      state.profile = { ...action.payload, Liked: action.payload.Liked.map(({ id }: { id: number }) => id) };
+    },
+    loadProfileMyinfoError(state, action) {
+      state.updateMyInfoLoading = false;
+      state.updateMyInfoDone = false;
+      state.updateMyInfoError = action.payload;
+    },
+    updateMyinfoRequest(state, action) {
+      state.updateMyInfoLoading = true;
+      state.updateMyInfoDone = false;
+      state.updateMyInfoError = null;
+    },
+    updateMyinfoSuccess(state, action) {
+      state.updateMyInfoLoading = false;
+      state.updateMyInfoDone = true;
+      state.updateMyInfoError = null;
+      state.profile = action.payload;
+    },
+    updateMyinfoError(state, action) {
+      state.updateMyInfoLoading = false;
+      state.updateMyInfoDone = false;
+      state.updateMyInfoError = action.payload;
+    },
+    updateMyFriendsInfoRequest(state, action) {
+      state.updateMyFriendsInfoLoading = true;
+      state.updateMyFriendsInfoDone = false;
+      state.updateMyFriendsInfoError = null;
+    },
+    updateMyFriendsInfoSuccess(state, action) {
+      state.updateMyFriendsInfoLoading = false;
+      state.updateMyFriendsInfoDone = true;
+      state.updateMyFriendsInfoError = null;
+      state.profile = action.payload;
+    },
+    updateMyFriendsInfoError(state, action) {
+      state.updateMyFriendsInfoLoading = false;
+      state.updateMyFriendsInfoDone = false;
+      state.updateMyFriendsInfoError = action.payload;
+    },
+    updateMyNicknameRequest(state, action) {
+      state.updateMyNicknameLoading = true;
+      state.updateMyNicknameDone = false;
+      state.updateMyNicknameError = null;
+    },
+    updateMyNicknameSuccess(state, action) {
+      state.updateMyNicknameLoading = false;
+      state.updateMyNicknameDone = true;
+      state.updateMyNicknameError = null;
+      state.profile!.nickname = action.payload;
+    },
+    updateMyNicknameError(state, action) {
+      state.updateMyNicknameLoading = false;
+      state.updateMyNicknameDone = false;
+      state.updateMyNicknameError = action.payload;
+    },
+    updateMyDescriptionRequest(state, action) {
+      state.updateMyDescriptionLoading = true;
+      state.updateMyDescriptionDone = false;
+      state.updateMyDescriptionError = null;
+    },
+    updateMyDescriptionSuccess(state, action) {
+      state.updateMyDescriptionLoading = false;
+      state.updateMyDescriptionDone = true;
+      state.updateMyDescriptionError = null;
+      state.profile!.Userdetail.description = action.payload;
+    },
+    updateMyDescriptionError(state, action) {
+      state.updateMyDescriptionLoading = false;
+      state.updateMyDescriptionDone = false;
+      state.updateMyDescriptionError = action.payload;
+    },
+    uploadProfileImageRequest(state, action) {
+      state.uploadProfileImageLoading = true;
+      state.uploadProfileImageDone = false;
+      state.uploadProfileImageError = null;
+    },
+    uploadProfileImageSuccess(state, action) {
+      state.uploadProfileImageLoading = false;
+      state.uploadProfileImageDone = true;
+      state.uploadProfileImageError = null;
+      state.imagePath = action.payload;
+    },
+    uploadProfileImageError(state, action) {
+      state.uploadProfileImageLoading = false;
+      state.uploadProfileImageDone = false;
+      state.uploadProfileImageError = action.payload;
+    },
+    addProfileImageRequest(state, action) {
+      state.addProfileImageLoading = true;
+      state.addProfileImageDone = false;
+      state.addProfileImageError = null;
+    },
+    addProfileImageSuccess(state, action) {
+      state.addProfileImageLoading = false;
+      state.addProfileImageDone = true;
+      state.addProfileImageError = null;
+      state.imagePath = action.payload;
+      state.profile = action.payload;
+      state.imagePath = null;
+    },
+    addProfileImageError(state, action) {
+      state.addProfileImageLoading = false;
+      state.addProfileImageDone = false;
+      state.addProfileImageError = action.payload;
+    },
+    removeProfileImage(state) {
+      state.imagePath = null;
+    },
+  },
+});
 
-export default reducer;
+export const {
+  loadProfileInfoRequest,
+  loadProfileInfoSuccess,
+  loadProfileInfoError,
+  loadProfileMyinfoRequest,
+  loadProfileMyinfoSuccess,
+  loadProfileMyinfoError,
+  updateMyinfoRequest,
+  updateMyinfoSuccess,
+  updateMyinfoError,
+  updateMyFriendsInfoRequest,
+  updateMyFriendsInfoSuccess,
+  updateMyFriendsInfoError,
+  updateMyNicknameRequest,
+  updateMyNicknameSuccess,
+  updateMyNicknameError,
+  updateMyDescriptionRequest,
+  updateMyDescriptionSuccess,
+  updateMyDescriptionError,
+  uploadProfileImageRequest,
+  uploadProfileImageSuccess,
+  uploadProfileImageError,
+  addProfileImageRequest,
+  addProfileImageSuccess,
+  addProfileImageError,
+  removeProfileImage,
+} = profileSlice.actions
+export default profileSlice.reducer;

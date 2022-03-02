@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import { RootState } from '@/../store/configureStore';
 import { Modal } from '../../../molecules';
 import MatchingRequestForm from '../../MatchingRequestForm';
-import { ADD_RE_SCHEDULE_REQUEST, UPDATE_SCHEDULE_REQUEST } from '@/../@types/utils';
+import { addReScheduleRequest, updateScheduleRequest } from '@/../reducers/schedule';
 
 const schema = yup.object({
   startDate: yup.string().required('날짜는 필수 항목입니다.'),
@@ -44,24 +44,23 @@ const ModalMatchingEdit = ({ show, onCancel, mode }: {
     const startDateTime = format(new Date(data.startDate), 'yyyy-MM-dd HH:mm');
     const dateTime = [date, time].join(' ');
     if (mode === 'edit') {
-      dispatch({
-        type: UPDATE_SCHEDULE_REQUEST,
-        data: { ...data, startDate: startDateTime, endDate: dateTime, id: schedule.id },
-      });
+      dispatch(updateScheduleRequest({
+        ...data,
+        startDate: startDateTime,
+        endDate: dateTime,
+        id: schedule.id,
+      }));
     }
     if (mode === 'rematch') {
-      dispatch({
-        type: ADD_RE_SCHEDULE_REQUEST,
-        data: {
-          ...data,
-          startDate: startDateTime,
-          endDate: dateTime,
-          id: schedule?.id,
-          userId: me?.id,
-          friendId: fId,
-          gymId: schedule?.gymId,
-        },
-      });
+      dispatch(addReScheduleRequest({
+        ...data,
+        startDate: startDateTime,
+        endDate: dateTime,
+        id: schedule?.id,
+        userId: me?.id,
+        friendId: fId,
+        gymId: schedule?.gymId,
+      }));
     }
   }, [mode, schedule, fId]);
 

@@ -10,7 +10,7 @@ import { Button, Form } from '@/components/atoms';
 import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 import { RootState } from '@/../store/configureStore';
-import { LOG_IN_REQUEST } from '@/../@types/utils';
+import { loginRequest } from '@/../reducers/user';
 
 const schema = yup.object({
   email: yup.string()
@@ -40,7 +40,7 @@ const LoginForm = () => {
 
   const onLogin = useCallback((data, e) => {
     e.preventDefault();
-    dispatch({ type: LOG_IN_REQUEST, data });
+    dispatch(loginRequest(data));
   }, []);
 
   useEffect(() => {

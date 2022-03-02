@@ -6,7 +6,7 @@ import { Button, Form } from '../../../atoms';
 import { FormSelect } from '../../../molecules';
 import { ButtonWrap, MoreInfoFormWrapper } from './style';
 import { RootState } from '@/../store/configureStore';
-import { SIGN_UP_STEP_MORE_INFO_SAVE, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV } from '@/../@types/utils';
+import { signupStepMoreInfoSave, signupStepNext, signupStepPrev } from '@/../reducers/user';
 
 const MoreInfoForm = () => {
   const dispatch = useDispatch();
@@ -23,11 +23,11 @@ const MoreInfoForm = () => {
   });
 
   const onClickStepHandler = useCallback((data, e) => {
-    dispatch({ type: SIGN_UP_STEP_MORE_INFO_SAVE, data });
+    dispatch(signupStepMoreInfoSave(data));
     if (e.nativeEvent.submitter.name === 'next') {
-      dispatch({ type: SIGN_UP_STEP_NEXT });
+      dispatch(signupStepNext());
     } else {
-      dispatch({ type: SIGN_UP_STEP_PREV });
+      dispatch(signupStepPrev());
     }
   }, []);
 

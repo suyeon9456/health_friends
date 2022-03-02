@@ -6,7 +6,7 @@ import { RootState } from '@/../store/configureStore';
 
 import { RankItem, RankTitle, RankCard, RankCardList, RankCardWrap, RankedFriendsBody, RankedFriendsHeader, RankedFriendsWrap, RankItemWrap, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
 import NoDataIcon from '../../../atoms/NoDataIcon';
-import { LOAD_RANKED_FRIENDS_REQUEST } from '@/../@types/utils';
+import { loadRankedFriendsRequest } from '@/../reducers/user';
 
 interface Matching {
   count: number,
@@ -26,9 +26,7 @@ const RankedFriends = () => {
   const dispatch = useDispatch();
   const { rankedFriends } = useSelector((state: RootState) => state.user);
   useEffect(() => {
-    dispatch({
-      type: LOAD_RANKED_FRIENDS_REQUEST,
-    });
+    dispatch(loadRankedFriendsRequest());
   }, []);
 
   return (

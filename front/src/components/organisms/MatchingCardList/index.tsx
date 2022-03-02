@@ -9,7 +9,7 @@ import { Icon } from '../../atoms';
 import { MatchingCard } from '../../molecules';
 import ModalMatchingEdit from '../profile/ModalMatchingEdit';
 import { RootState } from '@/../store/configureStore';
-import { LOAD_SCHEDULE_REQUEST } from '@/../@types/utils';
+import { loadScheduleRequest } from '@/../reducers/schedule';
 
 interface Schedules {
   schedules: Array<{
@@ -48,10 +48,7 @@ const MatchingCardList = ({ schedules }: Schedules) => {
   const onClickAction = useCallback(({ key, id }) => {
     console.log(key);
     setModalType(key);
-    dispatch({
-      type: LOAD_SCHEDULE_REQUEST,
-      data: id,
-    });
+    dispatch(loadScheduleRequest(id));
     if (key === 'view') {
       setShowDetailModal((prev) => !prev);
     }

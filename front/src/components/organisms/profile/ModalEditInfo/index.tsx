@@ -7,7 +7,7 @@ import { useDateFormat } from '../../../../hooks';
 import { Modal } from '../../../molecules';
 import EditInfoForm from '../EditInfoForm';
 import { RootState } from '@/../store/configureStore';
-import { UPDATE_MY_FRIENDS_INFO_REQUEST, UPDATE_MY_INFO_REQUEST } from '@/../@types/utils';
+import { updateMyFriendsInfoRequest, updateMyinfoRequest } from '@/../reducers/profile';
 
 const ModalEditInfo = ({ title, targetId, show, onCancel, setCloseModal }: {
   title: string;
@@ -32,18 +32,19 @@ const ModalEditInfo = ({ title, targetId, show, onCancel, setCloseModal }: {
 
   const onSubmit = useCallback((data) => {
     if (targetId === 'more-info') {
-      dispatch({
-        type: UPDATE_MY_INFO_REQUEST,
-        data: { ...data,
-          startTime: format(data.startTime, 'HH:mm'),
-          endTime: format(data.endTime, 'HH:mm') },
-      });
+      dispatch(updateMyinfoRequest({
+        ...data,
+        startTime: format(data.startTime, 'HH:mm'),
+        endTime: format(data.endTime, 'HH:mm'),
+      }));
     }
     if (targetId === 'friends-info') {
-      dispatch({
-        type: UPDATE_MY_FRIENDS_INFO_REQUEST,
-        data: { gender: data.gender, age: data.age, career: data.career, role: data.role },
-      });
+      dispatch(updateMyFriendsInfoRequest({
+        gender: data.gender,
+        age: data.age,
+        career: data.career,
+        role: data.role,
+      }));
     }
     setCloseModal(false);
   }, [targetId]);

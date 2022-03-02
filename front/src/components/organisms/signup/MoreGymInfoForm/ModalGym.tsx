@@ -7,7 +7,7 @@ import ModalSearchGym from '../../ModalSearchGym';
 import ModalCreateGym from '../../ModalCreateGym';
 import { ModalBodyBox } from './style';
 import { useForm, UseFormSetValue } from 'react-hook-form';
-import { ADD_GYM_REQUEST } from '@/../@types/utils';
+import { addGymRequeset } from '@/../reducers/gym';
 
 interface CreateModalType {
   sido: string;
@@ -53,7 +53,7 @@ const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }: {
 
   const onSubmit = useCallback((data) => {
     // 이벤트버블링 체크
-    dispatch({ type: ADD_GYM_REQUEST, data });
+    dispatch(addGymRequeset(data));
     setGym('gym', data.name);
     setShowModal(false);
   }, [show, selectedTab]);

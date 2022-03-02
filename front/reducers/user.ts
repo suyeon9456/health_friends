@@ -1,8 +1,6 @@
-import produce from 'immer';
+import { createSlice } from '@reduxjs/toolkit';
 import * as _ from 'lodash';
-import { UserActions } from '../@types/action';
 import { UserInitialState } from '../@types/reducer/state';
-import { LOAD_MY_INFO_ERROR, LOAD_MY_INFO_REQUEST, LOAD_MY_INFO_SUCCESS, LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_ERROR, LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_ERROR, SIGN_UP_STEP_NEXT, SIGN_UP_STEP_PREV, SIGN_UP_STEP_INFO_SAVE, SIGN_UP_STEP_MORE_INFO_SAVE, SIGN_UP_STEP_GYM_INFO_SAVE, SIGN_UP_STEP_FRIENDS_INFO_SAVE, SELECT_GYM, SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_ERROR, LOAD_RECOMMEND_FRIENDS_REQUEST, LOAD_RECOMMEND_FRIENDS_SUCCESS, LOAD_RECOMMEND_FRIENDS_ERROR, LOAD_RANKED_FRIENDS_SUCCESS, LOAD_RANKED_FRIENDS_ERROR, LOAD_REALTIME_MATCHING_REQUEST, LOAD_REALTIME_MATCHING_SUCCESS, LOAD_REALTIME_MATCHING_ERROR, ADD_LIKE_REQUEST, ADD_LIKE_SUCCESS, ADD_LIKE_ERROR, LOAD_LIKE_REQUEST, LOAD_LIKE_SUCCESS, LOAD_LIKE_ERROR, LOAD_RANKED_FRIENDS_REQUEST } from '../@types/utils';
 
 const initialState: UserInitialState = {
   loadMyInfoLoading: false,
@@ -82,102 +80,111 @@ const initialState: UserInitialState = {
   likedFriends: null,
 };
 
-const reducer = (state = initialState, action: UserActions) => (produce(state, (draft) => {
-  switch (action.type) {
-    case LOAD_MY_INFO_REQUEST:
-      draft.loadMyInfoLoading = true;
-      draft.loadMyInfoDone = false;
-      draft.loadMyInfoError = null;
-      break;
-    case LOAD_MY_INFO_SUCCESS:
-      draft.loadMyInfoLoading = false;
-      draft.loadMyInfoDone = true;
-      draft.me = action.data;
-      break;
-    case LOAD_MY_INFO_ERROR:
-      draft.loadMyInfoError = action.error;
-      draft.loadMyInfoLoading = false;
-      break;
-    case LOG_IN_REQUEST:
-      draft.loginLoading = true;
-      draft.loginDone = false;
-      draft.loginError = null;
-      break;
-    case LOG_IN_SUCCESS:
-      draft.loginLoading = false;
-      draft.loginDone = true;
-      draft.me = action.data;
-      break;
-    case LOG_IN_ERROR:
-      draft.loginError = action.error;
-      draft.loginLoading = false;
-      break;
-    case LOG_OUT_REQUEST:
-      draft.logoutLoading = true;
-      draft.logoutDone = false;
-      draft.logoutError = null;
-      break;
-    case LOG_OUT_SUCCESS:
-      draft.logoutLoading = false;
-      draft.logoutDone = true;
-      draft.me = null;
-      break;
-    case LOG_OUT_ERROR:
-      draft.logoutError = action.error;
-      draft.logoutLoading = false;
-      break;
-    case SIGN_UP_STEP_NEXT:
-      draft.signupProcess += 1;
-      break;
-    case SIGN_UP_STEP_PREV:
-      draft.signupProcess -= 1;
-      break;
-    case SIGN_UP_STEP_INFO_SAVE:
-      draft.signupStepInfo = action.data;
-      break;
-    case SIGN_UP_STEP_MORE_INFO_SAVE:
-      draft.signupStepMoreInfo = action.data;
-      break;
-    case SIGN_UP_STEP_GYM_INFO_SAVE:
-      draft.signupStepGymInfo = action.data;
-      break;
-    case SIGN_UP_STEP_FRIENDS_INFO_SAVE:
-      draft.signupStepFriendsInfo = action.data;
-      break;
-    case SELECT_GYM:
-      draft.selectedGym = action.data;
-      break;
-    case SIGN_UP_REQUEST:
-      draft.signupLoading = true;
-      draft.signupDone = false;
-      draft.signupError = null;
-      break;
-    case SIGN_UP_SUCCESS:
-      draft.signupLoading = false;
-      draft.signupDone = true;
-      draft.signupStepInfo = null;
-      draft.signupStepMoreInfo = null;
-      draft.signupStepGymInfo = null;
-      draft.signupStepFriendsInfo = null;
-      draft.selectedGym = null;
-      break;
-    case SIGN_UP_ERROR:
-      draft.signupLoading = false;
-      draft.signupError = action.error;
-      break;
-    case LOAD_RECOMMEND_FRIENDS_REQUEST:
-      draft.loadRecommendFriendsLoading = true;
-      draft.loadRecommendFriendsDone = false;
-      draft.loadRecommendFriendsError = null;
-      break;
-    case LOAD_RECOMMEND_FRIENDS_SUCCESS: {
-      const rFriends = action.data.recommendFriends.concat(action.data.additionalFriends);
+const userSlice = createSlice({
+  name: 'USER',
+  initialState,
+  reducers: {
+    loadMyInfoRequest(state) {
+      state.loadMyInfoLoading = true;
+      state.loadMyInfoDone = false;
+      state.loadMyInfoError = null;
+    },
+    loadMyInfoSuccess(state, action) {
+      state.loadMyInfoLoading = false;
+      state.loadMyInfoDone = true;
+      state.loadMyInfoError = null;
+      state.me = action.payload;
+    },
+    loadMyInfoError(state, action) {
+      state.loadMyInfoLoading = false;
+      state.loadMyInfoDone = false;
+      state.loadMyInfoError = action.payload;
+    },
+    loginRequest(state, action) {
+      state.loginLoading = true;
+      state.loginDone = false;
+      state.loginError = null;
+    },
+    loginSuccess(state, action) {
+      state.loginLoading = false;
+      state.loginDone = true;
+      state.loginError = null;
+      state.me = action.payload;
+    },
+    loginError(state, action) {
+      state.loginLoading = false;
+      state.loginDone = false;
+      state.loginError = action.payload;
+    },
+    logoutRequest(state) {
+      state.logoutLoading = true;
+      state.logoutDone = false;
+      state.logoutError = null;
+    },
+    logoutSuccess(state) {
+      state.logoutLoading = false;
+      state.logoutDone = true;
+      state.logoutError = null;
+      state.me = null;
+    },
+    logoutError(state, action) {
+      state.logoutLoading = false;
+      state.logoutDone = false;
+      state.logoutError = action.payload;
+    },
+    signupStepNext(state) {
+      state.signupProcess += 1;
+    },
+    signupStepPrev(state) {
+      state.signupProcess -= 1;
+    },
+    signupStepInfoSave(state, action) {
+      state.signupStepInfo = action.payload;
+    },
+    signupStepMoreInfoSave(state, action) {
+      state.signupStepMoreInfo = action.payload;
+    },
+    signupStepGymInfoSave(state, action) {
+      state.signupStepGymInfo = action.payload;
+    },
+    signupStepFriendsInfoSave(state, action) {
+      state.signupStepFriendsInfo = action.payload;
+    },
+    selectGym(state, action) {
+      state.selectedGym = action.payload;
+    },
+    signupRequest(state, action) {
+      state.signupLoading = true;
+      state.signupDone = false;
+      state.signupError = null;
+    },
+    signupSuccess(state) {
+      state.signupLoading = false;
+      state.signupDone = true;
+      state.signupError = null;
+      state.signupStepInfo = null;
+      state.signupStepMoreInfo = null;
+      state.signupStepGymInfo = null;
+      state.signupStepFriendsInfo = null;
+      state.selectedGym = null;
+    },
+    signupError(state, action) {
+      state.signupLoading = false;
+      state.signupDone = false;
+      state.signupError = action.payload;
+    },
+    loadRecommendFriendsRequest(state, action) {
+      state.loadRecommendFriendsLoading = true;
+      state.loadRecommendFriendsDone = false;
+      state.loadRecommendFriendsError = null;
+    },
+    loadRecommendFriendsSuccess(state, action) {
+      const rFriends = action.payload.recommendFriends.concat(action.payload.additionalFriends);
       let recommendedFriends = null;
-      draft.loadRecommendFriendsLoading = false;
-      draft.loadRecommendFriendsDone = true;
-      draft.closedFriends = action.data.recommendFriends;
-      draft.additionalFriends = action.data.additionalFriends;
-      // draft.recommendedFriends = [];
+      state.loadRecommendFriendsLoading = false;
+      state.loadRecommendFriendsDone = true;
+      state.closedFriends = action.payload.recommendFriends;
+      state.additionalFriends = action.payload.additionalFriends;
       if (rFriends.length < 4) {
         recommendedFriends = rFriends
           .concat(Array.from({ length: (4 - rFriends.length) }, () => 0).map((_f, i) => {
@@ -194,20 +201,20 @@ const reducer = (state = initialState, action: UserActions) => (produce(state, (
             );
           }));
       }
-      draft.recommendedFriends = rFriends.length < 4 ? recommendedFriends : rFriends;
-      break;
-    }
-    case LOAD_RECOMMEND_FRIENDS_ERROR:
-      draft.loadRecommendFriendsError = action.error;
-      draft.loadRecommendFriendsLoading = false;
-      break;
-    case LOAD_RANKED_FRIENDS_REQUEST:
-      draft.loadRankedFriendsLoading = true;
-      draft.loadRankedFriendsDone = false;
-      draft.loadRankedFriendsError = null;
-      break;
-    case LOAD_RANKED_FRIENDS_SUCCESS: {
-      const idGroup = _.groupBy(action.data?.matching, 'id');
+      state.recommendedFriends = rFriends.length < 4 ? recommendedFriends : rFriends;
+    },
+    loadRecommendFriendsError(state, action) {
+      state.loadRecommendFriendsLoading = false;
+      state.loadRecommendFriendsDone = false;
+      state.loadRecommendFriendsError = action.payload;
+    },
+    loadRankedFriendsRequest(state) {
+      state.loadRankedFriendsLoading = true;
+      state.loadRankedFriendsDone = false;
+      state.loadRankedFriendsError = null;
+    },
+    loadRankedFriendsSuccess(state, action) {
+      const idGroup = _.groupBy(action.payload?.matching, 'id');
       const matching = [];
       _.forIn(idGroup, (value) => {
         if (value.length > 1) {
@@ -218,63 +225,107 @@ const reducer = (state = initialState, action: UserActions) => (produce(state, (
         return matching.push({ ...value[0],
           count: value[0].reqSchedule?.length || 0 + value[0].resSchedule?.length || 0 });
       });
-      draft.loadRankedFriendsLoading = false;
-      draft.loadRankedFriendsDone = true;
-      draft.rankedFriends = {
-        rematching: action.data?.rematching,
+      state.loadRankedFriendsLoading = false;
+      state.loadRankedFriendsDone = true;
+      state.rankedFriends = {
+        rematching: action.payload?.rematching,
         matching: _.orderBy(matching, ['count'], ['desc']),
       };
-      break;
-    }
-    case LOAD_RANKED_FRIENDS_ERROR:
-      draft.loadRankedFriendsError = action.error;
-      draft.loadRankedFriendsLoading = false;
-      break;
-    case LOAD_REALTIME_MATCHING_REQUEST:
-      draft.loadRealtimeMatchingLoading = true;
-      draft.loadRealtimeMatchingDone = false;
-      draft.loadRealtimeMatchingError = null;
-      break;
-    case LOAD_REALTIME_MATCHING_SUCCESS:
-      draft.loadRealtimeMatchingLoading = false;
-      draft.loadRealtimeMatchingDone = true;
-      draft.realtimeMatching = action.data;
-      break;
-    case LOAD_REALTIME_MATCHING_ERROR:
-      draft.loadRealtimeMatchingError = action.error;
-      draft.loadRealtimeMatchingLoading = false;
-      break;
-    case ADD_LIKE_REQUEST:
-      draft.addLikeLoading = true;
-      draft.addLikeDone = false;
-      draft.addLikeError = null;
-      break;
-    case ADD_LIKE_SUCCESS:
-      draft.addLikeLoading = false;
-      draft.addLikeDone = true;
-      draft.addLikeError = null;
-      break;
-    case ADD_LIKE_ERROR:
-      draft.addLikeError = action.error;
-      draft.addLikeLoading = false;
-      break;
-    case LOAD_LIKE_REQUEST:
-      draft.loadLikeLoading = true;
-      draft.loadLikeDone = false;
-      draft.loadLikeError = null;
-      break;
-    case LOAD_LIKE_SUCCESS:
-      draft.loadLikeLoading = false;
-      draft.loadLikeDone = true;
-      draft.likedFriends = action.data;
-      break;
-    case LOAD_LIKE_ERROR:
-      draft.loadLikeError = action.error;
-      draft.loadLikeLoading = false;
-      break;
-    default:
-      break;
+    },
+    loadRankedFriendsError(state, action) {
+      state.loadRankedFriendsLoading = false;
+      state.loadRankedFriendsDone = false;
+      state.loadRankedFriendsError = action.payload;
+    },
+    loadRealtimeMatchingRequest(state) {
+      state.loadRealtimeMatchingLoading = true;
+      state.loadRealtimeMatchingDone = false;
+      state.loadRealtimeMatchingError = null;
+    },
+    loadRealtimeMatchingSuccess(state, action) {
+      state.loadRealtimeMatchingLoading = false;
+      state.loadRealtimeMatchingDone = true;
+      state.realtimeMatching = action.payload;
+    },
+    loadRealtimeMatchingError(state, action) {
+      state.loadRealtimeMatchingLoading = false;
+      state.loadRealtimeMatchingDone = false;
+      state.loadRealtimeMatchingError = action.payload;
+    },
+    addLikeRequest(state, action) {
+      state.addLikeLoading = true;
+      state.addLikeDone = false;
+      state.addLikeError = null;
+    },
+    addLikeSuccess(state, action) {
+      state.addLikeLoading = false;
+      state.addLikeDone = true;
+      state.addLikeError = null;
+    },
+    addLikeError(state, action) {
+      state.addLikeLoading = false;
+      state.addLikeDone = false;
+      state.addLikeError = action.payload;
+    },
+    loadLikeRequest(state) {
+      state.loadLikeLoading = true;
+      state.loadLikeDone = false;
+      state.loadLikeError = null;
+    },
+    loadLikeSuccess(state, action) {
+      state.loadLikeLoading = false;
+      state.loadLikeDone = true;
+      state.loadLikeError = null;
+    },
+    loadLikeError(state, action) {
+      state.loadLikeLoading = false;
+      state.loadLikeDone = false;
+      state.loadLikeError = action.payload;
+    },
+    changeNickname(state, action) {
+      state.me!.nickname = action.payload;
+    },
+    // changeDescription(state, action) {
+    //   state.me!.Userdetail.description = action.payload;
+    // },
   }
-}));
+});
 
-export default reducer;
+export const {
+  loadMyInfoRequest,
+  loadMyInfoSuccess,
+  loadMyInfoError,
+  loginRequest,
+  loginSuccess,
+  loginError,
+  logoutRequest,
+  logoutSuccess,
+  logoutError,
+  signupStepNext,
+  signupStepPrev,
+  signupStepInfoSave,
+  signupStepMoreInfoSave,
+  signupStepGymInfoSave,
+  signupStepFriendsInfoSave,
+  selectGym,
+  signupRequest,
+  signupSuccess,
+  signupError,
+  loadRecommendFriendsRequest,
+  loadRecommendFriendsSuccess,
+  loadRecommendFriendsError,
+  loadRankedFriendsRequest,
+  loadRankedFriendsSuccess,
+  loadRankedFriendsError,
+  loadRealtimeMatchingRequest,
+  loadRealtimeMatchingSuccess,
+  loadRealtimeMatchingError,
+  addLikeRequest,
+  addLikeSuccess,
+  addLikeError,
+  loadLikeRequest,
+  loadLikeSuccess,
+  loadLikeError,
+  changeNickname,
+} = userSlice.actions
+export default userSlice.reducer;

@@ -13,7 +13,8 @@ import LikedList from '../../src/components/organisms/profile/LikedList';
 
 import { GetServerSideProps } from 'next';
 import { Store } from 'redux';
-import { LOAD_MY_INFO_REQUEST, LOAD_PROFILE_INFO_REQUEST } from '@/../@types/utils';
+import { loadMyInfoRequest } from '@/../reducers/user';
+import { loadProfileInfoRequest } from '@/../reducers/profile';
 
 const menu = {
   INFO: 'INFO',
@@ -32,10 +33,7 @@ const Profile = () => {
   const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(menu.INFO);
 
   useEffect(() => {
-    dispatch({
-      type: LOAD_PROFILE_INFO_REQUEST,
-      data: id,
-    });
+    dispatch(loadProfileInfoRequest(id));
   }, [id]);
 
   return (
@@ -72,9 +70,7 @@ export const getServerSideProps: GetServerSideProps = wrapper
     if (req && cookie) {
       axios!.defaults!.headers!.Cookie = cookie;
     }
-    store.dispatch({
-      type: LOAD_MY_INFO_REQUEST,
-    });
+    store.dispatch(loadMyInfoRequest());
     store.dispatch(END);
     await (store as Store).sagaTask!.toPromise();
 

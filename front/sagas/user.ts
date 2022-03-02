@@ -1,37 +1,35 @@
 import { all, fork, call, put, takeLatest, ForkEffect, AllEffect } from 'redux-saga/effects';
 import axios, { AxiosResponse } from 'axios';
 
-import {
-  ADD_LIKE_ERROR,
-  ADD_LIKE_REQUEST,
-  ADD_LIKE_SUCCESS,
-  LOAD_LIKE_ERROR,
-  LOAD_LIKE_REQUEST,
-  LOAD_LIKE_SUCCESS,
-  LOAD_MY_INFO_ERROR,
-  LOAD_MY_INFO_REQUEST,
-  LOAD_MY_INFO_SUCCESS,
-  LOAD_RANKED_FRIENDS_ERROR,
-  LOAD_RANKED_FRIENDS_REQUEST,
-  LOAD_RANKED_FRIENDS_SUCCESS,
-  LOAD_REALTIME_MATCHING_ERROR,
-  LOAD_REALTIME_MATCHING_REQUEST,
-  LOAD_REALTIME_MATCHING_SUCCESS,
-  LOAD_RECOMMEND_FRIENDS_ERROR,
-  LOAD_RECOMMEND_FRIENDS_REQUEST,
-  LOAD_RECOMMEND_FRIENDS_SUCCESS,
-  LOG_IN_ERROR,
-  LOG_IN_REQUEST,
-  LOG_IN_SUCCESS,
-  LOG_OUT_ERROR,
-  LOG_OUT_REQUEST,
-  LOG_OUT_SUCCESS,
-  SIGN_UP_ERROR,
-  SIGN_UP_REQUEST,
-  SIGN_UP_SUCCESS,
-} from '../@types/utils';
-import { User, Me, Profile, Friends, RankedFriends, RealtimeMatching, SignupData, SignupFriendsInfo, SignupGymInfo, SignupMoreInfo } from '../@types/user';
-import { ActionType } from '../@types/action';
+import { User, Me, Friends, RankedFriends, RealtimeMatching, SignupData } from '../@types/user';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { loadMyInfoRequest,
+  loadMyInfoSuccess,
+  loadMyInfoError,
+  loginRequest,
+  loginSuccess,
+  loginError,
+  logoutRequest,
+  logoutSuccess,
+  logoutError,
+  signupRequest,
+  signupSuccess,
+  signupError,
+  loadRecommendFriendsRequest,
+  loadRecommendFriendsSuccess,
+  loadRecommendFriendsError,
+  loadRankedFriendsRequest,
+  loadRankedFriendsSuccess,
+  loadRankedFriendsError,
+  loadRealtimeMatchingRequest,
+  loadRealtimeMatchingSuccess,
+  loadRealtimeMatchingError,
+  addLikeRequest,
+  addLikeSuccess,
+  addLikeError,
+  loadLikeRequest,
+  loadLikeSuccess,
+  loadLikeError } from '../reducers/user';
 
 function loadMyInfoAPI(): Promise<AxiosResponse<Me>> {
   return axios.get('/user');
@@ -40,15 +38,9 @@ function loadMyInfoAPI(): Promise<AxiosResponse<Me>> {
 function* loadMyInfo() {
   try {
     const result: AxiosResponse<Me> = yield call(loadMyInfoAPI);
-    yield put({
-      type: LOAD_MY_INFO_SUCCESS,
-      data: result.data,
-    });
+    yield put(loadMyInfoSuccess(result.data));
   } catch (error: any) {
-    yield put({
-      type: LOAD_MY_INFO_ERROR,
-      error: error.response.data,
-    });
+    yield put(loadMyInfoError(error.response.data));
   }
 }
 
@@ -56,18 +48,12 @@ function loginAPI(data?: { email: string; password: string }): Promise<AxiosResp
   return axios.post('/user/login', data);
 }
 
-function* login(action: ActionType<typeof LOG_IN_REQUEST, { email: string; password: string } >) {
+function* login(action: PayloadAction<{ email: string; password: string } >) {
   try {
-    const result: AxiosResponse<Me> = yield call(loginAPI, action.data);
-    yield put({
-      type: LOG_IN_SUCCESS,
-      data: result.data,
-    });
+    const result: AxiosResponse<Me> = yield call(loginAPI, action.payload);
+    yield put(loginSuccess(result.data));
   } catch (error: any) {
-    yield put({
-      type: LOG_IN_ERROR,
-      error: error.response.data,
-    });
+    yield put(loginError(error.response.data));
   }
 }
 
@@ -78,15 +64,9 @@ function logoutAPI(): Promise<AxiosResponse<string>> {
 function* logout() {
   try {
     yield call(logoutAPI);
-    yield put({
-      type: LOG_OUT_SUCCESS,
-      data: null,
-    });
+    yield put(logoutSuccess());
   } catch (error: any) {
-    yield put({
-      type: LOG_OUT_ERROR,
-      error: error.response.data,
-    });
+    yield put(logoutError(error.response.data));
   }
 }
 
@@ -94,15 +74,12 @@ function signupAPI(data?: SignupData): Promise<AxiosResponse<string>> {
   return axios.post('/user', data);
 }
 
-function* signup(action: ActionType<typeof SIGN_UP_REQUEST, SignupData>) {
+function* signup(action: PayloadAction<SignupData>) {
   try {
-    yield call(signupAPI, action.data);
-    yield put({ type: SIGN_UP_SUCCESS });
+    yield call(signupAPI, action.payload);
+    yield put(signupSuccess());
   } catch (error: any) {
-    yield put({
-      type: SIGN_UP_ERROR,
-      error: error.response.data,
-    });
+    yield put(signupError(error.response.data));
   }
 }
 
@@ -111,18 +88,12 @@ function loadRecommendFriendsAPI(data?: { si: string; gu: string; dong: string; 
     return axios.get(`/users/recommendFriends?si=${data?.si}&gu=${data?.gu}&dong=${data?.dong}&mainAddressNo=${data?.mainAddressNo}`);
   }
 
-function* loadRecommendFriends(action: ActionType<typeof LOAD_RECOMMEND_FRIENDS_REQUEST, { si: string; gu: string; dong: string; mainAddressNo: string; }>) {
+function* loadRecommendFriends(action: PayloadAction<{ si: string; gu: string; dong: string; mainAddressNo: string; }>) {
   try {
-    const result: AxiosResponse<{ recommendFriends: Array<Friends>; additionalFriends: Array<Friends>  }> = yield call(loadRecommendFriendsAPI, action.data);
-    yield put({
-      type: LOAD_RECOMMEND_FRIENDS_SUCCESS,
-      data: result.data,
-    });
+    const result: AxiosResponse<{ recommendFriends: Array<Friends>; additionalFriends: Array<Friends>  }> = yield call(loadRecommendFriendsAPI, action.payload);
+    yield put(loadRecommendFriendsSuccess(result.data));
   } catch (error: any) {
-    yield put({
-      type: LOAD_RECOMMEND_FRIENDS_ERROR,
-      error: error.response.data,
-    });
+    yield put(loadRecommendFriendsError(error.response.data));
   }
 }
 
@@ -133,15 +104,9 @@ function loadRankedFriendsAPI(): Promise<AxiosResponse<{ rematching: Array<Ranke
 function* loadRankedFriends() {
   try {
     const result: AxiosResponse<{ rematching: Array<RankedFriends>; matching: Array<RankedFriends> }> = yield call(loadRankedFriendsAPI);
-    yield put({
-      type: LOAD_RANKED_FRIENDS_SUCCESS,
-      data: result.data,
-    });
+    yield put(loadRankedFriendsSuccess(result.data));
   } catch (error: any) {
-    yield put({
-      type: LOAD_RANKED_FRIENDS_ERROR,
-      error: error.response.data,
-    });
+    yield put(loadRankedFriendsError(error.response.data));
   }
 }
 
@@ -152,15 +117,9 @@ function loadRealtimeMathcingAPI(): Promise<AxiosResponse<Array<RealtimeMatching
 function* loadRealtimeMathcing() {
   try {
     const result: AxiosResponse<Array<RealtimeMatching>> = yield call(loadRealtimeMathcingAPI);
-    yield put({
-      type: LOAD_REALTIME_MATCHING_SUCCESS,
-      data: result.data,
-    });
+    yield put(loadRealtimeMatchingSuccess(result.data));
   } catch (error: any) {
-    yield put({
-      type: LOAD_REALTIME_MATCHING_ERROR,
-      error: error.response.data,
-    });
+    yield put(loadRealtimeMatchingError(error.response.data));
   }
 }
 
@@ -168,18 +127,12 @@ function addLikeAPI(data?: number): Promise<AxiosResponse<User>> {
   return axios.patch(`/user/${data}/like`);
 }
 
-function* addLike(action: ActionType<typeof ADD_LIKE_REQUEST, number>) {
+function* addLike(action: PayloadAction<number>) {
   try {
-    const result: AxiosResponse<User> = yield call(addLikeAPI, action.data);
-    yield put({
-      type: ADD_LIKE_SUCCESS,
-      data: result.data,
-    });
+    const result: AxiosResponse<User> = yield call(addLikeAPI, action.payload);
+    yield put(addLikeSuccess(result.data));
   } catch (error: any) {
-    yield put({
-      type: ADD_LIKE_ERROR,
-      error: error.response.data,
-    });
+    yield put(addLikeError(error.response.data));
   }
 }
 
@@ -190,52 +143,46 @@ function loadLikeAPI(): Promise<AxiosResponse<Array<User>>> {
 function* loadLike() {
   try {
     const result: AxiosResponse<Array<User>> = yield call(loadLikeAPI);
-    yield put({
-      type: LOAD_LIKE_SUCCESS,
-      data: result.data,
-    });
+    yield put(loadLikeSuccess(result.data));
   } catch (error: any) {
-    yield put({
-      type: LOAD_LIKE_ERROR,
-      error: error.response.data,
-    });
+    yield put(loadLikeError(error.response.data));
   }
 }
 
 function* watchLoadMyInfo() {
-  yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
+  yield takeLatest(loadMyInfoRequest, loadMyInfo);
 }
 
 function* watchLogin() {
-  yield takeLatest(LOG_IN_REQUEST, login);
+  yield takeLatest(loginRequest, login);
 }
 
 function* watchLogout() {
-  yield takeLatest(LOG_OUT_REQUEST, logout);
+  yield takeLatest(logoutRequest, logout);
 }
 
 function* watchSignUp() {
-  yield takeLatest(SIGN_UP_REQUEST, signup);
+  yield takeLatest(signupRequest, signup);
 }
 
 function* watchLoadRecommendFriends() {
-  yield takeLatest(LOAD_RECOMMEND_FRIENDS_REQUEST, loadRecommendFriends);
+  yield takeLatest(loadRecommendFriendsRequest, loadRecommendFriends);
 }
 
 function* watchLoadRankedFriends() {
-  yield takeLatest(LOAD_RANKED_FRIENDS_REQUEST, loadRankedFriends);
+  yield takeLatest(loadRankedFriendsRequest, loadRankedFriends);
 }
 
 function* watchLoadRealtimeMathcing() {
-  yield takeLatest(LOAD_REALTIME_MATCHING_REQUEST, loadRealtimeMathcing);
+  yield takeLatest(loadRealtimeMatchingRequest, loadRealtimeMathcing);
 }
 
 function* watchAddLike() {
-  yield takeLatest(ADD_LIKE_REQUEST, addLike);
+  yield takeLatest(addLikeRequest, addLike);
 }
 
 function* watchLoadLike() {
-  yield takeLatest(LOAD_LIKE_REQUEST, loadLike);
+  yield takeLatest(loadLikeRequest, loadLike);
 }
 
 export default function* userSaga(): Generator<ForkEffect<void> | AllEffect<any>, void, any> {

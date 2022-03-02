@@ -7,7 +7,7 @@ import { RootState } from '@/../store/configureStore';
 import { FormSelect } from '../../../molecules';
 import { Form, Button } from '../../../atoms';
 import { ButtonWrap, FormWrapper } from './style';
-import { SIGN_UP_REQUEST, SIGN_UP_STEP_FRIENDS_INFO_SAVE, SIGN_UP_STEP_PREV } from '@/../@types/utils';
+import { signupRequest, signupStepFriendsInfoSave, signupStepPrev } from '@/../reducers/user';
 
 const FriendsInfoForm = () => {
   const dispatch = useDispatch();
@@ -33,19 +33,16 @@ const FriendsInfoForm = () => {
 
   const onClickSignup = useCallback((data, e) => {
     if (e.nativeEvent.submitter.name === 'next') {
-      return dispatch({
-        type: SIGN_UP_REQUEST,
-        data: {
-          info,
-          moreInfo,
-          gymInfo,
-          selectedGym,
-          friendsInfo: { ...data },
-        },
-      });
+      return dispatch(signupRequest({
+        info,
+        moreInfo,
+        gymInfo,
+        selectedGym,
+        friendsInfo: { ...data },
+      }));
     }
-    dispatch({ type: SIGN_UP_STEP_FRIENDS_INFO_SAVE, data });
-    dispatch({ type: SIGN_UP_STEP_PREV });
+    dispatch(signupStepFriendsInfoSave(data));
+    dispatch(signupStepPrev());
   }, [selectedGym, info, moreInfo, gymInfo]);
 
   useEffect(() => {

@@ -6,16 +6,14 @@ import { ImDrawer2 } from 'react-icons/im';
 import { RootState } from '@/../store/configureStore';
 import { Icon } from '../../../atoms';
 import { LikedListWrap, LikedListBody, Card, CardCover, CardBody, CardMeta, MetaTitle, MetaActions, Action, Empty } from './style';
-import { LOAD_LIKE_REQUEST } from '@/../@types/utils';
+import { loadLikeRequest } from '@/../reducers/user';
 
 const LikedList = () => {
   const dispatch = useDispatch();
   const { likedFriends } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    dispatch({
-      type: LOAD_LIKE_REQUEST,
-    });
+    dispatch(loadLikeRequest());
   }, []);
   return (
     <LikedListWrap dataSize={likedFriends?.length}>

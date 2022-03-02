@@ -6,7 +6,7 @@ import { BiGroup, BiMap } from 'react-icons/bi';
 import { Avatar, Icon, NoDataIcon } from '../../../atoms';
 import { AvatarWrap, CoupleCard, MatchingIcon, CoupleCardList, CoupleHeaderTitle, MatchingCoupleBody, MatchingCoupleHeader, MatchingCoupleWrap, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
 import { RootState } from '@/../store/configureStore';
-import { LOAD_REALTIME_MATCHING_REQUEST } from '@/../@types/utils';
+import { loadRealtimeMatchingRequest } from '@/../reducers/user';
 
 interface Mathcing {
   id: number,
@@ -20,9 +20,7 @@ const RealTimeMatchingCouple = () => {
   const { realtimeMatching } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    dispatch({
-      type: LOAD_REALTIME_MATCHING_REQUEST,
-    });
+    dispatch(loadRealtimeMatchingRequest());
   }, []);
   return (
     <MatchingCoupleWrap>

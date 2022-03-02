@@ -8,7 +8,7 @@ import { Button, Form } from '../../../atoms';
 import { FormInput } from '../../../molecules';
 import { ButtonWrap, InfoFormWrapper } from './style';
 import { RootState } from '@/../store/configureStore';
-import { SIGN_UP_STEP_INFO_SAVE, SIGN_UP_STEP_NEXT } from '@/../@types/utils';
+import { signupStepInfoSave, signupStepNext } from '@/../reducers/user';
 
 const schema = yup.object({
   email: yup.string()
@@ -40,11 +40,8 @@ const InfoForm = () => {
   });
 
   const onNextClick = useCallback((data) => {
-    dispatch({
-      type: SIGN_UP_STEP_INFO_SAVE,
-      data,
-    });
-    dispatch({ type: SIGN_UP_STEP_NEXT });
+    dispatch(signupStepInfoSave(data));
+    dispatch(signupStepNext());
   }, []);
 
   return (

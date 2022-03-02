@@ -1,19 +1,5 @@
-import produce from 'immer';
-import {
-  ADD_GYM_REQUEST,
-  ADD_GYM_SUCCESS,
-  ADD_GYM_ERROR,
-  LOAD_GYM_REQUEST,
-  LOAD_GYM_SUCCESS,
-  LOAD_GYM_ERROR,
-  LOAD_FRIENDS_REQUEST,
-  LOAD_FRIENDS_SUCCESS,
-  LOAD_FRIENDS_ERROR,
-  CHANGE_MAP_BOUNDS,
-  IS_LOAD_GYMS,
-} from '../@types/utils';
 import { GymInitialState } from '../@types/reducer/state';
-import { GymActions } from '../@types/action';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState: GymInitialState = {
   addGymLoading: false,
@@ -32,66 +18,78 @@ const initialState: GymInitialState = {
   gym: {},
 };
 
-const reducer = (state = initialState, action: GymActions) => (produce(state, (draft) => {
-  switch (action.type) {
-    case ADD_GYM_REQUEST:
-      draft.addGymLoading = true;
-      draft.addGymDone = false;
-      draft.addGymError = null;
-      break;
-    case ADD_GYM_SUCCESS:
-      draft.addGymLoading = false;
-      draft.addGymDone = true;
-      draft.addGymError = null;
-      break;
-    case ADD_GYM_ERROR:
-      draft.addGymLoading = false;
-      draft.addGymDone = false;
-      draft.addGymError = action.error;
-      break;
-    case LOAD_GYM_REQUEST:
-      draft.loadGymLoading = true;
-      draft.loadGymDone = false;
-      draft.loadGymError = null;
-      break;
-    case LOAD_GYM_SUCCESS:
-      draft.loadGymLoading = false;
-      draft.loadGymDone = true;
-      draft.loadGymError = null;
-      draft.gyms = action.data;
-      draft.gym = {};
-      draft.isLoadGyms = false;
-      break;
-    case LOAD_GYM_ERROR:
-      draft.loadGymLoading = false;
-      draft.loadGymDone = false;
-      draft.loadGymError = action.error;
-      break;
-    case LOAD_FRIENDS_REQUEST:
-      draft.loadFriendsLoading = true;
-      draft.loadFriendsDone = false;
-      draft.loadFriendsError = null;
-      break;
-    case LOAD_FRIENDS_SUCCESS:
-      draft.loadFriendsLoading = false;
-      draft.loadFriendsDone = true;
-      draft.loadFriendsError = null;
-      draft.gym = action.data;
-      break;
-    case LOAD_FRIENDS_ERROR:
-      draft.loadFriendsLoading = false;
-      draft.loadFriendsDone = false;
-      draft.loadFriendsError = action.error;
-      break;
-    case CHANGE_MAP_BOUNDS:
-      draft.mapBounds = action.data;
-      break;
-    case IS_LOAD_GYMS:
-      draft.isLoadGyms = action.data;
-      break;
-    default:
-      break;
+const gymSlice = createSlice({
+  name: 'GYM',
+  initialState,
+  reducers: {
+    addGymRequeset(state, action) {
+      state.addGymLoading = true;
+      state.addGymDone = false;
+      state.addGymError = null;
+    },
+    addGymSuccess(state) {
+      state.addGymLoading = false;
+      state.addGymDone = true;
+      state.addGymError = null;
+    },
+    addGymError(state, action) {
+      state.addGymLoading = false;
+      state.addGymDone = false;
+      state.addGymError = action.payload;
+    },
+    loadGymRequest(state, action) {
+      state.loadGymLoading = true;
+      state.loadGymDone = false;
+      state.loadGymError = null;
+    },
+    loadGymSuccess(state, action) {
+      state.loadGymLoading = false;
+      state.loadGymDone = true;
+      state.loadGymError = null;
+      state.gyms = action.payload;
+      state.gym = {};
+      state.isLoadGyms = false;
+    },
+    loadGymError(state, action) {
+      state.loadGymLoading = false;
+      state.loadGymDone = false;
+      state.loadGymError = action.payload;
+    },
+    loadFriendsRequest(state, action) {
+      state.loadFriendsLoading = true;
+      state.loadFriendsDone = false;
+      state.loadFriendsError = null;
+    },
+    loadFriendsSuccess(state, action) {
+      state.loadFriendsLoading = false;
+      state.loadFriendsDone = true;
+      state.loadFriendsError = null;
+      state.gym = action.payload;
+    },
+    loadFriendsError(state, action) {
+      state.loadFriendsLoading = false;
+      state.loadFriendsDone = false;
+      state.loadFriendsError = action.payload;
+    },
+    changeMapBounds(state, action) {
+      state.mapBounds = action.payload;
+    },
+    isLoadGyms(state, action) {
+      state.isLoadGyms = action.payload;
+    },
   }
-}));
-
-export default reducer;
+});
+export const {
+  addGymRequeset,
+  addGymSuccess,
+  addGymError,
+  loadGymRequest,
+  loadGymSuccess,
+  loadGymError,
+  loadFriendsRequest,
+  loadFriendsSuccess,
+  loadFriendsError,
+  changeMapBounds,
+  isLoadGyms,
+} = gymSlice.actions
+export default gymSlice.reducer;
