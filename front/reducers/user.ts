@@ -216,12 +216,16 @@ const userSlice = createSlice({
     },
     loadRankedFriendsSuccess(state, action) {
       const idGroup = _.groupBy(action.payload?.matching, 'id');
-      const matching = [];
+      const matching: Array<{
+        count: number;
+        id: number;
+        nickname: string;
+        reqSchedule: Array<{ id: number }>;
+      }> = [];
       _.forIn(idGroup, (value) => {
         if (value.length > 1) {
           const req = { ...value[0],
             count: value[0].reqSchedule.length + value[1].resSchedule.length };
-          console.log('req:::::::', req);
           return matching.push(req);
         }
         return matching.push({ ...value[0],
@@ -287,9 +291,6 @@ const userSlice = createSlice({
     changeNickname(state, action) {
       state.me!.nickname = action.payload;
     },
-    // changeDescription(state, action) {
-    //   state.me!.Userdetail.description = action.payload;
-    // },
   }
 });
 
