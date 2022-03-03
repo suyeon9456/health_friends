@@ -109,4 +109,5 @@ export const ContentTitile = styled.span`
 
 export const ContentDescription = styled.div`
   text-align: left;
+  font-size: 14px;
 `;

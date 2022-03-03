@@ -5,7 +5,6 @@ import { LeftOutlined, RightOutlined, TeamOutlined } from '@ant-design/icons';
 
 import useInput from '../../../hooks/useInput';
 
-import { RootState } from '@/../store/configureStore';
 import { Search, Item, Button } from '../../atoms';
 import { Alert } from '../../molecules';
 import SearchFriends from '../SearchFriends';
@@ -40,7 +39,7 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
     UserGym?: { GymId?: number };
    }>({});
   const [stateWarning, setStateWarning] = useState<boolean>(false);
-  const [searchWord, onChangeSearchWord] = useInput('');
+  const [searchWord, onChangeSearchWord] = useInput<string>('');
 
   const changeFoldedGym = useCallback(() => {
     setFoldedGym((prev) => !prev);

@@ -98,6 +98,7 @@ export const RankItem = styled.div`
 
   & a {
     color: #000000d9;
+    text-decoration: none;
   }
 `;
 

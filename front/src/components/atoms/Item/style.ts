@@ -31,6 +31,7 @@ export const ItemTitle = styled.h4`
   & > a {
     color: #000000d9;
     transition: all .3s;
+    cursor: pointer;
   }
 `;
 
