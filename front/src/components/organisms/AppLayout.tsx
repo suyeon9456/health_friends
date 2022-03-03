@@ -3,8 +3,8 @@ import React from 'react';
 import { useShowState } from '../../../store/contextStore';
 
 import { Menu, DrawerMenu } from '../molecules';
-import Row from './Row';
-import Col from './Col';
+import Row from '../molecules/Row';
+import Col from '../molecules/Col';
 
 const AppLayout = ({ children, spanNumber }:
   { children: React.ReactNode, spanNumber?: number  }) => {

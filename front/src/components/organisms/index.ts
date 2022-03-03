@@ -1,4 +1,4 @@
-import Col from './Col';
+import Col from '../molecules/Col';
 import Footer from './Footer';
 import KakaoPostcode from './KakaoPostcode';
 import LoginForm from './LoginForm';
@@ -8,7 +8,7 @@ import MatchingRequestForm from './MatchingRequestForm';
 import ModalCreateGym from './ModalCreateGym';
 import ModalMatchingRequest from './ModalMatchingRequest';
 import ModalSearchGym from './ModalSearchGym';
-import Row from './Row';
+import Row from '../molecules/Row';
 import SearchGyms from './SearchGyms';
 import SearchFriends from './SearchFriends';
 import SearchMap from './SearchMap';

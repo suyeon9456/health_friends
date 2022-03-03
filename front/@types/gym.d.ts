@@ -6,7 +6,7 @@ export interface Gym {
   latitude: string;
   longitude: string;
   address: string;
-  User?: Array<User>;
+  Users?: Array<User>;
 }
 
 export interface Address {
@@ -19,10 +19,10 @@ export interface Address {
 }
 
 export interface Location {
-  swLon?: string,
-  swLat?: string,
-  neLon?: string,
-  neLat?: string,
+  swLon: string,
+  swLat: string,
+  neLon: string,
+  neLat: string,
 }
 
 export type Gyms = Array<Gym>;
