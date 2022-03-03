@@ -4,12 +4,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { RootState } from '@/../store/configureStore';
-import { Avatar } from '../../atoms';
-import { Modal } from '../../molecules';
-import MatchingRequestForm from '../MatchingRequestForm';
 import { useDateFormat } from '../../../hooks';
-import { addScheduleRequest } from '@/../reducers/schedule';
+import { addScheduleRequest, scheduleSelector } from '@/../reducers/schedule';
+import { gymSelector } from '@/../reducers/gym';
+import { userSelector } from '@/../reducers/user';
+import { Modal } from '../../molecules';
+import { Avatar } from '../../atoms';
+import MatchingRequestForm from '../MatchingRequestForm';
 
 const schema = yup.object({
   startDate: yup.string().required('날짜는 필수 항목입니다.'),
@@ -28,9 +29,9 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }: {
   gymName?: string;
 }) => {
   const dispatch = useDispatch();
-  const { me } = useSelector((state: RootState) => state.user);
-  const { gym } = useSelector((state: RootState) => state.gym);
-  const { addScheduleDone } = useSelector((state: RootState) => state.schedule);
+  const { me } = useSelector(userSelector);
+  const { gym } = useSelector(gymSelector);
+  const { addScheduleDone } = useSelector(scheduleSelector);
 
   const { handleSubmit, control, setValue } = useForm({
     defaultValues: {

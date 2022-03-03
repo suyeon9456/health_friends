@@ -2,11 +2,11 @@ import React, { Dispatch, SetStateAction, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CloseOutlined } from '@ant-design/icons';
 
-import Button from '../../atoms/Button';
+import { addLikeRequest, userSelector } from '@/../reducers/user';
+import { gymSelector } from '@/../reducers/gym';
 import { PropfileCard } from '../../molecules';
+import Button from '../../atoms/Button';
 import { FriendsListWrapper, SearchFriendsWrapper, SearchHeader, SearchTitle } from './style';
-import { RootState } from '@/../store/configureStore';
-import { addLikeRequest } from '@/../reducers/user';
 
 const SearchFriends = ({ foldedGym,
   foldedFriends,
@@ -28,8 +28,8 @@ const SearchFriends = ({ foldedGym,
     setStateWarning: Dispatch<SetStateAction<boolean>>;
   }) => {
   const dispatch = useDispatch();
-  const { gym } = useSelector((state: RootState) => state.gym);
-  const { me } = useSelector((state: RootState) => state.user);
+  const { gym } = useSelector(gymSelector);
+  const { me } = useSelector(userSelector);
 
   const onChangeFoldedFriends = useCallback(() => {
     setFoldedFriends((prev) => !prev);

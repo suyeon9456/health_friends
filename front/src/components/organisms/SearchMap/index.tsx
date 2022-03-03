@@ -9,7 +9,7 @@ import { Button } from '../../atoms';
 import { MapWrap } from './style';
 
 import styles from '../../../scss/searchMap.module.scss';
-import { changeMapBounds, isLoadGyms, loadFriendsRequest } from '@/../reducers/gym';
+import { changeMapBounds, gymSelector, isLoadGyms, loadFriendsRequest } from '@/../reducers/gym';
 
 const SearchMap = ({ foldedFriends, setFoldedFriends }: {
   foldedFriends: boolean;
@@ -17,7 +17,7 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: {
 }) => {
   const dispatch = useDispatch();
 
-  const { gym, gyms } = useSelector((state: RootState) => state.gym);
+  const { gym, gyms } = useSelector(gymSelector);
 
   const map = useRef<any>();
   const customOverlay = useRef<any>(null);

@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { RootState } from '@/../store/configureStore';
+import { addReScheduleRequest, scheduleSelector, updateScheduleRequest } from '@/../reducers/schedule';
+import { userSelector } from '@/../reducers/user';
 import { Modal } from '../../../molecules';
 import MatchingRequestForm from '../../MatchingRequestForm';
-import { addReScheduleRequest, updateScheduleRequest } from '@/../reducers/schedule';
 
 const schema = yup.object({
   startDate: yup.string().required('날짜는 필수 항목입니다.'),
@@ -22,8 +22,8 @@ const ModalMatchingEdit = ({ show, onCancel, mode }: {
   mode: string;
 }) => {
   const dispatch = useDispatch();
-  const { schedule } = useSelector((state: RootState) => state.schedule);
-  const { me } = useSelector((state: RootState) => state.user);
+  const { schedule } = useSelector(scheduleSelector);
+  const { me } = useSelector(userSelector);
 
   const [fNickname, setFNickname] = useState('');
   const [fId, setFId] = useState(-1);

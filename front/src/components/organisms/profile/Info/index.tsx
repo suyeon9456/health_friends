@@ -4,16 +4,16 @@ import { BiEdit } from 'react-icons/bi';
 
 import useInput from '../../../../hooks/useInput';
 
+import { userSelector } from '@/../reducers/user';
+import { profileSelector, updateMyDescriptionRequest, updateMyNicknameRequest } from '@/../reducers/profile';
 import { Button, Icon, Input } from '../../../atoms';
 import { ContentText, ContentTitle, InfoBody, InfoButtonWrapper, InfoContent, InfoContentWrapper, InfoHeader, InfoWrapper } from './style';
-import { RootState } from '@/../store/configureStore';
-import { updateMyDescriptionRequest, updateMyNicknameRequest } from '@/../reducers/profile';
 
 const Info = () => {
   const dispatch = useDispatch();
 
-  const { me } = useSelector((state: RootState) => state.user);
-  const { profile, updateMyNicknameDone, updateMyDescriptionDone } = useSelector((state: RootState) => state.profile);
+  const { me } = useSelector(userSelector);
+  const { profile, updateMyNicknameDone, updateMyDescriptionDone } = useSelector(profileSelector);
   const [isEditNickname, setIsEditNickname] = useState<boolean>(false);
   const [isEditDescription, setIsEditDescription] = useState<boolean>(false);
 

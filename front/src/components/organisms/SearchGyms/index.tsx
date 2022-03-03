@@ -12,7 +12,7 @@ import SearchFriends from '../SearchFriends';
 import SearchSidebar from '../SearchSidebar';
 import ModalMatchingRequest from '../ModalMatchingRequest';
 import { SearchHeader, SearchWrapper, SearchTitle, SearchFormWrapper, SearchListWrapper, GymWrapper, FoldButton } from './style';
-import { loadFriendsRequest, loadGymRequest } from '@/../reducers/gym';
+import { gymSelector, loadFriendsRequest, loadGymRequest } from '@/../reducers/gym';
 
 const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }: {
   foldedFriends: boolean;
@@ -28,7 +28,7 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
     gyms,
     hasMoreGyms,
     loadGymLoading,
-    isLoadGyms } = useSelector((state: RootState) => state.gym);
+    isLoadGyms } = useSelector(gymSelector);
 
   const [browserHeight, setBrowserHeight] = useState<number>(0);
   const [showModal, setShowModal] = useState<boolean>(false);

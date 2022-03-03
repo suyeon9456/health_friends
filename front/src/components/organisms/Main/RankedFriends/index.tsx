@@ -2,11 +2,10 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import * as _ from 'lodash';
-import { RootState } from '@/../store/configureStore';
 
+import { loadRankedFriendsRequest, mainSelector } from '@/../reducers/user';
 import { RankItem, RankTitle, RankCard, RankCardList, RankCardWrap, RankedFriendsBody, RankedFriendsHeader, RankedFriendsWrap, RankItemWrap, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
 import NoDataIcon from '../../../atoms/NoDataIcon';
-import { loadRankedFriendsRequest } from '@/../reducers/user';
 
 interface Matching {
   count: number,
@@ -24,7 +23,7 @@ interface ReMatching {
 
 const RankedFriends = () => {
   const dispatch = useDispatch();
-  const { rankedFriends } = useSelector((state: RootState) => state.user);
+  const { rankedFriends } = useSelector(mainSelector);
   useEffect(() => {
     dispatch(loadRankedFriendsRequest());
   }, []);

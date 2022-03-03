@@ -1,5 +1,6 @@
 import { ProfileInitialState } from "../@types/reducer/state";
-import { createSlice } from '@reduxjs/toolkit';
+import { createDraftSafeSelector, createSlice } from '@reduxjs/toolkit';
+import { RootState } from "../store/configureStore";
 
 const initialState: ProfileInitialState = {
   loadInfoLoading: false,
@@ -169,6 +170,27 @@ const profileSlice = createSlice({
     },
   },
 });
+
+export const profileSelector = createDraftSafeSelector(
+  (state: RootState) => state.profile.updateMyNicknameDone,
+  (state: RootState) => state.profile.updateMyDescriptionDone,
+  (state: RootState) => state.profile.profile,
+  (state: RootState) => state.profile.imagePath,
+  (state: RootState) => state.profile.uploadProfileImageError,
+  (
+    updateMyNicknameDone,
+    updateMyDescriptionDone,
+    profile,
+    imagePath,
+    uploadProfileImageError,
+  ) => ({
+    updateMyNicknameDone,
+    updateMyDescriptionDone,
+    profile,
+    imagePath,
+    uploadProfileImageError,
+  })
+);
 
 export const {
   loadProfileInfoRequest,

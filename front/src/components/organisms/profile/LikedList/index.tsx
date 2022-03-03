@@ -3,14 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { BiDotsVerticalRounded, BiEdit, BiHeart, BiUser } from 'react-icons/bi';
 import { ImDrawer2 } from 'react-icons/im';
 
-import { RootState } from '@/../store/configureStore';
+import { loadLikeRequest, userSelector } from '@/../reducers/user';
 import { Icon } from '../../../atoms';
 import { LikedListWrap, LikedListBody, Card, CardCover, CardBody, CardMeta, MetaTitle, MetaActions, Action, Empty } from './style';
-import { loadLikeRequest } from '@/../reducers/user';
 
 const LikedList = () => {
   const dispatch = useDispatch();
-  const { likedFriends } = useSelector((state: RootState) => state.user);
+  const { likedFriends } = useSelector(userSelector);
 
   useEffect(() => {
     dispatch(loadLikeRequest());

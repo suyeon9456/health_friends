@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { useSelector } from 'react-redux';
 import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons';
 
-import { RootState } from '@/../store/configureStore';
+import { userSelector } from '@/../reducers/user';
 import { Avatar, Button } from '../../atoms';
 import { Sidebar } from './style';
 
@@ -10,7 +10,7 @@ const SearchSidebar = ({ foldedGym, setFoldedGym }: {
   foldedGym: boolean;
   setFoldedGym: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { me } = useSelector((state: RootState) => state.user);
+  const { me } = useSelector(userSelector);
   return (
     <Sidebar>
       <div>

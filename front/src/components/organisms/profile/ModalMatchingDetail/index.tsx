@@ -2,21 +2,21 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { compareAsc } from 'date-fns';
 
-import { RootState } from '@/../store/configureStore';
+import { addCancellationRequest, scheduleSelector, updateCancellationRequest, updatePermissionRequest } from '@/../reducers/schedule';
+import { userSelector } from '@/../reducers/user';
 import { useDateFormat } from '../../../../hooks';
-import { Avatar } from '../../../atoms';
 import { Modal } from '../../../molecules';
+import { Avatar } from '../../../atoms';
 import { Content, DescriptionWrap, InfoContent } from '../../MatchingRequestForm/style';
 import { MatchingInfoWrap, RequestFriendWrap, UserInfoWrap } from './style';
-import { addCancellationRequest, updateCancellationRequest, updatePermissionRequest } from '@/../reducers/schedule';
 
 const ModalMatchingDetail = ({ show, onCancel }: {
   show: boolean;
   onCancel: () => void;
 }) => {
   const dispatch = useDispatch();
-  const { schedule } = useSelector((state: RootState) => state.schedule);
-  const { me } = useSelector((state: RootState) => state.user);
+  const { schedule } = useSelector(scheduleSelector);
+  const { me } = useSelector(userSelector);
 
   const [fNickname, setFNickname] = useState<string>('');
   const [fId, setFId] = useState<number>(-1);

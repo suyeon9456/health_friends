@@ -2,18 +2,19 @@ import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { BiGroup, BiHeart, BiRun, BiTime, BiUser } from 'react-icons/bi';
 
-import { RootState } from '@/../store/configureStore';
-import { Content, ContentTitle, MoreInfoBody, MoreInfoContent, MoreInfoWrapper } from './style';
+import { optionsSelector, userSelector } from '@/../reducers/user';
+import { profileSelector } from '@/../reducers/profile';
 import { InformationItem, Button, Icon } from '../../../atoms';
+import { Content, ContentTitle, MoreInfoBody, MoreInfoContent, MoreInfoWrapper } from './style';
 import ModalEditInfo from '../ModalEditInfo';
 
 const MoreInfo = () => {
-  const { me,
-    careerOptions,
+  const { me } = useSelector(userSelector);
+  const { careerOptions,
     genderOptions,
     roleOptions,
-    ageOptions } = useSelector((state: RootState) => state.user);
-  const { profile } = useSelector((state: RootState) => state.profile);
+    ageOptions } = useSelector(optionsSelector);
+  const { profile } = useSelector(profileSelector);
   const [showEditModal, setShowEditModal] = useState(false);
   const [targetId, setTargetId] = useState('');
 

@@ -7,7 +7,7 @@ import { Search, Item } from '../../atoms';
 import { BoxContent, GymListWrap, ListCard } from './style';
 import { UseFormSetValue } from 'react-hook-form';
 import { selectGym } from '@/../reducers/user';
-import { loadGymRequest } from '@/../reducers/gym';
+import { gymSelector, loadGymRequest } from '@/../reducers/gym';
 
 const ModalSearchGym = ({ setShowModal, setGym }: {
   setShowModal: (state: boolean) => void;
@@ -19,7 +19,7 @@ const ModalSearchGym = ({ setShowModal, setGym }: {
   }>;
 }) => {
   const dispatch = useDispatch();
-  const { gyms } = useSelector((state: RootState) => state.gym);
+  const { gyms } = useSelector(gymSelector);
 
   const [searchWord, onChangeSearchWord] = useInput('');
 

@@ -4,21 +4,20 @@ import { EditOutlined, UserAddOutlined } from '@ant-design/icons';
 import { format, startOfMonth, endOfMonth, addDays } from 'date-fns';
 import * as _ from 'lodash';
 
-import { RootState } from '@/../store/configureStore';
 import { useDateFormat } from '../../../../hooks';
 
+import { loadCalendarSchedulesRequest, scheduleSelector } from '@/../reducers/schedule';
+import { userSelector } from '@/../reducers/user';
 import { BigCalendar, SimpleMatchingCard } from '../../../molecules';
 import { CalendarWrap, CardWrap } from './style';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Event } from 'react-big-calendar';
-import { loadCalendarSchedulesRequest } from '@/../reducers/schedule';
 
 const actions = [{ icon: <UserAddOutlined />, key: 'rematch' }, { icon: <EditOutlined />, key: 'edit' }];
 const MatchingCalendar = () => {
   const dispatch = useDispatch();
 
-  const { schedules } = useSelector((state: RootState) => state.schedule);
-  const { me } = useSelector((state: RootState) => state.user);
+  const { schedules } = useSelector(scheduleSelector);
+  const { me } = useSelector(userSelector);
 
   const [events, setEvents] = useState([]);
   const [showCard, setShowCard] = useState<boolean>(false);

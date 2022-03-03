@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createDraftSafeSelector, createSlice } from '@reduxjs/toolkit';
 import * as _ from 'lodash';
 import { UserInitialState } from '../@types/reducer/state';
+import { RootState } from '../store/configureStore';
 
 const initialState: UserInitialState = {
   loadMyInfoLoading: false,
@@ -220,6 +221,7 @@ const userSlice = createSlice({
         if (value.length > 1) {
           const req = { ...value[0],
             count: value[0].reqSchedule.length + value[1].resSchedule.length };
+          console.log('req:::::::', req);
           return matching.push(req);
         }
         return matching.push({ ...value[0],
@@ -290,6 +292,89 @@ const userSlice = createSlice({
     // },
   }
 });
+
+export const loginSelector = createDraftSafeSelector(
+  (state: RootState) => state.user.loginError,
+  (loginError) => ({ loginError }),
+)
+
+export const userSelector = createDraftSafeSelector(
+  (state: RootState) => state.user.me,
+  (state: RootState) => state.user.likedFriends,
+  (me, likedFriends) => ({ me, likedFriends }),
+);
+export const mainSelector = createDraftSafeSelector(
+  (state: RootState) => state.user.recommendedFriends,
+  (state: RootState) => state.user.closedFriends,
+  (state: RootState) => state.user.additionalFriends,
+  (state: RootState) => state.user.rankedFriends,
+  (state: RootState) => state.user.realtimeMatching,
+  (
+    recommendedFriends,
+    closedFriends,
+    additionalFriends,
+    rankedFriends,
+    realtimeMatching,
+  ) => ({
+    recommendedFriends,
+    closedFriends,
+    additionalFriends,
+    rankedFriends,
+    realtimeMatching,
+  }),
+);
+
+export const optionsSelector = createDraftSafeSelector(
+  (state: RootState) => state.user.careerOptions,
+  (state: RootState) => state.user.roleOptions,
+  (state: RootState) => state.user.genderOptions,
+  (state: RootState) => state.user.ageOptions,
+  (state: RootState) => state.user.searchGymTabs,
+  (
+    careerOptions,
+    roleOptions,
+    genderOptions,
+    ageOptions,
+    searchGymTabs,
+  ) => ({
+    careerOptions,
+    roleOptions,
+    genderOptions,
+    ageOptions,
+    searchGymTabs,
+  }),
+)
+
+export const signupSelector = createDraftSafeSelector(
+  (state: RootState) => state.user.signupStepMoreInfo,
+  (state: RootState) => state.user.signupSteps,
+  (state: RootState) => state.user.signupProcess,
+  (state: RootState) => state.user.signupStepInfo,
+  (state: RootState) => state.user.signupStepMoreInfo,
+  (state: RootState) => state.user.signupStepGymInfo,
+  (state: RootState) => state.user.signupStepFriendsInfo,
+  (state: RootState) => state.user.selectedGym,
+  (state: RootState) => state.user.signupDone,
+  (
+    signupSteps,
+    signupProcess,
+    signupStepInfo,
+    signupStepMoreInfo,
+    signupStepGymInfo,
+    signupStepFriendsInfo,
+    selectedGym,
+    signupDone,
+  ) => ({
+    signupSteps,
+    signupProcess,
+    signupStepInfo,
+    signupStepMoreInfo,
+    signupStepGymInfo,
+    signupStepFriendsInfo,
+    selectedGym,
+    signupDone,
+  }),
+);
 
 export const {
   loadMyInfoRequest,

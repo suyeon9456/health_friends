@@ -1,7 +1,8 @@
 import { ScheduleInitialState } from '../@types/reducer/state';
 import { LoadSchedulesProps } from '../@types/action';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createDraftSafeSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Schedule, Schedules } from '../@types/schedule';
+import { RootState } from '../store/configureStore';
 
 const initialState: ScheduleInitialState = {
   addScheduleLoading: false,
@@ -222,7 +223,25 @@ const scheduleSlice = createSlice({
       state.updatePermissionError = action.payload;
     },
   },
-})
+});
+
+export const scheduleSelector = createDraftSafeSelector(
+  (state: RootState) => state.schedule.schedules,
+  (state: RootState) => state.schedule.schedulesCount,
+  (state: RootState) => state.schedule.schedule,
+  (state: RootState) => state.schedule.addScheduleDone,
+  (
+    schedules,
+    schedulesCount,
+    schedule,
+    addScheduleDone,
+  ) => ({
+    schedules,
+    schedulesCount,
+    schedule,
+    addScheduleDone,
+  })
+);
 
 export const {
   addScheduleRequest,

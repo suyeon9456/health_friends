@@ -3,14 +3,14 @@ import Link from 'next/link';
 import { MenuOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '@/../store/configureStore';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
-import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
+import { logoutRequest, userSelector } from '@/../reducers/user';
+
 import { Avatar } from '../../atoms';
-import { logoutRequest } from '@/../reducers/user';
+import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
 
 const Menu = () => {
-  const { me } = useSelector((state: RootState) => state.user);
+  const { me } = useSelector(userSelector);
   const dispatch = useDispatch();
 
   const { drawerShow } = useShowState();

@@ -2,17 +2,19 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { Button, Form } from '../../../atoms';
+import { optionsSelector, signupSelector, signupStepMoreInfoSave, signupStepNext, signupStepPrev } from '@/../reducers/user';
 import { FormSelect } from '../../../molecules';
+import { Button, Form } from '../../../atoms';
 import { ButtonWrap, MoreInfoFormWrapper } from './style';
-import { RootState } from '@/../store/configureStore';
-import { signupStepMoreInfoSave, signupStepNext, signupStepPrev } from '@/../reducers/user';
 
 const MoreInfoForm = () => {
   const dispatch = useDispatch();
 
-  const { careerOptions, roleOptions, signupStepMoreInfo,
-    genderOptions, ageOptions } = useSelector((state: RootState) => state.user);
+  const { careerOptions,
+    roleOptions,
+    genderOptions,
+    ageOptions } = useSelector(optionsSelector);
+  const { signupStepMoreInfo } = useSelector(signupSelector);
   const { handleSubmit, control } = useForm({
     defaultValues: {
       gender: signupStepMoreInfo?.gender || 'male',

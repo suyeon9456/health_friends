@@ -1,13 +1,13 @@
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm, UseFormSetValue } from 'react-hook-form';
 
-import { RootState } from '@/../store/configureStore';
+import { addGymRequeset } from '@/../reducers/gym';
+import { optionsSelector } from '@/../reducers/user';
 import { Modal, Tabs } from '../../../molecules';
 import ModalSearchGym from '../../ModalSearchGym';
 import ModalCreateGym from '../../ModalCreateGym';
 import { ModalBodyBox } from './style';
-import { useForm, UseFormSetValue } from 'react-hook-form';
-import { addGymRequeset } from '@/../reducers/gym';
 
 interface CreateModalType {
   sido: string;
@@ -30,7 +30,7 @@ const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }: {
     description: string;
   }>;
 }) => {
-  const { searchGymTabs } = useSelector((state: RootState) => state.user);
+  const { searchGymTabs } = useSelector(optionsSelector);
   const dispatch = useDispatch();
 
   const { handleSubmit, control, setValue } = useForm<CreateModalType>({

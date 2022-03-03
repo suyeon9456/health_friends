@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Control, FieldErrors, FieldValues } from 'react-hook-form';
 
-import { RootState } from '@/../store/configureStore';
+import { userSelector } from '@/../reducers/user';
 import { MatchingInfoWrap, InfoContent, RequestFriendWrap, UserInfoWrap, Content, DescriptionWrap } from './style';
 import { FormInput, FormTextarea, FormDateTimePicker } from '../../molecules';
 import { Avatar } from '../../atoms';
@@ -19,7 +19,7 @@ const MatchingRequestForm = ({ friend, control, errors }: {
   control: Control<MatchingFormType, object>, 
   errors?: FieldErrors;
 }) => {
-  const { me } = useSelector((state: RootState) => state.user);
+  const { me } = useSelector(userSelector);
 
   return (
     <RequestFriendWrap>

@@ -2,13 +2,13 @@ import React, { useCallback, useEffect, useState, SetStateAction } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { BiTrophy, BiCommentCheck, BiBuildingHouse, BiUser, BiCalendar, BiReceipt, BiHeart } from 'react-icons/bi';
 
-import { RootState } from '@/../store/configureStore';
 import useRate from '../../../../hooks/useRate';
+import { addProfileImageRequest, profileSelector, removeProfileImage, uploadProfileImageRequest } from '@/../reducers/profile';
+import { userSelector } from '@/../reducers/user';
 import Progress from '../../../molecules/Progress';
-import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
+import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
 import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, MenuText, SideBarWrapper, SideMenu, SideMenuWrap } from './style';
-import { addProfileImageRequest, removeProfileImage, uploadProfileImageRequest } from '@/../reducers/profile';
 
 const menu = {
   INFO: 'INFO',
@@ -25,7 +25,8 @@ const SideBar = ({ profileMenu, setProfileMenu }: {
   setProfileMenu: React.Dispatch<SetStateAction<ProfileMenuType>>;
 }) => {
   const dispatch = useDispatch();
-  const { profile, me, imagePath, uploadProfileImageError } = useSelector((state: RootState) => state.user);
+  const { me } = useSelector(userSelector);
+  const { profile, imagePath, uploadProfileImageError } = useSelector(profileSelector);
   const [uploadState, setUploadState] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [responseRate,

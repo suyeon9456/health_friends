@@ -6,17 +6,18 @@ import { END } from 'redux-saga';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
-import wrapper, { RootState } from '../store/configureStore';
+import wrapper from '../store/configureStore';
 
-import { Button } from '../src/components/atoms';
-import { Alert } from '../src/components/molecules';
+import { loadMyInfoRequest, userSelector } from '../reducers/user';
+import { loadProfileMyinfoRequest } from '../reducers/profile';
+
 import { AppLayout, SideBar, Info, MoreInfo, Row, Col } from '../src/components/organisms';
 import MatchingCalendar from '../src/components/organisms/profile/MatchingCalendar';
 import MatchingRecord from '../src/components/organisms/profile/MatchingRecord';
 import LikedList from '../src/components/organisms/profile/LikedList';
+import { Alert } from '../src/components/molecules';
+import { Button } from '../src/components/atoms';
 
-import { loadMyInfoRequest } from '../reducers/user';
-import { loadProfileMyinfoRequest } from '../reducers/profile';
 
 const menu = {
   INFO: 'INFO',
@@ -31,7 +32,7 @@ const Myinfo = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { me } = useSelector((state: RootState) => state.user);
+  const { me } = useSelector(userSelector);
   const [isNotloggedIn, setIsNotloggedIn] = useState(false);
   const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(menu.INFO);
 

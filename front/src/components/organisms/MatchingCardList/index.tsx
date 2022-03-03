@@ -3,13 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { format, compareAsc } from 'date-fns';
 import { BiEdit, BiPin, BiRepeat } from 'react-icons/bi';
 
-import ModalMatchingDetail from '../profile/ModalMatchingDetail';
-import { MatchingCardListWrap } from './style';
-import { Icon } from '../../atoms';
-import { MatchingCard } from '../../molecules';
-import ModalMatchingEdit from '../profile/ModalMatchingEdit';
-import { RootState } from '@/../store/configureStore';
 import { loadScheduleRequest } from '@/../reducers/schedule';
+import { userSelector } from '@/../reducers/user';
+import { profileSelector } from '@/../reducers/profile';
+
+import ModalMatchingDetail from '../profile/ModalMatchingDetail';
+import ModalMatchingEdit from '../profile/ModalMatchingEdit';
+import { MatchingCard } from '../../molecules';
+import { Icon } from '../../atoms';
+import { MatchingCardListWrap } from './style';
 
 interface Schedules {
   schedules: Array<{
@@ -32,7 +34,8 @@ interface Schedules {
 
 const MatchingCardList = ({ schedules }: Schedules) => {
   const dispatch = useDispatch();
-  const { me, profile } = useSelector((state: RootState) => state.user);
+  const { me } = useSelector(userSelector);
+  const { profile } = useSelector(profileSelector);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [modalType, setModalType] = useState('view');

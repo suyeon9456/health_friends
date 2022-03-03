@@ -3,24 +3,23 @@ import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { RootState } from '@/../store/configureStore';
+import { optionsSelector, signupRequest, signupSelector, signupStepFriendsInfoSave, signupStepPrev } from '@/../reducers/user';
 import { FormSelect } from '../../../molecules';
 import { Form, Button } from '../../../atoms';
 import { ButtonWrap, FormWrapper } from './style';
-import { signupRequest, signupStepFriendsInfoSave, signupStepPrev } from '@/../reducers/user';
 
 const FriendsInfoForm = () => {
   const dispatch = useDispatch();
-  const { signupDone,
-    genderOptions,
+  const { genderOptions,
     careerOptions,
     roleOptions,
-    ageOptions,
+    ageOptions } = useSelector(optionsSelector);
+  const { signupDone,
     selectedGym,
     signupStepInfo: info,
     signupStepMoreInfo: moreInfo,
     signupStepGymInfo: gymInfo,
-    signupStepFriendsInfo } = useSelector((state: RootState) => state.user);
+    signupStepFriendsInfo } = useSelector(signupSelector);
 
   const { handleSubmit, control } = useForm({
     defaultValues: {

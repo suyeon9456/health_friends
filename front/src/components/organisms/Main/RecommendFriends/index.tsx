@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import Slider from 'react-slick';
 import * as _ from 'lodash';
 
-import { RootState } from '@/../store/configureStore';
+import { mainSelector } from '@/../reducers/user';
 import { BiCurrentLocation } from 'react-icons/bi';
 import { FriendsWrap, FriendsTitle, FriendsSubTitle, FriendsBody, FriendsCardList, FriendsCard, CardAvatarWrap, CardContentWrap, ContentTitile, ContentDescription, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
 import { Avatar, Icon, NoDataIcon, ReactSliderNextButton, ReactSliderPrevButton } from '../../../atoms';
@@ -47,7 +47,7 @@ const RecommendFriends = ({ location }: { location?: {
     }],
   };
 
-  const { recommendedFriends, closedFriends } = useSelector((state: RootState) => state.user);
+  const { recommendedFriends, closedFriends } = useSelector(mainSelector);
 
   const reLoadLocation = useCallback(() => {
     console.log('??');

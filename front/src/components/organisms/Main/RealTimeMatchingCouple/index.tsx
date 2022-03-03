@@ -2,11 +2,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as _ from 'lodash';
 
+import { loadRealtimeMatchingRequest, mainSelector } from '@/../reducers/user';
 import { BiGroup, BiMap } from 'react-icons/bi';
 import { Avatar, Icon, NoDataIcon } from '../../../atoms';
 import { AvatarWrap, CoupleCard, MatchingIcon, CoupleCardList, CoupleHeaderTitle, MatchingCoupleBody, MatchingCoupleHeader, MatchingCoupleWrap, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
-import { RootState } from '@/../store/configureStore';
-import { loadRealtimeMatchingRequest } from '@/../reducers/user';
 
 interface Mathcing {
   id: number,
@@ -17,7 +16,7 @@ interface Mathcing {
 
 const RealTimeMatchingCouple = () => {
   const dispatch = useDispatch();
-  const { realtimeMatching } = useSelector((state: RootState) => state.user);
+  const { realtimeMatching } = useSelector(mainSelector);
 
   useEffect(() => {
     dispatch(loadRealtimeMatchingRequest());

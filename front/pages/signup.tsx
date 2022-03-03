@@ -4,6 +4,7 @@ import { Router } from 'next/router';
 
 import { RootState } from '../store/configureStore';
 
+import { signupSelector, userSelector } from '../reducers/user';
 import { AppLayout } from '@/components/organisms';
 import { Steps } from '@/components/molecules';
 import styles from '../src/scss/signup.module.scss';
@@ -13,7 +14,8 @@ import MoreGymInfoForm from '@/components/organisms/signup/MoreGymInfoForm';
 import FriendsInfoForm from '@/components/organisms/signup/FriendsInfoForm';
 
 const Signup = () => {
-  const { signupSteps, signupProcess, me } = useSelector((state: RootState) => state.user);
+  const { me } = useSelector(userSelector);
+  const { signupSteps, signupProcess } = useSelector(signupSelector);
   useEffect(() => {
     if (me?.id) {
       console.log(Router);

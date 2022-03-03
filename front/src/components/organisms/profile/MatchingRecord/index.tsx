@@ -2,17 +2,16 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PlusOutlined } from '@ant-design/icons';
 
-import { RootState } from '@/../store/configureStore';
+import { loadSchedulesRequest, scheduleSelector } from '@/../reducers/schedule';
 import { Filter } from '../../../molecules';
 import { Button, CheckBox } from '../../../atoms';
 import MatchingCardList from '../../MatchingCardList';
 import { CancelYnCheckBoxWrap, FilterList, RecordBody, RecordFooter, RecordWrap } from './style';
-import { loadSchedulesRequest } from '@/../reducers/schedule';
 
 const MatchingRecord = () => {
   const dispatch = useDispatch();
 
-  const { schedules, schedulesCount } = useSelector((state: RootState) => state.schedule);
+  const { schedules, schedulesCount } = useSelector(scheduleSelector);
   const [status, setStatus] = useState<string[]>([]);
   const [term, setTerm] = useState<string[]>([]);
   const [type, setType] = useState<string[]>([]);

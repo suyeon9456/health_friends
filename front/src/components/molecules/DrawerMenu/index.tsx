@@ -3,18 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import { CloseOutlined, LoginOutlined, LogoutOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
 
-import { RootState } from '@/../store/configureStore';
 import { useShowDispatch } from '@/../store/contextStore';
+import { logoutRequest, userSelector } from '@/../reducers/user';
 
 import { Button, Avatar } from '../../atoms';
 import { Drawer, DrawerBody, DrawerContent, DrawerContentWrap, DrawerHeader, DrawerHeaderTitle, DrawerMask, DrawerTitle, DrawerWrapBody, MemberMenu, MemberMenuItem, Menu, MenuItem, MenuText, MenuTitle } from './style';
-import { logoutRequest } from '@/../reducers/user';
 
 const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
   const dispatch = useDispatch();
   const contextDispatch = useShowDispatch();
 
-  const { me } = useSelector((state: RootState) => state.user);
+  const { me } = useSelector(userSelector);
 
   const onLogout = useCallback(() => {
     dispatch(logoutRequest());

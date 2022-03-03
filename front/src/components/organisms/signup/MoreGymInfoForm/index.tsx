@@ -3,17 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 
-import { RootState } from '@/../store/configureStore';
 import { Button, Form } from '../../../atoms';
 import { FormInput, FormRangeTimePicker, FormTextarea } from '../../../molecules';
 import ModalGym from './ModalGym';
 import { ButtonWrap, FormSearchGymWrap, FormWrapper } from './style';
-import { signupStepGymInfoSave, signupStepNext, signupStepPrev } from '@/../reducers/user';
+import { signupSelector, signupStepGymInfoSave, signupStepNext, signupStepPrev } from '@/../reducers/user';
 
 const MoreGymInfoForm = () => {
   const dispatch = useDispatch();
 
-  const { signupStepGymInfo, selectedGym } = useSelector((state: RootState) => state.user);
+  const { signupStepGymInfo, selectedGym } = useSelector(signupSelector);
   const [showModal, setShowModal] = useState(false);
   const { handleSubmit, control, setValue } = useForm<{ startTime: Date; endTime: Date; gym: string; description: string;  }>({
     defaultValues: {

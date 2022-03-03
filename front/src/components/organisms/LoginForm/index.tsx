@@ -5,12 +5,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import { loginRequest, loginSelector } from '@/../reducers/user';
+import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 import { Alert, FormInput } from '@/components/molecules';
 import { Button, Form } from '@/components/atoms';
 import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
-import { useShowDispatch, useShowState } from '../../../../store/contextStore';
-import { RootState } from '@/../store/configureStore';
-import { loginRequest } from '@/../reducers/user';
 
 const schema = yup.object({
   email: yup.string()
@@ -23,7 +22,7 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const contextDispatch = useShowDispatch();
 
-  const { loginError } = useSelector((state: RootState) => state.user);
+  const { loginError } = useSelector(loginSelector);
   const { alertShow } = useShowState();
 
   const { handleSubmit, control, formState: { errors } } = useForm<{ email: string; password: string }>({

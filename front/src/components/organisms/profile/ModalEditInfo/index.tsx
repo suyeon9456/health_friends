@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 
+import { profileSelector, updateMyFriendsInfoRequest, updateMyinfoRequest } from '@/../reducers/profile';
 import { useDateFormat } from '../../../../hooks';
 import { Modal } from '../../../molecules';
 import EditInfoForm from '../EditInfoForm';
-import { RootState } from '@/../store/configureStore';
-import { updateMyFriendsInfoRequest, updateMyinfoRequest } from '@/../reducers/profile';
 
 const ModalEditInfo = ({ title, targetId, show, onCancel, setCloseModal }: {
   title: string;
@@ -17,7 +16,7 @@ const ModalEditInfo = ({ title, targetId, show, onCancel, setCloseModal }: {
   setCloseModal: (close: boolean) => void;
 }) => {
   const dispatch = useDispatch();
-  const { profile } = useSelector((state: RootState) => state.user);
+  const { profile } = useSelector(profileSelector);
 
   const { handleSubmit, control, setValue } = useForm({
     defaultValues: {

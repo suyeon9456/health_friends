@@ -4,11 +4,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { Button, Form } from '../../../atoms';
+import { signupSelector, signupStepInfoSave, signupStepNext } from '@/../reducers/user';
 import { FormInput } from '../../../molecules';
+import { Button, Form } from '../../../atoms';
 import { ButtonWrap, InfoFormWrapper } from './style';
-import { RootState } from '@/../store/configureStore';
-import { signupStepInfoSave, signupStepNext } from '@/../reducers/user';
 
 const schema = yup.object({
   email: yup.string()
@@ -28,7 +27,7 @@ const schema = yup.object({
 const InfoForm = () => {
   const dispatch = useDispatch();
 
-  const { signupStepInfo } = useSelector((state: RootState) => state.user);
+  const { signupStepInfo } = useSelector(signupSelector);
   const { handleSubmit, control, formState: { errors } } = useForm({
     defaultValues: {
       email: signupStepInfo?.email || '',

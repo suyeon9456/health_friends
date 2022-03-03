@@ -1,5 +1,6 @@
 import { GymInitialState } from '../@types/reducer/state';
-import { createSlice } from '@reduxjs/toolkit';
+import { createDraftSafeSelector, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store/configureStore';
 
 const initialState: GymInitialState = {
   addGymLoading: false,
@@ -79,6 +80,24 @@ const gymSlice = createSlice({
     },
   }
 });
+
+export const gymSelector = createDraftSafeSelector(
+  (state: RootState) => state.gym.loadGymLoading,
+  (state: RootState) => state.gym.isLoadGyms,
+  (state: RootState) => state.gym.hasMoreGyms,
+  (state: RootState) => state.gym.mapBounds,
+  (state: RootState) => state.gym.gyms,
+  (state: RootState) => state.gym.gym,
+  (loadGymLoading, isLoadGyms, hasMoreGyms, mapBounds, gyms, gym) => ({
+    loadGymLoading,
+    isLoadGyms,
+    hasMoreGyms,
+    mapBounds,
+    gyms,
+    gym,
+  })
+);
+
 export const {
   addGymRequeset,
   addGymSuccess,

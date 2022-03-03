@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Control, FieldValues } from 'react-hook-form';
 
-import { RootState } from '@/../store/configureStore';
+import { optionsSelector } from '@/../reducers/user';
 import { FormRangeTimePicker, FormSelect } from '../../../molecules';
 import { FormWrap } from './style';
 
@@ -22,7 +22,7 @@ const EditInfoForm = ({ targetId, control }: {
   const { careerOptions,
     roleOptions,
     genderOptions,
-    ageOptions } = useSelector((state: RootState) => state.user);
+    ageOptions } = useSelector(optionsSelector);
   return (
     <FormWrap>
       <FormSelect
