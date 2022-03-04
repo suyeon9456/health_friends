@@ -1,6 +1,10 @@
 import React, { useReducer } from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../src/scss/css/global.css';
 import 'slick-carousel/slick/slick.css';
@@ -10,8 +14,8 @@ import { ShowStateContext, reducer, ShowDispatchContext } from '../store/context
 import { myTheme } from '../src/styles/theme';
 import { ThemeProvider } from 'styled-components';
 
-const App = ({ Component }: AppProps) => {
-  // Component는 index.js 의 리턴 부분
+const queryClient = new QueryClient();
+const App = ({ Component }: AppProps) => { // Component는 index.js 의 리턴 부분
   const [state, dispatch] = useReducer(reducer, {
     drawerShow: false,
     alertShow: false,
@@ -31,7 +35,9 @@ const App = ({ Component }: AppProps) => {
       <ShowStateContext.Provider value={state}>
         <ShowDispatchContext.Provider value={dispatch}>
           <ThemeProvider theme={myTheme}>
-            <Component />
+            <QueryClientProvider client={queryClient}>
+              <Component />
+            </QueryClientProvider>
           </ThemeProvider>
         </ShowDispatchContext.Provider>
       </ShowStateContext.Provider>
