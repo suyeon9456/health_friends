@@ -6,12 +6,7 @@ import { Button, Icon } from '../../../atoms';
 import RecommendFriends from '../RecommendFriends';
 import { BannerWrap, BannerImage, BannerContent, BannerContentWrap, BannerHeader, BannerHeaderTitle, BannerImageWrap } from './style';
 
-const MainBanner = ({ location }: { location?: {
-  regionSiName: string | null,
-  regionGuName: string | null,
-  regionDongName: string | null,
-  mainAddressNo: string | null,
-} | null}) => (
+const MainBanner = () => (
   <BannerWrap>
     <BannerImageWrap />
     <BannerImage />
@@ -32,7 +27,7 @@ const MainBanner = ({ location }: { location?: {
     </BannerHeader>
     <BannerContentWrap>
       <BannerContent>
-        <RecommendFriends location={location} />
+        <RecommendFriends />
       </BannerContent>
     </BannerContentWrap>
   </BannerWrap>

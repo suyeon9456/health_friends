@@ -1,16 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useMutation } from 'react-query';
 import { BiEdit } from 'react-icons/bi';
 
 import useInput from '../../../../hooks/useInput';
 
 import { userSelector } from '@/../reducers/user';
-import { profileSelector, updateMyDescriptionRequest, updateMyNicknameRequest } from '@/../reducers/profile';
+import { profileSelector } from '@/../reducers/profile';
 import { Button, Icon, Input } from '../../../atoms';
 import { ContentText, ContentTitle, InfoBody, InfoButtonWrapper, InfoContent, InfoContentWrapper, InfoHeader, InfoWrapper } from './style';
+import axios from 'axios';
 
 const Info = () => {
-  const dispatch = useDispatch();
+  const nicknameMutation = useMutation((data: { nickname: string }) => axios.patch('/user/nickname', data));
+  const descMutation = useMutation((data: { description: string }) => axios.patch('/user/description', data));
 
   const { me } = useSelector(userSelector);
   const { profile, updateMyNicknameDone, updateMyDescriptionDone } = useSelector(profileSelector);
@@ -29,18 +32,18 @@ const Info = () => {
   }, [isEditDescription]);
 
   const onUpdateNickname = useCallback(() => {
-    dispatch(updateMyNicknameRequest({ nickname }));
+    nicknameMutation.mutate({ nickname });
   }, [nickname]);
 
   const onUpdatDescription = useCallback(() => {
-    dispatch(updateMyDescriptionRequest({ description }));
+    descMutation.mutate({ description });
   }, [description]);
 
   useEffect(() => {
-    if (updateMyNicknameDone) {
+    if (nicknameMutation.isSuccess) {
       setIsEditNickname(false);
     }
-  }, [updateMyNicknameDone, profile]);
+  }, [nicknameMutation.isSuccess]);
   useEffect(() => {
     if (updateMyDescriptionDone) {
       setIsEditDescription(false);
