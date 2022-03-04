@@ -1,28 +1,31 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import axios, { AxiosError } from 'axios';
+import { useQuery } from 'react-query';
+import * as _ from 'lodash';
 import { BiDotsVerticalRounded, BiEdit, BiHeart, BiUser } from 'react-icons/bi';
 import { ImDrawer2 } from 'react-icons/im';
 
-import { loadLikeRequest, userSelector } from '@/../reducers/user';
 import { Icon } from '../../../atoms';
+import { FetchLikedFriends } from '@/../@types/fetchData';
 import { LikedListWrap, LikedListBody, Card, CardCover, CardBody, CardMeta, MetaTitle, MetaActions, Action, Empty } from './style';
 
 const LikedList = () => {
-  const dispatch = useDispatch();
-  const { likedFriends } = useSelector(userSelector);
+  const {
+    status,
+    isLoading,
+    error,
+    data: likedFriends,
+    isFetching,
+  } = useQuery<FetchLikedFriends | undefined, AxiosError>('likedFriends', async() => {
+    const { data } = await axios.get('/user/like');
+    return data;
+  }, { cacheTime: 2 * 60 * 1000 });
 
-  useEffect(() => {
-    dispatch(loadLikeRequest());
-  }, []);
   return (
     <LikedListWrap dataSize={likedFriends?.length}>
       <LikedListBody>
-        {likedFriends?.length > 0
-          ? likedFriends.map((friend: {
-            id: number,
-            Image: { src: string },
-            nickname: string,
-          }) => (
+        {!_.isEmpty(likedFriends)
+          ? likedFriends?.map((friend) => (
             <Card key={friend.id}>
               <CardCover>
                 {friend.Image

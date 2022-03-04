@@ -39,6 +39,13 @@ export interface ScheduledetailModel {
   ScheduleId: number;
 }
 
+interface Matching {
+  count: number,
+  id: number
+  nickname: string,
+  reqSchedule: Array<{ id: number }>,
+}
+
 export interface MatchingCount {
   FriendId: number;
   matchingCount: number;

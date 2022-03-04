@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Calendar, dateFnsLocalizer, DateLocalizer, EventProps, stringOrDate } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay, compareAsc } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 import BigCalendarToolbar from '../BigCalendarToolbar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { CalendarEvents } from 'calendar';
 
 const locales: { ko: any } = { ko };
 
@@ -47,31 +48,7 @@ const Event = ({ event }: {
 };
 
 const BigCalendar = ({ events, onSelectEvent, onRangeChange }: {
-  events: Array<{
-    Cancel?: {
-      RequestId: number;
-      ResponseId: number;
-      ScheduleId: number;
-      createdAt: string;
-      id: number;
-      isCanceled: boolean;
-      updatedAt: string;
-    };
-    Friend: { id: number; nickname: string; Image: object };
-    Gym: { address: string };
-    Requester: { id: number; nickname: string; Image: object };
-    address: string;
-    description: string
-    end: Date;
-    endDate: string;
-    gymName?: string;
-    id: number;
-    isPermitted: boolean;
-    nickname: string;
-    permission: boolean;
-    start: Date;
-    startDate: boolean;
-  }>;
+  events?: CalendarEvents;
   onSelectEvent: (event: { nickname: string; address: string; start: Date }) => void;
   onRangeChange: (range: Date[] | { start: stringOrDate; end: stringOrDate }) => void;
 }) => (

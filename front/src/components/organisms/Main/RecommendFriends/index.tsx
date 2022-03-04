@@ -1,18 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
+import axios, { AxiosError } from 'axios';
+import { useQuery } from 'react-query';
 import Slider from 'react-slick';
 import * as _ from 'lodash';
 
-import { mainSelector } from '@/../reducers/user';
 import { BiCurrentLocation } from 'react-icons/bi';
-import { FriendsWrap, FriendsTitle, FriendsSubTitle, FriendsBody, FriendsCardList, FriendsCard, CardAvatarWrap, CardContentWrap, ContentTitile, ContentDescription, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
-import { Avatar, Button, Icon, NoDataIcon, ReactSliderNextButton, ReactSliderPrevButton } from '../../../atoms';
-import axios, { AxiosError } from 'axios';
-import { useQuery } from 'react-query';
-import { Location } from 'map';
 import { Alert } from '@/components/molecules';
-import { FriendsList } from '@/../@types/user';
+import { Avatar, Button, Icon, NoDataIcon, ReactSliderNextButton, ReactSliderPrevButton } from '../../../atoms';
+import { FriendsWrap, FriendsTitle, FriendsSubTitle, FriendsBody, FriendsCardList, FriendsCard, CardAvatarWrap, CardContentWrap, ContentTitile, ContentDescription, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
+import { FetchRecommendData } from '@/../@types/fetchData';
+import { Location } from 'map';
 
 const settings = {
   dots: true,
@@ -55,9 +53,9 @@ const RecommendFriends = () => {
     status,
     isLoading,
     error,
-    data: friends,
+    data: recommendData,
     isFetching,
-  } = useQuery<FriendsList | undefined, AxiosError>(['recommendFriends', location], async() => {
+  } = useQuery<FetchRecommendData | undefined, AxiosError>(['recommendFriends', location], async() => {
     if (!location) {
       return
     }
@@ -67,7 +65,6 @@ const RecommendFriends = () => {
     );
     return data;
     });
-  const { closedFriends } = useSelector(mainSelector);
 
   const reLoadLocation = useCallback(() => setIsReloadLocation(true), [isReloadLocation]);
   const onChangeLocationYn = useCallback(() => setLocationYn((prev) => !prev), []);
@@ -132,17 +129,17 @@ const RecommendFriends = () => {
   return (
     <FriendsWrap>
       <FriendsTitle>
-        <Icon icon={<BiCurrentLocation />} /> {`${location?.regionSiName || ''} ${location?.regionGuName || ''} ${location?.regionDongName || ''}`}에서 활동하는 친구 {closedFriends?.length}명
+        <Icon icon={<BiCurrentLocation />} /> {`${location?.regionSiName || ''} ${location?.regionGuName || ''} ${location?.regionDongName || ''}`}에서 활동하는 친구 {recommendData?.closedFriends?.length}명
       </FriendsTitle>
       <FriendsSubTitle onClick={reLoadLocation}>
         실제위치와 일치하지 않으신가요?
       </FriendsSubTitle>
       <FriendsBody>
         <FriendsCardList>
-          {!_.isEmpty(friends) && !error
+          {!_.isEmpty(recommendData?.fullFriends) && !error
             ? (
               <Slider {...settings}>
-                {friends?.map((friend: {
+                {recommendData?.fullFriends?.map((friend: {
                   id: number,
                   Image: { src: string } | null,
                   nickname: string,

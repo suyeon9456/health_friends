@@ -1,29 +1,60 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { EditOutlined, UserAddOutlined } from '@ant-design/icons';
 import { format, startOfMonth, endOfMonth, addDays } from 'date-fns';
 import * as _ from 'lodash';
 
 import { useDateFormat } from '../../../../hooks';
 
-import { loadCalendarSchedulesRequest, scheduleSelector } from '@/../reducers/schedule';
 import { userSelector } from '@/../reducers/user';
 import { BigCalendar, SimpleMatchingCard } from '../../../molecules';
 import { CalendarWrap, CardWrap } from './style';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { useQuery } from 'react-query';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { CalendarSchedules } from '@/../@types/fetchData';
+import { CalendarEvents } from 'calendar';
 
 const actions = [{ icon: <UserAddOutlined />, key: 'rematch' }, { icon: <EditOutlined />, key: 'edit' }];
 const MatchingCalendar = () => {
-  const dispatch = useDispatch();
-
-  const { schedules } = useSelector(scheduleSelector);
   const { me } = useSelector(userSelector);
 
-  const [events, setEvents] = useState([]);
+  const [range, setRange] = useState<{ start: Date; end: Date; }>({
+    start: addDays(startOfMonth(new Date(2022, 0)), -7),
+    end: addDays(endOfMonth(new Date(2022, 0)), 7)
+  });
+  
   const [showCard, setShowCard] = useState<boolean>(false);
   const [nickname, setNickname] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [date, setDate] = useState<string>('');
+
+  const { status,
+    isLoading,
+    error,
+    data: events,
+    isFetching } = useQuery<CalendarEvents | undefined, AxiosError>(['calendar', range], async() => {
+      const { start, end } = range;
+      console.log('startd', startOfMonth(new Date(2022, 0)), -7);
+      console.log('endd', endOfMonth(new Date(2022, 0)), 7);
+      const { data }: AxiosResponse<CalendarSchedules> = await axios.get(
+        `/schedules/calendar?start=${useDateFormat(start, 'yyyy-MM-dd')}&end=${useDateFormat(end, 'yyyy-MM-dd')}`
+      );
+
+      return data?.map((schedule) => {
+        const eventNickname = schedule?.Friend?.id === me?.id
+          ? schedule?.Requester?.nickname
+          : schedule?.Friend?.nickname;
+        return {
+          ...schedule,
+          start: new Date(schedule.startDate),
+          end: new Date(schedule.endDate),
+          address: schedule.Gym.address,
+          gymName: schedule.Gym.name,
+          nickname: eventNickname
+        };
+      });
+    }, { initialData: [] });
 
   const onSelectEvent: (event: { nickname: string; address: string; start: Date }) => void = useCallback((event) => {
     setNickname(event.nickname);
@@ -38,38 +69,9 @@ const MatchingCalendar = () => {
 
   const onRangeChange = useCallback((range) => {
     if (range) {
-      const { start, end } = range;
-      dispatch(loadCalendarSchedulesRequest({
-        start: useDateFormat(start, 'yyyy-MM-dd'),
-        end: useDateFormat(end, 'yyyy-MM-dd'),
-      }));
+      setRange(range);
     }
   }, []);
-
-  useEffect(() => {
-    Promise.all([addDays(startOfMonth(new Date(2022, 0)), -7),
-      addDays(endOfMonth(new Date(2022, 0)), 7)]).then((values) => {
-      const [start, end] = values;
-      dispatch(loadCalendarSchedulesRequest({
-        start: useDateFormat(start, 'yyyy-MM-dd'),
-        end: useDateFormat(end, 'yyyy-MM-dd')
-      }));
-    });
-  }, []);
-
-  useEffect(() => {
-    if (!_.isEmpty(schedules)) {
-      setEvents(schedules.map((schedule: {
-        Friend: { id: number, nickname: string },
-        Requester: { nickname: string },
-      }) => {
-        const eventNickname = schedule?.Friend?.id === me?.id
-          ? schedule?.Requester?.nickname
-          : schedule?.Friend?.nickname;
-        return { ...schedule, nickname: eventNickname };
-      }));
-    }
-  }, [schedules]);
 
   return (
     <CalendarWrap>

@@ -62,8 +62,9 @@ router.get('/recommendFriends', async (req, res, next) => { // GET /users/recomm
         }],
       });
     }
+    const fullFriends = recommendFriends.concat(additionalFriends);
     
-    res.status(200).json({ recommendFriends, additionalFriends });
+    res.status(200).json({ fullFriends, closedFriends: recommendFriends });
   } catch (error) {
     console.error(error);
     next(error);

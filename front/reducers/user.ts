@@ -16,21 +16,9 @@ const initialState: UserInitialState = {
   signupLoading: false,
   signupDone: false,
   signupError: null,
-  loadRecommendFriendsLoading: false,
-  loadRecommendFriendsDone: false,
-  loadRecommendFriendsError: null,
-  loadRankedFriendsLoading: false,
-  loadRankedFriendsDone: false,
-  loadRankedFriendsError: null,
-  loadRealtimeMatchingLoading: false,
-  loadRealtimeMatchingDone: false,
-  loadRealtimeMatchingError: null,
   addLikeLoading: false,
   addLikeDone: false,
   addLikeError: null,
-  loadLikeLoading: false,
-  loadLikeDone: false,
-  loadLikeError: null,
   signupSteps: [
     { id: 1, type: 'process', step: 1, title: 'STEP1', description: '회원 정보' },
     { id: 2, type: 'wait', step: 2, title: 'STEP2', description: '추가 정보' },
@@ -73,12 +61,6 @@ const initialState: UserInitialState = {
   signupStepFriendsInfo: null,
   selectedGym: null,
   me: null,
-  recommendedFriends: [],
-  closedFriends: [],
-  additionalFriends: [],
-  rankedFriends: null,
-  realtimeMatching: null,
-  likedFriends: null,
 };
 
 const userSlice = createSlice({
@@ -174,90 +156,6 @@ const userSlice = createSlice({
       state.signupDone = false;
       state.signupError = action.payload;
     },
-    loadRecommendFriendsRequest(state, action) {
-      state.loadRecommendFriendsLoading = true;
-      state.loadRecommendFriendsDone = false;
-      state.loadRecommendFriendsError = null;
-    },
-    loadRecommendFriendsSuccess(state, action) {
-      const rFriends = action.payload.recommendFriends.concat(action.payload.additionalFriends);
-      let recommendedFriends = null;
-      state.loadRecommendFriendsLoading = false;
-      state.loadRecommendFriendsDone = true;
-      state.closedFriends = action.payload.recommendFriends;
-      state.additionalFriends = action.payload.additionalFriends;
-      if (rFriends.length < 4) {
-        recommendedFriends = rFriends
-          .concat(Array.from({ length: (4 - rFriends.length) }, () => 0).map((_f, i) => {
-            const key = `null${_f}${i}`;
-            return (
-              {
-                id: key,
-                nickname: '추천친구 없음',
-                Image: null,
-                Gyms: [{
-                  address: '추천친구 없음',
-                }],
-              }
-            );
-          }));
-      }
-      state.recommendedFriends = rFriends.length < 4 ? recommendedFriends : rFriends;
-    },
-    loadRecommendFriendsError(state, action) {
-      state.loadRecommendFriendsLoading = false;
-      state.loadRecommendFriendsDone = false;
-      state.loadRecommendFriendsError = action.payload;
-    },
-    loadRankedFriendsRequest(state) {
-      state.loadRankedFriendsLoading = true;
-      state.loadRankedFriendsDone = false;
-      state.loadRankedFriendsError = null;
-    },
-    loadRankedFriendsSuccess(state, action) {
-      const idGroup = _.groupBy(action.payload?.matching, 'id');
-      const matching: Array<{
-        count: number;
-        id: number;
-        nickname: string;
-        reqSchedule: Array<{ id: number }>;
-      }> = [];
-      _.forIn(idGroup, (value) => {
-        if (value.length > 1) {
-          const req = { ...value[0],
-            count: value[0].reqSchedule.length + value[1].resSchedule.length };
-          return matching.push(req);
-        }
-        return matching.push({ ...value[0],
-          count: value[0].reqSchedule?.length || 0 + value[0].resSchedule?.length || 0 });
-      });
-      state.loadRankedFriendsLoading = false;
-      state.loadRankedFriendsDone = true;
-      state.rankedFriends = {
-        rematching: action.payload?.rematching,
-        matching: _.orderBy(matching, ['count'], ['desc']),
-      };
-    },
-    loadRankedFriendsError(state, action) {
-      state.loadRankedFriendsLoading = false;
-      state.loadRankedFriendsDone = false;
-      state.loadRankedFriendsError = action.payload;
-    },
-    loadRealtimeMatchingRequest(state) {
-      state.loadRealtimeMatchingLoading = true;
-      state.loadRealtimeMatchingDone = false;
-      state.loadRealtimeMatchingError = null;
-    },
-    loadRealtimeMatchingSuccess(state, action) {
-      state.loadRealtimeMatchingLoading = false;
-      state.loadRealtimeMatchingDone = true;
-      state.realtimeMatching = action.payload;
-    },
-    loadRealtimeMatchingError(state, action) {
-      state.loadRealtimeMatchingLoading = false;
-      state.loadRealtimeMatchingDone = false;
-      state.loadRealtimeMatchingError = action.payload;
-    },
     addLikeRequest(state, action) {
       state.addLikeLoading = true;
       state.addLikeDone = false;
@@ -273,21 +171,6 @@ const userSlice = createSlice({
       state.addLikeDone = false;
       state.addLikeError = action.payload;
     },
-    loadLikeRequest(state) {
-      state.loadLikeLoading = true;
-      state.loadLikeDone = false;
-      state.loadLikeError = null;
-    },
-    loadLikeSuccess(state, action) {
-      state.loadLikeLoading = false;
-      state.loadLikeDone = true;
-      state.loadLikeError = null;
-    },
-    loadLikeError(state, action) {
-      state.loadLikeLoading = false;
-      state.loadLikeDone = false;
-      state.loadLikeError = action.payload;
-    },
     changeNickname(state, action) {
       state.me!.nickname = action.payload;
     },
@@ -301,28 +184,7 @@ export const loginSelector = createDraftSafeSelector(
 
 export const userSelector = createDraftSafeSelector(
   (state: RootState) => state.user.me,
-  (state: RootState) => state.user.likedFriends,
-  (me, likedFriends) => ({ me, likedFriends }),
-);
-export const mainSelector = createDraftSafeSelector(
-  (state: RootState) => state.user.recommendedFriends,
-  (state: RootState) => state.user.closedFriends,
-  (state: RootState) => state.user.additionalFriends,
-  (state: RootState) => state.user.rankedFriends,
-  (state: RootState) => state.user.realtimeMatching,
-  (
-    recommendedFriends,
-    closedFriends,
-    additionalFriends,
-    rankedFriends,
-    realtimeMatching,
-  ) => ({
-    recommendedFriends,
-    closedFriends,
-    additionalFriends,
-    rankedFriends,
-    realtimeMatching,
-  }),
+  (me) => ({ me }),
 );
 
 export const optionsSelector = createDraftSafeSelector(
@@ -397,21 +259,9 @@ export const {
   signupRequest,
   signupSuccess,
   signupError,
-  loadRecommendFriendsRequest,
-  loadRecommendFriendsSuccess,
-  loadRecommendFriendsError,
-  loadRankedFriendsRequest,
-  loadRankedFriendsSuccess,
-  loadRankedFriendsError,
-  loadRealtimeMatchingRequest,
-  loadRealtimeMatchingSuccess,
-  loadRealtimeMatchingError,
   addLikeRequest,
   addLikeSuccess,
   addLikeError,
-  loadLikeRequest,
-  loadLikeSuccess,
-  loadLikeError,
   changeNickname,
 } = userSlice.actions
 export default userSlice.reducer;

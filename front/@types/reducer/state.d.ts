@@ -55,21 +55,9 @@ export type UserInitialState = {
   signupLoading: boolean;
   signupDone: boolean;
   signupError: string | null;
-  loadRecommendFriendsLoading: boolean;
-  loadRecommendFriendsDone: boolean;
-  loadRecommendFriendsError: string | null;
-  loadRankedFriendsLoading: boolean;
-  loadRankedFriendsDone: boolean;
-  loadRankedFriendsError: string | null;
-  loadRealtimeMatchingLoading: boolean;
-  loadRealtimeMatchingDone: boolean;
-  loadRealtimeMatchingError: string | null;
   addLikeLoading: boolean;
   addLikeDone: boolean;
   addLikeError: string | null;
-  loadLikeLoading: boolean;
-  loadLikeDone: boolean;
-  loadLikeError: string | null;
   signupSteps: SignupSteps;
   ageOptions: AgeOptions;
   careerOptions: CareerOptions;
@@ -83,12 +71,6 @@ export type UserInitialState = {
   signupStepFriendsInfo: SignupFriendsInfo| null;
   selectedGym: {} | null;
   me: Me | null;
-  recommendedFriends: [];
-  closedFriends: [];
-  additionalFriends: [];
-  rankedFriends: {} | null;
-  realtimeMatching: Array<RealtimeMatching> | null;
-  likedFriends: Array<User> | null;
 };
 
 /* PROFILE INITIAL STATE */

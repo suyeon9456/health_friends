@@ -12,7 +12,7 @@ export const LikedListWrap = styled.div`
   margin-top: 10px;
   box-sizing: border-box;
   overflow: hidden;
-  ${({ dataSize }: { dataSize: number }) => dataSize <= 0 && css`
+  ${({ dataSize = 0 }: { dataSize?: number }) => dataSize <= 0 && css`
     display: flex;
     justify-content: center;
     background-color: #ffffff;

@@ -55,12 +55,6 @@ export interface RankedFriends extends User {
   resSchedule?: Array<number>;
 }
 
-export interface RealtimeMatching extends User {
-  reqSchedule?: Array<{ id: number; UserId: number }>;
-  Gyms?: Array<{ id: number; name: string }>;
-  Friend?: Array<{ id: number; nickname: string; Image: Array<Image> }>;
-}
-
 export interface SignupInfo {
   email: string;
   password: string;
@@ -95,4 +89,6 @@ export interface SignupData {
   signupGymInfo: SignupGymInfo;
   signupFriendsInfo: SignupFriendsInfo;
 }
+
+export type FriendsList = Array<Friends>;
 

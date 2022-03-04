@@ -1,32 +1,39 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { useQuery } from 'react-query';
 import * as _ from 'lodash';
 
-import { loadRankedFriendsRequest, mainSelector } from '@/../reducers/user';
+import { Matching } from '@/../@types/schedule';
+import { FetchRankedFriends, Rematching } from '@/../@types/fetchData';
+import { NoDataIcon } from '@/components/atoms';
 import { RankItem, RankTitle, RankCard, RankCardList, RankCardWrap, RankedFriendsBody, RankedFriendsHeader, RankedFriendsWrap, RankItemWrap, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
-import NoDataIcon from '../../../atoms/NoDataIcon';
-
-interface Matching {
-  count: number,
-  id: number
-  nickname: string,
-  reqSchedule: Array<{ id: number }>,
-}
-
-interface ReMatching {
-  count: number,
-  id: number
-  nickname: string,
-  reqSchedule: Array<{ id: number }>,
-}
 
 const RankedFriends = () => {
-  const dispatch = useDispatch();
-  const { rankedFriends } = useSelector(mainSelector);
-  useEffect(() => {
-    dispatch(loadRankedFriendsRequest());
-  }, []);
+  const {
+    status,
+    isLoading,
+    error,
+    data: rankedFriends,
+    isFetching,
+  } = useQuery<{ rematching: Array<Rematching>, matching: Array<Matching> } | undefined, AxiosError>('rankedFriends', async() => {
+    const { data }: AxiosResponse<FetchRankedFriends> = await axios.get('/users/rankedFriends');
+    const idGroup = _.groupBy(data.matching, 'id');
+      const matching: Array<Matching> = [];
+      _.forIn(idGroup, (value) => {
+        if (value.length > 1) {
+          const req = { ...value[0],
+            count: value[0].reqSchedule.length + value[1].resSchedule.length };
+          return matching.push(req);
+        }
+        return matching.push({ ...value[0],
+          count: value[0].reqSchedule?.length || 0 + value[0].resSchedule?.length || 0 });
+      });
+    return  {
+      rematching: data.rematching,
+      matching: _.orderBy(matching, ['count'], ['desc']),
+    };
+  }, { cacheTime: 2 * 60 * 1000 });
 
   return (
     <RankedFriendsWrap>
@@ -40,8 +47,8 @@ const RankedFriends = () => {
               재매칭 순위 TOP 5
             </RankTitle>
             <RankCard>
-              {!_.isEmpty(rankedFriends?.rematching)
-                ? rankedFriends?.rematching?.map((friend: Matching, index: number) => {
+              {!_.isEmpty(rankedFriends?.rematching) && !error
+                ? rankedFriends?.rematching?.map((friend, index: number) => {
                   const friendId = friend.id;
                   const profileUrl = ['/profile/', friendId].join('');
                   return (
@@ -78,8 +85,8 @@ const RankedFriends = () => {
               매칭 순위 TOP 5
             </RankTitle>
             <RankCard>
-              {!_.isEmpty(rankedFriends?.matching)
-                ? rankedFriends?.matching?.map((friend: ReMatching, index: number) => {
+              {!_.isEmpty(rankedFriends?.matching) && !error
+                ? rankedFriends?.matching?.map((friend: Matching, index: number) => {
                   const friendId = friend.id;
                   const profileUrl = ['/profile/', friendId].join('');
                   return (

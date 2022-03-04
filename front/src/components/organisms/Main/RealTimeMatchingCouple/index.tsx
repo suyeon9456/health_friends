@@ -1,26 +1,24 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import axios, { AxiosError } from 'axios';
+import { useQuery } from 'react-query';
 import * as _ from 'lodash';
 
-import { loadRealtimeMatchingRequest, mainSelector } from '@/../reducers/user';
 import { BiGroup, BiMap } from 'react-icons/bi';
 import { Avatar, Icon, NoDataIcon } from '../../../atoms';
 import { AvatarWrap, CoupleCard, MatchingIcon, CoupleCardList, CoupleHeaderTitle, MatchingCoupleBody, MatchingCoupleHeader, MatchingCoupleWrap, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
-
-interface Mathcing {
-  id: number,
-  nickname: string,
-  Image: { src: string },
-  reqSchedule: Array<{ Friend: any, Gym: any }>,
-}
+import { RealtimeMatching } from '@/../@types/fetchData';
 
 const RealTimeMatchingCouple = () => {
-  const dispatch = useDispatch();
-  const { realtimeMatching } = useSelector(mainSelector);
-
-  useEffect(() => {
-    dispatch(loadRealtimeMatchingRequest());
-  }, []);
+  const {
+    status,
+    isLoading,
+    error,
+    data: realtimeMatching,
+    isFetching,
+  } = useQuery<Array<RealtimeMatching> | undefined, AxiosError>('realtimeMatching', async() => {
+    const { data } = await axios.get('/users/realtimeMathcing');
+    return data;
+  }, { cacheTime: 2 * 60 * 1000 });
   return (
     <MatchingCoupleWrap>
       <MatchingCoupleHeader>
@@ -30,8 +28,8 @@ const RealTimeMatchingCouple = () => {
       </MatchingCoupleHeader>
       <MatchingCoupleBody>
         <CoupleCardList>
-          {!_.isEmpty(realtimeMatching)
-            ? (realtimeMatching?.map((matching: Mathcing) => {
+          {!_.isEmpty(realtimeMatching) && !error
+            ? (realtimeMatching?.map((matching) => {
               const reqImageSrc = matching?.Image?.src;
               const reqAvatarSrc = reqImageSrc || '';
               const resImageSrc = matching?.reqSchedule[0]?.Friend?.Image?.src;
