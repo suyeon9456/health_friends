@@ -46,28 +46,45 @@ export interface RealtimeMatching extends User {
   Friend?: Array<{ id: number; nickname: string; Image: Array<Image> }>;
 }
 
-export interface CalendarSchedule {
-  Cancel?: {
-    RequestId: number;
-    ResponseId: number;
-    ScheduleId: number;
-    createdAt: string;
-    id: number;
-    isCanceled: boolean;
-    updatedAt: string;
-  };
-  Friend: { id: number; nickname: string; Image: object };
-  Gym: { address: string; name: string };
-  Requester: { id: number; nickname: string; Image: object };
-  address: string;
-  description: string;
-  endDate: string;
-  gymName?: string;
-  id: number;
-  isPermitted: boolean;
-  nickname: string;
-  permission: boolean;
-  startDate: string;
+// export interface RecordSchedule {
+//   id: number;
+//   description: string;
+//   endDate: string;
+//   isPermitted: boolean;
+//   permission: boolean;
+//   startDate: string;
+//   Cancel?: {
+//     RequestId: number;
+//     ResponseId: number;
+//     ScheduleId: number;
+//     createdAt: string;
+//     id: number;
+//     isCanceled: boolean;
+//     updatedAt: string;
+//   };
+//   Receiver: { id: number; nickname: string; Image: object };
+//   Gym: { id: number; address: string; name: string };
+//   Requester: { id: number; nickname: string; Image: object };
+// };
+
+// export type RecordSchedules = {
+//   count: number;
+//   schedules: Array<RecordSchedule>;
+// };
+
+export type ScheduleType = {
+  schedule: RecordSchedule;
+  userMatching: Array<{
+    FriendId: number;
+    matchingCount: number;
+    rematchingCount: number;
+  }>;
+  friendMatching: Array<{
+    FriendId: number;
+    matchingCount: number;
+    rematchingCount: number;
+  }>;
 }
 
-export type CalendarSchedules = Array<CalendarSchedule>;
+// export type MatchingCardSchedule
+

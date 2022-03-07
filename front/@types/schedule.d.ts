@@ -22,7 +22,7 @@ export interface Schedule extends ScheduleModel {
     Image: Image;
     Liker: User;
   };
-  Friend?: {
+  Receiver?: {
     id: string;
     nickname: string;
     Image: Image;
@@ -55,3 +55,89 @@ export interface MatchingCount {
 export type Schedules = Array<Schedule>;
 
 export type MatchingCounts = Array<MatchingCount>;
+
+export interface RecordScheduleFetch {
+  id: number;
+  description: string;
+  endDate: string;
+  isPermitted: boolean;
+  permission: boolean;
+  startDate: string;
+  Cancel?: {
+    RequestId: number;
+    ResponseId: number;
+    ScheduleId: number;
+    createdAt: string;
+    id: number;
+    isCanceled: boolean;
+    updatedAt: string;
+  };
+  Receiver: { id: number; nickname: string; Image: object };
+  Gym: { id: number; address: string; name: string };
+  Requester: { id: number; nickname: string; Image: object };
+};
+
+export interface RecordSchedule {
+  id: number;
+  isPermitted: boolean;
+  description: string;
+  endDate: string;
+  isPermitted: boolean;
+  permission: boolean;
+  startDate: string;
+  start: Date;
+  end: Date;
+  Cancel?: {
+    RequestId: number;
+    ResponseId: number;
+    ScheduleId: number;
+    createdAt: string;
+    id: number;
+    isCanceled: boolean;
+    updatedAt: string;
+  };
+  Receiver: { id: number; nickname: string; Image: Image };
+  Gym: { id: number; address: string; name: string };
+  Requester: { id: number; nickname: string; Image: Image };
+}
+
+export interface CalendarScheduleFetch {
+  Cancel?: {
+    RequestId: number;
+    ResponseId: number;
+    ScheduleId: number;
+    createdAt: string;
+    id: number;
+    isCanceled: boolean;
+    updatedAt: string;
+  };
+  Receiver: { id: number; nickname: string; Image: object };
+  Gym: { address: string; name: string };
+  Requester: { id: number; nickname: string; Image: object };
+  address: string;
+  description: string;
+  endDate: string;
+  gymName?: string;
+  id: number;
+  isPermitted: boolean;
+  nickname: string;
+  permission: boolean;
+  startDate: string;
+}
+
+export interface MatchingCardProps extends RecordScheduleFetch {
+  start: Date;
+  end: Date;
+  userMathcing: number[];
+  friendMathcing: number[];
+  userTotalCount: number;
+  userReCount: number;
+  friendTotalCount: number;
+  friendReCount: number;
+  Friend: {
+    id: number;
+    nickname: string;
+    Image: Image;
+  }
+  lastYn?: number;
+}

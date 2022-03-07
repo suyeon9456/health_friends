@@ -129,15 +129,6 @@ export type ScheduleInitialState = {
   addReScheduleLoading: boolean;
   addReScheduleDone: boolean;
   addReScheduleError: string | null;
-  loadSchedulesLoading: boolean;
-  loadSchedulesDone: boolean;
-  loadSchedulesError: string | null;
-  loadCalendarSchedulesLoading: boolean;
-  loadCalendarSchedulesDone: boolean;
-  loadCalendarSchedulesError: string | null;
-  loadScheduleLoading: boolean;
-  loadScheduleDone: boolean;
-  loadScheduleError: string | null;
   updateScheduleLoading: boolean;
   updateScheduleDone: boolean;
   updateScheduleError: string | null;
@@ -153,8 +144,6 @@ export type ScheduleInitialState = {
   addPermissionLoading: boolean;
   addPermissionDone: boolean;
   addPermissionError: string | null;
-  schedules: Schedules | [];
-  schedulesCount: number;
   schedule: Schedule | null;
 }
 

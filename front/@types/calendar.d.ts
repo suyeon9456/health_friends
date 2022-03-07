@@ -9,7 +9,7 @@ declare module 'calendar' {
       isCanceled: boolean;
       updatedAt: string;
     };
-    Friend: { id: number; nickname: string; Image: object };
+    Receiver: { id: number; nickname: string; Image: object };
     Gym: { address: string; name: string };
     Requester: { id: number; nickname: string; Image: object };
     address: string;

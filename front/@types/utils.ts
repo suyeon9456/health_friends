@@ -132,3 +132,12 @@ export const ADD_CANCELLATION_ERROR = 'ADD_CANCELLATION_ERROR' as const;
 export const UPDATE_CANCELLATION_REQUEST = 'UPDATE_CANCELLATION_REQUEST' as const;
 export const UPDATE_CANCELLATION_SUCCESS = 'UPDATE_CANCELLATION_SUCCESS' as const;
 export const UPDATE_CANCELLATION_ERROR = 'UPDATE_CANCELLATION_ERROR' as const;
+
+export const ModalType = {
+  VIEW: 'VIEW',
+  EDIT: 'EDIT',
+  REMATCH: 'REMATCH',
+  FIX: 'FIX',
+} as const;
+
+export type ShowModalType = typeof ModalType[keyof typeof ModalType];
