@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { useDateFormat } from '../../../hooks';
-import { addScheduleRequest, scheduleSelector } from '@/../reducers/schedule';
+import { addScheduleRequest } from '@/../reducers/schedule';
 import { gymSelector } from '@/../reducers/gym';
 import { userSelector } from '@/../reducers/user';
 import { Modal } from '../../molecules';
@@ -31,7 +31,6 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }: {
   const dispatch = useDispatch();
   const { me } = useSelector(userSelector);
   const { gym } = useSelector(gymSelector);
-  const { addScheduleDone } = useSelector(scheduleSelector);
 
   const { handleSubmit, control, setValue } = useForm({
     defaultValues: {
@@ -66,12 +65,6 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }: {
       setValue('gym', `${gym?.address}${gym?.name}`);
     }
   }, [gym]);
-
-  useEffect(() => {
-    if (addScheduleDone) {
-      setShowModal(false);
-    }
-  }, [addScheduleDone]);
 
   return (
     <Modal

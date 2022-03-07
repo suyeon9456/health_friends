@@ -1,29 +1,28 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { compareAsc } from 'date-fns';
 
-import { addCancellationRequest, scheduleSelector, updateCancellationRequest, updatePermissionRequest } from '@/../reducers/schedule';
+import { addCancellationRequest, updateCancellationRequest, updatePermissionRequest } from '@/../reducers/schedule';
 import { userSelector } from '@/../reducers/user';
 import { useDateFormat } from '../../../../hooks';
 import { Modal } from '../../../molecules';
 import { Avatar } from '../../../atoms';
 import { Content, DescriptionWrap, InfoContent } from '../../MatchingRequestForm/style';
 import { MatchingInfoWrap, RequestFriendWrap, UserInfoWrap } from './style';
+import { MatchingCardProps } from '@/../@types/schedule';
 
-const ModalMatchingDetail = ({ show, onCancel }: {
+const ModalMatchingDetail = ({ schedule, show, onCancel }: {
+  schedule?: MatchingCardProps;
   show: boolean;
   onCancel: () => void;
 }) => {
   const dispatch = useDispatch();
-  const { schedule } = useSelector(scheduleSelector);
   const { me } = useSelector(userSelector);
 
-  const [fNickname, setFNickname] = useState<string>('');
-  const [fId, setFId] = useState<number>(-1);
-
-  const [formatDate, setFormatDate] = useState<string>('');
-
   const onAccept = useCallback(() => {
+    if (!schedule) {
+      return
+    }
     const { id,
       isPermitted,
       userMathcing, userTotalCount, userReCount,
@@ -31,7 +30,7 @@ const ModalMatchingDetail = ({ show, onCancel }: {
 
     if (!isPermitted) {
       Promise.all([
-        userMathcing.includes(fId),
+        userMathcing.includes(schedule?.Friend?.id),
         friendMathcing.includes(me?.id),
       ]).then((values) => {
         const [userRematchYn, friendRematchYn] = values;
@@ -45,35 +44,38 @@ const ModalMatchingDetail = ({ show, onCancel }: {
         dispatch(updatePermissionRequest({
           scheduleId: id,
           permission: true,
-          friendId: fId,
+          friendId: schedule.Friend.id,
           userRematchRate,
           friendRematchRate,
         }));
         onCancel();
       });
     }
-  }, [schedule, fId]);
+  }, [schedule]);
 
   const onRefuse = useCallback(() => {
     dispatch(updatePermissionRequest({
-      scheduleId: schedule.id,
+      scheduleId: schedule?.id,
       permission: false,
     }));
     onCancel();
   }, [schedule]);
 
   const onCancelRequest = useCallback(() => {
-    dispatch(addCancellationRequest({ id: schedule.id }));
+    dispatch(addCancellationRequest({ id: schedule?.id }));
     onCancel();
   }, [schedule]);
 
   const onCancelResponse = useCallback(() => {
+    if (!schedule) {
+      return
+    }
     const { id,
       userMathcing, userTotalCount, userReCount,
       friendMathcing, friendTotalCount, friendReCount, Cancel } = schedule;
 
     Promise.all([
-      userMathcing.includes(fId),
+      userMathcing.includes(schedule.Friend.id),
       friendMathcing.includes(me?.id),
     ]).then((values) => {
       const [userRematchYn, friendRematchYn] = values;
@@ -86,7 +88,7 @@ const ModalMatchingDetail = ({ show, onCancel }: {
       const [userRematchRate, friendRematchRate] = values;
       dispatch(updateCancellationRequest({
         id,
-        friendId: fId,
+        friendId: schedule.Friend.id,
         cancelId: Cancel?.id,
         userRematchRate,
         friendRematchRate,
@@ -95,35 +97,16 @@ const ModalMatchingDetail = ({ show, onCancel }: {
     });
   }, [schedule]);
 
-  useEffect(() => {
-    if (schedule) {
-      const { Friend: { id: friendId }, Requester } = schedule;
-      const start = useDateFormat(schedule.start, 'yyyy년 MM월 dd일 HH:mm');
-      const end = useDateFormat(schedule.end, 'HH:mm');
-      const matchingDate = [start, ' ~ ', end].join('');
-      setFormatDate(matchingDate);
-      if (friendId === me?.id) {
-        setFNickname(Requester?.nickname);
-        setFId(Requester?.id);
-      }
-
-      if (friendId !== me?.id) {
-        setFNickname(schedule.Friend?.nickname);
-        setFId(friendId);
-      }
-    }
-  }, [schedule]);
-
   if (schedule?.isPermitted
-    && compareAsc(new Date(schedule?.start), new Date()) > -1
+    && compareAsc(schedule?.start, new Date()) > -1
     && schedule?.permission) {
     return (
       <Modal
         show={show}
-        title={`${fNickname}님과의 매칭정보`}
+        title={`${schedule?.Friend?.nickname}님과의 매칭정보`}
         onCancel={onCancel}
         onSubmit={onCancel}
-        footer={(compareAsc(new Date(schedule?.start), new Date()) > -1)
+        footer={(compareAsc(schedule?.start, new Date()) > -1)
           && (schedule?.Cancel?.RequestId !== me?.id) && !schedule?.Cancel}
         actions={!schedule?.Cancel?.id
           ? [{ id: 'cancel', title: '취소요청', type: 'error', onClick: onCancelRequest }]
@@ -137,19 +120,18 @@ const ModalMatchingDetail = ({ show, onCancel }: {
               <Content>
                 <Avatar
                   size={62}
-                  src={schedule?.Friend?.id === me?.id
-                    ? schedule?.Requester?.Image?.src : schedule?.Friend?.Image?.src}
+                  src={schedule?.Friend?.Image?.src}
                 />
               </Content>
               <div className="nickname">
-                <div className="nickname">{fNickname}</div>
+                <div className="nickname">{schedule.Friend?.nickname}</div>
               </div>
             </InfoContent>
           </UserInfoWrap>
           <MatchingInfoWrap>
             <h4>매칭정보</h4>
-            <div>{formatDate}</div>
-            <div>{schedule?.address} {schedule?.gymName}</div>
+            <div>{useDateFormat(schedule?.start || new Date(), 'yyyy년 MM월 dd일 HH:mm')} ~ {useDateFormat(schedule?.end || new Date(), 'HH:mm')}</div>
+            <div>{schedule?.Gym?.address} {schedule?.Gym?.name}</div>
           </MatchingInfoWrap>
           <DescriptionWrap>
             <h4>요청 또는 전하고 싶은 말</h4>
@@ -163,11 +145,11 @@ const ModalMatchingDetail = ({ show, onCancel }: {
   return (
     <Modal
       show={show}
-      title={`${fNickname}님과의 매칭정보`}
+      title={`${schedule?.Friend?.nickname}님과의 매칭정보`}
       onCancel={onCancel}
       footer={!schedule?.isPermitted
-        || (compareAsc(new Date(schedule?.start), new Date()) > -1)}
-      actions={!schedule?.isPermitted && schedule?.lastYn > -1
+        || (compareAsc(schedule?.start, new Date()) > -1)}
+      actions={!schedule?.isPermitted && !!schedule?.lastYn && schedule?.lastYn > -1
         ? [{ id: 'refuse', title: '거절', onClick: onRefuse },
           { id: 'accept', title: '수락', type: 'signature', onClick: onAccept }]
         : []}
@@ -178,19 +160,18 @@ const ModalMatchingDetail = ({ show, onCancel }: {
             <Content>
               <Avatar
                 size={62}
-                src={schedule?.Friend?.id === me?.id
-                  ? schedule?.Requester?.Image?.src : schedule?.Friend?.Image?.src}
+                src={schedule?.Friend?.Image?.src}
               />
             </Content>
             <div className="nickname">
-              <div className="nickname">{fNickname}</div>
+              <div className="nickname">{schedule?.Friend?.nickname}</div>
             </div>
           </InfoContent>
         </UserInfoWrap>
         <MatchingInfoWrap>
           <h4>매칭정보</h4>
-          <div>{formatDate}</div>
-          <div>{schedule?.address} {schedule?.gymName}</div>
+          <div>{useDateFormat(schedule?.start || new Date(), 'yyyy년 MM월 dd일 HH:mm')} ~ {useDateFormat(schedule?.end || new Date(), 'HH:mm')}</div>
+          <div>{schedule?.Gym?.address} {schedule?.Gym?.name}</div>
         </MatchingInfoWrap>
         <DescriptionWrap>
           <h4>요청 또는 전하고 싶은 말</h4>

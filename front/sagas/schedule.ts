@@ -3,8 +3,8 @@ import axios, { AxiosResponse } from 'axios';
 import { PayloadAction } from '@reduxjs/toolkit';
 import * as _ from 'lodash';
 
-import { Schedule, ScheduleModel, Schedules } from '../@types/schedule';
-import { LoadSchedulesProps, UpdateCancellationProps } from '../@types/action';
+import { Schedule, ScheduleModel } from '../@types/schedule';
+import { UpdateCancellationProps } from '../@types/action';
 import {
   addScheduleRequest,
   addScheduleSuccess,
@@ -12,15 +12,6 @@ import {
   addReScheduleRequest,
   addReScheduleSuccess,
   addReScheduleError,
-  loadSchedulesRequest,
-  loadSchedulesSuccess,
-  loadSchedulesError,
-  loadCalendarSchedulesRequest,
-  loadCalendarSchedulesSuccess,
-  loadCalendarSchedulesError,
-  loadScheduleRequest,
-  loadScheduleSuccess,
-  loadScheduleError,
   updateScheduleRequest,
   updateScheduleSuccess,
   updateScheduleError,
@@ -58,51 +49,6 @@ function* addReSchedule(action: PayloadAction<Schedule>) {
     yield put(addReScheduleSuccess());
   } catch (error: any) {
     yield put(addReScheduleError(error.response.data));
-  }
-}
-
-function loadSchedulesAPI(data?: LoadSchedulesProps): Promise<AxiosResponse<{ schedules: Schedules; count: number }>> {
-  if (data?.profileMenu === 'calendar') {
-    return axios.get(`/schedules?profileMenu=${data?.profileMenu}`);
-  }
-  const statusquery = _.isEmpty(data?.status) && `&${data?.status.map((m) => `${m}=true`).join('&')}`;
-  const termquery = _.isEmpty(data?.term) && `&${data?.term.map((m) => `${m}=true`).join('&')}`;
-  const typequery = _.isEmpty(data?.type) && `&${data?.type.map((m) => `${m}=true`).join('&')}`;
-  return axios.get(`/schedules?profileMenu=${data?.profileMenu}&limit=${data?.limit}&rejectedMatching=${data?.rejectedMatching}${termquery}${typequery}${statusquery}`);
-}
-
-function* loadSchedules(action: PayloadAction<LoadSchedulesProps>) {
-  try {
-    const result: AxiosResponse<{ schedules: Schedules; count: number }> = yield call(loadSchedulesAPI, action.payload);
-    yield put(loadSchedulesSuccess(result.data));
-  } catch (error: any) {
-    yield put(loadSchedulesError(error.response.data));
-  }
-}
-
-function loadCalendarSchedulesAPI(data?: { start: string; end: string }): Promise<AxiosResponse<Schedules>> {
-  return axios.get(`/schedules/calendar?start=${data?.start}&end=${data?.end}`);
-}
-
-function* loadCalendarSchedules(action: PayloadAction<{ start: string; end: string }>) {
-  try {
-    const result: AxiosResponse<Schedules> = yield call(loadCalendarSchedulesAPI, action.payload);
-    yield put(loadCalendarSchedulesSuccess(result.data));
-  } catch (error: any) {
-    yield put(loadCalendarSchedulesError(error.response.data));
-  }
-}
-
-function loadScheduleAPI(data?: number): Promise<AxiosResponse<Schedule>> {
-  return axios.get(`/schedule/${data}`);
-}
-
-function* loadSchedule(action: PayloadAction<number>) {
-  try {
-    const result: AxiosResponse<Schedule> = yield call(loadScheduleAPI, action.payload);
-    yield put(loadScheduleSuccess(result.data));
-  } catch (error: any) {
-    yield put(loadScheduleError(error.response.data));
   }
 }
 
@@ -166,18 +112,6 @@ function* watchAddReSchedule() {
   yield takeLatest(addReScheduleRequest, addReSchedule);
 }
 
-function* watchLoadSchedules() {
-  yield takeLatest(loadSchedulesRequest, loadSchedules);
-}
-
-function* watchLoadCalendarSchedules() {
-  yield takeLatest(loadCalendarSchedulesRequest, loadCalendarSchedules);
-}
-
-function* watchLoadSchedule() {
-  yield takeLatest(loadScheduleRequest, loadSchedule);
-}
-
 function* watchUpdateSchedule() {
   yield takeLatest(updateScheduleRequest, updateSchedule);
 }
@@ -198,9 +132,6 @@ export default function* userSaga(): Generator<ForkEffect<void> | AllEffect<any>
   yield all([
     yield fork(watchAddSchedule),
     yield fork(watchAddReSchedule),
-    yield fork(watchLoadSchedules),
-    yield fork(watchLoadCalendarSchedules),
-    yield fork(watchLoadSchedule),
     yield fork(watchUpdateSchedule),
     yield fork(watchUpdatePermission),
     yield fork(watchAddCancellation),

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Control, FieldErrors, FieldValues } from 'react-hook-form';
+import { Control, FieldErrors } from 'react-hook-form';
 
 import { userSelector } from '@/../reducers/user';
 import { MatchingInfoWrap, InfoContent, RequestFriendWrap, UserInfoWrap, Content, DescriptionWrap } from './style';
@@ -15,7 +15,7 @@ interface MatchingFormType {
 }
 
 const MatchingRequestForm = ({ friend, control, errors }: {
-  friend?: { nickname: string, Userdetail: { description: string } },
+  friend?: { nickname: string, Userdetail: { description: string }, Image: { src: string } },
   control: Control<MatchingFormType, object>, 
   errors?: FieldErrors;
 }) => {
@@ -46,7 +46,7 @@ const MatchingRequestForm = ({ friend, control, errors }: {
         <InfoContent id="my_info">
           <h4>내정보</h4>
           <Content>
-            <Avatar size={62} />
+            <Avatar size={62} src={me?.Image?.src || ''} />
             <div>
               <div className="nickname">{me?.nickname}</div>
               <div>{me?.description}</div>
@@ -56,7 +56,7 @@ const MatchingRequestForm = ({ friend, control, errors }: {
         <InfoContent id="friend_info">
           <h4>친구정보</h4>
           <Content>
-            <Avatar size={62} />
+            <Avatar size={62} src={friend?.Image?.src || ''} />
             <div>
               <div className="nickname">{friend?.nickname}</div>
               <div>{friend?.Userdetail?.description}</div>

@@ -1,9 +1,8 @@
 import React, { useCallback, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { format, compareAsc } from 'date-fns';
 import { BiEdit, BiPin, BiRepeat } from 'react-icons/bi';
 
-import { loadScheduleRequest } from '@/../reducers/schedule';
 import { userSelector } from '@/../reducers/user';
 import { profileSelector } from '@/../reducers/profile';
 
@@ -12,33 +11,64 @@ import ModalMatchingEdit from '../profile/ModalMatchingEdit';
 import { MatchingCard } from '../../molecules';
 import { Icon } from '../../atoms';
 import { MatchingCardListWrap } from './style';
+import { useQuery } from 'react-query';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { MatchingCardProps, RecordSchedule, RecordScheduleFetch } from '@/../@types/schedule';
 
-interface Schedules {
-  schedules: Array<{
-    id: number,
-    description: string,
-    permission: boolean,
-    isPermitted: boolean,
-    startDate: string,
-    endDate: string,
-    start: Date | number,
-    end: Date | number,
-    address: string,
-    gym: string,
-    Requester: { nickname: string, Image: { src: string } },
-    Friend: { id: number, nickname: string, Image: { src: string } },
-    Gym: Array<any>,
-    Cancel: object,
-  }>
-}
+import { ModalType, ShowModalType } from '@/../@types/utils';
 
-const MatchingCardList = ({ schedules }: Schedules) => {
-  const dispatch = useDispatch();
+const MatchingCardList = ({ schedules }: { schedules: Array<RecordSchedule> }) => {
   const { me } = useSelector(userSelector);
   const { profile } = useSelector(profileSelector);
-  const [showDetailModal, setShowDetailModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [modalType, setModalType] = useState('view');
+  const [matchingId, setMatchingId] = useState<number | null>(null);
+  const [showDetailModal, setShowDetailModal] = useState<boolean>(false);
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [modalType, setModalType] = useState<ShowModalType>(ModalType.VIEW);
+
+  const { status,
+    isLoading,
+    error,
+    data: schedule,
+    isFetching } = useQuery<MatchingCardProps | undefined, AxiosError>(['schedule', matchingId], async() => {
+      if (!matchingId) {
+        return
+      }
+      const { data }: AxiosResponse<{
+        schedule: RecordScheduleFetch;
+        userMatching: Array<{
+          FriendId: number;
+          matchingCount: number;
+          rematchingCount: number;
+        }>;
+        friendMatching: Array<{
+          FriendId: number;
+          matchingCount: number;
+          rematchingCount: number;
+        }>;
+      }> = await axios.get(`/schedule/${matchingId}`);
+      const { schedule, userMatching, friendMatching } = data;
+      const userTotalCount = userMatching.length > 0 ? userMatching[0].matchingCount : 0;
+      const userReCount = userMatching.length > 0 ? userMatching[0].rematchingCount : 0;
+      const friendTotalCount = friendMatching.length > 0 ? friendMatching[0].matchingCount : 0;
+      const friendReCount = friendMatching.length > 0 ? friendMatching[0].rematchingCount : 0;
+      console.log(data);
+      return {
+        ...schedule,
+        start: new Date(schedule.startDate),
+        end: new Date(schedule.endDate),
+        userMathcing: userMatching.map(({ FriendId }: { FriendId: number }) => FriendId),
+        userTotalCount,
+        userReCount,
+        friendMathcing: friendMatching.map(({ FriendId }: { FriendId: number }) => FriendId),
+        friendTotalCount,
+        friendReCount,
+        Friend: {
+          id: schedule.Receiver.id === me?.id ? me?.id : schedule.Receiver.id,
+          nickname: schedule.Receiver.id === me?.id ? me.nickname : schedule.Receiver.nickname,
+          Image: schedule.Receiver.id === me?.id ? me.Image : schedule.Receiver.Image,
+        }
+      };
+    });
 
   const onChangeShowEditModal = useCallback(() => {
     setShowEditModal((prev) => !prev);
@@ -49,33 +79,30 @@ const MatchingCardList = ({ schedules }: Schedules) => {
   }, [showEditModal]);
 
   const onClickAction = useCallback(({ key, id }) => {
-    console.log(key);
+    setMatchingId(id);
     setModalType(key);
-    dispatch(loadScheduleRequest(id));
-    if (key === 'view') {
+    if (key === ModalType.VIEW) {
       setShowDetailModal((prev) => !prev);
     }
-    if (key === 'edit' || key === 'rematch') {
+    if (key === ModalType.EDIT || key === ModalType.REMATCH) {
       setShowEditModal((prev) => !prev);
     }
-  }, [showDetailModal, showEditModal, modalType]);
+  }, [showDetailModal, showEditModal, modalType, matchingId]);
 
   return (
     <>
       <MatchingCardListWrap>
         {schedules?.map((schedule) => {
-          console.log('!!!!!!!!');
           const startDate = format(schedule?.start, 'yyyy년 MM월 dd일 HH:mm');
-          console.log('!!!!!!!!', startDate);
           const endDate = format(schedule?.end, 'HH:mm');
           const date = [startDate, ' ~ ', endDate].join('');
-          const friend = schedule?.Friend?.id;
+          const friend = schedule?.Receiver?.id;
           const nickname = friend === me?.id
             ? schedule?.Requester?.nickname
-            : schedule?.Friend?.nickname;
+            : schedule?.Receiver?.nickname;
           const imageSrc = friend === me?.id
             ? schedule?.Requester?.Image?.src
-            : schedule?.Friend?.Image?.src;
+            : schedule?.Receiver?.Image?.src;
           const cardImageSrc = imageSrc || '';
           // 오늘 일자보다 전 일자의 event는 -1을 리턴한다.
           const compareToday = compareAsc(new Date(schedule.start), new Date());
@@ -84,19 +111,24 @@ const MatchingCardList = ({ schedules }: Schedules) => {
               key={schedule.id}
               matchingId={schedule.id}
               nickname={nickname}
-              description={schedule.address + schedule.gym}
+              description={schedule.Gym.address + schedule.Gym.name}
               image={cardImageSrc}
               date={date}
               onClickView={onClickAction}
-              actions={me?.id === profile?.id ? [{ icon: <Icon icon={<BiPin />} />, key: 'fix', onClick: onClickAction },
-                { icon: <Icon icon={<BiRepeat />} />, key: 'rematch', onClick: onClickAction },
-                { icon: <Icon icon={<BiEdit />} />, key: 'edit', onClick: onClickAction, disabled: compareToday < 0 }] : []}
+              actions={me?.id === profile?.id ? [{ icon: <Icon icon={<BiPin />} />, key: ModalType.FIX, onClick: onClickAction },
+                { icon: <Icon icon={<BiRepeat />} />, key: ModalType.REMATCH, onClick: onClickAction },
+                { icon: <Icon icon={<BiEdit />} />, key: ModalType.EDIT, onClick: onClickAction, disabled: compareToday < 0 }] : []}
             />
           );
         })}
       </MatchingCardListWrap>
-      <ModalMatchingDetail show={showDetailModal} onCancel={onChangeShowDetailModal} />
+      <ModalMatchingDetail
+        schedule={schedule}
+        show={showDetailModal}
+        onCancel={onChangeShowDetailModal}
+      />
       <ModalMatchingEdit
+        schedule={schedule}
         show={showEditModal}
         onCancel={onChangeShowEditModal}
         mode={modalType}

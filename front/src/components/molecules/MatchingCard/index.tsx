@@ -26,7 +26,7 @@ const MatchingCard = ({ matchingId,
       <CardCover>
         {image ? <img src={image} alt={image} /> : <div><UserOutlined /></div>}
       </CardCover>
-      <CardBody matchingId={matchingId} onClick={() => onClickView({ key: 'view', id: matchingId })}>
+      <CardBody matchingId={matchingId} onClick={() => onClickView({ key: 'VIEW', id: matchingId })}>
         <CardMeta>
           <MetaDate>{date}</MetaDate>
           <MetaTitle>{nickname}</MetaTitle>

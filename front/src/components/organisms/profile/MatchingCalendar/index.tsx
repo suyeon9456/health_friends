@@ -12,16 +12,16 @@ import { CalendarWrap, CardWrap } from './style';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useQuery } from 'react-query';
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { CalendarSchedules } from '@/../@types/fetchData';
 import { CalendarEvents } from 'calendar';
+import { CalendarScheduleFetch } from '@/../@types/schedule';
 
 const actions = [{ icon: <UserAddOutlined />, key: 'rematch' }, { icon: <EditOutlined />, key: 'edit' }];
 const MatchingCalendar = () => {
   const { me } = useSelector(userSelector);
 
   const [range, setRange] = useState<{ start: Date; end: Date; }>({
-    start: addDays(startOfMonth(new Date(2022, 0)), -7),
-    end: addDays(endOfMonth(new Date(2022, 0)), 7)
+    start: addDays(startOfMonth(new Date()), -7),
+    end: addDays(endOfMonth(new Date()), 7)
   });
   
   const [showCard, setShowCard] = useState<boolean>(false);
@@ -35,16 +35,14 @@ const MatchingCalendar = () => {
     data: events,
     isFetching } = useQuery<CalendarEvents | undefined, AxiosError>(['calendar', range], async() => {
       const { start, end } = range;
-      console.log('startd', startOfMonth(new Date(2022, 0)), -7);
-      console.log('endd', endOfMonth(new Date(2022, 0)), 7);
-      const { data }: AxiosResponse<CalendarSchedules> = await axios.get(
+      const { data }: AxiosResponse<Array<CalendarScheduleFetch>> = await axios.get(
         `/schedules/calendar?start=${useDateFormat(start, 'yyyy-MM-dd')}&end=${useDateFormat(end, 'yyyy-MM-dd')}`
       );
 
       return data?.map((schedule) => {
-        const eventNickname = schedule?.Friend?.id === me?.id
+        const eventNickname = schedule?.Receiver?.id === me?.id
           ? schedule?.Requester?.nickname
-          : schedule?.Friend?.nickname;
+          : schedule?.Receiver?.nickname;
         return {
           ...schedule,
           start: new Date(schedule.startDate),

@@ -1,14 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { addReScheduleRequest, scheduleSelector, updateScheduleRequest } from '@/../reducers/schedule';
+import { addReScheduleRequest, updateScheduleRequest } from '@/../reducers/schedule';
 import { userSelector } from '@/../reducers/user';
 import { Modal } from '../../../molecules';
 import MatchingRequestForm from '../../MatchingRequestForm';
+import { ModalType, ShowModalType } from '@/../@types/utils';
 
 const schema = yup.object({
   startDate: yup.string().required('날짜는 필수 항목입니다.'),
@@ -16,23 +17,20 @@ const schema = yup.object({
   gym: yup.string().required('헬스장은 필수 항목입니다.'),
 }).required();
 
-const ModalMatchingEdit = ({ show, onCancel, mode }: {
+const ModalMatchingEdit = ({ schedule, show, onCancel, mode }: {
+  schedule: any;
   show: boolean;
   onCancel: () => void;
-  mode: string;
+  mode: ShowModalType;
 }) => {
   const dispatch = useDispatch();
-  const { schedule } = useSelector(scheduleSelector);
   const { me } = useSelector(userSelector);
-
-  const [fNickname, setFNickname] = useState('');
-  const [fId, setFId] = useState(-1);
 
   const { handleSubmit, control, setValue, formState: { errors } } = useForm({
     defaultValues: {
       startDate: new Date(),
       endDate: new Date(),
-      gym: schedule?.address || '',
+      gym: `${schedule?.Gym?.address} ${schedule?.Gym?.name}` || '',
       description: '',
     },
     resolver: yupResolver(schema),
@@ -43,7 +41,7 @@ const ModalMatchingEdit = ({ show, onCancel, mode }: {
     const time = format(new Date(data.endDate), 'HH:mm');
     const startDateTime = format(new Date(data.startDate), 'yyyy-MM-dd HH:mm');
     const dateTime = [date, time].join(' ');
-    if (mode === 'edit') {
+    if (mode === ModalType.EDIT) {
       dispatch(updateScheduleRequest({
         ...data,
         startDate: startDateTime,
@@ -51,40 +49,35 @@ const ModalMatchingEdit = ({ show, onCancel, mode }: {
         id: schedule.id,
       }));
     }
-    if (mode === 'rematch') {
+    if (mode === ModalType.REMATCH) {
       dispatch(addReScheduleRequest({
         ...data,
         startDate: startDateTime,
         endDate: dateTime,
         id: schedule?.id,
         userId: me?.id,
-        friendId: fId,
-        gymId: schedule?.gymId,
+        friendId: schedule?.Friend?.id,
+        gymId: schedule?.Gym?.id,
       }));
     }
-  }, [mode, schedule, fId]);
+  }, [mode, schedule]);
 
   useEffect(() => {
     if (schedule) {
-      const { friend, requester, start, end, address, description, gymName } = schedule;
-      const friendId = friend?.id;
-      setFNickname(friendId === me?.id ? requester?.nickname : friend?.nickname);
-      setFId(friend === me?.id
-        ? schedule?.Requester?.id
-        : friendId);
-      if (mode === 'edit') {
+      const { start, end, description, Gym: { name, address } } = schedule;
+      if (mode === ModalType.EDIT) {
         setValue('startDate', start);
         setValue('endDate', end);
         setValue('description', description);
       }
-      setValue('gym', `${address} ${gymName}`);
+      setValue('gym', `${address} ${name}`);
     }
   }, [schedule]);
 
   return (
     <Modal
       show={show}
-      title={`${fNickname}님과의 ${mode !== 'rematch' ? '매칭 수정' : '재매칭요청'}`}
+      title={`${schedule?.Friend?.nickname}님과의 ${mode !== ModalType.REMATCH ? '매칭 수정' : '재매칭요청'}`}
       onCancel={onCancel}
       onSubmit={handleSubmit(onSubmit)}
       footer
