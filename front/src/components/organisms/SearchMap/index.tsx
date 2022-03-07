@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as _ from 'lodash';
 import { ReloadOutlined } from '@ant-design/icons';
 
-import { RootState } from '@/../store/configureStore';
 import { Button } from '../../atoms';
 import { MapWrap } from './style';
 
@@ -202,7 +201,7 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: {
       contentWrap.appendChild(contentInner);
 
       const overlayContent = contentWrap;
-      customOverlay.current = new window.kakao.maps.CustomOverlay({
+      customOverlay.current = new (window as any).kakao.maps.CustomOverlay({
         position: moveLatLon,
         content: overlayContent,
         xAnchor: 0.5,
@@ -219,12 +218,12 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: {
       longitude: string;
       name: string;
     }) => {
-      const marker = new window.kakao.maps.Marker({
+      const marker = new (window as any).maps.Marker({
         map: map.current, // 마커를 표시할 지도
-        position: new window.kakao.maps.LatLng(gymItem.latitude, gymItem.longitude), // 마커를 표시할 위치
+        position: new (window as any).maps.LatLng(gymItem.latitude, gymItem.longitude), // 마커를 표시할 위치
         title: gymItem.name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
       });
-      window.kakao.maps.event.addListener(marker, 'click', onClickGym(gymItem.id));
+      (window as any).maps.event.addListener(marker, 'click', onClickGym(gymItem.id));
     });
   }, [gyms]);
 
