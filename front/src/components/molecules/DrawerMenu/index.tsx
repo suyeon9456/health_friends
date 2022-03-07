@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
+import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import Link from 'next/link';
 import { CloseOutlined, LoginOutlined, LogoutOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
 
 import { useShowDispatch } from '@/../store/contextStore';
@@ -10,6 +10,7 @@ import { Button, Avatar } from '../../atoms';
 import { Drawer, DrawerBody, DrawerContent, DrawerContentWrap, DrawerHeader, DrawerHeaderTitle, DrawerMask, DrawerTitle, DrawerWrapBody, MemberMenu, MemberMenuItem, Menu, MenuItem, MenuText, MenuTitle } from './style';
 
 const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const contextDispatch = useShowDispatch();
 
@@ -24,6 +25,11 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
       type: 'CHANGE_STATE',
       value: !drawerShow,
     });
+  }, [drawerShow]);
+
+  const onChangePage = useCallback((link) => {
+    router.push(`/${link}`);
+    changeShowDrawerMenu();
   }, [drawerShow]);
 
   return (
@@ -58,20 +64,16 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
                   : (
                     <MemberMenu>
                       <MemberMenuItem>
-                        <Link href="/login">
-                          <MenuText>
-                            <LoginOutlined />
-                            로그인
-                          </MenuText>
-                        </Link>
+                        <MenuText onClick={() => onChangePage('login')}>
+                          <LoginOutlined />
+                          로그인
+                        </MenuText>
                       </MemberMenuItem>
                       <MemberMenuItem>
-                        <Link href="/login">
-                          <MenuText>
-                            <UserOutlined />
-                            회원가입
-                          </MenuText>
-                        </Link>
+                        <MenuText onClick={() => onChangePage('signup')}>
+                          <UserOutlined />
+                          회원가입
+                        </MenuText>
                       </MemberMenuItem>
                     </MemberMenu>
                   )
@@ -82,24 +84,20 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
                   me?.id && (
                     <MenuItem>
                       <MenuTitle>
-                        <Link href="/myinfo">
-                          <MenuText>
-                            <UserOutlined />
-                            {me?.nickname}님 프로필
-                          </MenuText>
-                        </Link>
+                        <MenuText onClick={() => onChangePage('myinfo')}>
+                          <UserOutlined />
+                          {me?.nickname}님 프로필
+                        </MenuText>
                       </MenuTitle>
                     </MenuItem>
                   )
                 }
                 <MenuItem>
                   <MenuTitle>
-                    <Link href="/friends">
-                      <MenuText>
-                        <SearchOutlined />
-                        친구찾기
-                      </MenuText>
-                    </Link>
+                    <MenuText onClick={() => onChangePage('friends')}>
+                      <SearchOutlined />
+                      친구찾기
+                    </MenuText>
                   </MenuTitle>
                 </MenuItem>
               </Menu>

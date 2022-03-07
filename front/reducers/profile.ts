@@ -41,10 +41,18 @@ const profileSlice = createSlice({
       state.loadInfoError = null;
     },
     loadProfileInfoSuccess(state, action) {
+      const matchingTotalCount = action.payload.matching.length > 0 ? action.payload.matching[0].matchingCount : 0;
+      const matchingRecount = action.payload.matching.length > 0 ? action.payload.matching[0].rematchingCount : 0;
       state.loadInfoLoading = false;
       state.loadInfoDone = true;
       state.loadInfoError = null;
       state.profile = action.payload;
+      state.profile = {
+        ...action.payload.user,
+        matchingTotalCount,
+        matchingRecount,
+        mathcing: action.payload.matching.map(({ FriendId }: { FriendId: number }) => FriendId),
+      };
     },
     loadProfileInfoError(state, action) {
       state.loadInfoLoading = false;
@@ -57,10 +65,18 @@ const profileSlice = createSlice({
       state.loadMyinfoError = null;
     },
     loadProfileMyinfoSuccess(state, action) {
+      const matchingTotalCount = action.payload.matching.length > 0 ? action.payload.matching[0].matchingCount : 0;
+      const matchingRecount = action.payload.matching.length > 0 ? action.payload.matching[0].rematchingCount : 0;
       state.loadMyinfoLoading = false;
       state.loadMyinfoDone = true;
       state.loadMyinfoError = null;
-      state.profile = { ...action.payload, Liked: action.payload.Liked.map(({ id }: { id: number }) => id) };
+      state.profile = {
+        ...action.payload.myinfo,
+        Liked: action.payload.myinfo.Liked.map(({ id }: { id: number }) => id),
+        matchingTotalCount,
+        matchingRecount,
+        mathcing: action.payload.matching.map(({ FriendId }: { FriendId: number }) => FriendId),
+      };
     },
     loadProfileMyinfoError(state, action) {
       state.updateMyInfoLoading = false;

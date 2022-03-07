@@ -9,15 +9,8 @@ import Progress from '../../../molecules/Progress';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
 import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
 import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, MenuText, SideBarWrapper, SideMenu, SideMenuWrap } from './style';
-
-const Menu = {
-  INFO: 'INFO',
-  RECORD: 'RECORD',
-  CALENDAR: 'CALENDAR',
-  LIKED: 'LIKED',
-} as const;
-
-type ProfileMenuType = typeof Menu[keyof typeof Menu];
+import { Menu, ProfileMenuType } from '@/../@types/utils';
+import useRematchRate from '@/hooks/useRematchRate';
 
 
 const SideBar = ({ profileMenu, setProfileMenu }: {
@@ -46,6 +39,7 @@ const SideBar = ({ profileMenu, setProfileMenu }: {
 
   useEffect(() => {
     if (profile) {
+      console.log('myIIIInfo', profile);
       onChangeResponseRate();
     }
   }, [profile]);
@@ -117,7 +111,7 @@ const SideBar = ({ profileMenu, setProfileMenu }: {
           <InfoIconWrapper>
             <Icon icon={<BiTrophy />} />
           </InfoIconWrapper>
-          <Progress label="재매칭률" percent={profile?.Userdetail?.rematchingRate} />
+          <Progress label="재매칭률" percent={useRematchRate(profile?.matchingRecount, profile?.matchingTotalCount)} />
         </InfoContent>
         <InfoContent key="response">
           <InfoIconWrapper>
