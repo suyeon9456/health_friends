@@ -1,53 +1,46 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useState } from 'react';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { useQuery } from 'react-query';
 import { PlusOutlined } from '@ant-design/icons';
+import * as _ from 'lodash';
 
-import { loadSchedulesRequest, scheduleSelector } from '@/../reducers/schedule';
 import { Filter } from '../../../molecules';
 import { Button, CheckBox } from '../../../atoms';
 import MatchingCardList from '../../MatchingCardList';
 import { CancelYnCheckBoxWrap, FilterList, RecordBody, RecordFooter, RecordWrap } from './style';
+import { RecordScheduleFetch } from '@/../@types/schedule';
+import useCheckbox from '@/hooks/useCheckbox';
 
 const MatchingRecord = () => {
-  const dispatch = useDispatch();
-
-  const { schedules, schedulesCount } = useSelector(scheduleSelector);
-  const [status, setStatus] = useState<string[]>([]);
-  const [term, setTerm] = useState<string[]>([]);
-  const [type, setType] = useState<string[]>([]);
-  const [schedulesLimit, setSchedulesLimit] = useState<number>(3);
+  const [status, onChangeStatus] = useCheckbox<string>([]);
+  const [term, onChangeTerm] = useCheckbox<string>([]);
+  const [type, onChangeType] = useCheckbox<string>([]);
+  const [limit, setLimit] = useState<number>(3);
   const [rejectedMatching, setRejectedMatching] = useState<boolean>(false);
 
+  const { isLoading,
+    error,
+    data: { count, schedules },
+    isFetching } = useQuery<any | undefined, AxiosError>(['record', status, term, type, limit, rejectedMatching], async() => {
+      const statusquery = !_.isEmpty(status) && `&${status.map((m) => `${m}=true`).join('&')}`;
+      const termquery = !_.isEmpty(term) && `&${term.map((m) => `${m}=true`).join('&')}`;
+      const typequery = !_.isEmpty(type) && `&${type.map((m) => `${m}=true`).join('&')}`;
+      const { data }: AxiosResponse<{ count: number; schedules: Array<RecordScheduleFetch> }> = await axios.get(
+        `/schedules?limit=${limit}&rejectedMatching=${rejectedMatching}${termquery}${typequery}${statusquery}`
+      );
+      return {
+        ...data,
+        schedules: data.schedules.map((schedule) => ({
+          ...schedule,
+          start: new Date(schedule?.startDate),
+          end: new Date(schedule?.endDate),
+        }))
+      };
+    }, { initialData: { count: 0, schedules: [] } });
+
   const onMoreSchedule = useCallback(() => {
-    setSchedulesLimit((prev) => prev + 3);
-  }, [schedulesLimit]);
-
-  const onChangeStatus = useCallback((checked, value) => {
-    if (checked) {
-      setStatus([...status, value]);
-    } else {
-      // 체크 해제
-      setStatus(status.filter((el) => el !== value));
-    }
-  }, [status]);
-
-  const onChangeTerm = useCallback((checked, value) => {
-    if (checked) {
-      setTerm([...term, value]);
-    } else {
-      // 체크 해제
-      setTerm(term.filter((el) => el !== value));
-    }
-  }, [term]);
-
-  const onChangeType = useCallback((checked, value) => {
-    if (checked) {
-      setType([...type, value]);
-    } else {
-      // 체크 해제
-      setType(type.filter((el) => el !== value));
-    }
-  }, [type]);
+    setLimit((prev) => prev + 3);
+  }, [limit]);
 
   const onChangeRejectedMatching = useCallback((e) => {
     if (e.currentTarget.checked) {
@@ -58,10 +51,6 @@ const MatchingRecord = () => {
     }
   }, [rejectedMatching]);
 
-  useEffect(() => {
-    dispatch(loadSchedulesRequest({ profileMenu: 'record',
-      limit: schedulesLimit, term, type, status, rejectedMatching }));
-  }, [term, type, status, rejectedMatching, schedulesLimit]);
   return (
     <RecordWrap>
       <FilterList>
@@ -107,7 +96,7 @@ const MatchingRecord = () => {
       <RecordFooter>
         <Button
           type="primary"
-          disabled={schedulesCount <= schedules.length}
+          disabled={count || 0 <= schedules.length}
           icon={<PlusOutlined />}
           onClick={onMoreSchedule}
         >
