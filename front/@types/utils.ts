@@ -1,138 +1,3 @@
-/* USER ACTION TYPE */
-export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST' as const;
-export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS' as const;
-export const LOAD_MY_INFO_ERROR = 'LOAD_MY_INFO_ERROR' as const;
-
-export const LOG_IN_REQUEST = 'LOG_IN_REQUEST' as const;
-export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS' as const;
-export const LOG_IN_ERROR = 'LOG_IN_ERROR' as const;
-
-export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST' as const;
-export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS' as const;
-export const LOG_OUT_ERROR = 'LOG_OUT_ERROR' as const;
-
-export const SIGN_UP_STEP_NEXT = 'SIGN_UP_STEP_NEXT' as const;
-export const SIGN_UP_STEP_PREV = 'SIGN_UP_STEP_PREV' as const;
-
-export const SIGN_UP_STEP_INFO_SAVE = 'SIGN_UP_STEP_INFO_SAVE' as const;
-export const SIGN_UP_STEP_MORE_INFO_SAVE = 'SIGN_UP_STEP_MORE_INFO_SAVE' as const;
-export const SIGN_UP_STEP_GYM_INFO_SAVE = 'SIGN_UP_STEP_GYM_INFO_SAVE' as const;
-export const SIGN_UP_STEP_FRIENDS_INFO_SAVE = 'SIGN_UP_STEP_FRIENDS_INFO_SAVE' as const;
-
-export const SELECT_GYM = 'SELECT_GYM' as const;
-
-export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST' as const;
-export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS' as const;
-export const SIGN_UP_ERROR = 'SIGN_UP_ERROR' as const;
-
-export const LOAD_RECOMMEND_FRIENDS_REQUEST = 'LOAD_RECOMMEND_FRIENDS_REQUEST' as const;
-export const LOAD_RECOMMEND_FRIENDS_SUCCESS = 'LOAD_RECOMMEND_FRIENDS_SUCCESS' as const;
-export const LOAD_RECOMMEND_FRIENDS_ERROR = 'LOAD_RECOMMEND_FRIENDS_ERROR' as const;
-
-export const LOAD_RANKED_FRIENDS_REQUEST = 'LOAD_RANKED_FRIENDS_REQUEST' as const;
-export const LOAD_RANKED_FRIENDS_SUCCESS = 'LOAD_RANKED_FRIENDS_SUCCESS' as const;
-export const LOAD_RANKED_FRIENDS_ERROR = 'LOAD_RANKED_FRIENDS_ERROR' as const;
-
-export const LOAD_REALTIME_MATCHING_REQUEST = 'LOAD_REALTIME_MATCHING_REQUEST' as const;
-export const LOAD_REALTIME_MATCHING_SUCCESS = 'LOAD_REALTIME_MATCHING_SUCCESS' as const;
-export const LOAD_REALTIME_MATCHING_ERROR = 'LOAD_REALTIME_MATCHING_ERROR' as const;
-
-export const ADD_LIKE_REQUEST = 'ADD_LIKE_REQUEST' as const;
-export const ADD_LIKE_SUCCESS = 'ADD_LIKE_SUCCESS' as const;
-export const ADD_LIKE_ERROR = 'ADD_LIKE_ERROR' as const;
-
-export const LOAD_LIKE_REQUEST = 'LOAD_LIKE_REQUEST' as const;
-export const LOAD_LIKE_SUCCESS = 'LOAD_LIKE_SUCCESS' as const;
-export const LOAD_LIKE_ERROR = 'LOAD_LIKE_ERROR' as const;
-
-/* PROFILE ACTION TYPE */
-export const LOAD_PROFILE_INFO_REQUEST = 'LOAD_PROFILE_INFO_REQUEST' as const;
-export const LOAD_PROFILE_INFO_SUCCESS = 'LOAD_PROFILE_INFO_SUCCESS' as const;
-export const LOAD_PROFILE_INFO_ERROR = 'LOAD_PROFILE_INFO_ERROR' as const;
-
-export const LOAD_PROFILE_MYINFO_REQUEST = 'LOAD_PROFILE_MYINFO_REQUEST' as const;
-export const LOAD_PROFILE_MYINFO_SUCCESS = 'LOAD_PROFILE_MYINFO_SUCCESS' as const;
-export const LOAD_PROFILE_MYINFO_ERROR = 'LOAD_PROFILE_MYINFO_ERROR' as const;
-
-export const UPDATE_MY_INFO_REQUEST = 'UPDATE_MY_INFO_REQUEST' as const;
-export const UPDATE_MY_INFO_SUCCESS = 'UPDATE_MY_INFO_SUCCESS' as const;
-export const UPDATE_MY_INFO_ERROR = 'UPDATE_MY_INFO_ERROR' as const;
-
-export const UPDATE_MY_FRIENDS_INFO_REQUEST = 'UPDATE_MY_FRIENDS_INFO_REQUEST' as const;
-export const UPDATE_MY_FRIENDS_INFO_SUCCESS = 'UPDATE_MY_FRIENDS_INFO_SUCCESS' as const;
-export const UPDATE_MY_FRIENDS_INFO_ERROR = 'UPDATE_MY_FRIENDS_INFO_ERROR' as const;
-
-export const UPDATE_MY_NICKNAME_REQUEST = 'UPDATE_MY_NICKNAME_REQUEST' as const;
-export const UPDATE_MY_NICKNAME_SUCCESS = 'UPDATE_MY_NICKNAME_SUCCESS' as const;
-export const UPDATE_MY_NICKNAME_ERROR = 'UPDATE_MY_NICKNAME_ERROR' as const;
-
-export const UPDATE_MY_DESCRIPTION_REQUEST = 'UPDATE_MY_DESCRIPTION_REQUEST' as const;
-export const UPDATE_MY_DESCRIPTION_SUCCESS = 'UPDATE_MY_DESCRIPTION_SUCCESS' as const;
-export const UPDATE_MY_DESCRIPTION_ERROR = 'UPDATE_MY_DESCRIPTION_ERROR' as const;
-
-export const UPLOAD_PROFILEIMAGE_REQUEST = 'UPLOAD_PROFILEIMAGE_REQUEST' as const;
-export const UPLOAD_PROFILEIMAGE_SUCCESS = 'UPLOAD_PROFILEIMAGE_SUCCESS' as const;
-export const UPLOAD_PROFILEIMAGE_ERROR = 'UPLOAD_PROFILEIMAGE_ERROR' as const;
-
-export const ADD_PROFILEIMAGE_REQUEST = 'ADD_PROFILEIMAGE_REQUEST' as const;
-export const ADD_PROFILEIMAGE_SUCCESS = 'ADD_PROFILEIMAGE_SUCCESS' as const;
-export const ADD_PROFILEIMAGE_ERROR = 'ADD_PROFILEIMAGE_ERROR' as const;
-
-export const REMOVE_PROFILEIMAGE = 'REMOVE_PROFILEIMAGE' as const;
-
-/* GYM ACTION TYPE */
-export const ADD_GYM_REQUEST = 'ADD_GYM_REQUEST' as const;
-export const ADD_GYM_SUCCESS = 'ADD_GYM_SUCCESS' as const;
-export const ADD_GYM_ERROR = 'ADD_GYM_ERROR' as const;
-
-export const LOAD_GYM_REQUEST = 'LOAD_GYM_REQUEST' as const;
-export const LOAD_GYM_SUCCESS = 'LOAD_GYM_SUCCESS' as const;
-export const LOAD_GYM_ERROR = 'LOAD_GYM_ERROR' as const;
-
-export const LOAD_FRIENDS_REQUEST = 'LOAD_FRIENDS_REQUEST' as const;
-export const LOAD_FRIENDS_SUCCESS = 'LOAD_FRIENDS_SUCCESS' as const;
-export const LOAD_FRIENDS_ERROR = 'LOAD_FRIENDS_ERROR' as const;
-
-export const CHANGE_MAP_BOUNDS = 'CHANGE_MAP_BOUNDS' as const;
-export const IS_LOAD_GYMS = 'IS_LOAD_GYMS' as const;
-
-/* SCHEDULE ACTION TYPE */
-export const ADD_SCHEDULE_REQUEST = 'ADD_SCHEDULE_REQUEST' as const;
-export const ADD_SCHEDULE_SUCCESS = 'ADD_SCHEDULE_SUCCESS' as const;
-export const ADD_SCHEDULE_ERROR = 'ADD_SCHEDULE_ERROR' as const;
-
-export const ADD_RE_SCHEDULE_REQUEST = 'ADD_RE_SCHEDULE_REQUEST' as const;
-export const ADD_RE_SCHEDULE_SUCCESS = 'ADD_RE_SCHEDULE_SUCCESS' as const;
-export const ADD_RE_SCHEDULE_ERROR = 'ADD_RE_SCHEDULE_ERROR' as const;
-
-export const LOAD_SCHEDULES_REQUEST = 'LOAD_SCHEDULES_REQUEST' as const;
-export const LOAD_SCHEDULES_SUCCESS = 'LOAD_SCHEDULES_SUCCESS' as const;
-export const LOAD_SCHEDULES_ERROR = 'LOAD_SCHEDULES_ERROR' as const;
-
-export const LOAD_CALENDAR_SCHEDULES_REQUEST = 'LOAD_CALENDAR_SCHEDULES_REQUEST' as const;
-export const LOAD_CALENDAR_SCHEDULES_SUCCESS = 'LOAD_CALENDAR_SCHEDULES_SUCCESS' as const;
-export const LOAD_CALENDAR_SCHEDULES_ERROR = 'LOAD_CALENDAR_SCHEDULES_ERROR' as const;
-
-export const LOAD_SCHEDULE_REQUEST = 'LOAD_SCHEDULE_REQUEST' as const;
-export const LOAD_SCHEDULE_SUCCESS = 'LOAD_SCHEDULE_SUCCESS' as const;
-export const LOAD_SCHEDULE_ERROR = 'LOAD_SCHEDULE_ERROR' as const;
-
-export const UPDATE_SCHEDULE_REQUEST = 'UPDATE_SCHEDULE_REQUEST' as const;
-export const UPDATE_SCHEDULE_SUCCESS = 'UPDATE_SCHEDULE_SUCCESS' as const;
-export const UPDATE_SCHEDULE_ERROR = 'UPDATE_SCHEDULE_ERROR' as const;
-
-export const UPDATE_PERMISSION_REQUEST = 'UPDATE_PERMISSION_REQUEST' as const;
-export const UPDATE_PERMISSION_SUCCESS = 'UPDATE_PERMISSION_SUCCESS' as const;
-export const UPDATE_PERMISSION_ERROR = 'UPDATE_PERMISSION_ERROR' as const;
-
-export const ADD_CANCELLATION_REQUEST = 'ADD_CANCELLATION_REQUEST' as const;
-export const ADD_CANCELLATION_SUCCESS = 'ADD_CANCELLATION_SUCCESS' as const;
-export const ADD_CANCELLATION_ERROR = 'ADD_CANCELLATION_ERROR' as const;
-
-export const UPDATE_CANCELLATION_REQUEST = 'UPDATE_CANCELLATION_REQUEST' as const;
-export const UPDATE_CANCELLATION_SUCCESS = 'UPDATE_CANCELLATION_SUCCESS' as const;
-export const UPDATE_CANCELLATION_ERROR = 'UPDATE_CANCELLATION_ERROR' as const;
-
 export const ModalType = {
   VIEW: 'VIEW',
   EDIT: 'EDIT',
@@ -141,3 +6,93 @@ export const ModalType = {
 } as const;
 
 export type ShowModalType = typeof ModalType[keyof typeof ModalType];
+
+export const Menu = {
+  INFO: 'INFO',
+  RECORD: 'RECORD',
+  CALENDAR: 'CALENDAR',
+  LIKED: 'LIKED',
+} as const;
+
+export type ProfileMenuType = typeof Menu[keyof typeof Menu];
+
+export const SignupMenu = {
+  INFO: 'INFO',
+  MOREINFO: 'MOREINFO',
+  GYMINFO: 'GYMINFO',
+  FRIENDSINFO: 'FRIENDSINFO',
+} as const;
+
+export type SignupMenuType = typeof SignupMenu[keyof typeof SignupMenu];
+
+export const Process = {
+  PROCESS: 'PROCESS',
+  WAIT: 'WAIT',
+  FINISHED: 'FINISHED'
+} as const;
+
+export type ProcessType = typeof Process[keyof typeof Process];
+
+export const SignupSteps = [
+  { step: SignupMenu.INFO,
+    title: 'STEP1',
+    description: '회원 정보' },
+  { step: SignupMenu.MOREINFO,
+    title: 'STEP2',
+    description: '추가 정보' },
+  { step: SignupMenu.GYMINFO,
+    title: 'STEP3',
+    description: '추가 정보' },
+  { step: SignupMenu.FRIENDSINFO,
+    title: 'STEP4',
+    description: '매칭되고 싶은 친구 정보' },
+] as const;
+
+export type SignupStepsType = typeof SignupSteps[number];
+
+export const AgeOptions = [
+  { value: 1, text: '10대' },
+  { value: 2, text: '20대' },
+  { value: 3, text: '30대' },
+  { value: 4, text: '40대' },
+  { value: 5, text: '50대' },
+  { value: 6, text: '60대' },
+  { value: 7, text: '70대' },
+  { value: 8, text: '80대' },
+  { value: 9, text: '90대' },
+  { value: 10, text: '90대 이상' },
+] as const;
+
+export type AgeOptionsType = typeof AgeOptions[number];
+
+export const CareerOptions = [
+  { value: 1, text: '1년 미만' },
+  { value: 2, text: '1년 이상 ~ 3년 미만' },
+  { value: 3, text: '3년 이상 ~ 5년 미만' },
+  { value: 4, text: '5년 이상 ~ 10년 미만' },
+  { value: 5, text: '10년 이상' },
+] as const;
+
+export type CareerOptionsType = typeof CareerOptions[number];
+
+export const RoleOptions = [
+  { value: 1, text: '도움을 주고 싶어요!' },
+  { value: 2, text: '도움을 받고 싶어요!' },
+  { value: 3, text: '함께 운동하고 싶어요!' },
+] as const;
+
+export type RoleOptionsType = typeof RoleOptions[number];
+
+export const GenderOptions = [
+  { value: 'male', text: '남성' },
+  { value: 'female', text: '여성' },
+] as const;
+
+export type GenderOptionsType = typeof GenderOptions[number];
+
+export const SearchGymTabs = [
+  { value: 'search', text: '헬스장 찾기' },
+  { value: 'add', text: '헬스장 등록' }
+] as const;
+
+export type SearchGymTabsType = typeof SearchGymTabs[number];

@@ -35,7 +35,7 @@ export interface RealtimeMatching extends User {
   reqSchedule: Array<{
     id: number;
     UserId: number;
-    Friend: {
+    Receiver: {
       nickname: string;
       Image: Image;
     };

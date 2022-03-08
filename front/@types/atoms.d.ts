@@ -85,7 +85,7 @@ export interface SearchProps extends BasicInputProps {
 
 export interface SelectProps {
   size?: Size | 'default';
-  options: Array<{ text: string; value: string | number }>;
+  options: readonly { readonly value: string | number; readonly text: string; }[];
   name: string;
   value: number | string;
   onChange: () => void;
