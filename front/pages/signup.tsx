@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Router } from 'next/router';
-
-import { RootState } from '../store/configureStore';
+import { useRouter } from 'next/router';
 
 import { signupSelector, userSelector } from '../reducers/user';
 import { AppLayout } from '@/components/organisms';
@@ -12,14 +10,15 @@ import InfoForm from '@/components/organisms/signup/InfoForm';
 import MoreInfoForm from '@/components/organisms/signup/MoreInfoForm';
 import MoreGymInfoForm from '@/components/organisms/signup/MoreGymInfoForm';
 import FriendsInfoForm from '@/components/organisms/signup/FriendsInfoForm';
+import { SignupMenuType, SignupMenu, SignupSteps } from '../@types/utils';
 
 const Signup = () => {
   const { me } = useSelector(userSelector);
-  const { signupSteps, signupProcess } = useSelector(signupSelector);
+  const { signupProcess }: { signupProcess: SignupMenuType } = useSelector(signupSelector);
+  const router = useRouter();
   useEffect(() => {
     if (me?.id) {
-      console.log(Router);
-      Router.replace('/');
+      router.replace('/');
     }
   }, [me?.id]);
 
@@ -27,15 +26,16 @@ const Signup = () => {
     <AppLayout>
       <div className={styles.signupLayout}>
         <Steps
-          steps={signupSteps}
+          steps={SignupSteps}
           process={signupProcess}
+          target={SignupSteps.findIndex(({ step }) => step === signupProcess)}
         />
         <div className={styles.contentsWrap}>
           {{
-            1: <InfoForm />,
-            2: <MoreInfoForm />,
-            3: <MoreGymInfoForm />,
-            4: <FriendsInfoForm />
+            [SignupMenu.INFO]: <InfoForm />,
+            [SignupMenu.MOREINFO]: <MoreInfoForm />,
+            [SignupMenu.GYMINFO]: <MoreGymInfoForm />,
+            [SignupMenu.FRIENDSINFO]: <FriendsInfoForm />,
           }[signupProcess]}
         </div>
       </div>

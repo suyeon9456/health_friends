@@ -15,22 +15,14 @@ import { GetServerSideProps } from 'next';
 import { Store } from 'redux';
 import { loadMyInfoRequest } from '@/../reducers/user';
 import { loadProfileInfoRequest } from '@/../reducers/profile';
-
-const menu = {
-  INFO: 'INFO',
-  RECORD: 'RECORD',
-  CALENDAR: 'CALENDAR',
-  LIKED: 'LIKED',
-} as const;
-
-type ProfileMenuType = typeof menu[keyof typeof menu];
+import { Menu, ProfileMenuType } from '@/../@types/utils';
 
 const Profile = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
   const { id } = router.query;
-  const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(menu.INFO);
+  const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(Menu.INFO);
 
   useEffect(() => {
     dispatch(loadProfileInfoRequest(id));
@@ -47,10 +39,10 @@ const Profile = () => {
         </Col>
         <Col xs={24} md={16}>
           {{
-            [menu.LIKED]: <LikedList />,
-            [menu.CALENDAR]: <MatchingCalendar />,
-            [menu.RECORD]: <MatchingRecord />,
-            [menu.INFO]: (
+            [Menu.LIKED]: <LikedList />,
+            [Menu.CALENDAR]: <MatchingCalendar />,
+            [Menu.RECORD]: <MatchingRecord />,
+            [Menu.INFO]: (
               <div>
                 <Info />
                 <MoreInfo />
