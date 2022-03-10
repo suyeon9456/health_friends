@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { CheckCircleOutlined, CloseCircleOutlined, ExclamationCircleOutlined, WarningOutlined } from '@ant-design/icons';
 
-export const AlertContainer = styled.div<{ show: boolean }>`
+export const AlertContainer = styled.div`
   overflow-y: auto;
   align-items: center;
   background: rgba(0,0,0,.4);
@@ -17,10 +17,6 @@ export const AlertContainer = styled.div<{ show: boolean }>`
   padding: .625em;
   overflow-x: hidden;
   transition: background-color .1s;
-
-  ${({ show }) => !show && css`
-    display: none;
-  `}
 `;
 
 export const AlertBox = styled.div`

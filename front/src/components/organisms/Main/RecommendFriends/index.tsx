@@ -6,11 +6,12 @@ import Slider from 'react-slick';
 import * as _ from 'lodash';
 
 import { BiCurrentLocation } from 'react-icons/bi';
-import { Alert } from '@/components/molecules';
-import { Avatar, Button, Icon, NoDataIcon, ReactSliderNextButton, ReactSliderPrevButton } from '../../../atoms';
+import { Avatar, Icon, NoDataIcon, ReactSliderNextButton, ReactSliderPrevButton } from '../../../atoms';
 import { FriendsWrap, FriendsTitle, FriendsSubTitle, FriendsBody, FriendsCardList, FriendsCard, CardAvatarWrap, CardContentWrap, ContentTitile, ContentDescription, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
 import { FetchRecommendData } from '@/../@types/fetchData';
 import { Location } from 'map';
+import { useModalDispatch } from '@/../store/modalStore';
+import { GlobalModal, ModalStatus } from '@/../@types/utils';
 
 const settings = {
   dots: true,
@@ -45,16 +46,14 @@ const settings = {
 };
 
 const RecommendFriends = () => {
+  const contextDispatch = useModalDispatch();
   const [location, setLocation] = useState<Location | null>(null);
   const [isReloadLocation, setIsReloadLocation] = useState<boolean>(false);
   const [locationYn, setLocationYn] = useState<boolean>(false);
 
   const {
-    status,
-    isLoading,
     error,
     data: recommendData,
-    isFetching,
   } = useQuery<FetchRecommendData | undefined, AxiosError>(['recommendFriends', location], async() => {
     if (!location) {
       return
@@ -126,6 +125,22 @@ const RecommendFriends = () => {
 ;   }
   }, [isReloadLocation]);
 
+  useEffect(() => {
+    if (!locationYn) {
+      return
+    }
+    contextDispatch({
+      type: 'SHOW_MODAL',
+      payload: {
+        type: GlobalModal.ALERT,
+        statusType: ModalStatus.WARNING,
+        message: '현재위치에서 활동중인 친구가 궁금하다면 위치 엑세스를 허용해주세요.',
+        block: true,
+        callback: onChangeLocationYn
+      },
+    });
+  }, [locationYn]);
+
   return (
     <FriendsWrap>
       <FriendsTitle>
@@ -173,21 +188,6 @@ const RecommendFriends = () => {
             )}
         </FriendsCardList>
       </FriendsBody>
-      <Alert
-        show={locationYn}
-        type="warning"
-        action={(
-          <Button
-            type="warning"
-            onClick={onChangeLocationYn}
-            block
-          >
-            확인
-            {locationYn}
-          </Button>
-        )}
-        message="현재위치에서 활동중인 친구가 궁금하다면 위치 엑세스를 허용해주세요."
-      />
     </FriendsWrap>
   );
 };

@@ -7,13 +7,14 @@ import { gymSelector } from '@/../reducers/gym';
 import { PropfileCard } from '../../molecules';
 import Button from '../../atoms/Button';
 import { FriendsListWrapper, SearchFriendsWrapper, SearchHeader, SearchTitle } from './style';
+import { useModalDispatch } from '@/../store/modalStore';
+import { GlobalModal, ModalStatus } from '@/../@types/utils';
 
 const SearchFriends = ({ foldedGym,
   foldedFriends,
   setFoldedFriends,
   setFriend,
-  setShowModal,
-  setStateWarning }: {
+  setShowModal }: {
     foldedGym: boolean;
     foldedFriends: boolean;
     setFoldedFriends: Dispatch<SetStateAction<boolean>>;
@@ -25,9 +26,9 @@ const SearchFriends = ({ foldedGym,
       UserGym?: { GymId?: number };
      }>>;
     setShowModal: Dispatch<SetStateAction<boolean>>;
-    setStateWarning: Dispatch<SetStateAction<boolean>>;
   }) => {
   const dispatch = useDispatch();
+  const contextDispatch = useModalDispatch();
   const { gym } = useSelector(gymSelector);
   const { me } = useSelector(userSelector);
 
@@ -37,7 +38,16 @@ const SearchFriends = ({ foldedGym,
 
   const onShowMatchingModal = useCallback((user) => () => {
     if (!(me && me.id)) {
-      return setStateWarning(true);
+      contextDispatch({
+        type: 'SHOW_MODAL',
+        payload: {
+          type: GlobalModal.ALERT,
+          statusType: ModalStatus.WARNING,
+          message: '로그인이 필요한 페이지입니다.',
+          block: true,
+        },
+      });
+      return
     }
     setFriend(user);
     setShowModal(true);

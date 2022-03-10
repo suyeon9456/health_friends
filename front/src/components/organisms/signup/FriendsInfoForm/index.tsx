@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -7,13 +7,15 @@ import { signupSelector, signupStepFriendsInfoSave, signupStepPrev } from '@/../
 import { Alert, FormSelect } from '../../../molecules';
 import { Form, Button } from '../../../atoms';
 import { ButtonWrap, FormWrapper } from './style';
-import { AgeOptions, CareerOptions, GenderOptions, RoleOptions, SignupMenu } from '@/../@types/utils';
+import { AgeOptions, CareerOptions, GenderOptions, GlobalModal, ModalStatus, RoleOptions, SignupMenu } from '@/../@types/utils';
 import { useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import { SignupInfo, SignupMoreInfo, SignupGymInfo, SignupFriendsInfo } from '@/../@types/user';
+import { useModalDispatch } from '@/../store/modalStore';
 
 const FriendsInfoForm = () => {
   const dispatch = useDispatch();
+  const contextDispatch = useModalDispatch();
   const { selectedGym,
     signupStepInfo: info,
     signupStepMoreInfo: moreInfo,
@@ -34,7 +36,6 @@ const FriendsInfoForm = () => {
       friendsRole: signupStepFriendsInfo?.friendsRole || RoleOptions[0].value,
     },
   });
-  // const [show, setShow] = useState<boolean>(false);
 
   const mutation = useMutation((data: {
     info: SignupInfo;
@@ -44,7 +45,15 @@ const FriendsInfoForm = () => {
     friendsInfo: SignupFriendsInfo;
   }) => axios.post('/user', data), {
     onError: async (error: AxiosError) => {
-      console.log('ddd', error?.response);
+      contextDispatch({
+        type: 'SHOW_MODAL',
+        payload: {
+          type: GlobalModal.ALERT,
+          statusType: ModalStatus.WARNING,
+          message: error.response?.data,
+          block: true,
+        },
+      });
     },
     onSuccess: () => {
       Router.replace('/');
@@ -53,7 +62,6 @@ const FriendsInfoForm = () => {
 
   const onClickSignup = useCallback(async (data, e) => {
     if (e.nativeEvent.submitter.name === 'next') {
-      // await mutation.mutateAsync({
       mutation.mutate({
         info,
         moreInfo,
@@ -119,20 +127,6 @@ const FriendsInfoForm = () => {
           </Button>
         </ButtonWrap>
       </Form>
-      {/* <Alert
-        show={show}
-        type="warning"
-        action={(
-          <Button
-            type="warning"
-            onClick={goMain}
-            block
-          >
-            확인
-          </Button>
-        )}
-        message="로그인 후 사용가능 합니다."
-      /> */}
     </FormWrapper>
   );
 };

@@ -5,8 +5,7 @@ import { LeftOutlined, RightOutlined, TeamOutlined } from '@ant-design/icons';
 
 import useInput from '../../../hooks/useInput';
 
-import { Search, Item, Button } from '../../atoms';
-import { Alert } from '../../molecules';
+import { Search, Item } from '../../atoms';
 import SearchFriends from '../SearchFriends';
 import SearchSidebar from '../SearchSidebar';
 import ModalMatchingRequest from '../ModalMatchingRequest';
@@ -38,7 +37,7 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
     Image?: object;
     UserGym?: { GymId?: number };
    }>({});
-  const [stateWarning, setStateWarning] = useState<boolean>(false);
+
   const [searchWord, onChangeSearchWord] = useInput<string>('');
 
   const changeFoldedGym = useCallback(() => {
@@ -46,7 +45,6 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
   }, [foldedGym]);
 
   const onSearchGyms = useCallback(() => {
-    console.log('searchWord', searchWord);
     dispatch(loadGymRequest({ searchWord }));
     router.push(`?searchText=${searchWord}`, undefined, { shallow: true });
   }, [searchWord]);
@@ -57,10 +55,6 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
     }
     dispatch(loadFriendsRequest({ gymId }));
   }, [foldedFriends]);
-
-  const onChangeStateWarning = useCallback(() => {
-    setStateWarning(false);
-  }, [stateWarning]);
 
   useEffect(() => {
     if (isLoadGyms && mapBounds) {
@@ -160,26 +154,11 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
         setFoldedFriends={setFoldedFriends}
         setFriend={setFriend}
         setShowModal={setShowModal}
-        setStateWarning={setStateWarning}
       />
       <ModalMatchingRequest
         showModal={showModal}
         setShowModal={setShowModal}
         friend={friend}
-      />
-      <Alert
-        show={stateWarning}
-        type="warning"
-        action={(
-          <Button
-            block
-            type="warning"
-            onClick={onChangeStateWarning}
-          >
-            확인
-          </Button>
-        )}
-        message="로그인이 필요한 페이지입니다."
       />
     </SearchWrapper>
   );

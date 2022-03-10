@@ -6,10 +6,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { loginRequest, loginSelector } from '@/../reducers/user';
-import { useShowDispatch, useShowState } from '../../../../store/contextStore';
-import { Alert, FormInput } from '@/components/molecules';
+import { FormInput } from '@/components/molecules';
 import { Button, Form } from '@/components/atoms';
 import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
+import { useModalDispatch, useModalState } from '@/../store/modalStore';
+import { GlobalModal, ModalStatus } from '@/../@types/utils';
 
 const schema = yup.object({
   email: yup.string()
@@ -20,10 +21,10 @@ const schema = yup.object({
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const contextDispatch = useShowDispatch();
+  const contextDispatch = useModalDispatch();
 
   const { loginError } = useSelector(loginSelector);
-  const { alertShow } = useShowState();
+  const modals = useModalState();
 
   const { handleSubmit, control, formState: { errors } } = useForm<{ email: string; password: string }>({
     defaultValues: { email: '', password: '' },
@@ -32,10 +33,15 @@ const LoginForm = () => {
 
   const changeShowAlert = useCallback(() => {
     contextDispatch({
-      type: 'CHANGE_STATE_ALERT',
-      value: !alertShow,
+      type: 'SHOW_MODAL',
+      payload: {
+        type: GlobalModal.ALERT,
+        statusType: ModalStatus.ERROR,
+        message: '로그인을 실패하였습니다.',
+        block: true,
+      },
     });
-  }, [alertShow]);
+  }, [modals]);
 
   const onLogin = useCallback((data, e) => {
     e.preventDefault();
@@ -91,7 +97,7 @@ const LoginForm = () => {
           </Link>
         </Button>
       </ButtonWrapper>
-      <Alert
+      {/* <Alert
         show={alertShow}
         type="error"
         action={(
@@ -104,7 +110,7 @@ const LoginForm = () => {
           </Button>
         )}
         message="로그인을 실패하였습니다."
-      />
+      /> */}
     </FormWrapper>
   );
 };

@@ -2,18 +2,15 @@ import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { BiGroup, BiHeart, BiRun, BiTime, BiUser } from 'react-icons/bi';
 
-import { optionsSelector, userSelector } from '@/../reducers/user';
+import { userSelector } from '@/../reducers/user';
 import { profileSelector } from '@/../reducers/profile';
 import { InformationItem, Button, Icon } from '../../../atoms';
 import { Content, ContentTitle, MoreInfoBody, MoreInfoContent, MoreInfoWrapper } from './style';
 import ModalEditInfo from '../ModalEditInfo';
+import { AgeOptions, CareerOptions, GenderOptions, RoleOptions } from '@/../@types/utils';
 
 const MoreInfo = () => {
   const { me } = useSelector(userSelector);
-  const { careerOptions,
-    genderOptions,
-    roleOptions,
-    ageOptions } = useSelector(optionsSelector);
   const { profile } = useSelector(profileSelector);
   const [showEditModal, setShowEditModal] = useState(false);
   const [targetId, setTargetId] = useState('');
@@ -45,7 +42,7 @@ const MoreInfo = () => {
             <InformationItem
               title="나이"
               icon={<Icon icon={<BiUser />} />}
-              content={ageOptions.find((option: { value: number; }) => (
+              content={AgeOptions.find((option: { value: number; }) => (
                 option.value === parseInt(profile?.age, 10)))?.text}
             />
             <InformationItem
@@ -57,18 +54,18 @@ const MoreInfo = () => {
               title="운동경력"
               icon={<Icon icon={<BiRun />} />}
               content={
-                careerOptions.find((option: { value: number; }) => option.value === parseInt(profile?.career, 10))?.text
+                CareerOptions.find((option: { value: number; }) => option.value === parseInt(profile?.career, 10))?.text
               }
             />
             <InformationItem
               title="성별"
               icon={<Icon icon={<BiHeart />} />}
-              content={genderOptions.find((option: { value: string; }) => option.value === profile?.gender)?.text}
+              content={GenderOptions.find((option: { value: string; }) => option.value === profile?.gender)?.text}
             />
             <InformationItem
               title="역할"
               icon={<Icon icon={<BiGroup />} />}
-              content={roleOptions.find((option: { value: number; }) => (
+              content={RoleOptions.find((option: { value: number; }) => (
                 option.value === parseInt(profile?.role, 10)))?.text}
             />
           </Content>
@@ -91,25 +88,25 @@ const MoreInfo = () => {
             <InformationItem
               title="나이"
               icon={<Icon icon={<BiUser />} />}
-              content={ageOptions.find((option: { value: number; }) => (
+              content={AgeOptions.find((option: { value: number; }) => (
                 option.value === parseInt(profile?.Userdetail?.friendsAge, 10)))?.text}
             />
             <InformationItem
               title="운동경력"
               icon={<Icon icon={<BiRun />} />}
-              content={careerOptions.find((option: { value: number; }) => (
+              content={CareerOptions.find((option: { value: number; }) => (
                 option.value === parseInt(profile?.Userdetail?.friendsCareer, 10)))?.text}
             />
             <InformationItem
               title="성별"
               icon={<Icon icon={<BiHeart />} />}
-              content={genderOptions.find((option: { value: number; }) => (
+              content={GenderOptions.find((option: { value: string; }) => (
                 option.value === profile?.Userdetail?.friendsGender))?.text}
             />
             <InformationItem
               title="역할"
               icon={<Icon icon={<BiGroup />} />}
-              content={roleOptions.find((option: { value: number; }) => (
+              content={RoleOptions.find((option: { value: number; }) => (
                 option.value === parseInt(profile?.Userdetail?.friendsRole, 10)))?.text}
             />
           </Content>

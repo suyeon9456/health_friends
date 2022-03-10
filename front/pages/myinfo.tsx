@@ -15,38 +15,37 @@ import { AppLayout, SideBar, Info, MoreInfo, Row, Col } from '../src/components/
 import MatchingCalendar from '../src/components/organisms/profile/MatchingCalendar';
 import MatchingRecord from '../src/components/organisms/profile/MatchingRecord';
 import LikedList from '../src/components/organisms/profile/LikedList';
-import { Alert } from '../src/components/molecules';
-import { Button } from '../src/components/atoms';
-
-
-const menu = {
-  INFO: 'INFO',
-  RECORD: 'RECORD',
-  CALENDAR: 'CALENDAR',
-  LIKED: 'LIKED',
-} as const;
-
-type ProfileMenuType = typeof menu[keyof typeof menu];
+import { GlobalModal, Menu, ModalStatus, ProfileMenuType } from '../@types/utils';
+import { useModalDispatch } from '../store/modalStore';
 
 const Myinfo = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
 
+  const dispatch = useDispatch();
+  const contextDispatch = useModalDispatch();
+
   const { me } = useSelector(userSelector);
-  const [isNotloggedIn, setIsNotloggedIn] = useState(false);
-  const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(menu.INFO);
+  const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(Menu.INFO);
+
+  const goMain = useCallback(() => router.push('/'), []);
 
   useEffect(() => {
     if (!me) {
-      return setIsNotloggedIn(true);
+      contextDispatch({
+        type: 'SHOW_MODAL',
+        payload: {
+          type: GlobalModal.ALERT,
+          statusType: ModalStatus.WARNING,
+          message: '로그인 후 사용가능 합니다.',
+          block: true,
+          callback: goMain,
+        },
+      });
+      return
     }
     dispatch(loadProfileMyinfoRequest());
   }, [me]);
 
-  const goMain = useCallback(() => {
-    setIsNotloggedIn(false);
-    router.push('/');
-  }, []);
   return (
     <AppLayout>
       <Row>
@@ -58,10 +57,10 @@ const Myinfo = () => {
         </Col>
         <Col xs={24} md={16}>
           {{
-            [menu.LIKED]: <LikedList />,
-            [menu.CALENDAR]: <MatchingCalendar />,
-            [menu.RECORD]: <MatchingRecord />,
-            [menu.INFO]: (
+            [Menu.LIKED]: <LikedList />,
+            [Menu.CALENDAR]: <MatchingCalendar />,
+            [Menu.RECORD]: <MatchingRecord />,
+            [Menu.INFO]: (
               <div>
                 <Info />
                 <MoreInfo />
@@ -70,20 +69,6 @@ const Myinfo = () => {
           }[profileMenu]}
         </Col>
       </Row>
-      <Alert
-        show={isNotloggedIn}
-        type="warning"
-        action={(
-          <Button
-            type="warning"
-            onClick={goMain}
-            block
-          >
-            확인
-          </Button>
-        )}
-        message="로그인 후 사용가능 합니다."
-      />
     </AppLayout>
   );
 };

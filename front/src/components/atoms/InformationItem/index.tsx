@@ -5,7 +5,7 @@ import { Content, InfoWrapper, Title } from './style';
 const InformationItem = ({ title, icon, content }: {
   title: string;
   icon: React.ReactElement;
-  content: string;
+  content?: string;
 }) => (
   <InfoWrapper>
     {icon}

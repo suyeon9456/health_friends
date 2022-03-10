@@ -11,8 +11,10 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import wrapper from '../store/configureStore';
 import { ShowStateContext, reducer, ShowDispatchContext } from '../store/contextStore';
+import { UseModalStateContext, modalReducer, UseModalDispatchContext } from '../store/modalStore';
 import { myTheme } from '../src/styles/theme';
 import { ThemeProvider } from 'styled-components';
+import GlobalModal from '@/components/organisms/GlobalModal';
 
 const queryClient = new QueryClient();
 const App = ({ Component }: AppProps) => { // Component는 index.js 의 리턴 부분
@@ -23,6 +25,7 @@ const App = ({ Component }: AppProps) => { // Component는 index.js 의 리턴 �
     editNickname: false,
     editDescription: false,
   });
+  const [modalState, modalDispatch] = useReducer(modalReducer, []);
   
   return (
     <>
@@ -34,11 +37,16 @@ const App = ({ Component }: AppProps) => { // Component는 index.js 의 리턴 �
       </Head>
       <ShowStateContext.Provider value={state}>
         <ShowDispatchContext.Provider value={dispatch}>
-          <ThemeProvider theme={myTheme}>
-            <QueryClientProvider client={queryClient}>
-              <Component />
-            </QueryClientProvider>
-          </ThemeProvider>
+          <UseModalStateContext.Provider value={modalState}>
+            <UseModalDispatchContext.Provider value={modalDispatch}>
+              <ThemeProvider theme={myTheme}>
+                <QueryClientProvider client={queryClient}>
+                  <Component />
+                  <GlobalModal modals={modalState} />
+                </QueryClientProvider>
+              </ThemeProvider>
+            </UseModalDispatchContext.Provider>
+          </UseModalStateContext.Provider>
         </ShowDispatchContext.Provider>
       </ShowStateContext.Provider>
     </>
