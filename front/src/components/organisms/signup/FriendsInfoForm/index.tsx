@@ -1,15 +1,15 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 import { signupSelector, signupStepFriendsInfoSave, signupStepPrev } from '@/../reducers/user';
-import { FormSelect } from '../../../molecules';
+import { Alert, FormSelect } from '../../../molecules';
 import { Form, Button } from '../../../atoms';
 import { ButtonWrap, FormWrapper } from './style';
 import { AgeOptions, CareerOptions, GenderOptions, RoleOptions, SignupMenu } from '@/../@types/utils';
 import { useMutation } from 'react-query';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { SignupInfo, SignupMoreInfo, SignupGymInfo, SignupFriendsInfo } from '@/../@types/user';
 
 const FriendsInfoForm = () => {
@@ -34,6 +34,7 @@ const FriendsInfoForm = () => {
       friendsRole: signupStepFriendsInfo?.friendsRole || RoleOptions[0].value,
     },
   });
+  // const [show, setShow] = useState<boolean>(false);
 
   const mutation = useMutation((data: {
     info: SignupInfo;
@@ -42,28 +43,25 @@ const FriendsInfoForm = () => {
     selectedGym: {};
     friendsInfo: SignupFriendsInfo;
   }) => axios.post('/user', data), {
-    onError: (err) => {
-      console.error(err);
+    onError: async (error: AxiosError) => {
+      console.log('ddd', error?.response);
+    },
+    onSuccess: () => {
+      Router.replace('/');
     }
-  })
+  });
 
   const onClickSignup = useCallback(async (data, e) => {
     if (e.nativeEvent.submitter.name === 'next') {
-      await mutation.mutateAsync({
+      // await mutation.mutateAsync({
+      mutation.mutate({
         info,
         moreInfo,
         gymInfo,
         selectedGym,
         friendsInfo: data,
-      });
-      console.log(mutation.isError)
-      if (mutation.isError) {
-        return console.log('errror', mutation.error);
       }
-
-      if (mutation.isSuccess) {
-        Router.replace('/');
-      }
+      );
       return
     }
     dispatch(signupStepFriendsInfoSave(data));
@@ -121,6 +119,20 @@ const FriendsInfoForm = () => {
           </Button>
         </ButtonWrap>
       </Form>
+      {/* <Alert
+        show={show}
+        type="warning"
+        action={(
+          <Button
+            type="warning"
+            onClick={goMain}
+            block
+          >
+            확인
+          </Button>
+        )}
+        message="로그인 후 사용가능 합니다."
+      /> */}
     </FormWrapper>
   );
 };
