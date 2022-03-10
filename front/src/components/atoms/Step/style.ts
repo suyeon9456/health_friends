@@ -1,3 +1,4 @@
+import { Process, ProcessType } from '@/../@types/utils';
 import styled, { css } from 'styled-components';
 
 export const StepWrap = styled.div`
@@ -10,7 +11,7 @@ export const StepWrap = styled.div`
   vertical-align: top;
 `;
 
-export const StepIconWrap = styled.div<{ type: 'wait' | 'finished' | 'process' }>`
+export const StepIconWrap = styled.div<{ type: ProcessType }>`
   display: inline-block;
   vertical-align: top;
   width: 32px;
@@ -32,7 +33,7 @@ export const StepIconWrap = styled.div<{ type: 'wait' | 'finished' | 'process' }
   }
 
   ${({ type }) => {
-    if (type === 'finished') {
+    if (type === Process.FINISHED) {
       return css`
         background-color: #fff;
         border-color: rgb(146,84,222);
@@ -41,7 +42,7 @@ export const StepIconWrap = styled.div<{ type: 'wait' | 'finished' | 'process' }
         }
       `;
     }
-    if (type === 'process') {
+    if (type === Process.PROCESS) {
       return css`
         background-image: linear-gradient(to right,rgb(146,84,222) 0%,rgb(196,29,127) 100%);
         border-color: rgb(146,84,222);

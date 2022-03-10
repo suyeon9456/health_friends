@@ -8,6 +8,7 @@ import { FormInput, FormRangeTimePicker, FormTextarea } from '../../../molecules
 import ModalGym from './ModalGym';
 import { ButtonWrap, FormSearchGymWrap, FormWrapper } from './style';
 import { signupSelector, signupStepGymInfoSave, signupStepNext, signupStepPrev } from '@/../reducers/user';
+import { SignupMenu } from '@/../@types/utils';
 
 const MoreGymInfoForm = () => {
   const dispatch = useDispatch();
@@ -34,9 +35,9 @@ const MoreGymInfoForm = () => {
       endTime: format(data.endTime, 'HH:mm')
     }));
     if (e.nativeEvent.submitter.name === 'next') {
-      dispatch(signupStepNext());
+      dispatch(signupStepNext(SignupMenu.FRIENDSINFO));
     } else {
-      dispatch(signupStepPrev());
+      dispatch(signupStepPrev(SignupMenu.MOREINFO));
     }
   }, []);
   return (

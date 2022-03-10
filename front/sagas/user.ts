@@ -1,7 +1,7 @@
 import { all, fork, call, put, takeLatest, ForkEffect, AllEffect } from 'redux-saga/effects';
 import axios, { AxiosResponse } from 'axios';
 
-import { User, Me, SignupData } from '../@types/user';
+import { User, Me } from '../@types/user';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { loadMyInfoRequest,
   loadMyInfoSuccess,
@@ -12,9 +12,6 @@ import { loadMyInfoRequest,
   logoutRequest,
   logoutSuccess,
   logoutError,
-  signupRequest,
-  signupSuccess,
-  signupError,
   addLikeRequest,
   addLikeSuccess,
   addLikeError } from '../reducers/user';
@@ -58,19 +55,6 @@ function* logout() {
   }
 }
 
-function signupAPI(data?: SignupData): Promise<AxiosResponse<string>> {
-  return axios.post('/user', data);
-}
-
-function* signup(action: PayloadAction<SignupData>) {
-  try {
-    yield call(signupAPI, action.payload);
-    yield put(signupSuccess());
-  } catch (error: any) {
-    yield put(signupError(error.response.data));
-  }
-}
-
 function addLikeAPI(data?: number): Promise<AxiosResponse<User>> {
   return axios.patch(`/user/${data}/like`);
 }
@@ -96,10 +80,6 @@ function* watchLogout() {
   yield takeLatest(logoutRequest, logout);
 }
 
-function* watchSignUp() {
-  yield takeLatest(signupRequest, signup);
-}
-
 function* watchAddLike() {
   yield takeLatest(addLikeRequest, addLike);
 }
@@ -109,7 +89,6 @@ export default function* userSaga(): Generator<ForkEffect<void> | AllEffect<any>
     yield fork(watchLoadMyInfo),
     yield fork(watchLogin),
     yield fork(watchLogout),
-    yield fork(watchSignUp),
     yield fork(watchAddLike),
   ]);
 }

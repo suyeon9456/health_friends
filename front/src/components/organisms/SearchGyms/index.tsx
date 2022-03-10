@@ -46,6 +46,7 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
   }, [foldedGym]);
 
   const onSearchGyms = useCallback(() => {
+    console.log('searchWord', searchWord);
     dispatch(loadGymRequest({ searchWord }));
     router.push(`?searchText=${searchWord}`, undefined, { shallow: true });
   }, [searchWord]);

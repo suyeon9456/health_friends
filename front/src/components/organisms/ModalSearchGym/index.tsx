@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '@/../store/configureStore';
 import useInput from '../../../hooks/useInput';
 import { Search, Item } from '../../atoms';
 import { BoxContent, GymListWrap, ListCard } from './style';

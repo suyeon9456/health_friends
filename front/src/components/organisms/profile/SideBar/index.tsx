@@ -39,7 +39,6 @@ const SideBar = ({ profileMenu, setProfileMenu }: {
 
   useEffect(() => {
     if (profile) {
-      console.log('myIIIInfo', profile);
       onChangeResponseRate();
     }
   }, [profile]);

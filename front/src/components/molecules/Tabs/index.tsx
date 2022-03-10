@@ -4,7 +4,10 @@ import { Tab } from '../../atoms';
 import { TabsWrapper } from './style';
 
 const Tabs = ({ tabs, block, selectedTab, onChangeSelectedTab }: {
-  tabs: Array<{ value: string; size: string; text: string }>;
+  tabs: readonly {
+    readonly value: string;
+    readonly text: string;
+  }[];
   block: boolean;
   selectedTab: string;
   onChangeSelectedTab: (props: string) => void;

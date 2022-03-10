@@ -8,6 +8,7 @@ import { signupSelector, signupStepInfoSave, signupStepNext } from '@/../reducer
 import { FormInput } from '../../../molecules';
 import { Button, Form } from '../../../atoms';
 import { ButtonWrap, InfoFormWrapper } from './style';
+import { SignupMenu } from '@/../@types/utils';
 
 const schema = yup.object({
   email: yup.string()
@@ -40,7 +41,7 @@ const InfoForm = () => {
 
   const onNextClick = useCallback((data) => {
     dispatch(signupStepInfoSave(data));
-    dispatch(signupStepNext());
+    dispatch(signupStepNext(SignupMenu.MOREINFO));
   }, []);
 
   return (

@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm, UseFormSetValue } from 'react-hook-form';
 
 import { addGymRequeset } from '@/../reducers/gym';
-import { optionsSelector } from '@/../reducers/user';
 import { Modal, Tabs } from '../../../molecules';
 import ModalSearchGym from '../../ModalSearchGym';
 import ModalCreateGym from '../../ModalCreateGym';
 import { ModalBodyBox } from './style';
+import { SearchGymTabs } from '@/../@types/utils';
 
 interface CreateModalType {
   sido: string;
@@ -30,7 +30,6 @@ const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }: {
     description: string;
   }>;
 }) => {
-  const { searchGymTabs } = useSelector(optionsSelector);
   const dispatch = useDispatch();
 
   const { handleSubmit, control, setValue } = useForm<CreateModalType>({
@@ -46,10 +45,7 @@ const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }: {
 
   const [selectedTab, setSelectedTab] = useState('search');
 
-  const onChangeSelectedTab = useCallback((tab) => {
-    console.log(tab);
-    setSelectedTab(tab);
-  }, [selectedTab]);
+  const onChangeSelectedTab = useCallback((tab) => setSelectedTab(tab), [selectedTab]);
 
   const onSubmit = useCallback((data) => {
     // 이벤트버블링 체크
@@ -69,7 +65,7 @@ const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }: {
     >
       <ModalBodyBox>
         <Tabs
-          tabs={searchGymTabs}
+          tabs={SearchGymTabs}
           selectedTab={selectedTab}
           onChangeSelectedTab={onChangeSelectedTab}
           block

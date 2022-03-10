@@ -72,12 +72,6 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: {
     const swLatlng = mapBounds.getSouthWest();
     // 영역정보의 북동쪽 정보를 얻어옵니다
     const neLatlng = mapBounds.getNorthEast();
-    // // 지도 영역정보를 얻어옵니다
-    // const bounds = map.current.getBounds();
-    // // 영역정보의 남서쪽 정보를 얻어옵니다
-    // const swLatlng = bounds.getSouthWest();
-    // // 영역정보의 북동쪽 정보를 얻어옵니다
-    // const neLatlng = bounds.getNorthEast();
 
     const { La: swLon, Ma: swLat } = swLatlng;
     const { La: neLon, Ma: neLat } = neLatlng;
@@ -218,12 +212,12 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: {
       longitude: string;
       name: string;
     }) => {
-      const marker = new (window as any).maps.Marker({
+      const marker = new (window as any).kakao.maps.Marker({
         map: map.current, // 마커를 표시할 지도
-        position: new (window as any).maps.LatLng(gymItem.latitude, gymItem.longitude), // 마커를 표시할 위치
+        position: new (window as any).kakao.maps.LatLng(gymItem.latitude, gymItem.longitude), // 마커를 표시할 위치
         title: gymItem.name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
       });
-      (window as any).maps.event.addListener(marker, 'click', onClickGym(gymItem.id));
+      (window as any).kakao.maps.event.addListener(marker, 'click', onClickGym(gymItem.id));
     });
   }, [gyms]);
 

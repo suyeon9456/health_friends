@@ -155,6 +155,7 @@ export const MenuTitle = styled.span`
 `;
 
 export const MenuText = styled.a`
+  cursor: pointer;
   text-decoration: none;
   background-color: transparent;
   outline: none;

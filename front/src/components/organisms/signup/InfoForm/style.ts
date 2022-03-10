@@ -7,6 +7,7 @@ export const InfoFormWrapper = styled.div`
     padding: 10px 0;
   }
   & > form > div {
+    height: 100px;
     margin: 0 auto;
     max-width: 600px;
     & > div, & > span {
@@ -16,6 +17,6 @@ export const InfoFormWrapper = styled.div`
 `;
 
 export const ButtonWrap = styled.div`
-  margin-top: 10px;
+  margin-top: 20px !important;
   text-align: center;
 `;

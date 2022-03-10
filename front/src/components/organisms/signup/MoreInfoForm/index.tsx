@@ -2,44 +2,40 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { optionsSelector, signupSelector, signupStepMoreInfoSave, signupStepNext, signupStepPrev } from '@/../reducers/user';
+import { signupSelector, signupStepMoreInfoSave, signupStepNext, signupStepPrev } from '@/../reducers/user';
 import { FormSelect } from '../../../molecules';
 import { Button, Form } from '../../../atoms';
 import { ButtonWrap, MoreInfoFormWrapper } from './style';
+import { AgeOptions, CareerOptions, GenderOptions, RoleOptions, SignupMenu } from '@/../@types/utils';
 
 const MoreInfoForm = () => {
   const dispatch = useDispatch();
-
-  const { careerOptions,
-    roleOptions,
-    genderOptions,
-    ageOptions } = useSelector(optionsSelector);
   const { signupStepMoreInfo } = useSelector(signupSelector);
   const { handleSubmit, control } = useForm({
     defaultValues: {
-      gender: signupStepMoreInfo?.gender || 'male',
-      age: signupStepMoreInfo?.age || 0,
-      career: signupStepMoreInfo?.career || 1,
-      role: signupStepMoreInfo?.role || 1,
+      gender: signupStepMoreInfo?.gender || GenderOptions[0].value,
+      age: signupStepMoreInfo?.age || AgeOptions[0].value,
+      career: signupStepMoreInfo?.career || CareerOptions[0].value,
+      role: signupStepMoreInfo?.role || RoleOptions[0].value,
     },
   });
 
   const onClickStepHandler = useCallback((data, e) => {
     dispatch(signupStepMoreInfoSave(data));
     if (e.nativeEvent.submitter.name === 'next') {
-      dispatch(signupStepNext());
+      dispatch(signupStepNext(SignupMenu.GYMINFO));
     } else {
-      dispatch(signupStepPrev());
+      dispatch(signupStepPrev(SignupMenu.INFO));
     }
   }, []);
-
+  
   return (
     <MoreInfoFormWrapper>
       <Form onSubmit={handleSubmit(onClickStepHandler)}>
         <FormSelect
           label="성별"
           id="gender"
-          options={genderOptions}
+          options={GenderOptions}
           size="large"
           control={control}
         />
@@ -47,20 +43,20 @@ const MoreInfoForm = () => {
           label="나이"
           id="age"
           size="large"
-          options={ageOptions}
+          options={AgeOptions}
           control={control}
         />
         <FormSelect
           label="운동경력"
           id="career"
-          options={careerOptions}
+          options={CareerOptions}
           size="large"
           control={control}
         />
         <FormSelect
           label="친구와의 역할"
           id="role"
-          options={roleOptions}
+          options={RoleOptions}
           size="large"
           control={control}
         />

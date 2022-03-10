@@ -31,12 +31,13 @@ function* addGym(action: PayloadAction<Address>) {
   }
 }
 
-function loadGymsAPI({ lastId, data }: { data: LoadGymProps, lastId: number }): Promise<AxiosResponse<Gyms>> {
-  return axios.get(`/gyms?lastId=${lastId || 0}&searchWord=${data?.searchWord || ''}&swLon=${data?.swLon}&swLat=${data?.swLat}&neLon=${data?.neLon}&neLat=${data?.neLat}`);
+function loadGymsAPI(data: LoadGymProps): Promise<AxiosResponse<Gyms>> {
+  return axios.get(`/gyms?lastId=${data?.lastId || 0}&searchWord=${data?.searchWord || ''}&swLon=${data?.swLon}&swLat=${data?.swLat}&neLon=${data?.neLon}&neLat=${data?.neLat}`);
 }
 
-function* loadGyms(action: PayloadAction<{ data: LoadGymProps, lastId: number }>) {
+function* loadGyms(action: PayloadAction<LoadGymProps>) {
   try {
+    console.log('test', action.payload);
     const result: AxiosResponse<Gyms> = yield call(loadGymsAPI, action.payload);
     yield put(loadGymSuccess(result.data));
   } catch (error: any) {

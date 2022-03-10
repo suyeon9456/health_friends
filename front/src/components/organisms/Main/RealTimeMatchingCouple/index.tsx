@@ -32,7 +32,7 @@ const RealTimeMatchingCouple = () => {
             ? (realtimeMatching?.map((matching) => {
               const reqImageSrc = matching?.Image?.src;
               const reqAvatarSrc = reqImageSrc || '';
-              const resImageSrc = matching?.reqSchedule[0]?.Friend?.Image?.src;
+              const resImageSrc = matching?.reqSchedule[0]?.Receiver?.Image?.src;
               const resAvatarSrc = resImageSrc || '';
               return (
                 <CoupleCard key={matching.id}>
@@ -46,7 +46,7 @@ const RealTimeMatchingCouple = () => {
                   </MatchingIcon>
                   <AvatarWrap>
                     <Avatar size={82} src={resAvatarSrc} />
-                    { matching.reqSchedule[0].Friend.nickname }
+                    { matching.reqSchedule[0]?.Receiver?.nickname }
                   </AvatarWrap>
                 </CoupleCard>
               );

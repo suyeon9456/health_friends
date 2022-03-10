@@ -2,32 +2,39 @@ import React from 'react';
 
 import { StepsWrapper } from './style';
 import { Step } from '../../atoms';
+import { Process, ProcessType, SignupMenuType } from '@/../@types/utils';
 
-const Steps = ({ steps, process }: {
-  steps: Array<{ step: number; id: number | string; title: string; description: string }>,
-  process: number,
-}) => (
-  <StepsWrapper>
-    {steps.map((step) => {
-      let type: 'wait' | 'finished' | 'process' = 'wait';
-      if (step.step === process) {
-        type = 'process';
-      } else if (step.step < process) {
-        type = 'finished';
-      } else {
-        type = 'wait';
-      }
-      return (
-        <Step
-          key={step.id}
-          type={type}
-          step={step.step}
-          title={step.title}
-          description={step.description}
-        />
-      );
-    })}
-  </StepsWrapper>
-);
+const Steps = ({ steps, process, target }: {
+  steps: readonly {
+    readonly step: SignupMenuType;
+    readonly title: string;
+    readonly description: string }[];
+  process: SignupMenuType;
+  target: number;
+}) => {
+  return (
+    <StepsWrapper>
+      {steps.map(({ step, title, description }, index) => {
+        console.log('test', target);
+        let type: ProcessType = Process.WAIT;
+        if (index === target) {
+          type = Process.PROCESS;
+        } 
+        if (step !== process && index) {
+          type = Process.FINISHED;
+        }
+        return (
+          <Step
+            key={step}
+            type={type}
+            step={index + 1}
+            title={title}
+            description={description}
+          />
+        );
+      })}
+    </StepsWrapper>
+  );
+};
 
 export default Steps;

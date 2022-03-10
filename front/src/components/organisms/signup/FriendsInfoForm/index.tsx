@@ -3,52 +3,72 @@ import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { optionsSelector, signupRequest, signupSelector, signupStepFriendsInfoSave, signupStepPrev } from '@/../reducers/user';
+import { signupSelector, signupStepFriendsInfoSave, signupStepPrev } from '@/../reducers/user';
 import { FormSelect } from '../../../molecules';
 import { Form, Button } from '../../../atoms';
 import { ButtonWrap, FormWrapper } from './style';
+import { AgeOptions, CareerOptions, GenderOptions, RoleOptions, SignupMenu } from '@/../@types/utils';
+import { useMutation } from 'react-query';
+import axios from 'axios';
+import { SignupInfo, SignupMoreInfo, SignupGymInfo, SignupFriendsInfo } from '@/../@types/user';
 
 const FriendsInfoForm = () => {
   const dispatch = useDispatch();
-  const { genderOptions,
-    careerOptions,
-    roleOptions,
-    ageOptions } = useSelector(optionsSelector);
-  const { signupDone,
-    selectedGym,
+  const { selectedGym,
     signupStepInfo: info,
     signupStepMoreInfo: moreInfo,
     signupStepGymInfo: gymInfo,
-    signupStepFriendsInfo } = useSelector(signupSelector);
+    signupStepFriendsInfo }: {
+      selectedGym: {};
+      signupStepInfo: SignupInfo;
+      signupStepMoreInfo: SignupMoreInfo;
+      signupStepGymInfo: SignupGymInfo;
+      signupStepFriendsInfo: SignupFriendsInfo;
+    } = useSelector(signupSelector);
 
   const { handleSubmit, control } = useForm({
     defaultValues: {
-      friendsGender: signupStepFriendsInfo?.friendsGender || 'male',
-      friendsCareer: signupStepFriendsInfo?.friendsCareer || 1,
-      friendsAge: signupStepFriendsInfo?.friendsAge || 0,
-      friendsRole: signupStepFriendsInfo?.friendsRole || 1,
+      friendsGender: signupStepFriendsInfo?.friendsGender || GenderOptions[0].value,
+      friendsCareer: signupStepFriendsInfo?.friendsCareer || CareerOptions[0].value,
+      friendsAge: signupStepFriendsInfo?.friendsAge || AgeOptions[0].value,
+      friendsRole: signupStepFriendsInfo?.friendsRole || RoleOptions[0].value,
     },
   });
 
-  const onClickSignup = useCallback((data, e) => {
+  const mutation = useMutation((data: {
+    info: SignupInfo;
+    moreInfo: SignupMoreInfo;
+    gymInfo: SignupGymInfo;
+    selectedGym: {};
+    friendsInfo: SignupFriendsInfo;
+  }) => axios.post('/user', data), {
+    onError: (err) => {
+      console.error(err);
+    }
+  })
+
+  const onClickSignup = useCallback(async (data, e) => {
     if (e.nativeEvent.submitter.name === 'next') {
-      return dispatch(signupRequest({
+      await mutation.mutateAsync({
         info,
         moreInfo,
         gymInfo,
         selectedGym,
-        friendsInfo: { ...data },
-      }));
+        friendsInfo: data,
+      });
+      console.log(mutation.isError)
+      if (mutation.isError) {
+        return console.log('errror', mutation.error);
+      }
+
+      if (mutation.isSuccess) {
+        Router.replace('/');
+      }
+      return
     }
     dispatch(signupStepFriendsInfoSave(data));
-    dispatch(signupStepPrev());
-  }, [selectedGym, info, moreInfo, gymInfo]);
-
-  useEffect(() => {
-    if (signupDone) {
-      Router.replace('/');
-    }
-  }, [signupDone]);
+    dispatch(signupStepPrev(SignupMenu.GYMINFO));
+  }, [selectedGym, info, moreInfo, gymInfo, mutation]);
 
   return (
     <FormWrapper>
@@ -56,7 +76,7 @@ const FriendsInfoForm = () => {
         <FormSelect
           label="성별"
           id="friendsGender"
-          options={genderOptions}
+          options={GenderOptions}
           size="large"
           control={control}
         />
@@ -64,20 +84,20 @@ const FriendsInfoForm = () => {
           label="나이"
           id="friendsAge"
           size="large"
-          options={ageOptions}
+          options={AgeOptions}
           control={control}
         />
         <FormSelect
           label="운동경력"
           id="friendsCareer"
-          options={careerOptions}
+          options={CareerOptions}
           size="large"
           control={control}
         />
         <FormSelect
           label="친구와의 역할"
           id="friendsRole"
-          options={roleOptions}
+          options={RoleOptions}
           size="large"
           control={control}
         />
@@ -94,6 +114,7 @@ const FriendsInfoForm = () => {
             type="line-primary"
             size="large"
             name="next"
+            buttonLoading={mutation.isLoading}
             submit
           >
             가입하기

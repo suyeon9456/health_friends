@@ -36,16 +36,17 @@ export const MatchingCoupleBody = styled.div`
 
 export const CoupleCardList = styled.div`
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  /* align-content: space-between; */
+  display: grid;
+  gap: 10px 20px;
+  grid-template-columns: repeat(auto-fill, minmax(20%, auto));
   margin-top: 50px;
+  grid-template-columns: 1fr 1fr 1fr;
 `;
 
 export const CoupleCard = styled.div`
   position: relative;
-  width: 300px;
-  height: 120px;
+  /* width: 300px; */
+  height: 220px;
   background-color: #ffffff;
   border: 1px solid rgb(230, 230, 230);
   border-radius: 5px;
@@ -84,15 +85,12 @@ export const NoDataText = styled.div`
 
 export const AvatarWrap = styled.div`
   flex-grow: 2;
-  /* flex-wrap: wrap;
-  align-content: center; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: 14px;
   font-weight: 600;
-  /* background-color: red; */
 `;
 
 export const MatchingIcon = styled.div`
