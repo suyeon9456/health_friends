@@ -63,7 +63,8 @@ router.get('/', async (req, res, next) => { // GET /schedules/
 
     const schedules = await Schedule.findAll({
       where,
-      limit: req.query.profileMenu === 'calendar' ? null : parseInt(req.query.limit, 10),
+      // limit: req.query.profileMenu === 'calendar' ? null : parseInt(req.query.limit, 10),
+      limit: parseInt(req.query.limit, 10),
       attributes: [
         'id',
         'description',
@@ -84,7 +85,7 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         }],
       }, {
         model: User,
-        as: 'Friend',
+        as: 'Receiver',
         attributes: ['id', 'nickname'],
         include: [{ model: Image }],
       }, {
@@ -141,7 +142,7 @@ router.get('/calendar', async (req, res, next) => { // GET /schedules/calendar
         }],
       }, {
         model: User,
-        as: 'Friend',
+        as: 'Receiver',
         attributes: [
           'id',
           'nickname'

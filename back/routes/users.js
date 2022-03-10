@@ -173,7 +173,7 @@ router.get('/realtimeMathcing', async (req, res, next) => { // GET /users/realti
           attributes: ['id', 'name'],
         }, {
           model: User,
-          as: 'Friend',
+          as: 'Receiver',
           attributes: ['id', 'nickname'],
           include: [{
             model: Image,

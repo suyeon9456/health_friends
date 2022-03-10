@@ -102,7 +102,7 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
         //     [Sequelize.fn('count', Sequelize.col('Requester->reqSchedule.id')), 'count'],
       }, {
         model: User,
-        as: 'Friend',
+        as: 'Receiver',
         attributes: [ 'id', 'nickname', ],
         include: [{
           model: Image,
@@ -135,14 +135,14 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
         // [Sequelize.fn('count', Sequelize.col('id')), 'count'],
         'FriendId',
         [Sequelize.literal(
-          `(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND (UserId = ${schedule.Requester.id === req.user.id ? schedule.Friend.id : schedule.Requester.id} OR FriendId = ${schedule.Requester.id === req.user.id ? schedule.Friend.id : schedule.Requester.id}))`
+          `(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND (UserId = ${schedule.Requester.id === req.user.id ? schedule.Receiver.id : schedule.Requester.id} OR FriendId = ${schedule.Requester.id === req.user.id ? schedule.Receiver.id : schedule.Requester.id}))`
           ), 'matchingCount'],
         [Sequelize.literal(
-          `(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND RematchId IS NOT NULL AND (UserId = ${schedule.Requester.id === req.user.id ? schedule.Friend.id : schedule.Requester.id} OR FriendId = ${schedule.Requester.id === req.user.id ? schedule.Friend.id : schedule.Requester.id}))`
+          `(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND RematchId IS NOT NULL AND (UserId = ${schedule.Requester.id === req.user.id ? schedule.Receiver.id : schedule.Requester.id} OR FriendId = ${schedule.Requester.id === req.user.id ? schedule.Receiver.id : schedule.Requester.id}))`
           ), 'rematchingCount']
       ],
       where: {
-        UserId: schedule.Requester.id === req.user.id ? schedule.Friend.id : schedule.Requester.id,
+        UserId: schedule.Requester.id === req.user.id ? schedule.Receiver.id : schedule.Requester.id,
         permission: true,
         isPermitted: true,
         RematchId: { [Op.not]: null },
@@ -273,7 +273,7 @@ router.post('/cancel', isLoggedIn, async (req, res, next) => { // POST /schedule
         attributes: [ 'id', 'nickname' ],
       }, {
         model: User,
-        as: 'Friend',
+        as: 'Receiver',
         attributes: [ 'id', 'nickname', ],
       }, {
         model: Gym,
@@ -334,7 +334,7 @@ router.put('/cancel', isLoggedIn, async (req, res, next) => { // PUT /schedule/c
         attributes: [ 'id', 'nickname' ],
       }, {
         model: User,
-        as: 'Friend',
+        as: 'Receiver',
         attributes: [ 'id', 'nickname', ],
       }, {
         model: Gym,

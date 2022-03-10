@@ -56,6 +56,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/profile/myinfo', isLoggedIn, async (req, res, next) => {
   try {
+    console.log('test1');
     const myinfo = await User.findOne({
       where: { id: req.user.id },
       attributes: {
@@ -70,8 +71,7 @@ router.get('/profile/myinfo', isLoggedIn, async (req, res, next) => {
           'friendsAge',
           'friendsCareer',
           'friendsGender',
-          'friendsRole',
-          'rematchingRate'
+          'friendsRole'
         ],
       }, {
         model: Gym,
@@ -91,7 +91,23 @@ router.get('/profile/myinfo', isLoggedIn, async (req, res, next) => {
         attributes: ['id'],
       }]
     });
-    res.status(200).json(myinfo);
+
+    console.log('test2');
+
+    const matching = await Schedule.findAll({
+      attributes: [
+        'FriendId',
+        [Sequelize.literal(`(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND (UserId = ${req.user.id} OR FriendId = ${req.user.id}))`), 'matchingCount'],
+        [Sequelize.literal(`(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND RematchId IS NOT NULL AND (UserId = ${req.user.id} OR FriendId = ${req.user.id}))`), 'rematchingCount']
+      ],
+      where: {
+        UserId: req.user.id,
+        permission: true,
+        isPermitted: true,
+      },
+      group: ['FriendId']
+    });
+    res.status(200).json({ myinfo, matching });
   } catch (error) {
     console.error(error);
     next(error);
@@ -114,8 +130,7 @@ router.get('/profile/:userId', async (req, res, next) => {
           'friendsAge',
           'friendsCareer',
           'friendsGender',
-          'friendsRole',
-          'rematchingRate'
+          'friendsRole'
         ],
       }, {
         model: Gym,
@@ -131,7 +146,21 @@ router.get('/profile/:userId', async (req, res, next) => {
         model: Image,
       }]
     });
-    res.status(200).json(user);
+
+    const matching = await Schedule.findAll({
+      attributes: [
+        'FriendId',
+        [Sequelize.literal(`(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND (UserId = ${req.params.userId} OR FriendId = ${req.params.userId}))`), 'matchingCount'],
+        [Sequelize.literal(`(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND RematchId IS NOT NULL AND (UserId = ${req.params.userId} OR FriendId = ${req.params.userId}))`), 'rematchingCount']
+      ],
+      where: {
+        UserId: req.user.id,
+        permission: true,
+        isPermitted: true,
+      },
+      group: ['FriendId']
+    });
+    res.status(200).json({ user, matching });
   } catch (error) {
     console.error(error);
     next(error);
