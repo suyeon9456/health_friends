@@ -10,6 +10,7 @@ import { Avatar } from '../../../atoms';
 import { Content, DescriptionWrap, InfoContent } from '../../MatchingRequestForm/style';
 import { MatchingInfoWrap, RequestFriendWrap, UserInfoWrap } from './style';
 import { MatchingCardProps } from '@/../@types/schedule';
+import { ButtonType } from '@/../@types/utils';
 
 const ModalMatchingDetail = ({ schedule, show, onCancel }: {
   schedule?: MatchingCardProps;
@@ -109,9 +110,9 @@ const ModalMatchingDetail = ({ schedule, show, onCancel }: {
         footer={(compareAsc(schedule?.start, new Date()) > -1)
           && (schedule?.Cancel?.RequestId !== me?.id) && !schedule?.Cancel}
         actions={!schedule?.Cancel?.id
-          ? [{ id: 'cancel', title: '취소요청', type: 'error', onClick: onCancelRequest }]
+          ? [{ id: 'cancel', title: '취소요청', type: ButtonType.ERROR, onClick: onCancelRequest }]
           : (schedule?.Cancel?.RequestId !== me?.id
-              && [{ id: 'cancelcheck', title: '취소요청 승인', type: 'error', onClick: onCancelResponse }])
+              && [{ id: 'cancelcheck', title: '취소요청 승인', type: ButtonType.ERROR, onClick: onCancelResponse }])
               || []}
       >
         <RequestFriendWrap>
@@ -151,7 +152,7 @@ const ModalMatchingDetail = ({ schedule, show, onCancel }: {
         || (compareAsc(schedule?.start, new Date()) > -1)}
       actions={!schedule?.isPermitted && !!schedule?.lastYn && schedule?.lastYn > -1
         ? [{ id: 'refuse', title: '거절', onClick: onRefuse },
-          { id: 'accept', title: '수락', type: 'signature', onClick: onAccept }]
+          { id: 'accept', title: '수락', type: ButtonType.SIGNATURE, onClick: onAccept }]
         : []}
     >
       <RequestFriendWrap>

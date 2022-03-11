@@ -3,7 +3,7 @@ import { Control, FieldValues } from 'react-hook-form';
 
 import { FormRangeTimePicker, FormSelect } from '../../../molecules';
 import { FormWrap } from './style';
-import { AgeOptions, CareerOptions, GenderOptions, RoleOptions } from '@/../@types/utils';
+import { AgeOptions, BaseSizeType, CareerOptions, GenderOptions, RoleOptions } from '@/../@types/utils';
 
 interface EditInfoFormType extends FieldValues {
   startTime: Date;
@@ -31,7 +31,7 @@ const EditInfoForm = ({ targetId, control }: {
         startName="startTime"
         endName="endTime"
         label="운동시간"
-        size="small"
+        size={BaseSizeType.SMALL}
         control={control}
       />
     )}
