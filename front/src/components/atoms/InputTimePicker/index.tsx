@@ -4,11 +4,11 @@ import DatePicker from 'react-datepicker';
 import CustomCalendar from '../CustomCalendar';
 import CustomPickerInput from '../CustomPickerInput';
 
-import { Size } from '../../../../@types/atoms';
+import { BaseSizeTypeT, PickerType } from '@/../@types/utils';
 
 const InputTimePicker = ({ name, size, value, onChange }: {
   name: string;
-  size?: Size;
+  size?: BaseSizeTypeT;
   value: Date;
   onChange: (data: Date | null) => void;
 }) => (
@@ -19,7 +19,7 @@ const InputTimePicker = ({ name, size, value, onChange }: {
     timeIntervals={15}
     timeCaption="Time"
     dateFormat="h:mm aa"
-    customInput={<CustomPickerInput type="time" size={size} />}
+    customInput={<CustomPickerInput type={PickerType.TIME} size={size} />}
     calendarContainer={CustomCalendar}
     value={String(value)}
     onChange={(data) => onChange(data)}

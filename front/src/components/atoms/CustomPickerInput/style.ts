@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
-import { Size } from '@/../@types/atoms';
+import { BaseSizeType, BaseSizeTypeT } from '@/../@types/utils';
 
-export const PickerWrap = styled.div<{ size?: Size }>`
+export const PickerWrap = styled.div<{ size?: BaseSizeTypeT }>`
   box-sizing: border-box;
   margin: 0;
   color: #000000d9;
@@ -30,12 +30,12 @@ export const PickerWrap = styled.div<{ size?: Size }>`
   }
 
   ${({ size }) => {
-    if (size === 'small') {
+    if (size === BaseSizeType.SMALL) {
       return css`
         height: 24px;
       `;
     }
-    if (size === 'large') {
+    if (size === BaseSizeType.LARGE) {
       return css`
         height: 40px;
       `;

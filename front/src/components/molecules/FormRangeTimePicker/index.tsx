@@ -6,13 +6,14 @@ import { Control, Controller, FieldError, FieldValues, Path } from 'react-hook-f
 import { RangeTimePickerWrap, RangeSeparator, Separator } from '../../atoms/RangeTimePicker/style';
 import { Label, Essential } from '../FormTimePicker/style';
 import { CustomPickerInput, CustomCalendar } from '../../atoms';
+import { BaseSizeTypeT, PickerType } from '@/../@types/utils';
 
 interface FormRangeTimePickerType<T> {
   label: string;
   essential?: boolean;
   startName: Path<T>;
   endName: Path<T>;
-  size?: 'small' | 'large';
+  size?: BaseSizeTypeT;
   control?: Control<T, object>;
   error?: FieldError | undefined;
 }
@@ -45,7 +46,7 @@ const FormRangeTimePicker = <T extends FieldValues>({
             timeIntervals={15}
             timeCaption="Time"
             dateFormat="HH:mm"
-            customInput={<CustomPickerInput type="time" size={size} />}
+            customInput={<CustomPickerInput type={PickerType.TIME} size={size} />}
             calendarContainer={CustomCalendar}
           />
         )}
@@ -70,7 +71,7 @@ const FormRangeTimePicker = <T extends FieldValues>({
               timeIntervals={15}
               timeCaption="Time"
               dateFormat="HH:mm"
-              customInput={<CustomPickerInput type="time" size={size} />}
+              customInput={<CustomPickerInput type={PickerType.TIME} size={size} />}
               calendarContainer={CustomCalendar}
             />
           );

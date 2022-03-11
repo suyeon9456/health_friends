@@ -11,6 +11,7 @@ import { userSelector } from '@/../reducers/user';
 import { Modal } from '../../molecules';
 import { Avatar } from '../../atoms';
 import MatchingRequestForm from '../MatchingRequestForm';
+import { SizeType } from '@/../@types/utils';
 
 const schema = yup.object({
   startDate: yup.string().required('날짜는 필수 항목입니다.'),
@@ -71,7 +72,7 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }: {
       show={showModal}
       title={(
         <div>
-          <Avatar size="small" {...{ style: { marginRight: '10px' } }} />
+          <Avatar size={SizeType.SMALL} {...{ style: { marginRight: '10px' } }} />
           {friend?.nickname}님에게 매칭신청
         </div>
       )}

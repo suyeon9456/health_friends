@@ -2,9 +2,10 @@ import React from 'react';
 
 import { AvatarWrapper } from './style';
 import { Avatar } from '../../atoms';
+import { SizeTypeT } from '@/../@types/utils';
 
 const AvatarGroup = ({ size, users, ...props }: {
-  size?: 'small' | 'large' | 'default' | number;
+  size?: SizeTypeT | number;
   users: Array<{ id: number | string, src: string }>;
 }) => (
   <AvatarWrapper

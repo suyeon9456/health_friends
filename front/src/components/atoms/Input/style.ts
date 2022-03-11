@@ -1,8 +1,9 @@
 import styled, { css } from 'styled-components';
 import { FieldError } from 'react-hook-form';
+import { SizeType, SizeTypeT } from '@/../@types/utils';
 
 interface Input {
-  inputsize?: 'default' | 'small' | 'large';
+  inputsize?: SizeTypeT;
   type?: string;
   passwordType?: string;
   loading?: boolean;
@@ -100,12 +101,12 @@ export const InputContainer = styled.input<Input>`
   transition: all .3s;
 
   ${({ inputsize }) => {
-    if (inputsize === 'small') {
+    if (inputsize === SizeType.SMALL) {
       return css`
         height: 24px;
       `;
     }
-    if (inputsize === 'large') {
+    if (inputsize === SizeType.LARGE) {
       return css`
         height: 40px;
       `;

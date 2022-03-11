@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
-import { Size } from '@/../@types/atoms';
+import { SizeType, SizeTypeT } from '@/../@types/utils';
 
-export const InputNumberWrap = styled.span<{ size?: Size }>`
+export const InputNumberWrap = styled.span<{ size?: SizeTypeT }>`
   position: relative;
   width: 100%;
   min-width: 0;
@@ -27,12 +27,12 @@ export const InputNumberWrap = styled.span<{ size?: Size }>`
   }
 
   ${({ size }) => {
-    if (size === 'small') {
+    if (size === SizeType.SMALL) {
       return css`
         height: 24px;
       `;
     }
-    if (size === 'large') {
+    if (size === SizeType.LARGE) {
       return css`
         height: 40px;
       `;

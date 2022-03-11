@@ -1,9 +1,10 @@
 import styled, { css } from 'styled-components';
-import { Size, Type } from '@/../@types/atoms';
+import { Size } from '@/../@types/atoms';
+import { ButtonType, ButtonTypeT, SizeType, SizeTypeT } from '@/../@types/utils';
 
 interface Button {
-  size: Size | 'default';
-  styleType: Type;
+  size: SizeTypeT;
+  styleType?: ButtonTypeT;
   buttonLoading: boolean;
   block: boolean;
   onClick?: (e:  React.MouseEvent<HTMLElement>)  =>  void;
@@ -33,14 +34,14 @@ export const StyledButton = styled.button<Button>`
 
   ${({ size }) => {
     switch (size) {
-      case 'small':
+      case SizeType.SMALL:
         return css`
           height: 24px;
           padding: 0px 7px;
           font-size: 12px;
           border-radius: 2px;
         `;
-      case 'large':
+      case SizeType.LARGE:
         return css`
           height: 40px;
           padding: 6.4px 15px;
@@ -58,7 +59,7 @@ export const StyledButton = styled.button<Button>`
   }}
 
 ${({ styleType, buttonLoading }) => {
-    if (styleType === 'error') {
+    if (styleType === ButtonType.ERROR) {
       return css`
         color: #fff;
         background: #ff4d4f;
@@ -71,7 +72,7 @@ ${({ styleType, buttonLoading }) => {
         }
       `;
     }
-    if (styleType === 'success') {
+    if (styleType === ButtonType.SUCCESS) {
       return css`
         color: #1890ff;
         background: #fff;
@@ -83,7 +84,7 @@ ${({ styleType, buttonLoading }) => {
         }
       `;
     }
-    if (styleType === 'warning') {
+    if (styleType === ButtonType.WARNING) {
       return css`
         color: #fff;
         background: #faad14;
@@ -96,7 +97,7 @@ ${({ styleType, buttonLoading }) => {
         }
       `;
     }
-    if (styleType === 'line-primary') {
+    if (styleType === ButtonType.LINEPRIMARY) {
       return buttonLoading
         ? css`
           color: #faad14;
@@ -115,7 +116,7 @@ ${({ styleType, buttonLoading }) => {
         }
       `;
     }
-    if (styleType === 'primary') {
+    if (styleType === ButtonType.PRIMARY) {
       return buttonLoading
         ? css`
           color: #fff;
@@ -134,7 +135,7 @@ ${({ styleType, buttonLoading }) => {
         }
       `;
     }
-    if (styleType === 'signature') {
+    if (styleType === ButtonType.SIGNATURE) {
       return buttonLoading
         ? css`
           color: #fff;
@@ -155,7 +156,7 @@ ${({ styleType, buttonLoading }) => {
         }
       `;
     }
-    if (styleType === 'text') {
+    if (styleType === ButtonType.TEXT) {
       return buttonLoading
         ? css`
           background: transparent;
@@ -199,7 +200,7 @@ ${({ styleType, buttonLoading }) => {
 
   ${({ disabled, styleType }) => {
     if (disabled) {
-      if (styleType === 'text') {
+      if (styleType === ButtonType.TEXT) {
         return css`
           color: #00000040;
           text-shadow: none;

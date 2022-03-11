@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { ButtonWrap, ConfirmBox, ConfirmContainer, ConfirmContent, ConfirmIconWrapper, ConfirmPrimaryIcon } from './style';
 import { Button } from '../../atoms';
 import { ConfirmProps } from '@/../@types/molecules';
+import { ButtonType } from '@/../@types/utils';
 
 const Confirm = ({ show, message, action, onCancel }: ConfirmProps) => {
   useEffect(() => {
@@ -31,7 +32,7 @@ const Confirm = ({ show, message, action, onCancel }: ConfirmProps) => {
         <ConfirmContent>{message}</ConfirmContent>
         <ButtonWrap>
           {action}
-          <Button type="warning" onClick={onCancel}>취소</Button>
+          <Button type={ButtonType.WARNING} onClick={onCancel}>취소</Button>
         </ButtonWrap>
       </ConfirmBox>
     </ConfirmContainer>

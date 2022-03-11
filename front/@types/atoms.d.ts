@@ -1,21 +1,9 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { FieldError } from "react-hook-form";
-
-export type Size = 'small' | 'large';
-export type PickerType = 'date' | 'time';
-export type StepType = 'wait' | 'finished' | 'process';
-export type Type =
-  | 'default'
-  | 'primary'
-  | 'error'
-  | 'success'
-  | 'warning'
-  | 'line-primary'
-  | 'signature'
-  | 'text';
+import { BaseSizeTypeT, ButtonTypeT, InputTypeT, PickerTypeT, SizeTypeT } from "./utils";
 
 export interface AvatarProps {
-  size?: Size | 'default' | number;
+  size?: SizeTypeT | number;
   src?: string;
   style?: React.CSSProperties;
 }
@@ -23,8 +11,8 @@ export interface AvatarProps {
 export interface ButtonProps {
   children?: React.ReactNode;
   icon?: React.ReactElement;
-  size?: Size | 'default';
-  type?: Type;
+  size?: SizeTypeT;
+  type?: ButtonTypeT;
   name?: string;
   buttonLoading?: boolean;
   block?: boolean;
@@ -42,8 +30,8 @@ export interface CheckBoxProps {
 
 export interface CustomPickerInputProps {
   value?: string;
-  type?: 'date' | 'time';
-  size?: Size;
+  type?: PickerTypeT;
+  size?: BaseSizeTypeT;
   placeholder?: string;
   onClick?: () => void;
 }
@@ -62,9 +50,9 @@ export interface BasicInputProps {
 }
 
 export interface InputProps extends BasicInputProps {
-  size?: Size | 'default';
+  size?: SizeTypeT;
   name?: string,
-  type?: 'text' | 'password';
+  type?: InputTypeT;
   disabled?: boolean;
   error?: FieldError | undefined;
 }
@@ -77,14 +65,14 @@ export interface TextareaProps extends BasicInputProps {
 }
 
 export interface SearchProps extends BasicInputProps {
-  size?: Size | 'default';
+  size?: SizeTypeT;
   enterButton?: boolean;
   onChange: (e: ChangeEvent) => void;
   onSearch: () => void;
 }
 
 export interface SelectProps {
-  size?: Size | 'default';
+  size?: SizeTypeT;
   options: readonly { readonly value: string | number; readonly text: string; }[];
   name: string;
   value: number | string;
@@ -101,11 +89,11 @@ export interface InputNumberProps {
   value: number;
   onChange: () => void;
   setValue: Dispatch<SetStateAction<string>>;
-  size?: Size;
+  size?: SizeTypeT;
 }
 
 export interface RangePickerProps {
-  size?: Size;
+  size?: BaseSizeTypeT;
   startDate: Date;
   endDate: Date;
   onChangeStartDate: (data: Date | null) => void;

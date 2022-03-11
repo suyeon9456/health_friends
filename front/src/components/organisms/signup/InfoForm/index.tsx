@@ -8,7 +8,7 @@ import { signupSelector, signupStepInfoSave, signupStepNext } from '@/../reducer
 import { FormInput } from '../../../molecules';
 import { Button, Form } from '../../../atoms';
 import { ButtonWrap, InfoFormWrapper } from './style';
-import { SignupMenu } from '@/../@types/utils';
+import { ButtonType, InputType, SignupMenu, SizeType } from '@/../@types/utils';
 
 const schema = yup.object({
   email: yup.string()
@@ -48,7 +48,7 @@ const InfoForm = () => {
     <InfoFormWrapper>
       <Form onSubmit={handleSubmit(onNextClick)}>
         <FormInput
-          size="large"
+          size={SizeType.LARGE}
           id="email"
           label="E-mail"
           placeholder="email을 입력해주세요."
@@ -57,27 +57,27 @@ const InfoForm = () => {
           error={errors.email}
         />
         <FormInput
-          size="large"
+          size={SizeType.LARGE}
           id="password"
           label="비밀번호"
           placeholder="비밀번호를 입력해주세요."
-          type="password"
+          type={InputType.PASSWORD}
           essential
           control={control}
           error={errors.password}
         />
         <FormInput
-          size="large"
+          size={SizeType.LARGE}
           id="checkPassword"
           label="비밀번호 확인"
           placeholder="비밀번호 확인을 입력해주세요."
-          type="password"
+          type={InputType.PASSWORD}
           essential
           control={control}
           error={errors.checkPassword}
         />
         <FormInput
-          size="large"
+          size={SizeType.LARGE}
           id="nickname"
           label="닉네임"
           placeholder="닉네임을 입력해주세요."
@@ -87,8 +87,8 @@ const InfoForm = () => {
         />
         <ButtonWrap>
           <Button
-            type="line-primary"
-            size="large"
+            type={ButtonType.LINEPRIMARY}
+            size={SizeType.LARGE}
             submit
           >
             다음단계

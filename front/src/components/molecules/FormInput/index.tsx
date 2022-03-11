@@ -4,12 +4,13 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import { ErrorMessage, Input } from '@/components/atoms';
 import { Essential, Label } from './style';
+import { InputTypeT, SizeTypeT } from '@/../@types/utils';
 
 type FormInputType<T> = {
   label?: string;
   id: Path<T>;
-  size?: 'default' | 'small' | 'large';
-  type?: 'text' | 'password';
+  size?: SizeTypeT;
+  type?: InputTypeT;
   placeholder?: string;
   essential?: boolean;
   control?: Control<T, object>;

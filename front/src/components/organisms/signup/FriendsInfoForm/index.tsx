@@ -7,7 +7,7 @@ import { signupSelector, signupStepFriendsInfoSave, signupStepPrev } from '@/../
 import { Alert, FormSelect } from '../../../molecules';
 import { Form, Button } from '../../../atoms';
 import { ButtonWrap, FormWrapper } from './style';
-import { AgeOptions, CareerOptions, GenderOptions, GlobalModal, ModalStatus, RoleOptions, SignupMenu } from '@/../@types/utils';
+import { AgeOptions, ButtonType, CareerOptions, GenderOptions, GlobalModal, ModalStatus, RoleOptions, SignupMenu, SizeType } from '@/../@types/utils';
 import { useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import { SignupInfo, SignupMoreInfo, SignupGymInfo, SignupFriendsInfo } from '@/../@types/user';
@@ -109,16 +109,16 @@ const FriendsInfoForm = () => {
         />
         <ButtonWrap>
           <Button
-            type="line-primary"
-            size="large"
+            type={ButtonType.LINEPRIMARY}
+            size={SizeType.LARGE}
             name="prev"
             submit
           >
             이전단계
           </Button>
           <Button
-            type="line-primary"
-            size="large"
+            type={ButtonType.LINEPRIMARY}
+            size={SizeType.LARGE}
             name="next"
             buttonLoading={mutation.isLoading}
             submit

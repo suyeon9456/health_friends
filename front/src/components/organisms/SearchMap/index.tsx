@@ -9,6 +9,7 @@ import { MapWrap } from './style';
 
 import styles from '../../../scss/searchMap.module.scss';
 import { changeMapBounds, gymSelector, isLoadGyms, loadFriendsRequest } from '@/../reducers/gym';
+import { ButtonType } from '@/../@types/utils';
 
 const SearchMap = ({ foldedFriends, setFoldedFriends }: {
   foldedFriends: boolean;
@@ -227,7 +228,7 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: {
         id="kakaoMap"
         style={{ width: '100%', height: '100%' }}
       />
-      {showButton && <Button type="line-primary" icon={<ReloadOutlined />} onClick={onSearchGyms}>현 지도에서 검색</Button>}
+      {showButton && <Button type={ButtonType.LINEPRIMARY} icon={<ReloadOutlined />} onClick={onSearchGyms}>현 지도에서 검색</Button>}
     </MapWrap>
   );
 };

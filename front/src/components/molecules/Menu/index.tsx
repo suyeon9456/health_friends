@@ -8,6 +8,7 @@ import { logoutRequest, userSelector } from '@/../reducers/user';
 
 import { Avatar } from '../../atoms';
 import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
+import { SizeType } from '@/../@types/utils';
 
 const Menu = () => {
   const { me } = useSelector(userSelector);
@@ -73,7 +74,7 @@ const Menu = () => {
               <MenuTitle>
                 <Link href="/myinfo" passHref>
                   <a>
-                    <Avatar size="small" src={me?.Image ? `${me?.Image?.src}` : ''} />
+                    <Avatar size={SizeType.SMALL} src={me?.Image ? `${me?.Image?.src}` : ''} />
                   </a>
                 </Link>
               </MenuTitle>

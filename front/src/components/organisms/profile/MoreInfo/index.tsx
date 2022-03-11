@@ -7,7 +7,7 @@ import { profileSelector } from '@/../reducers/profile';
 import { InformationItem, Button, Icon } from '../../../atoms';
 import { Content, ContentTitle, MoreInfoBody, MoreInfoContent, MoreInfoWrapper } from './style';
 import ModalEditInfo from '../ModalEditInfo';
-import { AgeOptions, CareerOptions, GenderOptions, RoleOptions } from '@/../@types/utils';
+import { AgeOptions, ButtonType, CareerOptions, GenderOptions, RoleOptions, SizeType } from '@/../@types/utils';
 
 const MoreInfo = () => {
   const { me } = useSelector(userSelector);
@@ -29,8 +29,8 @@ const MoreInfo = () => {
             <h4>추가정보</h4>
             {me?.id === profile?.id && (
               <Button
-                type="primary"
-                size="small"
+                type={ButtonType.PRIMARY}
+                size={SizeType.SMALL}
                 onClick={onChangeShowEditModal}
                 {...{ id: 'more-info' }}
               >
@@ -75,8 +75,8 @@ const MoreInfo = () => {
             <h4>매칭되고 싶은 친구정보</h4>
             {me?.id === profile?.id && (
               <Button
-                type="primary"
-                size="small"
+                type={ButtonType.PRIMARY}
+                size={SizeType.SMALL}
                 onClick={onChangeShowEditModal}
                 {...{ id: 'friends-info' }}
               >

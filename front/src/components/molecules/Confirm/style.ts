@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
-export const ConfirmContainer = styled.div<{ show: boolean }>`
+export const ConfirmContainer = styled.div<{ show?: boolean }>`
   overflow-y: auto;
   align-items: center;
   background: rgba(0,0,0,.4);

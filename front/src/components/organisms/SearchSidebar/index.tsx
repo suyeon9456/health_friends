@@ -5,6 +5,7 @@ import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons';
 import { userSelector } from '@/../reducers/user';
 import { Avatar, Button } from '../../atoms';
 import { Sidebar } from './style';
+import { ButtonType, SizeType } from '@/../@types/utils';
 
 const SearchSidebar = ({ foldedGym, setFoldedGym }: {
   foldedGym: boolean;
@@ -14,19 +15,19 @@ const SearchSidebar = ({ foldedGym, setFoldedGym }: {
   return (
     <Sidebar>
       <div>
-        <Avatar size="small" src={me?.Image?.src} />
+        <Avatar size={SizeType.SMALL} src={me?.Image?.src} />
         {!foldedGym
           ? (
             <Button
               icon={<FullscreenExitOutlined />}
-              type="text"
+              type={ButtonType.TEXT}
               onClick={() => setFoldedGym(true)}
             />
           )
           : (
             <Button
               icon={<FullscreenOutlined />}
-              type="text"
+              type={ButtonType.TEXT}
               onClick={() => setFoldedGym(false)}
             />
           )}

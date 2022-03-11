@@ -8,7 +8,7 @@ import { FormInput, FormRangeTimePicker, FormTextarea } from '../../../molecules
 import ModalGym from './ModalGym';
 import { ButtonWrap, FormSearchGymWrap, FormWrapper } from './style';
 import { signupSelector, signupStepGymInfoSave, signupStepNext, signupStepPrev } from '@/../reducers/user';
-import { SignupMenu } from '@/../@types/utils';
+import { ButtonType, SignupMenu, SizeType } from '@/../@types/utils';
 
 const MoreGymInfoForm = () => {
   const dispatch = useDispatch();
@@ -47,14 +47,14 @@ const MoreGymInfoForm = () => {
           startName="startTime"
           endName="endTime"
           label="운동시간"
-          size="large"
+          size={SizeType.LARGE}
           control={control}
         />
         <FormSearchGymWrap>
           <FormInput
             label="헬스장"
             id="gym"
-            size="large"
+            size={SizeType.LARGE}
             control={control}
             disabled
             {...{ onClick: changeShowModal }}
@@ -62,8 +62,8 @@ const MoreGymInfoForm = () => {
           <div className="button-wrap">
             <div />
             <Button
-              type="primary"
-              size="large"
+              type={ButtonType.PRIMARY}
+              size={SizeType.LARGE}
               onClick={changeShowModal}
             >
               헬스장 찾기
@@ -81,16 +81,16 @@ const MoreGymInfoForm = () => {
         />
         <ButtonWrap>
           <Button
-            type="line-primary"
-            size="large"
+            type={ButtonType.LINEPRIMARY}
+            size={SizeType.LARGE}
             name="prev"
             submit
           >
             이전단계
           </Button>
           <Button
-            type="line-primary"
-            size="large"
+            type={ButtonType.LINEPRIMARY}
+            size={SizeType.LARGE}
             name="next"
             submit
           >

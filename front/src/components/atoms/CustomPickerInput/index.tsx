@@ -3,6 +3,7 @@ import { CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons';
 
 import { PickerWrap, PickerInput, PickerInputWrap, PickerSuffix } from './style';
 import { CustomPickerInputProps } from '@/../@types/atoms';
+import { PickerType } from '@/../@types/utils';
 
 const CustomPickerInput = forwardRef(({
   value,
@@ -24,7 +25,7 @@ const CustomPickerInput = forwardRef(({
           readOnly
         />
         <PickerSuffix>
-          {type === 'date' ? <CalendarOutlined /> : <ClockCircleOutlined />}
+          {type === PickerType.DATE ? <CalendarOutlined /> : <ClockCircleOutlined />}
         </PickerSuffix>
       </PickerInputWrap>
     </PickerWrap>

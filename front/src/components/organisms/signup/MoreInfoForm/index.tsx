@@ -6,7 +6,7 @@ import { signupSelector, signupStepMoreInfoSave, signupStepNext, signupStepPrev 
 import { FormSelect } from '../../../molecules';
 import { Button, Form } from '../../../atoms';
 import { ButtonWrap, MoreInfoFormWrapper } from './style';
-import { AgeOptions, CareerOptions, GenderOptions, RoleOptions, SignupMenu } from '@/../@types/utils';
+import { AgeOptions, ButtonType, CareerOptions, GenderOptions, RoleOptions, SignupMenu, SizeType } from '@/../@types/utils';
 
 const MoreInfoForm = () => {
   const dispatch = useDispatch();
@@ -62,16 +62,16 @@ const MoreInfoForm = () => {
         />
         <ButtonWrap>
           <Button
-            type="line-primary"
-            size="large"
+            type={ButtonType.LINEPRIMARY}
+            size={SizeType.LARGE}
             name="prev"
             submit
           >
             이전단계
           </Button>
           <Button
-            type="line-primary"
-            size="large"
+            type={ButtonType.LINEPRIMARY}
+            size={SizeType.LARGE}
             name="next"
             submit
           >

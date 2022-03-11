@@ -1,6 +1,7 @@
+import { SizeType, SizeTypeT } from '@/../@types/utils';
 import styled, { css } from 'styled-components';
 
-export const SelectContainer = styled.select<{ selectsize?: 'default' | 'small' | 'large' }>`
+export const SelectContainer = styled.select<{ selectsize?: SizeTypeT }>`
   position: relative;
   background-color: #fff;
   border: 1px solid #d9d9d9;
@@ -11,12 +12,12 @@ export const SelectContainer = styled.select<{ selectsize?: 'default' | 'small' 
   padding: 0 11px;
 
   ${({ selectsize }) => {
-    if (selectsize === 'small') {
+    if (selectsize === SizeType.SMALL) {
       return css`
         height: 24px;
       `;
     }
-    if (selectsize === 'large') {
+    if (selectsize === SizeType.LARGE) {
       return css`
         height: 40px;
       `;
@@ -29,8 +30,6 @@ export const SelectContainer = styled.select<{ selectsize?: 'default' | 'small' 
     border-color: #40a9ff;
     border-right-width: 1px !important;
   }
-
-  /* background: #fff <DownOutlined /> no-repeat right .75rem center/8px 10px; */
 `;
 
 export const Options = styled.option`

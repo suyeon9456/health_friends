@@ -23,7 +23,7 @@ const GlobalModal = ({ modals }: { modals: InitialState }) => {
           type={statusType}
           action={(
             <Button
-              type="error"
+              type={statusType}
               onClick={() => onHiddenModal(id, callback)}
               block
             >

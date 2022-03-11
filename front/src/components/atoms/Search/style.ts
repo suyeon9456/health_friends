@@ -1,7 +1,8 @@
+import { SizeType, SizeTypeT } from '@/../@types/utils';
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import styled, { css } from 'styled-components';
 
-export const SearchWrap = styled.span<{ size?: 'default' | 'small' | 'large' }>`
+export const SearchWrap = styled.span<{ size?: SizeTypeT }>`
   position: relative;
   width: 100%;
   min-width: 0;
@@ -42,7 +43,7 @@ export const SearchWrap = styled.span<{ size?: 'default' | 'small' | 'large' }>`
   }
 
   ${({ size }) => {
-    if (size === 'small') {
+    if (size === SizeType.SMALL) {
       return css`
         height: 24px;
         & > input {
@@ -50,7 +51,7 @@ export const SearchWrap = styled.span<{ size?: 'default' | 'small' | 'large' }>`
         }
       `;
     }
-    if (size === 'large') {
+    if (size === SizeType.LARGE) {
       return css`
         height: 40px;
         & > input {

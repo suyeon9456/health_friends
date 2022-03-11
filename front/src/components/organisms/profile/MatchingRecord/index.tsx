@@ -10,6 +10,7 @@ import MatchingCardList from '../../MatchingCardList';
 import { CancelYnCheckBoxWrap, FilterList, RecordBody, RecordFooter, RecordWrap } from './style';
 import { RecordScheduleFetch } from '@/../@types/schedule';
 import useCheckbox from '@/hooks/useCheckbox';
+import { ButtonType } from '@/../@types/utils';
 
 const MatchingRecord = () => {
   const [status, onChangeStatus] = useCheckbox<string>([]);
@@ -95,7 +96,7 @@ const MatchingRecord = () => {
       </RecordBody>
       <RecordFooter>
         <Button
-          type="primary"
+          type={ButtonType.PRIMARY}
           disabled={count || 0 <= schedules.length}
           icon={<PlusOutlined />}
           onClick={onMoreSchedule}

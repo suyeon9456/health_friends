@@ -1,10 +1,11 @@
 import { SearchProps } from '@/../@types/atoms';
+import { SizeType } from '@/../@types/utils';
 import React, { ChangeEvent, useCallback } from 'react';
 
 import { SearchWrap, EnterIconWrapper, SearchLoadingIcon, SearchInput, SearchIcon } from './style';
 
 const Search = ({
-  size = 'default',
+  size = SizeType.DEFAULT,
   loading,
   value,
   onChange,

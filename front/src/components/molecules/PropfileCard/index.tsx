@@ -3,6 +3,7 @@ import { LikeOutlined } from '@ant-design/icons';
 
 import { Card, CardActions, CardBody, CardCover, CardMeta, MetaPercent, MetaTitle } from './style';
 import { Avatar, Button } from '../../atoms';
+import { ButtonType, SizeType } from '@/../@types/utils';
 
 const ProfileCard = ({
   nickname,
@@ -21,7 +22,7 @@ const ProfileCard = ({
 }) => (
   <Card>
     <CardCover>
-      <Avatar size="large" src={image} />
+      <Avatar size={SizeType.LARGE} src={image} />
     </CardCover>
     <CardBody>
       <CardMeta>
@@ -33,8 +34,8 @@ const ProfileCard = ({
     </CardBody>
     <CardActions>
       <Button
-        size="small"
-        type="primary"
+        size={SizeType.SMALL}
+        type={ButtonType.PRIMARY}
         onClick={onClick}
       >
         매칭신청

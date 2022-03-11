@@ -5,6 +5,7 @@ import { BiSearchAlt } from 'react-icons/bi';
 import { Button, Icon } from '../../../atoms';
 import RecommendFriends from '../RecommendFriends';
 import { BannerWrap, BannerImage, BannerContent, BannerContentWrap, BannerHeader, BannerHeaderTitle, BannerImageWrap } from './style';
+import { ButtonType, SizeType } from '@/../@types/utils';
 
 const MainBanner = () => (
   <BannerWrap>
@@ -14,8 +15,8 @@ const MainBanner = () => (
       <Link href="/friends" passHref>
         <a>
           <Button
-            type="primary"
-            size="large"
+            type={ButtonType.PRIMARY}
+            size={SizeType.LARGE}
             icon={<Icon icon={<BiSearchAlt />} />}
           > 친구찾으러 가기
           </Button>

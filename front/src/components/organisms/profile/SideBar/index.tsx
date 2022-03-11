@@ -9,7 +9,7 @@ import Progress from '../../../molecules/Progress';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
 import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
 import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, MenuText, SideBarWrapper, SideMenu, SideMenuWrap } from './style';
-import { Menu, ProfileMenuType } from '@/../@types/utils';
+import { ButtonType, Menu, ProfileMenuType } from '@/../@types/utils';
 import useRematchRate from '@/hooks/useRematchRate';
 
 
@@ -86,7 +86,7 @@ const SideBar = ({ profileMenu, setProfileMenu }: {
                 />
               </Form>
               <div>
-                <Button type="text" onClick={onChangeUploadState}>취소</Button>
+                <Button type={ButtonType.TEXT} onClick={onChangeUploadState}>취소</Button>
               </div>
             </>
           )
@@ -95,11 +95,11 @@ const SideBar = ({ profileMenu, setProfileMenu }: {
               <Avatar size={128} src={profile?.Image ? `${profile?.Image?.src}` : ''} />
               {(me?.id && (profile?.id === me?.id)) ? (
                 <div>
-                  <Button type="text" onClick={onChangeUploadState}>프로필 사진 변경하기</Button>
+                  <Button type={ButtonType.TEXT} onClick={onChangeUploadState}>프로필 사진 변경하기</Button>
                 </div>
               ) : (
                 <div>
-                  <Button type="signature" onClick={onShowMatchingModal}>매칭신청</Button>
+                  <Button type={ButtonType.SIGNATURE} onClick={onShowMatchingModal}>매칭신청</Button>
                 </div>
               )}
             </>

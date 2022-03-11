@@ -4,6 +4,7 @@ import { CloseOutlined } from '@ant-design/icons';
 
 import { ModalBody, ModalBox, ModalClose, ModalContent, ModalFooter, ModalHeader, ModalMask, ModalRoot, ModalTitle, ModalWrap } from './style';
 import { Form, Button } from '../../atoms';
+import { ButtonType, ButtonTypeT } from '@/../@types/utils';
 
 const Modal = ({ show,
   title,
@@ -21,14 +22,7 @@ const Modal = ({ show,
     actions?: Array<{
       id: string,
       title?: string,
-      type?: 'default'
-        | 'primary'
-        | 'error'
-        | 'success'
-        | 'warning'
-        | 'line-primary'
-        | 'signature'
-        | 'text',
+      type?: ButtonTypeT,
       onClick: () => void }> | [],
     form?: boolean,
     footer?: boolean,
@@ -78,7 +72,7 @@ const Modal = ({ show,
                         ? (
                           <>
                             <Button onClick={onCancel}>취소</Button>
-                            <Button type="primary" submit>확인</Button>
+                            <Button type={ButtonType.PRIMARY} submit>확인</Button>
                           </>
                         )
                         : actions?.map((action) => (
@@ -105,7 +99,7 @@ const Modal = ({ show,
                         ? (
                           <>
                             <Button onClick={onCancel}>취소</Button>
-                            <Button type="primary" onClick={onSubmit}>확인</Button>
+                            <Button type={ButtonType.PRIMARY} onClick={onSubmit}>확인</Button>
                           </>
                         )
                         : actions?.map((action) => (

@@ -8,6 +8,7 @@ import { logoutRequest, userSelector } from '@/../reducers/user';
 
 import { Button, Avatar } from '../../atoms';
 import { Drawer, DrawerBody, DrawerContent, DrawerContentWrap, DrawerHeader, DrawerHeaderTitle, DrawerMask, DrawerTitle, DrawerWrapBody, MemberMenu, MemberMenuItem, Menu, MenuItem, MenuText, MenuTitle } from './style';
+import { ButtonType } from '@/../@types/utils';
 
 const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
   const router = useRouter();
@@ -46,7 +47,7 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
                     {me?.nickname}님, 안녕하세요.
                   </DrawerTitle>
                 )}
-                <Button type="text" icon={<CloseOutlined />} onClick={changeShowDrawerMenu} />
+                <Button type={ButtonType.TEXT} icon={<CloseOutlined />} onClick={changeShowDrawerMenu} />
               </DrawerHeaderTitle>
             </DrawerHeader>
             {

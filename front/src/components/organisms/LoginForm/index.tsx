@@ -10,7 +10,7 @@ import { FormInput } from '@/components/molecules';
 import { Button, Form } from '@/components/atoms';
 import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
 import { useModalDispatch, useModalState } from '@/../store/modalStore';
-import { GlobalModal, ModalStatus } from '@/../@types/utils';
+import { ButtonType, GlobalModal, InputType, ModalStatus, SizeType } from '@/../@types/utils';
 
 const schema = yup.object({
   email: yup.string()
@@ -60,7 +60,7 @@ const LoginForm = () => {
         <InputWrapper>
           <FormInput
             id="email"
-            size="large"
+            size={SizeType.LARGE}
             placeholder="이메일 계정을 입력해주세요."
             control={control}
             error={errors.email}
@@ -69,14 +69,14 @@ const LoginForm = () => {
         <InputWrapper>
           <FormInput
             id="password"
-            type="password"
-            size="large"
+            type={InputType.PASSWORD}
+            size={SizeType.LARGE}
             placeholder="비밀번호를 입력해주세요."
             control={control}
             error={errors.password}
           />
         </InputWrapper>
-        <Button type="primary" block submit>로그인</Button>
+        <Button type={ButtonType.PRIMARY} block submit>로그인</Button>
       </Form>
       <ButtonWrapper>
         <div>
@@ -91,26 +91,12 @@ const LoginForm = () => {
             </Link>
           </Button>
         </div>
-        <Button type="line-primary" block>
+        <Button type={ButtonType.LINEPRIMARY} block>
           <Link href="/signup">
             <a className="line-primary">회원가입</a>
           </Link>
         </Button>
       </ButtonWrapper>
-      {/* <Alert
-        show={alertShow}
-        type="error"
-        action={(
-          <Button
-            type="error"
-            onClick={changeShowAlert}
-            block
-          >
-            확인
-          </Button>
-        )}
-        message="로그인을 실패하였습니다."
-      /> */}
     </FormWrapper>
   );
 };

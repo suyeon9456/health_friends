@@ -3,12 +3,13 @@ import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
 
 import { InputContainer, InputContent, InputWrap, InputWrapBox } from './style';
 import { InputProps } from '@/../@types/atoms';
+import { InputType, SizeType } from '@/../@types/utils';
 
 
 const Input = ({
   name,
-  size = 'default',
-  type = 'text',
+  size = SizeType.DEFAULT,
+  type = InputType.TEXT,
   loading,
   value,
   onChange,
@@ -23,7 +24,7 @@ const Input = ({
     setPasswordType((prev) => !prev);
   }, []);
 
-  if (type === 'password') {
+  if (type === InputType.PASSWORD) {
     return (
       <div>
         <InputWrapBox>

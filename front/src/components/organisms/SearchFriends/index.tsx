@@ -8,7 +8,7 @@ import { PropfileCard } from '../../molecules';
 import Button from '../../atoms/Button';
 import { FriendsListWrapper, SearchFriendsWrapper, SearchHeader, SearchTitle } from './style';
 import { useModalDispatch } from '@/../store/modalStore';
-import { GlobalModal, ModalStatus } from '@/../@types/utils';
+import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/utils';
 
 const SearchFriends = ({ foldedGym,
   foldedFriends,
@@ -67,7 +67,7 @@ const SearchFriends = ({ foldedGym,
           <SearchTitle>{gym.name} 친구검색 결과</SearchTitle>
           <Button
             icon={<CloseOutlined />}
-            type="text"
+            type={ButtonType.TEXT}
             onClick={onChangeFoldedFriends}
           />
         </SearchHeader>

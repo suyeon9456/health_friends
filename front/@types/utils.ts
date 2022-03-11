@@ -1,3 +1,45 @@
+export const SizeType = {
+  DEFAULT: 'DEFAULT',
+  SMALL: 'SMALL',
+  LARGE: 'LARGE',
+} as const;
+
+export type SizeTypeT = typeof SizeType[keyof typeof SizeType];
+
+export const BaseSizeType = {
+  SMALL: 'SMALL',
+  LARGE: 'LARGE',
+} as const;
+
+export type BaseSizeTypeT = typeof BaseSizeType[keyof typeof BaseSizeType];
+
+export const ButtonType = {
+  DEFAULT: 'DEFAULT',
+  PRIMARY: 'PRIMARY',
+  ERROR: 'ERROR',
+  SUCCESS: 'SUCCESS',
+  WARNING: 'WARNING',
+  LINEPRIMARY: 'LINE-PRIMARY',
+  SIGNATURE: 'SIGNATURE',
+  TEXT: 'TEXT',
+} as const;
+
+export type ButtonTypeT = typeof ButtonType[keyof typeof ButtonType];
+
+export const PickerType = {
+  DATE: 'DATE',
+  TIME: 'TIME',
+} as const;
+
+export type PickerTypeT = typeof PickerType[keyof typeof PickerType];
+
+export const InputType = {
+  PASSWORD: 'PASSWORD',
+  TEXT: 'TEXT',
+} as const;
+
+export type InputTypeT = typeof InputType[keyof typeof InputType];
+
 export const ModalType = {
   VIEW: 'VIEW',
   EDIT: 'EDIT',
@@ -96,3 +138,18 @@ export const SearchGymTabs = [
 ] as const;
 
 export type SearchGymTabsType = typeof SearchGymTabs[number];
+
+export const ModalStatus = {
+  ERROR: 'ERROR',
+  WARNING: 'WARNING',
+  SUCCESS: 'SUCCESS',
+  PRIMARY: 'PRIMARY',
+} as const;
+
+export type ModalStatusType = typeof ModalStatus[keyof typeof ModalStatus];
+
+export const GlobalModal = {
+  ALERT: 'ALERT',
+} as const;
+
+export type GlobalModalType = typeof GlobalModal[keyof typeof GlobalModal];

@@ -3,12 +3,13 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 import { StyledButton } from './style';
 import { ButtonProps } from '@/../@types/atoms';
+import { ButtonType, SizeType } from '@/../@types/utils';
 
 const Button = ({
   children,
   icon,
-  size = 'default',
-  type = 'default',
+  size = SizeType.DEFAULT,
+  type = ButtonType.DEFAULT,
   name,
   buttonLoading = false,
   block = false,

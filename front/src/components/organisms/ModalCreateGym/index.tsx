@@ -5,6 +5,7 @@ import { Button } from '../../atoms';
 import { FormInput } from '../../molecules';
 import KakaoPostcode from '../KakaoPostcode';
 import { Control, UseFormSetValue } from 'react-hook-form';
+import { ButtonType } from '@/../@types/utils';
 
 interface CreateModalType {
   sido: string;
@@ -47,7 +48,7 @@ const ModalCreateGym = ({ control,
         <div className="button-wrap">
           <div />
           <Button
-            type="primary"
+            type={ButtonType.PRIMARY}
             onClick={changeShowPostcode}
           >
             주소 검색

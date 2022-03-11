@@ -6,13 +6,14 @@ import { CalendarOutlined, SwapRightOutlined } from '@ant-design/icons';
 import { CustomCalendar, CustomPickerInput, ErrorMessage } from '../../atoms';
 import { RangeSeparator, RangeTimePickerWrap, Separator } from '../../atoms/RangeTimePicker/style';
 import { Essential, Label } from './style';
+import { BaseSizeTypeT, PickerType } from '@/../@types/utils';
 
 interface FormDateTimeType<T> {
   label: string;
   startName: Path<T>;
   endName: Path<T>;
   control?: Control<T, object>;
-  size?: 'small' | 'large';
+  size?: BaseSizeTypeT;
   essential?: boolean;
   error?: {
     startError: FieldError | undefined,
@@ -47,7 +48,7 @@ const FormDateTimePicker = <T extends FieldValues>({
             timeCaption="Time"
             timeFormat="HH:mm"
             dateFormat="yyyy년 MM월 dd일 HH:mm"
-            customInput={<CustomPickerInput type="date" size={size} />}
+            customInput={<CustomPickerInput type={PickerType.DATE} size={size} />}
             calendarContainer={CustomCalendar}
           />
         )}
@@ -69,7 +70,7 @@ const FormDateTimePicker = <T extends FieldValues>({
             timeIntervals={15}
             timeCaption="Time"
             dateFormat="HH:mm"
-            customInput={<CustomPickerInput type="time" size={size} />}
+            customInput={<CustomPickerInput type={PickerType.TIME} size={size} />}
             calendarContainer={CustomCalendar}
           />
         )}
