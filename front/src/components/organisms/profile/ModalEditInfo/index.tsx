@@ -8,10 +8,9 @@ import { useDateFormat } from '../../../../hooks';
 import { Modal } from '../../../molecules';
 import EditInfoForm from '../EditInfoForm';
 
-const ModalEditInfo = ({ title, targetId, show, onCancel, setCloseModal }: {
+const ModalEditInfo = ({ title, targetId, onCancel, setCloseModal }: {
   title: string;
   targetId: string;
-  show: boolean;
   onCancel: (e?: React.MouseEvent<HTMLElement>) => void;
   setCloseModal: (close: boolean) => void;
 }) => {
@@ -67,7 +66,6 @@ const ModalEditInfo = ({ title, targetId, show, onCancel, setCloseModal }: {
 
   return (
     <Modal
-      show={show}
       title={title}
       onCancel={onCancel}
       onSubmit={handleSubmit(onSubmit)}

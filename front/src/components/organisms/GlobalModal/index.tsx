@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import { InitialState, useModalDispatch } from '@/../store/modalStore';
+import { Initial, useModalDispatch } from '@/../store/modalStore';
 import { Alert } from '@/components/molecules';
 import { Button } from '@/components/atoms';
 
-const GlobalModal = ({ modals }: { modals: InitialState }) => {
+const GlobalModal = ({ modals }: { modals: Initial[] }) => {
   const contextDispatch = useModalDispatch();
   const onHiddenModal = useCallback(async (id, callback) => {
     await contextDispatch({

@@ -83,13 +83,13 @@ const FriendsInfoForm = () => {
           label="성별"
           id="friendsGender"
           options={GenderOptions}
-          size="large"
+          size={SizeType.LARGE}
           control={control}
         />
         <FormSelect
           label="나이"
           id="friendsAge"
-          size="large"
+          size={SizeType.LARGE}
           options={AgeOptions}
           control={control}
         />
@@ -97,14 +97,14 @@ const FriendsInfoForm = () => {
           label="운동경력"
           id="friendsCareer"
           options={CareerOptions}
-          size="large"
+          size={SizeType.LARGE}
           control={control}
         />
         <FormSelect
           label="친구와의 역할"
           id="friendsRole"
           options={RoleOptions}
-          size="large"
+          size={SizeType.LARGE}
           control={control}
         />
         <ButtonWrap>

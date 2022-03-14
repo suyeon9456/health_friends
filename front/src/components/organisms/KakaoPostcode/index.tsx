@@ -6,12 +6,11 @@ import { UseFormSetValue } from 'react-hook-form';
 import { Modal } from '../../molecules';
 import { ModalBodyBox } from './style';
 
-const KakaoPostcode = ({ show,
+const KakaoPostcode = ({
   onCancel,
   setShowPostcode,
   setValue,
 }: {
-  show?: boolean;
   onCancel: () => void;
   setShowPostcode: Dispatch<SetStateAction<boolean>>;
   setValue: UseFormSetValue<{
@@ -60,7 +59,6 @@ const KakaoPostcode = ({ show,
   return (
     <Modal
       title="주소검색"
-      show={show}
       onCancel={onCancel}
     >
       <ModalBodyBox>

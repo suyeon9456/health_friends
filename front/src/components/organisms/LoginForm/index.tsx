@@ -24,7 +24,6 @@ const LoginForm = () => {
   const contextDispatch = useModalDispatch();
 
   const { loginError } = useSelector(loginSelector);
-  const modals = useModalState();
 
   const { handleSubmit, control, formState: { errors } } = useForm<{ email: string; password: string }>({
     defaultValues: { email: '', password: '' },
@@ -41,7 +40,7 @@ const LoginForm = () => {
         block: true,
       },
     });
-  }, [modals]);
+  }, []);
 
   const onLogin = useCallback((data, e) => {
     e.preventDefault();

@@ -17,9 +17,8 @@ const schema = yup.object({
   gym: yup.string().required('헬스장은 필수 항목입니다.'),
 }).required();
 
-const ModalMatchingEdit = ({ schedule, show, onCancel, mode }: {
+const ModalMatchingEdit = ({ schedule, onCancel, mode }: {
   schedule: any;
-  show: boolean;
   onCancel: () => void;
   mode: ShowModalType;
 }) => {
@@ -76,7 +75,6 @@ const ModalMatchingEdit = ({ schedule, show, onCancel, mode }: {
 
   return (
     <Modal
-      show={show}
       title={`${schedule?.Friend?.nickname}님과의 ${mode !== ModalType.REMATCH ? '매칭 수정' : '재매칭요청'}`}
       onCancel={onCancel}
       onSubmit={handleSubmit(onSubmit)}

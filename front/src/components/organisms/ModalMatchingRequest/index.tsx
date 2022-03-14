@@ -19,8 +19,7 @@ const schema = yup.object({
   gym: yup.string().required('헬스장은 필수 항목입니다.'),
 }).required();
 
-const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }: {
-  showModal: boolean;
+const ModalMatchingRequest = ({ setShowModal, friend, gymName }: {
   setShowModal: (prop: boolean) => void;
   friend?: { id?: number;
     nickname?: string;
@@ -62,6 +61,7 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }: {
   }, []);
 
   useEffect(() => {
+    console.log('test');
     if (gym) {
       setValue('gym', `${gym?.address}${gym?.name}`);
     }
@@ -69,7 +69,6 @@ const ModalMatchingRequest = ({ showModal, setShowModal, friend, gymName }: {
 
   return (
     <Modal
-      show={showModal}
       title={(
         <div>
           <Avatar size={SizeType.SMALL} {...{ style: { marginRight: '10px' } }} />

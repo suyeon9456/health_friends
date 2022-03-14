@@ -16,6 +16,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { MatchingCardProps, RecordSchedule, RecordScheduleFetch } from '@/../@types/schedule';
 
 import { ModalType, ShowModalType } from '@/../@types/utils';
+import ModalPortal from '../ModalPortal';
 
 const MatchingCardList = ({ schedules }: { schedules: Array<RecordSchedule> }) => {
   const { me } = useSelector(userSelector);
@@ -122,17 +123,21 @@ const MatchingCardList = ({ schedules }: { schedules: Array<RecordSchedule> }) =
           );
         })}
       </MatchingCardListWrap>
-      <ModalMatchingDetail
-        schedule={schedule}
-        show={showDetailModal}
-        onCancel={onChangeShowDetailModal}
-      />
-      <ModalMatchingEdit
-        schedule={schedule}
-        show={showEditModal}
-        onCancel={onChangeShowEditModal}
-        mode={modalType}
-      />
+      <ModalPortal>
+        {showDetailModal && (
+          <ModalMatchingDetail
+            schedule={schedule}
+            onCancel={onChangeShowDetailModal}
+          />
+        )}
+        {showEditModal && (
+          <ModalMatchingEdit
+            schedule={schedule}
+            onCancel={onChangeShowEditModal}
+            mode={modalType}
+          />
+        )}
+      </ModalPortal>
     </>
   );
 };

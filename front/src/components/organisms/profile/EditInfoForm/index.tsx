@@ -3,7 +3,7 @@ import { Control, FieldValues } from 'react-hook-form';
 
 import { FormRangeTimePicker, FormSelect } from '../../../molecules';
 import { FormWrap } from './style';
-import { AgeOptions, BaseSizeType, CareerOptions, GenderOptions, RoleOptions } from '@/../@types/utils';
+import { AgeOptions, BaseSizeType, CareerOptions, GenderOptions, RoleOptions, SizeType } from '@/../@types/utils';
 
 interface EditInfoFormType extends FieldValues {
   startTime: Date;
@@ -23,7 +23,7 @@ const EditInfoForm = ({ targetId, control }: {
       label="연령"
       id="age"
       options={AgeOptions}
-      size="small"
+      size={SizeType.SMALL}
       control={control}
     />
     {targetId === 'more-info' && (
@@ -39,21 +39,21 @@ const EditInfoForm = ({ targetId, control }: {
       label="운동경력"
       id="career"
       options={CareerOptions}
-      size="small"
+      size={SizeType.SMALL}
       control={control}
     />
     <FormSelect
       label="성별"
       id="gender"
       options={GenderOptions}
-      size="small"
+      size={SizeType.SMALL}
       control={control}
     />
     <FormSelect
       label="친구와의 역할"
       id="role"
       options={RoleOptions}
-      size="small"
+      size={SizeType.SMALL}
       control={control}
     />
   </FormWrap>

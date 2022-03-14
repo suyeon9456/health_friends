@@ -8,7 +8,6 @@ import useInput from '../../../hooks/useInput';
 import { Search, Item } from '../../atoms';
 import SearchFriends from '../SearchFriends';
 import SearchSidebar from '../SearchSidebar';
-import ModalMatchingRequest from '../ModalMatchingRequest';
 import { SearchHeader, SearchWrapper, SearchTitle, SearchFormWrapper, SearchListWrapper, GymWrapper, FoldButton } from './style';
 import { gymSelector, loadFriendsRequest, loadGymRequest } from '@/../reducers/gym';
 
@@ -29,14 +28,6 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
     isLoadGyms } = useSelector(gymSelector);
 
   const [browserHeight, setBrowserHeight] = useState<number>(0);
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [friend, setFriend] = useState<{
-    id?: number;
-    nickname?: string;
-    Userdetail?: object;
-    Image?: object;
-    UserGym?: { GymId?: number };
-   }>({});
 
   const [searchWord, onChangeSearchWord] = useInput<string>('');
 
@@ -152,13 +143,6 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
         foldedGym={foldedGym}
         foldedFriends={foldedFriends}
         setFoldedFriends={setFoldedFriends}
-        setFriend={setFriend}
-        setShowModal={setShowModal}
-      />
-      <ModalMatchingRequest
-        showModal={showModal}
-        setShowModal={setShowModal}
-        friend={friend}
       />
     </SearchWrapper>
   );

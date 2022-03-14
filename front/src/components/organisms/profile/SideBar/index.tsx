@@ -11,6 +11,8 @@ import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
 import { AvatarWrapper, InfoContent, InfoIconWrapper, InfoWrapper, MenuText, SideBarWrapper, SideMenu, SideMenuWrap } from './style';
 import { ButtonType, Menu, ProfileMenuType } from '@/../@types/utils';
 import useRematchRate from '@/hooks/useRematchRate';
+import { useModalDispatch, useModalState } from '@/../store/modalStore';
+import ModalPortal from '../../ModalPortal';
 
 
 const SideBar = ({ profileMenu, setProfileMenu }: {
@@ -18,8 +20,10 @@ const SideBar = ({ profileMenu, setProfileMenu }: {
   setProfileMenu: React.Dispatch<SetStateAction<ProfileMenuType>>;
 }) => {
   const dispatch = useDispatch();
+  const contextDispatch = useModalDispatch();
   const { me } = useSelector(userSelector);
   const { profile, imagePath, uploadProfileImageError } = useSelector(profileSelector);
+  const { custom } = useModalState();
   const [uploadState, setUploadState] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [responseRate,
@@ -65,7 +69,11 @@ const SideBar = ({ profileMenu, setProfileMenu }: {
   }, []);
 
   const onShowMatchingModal = useCallback(() => {
-    setShowModal(true);
+    // setShowModal(true);
+    contextDispatch({
+      type: 'SHOW_CUSTOM_MODAL',
+      payload: 'id',
+    });
   }, [me && me.id]);
 
   return (
@@ -168,12 +176,15 @@ const SideBar = ({ profileMenu, setProfileMenu }: {
           <MenuText>관심친구</MenuText>
         </SideMenu>
       </SideMenuWrap>
-      <ModalMatchingRequest
-        showModal={showModal}
-        setShowModal={setShowModal}
-        friend={profile}
-        gymName={profile?.Gyms[0]?.name}
-      />
+      <ModalPortal>
+        {showModal && (
+          <ModalMatchingRequest
+            setShowModal={setShowModal}
+            friend={profile}
+            gymName={profile?.Gyms[0]?.name}
+          />
+        )}
+      </ModalPortal>
     </SideBarWrapper>
   );
 };

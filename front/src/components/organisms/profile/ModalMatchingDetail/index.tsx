@@ -12,9 +12,8 @@ import { MatchingInfoWrap, RequestFriendWrap, UserInfoWrap } from './style';
 import { MatchingCardProps } from '@/../@types/schedule';
 import { ButtonType } from '@/../@types/utils';
 
-const ModalMatchingDetail = ({ schedule, show, onCancel }: {
+const ModalMatchingDetail = ({ schedule, onCancel }: {
   schedule?: MatchingCardProps;
-  show: boolean;
   onCancel: () => void;
 }) => {
   const dispatch = useDispatch();
@@ -103,7 +102,6 @@ const ModalMatchingDetail = ({ schedule, show, onCancel }: {
     && schedule?.permission) {
     return (
       <Modal
-        show={show}
         title={`${schedule?.Friend?.nickname}님과의 매칭정보`}
         onCancel={onCancel}
         onSubmit={onCancel}
@@ -145,7 +143,6 @@ const ModalMatchingDetail = ({ schedule, show, onCancel }: {
 
   return (
     <Modal
-      show={show}
       title={`${schedule?.Friend?.nickname}님과의 매칭정보`}
       onCancel={onCancel}
       footer={!schedule?.isPermitted

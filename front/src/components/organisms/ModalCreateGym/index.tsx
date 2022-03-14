@@ -6,6 +6,7 @@ import { FormInput } from '../../molecules';
 import KakaoPostcode from '../KakaoPostcode';
 import { Control, UseFormSetValue } from 'react-hook-form';
 import { ButtonType } from '@/../@types/utils';
+import ModalPortal from '../ModalPortal';
 
 interface CreateModalType {
   sido: string;
@@ -78,14 +79,15 @@ const ModalCreateGym = ({ control,
         placeholder="헬스장명을 입력해주세요."
         essential
       />
-      {showPostcode && (
-        <KakaoPostcode
-          show={showPostcode}
-          onCancel={changeShowPostcode}
-          setShowPostcode={setShowPostcode}
-          setValue={setValue}
-        />
-      )}
+      <ModalPortal>
+        {showPostcode && (
+          <KakaoPostcode
+            onCancel={changeShowPostcode}
+            setShowPostcode={setShowPostcode}
+            setValue={setValue}
+          />
+        )}
+      </ModalPortal>
     </CreateFormWrap>
   );
 };

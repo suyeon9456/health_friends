@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CloseOutlined } from '@ant-design/icons';
 
@@ -9,28 +9,29 @@ import Button from '../../atoms/Button';
 import { FriendsListWrapper, SearchFriendsWrapper, SearchHeader, SearchTitle } from './style';
 import { useModalDispatch } from '@/../store/modalStore';
 import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/utils';
+import ModalPortal from '../ModalPortal';
+import ModalMatchingRequest from '../ModalMatchingRequest';
 
 const SearchFriends = ({ foldedGym,
   foldedFriends,
-  setFoldedFriends,
-  setFriend,
-  setShowModal }: {
+  setFoldedFriends }: {
     foldedGym: boolean;
     foldedFriends: boolean;
     setFoldedFriends: Dispatch<SetStateAction<boolean>>;
-    setFriend: Dispatch<SetStateAction<{
-      id?: number;
-      nickname?: string;
-      Userdetail?: object;
-      Image?: object;
-      UserGym?: { GymId?: number };
-     }>>;
-    setShowModal: Dispatch<SetStateAction<boolean>>;
   }) => {
   const dispatch = useDispatch();
   const contextDispatch = useModalDispatch();
   const { gym } = useSelector(gymSelector);
   const { me } = useSelector(userSelector);
+
+  const [friend, setFriend] = useState<{
+    id?: number;
+    nickname?: string;
+    Userdetail?: object;
+    Image?: object;
+    UserGym?: { GymId?: number };
+   }>({});
+   const [showModal, setShowModal] = useState<boolean>(false);
 
   const onChangeFoldedFriends = useCallback(() => {
     setFoldedFriends((prev) => !prev);
@@ -97,6 +98,14 @@ const SearchFriends = ({ foldedGym,
           )}
         </FriendsListWrapper>
       </SearchFriendsWrapper>
+      <ModalPortal>
+        {showModal && (
+          <ModalMatchingRequest
+            setShowModal={setShowModal}
+            friend={friend}
+          />
+        )}
+      </ModalPortal>
     </>
   );
 };

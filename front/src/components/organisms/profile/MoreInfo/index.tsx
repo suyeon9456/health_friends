@@ -8,6 +8,7 @@ import { InformationItem, Button, Icon } from '../../../atoms';
 import { Content, ContentTitle, MoreInfoBody, MoreInfoContent, MoreInfoWrapper } from './style';
 import ModalEditInfo from '../ModalEditInfo';
 import { AgeOptions, ButtonType, CareerOptions, GenderOptions, RoleOptions, SizeType } from '@/../@types/utils';
+import ModalPortal from '../../ModalPortal';
 
 const MoreInfo = () => {
   const { me } = useSelector(userSelector);
@@ -112,13 +113,16 @@ const MoreInfo = () => {
           </Content>
         </MoreInfoContent>
       </MoreInfoBody>
-      <ModalEditInfo
-        title={targetId === 'more-info' ? '추가정보 수정' : '친구정보 수정'}
-        targetId={targetId}
-        show={showEditModal}
-        setCloseModal={setShowEditModal}
-        onCancel={onChangeShowEditModal}
-      />
+      <ModalPortal>
+        {showEditModal && (
+          <ModalEditInfo
+            title={targetId === 'more-info' ? '추가정보 수정' : '친구정보 수정'}
+            targetId={targetId}
+            setCloseModal={setShowEditModal}
+            onCancel={onChangeShowEditModal}
+          />
+        )}
+      </ModalPortal>
     </MoreInfoWrapper>
   );
 };
