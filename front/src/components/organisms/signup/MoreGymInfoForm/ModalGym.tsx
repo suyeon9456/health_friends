@@ -18,8 +18,7 @@ interface CreateModalType {
   name: string;
 }
 
-const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }: {
-  show: boolean;
+const ModalGym = ({ title, onCancel, setShowModal, setGym, ...props }: {
   title: string;
   onCancel: () => void;
   setShowModal: Dispatch<SetStateAction<boolean>>;
@@ -52,10 +51,9 @@ const ModalGym = ({ show, title, onCancel, setShowModal, setGym, ...props }: {
     dispatch(addGymRequeset(data));
     setGym('gym', data.name);
     setShowModal(false);
-  }, [show, selectedTab]);
+  }, [selectedTab]);
   return (
     <Modal
-      show={show}
       title={title}
       onCancel={onCancel}
       onSubmit={handleSubmit(onSubmit)}

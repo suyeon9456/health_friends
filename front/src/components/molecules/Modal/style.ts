@@ -11,43 +11,45 @@ export const ModalMask = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 6;
   height: 100%;
   background-color: #00000073;
 `;
 
 export const ModalWrap = styled.div<{ show?: boolean }>`
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  align-items: center;
+  background: rgba(0,0,0,.4);
+  display: flex;
   position: fixed;
+  z-index: 1060;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  overflow: auto;
-  outline: 0;
-  -webkit-overflow-scrolling: touch;
-  z-index: 1000;
-
-  ${({ show }) => !show && css`
-    display: none;
-  `}
+  flex-direction: row;
+  justify-content: center;
+  padding: .625em;
+  overflow-x: hidden;
+  transition: background-color .1s;
 `;
 
 export const ModalBox = styled.div`
+  position: relative;
   box-sizing: border-box;
-  padding: 0 0 24px;
+  flex-direction: column;
+  justify-content: center;
   color: #000000d9;
   font-size: 14px;
   font-variant: tabular-nums;
-  line-height: 1.5715;
   list-style: none;
   font-feature-settings: "tnum";
   pointer-events: none;
   position: relative;
-  top: 100px;
-  width: auto;
+  /* top: 100px; */
   max-width: calc(100vw - 32px);
   margin: 0 auto;
-
   width: 520px;
   transform-origin: 129.6px 242px;
 `;

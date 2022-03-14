@@ -36,13 +36,13 @@ const MoreInfoForm = () => {
           label="성별"
           id="gender"
           options={GenderOptions}
-          size="large"
+          size={SizeType.LARGE}
           control={control}
         />
         <FormSelect
           label="나이"
           id="age"
-          size="large"
+          size={SizeType.LARGE}
           options={AgeOptions}
           control={control}
         />
@@ -50,14 +50,14 @@ const MoreInfoForm = () => {
           label="운동경력"
           id="career"
           options={CareerOptions}
-          size="large"
+          size={SizeType.LARGE}
           control={control}
         />
         <FormSelect
           label="친구와의 역할"
           id="role"
           options={RoleOptions}
-          size="large"
+          size={SizeType.LARGE}
           control={control}
         />
         <ButtonWrap>

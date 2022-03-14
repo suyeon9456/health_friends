@@ -30,14 +30,12 @@ const Modal = ({ show,
     onSubmit?: () => void,
   }) => {
   useEffect(() => {
-    if (show) {
-      document.body.style.cssText = `
-        top: -${window.scrollY}px;
-        position: fixed; 
-        overflow-y: ${window.scrollY !== 0 ? 'scroll' : 'none'};
-        width: 100%;
-      `;
-    }
+    document.body.style.cssText = `
+    top: -${window.scrollY}px;
+    position: fixed; 
+    overflow-y: ${window.scrollY !== 0 ? 'scroll' : 'none'};
+    width: 100%;
+  `;
     return () => {
       const scrollY = document.body.style.top;
       document.body.style.cssText = '';
@@ -45,10 +43,10 @@ const Modal = ({ show,
         window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
       }
     };
-  }, [show]);
+  }, []);
   return (
     <ModalRoot className={className}>
-      {show && <ModalMask />}
+      <ModalMask />
       <ModalWrap show={show}>
         <ModalBox>
           <ModalContent>

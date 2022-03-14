@@ -9,6 +9,7 @@ import ModalGym from './ModalGym';
 import { ButtonWrap, FormSearchGymWrap, FormWrapper } from './style';
 import { signupSelector, signupStepGymInfoSave, signupStepNext, signupStepPrev } from '@/../reducers/user';
 import { ButtonType, SignupMenu, SizeType } from '@/../@types/utils';
+import ModalPortal from '../../ModalPortal';
 
 const MoreGymInfoForm = () => {
   const dispatch = useDispatch();
@@ -98,14 +99,17 @@ const MoreGymInfoForm = () => {
           </Button>
         </ButtonWrap>
       </Form>
-      <ModalGym
-        show={showModal}
-        title="헬스장 찾기/등록"
-        onCancel={changeShowModal}
-        setShowModal={setShowModal}
-        setGym={setValue}
-        {...{className: 'gym-modal'}}
-      />
+      <ModalPortal>
+        {showModal && (
+          <ModalGym
+            title="헬스장 찾기/등록"
+            onCancel={changeShowModal}
+            setShowModal={setShowModal}
+            setGym={setValue}
+            {...{className: 'gym-modal'}}
+          />
+        )}
+      </ModalPortal>
     </FormWrapper>
   );
 };
