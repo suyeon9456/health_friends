@@ -18,14 +18,11 @@ import GlobalModal from '@/components/organisms/GlobalModal';
 
 const queryClient = new QueryClient();
 const App = ({ Component }: AppProps) => { // Component는 index.js 의 리턴 부분
-  const [state, dispatch] = useReducer(reducer, {
-    drawerShow: false,
-    alertShow: false,
-    modalShow: false,
-    editNickname: false,
-    editDescription: false,
+  const [state, dispatch] = useReducer(reducer, { drawerShow: false });
+  const [modalState, modalDispatch] = useReducer(modalReducer, {
+    basic: [],
+    custom: [],
   });
-  const [modalState, modalDispatch] = useReducer(modalReducer, []);
   
   return (
     <>
@@ -42,7 +39,7 @@ const App = ({ Component }: AppProps) => { // Component는 index.js 의 리턴 �
               <ThemeProvider theme={myTheme}>
                 <QueryClientProvider client={queryClient}>
                   <Component />
-                  <GlobalModal modals={modalState} />
+                  <GlobalModal modals={modalState.basic} />
                 </QueryClientProvider>
               </ThemeProvider>
             </UseModalDispatchContext.Provider>
