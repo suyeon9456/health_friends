@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import { InputNumber } from '@/components/atoms';
 import { Essential, Label } from './style';
+import { BaseSizeTypeT } from '@/../@types/utils';
 
 const FormInputNumber = ({ label,
   value,
@@ -16,7 +17,7 @@ const FormInputNumber = ({ label,
   value: number;
   setValue: Dispatch<SetStateAction<string>>;
   onChange: () => void;
-  size?: 'small' | 'large';
+  size?: BaseSizeTypeT;
   placeholder?: string;
   essential?: boolean;
 }) => (

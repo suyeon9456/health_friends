@@ -6,6 +6,7 @@ import { RangeTimePickerWrap, RangeSeparator, Separator } from './style';
 import CustomPickerInput from '../CustomPickerInput';
 import CustomCalendar from '../CustomCalendar';
 import { RangePickerProps } from '@/../@types/atoms';
+import { PickerType } from '@/../@types/utils';
 
 const RangeTimePicker = ({
   size,
@@ -23,7 +24,7 @@ const RangeTimePicker = ({
       timeIntervals={15}
       timeCaption="Time"
       dateFormat="HH:mm"
-      customInput={<CustomPickerInput type="time" size={size} />}
+      customInput={<CustomPickerInput type={PickerType.TIME} size={size} />}
       calendarContainer={CustomCalendar}
     />
     <RangeSeparator>
@@ -39,7 +40,7 @@ const RangeTimePicker = ({
       timeIntervals={15}
       timeCaption="Time"
       dateFormat="HH:mm"
-      customInput={<CustomPickerInput type="time" size={size} />}
+      customInput={<CustomPickerInput type={PickerType.TIME} size={size} />}
       calendarContainer={CustomCalendar}
     />
   </RangeTimePickerWrap>

@@ -1,11 +1,12 @@
 import styled, { css } from 'styled-components';
+import { SizeType, SizeTypeT } from '@/../@types/utils';
 
-export const FormSelectWrap = styled.div<{ size?: 'default' | 'small' | 'large'; }>`
+export const FormSelectWrap = styled.div<{ size?: SizeTypeT; }>`
  min-height: 100px;
  margin: 0 auto;
  max-width: 600px;
 
- ${({ size }) => size === 'small' && css`
+ ${({ size }) => size === SizeType.SMALL && css`
     min-height: 60px;
  `}
 

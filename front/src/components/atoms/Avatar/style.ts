@@ -1,7 +1,8 @@
 import styled, { css } from 'styled-components';
-import { AvatarType } from '@/../@types/atoms';
+import { SizeType } from '@/../@types/utils';
+import { AvatarProps } from '@/../@types/atoms';
 
-export const StyledAvatar = styled.span<AvatarType>`
+export const StyledAvatar = styled.span<AvatarProps>`
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -20,7 +21,7 @@ export const StyledAvatar = styled.span<AvatarType>`
   border-radius: 5px;
 
   ${({ size }) => {
-    if (size === 'small') {
+    if (size === SizeType.SMALL) {
       return css`
         width: 24px;
         height: 24px;
@@ -30,7 +31,7 @@ export const StyledAvatar = styled.span<AvatarType>`
         }
       `;
     }
-    if (size === 'large') {
+    if (size === SizeType.LARGE) {
       return css`
         width: 40px;
         height: 40px;
@@ -40,13 +41,13 @@ export const StyledAvatar = styled.span<AvatarType>`
         }
       `;
     }
-    if (size !== 'default') {
+    if (size !== SizeType.DEFAULT) {
       return css`
         width: ${size}px;
         height: ${size}px;
         line-height: ${size}px;
         & > .anticon-user {
-          font-size: ${+size / 2}px;
+          font-size: ${size ? +size : 0 / 2}px;
         }
       `;
     }

@@ -3,11 +3,11 @@ import { Control, Controller, FieldError, FieldValues, Path } from 'react-hook-f
 
 import { FormSelectWrap, Essential, Label } from './style';
 import { Select, ErrorMessage } from '../../atoms';
-import { AgeOptionsType, CareerOptionsType, GenderOptionsType, RoleOptionsType } from '@/../@types/utils';
+import { AgeOptionsType, CareerOptionsType, GenderOptionsType, RoleOptionsType, SizeTypeT } from '@/../@types/utils';
 
 interface FormSelectType<T> {
   label: string;
-  size?: 'default' | 'small' | 'large';
+  size?: SizeTypeT;
   options: readonly { readonly value: string | number; readonly text: string; }[];
   error?: FieldError | undefined;
   id: Path<T>;

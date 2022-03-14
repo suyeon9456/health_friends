@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import { Size } from '@/../@types/atoms';
 import { ButtonType, ButtonTypeT, SizeType, SizeTypeT } from '@/../@types/utils';
 
 interface Button {
