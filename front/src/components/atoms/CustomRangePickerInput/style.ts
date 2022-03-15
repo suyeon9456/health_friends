@@ -8,7 +8,7 @@ export const RangePickerWrap = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   padding: 4px 11px;
   width: 100%;
   position: relative;
@@ -17,9 +17,10 @@ export const RangePickerWrap = styled.div`
   background: #fff;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
-  transition: border .3s,box-shadow .3s;
+  transition: border 0.3s, box-shadow 0.3s;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     border-color: #40a9ff;
     border-right-width: 1px !important;
   }
@@ -37,7 +38,7 @@ export const PickerInputWrap = styled.div`
 `;
 
 export const PickerInput = styled.input<{
-  className: string,
+  className: string;
   value?: string;
   onClick?: () => void;
   ref: React.ForwardedRef<HTMLInputElement>;
@@ -54,7 +55,7 @@ export const PickerInput = styled.input<{
   background-image: none;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
-  transition: all .3s;
+  transition: all 0.3s;
   flex: auto;
   min-width: 1px;
   height: auto;
@@ -90,7 +91,7 @@ export const ActiveBar = styled.div`
   margin-left: 11px;
   background: #1890ff;
   /* opacity: 0; */
-  transition: all .3s ease-out;
+  transition: all 0.3s ease-out;
   pointer-events: none;
   left: 0px;
   width: 70px;

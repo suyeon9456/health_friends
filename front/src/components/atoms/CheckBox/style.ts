@@ -11,7 +11,7 @@ export const Label = styled.label`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   display: inline-flex;
   align-items: baseline;
   line-height: unset;
@@ -21,7 +21,7 @@ export const Label = styled.label`
     display: inline-block;
     width: 0;
     overflow: hidden;
-    content: "\a0";
+    content: '\a0';
   }
 `;
 
@@ -34,7 +34,7 @@ export const BasicCheckBoxWrap = styled.span`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   position: relative;
   top: 0.2em;
   line-height: 1;
@@ -68,12 +68,14 @@ export const BasicCheckBoxInner = styled.span<{ checked: boolean }>`
   border: 1px solid #d9d9d9;
   border-radius: 2px;
   border-collapse: separate;
-  transition: all .3s;
+  transition: all 0.3s;
 
-  ${({ checked }) => checked && css`
-    background-color: rgb(146,84,222);
-    border-color: rgb(146,84,222);
-  `}
+  ${({ checked }) =>
+    checked &&
+    css`
+      background-color: rgb(146, 84, 222);
+      border-color: rgb(146, 84, 222);
+    `}
 
   &::after {
     position: absolute;
@@ -85,10 +87,10 @@ export const BasicCheckBoxInner = styled.span<{ checked: boolean }>`
     border: 2px solid #fff;
     border-top: 0;
     border-left: 0;
-    transform: rotate(45deg) scale(1) translate(-50%,-50%);
+    transform: rotate(45deg) scale(1) translate(-50%, -50%);
     opacity: 1;
-    transition: all .2s cubic-bezier(.12,.4,.29,1.46) .1s;
-    content: " ";
+    transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
+    content: ' ';
   }
 `;
 

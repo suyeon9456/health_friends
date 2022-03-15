@@ -19,7 +19,7 @@ export const PrevButton = styled.button`
   background: 0 0;
   border: 0;
   cursor: pointer;
-  transition: color .3s;
+  transition: color 0.3s;
 `;
 
 export const Prev = styled.span`
@@ -32,7 +32,7 @@ export const Prev = styled.span`
     height: 7px;
     border: 0 solid currentColor;
     border-width: 1.5px 0 0 1.5px;
-    content: "";
+    content: '';
   }
 `;
 

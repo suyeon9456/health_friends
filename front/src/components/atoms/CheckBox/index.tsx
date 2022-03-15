@@ -1,6 +1,13 @@
 import React from 'react';
-import { BasicCheckBoxInner, BasicCheckBox, BasicCheckBoxWrap, Label, BasicCheckBoxText } from './style';
+
 import { CheckBoxProps } from '@/../@types/atoms';
+import {
+  BasicCheckBoxInner,
+  BasicCheckBox,
+  BasicCheckBoxWrap,
+  Label,
+  BasicCheckBoxText,
+} from './style';
 
 const CheckBox = ({ label, value, onChange, checked }: CheckBoxProps) => (
   <Label>

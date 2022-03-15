@@ -5,14 +5,16 @@ export const CalendarWrap = styled.div`
   vertical-align: top;
   background: #fff;
   border-radius: 2px;
-  box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
-  transition: margin .3s;
+  box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014,
+    0 9px 28px 8px #0000000d;
+  transition: margin 0.3s;
 `;
 
 export const CalendarBody = styled.div`
   position: relative;
 
-  & > .react-datepicker__navigation { // calendar prev next button custom
+  & > .react-datepicker__navigation {
+    // calendar prev next button custom
     top: 19px;
     & > .react-datepicker__navigation-icon {
       &::before {
@@ -23,9 +25,11 @@ export const CalendarBody = styled.div`
       }
     }
   }
-  
-  & > .react-datepicker__month-container { // calendar custom
-    & > .react-datepicker__header {// calendar header custom
+
+  & > .react-datepicker__month-container {
+    // calendar custom
+    & > .react-datepicker__header {
+      // calendar header custom
       background-color: #fff;
       color: #000000d9;
       border-bottom: 1px solid #f0f0f0;
@@ -36,17 +40,20 @@ export const CalendarBody = styled.div`
         background: 0 0;
         border: 0;
         cursor: pointer;
-        transition: color .3s;
+        transition: color 0.3s;
         font-weight: 500;
         font-size: 14px;
       }
     }
 
-    & > .react-datepicker__month {// calendar body custom
+    & > .react-datepicker__month {
+      // calendar body custom
       padding: 8px 12px;
       margin: 0;
-      & > .react-datepicker__week {// week
-        & > .react-datepicker__day {// day
+      & > .react-datepicker__week {
+        // week
+        & > .react-datepicker__day {
+          // day
           position: relative;
           min-width: 24px;
           height: 24px;
@@ -56,7 +63,8 @@ export const CalendarBody = styled.div`
           color: #000000d9;
           cursor: pointer;
           border-radius: 2px;
-          &:hover { // day hover
+          &:hover {
+            // day hover
             background-color: #f5f5f5;
             color: #000000d9;
           }
@@ -82,17 +90,21 @@ export const CalendarBody = styled.div`
           line-height: 14px;
         }
 
-        & > .react-datepicker__day--in-selecting-range:not(.react-datepicker__day--in-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--in-range) {
+        &
+          > .react-datepicker__day--in-selecting-range:not(.react-datepicker__day--in-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--in-range) {
           background-color: #b37feb69;
         }
 
-        & > .react-datepicker__day--in-range:not(.react-datepicker__day--range-start, .react-datepicker__day--range-end) {
+        &
+          > .react-datepicker__day--in-range:not(.react-datepicker__day--range-start, .react-datepicker__day--range-end) {
           /* background-color: #9254de; */
           background-color: #b37feb69;
           color: #fff;
         }
 
-        & > .react-datepicker__day--range-start, & > .react-datepicker__day--range-end, & > .react-datepicker__day--keyboard-selected {
+        & > .react-datepicker__day--range-start,
+        & > .react-datepicker__day--range-end,
+        & > .react-datepicker__day--keyboard-selected {
           background-color: #b37feb;
           color: #fff;
         }
@@ -100,10 +112,12 @@ export const CalendarBody = styled.div`
     }
   }
 
-  & > .react-datepicker__time-container  { // time container custom
+  & > .react-datepicker__time-container {
+    // time container custom
     border-left: 1px solid #f0f0f0;
-    transition: opacity .3s;
-    & > .react-datepicker__header { // time header custom
+    transition: opacity 0.3s;
+    & > .react-datepicker__header {
+      // time header custom
       background-color: #fff;
       color: #000000d9;
       border-bottom: 1px solid #f0f0f0;
@@ -112,8 +126,9 @@ export const CalendarBody = styled.div`
         font-size: 14px;
       }
     }
-    
-    & > .react-datepicker__time { // time body custom
+
+    & > .react-datepicker__time {
+      // time body custom
       & > .react-datepicker__time-box {
         & > .react-datepicker__time-list {
           & > .react-datepicker__time-list-item {
@@ -133,5 +148,4 @@ export const CalendarBody = styled.div`
       }
     }
   }
-
 `;

@@ -9,7 +9,7 @@ export const PickerWrap = styled.div<{ size?: BaseSizeTypeT }>`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   padding: 4px 11px;
   width: 100%;
   position: relative;
@@ -18,9 +18,10 @@ export const PickerWrap = styled.div<{ size?: BaseSizeTypeT }>`
   background: #fff;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
-  transition: border .3s,box-shadow .3s;
+  transition: border 0.3s, box-shadow 0.3s;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     border-color: #40a9ff;
     border-right-width: 1px !important;
   }
@@ -62,7 +63,7 @@ export const PickerInput = styled.input<{ ref: any }>`
   background-image: none;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
-  transition: all .3s;
+  transition: all 0.3s;
   flex: auto;
   min-width: 1px;
   height: auto;

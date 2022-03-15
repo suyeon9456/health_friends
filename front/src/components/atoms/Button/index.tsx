@@ -1,9 +1,9 @@
 import React from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
 
-import { StyledButton } from './style';
 import { ButtonProps } from '@/../@types/atoms';
 import { ButtonType, SizeType } from '@/../@types/utils';
+import { StyledButton } from './style';
 
 const Button = ({
   children,

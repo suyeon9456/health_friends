@@ -14,7 +14,8 @@
     },
     "typeRoots": [			/* 타입정의를 포함할 폴더목록, '/node_modules/@types/' 는 기본 포함됨 */
       "./node_modules/@types/",
-      "./src/types/"
+      // "./src/types/"
+      "./@types/reducer/"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -31,8 +32,10 @@
   "include": [
     "next-env.d.ts",
     "redux.d.ts",
+    "@type/reducer/user.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    ".eslintrc.js"
   ],
   "exclude": [
     "node_modules"
