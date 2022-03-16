@@ -26,7 +26,6 @@ export const FilterList = styled.div`
   display: flex;
   min-height: 50px;
   margin-bottom: 10px;
-
   & > div:not(:first-child) {
     margin-left: 10px;
   }

@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import Router from 'next/router';
 import { useSelector } from 'react-redux';
 
-import { userSelector } from '../reducers/user';
 import { AppLayout, LoginForm } from '@/components/organisms';
+import { userSelector } from '../reducers/user';
 
 const Login = () => {
   const { me } = useSelector(userSelector);
   useEffect(() => {
-    if (me && me.id) {
-      Router.replace('/');
+    if (me?.id) {
+      void Router.replace('/');
     }
-  }, [me && me.id]);
+  }, [me?.id]);
   return (
     <AppLayout>
       <LoginForm />

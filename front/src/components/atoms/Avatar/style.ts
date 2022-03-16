@@ -62,14 +62,16 @@ export const StyledAvatar = styled.span<AvatarProps>`
     `;
   }}
 
-  ${({ src }) => src && css`
-    background: 0 0;
-    & > img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      -o-object-fit: cover;
+  ${({ src }) =>
+    src &&
+    css`
+      background: 0 0;
+      & > img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        -o-object-fit: cover;
         object-fit: cover;
-    }
-  `}
+      }
+    `}
 `;

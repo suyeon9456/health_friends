@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetServerSideProps } from 'next';
@@ -11,11 +12,23 @@ import wrapper from '../store/configureStore';
 import { loadMyInfoRequest, userSelector } from '../reducers/user';
 import { loadProfileMyinfoRequest } from '../reducers/profile';
 
-import { AppLayout, SideBar, Info, MoreInfo, Row, Col } from '../src/components/organisms';
+import {
+  AppLayout,
+  SideBar,
+  Info,
+  MoreInfo,
+  Row,
+  Col,
+} from '../src/components/organisms';
 import MatchingCalendar from '../src/components/organisms/profile/MatchingCalendar';
 import MatchingRecord from '../src/components/organisms/profile/MatchingRecord';
 import LikedList from '../src/components/organisms/profile/LikedList';
-import { GlobalModal, Menu, ModalStatus, ProfileMenuType } from '../@types/utils';
+import {
+  GlobalModal,
+  Menu,
+  ModalStatus,
+  ProfileMenuType,
+} from '../@types/utils';
 import { useModalDispatch } from '../store/modalStore';
 
 const Myinfo = () => {
@@ -41,7 +54,7 @@ const Myinfo = () => {
           callback: goMain,
         },
       });
-      return
+      return;
     }
     dispatch(loadProfileMyinfoRequest());
   }, [me]);
@@ -50,39 +63,40 @@ const Myinfo = () => {
     <AppLayout>
       <Row>
         <Col xs={24} md={8}>
-          <SideBar
-            profileMenu={profileMenu}
-            setProfileMenu={setProfileMenu}
-          />
+          <SideBar profileMenu={profileMenu} setProfileMenu={setProfileMenu} />
         </Col>
         <Col xs={24} md={16}>
-          {{
-            [Menu.LIKED]: <LikedList />,
-            [Menu.CALENDAR]: <MatchingCalendar />,
-            [Menu.RECORD]: <MatchingRecord />,
-            [Menu.INFO]: (
-              <div>
-                <Info />
-                <MoreInfo />
-              </div>
-            ),
-          }[profileMenu]}
+          {
+            {
+              [Menu.LIKED]: <LikedList />,
+              [Menu.CALENDAR]: <MatchingCalendar />,
+              [Menu.RECORD]: <MatchingRecord />,
+              [Menu.INFO]: (
+                <div>
+                  <Info />
+                  <MoreInfo />
+                </div>
+              ),
+            }[profileMenu]
+          }
         </Col>
       </Row>
     </AppLayout>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = wrapper
-  .getServerSideProps((store) => async ({ req }) => {
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async ({ req }) => {
     const cookie = req ? req.headers.cookie : '';
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     axios!.defaults!.headers!.Cookie = '';
     if (req && cookie) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       axios!.defaults!.headers!.Cookie = cookie;
     }
     store.dispatch(loadMyInfoRequest());
     store.dispatch(END);
-    await (store as Store).sagaTask!.toPromise();
+    await (store as Store).sagaTask?.toPromise();
 
     return {
       props: {

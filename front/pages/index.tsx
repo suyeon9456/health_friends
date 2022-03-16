@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import React from 'react';
 import { GetServerSideProps } from 'next';
 import { END } from 'redux-saga';
 import axios from 'axios';
 
+import { Store } from 'redux';
 import { AppLayout, Main, Footer } from '../src/components/organisms';
 
 import wrapper from '../store/configureStore';
 
-import { Store } from 'redux';
 import { loadMyInfoRequest } from '../reducers/user';
 
 const Home = () => (
@@ -19,8 +20,8 @@ const Home = () => (
   </AppLayout>
 );
 
-export const getServerSideProps: GetServerSideProps = wrapper
-  .getServerSideProps((store) => async ({ req }) => {
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps((store) => async ({ req }) => {
     /*
       ssr에서 브라우저는 개입하지 않고 프론트에서 백으로 요청하기 때문에
       쿠키를 따로 설정하여 요청하여야 한다.
@@ -35,13 +36,15 @@ export const getServerSideProps: GetServerSideProps = wrapper
       따라서 아래와 같이 설정해 주는 것이 중요하다.
     */
     const cookie = req ? req.headers.cookie : '';
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     axios!.defaults!.headers!.Cookie = '';
     if (req && cookie) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       axios!.defaults!.headers!.Cookie = cookie;
     }
     store.dispatch(loadMyInfoRequest());
     store.dispatch(END);
-    await (store as Store).sagaTask!.toPromise();
+    await (store as Store).sagaTask?.toPromise();
     return {
       props: {
         allPostsData: {},
