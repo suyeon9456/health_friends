@@ -1,9 +1,23 @@
 import { InputNumberProps } from '@/../@types/atoms';
-import React, { Dispatch, SetStateAction, useCallback } from 'react';
+import React, { useCallback } from 'react';
 
-import { InputNumberWrap, InputNumberBox, NumberHandlerWrap, NumberHandlerUp, NumberHandlerUpInner, NumberHandlerDown, NumberHandlerDownInner } from './style';
+import {
+  InputNumberWrap,
+  InputNumberBox,
+  NumberHandlerWrap,
+  NumberHandlerUp,
+  NumberHandlerUpInner,
+  NumberHandlerDown,
+  NumberHandlerDownInner,
+} from './style';
 
-const InputNumber = ({ value, onChange, setValue, size, ...props }: InputNumberProps) => {
+const InputNumber = ({
+  value,
+  onChange,
+  setValue,
+  size,
+  ...props
+}: InputNumberProps) => {
   const onChangeUpAge = useCallback(() => {
     setValue((prev: string) => (parseInt(prev, 10) + 1).toString());
   }, [value]);
@@ -11,9 +25,7 @@ const InputNumber = ({ value, onChange, setValue, size, ...props }: InputNumberP
     setValue((prev: string) => (parseInt(prev, 10) - 1).toString());
   }, [value]);
   return (
-    <InputNumberWrap
-      size={size}
-    >
+    <InputNumberWrap size={size}>
       <NumberHandlerWrap>
         <NumberHandlerUp
           role="button"

@@ -12,13 +12,14 @@ export const Card = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   position: relative;
   background: #fff;
   border-radius: 8px;
 
   &:hover {
-    box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
+    box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014,
+      0 9px 28px 8px #0000000d;
     border-color: transparent;
   }
 `;
@@ -57,12 +58,12 @@ export const CardBody = styled.div<{ matchingId: number }>`
   cursor: pointer;
   &::before {
     display: table;
-    content: "";
+    content: '';
   }
   &::after {
     display: table;
     clear: both;
-    content: "";
+    content: '';
   }
 `;
 
@@ -70,12 +71,12 @@ export const CardMeta = styled.div`
   margin: -4px 0;
   &::before {
     display: table;
-    content: "";
+    content: '';
   }
   &::after {
     display: table;
     clear: both;
-    content: "";
+    content: '';
   }
 `;
 
@@ -85,7 +86,7 @@ export const MetaDate = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
 `;
 
 export const MetaTitle = styled.div`
@@ -104,7 +105,7 @@ export const MetaDescription = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   text-align: left;
 `;
 
@@ -116,18 +117,18 @@ export const CardActions = styled.ul`
   background: #fff;
   border-top: 1px solid #f0f0f0;
   border-radius: 0 0 8px 8px;
-    &::before {
-      display: table;
-      content: "";
-    }
-    &::after {
-      display: table;
-      clear: both;
-      content: "";
-    }
-    & > li:not(:last-child) {
-      border-right: 1px solid #f0f0f0;
-    }
+  &::before {
+    display: table;
+    content: '';
+  }
+  &::after {
+    display: table;
+    clear: both;
+    content: '';
+  }
+  & > li:not(:last-child) {
+    border-right: 1px solid #f0f0f0;
+  }
 `;
 
 export const Action = styled.li<{ disabled: boolean }>`
@@ -137,7 +138,7 @@ export const Action = styled.li<{ disabled: boolean }>`
   text-align: center;
   flex-grow: 1;
   cursor: pointer;
-  
+
   & > * {
     font-size: 16px;
     line-height: 22px;
@@ -153,13 +154,15 @@ export const Action = styled.li<{ disabled: boolean }>`
     }
   }
 
-  ${({ disabled }) => disabled && css`
-    color: #00000040;
-    cursor: default;
-    &:hover {
-      & > * {
-        color: #00000040;
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      color: #00000040;
+      cursor: default;
+      &:hover {
+        & > * {
+          color: #00000040;
+        }
       }
-    }
-  `}
+    `}
 `;

@@ -12,19 +12,21 @@ export const UploadContainer = styled.div<{ error?: boolean }>`
   border: 1px dashed #d9d9d9;
   border-radius: 2px;
   cursor: pointer;
-  transition: border-color .3s;
+  transition: border-color 0.3s;
 
   &:hover {
     border-color: #1890ff;
   }
 
-  ${({ error }) => error && css`
-    border: 1px solid #ff4d4f;
+  ${({ error }) =>
+    error &&
+    css`
+      border: 1px solid #ff4d4f;
 
-    &:hover {
-      border-color: #ff4d4f;
-    }
-  `}
+      &:hover {
+        border-color: #ff4d4f;
+      }
+    `}
 `;
 
 export const UploadWrap = styled.span`
@@ -36,7 +38,7 @@ export const UploadWrap = styled.span`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   outline: 0;
 
   display: flex;

@@ -3,9 +3,9 @@
 const useTextarea = () => {
   console.log('test');
   // ''.concat(content).concat(hasMaxLength ? ' / '.concat(maxLength) : '')
-  return ({
+  return {
     text: 'test',
-  });
+  };
 };
 
 export default useTextarea;

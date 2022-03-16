@@ -13,7 +13,7 @@ export const Card = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   position: relative;
   background: #fff;
   border-radius: 2px;
@@ -31,12 +31,12 @@ export const CardCover = styled.div`
 
   &::before {
     display: table;
-    content: "";
+    content: '';
   }
   &::after {
     display: table;
     clear: both;
-    content: "";
+    content: '';
   }
 
   & > img {
@@ -45,7 +45,7 @@ export const CardCover = styled.div`
     border-radius: 2px 2px 0 0;
     vertical-align: middle;
     border-style: none;
-    object-fit:contain;
+    object-fit: contain;
   }
 `;
 
@@ -54,12 +54,12 @@ export const CardBody = styled.div`
   flex-grow: 5;
   &::before {
     display: table;
-    content: "";
+    content: '';
   }
   &::after {
     display: table;
     clear: both;
-    content: "";
+    content: '';
   }
 `;
 
@@ -67,12 +67,12 @@ export const CardMeta = styled.div`
   margin: -4px 0;
   &::before {
     display: table;
-    content: "";
+    content: '';
   }
   &::after {
     display: table;
     clear: both;
-    content: "";
+    content: '';
   }
 `;
 
@@ -103,7 +103,7 @@ export const MetaDescription = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
 `;
 
 export const MetaPercent = styled.div`
@@ -112,7 +112,7 @@ export const MetaPercent = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
 `;
 
 export const CardActions = styled.div`
@@ -120,12 +120,12 @@ export const CardActions = styled.div`
   justify-content: center;
   &::before {
     display: table;
-    content: "";
+    content: '';
   }
   &::after {
     display: table;
     clear: both;
-    content: "";
+    content: '';
   }
 
   & > span {

@@ -40,16 +40,16 @@ export const InfoWrapper = styled.div`
 export const InfoContent = styled.div`
   &::before {
     display: table;
-    content: "";
+    content: '';
   }
   &::after {
     display: table;
     clear: both;
-    content: "";
+    content: '';
   }
   & span {
     font-size: 14px;
-    color: '#000000d9'
+    color: '#000000d9';
   }
   & > div {
     overflow: hidden;

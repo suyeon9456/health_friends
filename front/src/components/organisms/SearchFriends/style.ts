@@ -1,6 +1,9 @@
 import styled, { css } from 'styled-components';
 
-export const SearchFriendsWrapper = styled.div<{ foldedGym: boolean; foldedFriends: boolean; }>`
+export const SearchFriendsWrapper = styled.div<{
+  foldedGym: boolean;
+  foldedFriends: boolean;
+}>`
   position: absolute;
   display: flex;
   width: 100%;
@@ -17,27 +20,33 @@ export const SearchFriendsWrapper = styled.div<{ foldedGym: boolean; foldedFrien
   overflow: hidden;
   border: 1px solid #f0f0f0;
   z-index: 5;
-  transition: all .35s;
+  transition: all 0.35s;
 
-  ${({ foldedGym }) => foldedGym && css`
-    top: calc(0% + 43px);
-  `}
-  
+  ${({ foldedGym }) =>
+    foldedGym &&
+    css`
+      top: calc(0% + 43px);
+    `}
+
   @media (min-width: 768px) {
     width: calc(100% - 43px);
     max-height: none;
     height: 100%;
     left: calc(100% - 1px);
     top: 10px;
-    ${({ foldedGym }) => foldedGym && css`
-      top: 10px;
-      left: calc(0% + 43px);
-    `}
+    ${({ foldedGym }) =>
+      foldedGym &&
+      css`
+        top: 10px;
+        left: calc(0% + 43px);
+      `}
   }
 
-  ${({ foldedFriends }) => foldedFriends && css`
-    display: none;
-  `}
+  ${({ foldedFriends }) =>
+    foldedFriends &&
+    css`
+      display: none;
+    `}
 `;
 
 export const SearchHeader = styled.div`
@@ -49,7 +58,7 @@ export const SearchHeader = styled.div`
   background: #fff;
   box-sizing: border-box;
   border-bottom: 1px solid #f0f0f0;
-  
+
   & > div {
     display: table-cell;
     width: 90%;

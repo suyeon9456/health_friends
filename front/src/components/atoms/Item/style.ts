@@ -11,7 +11,7 @@ export const ItemWrap = styled.li`
   border-bottom: 1px solid #f0f0f0;
   display: flex;
   align-items: center;
-  padding: 12px 10PX;
+  padding: 12px 10px;
   color: #000000d9;
   outline: none;
 `;
@@ -30,7 +30,7 @@ export const ItemTitle = styled.h4`
 
   & > a {
     color: #000000d9;
-    transition: all .3s;
+    transition: all 0.3s;
     cursor: pointer;
   }
 `;

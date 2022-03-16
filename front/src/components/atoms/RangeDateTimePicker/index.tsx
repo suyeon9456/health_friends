@@ -2,18 +2,18 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import { SwapRightOutlined } from '@ant-design/icons';
 
+import { RangePickerProps } from '@/../@types/atoms';
+import { PickerType } from '@/../@types/utils';
 import { RangeTimePickerWrap, RangeSeparator, Separator } from './style';
 import CustomPickerInput from '../CustomPickerInput';
 import CustomCalendar from '../CustomCalendar';
-import { RangePickerProps } from '@/../@types/atoms';
-import { PickerType } from '@/../@types/utils';
 
 const RangeDateTimePicker = ({
   size,
   startDate,
   endDate,
   onChangeStartDate,
-  onChangeEndDate
+  onChangeEndDate,
 }: RangePickerProps) => (
   <RangeTimePickerWrap>
     <DatePicker

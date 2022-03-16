@@ -1,12 +1,16 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 
+import { BaseSizeTypeT, PickerType } from '@/../@types/utils';
 import CustomCalendar from '../CustomCalendar';
 import CustomPickerInput from '../CustomPickerInput';
 
-import { BaseSizeTypeT, PickerType } from '@/../@types/utils';
-
-const InputTimePicker = ({ name, size, value, onChange }: {
+const InputTimePicker = ({
+  name,
+  size,
+  value,
+  onChange,
+}: {
   name: string;
   size?: BaseSizeTypeT;
   value: Date;

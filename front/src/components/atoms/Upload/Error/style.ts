@@ -50,7 +50,7 @@ export const ErrorContent = styled.div`
   object-fit: contain;
   line-height: 84px;
   text-align: center;
-  opacity: .8;
+  opacity: 0.8;
 `;
 
 export const ErrorContentIcon = styled(FrownOutlined)`
@@ -75,9 +75,9 @@ export const ErrorButtonWrap = styled.span`
   left: 50%;
   z-index: 10;
   white-space: nowrap;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   opacity: 0;
-  transition: all .3s;
+  transition: all 0.3s;
 `;
 
 export const ErrorRemoveButton = styled(DeleteOutlined)`

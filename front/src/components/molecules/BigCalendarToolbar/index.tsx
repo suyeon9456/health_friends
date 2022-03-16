@@ -4,8 +4,12 @@ import { BiChevronLeft, BiChevronRight, BiRadioCircle } from 'react-icons/bi';
 
 import { ToolbarWrap, RbcBtnGroup, ButtonGroup } from './style';
 
-const BigCalendarToolbar = ({ date, onNavigate }: {
+const BigCalendarToolbar = ({
+  date,
+  onNavigate,
+}: {
   date: Date;
+  // eslint-disable-next-line no-shadow
   onNavigate: (navigate: NavigateAction, date?: Date) => void;
 }) => {
   const navigate = (action: NavigateAction) => {
@@ -18,19 +22,17 @@ const BigCalendarToolbar = ({ date, onNavigate }: {
           {`${date.getFullYear()}년 ${date.getMonth() + 1}월`}
         </span>
         <ButtonGroup>
-          <button
-            type="button"
-            onClick={navigate.bind(null, 'PREV')}
-          >
+          <button type="button" onClick={navigate.bind(null, 'PREV')}>
             <BiChevronLeft />
           </button>
-          <button className="now" type="button" onClick={navigate.bind(null, 'TODAY')}>
+          <button
+            className="now"
+            type="button"
+            onClick={navigate.bind(null, 'TODAY')}
+          >
             <BiRadioCircle />
           </button>
-          <button
-            type="button"
-            onClick={navigate.bind(null, 'NEXT')}
-          >
+          <button type="button" onClick={navigate.bind(null, 'NEXT')}>
             <BiChevronRight />
           </button>
         </ButtonGroup>

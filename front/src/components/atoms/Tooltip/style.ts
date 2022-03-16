@@ -9,7 +9,7 @@ export const StyledTooltipWrap = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   position: absolute;
   z-index: 1070;
   display: block;
@@ -42,13 +42,11 @@ export const StyledTooltipArrow = styled.span`
   height: 5px;
   margin: auto;
   background-color: #000000bf;
-  content: "";
+  content: '';
   pointer-events: auto;
 
   box-shadow: 3px 3px 7px #00000012;
-  transform: translateY(-6.53553391px) rotate(
-  45deg
-  );
+  transform: translateY(-6.53553391px) rotate(45deg);
 `;
 
 export const StyledTootip = styled.div`
@@ -61,5 +59,6 @@ export const StyledTootip = styled.div`
   word-wrap: break-word;
   background-color: #000000bf;
   border-radius: 2px;
-  box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
+  box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014,
+    0 9px 28px 8px #0000000d;
 `;

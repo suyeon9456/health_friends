@@ -1,14 +1,19 @@
 import React from 'react';
 
+import { Process, ProcessType, SignupMenuType } from '@/../@types/utils';
 import { StepsWrapper } from './style';
 import { Step } from '../../atoms';
-import { Process, ProcessType, SignupMenuType } from '@/../@types/utils';
 
-const Steps = ({ steps, process, target }: {
-  steps: readonly {
+const Steps = ({
+  steps,
+  process,
+  target,
+}: {
+  steps: ReadonlyArray<{
     readonly step: SignupMenuType;
     readonly title: string;
-    readonly description: string }[];
+    readonly description: string;
+  }>;
   process: SignupMenuType;
   target: number;
 }) => {
@@ -19,7 +24,7 @@ const Steps = ({ steps, process, target }: {
         let type: ProcessType = Process.WAIT;
         if (index === target) {
           type = Process.PROCESS;
-        } 
+        }
         if (step !== process && index) {
           type = Process.FINISHED;
         }

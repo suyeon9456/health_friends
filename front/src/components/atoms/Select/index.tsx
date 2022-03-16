@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { SelectContainer, Options } from './style';
 import { SelectProps } from '@/../@types/atoms';
+import { SelectContainer, Options } from './style';
 
 const Select = ({ size, options, name, value, onChange }: SelectProps) => (
   <SelectContainer
@@ -11,10 +11,7 @@ const Select = ({ size, options, name, value, onChange }: SelectProps) => (
     onChange={onChange}
   >
     {options.map((option) => (
-      <Options
-        key={option.value}
-        value={option.value}
-      >
+      <Options key={option.value} value={option.value}>
         {option.text}
       </Options>
     ))}

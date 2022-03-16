@@ -13,7 +13,8 @@ export const FormWrap = styled.div`
       font-weight: 600;
     }
 
-    & > select, & > div {
+    & > select,
+    & > div {
       margin-top: 5px;
     }
   }

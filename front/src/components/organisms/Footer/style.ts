@@ -10,7 +10,7 @@ export const FooterContentWrap = styled.div`
   display: inline-block;
   width: 100%;
   max-width: 1290px;
-  `;
+`;
 
 export const FooterContent = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ export const FooterContent = styled.div`
   width: 100%;
   font-size: 12px;
   /* font-weight: bold; */
-  color: rgb(89,89,89);
+  color: rgb(89, 89, 89);
   height: 120px;
   align-items: center;
   @media (max-width: 767px) {
@@ -36,7 +36,7 @@ export const LogoWrap = styled.div`
   & > img {
     width: 200px;
   }
-  `;
+`;
 
 export const InfoWrap = styled.div`
   flex: 2 1 0;
@@ -53,10 +53,9 @@ export const BlogWrap = styled.div`
 `;
 
 export const IconWrap = styled.div`
-
   & + & {
     margin-left: 5px;
-  } 
+  }
   & > a > .icon-back {
     display: inline-block;
     width: 24px;

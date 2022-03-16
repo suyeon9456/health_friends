@@ -8,16 +8,25 @@ import * as yup from 'yup';
 import { loginRequest, loginSelector } from '@/../reducers/user';
 import { FormInput } from '@/components/molecules';
 import { Button, Form } from '@/components/atoms';
+import { useModalDispatch } from '@/../store/modalStore';
+import {
+  ButtonType,
+  GlobalModal,
+  InputType,
+  ModalStatus,
+  SizeType,
+} from '@/../@types/utils';
 import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
-import { useModalDispatch, useModalState } from '@/../store/modalStore';
-import { ButtonType, GlobalModal, InputType, ModalStatus, SizeType } from '@/../@types/utils';
 
-const schema = yup.object({
-  email: yup.string()
-    .email('email 형식이 아닙니다.')
-    .required('email은 필수 항목입니다.'),
-  password: yup.string().required('비밀번호는 필수 항목입니다.'),
-}).required();
+const schema = yup
+  .object({
+    email: yup
+      .string()
+      .email('email 형식이 아닙니다.')
+      .required('email은 필수 항목입니다.'),
+    password: yup.string().required('비밀번호는 필수 항목입니다.'),
+  })
+  .required();
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -25,7 +34,11 @@ const LoginForm = () => {
 
   const { loginError } = useSelector(loginSelector);
 
-  const { handleSubmit, control, formState: { errors } } = useForm<{ email: string; password: string }>({
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<{ email: string; password: string }>({
     defaultValues: { email: '', password: '' },
     resolver: yupResolver(schema),
   });
@@ -75,7 +88,9 @@ const LoginForm = () => {
             error={errors.password}
           />
         </InputWrapper>
-        <Button type={ButtonType.PRIMARY} block submit>로그인</Button>
+        <Button type={ButtonType.PRIMARY} block submit>
+          로그인
+        </Button>
       </Form>
       <ButtonWrapper>
         <div>

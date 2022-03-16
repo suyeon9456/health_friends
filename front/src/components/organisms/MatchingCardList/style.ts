@@ -34,7 +34,7 @@ export const Card = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   position: relative;
   background: #fff;
   border-radius: 2px;
@@ -75,12 +75,12 @@ export const CardBody = styled.div`
   cursor: pointer;
   &::before {
     display: table;
-    content: "";
+    content: '';
   }
   &::after {
     display: table;
     clear: both;
-    content: "";
+    content: '';
   }
 `;
 
@@ -88,12 +88,12 @@ export const CardMeta = styled.div`
   margin: -4px 0;
   &::before {
     display: table;
-    content: "";
+    content: '';
   }
   &::after {
     display: table;
     clear: both;
-    content: "";
+    content: '';
   }
 `;
 
@@ -103,7 +103,7 @@ export const MetaDate = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
 `;
 
 export const MetaTitle = styled.div`
@@ -122,7 +122,7 @@ export const MetaDescription = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
 `;
 
 export const CardActions = styled.ul`
@@ -132,18 +132,18 @@ export const CardActions = styled.ul`
   list-style: none;
   background: #fff;
   border-top: 1px solid #f0f0f0;
-    &::before {
-      display: table;
-      content: "";
-    }
-    &::after {
-      display: table;
-      clear: both;
-      content: "";
-    }
-    & > li:not(:last-child) {
-      border-right: 1px solid #f0f0f0;
-    }
+  &::before {
+    display: table;
+    content: '';
+  }
+  &::after {
+    display: table;
+    clear: both;
+    content: '';
+  }
+  & > li:not(:last-child) {
+    border-right: 1px solid #f0f0f0;
+  }
 `;
 
 export const Action = styled.li`
@@ -153,7 +153,7 @@ export const Action = styled.li`
   text-align: center;
   flex-grow: 1;
   cursor: pointer;
-  
+
   & > * {
     font-size: 16px;
     line-height: 22px;

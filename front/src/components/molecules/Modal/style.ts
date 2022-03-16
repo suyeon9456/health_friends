@@ -20,7 +20,7 @@ export const ModalWrap = styled.div<{ show?: boolean }>`
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
   align-items: center;
-  background: rgba(0,0,0,.4);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   position: fixed;
   z-index: 1060;
@@ -30,9 +30,9 @@ export const ModalWrap = styled.div<{ show?: boolean }>`
   left: 0;
   flex-direction: row;
   justify-content: center;
-  padding: .625em;
+  padding: 0.625em;
   overflow-x: hidden;
-  transition: background-color .1s;
+  transition: background-color 0.1s;
 `;
 
 export const ModalBox = styled.div`
@@ -44,7 +44,7 @@ export const ModalBox = styled.div`
   font-size: 14px;
   font-variant: tabular-nums;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   pointer-events: none;
   position: relative;
   /* top: 100px; */
@@ -60,11 +60,14 @@ export const ModalContent = styled.div`
   background-clip: padding-box;
   border: 0;
   border-radius: 2px;
-  box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
+  box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014,
+    0 9px 28px 8px #0000000d;
   pointer-events: auto;
 `;
 
-export const ModalClose = styled.button<{ onClick: (e?: React.MouseEvent<HTMLElement>) => void; }>`
+export const ModalClose = styled.button<{
+  onClick: (e?: React.MouseEvent<HTMLElement>) => void;
+}>`
   position: absolute;
   top: 0;
   right: 0;
@@ -78,7 +81,7 @@ export const ModalClose = styled.button<{ onClick: (e?: React.MouseEvent<HTMLEle
   border: 0;
   outline: 0;
   cursor: pointer;
-  transition: color .3s;
+  transition: color 0.3s;
   -webkit-appearance: button;
 
   & > * {

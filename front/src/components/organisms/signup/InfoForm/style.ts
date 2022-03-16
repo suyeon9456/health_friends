@@ -10,7 +10,8 @@ export const InfoFormWrapper = styled.div`
     height: 100px;
     margin: 0 auto;
     max-width: 600px;
-    & > div, & > span {
+    & > div,
+    & > span {
       margin-top: 10px;
     }
   }

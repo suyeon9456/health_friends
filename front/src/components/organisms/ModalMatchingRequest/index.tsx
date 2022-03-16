@@ -4,28 +4,36 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { useDateFormat } from '../../../hooks';
 import { addScheduleRequest } from '@/../reducers/schedule';
 import { gymSelector } from '@/../reducers/gym';
 import { userSelector } from '@/../reducers/user';
+import { SizeType } from '@/../@types/utils';
+import { useDateFormat } from '../../../hooks';
 import { Modal } from '../../molecules';
 import { Avatar } from '../../atoms';
 import MatchingRequestForm from '../MatchingRequestForm';
-import { SizeType } from '@/../@types/utils';
 
-const schema = yup.object({
-  startDate: yup.string().required('날짜는 필수 항목입니다.'),
-  endDate: yup.string().required('날짜는 필수 항목입니다.'),
-  gym: yup.string().required('헬스장은 필수 항목입니다.'),
-}).required();
+const schema = yup
+  .object({
+    startDate: yup.string().required('날짜는 필수 항목입니다.'),
+    endDate: yup.string().required('날짜는 필수 항목입니다.'),
+    gym: yup.string().required('헬스장은 필수 항목입니다.'),
+  })
+  .required();
 
-const ModalMatchingRequest = ({ setShowModal, friend, gymName }: {
+const ModalMatchingRequest = ({
+  setShowModal,
+  friend,
+  gymName,
+}: {
   setShowModal: (prop: boolean) => void;
-  friend?: { id?: number;
+  friend?: {
+    id?: number;
     nickname?: string;
     UserGym?: { GymId?: number };
     Userdetail?: object;
-    Image?: object; }
+    Image?: object;
+  };
   gymName?: string;
 }) => {
   const dispatch = useDispatch();
@@ -36,7 +44,7 @@ const ModalMatchingRequest = ({ setShowModal, friend, gymName }: {
     defaultValues: {
       startDate: new Date(),
       endDate: new Date(),
-      gym: gymName || gym.name || '',
+      gym: (gymName ?? gym.name) || '',
       description: '',
     },
     resolver: yupResolver(schema),
@@ -50,13 +58,15 @@ const ModalMatchingRequest = ({ setShowModal, friend, gymName }: {
     const date = useDateFormat(new Date(data.startDate), 'yyyy-MM-dd');
     const time = useDateFormat(new Date(data.endDate), 'HH:mm');
     const end = new Date([date, time].join(' '));
-    dispatch(addScheduleRequest({
-      ...data,
-      endDate: end,
-      userId: me?.id,
-      friendId: friend?.id,
-      gymId: friend?.UserGym?.GymId || gym?.id,
-    }));
+    dispatch(
+      addScheduleRequest({
+        ...data,
+        endDate: end,
+        userId: me?.id,
+        friendId: friend?.id,
+        gymId: friend?.UserGym?.GymId ?? gym?.id,
+      })
+    );
     onChangeShowModal();
   }, []);
 
@@ -69,12 +79,15 @@ const ModalMatchingRequest = ({ setShowModal, friend, gymName }: {
 
   return (
     <Modal
-      title={(
+      title={
         <div>
-          <Avatar size={SizeType.SMALL} {...{ style: { marginRight: '10px' } }} />
+          <Avatar
+            size={SizeType.SMALL}
+            {...{ style: { marginRight: '10px' } }}
+          />
           {friend?.nickname}님에게 매칭신청
         </div>
-      )}
+      }
       className="matching-modal"
       onCancel={onChangeShowModal}
       onSubmit={handleSubmit(onMatchingRequest)}

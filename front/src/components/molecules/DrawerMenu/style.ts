@@ -7,21 +7,22 @@ export const Drawer = styled.div<{ drawerShow: boolean }>`
   right: 0;
   top: 0;
   z-index: 1000;
-  transition: width 0s ease .3s,height 0s ease .3s;
-  
-  ${({ drawerShow }) => drawerShow === true && css`
-    width: 100%;
-    height: 100%;
-    transition: transform .3s cubic-bezier(.23,1,.32,1);
+  transition: width 0s ease 0.3s, height 0s ease 0.3s;
 
-    & > .mask {
-      pointer-events: auto;
-      transition: none;
-      opacity: 1;
+  ${({ drawerShow }) =>
+    drawerShow &&
+    css`
+      width: 100%;
       height: 100%;
+      transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 
-    }
-  `}
+      & > .mask {
+        pointer-events: auto;
+        transition: none;
+        opacity: 1;
+        height: 100%;
+      }
+    `}
 `;
 
 export const DrawerMask = styled.div`
@@ -31,7 +32,7 @@ export const DrawerMask = styled.div`
   top: 0;
   left: 0;
   opacity: 0;
-  transition: opacity .3s linear,height 0s ease .3s;
+  transition: opacity 0.3s linear, height 0s ease 0.3s;
   pointer-events: none;
   background-color: #00000073;
 `;
@@ -41,13 +42,16 @@ export const DrawerContentWrap = styled.div<{ drawerShow: boolean }>`
   height: 100%;
   width: 300px;
   right: 0;
-  transition: transform .3s cubic-bezier(.23,1,.32,1),box-shadow .3s cubic-bezier(.23,1,.32,1);
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
   ${({ drawerShow }) => {
     if (drawerShow) {
       return css`
         transform: none;
-        box-shadow: -6px 0 16px -8px #00000014, -9px 0 28px #0000000d, -12px 0 48px 16px #00000008;
-        transition: transform .3s cubic-bezier(.23,1,.32,1),box-shadow .3s cubic-bezier(.23,1,.32,1);
+        box-shadow: -6px 0 16px -8px #00000014, -9px 0 28px #0000000d,
+          -12px 0 48px 16px #00000008;
+        transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+          box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
       `;
     }
     return css`
@@ -178,7 +182,11 @@ export const MemberMenu = styled.div`
   height: 45px;
   width: 100%;
   padding-top: 7px;
-  background-image: linear-gradient(to right, rgb(146, 84, 222) 0%, rgb(196, 29, 127) 100%);
+  background-image: linear-gradient(
+    to right,
+    rgb(146, 84, 222) 0%,
+    rgb(196, 29, 127) 100%
+  );
 `;
 
 export const MemberMenuItem = styled.div`

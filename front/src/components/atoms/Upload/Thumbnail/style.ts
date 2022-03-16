@@ -49,7 +49,7 @@ export const ThumbnailImage = styled.img`
   object-fit: contain;
   line-height: 54px;
   text-align: center;
-  opacity: .8;
+  opacity: 0.8;
 `;
 
 export const ThumbnailButtonWrap = styled.span`
@@ -58,13 +58,13 @@ export const ThumbnailButtonWrap = styled.span`
   left: 50%;
   z-index: 10;
   white-space: nowrap;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   opacity: 0;
-  transition: all .3s;
+  transition: all 0.3s;
 `;
 
 export const ThumbnailUploadCheckButton = styled(CheckSquareOutlined)`
-  transition: color .3s ease;
+  transition: color 0.3s ease;
   color: #fff;
   font-size: 16px;
   text-decoration: none;

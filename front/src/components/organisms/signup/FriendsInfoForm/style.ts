@@ -12,7 +12,8 @@ export const FormWrapper = styled.div`
     &:not(:first-child) {
       margin-top: 24px;
     }
-    & > select, & > span {
+    & > select,
+    & > span {
       margin-top: 10px;
     }
   }

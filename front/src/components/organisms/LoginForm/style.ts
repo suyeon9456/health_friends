@@ -18,7 +18,8 @@ export const InputWrapper = styled.div`
     margin-bottom: 10px;
   }
 
-  & > input, & > span {
+  & > input,
+  & > span {
     height: 50px;
   }
 `;
@@ -36,12 +37,13 @@ export const ButtonWrapper = styled.div`
       margin-bottom: 10px;
     }
 
-    & > span, & > span > a {
+    & > span,
+    & > span > a {
       display: block;
       width: 100%;
       height: 100%;
       line-height: 45px;
-      color: rgba(0,0,0,0.85);
+      color: rgba(0, 0, 0, 0.85);
 
       &:hover {
         color: #b37feb;

@@ -3,12 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 
-import { profileSelector, updateMyFriendsInfoRequest, updateMyinfoRequest } from '@/../reducers/profile';
+import {
+  profileSelector,
+  updateMyFriendsInfoRequest,
+  updateMyinfoRequest,
+} from '@/../reducers/profile';
 import { useDateFormat } from '../../../../hooks';
 import { Modal } from '../../../molecules';
 import EditInfoForm from '../EditInfoForm';
 
-const ModalEditInfo = ({ title, targetId, onCancel, setCloseModal }: {
+const ModalEditInfo = ({
+  title,
+  targetId,
+  onCancel,
+  setCloseModal,
+}: {
   title: string;
   targetId: string;
   onCancel: (e?: React.MouseEvent<HTMLElement>) => void;
@@ -28,24 +37,31 @@ const ModalEditInfo = ({ title, targetId, onCancel, setCloseModal }: {
     },
   });
 
-  const onSubmit = useCallback((data) => {
-    if (targetId === 'more-info') {
-      dispatch(updateMyinfoRequest({
-        ...data,
-        startTime: format(data.startTime, 'HH:mm'),
-        endTime: format(data.endTime, 'HH:mm'),
-      }));
-    }
-    if (targetId === 'friends-info') {
-      dispatch(updateMyFriendsInfoRequest({
-        gender: data.gender,
-        age: data.age,
-        career: data.career,
-        role: data.role,
-      }));
-    }
-    setCloseModal(false);
-  }, [targetId]);
+  const onSubmit = useCallback(
+    (data) => {
+      if (targetId === 'more-info') {
+        dispatch(
+          updateMyinfoRequest({
+            ...data,
+            startTime: format(data.startTime, 'HH:mm'),
+            endTime: format(data.endTime, 'HH:mm'),
+          })
+        );
+      }
+      if (targetId === 'friends-info') {
+        dispatch(
+          updateMyFriendsInfoRequest({
+            gender: data.gender,
+            age: data.age,
+            career: data.career,
+            role: data.role,
+          })
+        );
+      }
+      setCloseModal(false);
+    },
+    [targetId]
+  );
 
   useEffect(() => {
     if (targetId === 'friends-info') {
@@ -55,8 +71,24 @@ const ModalEditInfo = ({ title, targetId, onCancel, setCloseModal }: {
       setValue('role', profile?.Userdetail?.friendsRole);
     }
     if (targetId === 'more-info') {
-      setValue('startTime', new Date([useDateFormat(new Date(), 'yyyy-MM-dd'), profile?.Userdetail?.startTime].join(' ')));
-      setValue('endTime', new Date([useDateFormat(new Date(), 'yyyy-MM-dd'), profile?.Userdetail?.endTime].join(' ')));
+      setValue(
+        'startTime',
+        new Date(
+          [
+            useDateFormat(new Date(), 'yyyy-MM-dd'),
+            profile?.Userdetail?.startTime,
+          ].join(' ')
+        )
+      );
+      setValue(
+        'endTime',
+        new Date(
+          [
+            useDateFormat(new Date(), 'yyyy-MM-dd'),
+            profile?.Userdetail?.endTime,
+          ].join(' ')
+        )
+      );
       setValue('gender', profile?.gender);
       setValue('age', profile?.age);
       setValue('career', profile?.career);
@@ -72,10 +104,7 @@ const ModalEditInfo = ({ title, targetId, onCancel, setCloseModal }: {
       form
       footer
     >
-      <EditInfoForm
-        targetId={targetId}
-        control={control}
-      />
+      <EditInfoForm targetId={targetId} control={control} />
     </Modal>
   );
 };

@@ -1,11 +1,18 @@
 import React from 'react';
 import { Control, Controller, FieldError, FieldValues } from 'react-hook-form';
 
+import { BaseSizeTypeT } from '@/../@types/utils';
 import { InputTimePicker } from '../../atoms';
 import { Essential, Label } from './style';
-import { BaseSizeTypeT } from '@/../@types/utils';
 
-const FormTimePicker = ({ label, id, control, error, size, essential }: {
+const FormTimePicker = ({
+  label,
+  id,
+  control,
+  error,
+  size,
+  essential,
+}: {
   id: string;
   label: string;
   control?: Control<FieldValues, object>;

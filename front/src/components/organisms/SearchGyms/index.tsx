@@ -1,17 +1,40 @@
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { LeftOutlined, RightOutlined, TeamOutlined } from '@ant-design/icons';
 
+import {
+  gymSelector,
+  loadFriendsRequest,
+  loadGymRequest,
+} from '@/../reducers/gym';
 import useInput from '../../../hooks/useInput';
 
 import { Search, Item } from '../../atoms';
 import SearchFriends from '../SearchFriends';
 import SearchSidebar from '../SearchSidebar';
-import { SearchHeader, SearchWrapper, SearchTitle, SearchFormWrapper, SearchListWrapper, GymWrapper, FoldButton } from './style';
-import { gymSelector, loadFriendsRequest, loadGymRequest } from '@/../reducers/gym';
+import {
+  SearchHeader,
+  SearchWrapper,
+  SearchTitle,
+  SearchFormWrapper,
+  SearchListWrapper,
+  GymWrapper,
+  FoldButton,
+} from './style';
 
-const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }: {
+const SearchGyms = ({
+  foldedFriends,
+  setFoldedFriends,
+  foldedGym,
+  setFoldedGym,
+}: {
   foldedFriends: boolean;
   setFoldedFriends: Dispatch<SetStateAction<boolean>>;
   foldedGym: boolean;
@@ -21,11 +44,8 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
   const dispatch = useDispatch();
 
   const { searchText } = router.query;
-  const { mapBounds,
-    gyms,
-    hasMoreGyms,
-    loadGymLoading,
-    isLoadGyms } = useSelector(gymSelector);
+  const { mapBounds, gyms, hasMoreGyms, loadGymLoading, isLoadGyms } =
+    useSelector(gymSelector);
 
   const [browserHeight, setBrowserHeight] = useState<number>(0);
 
@@ -37,25 +57,30 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
 
   const onSearchGyms = useCallback(() => {
     dispatch(loadGymRequest({ searchWord }));
-    router.push(`?searchText=${searchWord}`, undefined, { shallow: true });
+    void router.push(`?searchText=${searchWord}`, undefined, { shallow: true });
   }, [searchWord]);
 
-  const onClickGym = useCallback((gymId) => () => {
-    if (foldedFriends) {
-      setFoldedFriends(false);
-    }
-    dispatch(loadFriendsRequest({ gymId }));
-  }, [foldedFriends]);
+  const onClickGym = useCallback(
+    (gymId) => () => {
+      if (foldedFriends) {
+        setFoldedFriends(false);
+      }
+      dispatch(loadFriendsRequest({ gymId }));
+    },
+    [foldedFriends]
+  );
 
   useEffect(() => {
     if (isLoadGyms && mapBounds) {
-      dispatch(loadGymRequest({
-        searchWord,
-        swLon: mapBounds.swLon,
-        swLat: mapBounds.swLat,
-        neLon: mapBounds.neLon,
-        neLat: mapBounds.neLat,
-      }));
+      dispatch(
+        loadGymRequest({
+          searchWord,
+          swLon: mapBounds.swLon,
+          swLat: mapBounds.swLat,
+          neLon: mapBounds.neLon,
+          neLat: mapBounds.neLat,
+        })
+      );
     }
   }, [isLoadGyms, mapBounds]);
 
@@ -67,14 +92,18 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
 
   useEffect(() => {
     function onScroll() {
-      if (window.scrollY + document.documentElement.clientHeight
-        > document.documentElement.scrollHeight - 300) {
+      if (
+        window.scrollY + document.documentElement.clientHeight >
+        document.documentElement.scrollHeight - 300
+      ) {
         if (hasMoreGyms && !loadGymLoading) {
           const lastId = gyms[gyms.length - 1]?.id;
-          dispatch(loadGymRequest({
-            lastId,
-            searchWord
-          }));
+          dispatch(
+            loadGymRequest({
+              lastId,
+              searchWord,
+            })
+          );
         }
       }
     }
@@ -99,7 +128,11 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
     >
       <SearchSidebar foldedGym={foldedGym} setFoldedGym={setFoldedGym} />
       {foldedFriends || (
-        <FoldButton foldedGym={foldedGym} onClick={changeFoldedGym} className="fold-button">
+        <FoldButton
+          foldedGym={foldedGym}
+          onClick={changeFoldedGym}
+          className="fold-button"
+        >
           {foldedGym ? <RightOutlined /> : <LeftOutlined />}
         </FoldButton>
       )}
@@ -117,26 +150,28 @@ const SearchGyms = ({ foldedFriends, setFoldedFriends, foldedGym, setFoldedGym }
           />
         </SearchFormWrapper>
         <SearchListWrapper browserHeight={browserHeight}>
-          {gyms.map((gym: {
-            id: number;
-            name: string;
-            address: string;
-            Users: Array<any>;
-          }) => (
-            <Item
-              key={gym.id}
-              title={gym.name}
-              description={(
-                <div>
-                  <span>{gym.address}</span>
+          {gyms.map(
+            (gym: {
+              id: number;
+              name: string;
+              address: string;
+              Users: any[];
+            }) => (
+              <Item
+                key={gym.id}
+                title={gym.name}
+                description={
                   <div>
-                    <TeamOutlined /> {gym.Users.length}명
+                    <span>{gym.address}</span>
+                    <div>
+                      <TeamOutlined /> {gym.Users.length}명
+                    </div>
                   </div>
-                </div>
-              )}
-              onClick={onClickGym(gym.id)}
-            />
-          ))}
+                }
+                onClick={onClickGym(gym.id)}
+              />
+            )
+          )}
         </SearchListWrapper>
       </GymWrapper>
       <SearchFriends

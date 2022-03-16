@@ -2,11 +2,23 @@ import React, { useEffect } from 'react';
 import * as _ from 'lodash';
 import { CloseOutlined } from '@ant-design/icons';
 
-import { ModalBody, ModalBox, ModalClose, ModalContent, ModalFooter, ModalHeader, ModalMask, ModalRoot, ModalTitle, ModalWrap } from './style';
-import { Form, Button } from '../../atoms';
 import { ButtonType, ButtonTypeT } from '@/../@types/utils';
+import {
+  ModalBody,
+  ModalBox,
+  ModalClose,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalMask,
+  ModalRoot,
+  ModalTitle,
+  ModalWrap,
+} from './style';
+import { Form, Button } from '../../atoms';
 
-const Modal = ({ show,
+const Modal = ({
+  show,
   title,
   onCancel,
   onSubmit,
@@ -14,21 +26,25 @@ const Modal = ({ show,
   children,
   actions,
   form,
-  footer }: {
-    show?: boolean, 
-    title: React.ReactNode,
-    className?: string, 
-    children: React.ReactElement,
-    actions?: Array<{
-      id: string,
-      title?: string,
-      type?: ButtonTypeT,
-      onClick: () => void }> | [],
-    form?: boolean,
-    footer?: boolean,
-    onCancel: (e?: React.MouseEvent<HTMLElement>) => void,
-    onSubmit?: () => void,
-  }) => {
+  footer,
+}: {
+  show?: boolean;
+  title: React.ReactNode;
+  className?: string;
+  children: React.ReactElement;
+  actions?:
+    | Array<{
+        id: string;
+        title?: string;
+        type?: ButtonTypeT;
+        onClick: () => void;
+      }>
+    | [];
+  form?: boolean;
+  footer?: boolean;
+  onCancel: (e?: React.MouseEvent<HTMLElement>) => void;
+  onSubmit?: () => void;
+}) => {
   useEffect(() => {
     document.body.style.cssText = `
     top: -${window.scrollY}px;
@@ -54,65 +70,61 @@ const Modal = ({ show,
               <CloseOutlined />
             </ModalClose>
             <ModalHeader>
-              <ModalTitle>
-                {title}
-              </ModalTitle>
+              <ModalTitle>{title}</ModalTitle>
             </ModalHeader>
-            {form
-              ? (
-                <Form onSubmit={onSubmit}>
-                  <ModalBody>
-                    {children}
-                  </ModalBody>
-                  {(footer || !_.isEmpty(actions)) && (
-                    <ModalFooter>
-                      {_.isEmpty(actions)
-                        ? (
-                          <>
-                            <Button onClick={onCancel}>취소</Button>
-                            <Button type={ButtonType.PRIMARY} submit>확인</Button>
-                          </>
-                        )
-                        : actions?.map((action) => (
-                          <Button
-                            key={action.id}
-                            type={action.type}
-                            onClick={action.onClick}
-                          >
-                            {action.title}
-                          </Button>
-                        ))}
-                    </ModalFooter>
-                  )}
-                </Form>
-              )
-              : (
-                <>
-                  <ModalBody>
-                    {children}
-                  </ModalBody>
-                  {(footer || !_.isEmpty(actions)) && (
-                    <ModalFooter>
-                      {_.isEmpty(actions)
-                        ? (
-                          <>
-                            <Button onClick={onCancel}>취소</Button>
-                            <Button type={ButtonType.PRIMARY} onClick={onSubmit}>확인</Button>
-                          </>
-                        )
-                        : actions?.map((action) => (
-                          <Button
-                            key={action.id}
-                            type={action.type}
-                            onClick={action.onClick}
-                          >
-                            {action.title}
-                          </Button>
-                        ))}
-                    </ModalFooter>
-                  )}
-                </>
-              )}
+            {form ? (
+              <Form onSubmit={onSubmit}>
+                <ModalBody>{children}</ModalBody>
+                {(footer ?? !_.isEmpty(actions)) && (
+                  <ModalFooter>
+                    {_.isEmpty(actions) ? (
+                      <>
+                        <Button onClick={onCancel}>취소</Button>
+                        <Button type={ButtonType.PRIMARY} submit>
+                          확인
+                        </Button>
+                      </>
+                    ) : (
+                      actions?.map((action) => (
+                        <Button
+                          key={action.id}
+                          type={action.type}
+                          onClick={action.onClick}
+                        >
+                          {action.title}
+                        </Button>
+                      ))
+                    )}
+                  </ModalFooter>
+                )}
+              </Form>
+            ) : (
+              <>
+                <ModalBody>{children}</ModalBody>
+                {(footer ?? !_.isEmpty(actions)) && (
+                  <ModalFooter>
+                    {_.isEmpty(actions) ? (
+                      <>
+                        <Button onClick={onCancel}>취소</Button>
+                        <Button type={ButtonType.PRIMARY} onClick={onSubmit}>
+                          확인
+                        </Button>
+                      </>
+                    ) : (
+                      actions?.map((action) => (
+                        <Button
+                          key={action.id}
+                          type={action.type}
+                          onClick={action.onClick}
+                        >
+                          {action.title}
+                        </Button>
+                      ))
+                    )}
+                  </ModalFooter>
+                )}
+              </>
+            )}
           </ModalContent>
         </ModalBox>
       </ModalWrap>

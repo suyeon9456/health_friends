@@ -41,7 +41,7 @@ export const UserInfoWrap = styled.div`
   & > div {
     flex-grow: 1;
   }
-  
+
   & > div > .nickname {
     font-size: 16px;
     font-weight: 600;

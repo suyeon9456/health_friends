@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
 
-import { InputContainer, InputContent, InputWrap, InputWrapBox } from './style';
 import { InputProps } from '@/../@types/atoms';
 import { InputType, SizeType } from '@/../@types/utils';
-
+import { InputContainer, InputContent, InputWrap, InputWrapBox } from './style';
 
 const Input = ({
   name,
@@ -42,9 +41,17 @@ const Input = ({
                 {...props}
               />
               <span>
-                {passwordType
-                  ? <LockOutlined color="#000000d9" onClick={onChangePasswordType} />
-                  : <UnlockOutlined color="#000000d9" onClick={onChangePasswordType} />}
+                {passwordType ? (
+                  <LockOutlined
+                    color="#000000d9"
+                    onClick={onChangePasswordType}
+                  />
+                ) : (
+                  <UnlockOutlined
+                    color="#000000d9"
+                    onClick={onChangePasswordType}
+                  />
+                )}
               </span>
             </InputWrap>
           </InputContent>

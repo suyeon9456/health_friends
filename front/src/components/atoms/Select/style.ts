@@ -6,7 +6,7 @@ export const SelectContainer = styled.select<{ selectsize?: SizeTypeT }>`
   background-color: #fff;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
-  transition: all .3s cubic-bezier(.645,.045,.355,1);
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   outline: none;
   width: 100%;
   padding: 0 11px;
@@ -23,7 +23,9 @@ export const SelectContainer = styled.select<{ selectsize?: SizeTypeT }>`
       `;
     }
 
-    return css`height: 32px;`;
+    return css`
+      height: 32px;
+    `;
   }}
 
   &:hover, &:focus {
@@ -32,5 +34,4 @@ export const SelectContainer = styled.select<{ selectsize?: SizeTypeT }>`
   }
 `;
 
-export const Options = styled.option`
-`;
+export const Options = styled.option``;

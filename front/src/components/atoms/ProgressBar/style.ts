@@ -24,11 +24,15 @@ export const ProgressInner = styled.div`
 
 export const Bar = styled.div<{ percent: number }>`
   position: relative;
-  background-image: linear-gradient(to right, rgb(146, 84, 222) 0%, rgb(196, 29, 127) 100%);
+  background-image: linear-gradient(
+    to right,
+    rgb(146, 84, 222) 0%,
+    rgb(196, 29, 127) 100%
+  );
   border-radius: 100px;
-  transition: all .4s cubic-bezier(.08,.82,.17,1) 0s;
+  transition: all 0.4s cubic-bezier(0.08, 0.82, 0.17, 1) 0s;
   ${({ percent }) => css`
-      width: ${percent}%;
+    width: ${percent}%;
   `}
   height: 8px;
 `;

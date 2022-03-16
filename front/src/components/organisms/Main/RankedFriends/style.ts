@@ -15,7 +15,7 @@ export const RankedFriendsHeader = styled.div`
     font-size: 32px;
   }
   font-weight: 800;
-  color: rgb(89,89,89);
+  color: rgb(89, 89, 89);
 `;
 
 export const RankedFriendsBody = styled.div`
@@ -46,7 +46,7 @@ export const RankCardWrap = styled.div`
 export const RankTitle = styled.span`
   font-size: 20px;
   font-weight: 600;
-  color: rgb(89,89,89);
+  color: rgb(89, 89, 89);
 `;
 
 export const RankCard = styled.div`
@@ -63,7 +63,7 @@ export const RankCard = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   border-bottom: 0;
   margin: 10px 0;
 `;
@@ -89,7 +89,7 @@ export const RankItem = styled.div`
   color: #000000d9;
   line-height: 1.5715;
   cursor: pointer;
-  transition: all .3s,visibility 0s;
+  transition: all 0.3s, visibility 0s;
   font-weight: 600;
 
   & span {

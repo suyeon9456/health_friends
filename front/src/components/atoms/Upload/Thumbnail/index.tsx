@@ -1,16 +1,22 @@
 import React from 'react';
 
-import { ThumbnailContainer,
+import {
+  ThumbnailContainer,
   ThumbnailWrap,
   ThumbnailImage,
   ThumbnailButtonWrap,
   ThumbnailUploadCheckButton,
-  ThumbnailRemoveButton } from './style';
+  ThumbnailRemoveButton,
+} from './style';
 
-const Thumbnail = ({ src, onAddImage, onRemove }: {
-  src?: string,
-  onAddImage?: () => void,
-  onRemove?: () => void,
+const Thumbnail = ({
+  src,
+  onAddImage,
+  onRemove,
+}: {
+  src?: string;
+  onAddImage?: () => void;
+  onRemove?: () => void;
 }) => (
   <ThumbnailContainer>
     <ThumbnailButtonWrap className="thumbnail-button">

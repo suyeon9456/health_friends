@@ -1,10 +1,11 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
 import { InputNumber } from '@/components/atoms';
-import { Essential, Label } from './style';
 import { BaseSizeTypeT } from '@/../@types/utils';
+import { Essential, Label } from './style';
 
-const FormInputNumber = ({ label,
+const FormInputNumber = ({
+  label,
   value,
   setValue,
   onChange,

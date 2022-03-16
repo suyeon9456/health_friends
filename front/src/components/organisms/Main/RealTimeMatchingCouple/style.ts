@@ -3,14 +3,18 @@ import styled from 'styled-components';
 export const MatchingCoupleWrap = styled.section`
   position: relative;
   width: 100%;
-  `;
+`;
 
 export const MatchingCoupleHeader = styled.div`
   /* background-color: #FF9100; */
   position: absolute;
   top: 0;
   left: 0;
-  background: linear-gradient(to right,rgb(146,84,222) 0%,rgb(196,29,127) 100%);
+  background: linear-gradient(
+    to right,
+    rgb(146, 84, 222) 0%,
+    rgb(196, 29, 127) 100%
+  );
   width: 100%;
   height: 160px;
   padding: 20px 18px;
@@ -23,7 +27,7 @@ export const MatchingCoupleHeader = styled.div`
 export const CoupleHeaderTitle = styled.div`
   font-size: 20px;
   font-weight: 600;
-  color: #FAFAFA;
+  color: #fafafa;
 `;
 
 export const MatchingCoupleBody = styled.div`

@@ -1,6 +1,9 @@
 import styled, { css } from 'styled-components';
 
-export const SearchWrapper = styled.section<{ foldedBlock: boolean; foldedOnlyGym: boolean; }>`
+export const SearchWrapper = styled.section<{
+  foldedBlock: boolean;
+  foldedOnlyGym: boolean;
+}>`
   width: 100%;
   margin-top: 10px;
   border-radius: 5px;
@@ -9,13 +12,17 @@ export const SearchWrapper = styled.section<{ foldedBlock: boolean; foldedOnlyGy
   box-sizing: border-box;
   height: 581px;
 
-  ${({ foldedBlock }) => foldedBlock && css`
-    height: 43px;
-  `}
+  ${({ foldedBlock }) =>
+    foldedBlock &&
+    css`
+      height: 43px;
+    `}
 
-  ${({ foldedOnlyGym }) => foldedOnlyGym && css`
-    height: 537px;
-  `}
+  ${({ foldedOnlyGym }) =>
+    foldedOnlyGym &&
+    css`
+      height: 537px;
+    `}
 
   @media (min-width: 768px) {
     height: 100%;
@@ -35,8 +42,8 @@ export const FoldButton = styled.div<{ foldedGym: boolean }>`
   text-align: center;
   box-shadow: 0 2px 8px #e8e9e9;
   cursor: pointer;
-  transition: all .35s;
-  transform: rotate( 90deg );
+  transition: all 0.35s;
+  transform: rotate(90deg);
   z-index: 100;
 
   & > span {
@@ -48,9 +55,11 @@ export const FoldButton = styled.div<{ foldedGym: boolean }>`
       color: #b37feb;
     }
   }
-  ${({ foldedGym }) => foldedGym && css`
-    top: 34px !important;
-  `}
+  ${({ foldedGym }) =>
+    foldedGym &&
+    css`
+      top: 34px !important;
+    `}
 
   @media (min-width: 768px) {
     width: 20px;
@@ -58,10 +67,12 @@ export const FoldButton = styled.div<{ foldedGym: boolean }>`
     left: 100%;
     top: calc(50% - 50px + 10px);
     transform: none;
-    ${({ foldedGym }) => foldedGym && css`
-      top: calc(50% - 50px + 10px) !important;
-      left: 41px !important;
-    `}
+    ${({ foldedGym }) =>
+      foldedGym &&
+      css`
+        top: calc(50% - 50px + 10px) !important;
+        left: 41px !important;
+      `}
   }
 `;
 
@@ -79,20 +90,24 @@ export const GymWrapper = styled.div<{ foldedGym: boolean }>`
   overflow: hidden;
   border-radius: 0 0 5px 5px;
   z-index: 6;
-  transition: all .35s;
+  transition: all 0.35s;
 
-  ${({ foldedGym }) => foldedGym && css`
-    top: -600px;
-  `}
-  
+  ${({ foldedGym }) =>
+    foldedGym &&
+    css`
+      top: -600px;
+    `}
+
   @media (min-width: 768px) {
     width: calc(100% - 43px);
     height: 100%;
     border-radius: 0 5px 5px 0;
-    ${({ foldedGym }) => foldedGym && css`
-      top: 0; 
-      left: -500px;
-    `}
+    ${({ foldedGym }) =>
+      foldedGym &&
+      css`
+        top: 0;
+        left: -500px;
+      `}
   }
 `;
 
@@ -137,9 +152,11 @@ export const SearchListWrapper = styled.div<{ browserHeight: number }>`
   min-height: 390px;
   @media (min-width: 768px) {
     max-height: none;
-    ${({ browserHeight }) => browserHeight && css`
-      height: ${browserHeight - 246}px;
-    `}
+    ${({ browserHeight }) =>
+      browserHeight &&
+      css`
+        height: ${browserHeight - 246}px;
+      `}
   }
   overflow-y: auto;
 `;

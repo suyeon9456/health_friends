@@ -1,14 +1,23 @@
 import React from 'react';
-import { Control, Controller, FieldError, FieldValues, Path } from 'react-hook-form';
+import {
+  Control,
+  Controller,
+  FieldError,
+  FieldValues,
+  Path,
+} from 'react-hook-form';
 
+import { SizeTypeT } from '@/../@types/utils';
 import { FormSelectWrap, Essential, Label } from './style';
 import { Select, ErrorMessage } from '../../atoms';
-import { AgeOptionsType, CareerOptionsType, GenderOptionsType, RoleOptionsType, SizeTypeT } from '@/../@types/utils';
 
 interface FormSelectType<T> {
   label: string;
   size?: SizeTypeT;
-  options: readonly { readonly value: string | number; readonly text: string; }[];
+  options: ReadonlyArray<{
+    readonly value: string | number;
+    readonly text: string;
+  }>;
   error?: FieldError | undefined;
   id: Path<T>;
   essential?: boolean;
@@ -22,32 +31,31 @@ const FormSelect = <T extends FieldValues>({
   id,
   essential,
   control,
-  error }: FormSelectType<T>) => (
-    <FormSelectWrap size={size}>
-      <Label>
-        {label}
-        {essential && <Essential />}
-      </Label>
-      <Controller
-        control={control}
-        name={id}
-        render={({ field: { value, onChange } }) => {
-          return (
-            <Select
-              name={id}
-              value={value}
-              // error={error}
-              onChange={onChange}
-              size={size}
-              options={options}
-            />
-          );
-        }}
-      />
-      {error && (
-        <ErrorMessage>{error.message}</ErrorMessage>
-      )}
-    </FormSelectWrap>
+  error,
+}: FormSelectType<T>) => (
+  <FormSelectWrap size={size}>
+    <Label>
+      {label}
+      {essential && <Essential />}
+    </Label>
+    <Controller
+      control={control}
+      name={id}
+      render={({ field: { value, onChange } }) => {
+        return (
+          <Select
+            name={id}
+            value={value}
+            // error={error}
+            onChange={onChange}
+            size={size}
+            options={options}
+          />
+        );
+      }}
+    />
+    {error && <ErrorMessage>{error.message}</ErrorMessage>}
+  </FormSelectWrap>
 );
 
 export default FormSelect;

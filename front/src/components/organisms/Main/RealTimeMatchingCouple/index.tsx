@@ -4,9 +4,22 @@ import { useQuery } from 'react-query';
 import * as _ from 'lodash';
 
 import { BiGroup, BiMap } from 'react-icons/bi';
-import { Avatar, Icon, NoDataIcon } from '../../../atoms';
-import { AvatarWrap, CoupleCard, MatchingIcon, CoupleCardList, CoupleHeaderTitle, MatchingCoupleBody, MatchingCoupleHeader, MatchingCoupleWrap, NoDataCard, NoDataContent, NoDataIconWrap, NoDataText } from './style';
 import { RealtimeMatching } from '@/../@types/fetchData';
+import { Avatar, Icon, NoDataIcon } from '../../../atoms';
+import {
+  AvatarWrap,
+  CoupleCard,
+  MatchingIcon,
+  CoupleCardList,
+  CoupleHeaderTitle,
+  MatchingCoupleBody,
+  MatchingCoupleHeader,
+  MatchingCoupleWrap,
+  NoDataCard,
+  NoDataContent,
+  NoDataIconWrap,
+  NoDataText,
+} from './style';
 
 const RealTimeMatchingCouple = () => {
   const {
@@ -15,10 +28,14 @@ const RealTimeMatchingCouple = () => {
     error,
     data: realtimeMatching,
     isFetching,
-  } = useQuery<Array<RealtimeMatching> | undefined, AxiosError>('realtimeMatching', async() => {
-    const { data } = await axios.get('/users/realtimeMathcing');
-    return data;
-  }, { cacheTime: 2 * 60 * 1000 });
+  } = useQuery<RealtimeMatching[] | undefined, AxiosError>(
+    'realtimeMatching',
+    async () => {
+      const { data } = await axios.get('/users/realtimeMathcing');
+      return data;
+    },
+    { cacheTime: 2 * 60 * 1000 }
+  );
   return (
     <MatchingCoupleWrap>
       <MatchingCoupleHeader>
@@ -28,41 +45,44 @@ const RealTimeMatchingCouple = () => {
       </MatchingCoupleHeader>
       <MatchingCoupleBody>
         <CoupleCardList>
-          {!_.isEmpty(realtimeMatching) && !error
-            ? (realtimeMatching?.map((matching) => {
+          {!_.isEmpty(realtimeMatching) && !error ? (
+            realtimeMatching?.map((matching) => {
               const reqImageSrc = matching?.Image?.src;
               const reqAvatarSrc = reqImageSrc || '';
-              const resImageSrc = matching?.reqSchedule[0]?.Receiver?.Image?.src;
+              const resImageSrc =
+                matching?.reqSchedule[0]?.Receiver?.Image?.src;
               const resAvatarSrc = resImageSrc || '';
               return (
                 <CoupleCard key={matching.id}>
                   <AvatarWrap>
                     <Avatar size={82} src={reqAvatarSrc} />
-                    { matching.nickname }
+                    {matching.nickname}
                   </AvatarWrap>
                   <MatchingIcon>
                     <Icon icon={<BiMap />} />
-                    <span className="gym-name">{ matching.reqSchedule[0].Gym.name }</span>
+                    <span className="gym-name">
+                      {matching.reqSchedule[0].Gym.name}
+                    </span>
                   </MatchingIcon>
                   <AvatarWrap>
                     <Avatar size={82} src={resAvatarSrc} />
-                    { matching.reqSchedule[0]?.Receiver?.nickname }
+                    {matching.reqSchedule[0]?.Receiver?.nickname}
                   </AvatarWrap>
                 </CoupleCard>
               );
-            }))
-            : (
-              <NoDataCard>
-                <NoDataContent>
-                  <NoDataIconWrap>
-                    <NoDataIcon width={62} height={62} color="#00000040" />
-                  </NoDataIconWrap>
-                  <NoDataText>
-                    <span>현재 운동중인 매칭이 없습니다.</span>
-                  </NoDataText>
-                </NoDataContent>
-              </NoDataCard>
-            )}
+            })
+          ) : (
+            <NoDataCard>
+              <NoDataContent>
+                <NoDataIconWrap>
+                  <NoDataIcon width={62} height={62} color="#00000040" />
+                </NoDataIconWrap>
+                <NoDataText>
+                  <span>현재 운동중인 매칭이 없습니다.</span>
+                </NoDataText>
+              </NoDataContent>
+            </NoDataCard>
+          )}
         </CoupleCardList>
       </MatchingCoupleBody>
     </MatchingCoupleWrap>

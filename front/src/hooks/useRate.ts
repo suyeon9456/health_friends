@@ -2,7 +2,10 @@ import { useCallback, useState } from 'react';
 
 type ReturnTypes = [number, () => void];
 
-const useRate = ({ total, number }: {
+const useRate = ({
+  total,
+  number,
+}: {
   total: number;
   number: number;
 }): ReturnTypes => {

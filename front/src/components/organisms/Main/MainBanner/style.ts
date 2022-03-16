@@ -7,7 +7,7 @@ export const BannerWrap = styled.section`
 
 export const BannerImageWrap = styled.div`
   position: absolute;
-  background-color: #B5B5B5;
+  background-color: #b5b5b5;
   width: 100%;
   height: 400px;
 `;
@@ -31,7 +31,7 @@ export const BannerHeader = styled.div`
   max-width: 1280px;
   text-align: left;
   padding: 20px 18px;
-  
+
   @media (min-width: 768px) {
     padding: 20px 128px;
   }
@@ -45,7 +45,11 @@ export const BannerHeaderTitle = styled.div`
 
   & > .project-name {
     font-size: 32px;
-    background: linear-gradient(to right,rgb(146,84,222) 0%,rgb(196,29,127) 100%);
+    background: linear-gradient(
+      to right,
+      rgb(146, 84, 222) 0%,
+      rgb(196, 29, 127) 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }

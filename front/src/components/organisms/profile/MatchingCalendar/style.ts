@@ -17,71 +17,72 @@ export const CalendarWrap = styled.div`
   margin-top: 10px;
   padding: 30px 0px;
 
-.event-title {
-  display: block;
-  position: relative;
-  font-size: 12px;
-  font-weight: lighter;
-  width: 100%;
-  height: 100%;
-
-  &::before {
-    position: absolute;
-    top: calc(50% - 2px);
-    background-color: #faad14;
-    border-radius: 50%;
-    content: ' ';
-    width: 5px;
-    height: 5px;
-  }
-  & > .friend-nickname {
-    padding-left: 10px;
-    color: rgba(0,0,0,0.85);
+  .event-title {
+    display: block;
+    position: relative;
     font-size: 12px;
     font-weight: lighter;
-  }
+    width: 100%;
+    height: 100%;
 
-  &, .before-permission {
     &::before {
       position: absolute;
       top: calc(50% - 2px);
-      background-color: #ff4d4f;
+      background-color: #faad14;
       border-radius: 50%;
       content: ' ';
       width: 5px;
       height: 5px;
     }
+    & > .friend-nickname {
+      padding-left: 10px;
+      color: rgba(0, 0, 0, 0.85);
+      font-size: 12px;
+      font-weight: lighter;
+    }
+
+    &,
+    .before-permission {
+      &::before {
+        position: absolute;
+        top: calc(50% - 2px);
+        background-color: #ff4d4f;
+        border-radius: 50%;
+        content: ' ';
+        width: 5px;
+        height: 5px;
+      }
+    }
   }
-}
 
-.last-event-title {
-  display: block;
-  position: relative;
-  font-size: 12px;
-  font-weight: lighter;
-  width: 100%;
-  height: 100%;
-
-  &::before {
-    position: absolute;
-    top: calc(50% - 2px);
-    background-color: #00000073;
-    border-radius: 50%;
-    content: ' ';
-    width: 5px;
-    height: 5px;
-  }
-
-  & > .friend-nickname {
-    padding-left: 10px;
-    color: #00000073;
+  .last-event-title {
+    display: block;
+    position: relative;
     font-size: 12px;
     font-weight: lighter;
-    text-decoration:line-through;
-  }
-}
+    width: 100%;
+    height: 100%;
 
-  & .rbc-toolbar{
+    &::before {
+      position: absolute;
+      top: calc(50% - 2px);
+      background-color: #00000073;
+      border-radius: 50%;
+      content: ' ';
+      width: 5px;
+      height: 5px;
+    }
+
+    & > .friend-nickname {
+      padding-left: 10px;
+      color: #00000073;
+      font-size: 12px;
+      font-weight: lighter;
+      text-decoration: line-through;
+    }
+  }
+
+  & .rbc-toolbar {
     & > .rbc-btn-group {
       margin-bottom: 15px;
       & > button {
@@ -91,7 +92,7 @@ export const CalendarWrap = styled.div`
         border-top-width: 1.02px;
         font-size: 14px;
         cursor: pointer;
-        
+
         &:not(:first-child) {
           border-left-width: 0;
         }
@@ -127,7 +128,7 @@ export const CalendarWrap = styled.div`
       padding: 0 12px 5px 0;
     }
   }
-  
+
   /* & .rbc-header {
     flex: none;
     width: 13%;
@@ -171,7 +172,7 @@ export const CalendarWrap = styled.div`
   & .rbc-row-content {
     & .rbc-row:first-child {
       justify-content: space-between;
-  
+
       & > .rbc-date-cell {
         flex: none;
         width: 13%;

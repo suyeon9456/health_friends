@@ -18,12 +18,14 @@ export const StepIconWrap = styled.div<{ type: ProcessType }>`
   height: 32px;
   margin: 0 8px 0 0;
   font-size: 16px;
-  font-family: -apple-system,BlinkMacSystemFont,segoe ui,Roboto,helvetica neue,Arial,noto sans,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol,noto color emoji;
+  font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto,
+    helvetica neue, Arial, noto sans, sans-serif, apple color emoji,
+    segoe ui emoji, segoe ui symbol, noto color emoji;
   line-height: 32px;
   text-align: center;
-  border: 1px solid rgba(0,0,0,.25);
+  border: 1px solid rgba(0, 0, 0, 0.25);
   border-radius: 32px;
-  transition: background-color .3s,border-color .3s;
+  transition: background-color 0.3s, border-color 0.3s;
   border-color: var(--ant-primary-color);
   margin: 0 auto;
   & > span {
@@ -36,16 +38,20 @@ export const StepIconWrap = styled.div<{ type: ProcessType }>`
     if (type === Process.FINISHED) {
       return css`
         background-color: #fff;
-        border-color: rgb(146,84,222);
+        border-color: rgb(146, 84, 222);
         & > span {
-          color: rgb(146,84,222);
+          color: rgb(146, 84, 222);
         }
       `;
     }
     if (type === Process.PROCESS) {
       return css`
-        background-image: linear-gradient(to right,rgb(146,84,222) 0%,rgb(196,29,127) 100%);
-        border-color: rgb(146,84,222);
+        background-image: linear-gradient(
+          to right,
+          rgb(146, 84, 222) 0%,
+          rgb(196, 29, 127) 100%
+        );
+        border-color: rgb(146, 84, 222);
         & > span {
           color: #fff;
         }
@@ -95,11 +101,17 @@ export const StepTitle = styled.div<{ type: string }>`
       width: 9999px;
       height: 1px;
       background: #f0f0f0;
-      content: "";
-  
-      ${({ type }) => type === 'finished' && css`
-        background-image: linear-gradient(to right,rgb(146,84,222) 0%,rgb(196,29,127) 100%);
-      `}
+      content: '';
+
+      ${({ type }) =>
+        type === 'finished' &&
+        css`
+          background-image: linear-gradient(
+            to right,
+            rgb(146, 84, 222) 0%,
+            rgb(196, 29, 127) 100%
+          );
+        `}
     }
   }
   @media (max-width: 767px) {

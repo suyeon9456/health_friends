@@ -1,12 +1,22 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
-import { Control, Controller, FieldError, FieldValues, Path } from 'react-hook-form';
+import {
+  Control,
+  Controller,
+  FieldError,
+  FieldValues,
+  Path,
+} from 'react-hook-form';
 import { CalendarOutlined, SwapRightOutlined } from '@ant-design/icons';
 
-import { CustomCalendar, CustomPickerInput, ErrorMessage } from '../../atoms';
-import { RangeSeparator, RangeTimePickerWrap, Separator } from '../../atoms/RangeTimePicker/style';
-import { Essential, Label } from './style';
 import { BaseSizeTypeT, PickerType } from '@/../@types/utils';
+import { CustomCalendar, CustomPickerInput, ErrorMessage } from '../../atoms';
+import {
+  RangeSeparator,
+  RangeTimePickerWrap,
+  Separator,
+} from '../../atoms/RangeTimePicker/style';
+import { Essential, Label } from './style';
 
 interface FormDateTimeType<T> {
   label: string;
@@ -16,8 +26,8 @@ interface FormDateTimeType<T> {
   size?: BaseSizeTypeT;
   essential?: boolean;
   error?: {
-    startError: FieldError | undefined,
-    endError: FieldError | undefined,
+    startError: FieldError | undefined;
+    endError: FieldError | undefined;
   };
 }
 
@@ -28,7 +38,7 @@ const FormDateTimePicker = <T extends FieldValues>({
   control,
   size,
   essential,
-  error
+  error,
 }: FormDateTimeType<T>) => (
   <div>
     <Label>
@@ -48,7 +58,9 @@ const FormDateTimePicker = <T extends FieldValues>({
             timeCaption="Time"
             timeFormat="HH:mm"
             dateFormat="yyyy년 MM월 dd일 HH:mm"
-            customInput={<CustomPickerInput type={PickerType.DATE} size={size} />}
+            customInput={
+              <CustomPickerInput type={PickerType.DATE} size={size} />
+            }
             calendarContainer={CustomCalendar}
           />
         )}
@@ -70,7 +82,9 @@ const FormDateTimePicker = <T extends FieldValues>({
             timeIntervals={15}
             timeCaption="Time"
             dateFormat="HH:mm"
-            customInput={<CustomPickerInput type={PickerType.TIME} size={size} />}
+            customInput={
+              <CustomPickerInput type={PickerType.TIME} size={size} />
+            }
             calendarContainer={CustomCalendar}
           />
         )}
@@ -78,7 +92,7 @@ const FormDateTimePicker = <T extends FieldValues>({
     </RangeTimePickerWrap>
     {error && (
       <ErrorMessage>
-        <CalendarOutlined /> {error.startError?.message || error.endError}
+        <CalendarOutlined /> {error.startError?.message ?? error.endError}
       </ErrorMessage>
     )}
   </div>

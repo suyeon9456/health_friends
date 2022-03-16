@@ -1,14 +1,33 @@
-import React, { useState, useCallback, useRef, useEffect, ChangeEvent } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+  ChangeEvent,
+} from 'react';
 import { DownOutlined } from '@ant-design/icons';
 
-import { FilterWrap, FilterSelectorWrap, FilterSelector, FilterSelectorText, FilterArrrowWrap, FilterContent, CheckBoxGroup } from './style';
+import {
+  FilterWrap,
+  FilterSelectorWrap,
+  FilterSelector,
+  FilterSelectorText,
+  FilterArrrowWrap,
+  FilterContent,
+  CheckBoxGroup,
+} from './style';
 import { CheckBox } from '../../atoms';
 
-const Filter = ({ label, items, onChange, checkList }: {
-  label: string,
-  items: Array<{ value: string, text: string  }>,
-  onChange: (checked: boolean, value: string) => void,
-  checkList: Array<string>,
+const Filter = ({
+  label,
+  items,
+  onChange,
+  checkList,
+}: {
+  label: string;
+  items: Array<{ value: string; text: string }>;
+  onChange: (checked: boolean, value: string) => void;
+  checkList: string[];
 }) => {
   const filterEl = useRef<HTMLInputElement>(null);
   const filterSelectorEl = useRef<HTMLInputElement>(null);
@@ -19,25 +38,25 @@ const Filter = ({ label, items, onChange, checkList }: {
   }, [show]);
 
   useEffect(() => {
-    const handleFilterOff = (e: { target: Node | null; }) => {
-      if (show
-        && !filterSelectorEl.current?.contains(e?.target)
-        && !filterEl.current?.contains(e.target)) {
+    const handleFilterOff = (e: { target: Node | null }) => {
+      if (
+        show &&
+        !filterSelectorEl.current?.contains(e?.target) &&
+        !filterEl.current?.contains(e.target)
+      ) {
         setShow(false);
       }
     };
-    window.addEventListener('click', (handleFilterOff) as EventListener);
+    window.addEventListener('click', handleFilterOff as EventListener);
     return () => {
-      window.removeEventListener('click', (handleFilterOff) as EventListener);
+      window.removeEventListener('click', handleFilterOff as EventListener);
     };
   }, [show]);
   return (
     <FilterWrap>
       <FilterSelectorWrap ref={filterSelectorEl} onClick={onChangeShow}>
         <FilterSelector>
-          <FilterSelectorText>
-            {label}
-          </FilterSelectorText>
+          <FilterSelectorText>{label}</FilterSelectorText>
         </FilterSelector>
         <FilterArrrowWrap>
           <DownOutlined />
@@ -47,6 +66,7 @@ const Filter = ({ label, items, onChange, checkList }: {
         <CheckBoxGroup>
           {items.map((item, i) => (
             <CheckBox
+              // eslint-disable-next-line react/no-array-index-key
               key={i}
               label={item.text}
               value={item.value}

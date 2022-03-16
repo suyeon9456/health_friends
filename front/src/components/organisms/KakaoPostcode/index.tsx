@@ -23,6 +23,7 @@ const KakaoPostcode = ({
   }>;
 }) => {
   const handleComplete = useCallback((data) => {
+    console.log(data);
     let fullAddress = data.address;
     let extraAddress = '';
     if (data.addressType === 'R') {
@@ -30,41 +31,43 @@ const KakaoPostcode = ({
         extraAddress += data.bname;
       }
       if (data.buildingName !== '') {
-        extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+        extraAddress +=
+          extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
       }
       console.log(extraAddress);
-      fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
     }
     const geocoder = new (window as any).kakao.maps.services.Geocoder();
 
-    geocoder.addressSearch(data.address, (result: Array<{
-      address: object;
-      address_name: string;
-      address_type: string;
-      road_address: object;
-      x: string;
-      y: string;
-    }>, status: string) => {
-      if (status === (window as any).kakao.maps.services.Status.OK) {
-        const { x: lon, y: lat } = result[0];
-        setValue('latitude', lat);
-        setValue('longitude', lon);
+    geocoder.addressSearch(
+      data.address,
+      (
+        result: Array<{
+          address: object;
+          address_name: string;
+          address_type: string;
+          road_address: object;
+          x: string;
+          y: string;
+        }>,
+        status: string
+      ) => {
+        if (status === (window as any).kakao.maps.services.Status.OK) {
+          const { x: lon, y: lat } = result[0];
+          setValue('latitude', lat);
+          setValue('longitude', lon);
+        }
       }
-    });
+    );
     setValue('sido', data.sido);
     setValue('sigungu', data.sigungu);
     setValue('address', fullAddress);
     setShowPostcode(false);
   }, []);
   return (
-    <Modal
-      title="주소검색"
-      onCancel={onCancel}
-    >
+    <Modal title="주소검색" onCancel={onCancel}>
       <ModalBodyBox>
-        <DaumPostcode
-          onComplete={handleComplete}
-        />
+        <DaumPostcode onComplete={handleComplete} />
       </ModalBodyBox>
     </Modal>
   );

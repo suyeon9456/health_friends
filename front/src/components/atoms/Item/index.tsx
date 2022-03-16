@@ -1,11 +1,21 @@
 import React from 'react';
 
-import { ItemWrap, ItemCard, ItemContent, ItemDescription, ItemTitle } from './style';
+import {
+  ItemWrap,
+  ItemCard,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from './style';
 
-const Item = ({ title, description, onClick }: {
-  title: string,
-  description: React.ReactNode,
-  onClick?: () => void,
+const Item = ({
+  title,
+  description,
+  onClick,
+}: {
+  title: string;
+  description: React.ReactNode;
+  onClick?: () => void;
 }) => (
   <ItemCard>
     <ItemWrap>

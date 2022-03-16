@@ -1,9 +1,16 @@
 import React from 'react';
 import { Control, FieldValues } from 'react-hook-form';
 
+import {
+  AgeOptions,
+  BaseSizeType,
+  CareerOptions,
+  GenderOptions,
+  RoleOptions,
+  SizeType,
+} from '@/../@types/utils';
 import { FormRangeTimePicker, FormSelect } from '../../../molecules';
 import { FormWrap } from './style';
-import { AgeOptions, BaseSizeType, CareerOptions, GenderOptions, RoleOptions, SizeType } from '@/../@types/utils';
 
 interface EditInfoFormType extends FieldValues {
   startTime: Date;
@@ -14,7 +21,10 @@ interface EditInfoFormType extends FieldValues {
   role: number;
 }
 
-const EditInfoForm = ({ targetId, control }: {
+const EditInfoForm = ({
+  targetId,
+  control,
+}: {
   targetId: string;
   control: Control<EditInfoFormType, object>;
 }) => (

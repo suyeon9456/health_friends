@@ -17,7 +17,8 @@ export const InputNumberWrap = styled.span<{ size?: SizeTypeT }>`
   transition: all 0.3s;
   display: inline-flex;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     border-color: #40a9ff;
     border-right-width: 1px !important;
   }
@@ -51,7 +52,7 @@ export const NumberHandlerWrap = styled.div`
   height: 100%;
   background: #fff;
   border-radius: 0 2px 2px 0;
-  transition: opacity .24s linear .1s;
+  transition: opacity 0.24s linear 0.1s;
 `;
 
 export const NumberHandlerUp = styled.span`
@@ -65,7 +66,7 @@ export const NumberHandlerUp = styled.span`
   text-align: center;
   border-left: 1px solid #d9d9d9;
   border-top-right-radius: 2px;
-  transition: all .1s linear;
+  transition: all 0.1s linear;
   touch-action: manipulation;
   cursor: pointer;
   position: relative;
@@ -80,7 +81,7 @@ export const NumberHandlerUpInner = styled(UpOutlined)`
   line-height: 0;
   text-align: center;
   text-transform: none;
-  vertical-align: -.125em;
+  vertical-align: -0.125em;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   min-width: auto;
@@ -99,7 +100,7 @@ export const NumberHandlerDown = styled.span`
   text-align: center;
   border-left: 1px solid #d9d9d9;
   border-bottom-right-radius: 2px;
-  transition: all .1s linear;
+  transition: all 0.1s linear;
   touch-action: manipulation;
   /* cursor: not-allowed; */
   cursor: pointer;
@@ -115,7 +116,7 @@ export const NumberHandlerDownInner = styled(DownOutlined)`
   line-height: 0;
   text-align: center;
   text-transform: none;
-  vertical-align: -.125em;
+  vertical-align: -0.125em;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   min-width: auto;
@@ -129,7 +130,7 @@ export const InputNumberBox = styled.input`
   list-style: none;
   box-sizing: border-box;
   font-variant: tabular-nums;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   width: 95%;
   min-width: 0;
   color: #000000d9;

@@ -11,20 +11,20 @@ export const Sidebar = styled.div`
   z-index: 10;
 
   & > div {
-      height: 100%;
-      overflow: hidden;
-      & > span {
-        margin-top: 4px;
-      }
-      & > button {
-        float: right;
-        padding: 0;
-        color: #00000073;
-        font-size: 16px;
-        padding-left: 7px;
-      }
+    height: 100%;
+    overflow: hidden;
+    & > span {
+      margin-top: 4px;
     }
-  
+    & > button {
+      float: right;
+      padding: 0;
+      color: #00000073;
+      font-size: 16px;
+      padding-left: 7px;
+    }
+  }
+
   @media (min-width: 768px) {
     border: 0;
     width: 43px;
@@ -38,7 +38,7 @@ export const Sidebar = styled.div`
         margin: 0;
         margin-bottom: 10px;
       }
-  
+
       & > button {
         width: 100%;
         font-size: 16px;

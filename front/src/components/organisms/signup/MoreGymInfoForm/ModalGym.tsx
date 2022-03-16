@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm, UseFormSetValue } from 'react-hook-form';
 
 import { addGymRequeset } from '@/../reducers/gym';
+import { SearchGymTabs } from '@/../@types/utils';
 import { Modal, Tabs } from '../../../molecules';
 import ModalSearchGym from '../../ModalSearchGym';
 import ModalCreateGym from '../../ModalCreateGym';
 import { ModalBodyBox } from './style';
-import { SearchGymTabs } from '@/../@types/utils';
 
 interface CreateModalType {
   sido: string;
@@ -18,7 +18,13 @@ interface CreateModalType {
   name: string;
 }
 
-const ModalGym = ({ title, onCancel, setShowModal, setGym, ...props }: {
+const ModalGym = ({
+  title,
+  onCancel,
+  setShowModal,
+  setGym,
+  ...props
+}: {
   title: string;
   onCancel: () => void;
   setShowModal: Dispatch<SetStateAction<boolean>>;
@@ -44,14 +50,20 @@ const ModalGym = ({ title, onCancel, setShowModal, setGym, ...props }: {
 
   const [selectedTab, setSelectedTab] = useState('search');
 
-  const onChangeSelectedTab = useCallback((tab) => setSelectedTab(tab), [selectedTab]);
+  const onChangeSelectedTab = useCallback(
+    (tab) => setSelectedTab(tab),
+    [selectedTab]
+  );
 
-  const onSubmit = useCallback((data) => {
-    // 이벤트버블링 체크
-    dispatch(addGymRequeset(data));
-    setGym('gym', data.name);
-    setShowModal(false);
-  }, [selectedTab]);
+  const onSubmit = useCallback(
+    (data) => {
+      // 이벤트버블링 체크
+      dispatch(addGymRequeset(data));
+      setGym('gym', data.name);
+      setShowModal(false);
+    },
+    [selectedTab]
+  );
   return (
     <Modal
       title={title}
@@ -68,14 +80,11 @@ const ModalGym = ({ title, onCancel, setShowModal, setGym, ...props }: {
           onChangeSelectedTab={onChangeSelectedTab}
           block
         />
-        {selectedTab === 'search'
-          ? <ModalSearchGym setShowModal={setShowModal} setGym={setGym} />
-          : (
-            <ModalCreateGym
-              setValue={setValue}
-              control={control}
-            />
-          )}
+        {selectedTab === 'search' ? (
+          <ModalSearchGym setShowModal={setShowModal} setGym={setGym} />
+        ) : (
+          <ModalCreateGym setValue={setValue} control={control} />
+        )}
       </ModalBodyBox>
     </Modal>
   );

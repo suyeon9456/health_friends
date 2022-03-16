@@ -2,11 +2,24 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { signupSelector, signupStepMoreInfoSave, signupStepNext, signupStepPrev } from '@/../reducers/user';
+import {
+  signupSelector,
+  signupStepMoreInfoSave,
+  signupStepNext,
+  signupStepPrev,
+} from '@/../reducers/user';
+import {
+  AgeOptions,
+  ButtonType,
+  CareerOptions,
+  GenderOptions,
+  RoleOptions,
+  SignupMenu,
+  SizeType,
+} from '@/../@types/utils';
 import { FormSelect } from '../../../molecules';
 import { Button, Form } from '../../../atoms';
 import { ButtonWrap, MoreInfoFormWrapper } from './style';
-import { AgeOptions, ButtonType, CareerOptions, GenderOptions, RoleOptions, SignupMenu, SizeType } from '@/../@types/utils';
 
 const MoreInfoForm = () => {
   const dispatch = useDispatch();
@@ -28,7 +41,7 @@ const MoreInfoForm = () => {
       dispatch(signupStepPrev(SignupMenu.INFO));
     }
   }, []);
-  
+
   return (
     <MoreInfoFormWrapper>
       <Form onSubmit={handleSubmit(onClickStepHandler)}>

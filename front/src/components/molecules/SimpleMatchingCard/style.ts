@@ -9,7 +9,7 @@ export const SimpleCard = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   position: relative;
   background: #fff;
   border-radius: 2px;
@@ -19,12 +19,12 @@ export const SimpleCard = styled.div`
 
   &::before {
     display: table;
-    content: "";
+    content: '';
   }
   &::after {
     display: table;
     clear: both;
-    content: "";
+    content: '';
   }
 `;
 
@@ -53,7 +53,7 @@ export const MetaAddress = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
 `;
 
 export const MatchingDateWrapper = styled.div`
@@ -71,7 +71,7 @@ export const MatchingDate = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
 `;
 
 export const CardClose = styled.button`
@@ -88,7 +88,7 @@ export const CardClose = styled.button`
   border: 0;
   outline: 0;
   cursor: pointer;
-  transition: color .3s;
+  transition: color 0.3s;
   -webkit-appearance: button;
 
   & > * {

@@ -1,6 +1,14 @@
 import React from 'react';
 
-import { ErrorButtonWrap, ErrorContainer, ErrorContent, ErrorContentIcon, ErrorContentText, ErrorRemoveButton, ErrorWrap } from './style';
+import {
+  ErrorButtonWrap,
+  ErrorContainer,
+  ErrorContent,
+  ErrorContentIcon,
+  ErrorContentText,
+  ErrorRemoveButton,
+  ErrorWrap,
+} from './style';
 
 const Error = ({ name }: { name: string }) => (
   <ErrorContainer>

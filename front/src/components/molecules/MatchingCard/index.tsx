@@ -1,50 +1,72 @@
 import React from 'react';
 import { UserOutlined } from '@ant-design/icons';
 
-import { Card, CardBody, CardCover, CardMeta, MetaDescription, MetaDate, MetaTitle, CardActions, Action } from './style';
+import {
+  Card,
+  CardBody,
+  CardCover,
+  CardMeta,
+  MetaDescription,
+  MetaDate,
+  MetaTitle,
+  CardActions,
+  Action,
+} from './style';
 
-const MatchingCard = ({ matchingId,
+const MatchingCard = ({
+  matchingId,
   nickname,
   description,
   date,
   image,
   onClickView,
-  actions }: {
-    matchingId: number,
-    nickname: string,
-    description: string,
-    date: string,
-    image?: string,
-    onClickView: ({ key, id }: { key: string, id: number }) => void,
-    actions?: Array<{
-      key: string,
-      icon: React.ReactNode,
-      disabled?: boolean,
-      onClick: ({ key, id }: { key: string, id: number }) => void }>
-  }) => (
-    <Card>
-      <CardCover>
-        {image ? <img src={image} alt={image} /> : <div><UserOutlined /></div>}
-      </CardCover>
-      <CardBody matchingId={matchingId} onClick={() => onClickView({ key: 'VIEW', id: matchingId })}>
-        <CardMeta>
-          <MetaDate>{date}</MetaDate>
-          <MetaTitle>{nickname}</MetaTitle>
-          <MetaDescription>{description}</MetaDescription>
-        </CardMeta>
-      </CardBody>
-      <CardActions>
-        {actions?.map(({ key, icon, disabled, onClick }) => (
-          <Action
-            key={key}
-            onClick={() => onClick({ key, id: matchingId })}
-            disabled={disabled || false}
-          >
-            {icon}
-          </Action>
-        ))}
-      </CardActions>
-    </Card>
+  actions,
+}: {
+  matchingId: number;
+  nickname: string;
+  description: string;
+  date: string;
+  image?: string;
+  onClickView: ({ key, id }: { key: string; id: number }) => void;
+  actions?: Array<{
+    key: string;
+    icon: React.ReactNode;
+    disabled?: boolean;
+    onClick: ({ key, id }: { key: string; id: number }) => void;
+  }>;
+}) => (
+  <Card>
+    <CardCover>
+      {image ? (
+        <img src={image} alt={image} />
+      ) : (
+        <div>
+          <UserOutlined />
+        </div>
+      )}
+    </CardCover>
+    <CardBody
+      matchingId={matchingId}
+      onClick={() => onClickView({ key: 'VIEW', id: matchingId })}
+    >
+      <CardMeta>
+        <MetaDate>{date}</MetaDate>
+        <MetaTitle>{nickname}</MetaTitle>
+        <MetaDescription>{description}</MetaDescription>
+      </CardMeta>
+    </CardBody>
+    <CardActions>
+      {actions?.map(({ key, icon, disabled, onClick }) => (
+        <Action
+          key={key}
+          onClick={() => onClick({ key, id: matchingId })}
+          disabled={disabled ?? false}
+        >
+          {icon}
+        </Action>
+      ))}
+    </CardActions>
+  </Card>
 );
 
 export default MatchingCard;

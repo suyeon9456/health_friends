@@ -14,7 +14,8 @@ export const CreateFormWrap = styled.div`
     margin-top: 10px;
   }
 
-  & > div > input, & > div > select {
+  & > div > input,
+  & > div > select {
     margin-top: 10px;
   }
 `;

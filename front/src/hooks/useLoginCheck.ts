@@ -10,7 +10,7 @@ const useLoginCheck = (): ReturnTypes => {
   const { me } = useSelector((state: RootState) => state.user);
   useEffect(() => {
     if (me?.id) {
-      Router.replace('/');
+      void Router.replace('/');
     }
   }, [me?.id]);
   return me;

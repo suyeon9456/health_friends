@@ -1,16 +1,18 @@
 import styled, { css } from 'styled-components';
 
 export const TextareaWrap = styled.div<{ showCount: boolean }>`
-  ${({ showCount }) => showCount && css`
-    &::after {
-      text-align: left;
-      float: right;
-      color: rgba(0, 0, 0, 0.45);
-      white-space: nowrap;
-      content: attr(data-count);
-      pointer-events: none;
-    }
-  `}
+  ${({ showCount }) =>
+    showCount &&
+    css`
+      &::after {
+        text-align: left;
+        float: right;
+        color: rgba(0, 0, 0, 0.45);
+        white-space: nowrap;
+        content: attr(data-count);
+        pointer-events: none;
+      }
+    `}
 `;
 
 export const TextareaBox = styled.textarea`
@@ -18,7 +20,7 @@ export const TextareaBox = styled.textarea`
   margin: 0;
   font-variant: tabular-nums;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   position: relative;
   display: inline-block;
   width: 100%;
@@ -34,7 +36,7 @@ export const TextareaBox = styled.textarea`
   min-height: 100px;
   line-height: 1.5715;
   vertical-align: bottom;
-  transition: all .3s,height 0s;
+  transition: all 0.3s, height 0s;
 
   &:hover {
     border-color: #40a9ff;

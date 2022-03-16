@@ -1,6 +1,16 @@
-import { ChangeEvent, Dispatch, SetStateAction, useCallback, useState } from 'react';
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useState,
+} from 'react';
 
-type ReturnTypes<T> = [T, (e: ChangeEvent) => void, Dispatch<SetStateAction<T>>];
+type ReturnTypes<T> = [
+  T,
+  (e: ChangeEvent) => void,
+  Dispatch<SetStateAction<T>>
+];
 
 const useInput = <T>(defaultValue: T): ReturnTypes<T> => {
   const [value, setValue] = useState(defaultValue);

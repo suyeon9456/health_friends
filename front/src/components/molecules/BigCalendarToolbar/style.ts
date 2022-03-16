@@ -17,7 +17,8 @@ export const ButtonGroup = styled.span`
     font-size: 26px !important;
     cursor: pointer;
     color: rgba(0, 0, 0, 0.54);
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       color: #9254de;
       background-color: #ffffff;
     }
@@ -27,7 +28,7 @@ export const ButtonGroup = styled.span`
       box-shadow: none;
     }
   }
-  
+
   & > .now {
     margin: 0 5px !important;
     font-size: 20px !important;

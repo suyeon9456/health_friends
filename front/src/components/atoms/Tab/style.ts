@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
 
 export const TabNav = styled.button<{
-  value: string,
-  selectedValue: string
+  value: string;
+  selectedValue: string;
 }>`
   position: relative;
   display: flex;
@@ -16,26 +16,28 @@ export const TabNav = styled.button<{
   padding: 8px 16px;
   background: #fafafa;
   border: 1px solid #f0f0f0;
-  transition: all .3s cubic-bezier(.645,.045,.355,1);
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   &:hover {
     & > div {
       color: #9254de;
     }
   }
 
-  ${({ value, selectedValue }) => value === selectedValue && css`
-    border-bottom-color: #fff;
-    color: #9254de;
-    background: #fff;
-    & > div {
+  ${({ value, selectedValue }) =>
+    value === selectedValue &&
+    css`
+      border-bottom-color: #fff;
       color: #9254de;
-    }
-    &:hover {
-    & > div {
-      color: #9254de;
-    }
-  }
-  `}
+      background: #fff;
+      & > div {
+        color: #9254de;
+      }
+      &:hover {
+        & > div {
+          color: #9254de;
+        }
+      }
+    `}
 `;
 
 export const TabNavText = styled.div`
@@ -44,7 +46,7 @@ export const TabNavText = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   outline: none;
-  transition: all .3s;
+  transition: all 0.3s;
 `;

@@ -1,7 +1,15 @@
 import React from 'react';
 import { GithubOutlined } from '@ant-design/icons';
 
-import { IconWrap, FooterWrap, FooterContent, LogoWrap, InfoWrap, BlogWrap, FooterContentWrap } from './style';
+import {
+  IconWrap,
+  FooterWrap,
+  FooterContent,
+  LogoWrap,
+  InfoWrap,
+  BlogWrap,
+  FooterContentWrap,
+} from './style';
 
 const Footer = () => (
   <FooterWrap>
@@ -17,7 +25,9 @@ const Footer = () => (
         </InfoWrap>
         <BlogWrap>
           <IconWrap>
-            <a href="https://github.com/suyeon9456/health_friends"><GithubOutlined /></a>
+            <a href="https://github.com/suyeon9456/health_friends">
+              <GithubOutlined />
+            </a>
           </IconWrap>
           <IconWrap>
             <a href="https://sparkly-reaction-fac.notion.site/HEALTH_FRIENDS-ecaae7bdb9ad45bb894aa5fed359cc02">

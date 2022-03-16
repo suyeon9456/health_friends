@@ -1,9 +1,17 @@
 import React from 'react';
 import { LikeOutlined } from '@ant-design/icons';
 
-import { Card, CardActions, CardBody, CardCover, CardMeta, MetaPercent, MetaTitle } from './style';
-import { Avatar, Button } from '../../atoms';
 import { ButtonType, SizeType } from '@/../@types/utils';
+import {
+  Card,
+  CardActions,
+  CardBody,
+  CardCover,
+  CardMeta,
+  MetaPercent,
+  MetaTitle,
+} from './style';
+import { Avatar, Button } from '../../atoms';
 
 const ProfileCard = ({
   nickname,
@@ -13,8 +21,6 @@ const ProfileCard = ({
   onLike,
 }: {
   nickname: string;
-  description: string;
-  date: string;
   image: string;
   percent: number;
   onClick: () => void;
@@ -33,11 +39,7 @@ const ProfileCard = ({
       </CardMeta>
     </CardBody>
     <CardActions>
-      <Button
-        size={SizeType.SMALL}
-        type={ButtonType.PRIMARY}
-        onClick={onClick}
-      >
+      <Button size={SizeType.SMALL} type={ButtonType.PRIMARY} onClick={onClick}>
         매칭신청
       </Button>
     </CardActions>

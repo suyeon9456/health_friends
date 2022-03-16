@@ -6,16 +6,19 @@ import { Menu, DrawerMenu } from '../molecules';
 import Row from '../molecules/Row';
 import Col from '../molecules/Col';
 
-const AppLayout = ({ children, spanNumber }:
-  { children: React.ReactNode, spanNumber?: number  }) => {
+const AppLayout = ({
+  children,
+  spanNumber,
+}: {
+  children: React.ReactNode;
+  spanNumber?: number;
+}) => {
   const { drawerShow } = useShowState();
   return (
     <div>
       <Menu />
       <Row justify="center">
-        <Col span={spanNumber || 22}>
-          {children}
-        </Col>
+        <Col span={spanNumber ?? 22}>{children}</Col>
       </Row>
       <DrawerMenu drawerShow={drawerShow} />
     </div>

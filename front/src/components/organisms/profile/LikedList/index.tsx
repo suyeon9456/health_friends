@@ -5,9 +5,20 @@ import * as _ from 'lodash';
 import { BiDotsVerticalRounded, BiEdit, BiHeart, BiUser } from 'react-icons/bi';
 import { ImDrawer2 } from 'react-icons/im';
 
-import { Icon } from '../../../atoms';
 import { FetchLikedFriends } from '@/../@types/fetchData';
-import { LikedListWrap, LikedListBody, Card, CardCover, CardBody, CardMeta, MetaTitle, MetaActions, Action, Empty } from './style';
+import { Icon } from '../../../atoms';
+import {
+  LikedListWrap,
+  LikedListBody,
+  Card,
+  CardCover,
+  CardBody,
+  CardMeta,
+  MetaTitle,
+  MetaActions,
+  Action,
+  Empty,
+} from './style';
 
 const LikedList = () => {
   const {
@@ -16,25 +27,29 @@ const LikedList = () => {
     error,
     data: likedFriends,
     isFetching,
-  } = useQuery<FetchLikedFriends | undefined, AxiosError>('likedFriends', async() => {
-    const { data } = await axios.get('/user/like');
-    return data;
-  }, { cacheTime: 2 * 60 * 1000 });
+  } = useQuery<FetchLikedFriends | undefined, AxiosError>(
+    'likedFriends',
+    async () => {
+      const { data } = await axios.get('/user/like');
+      return data;
+    },
+    { cacheTime: 2 * 60 * 1000 }
+  );
 
   return (
     <LikedListWrap dataSize={likedFriends?.length}>
       <LikedListBody>
-        {!_.isEmpty(likedFriends)
-          ? likedFriends?.map((friend) => (
+        {!_.isEmpty(likedFriends) ? (
+          likedFriends?.map((friend) => (
             <Card key={friend.id}>
               <CardCover>
-                {friend.Image
-                  ? <img src={friend.Image?.src} alt="profile_image" />
-                  : (
-                    <div>
-                      <Icon icon={<BiUser />} />
-                    </div>
-                  )}
+                {friend.Image ? (
+                  <img src={friend.Image?.src} alt="profile_image" />
+                ) : (
+                  <div>
+                    <Icon icon={<BiUser />} />
+                  </div>
+                )}
               </CardCover>
               <CardBody>
                 <CardMeta>
@@ -54,12 +69,12 @@ const LikedList = () => {
               </CardBody>
             </Card>
           ))
-          : (
-            <Empty>
-              <Icon icon={<ImDrawer2 />} />
-              <div>데이터 없음</div>
-            </Empty>
-          )}
+        ) : (
+          <Empty>
+            <Icon icon={<ImDrawer2 />} />
+            <div>데이터 없음</div>
+          </Empty>
+        )}
       </LikedListBody>
     </LikedListWrap>
   );

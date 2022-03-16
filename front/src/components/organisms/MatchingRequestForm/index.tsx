@@ -3,7 +3,14 @@ import { useSelector } from 'react-redux';
 import { Control, FieldErrors } from 'react-hook-form';
 
 import { userSelector } from '@/../reducers/user';
-import { MatchingInfoWrap, InfoContent, RequestFriendWrap, UserInfoWrap, Content, DescriptionWrap } from './style';
+import {
+  MatchingInfoWrap,
+  InfoContent,
+  RequestFriendWrap,
+  UserInfoWrap,
+  Content,
+  DescriptionWrap,
+} from './style';
 import { FormInput, FormTextarea, FormDateTimePicker } from '../../molecules';
 import { Avatar } from '../../atoms';
 
@@ -14,9 +21,17 @@ interface MatchingFormType {
   description: string;
 }
 
-const MatchingRequestForm = ({ friend, control, errors }: {
-  friend?: { nickname: string, Userdetail: { description: string }, Image: { src: string } },
-  control: Control<MatchingFormType, object>, 
+const MatchingRequestForm = ({
+  friend,
+  control,
+  errors,
+}: {
+  friend?: {
+    nickname: string;
+    Userdetail: { description: string };
+    Image: { src: string };
+  };
+  control: Control<MatchingFormType, object>;
   errors?: FieldErrors;
 }) => {
   const { me } = useSelector(userSelector);
@@ -56,7 +71,7 @@ const MatchingRequestForm = ({ friend, control, errors }: {
         <InfoContent id="friend_info">
           <h4>친구정보</h4>
           <Content>
-            <Avatar size={62} src={friend?.Image?.src || ''} />
+            <Avatar size={62} src={friend?.Image?.src ?? ''} />
             <div>
               <div className="nickname">{friend?.nickname}</div>
               <div>{friend?.Userdetail?.description}</div>

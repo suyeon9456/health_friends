@@ -16,12 +16,11 @@ const GlobalModal = ({ modals }: { modals: Initial[] }) => {
   }, []);
   return (
     <>
-    {
-      modals.map(({ id, statusType, message, callback }) => (
+      {modals.map(({ id, statusType, message, callback }) => (
         <Alert
           key={id}
           type={statusType}
-          action={(
+          action={
             <Button
               type={statusType}
               onClick={() => onHiddenModal(id, callback)}
@@ -29,11 +28,10 @@ const GlobalModal = ({ modals }: { modals: Initial[] }) => {
             >
               확인
             </Button>
-          )}
+          }
           message={message}
         />
-      ))
-    }
+      ))}
     </>
   );
 };

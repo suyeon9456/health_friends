@@ -4,32 +4,44 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { signupSelector, signupStepInfoSave, signupStepNext } from '@/../reducers/user';
+import {
+  signupSelector,
+  signupStepInfoSave,
+  signupStepNext,
+} from '@/../reducers/user';
+import { ButtonType, InputType, SignupMenu, SizeType } from '@/../@types/utils';
 import { FormInput } from '../../../molecules';
 import { Button, Form } from '../../../atoms';
 import { ButtonWrap, InfoFormWrapper } from './style';
-import { ButtonType, InputType, SignupMenu, SizeType } from '@/../@types/utils';
 
-const schema = yup.object({
-  email: yup.string()
-    .email('email일 형식이 아닙니다.')
-    .required('email은 필수 항목입니다.'),
-  password: yup.string()
-    .max(15, '비밀번호는 15자리 이하여야 합니다.')
-    .min(10, '비밀번호는 10자리 이상이어야 합니다.')
-    .required('비밀번호는 필수 항목입니다.'),
-  checkPassword: yup.string()
-    .required('비밀번호 확인은 필수 항목입니다.')
-    .oneOf([yup.ref('password'), null], '비밀번호가 일치하지 않습니다.'),
-  nickname: yup.string()
-    .required('닉네임은 필수 항목입니다.'),
-}).required();
+const schema = yup
+  .object({
+    email: yup
+      .string()
+      .email('email일 형식이 아닙니다.')
+      .required('email은 필수 항목입니다.'),
+    password: yup
+      .string()
+      .max(15, '비밀번호는 15자리 이하여야 합니다.')
+      .min(10, '비밀번호는 10자리 이상이어야 합니다.')
+      .required('비밀번호는 필수 항목입니다.'),
+    checkPassword: yup
+      .string()
+      .required('비밀번호 확인은 필수 항목입니다.')
+      .oneOf([yup.ref('password'), null], '비밀번호가 일치하지 않습니다.'),
+    nickname: yup.string().required('닉네임은 필수 항목입니다.'),
+  })
+  .required();
 
 const InfoForm = () => {
   const dispatch = useDispatch();
 
   const { signupStepInfo } = useSelector(signupSelector);
-  const { handleSubmit, control, formState: { errors } } = useForm({
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       email: signupStepInfo?.email || '',
       password: '',
@@ -86,11 +98,7 @@ const InfoForm = () => {
           error={errors.nickname}
         />
         <ButtonWrap>
-          <Button
-            type={ButtonType.LINEPRIMARY}
-            size={SizeType.LARGE}
-            submit
-          >
+          <Button type={ButtonType.LINEPRIMARY} size={SizeType.LARGE} submit>
             다음단계
           </Button>
         </ButtonWrap>

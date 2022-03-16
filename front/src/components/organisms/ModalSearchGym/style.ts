@@ -15,7 +15,9 @@ export const GymListWrap = styled.div`
 
 export const ListCard = styled.div`
   padding: 10px;
-  ${({ style }) => style && css`
+  ${({ style }) =>
+    style &&
+    css`
     ...style  
   `}
 `;

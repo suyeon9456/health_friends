@@ -12,7 +12,9 @@ export const MoreInfoFormWrapper = styled.div`
     &:not(:first-child) {
       margin-top: 24px;
     }
-    & > div, & > span, & > select {
+    & > div,
+    & > span,
+    & > select {
       margin-top: 10px;
     }
   }

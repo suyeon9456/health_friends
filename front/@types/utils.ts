@@ -70,24 +70,20 @@ export type SignupMenuType = typeof SignupMenu[keyof typeof SignupMenu];
 export const Process = {
   PROCESS: 'PROCESS',
   WAIT: 'WAIT',
-  FINISHED: 'FINISHED'
+  FINISHED: 'FINISHED',
 } as const;
 
 export type ProcessType = typeof Process[keyof typeof Process];
 
 export const SignupSteps = [
-  { step: SignupMenu.INFO,
-    title: 'STEP1',
-    description: '회원 정보' },
-  { step: SignupMenu.MOREINFO,
-    title: 'STEP2',
-    description: '추가 정보' },
-  { step: SignupMenu.GYMINFO,
-    title: 'STEP3',
-    description: '추가 정보' },
-  { step: SignupMenu.FRIENDSINFO,
+  { step: SignupMenu.INFO, title: 'STEP1', description: '회원 정보' },
+  { step: SignupMenu.MOREINFO, title: 'STEP2', description: '추가 정보' },
+  { step: SignupMenu.GYMINFO, title: 'STEP3', description: '추가 정보' },
+  {
+    step: SignupMenu.FRIENDSINFO,
     title: 'STEP4',
-    description: '매칭되고 싶은 친구 정보' },
+    description: '매칭되고 싶은 친구 정보',
+  },
 ] as const;
 
 export type SignupStepsType = typeof SignupSteps[number];
@@ -134,7 +130,7 @@ export type GenderOptionsType = typeof GenderOptions[number];
 
 export const SearchGymTabs = [
   { value: 'search', text: '헬스장 찾기' },
-  { value: 'add', text: '헬스장 등록' }
+  { value: 'add', text: '헬스장 등록' },
 ] as const;
 
 export type SearchGymTabsType = typeof SearchGymTabs[number];

@@ -1,12 +1,22 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import { SwapRightOutlined } from '@ant-design/icons';
-import { Control, Controller, FieldError, FieldValues, Path } from 'react-hook-form';
+import {
+  Control,
+  Controller,
+  FieldError,
+  FieldValues,
+  Path,
+} from 'react-hook-form';
 
-import { RangeTimePickerWrap, RangeSeparator, Separator } from '../../atoms/RangeTimePicker/style';
+import { BaseSizeTypeT, PickerType } from '@/../@types/utils';
+import {
+  RangeTimePickerWrap,
+  RangeSeparator,
+  Separator,
+} from '../../atoms/RangeTimePicker/style';
 import { Label, Essential } from '../FormTimePicker/style';
 import { CustomPickerInput, CustomCalendar } from '../../atoms';
-import { BaseSizeTypeT, PickerType } from '@/../@types/utils';
 
 interface FormRangeTimePickerType<T> {
   label: string;
@@ -25,7 +35,7 @@ const FormRangeTimePicker = <T extends FieldValues>({
   essential,
   size,
   control,
-  error
+  error,
 }: FormRangeTimePickerType<T>) => (
   <div>
     <Label>
@@ -46,7 +56,9 @@ const FormRangeTimePicker = <T extends FieldValues>({
             timeIntervals={15}
             timeCaption="Time"
             dateFormat="HH:mm"
-            customInput={<CustomPickerInput type={PickerType.TIME} size={size} />}
+            customInput={
+              <CustomPickerInput type={PickerType.TIME} size={size} />
+            }
             calendarContainer={CustomCalendar}
           />
         )}
@@ -71,7 +83,9 @@ const FormRangeTimePicker = <T extends FieldValues>({
               timeIntervals={15}
               timeCaption="Time"
               dateFormat="HH:mm"
-              customInput={<CustomPickerInput type={PickerType.TIME} size={size} />}
+              customInput={
+                <CustomPickerInput type={PickerType.TIME} size={size} />
+              }
               calendarContainer={CustomCalendar}
             />
           );

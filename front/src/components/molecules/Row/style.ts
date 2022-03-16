@@ -6,7 +6,9 @@ export const RowContainer = styled.div<{ justify?: string }>`
   flex-flow: row wrap;
   background: rgb(248, 249, 251);
 
-  ${({ justify }) => justify && css`
-    justify-content: ${justify};
-  `}
+  ${({ justify }) =>
+    justify &&
+    css`
+      justify-content: ${justify};
+    `}
 `;

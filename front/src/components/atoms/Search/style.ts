@@ -14,14 +14,15 @@ export const SearchWrap = styled.span<{ size?: SizeTypeT }>`
   background-image: none;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
-  transition: all .3s;
+  transition: all 0.3s;
   display: inline-flex;
   &::before {
     width: 0;
     visibility: hidden;
-    content: "\a0";
+    content: '\a0';
   }
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     border-color: #40a9ff;
     border-right-width: 1px !important;
   }
@@ -35,7 +36,7 @@ export const SearchWrap = styled.span<{ size?: SizeTypeT }>`
     border: none;
     outline: none;
     padding-left: 10px;
-    &:focus{
+    &:focus {
       border: none;
       outline: none;
       box-shadow: none;
@@ -81,7 +82,7 @@ export const SearchLoadingIcon = styled(LoadingOutlined)`
   line-height: 0;
   text-align: center;
   text-transform: none;
-  vertical-align: -.125em;
+  vertical-align: -0.125em;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 `;
@@ -93,20 +94,20 @@ export const SearchIcon = styled(SearchOutlined)`
   line-height: 0;
   text-align: center;
   text-transform: none;
-  vertical-align: -.125em;
+  vertical-align: -0.125em;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 `;
 
-export const SearchInput = styled.input<{ 
-  size: any,
-  value: string,
- }>`
+export const SearchInput = styled.input<{
+  size: any;
+  value: string;
+}>`
   box-sizing: border-box;
   margin: 0;
   font-variant: tabular-nums;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   position: relative;
   width: 100%;
   padding: 4px 11px;
@@ -115,7 +116,7 @@ export const SearchInput = styled.input<{
   line-height: 1.5715;
   background-color: #fff;
   background-image: none;
-  transition: all .3s;
+  transition: all 0.3s;
   border: 0;
   border-radius: 2px;
   display: inline-flex;

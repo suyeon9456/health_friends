@@ -52,7 +52,8 @@ export const FriendsCard = styled.div`
   box-shadow: rgb(0 0 0 / 3%) 0px 5px 16px 0px;
 
   &:hover {
-    box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
+    box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014,
+      0 9px 28px 8px #0000000d;
     border-color: transparent;
   }
 `;

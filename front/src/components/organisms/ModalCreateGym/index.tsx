@@ -1,11 +1,17 @@
-import React, { useState, useCallback, Dispatch, SetStateAction, ChangeEvent } from 'react';
+import React, {
+  useState,
+  useCallback,
+  Dispatch,
+  SetStateAction,
+  ChangeEvent,
+} from 'react';
 
+import { Control, UseFormSetValue } from 'react-hook-form';
+import { ButtonType } from '@/../@types/utils';
 import { CreateFormWrap, FormSearchPostcode } from './style';
 import { Button } from '../../atoms';
 import { FormInput } from '../../molecules';
 import KakaoPostcode from '../KakaoPostcode';
-import { Control, UseFormSetValue } from 'react-hook-form';
-import { ButtonType } from '@/../@types/utils';
 import ModalPortal from '../ModalPortal';
 
 interface CreateModalType {
@@ -17,7 +23,8 @@ interface CreateModalType {
   name: string;
 }
 
-const ModalCreateGym = ({ control,
+const ModalCreateGym = ({
+  control,
   setValue,
 }: {
   control: Control<CreateModalType, object>;
@@ -48,10 +55,7 @@ const ModalCreateGym = ({ control,
         />
         <div className="button-wrap">
           <div />
-          <Button
-            type={ButtonType.PRIMARY}
-            onClick={changeShowPostcode}
-          >
+          <Button type={ButtonType.PRIMARY} onClick={changeShowPostcode}>
             주소 검색
           </Button>
         </div>

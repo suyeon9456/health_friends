@@ -1,8 +1,14 @@
 import { SearchProps } from '@/../@types/atoms';
 import { SizeType } from '@/../@types/utils';
-import React, { ChangeEvent, useCallback } from 'react';
+import React, { useCallback } from 'react';
 
-import { SearchWrap, EnterIconWrapper, SearchLoadingIcon, SearchInput, SearchIcon } from './style';
+import {
+  SearchWrap,
+  EnterIconWrapper,
+  SearchLoadingIcon,
+  SearchInput,
+  SearchIcon,
+} from './style';
 
 const Search = ({
   size = SizeType.DEFAULT,
@@ -13,16 +19,16 @@ const Search = ({
   onSearch,
   ...props
 }: SearchProps) => {
-  const handleKeyPress = useCallback((e) => {
-    if (e.key === 'Enter') {
-      onSearch();
-    }
-  }, [value]);
+  const handleKeyPress = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        onSearch();
+      }
+    },
+    [value]
+  );
   return (
-    <SearchWrap
-      {...props}
-      size={size}
-    >
+    <SearchWrap {...props} size={size}>
       <EnterIconWrapper>
         {loading ? <SearchLoadingIcon /> : <SearchIcon onClick={onSearch} />}
       </EnterIconWrapper>

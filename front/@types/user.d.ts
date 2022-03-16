@@ -1,11 +1,11 @@
-import { Image } from "./image"
-import { Schedule } from "./schedule"
+import { Image } from './image';
+import { Schedule } from './schedule';
 
 // user에 대한 타입 또는 정보
-export type Gender =  'female' | 'male'
-export type Age = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10'
-export type Career = '1' | '2' | '3' | '4' | '5'
-export type Role = '1' | '2' | '3'
+export type Gender = 'female' | 'male';
+export type Age = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10';
+export type Career = '1' | '2' | '3' | '4' | '5';
+export type Role = '1' | '2' | '3';
 
 export interface User {
   id: number;
@@ -34,7 +34,8 @@ export interface Userdetail {
 }
 
 export interface Me extends User {
-  Userdetail?: Userdetail
+  Userdetail?: Userdetail;
+  Image: Image;
 }
 
 export interface Profile extends User {
@@ -42,17 +43,17 @@ export interface Profile extends User {
   Gyms: Gym;
   Schedule: Schedule;
   Image: Image;
-  Liked: Array<number>;
+  Liked: number[];
 }
 
 export interface Friends extends User {
   Image: Image | null;
-  Gyms: Array<Gym>;
+  Gyms: Gym[];
 }
 
 export interface RankedFriends extends User {
   Userdetail?: { id: number; rematchingRate: number };
-  resSchedule?: Array<number>;
+  resSchedule?: number[];
 }
 
 export interface SignupInfo {
@@ -90,5 +91,4 @@ export interface SignupData {
   signupFriendsInfo: SignupFriendsInfo;
 }
 
-export type FriendsList = Array<Friends>;
-
+export type FriendsList = Friends[];

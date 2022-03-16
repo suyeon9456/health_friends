@@ -3,12 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 
+import {
+  signupSelector,
+  signupStepGymInfoSave,
+  signupStepNext,
+  signupStepPrev,
+} from '@/../reducers/user';
+import { ButtonType, SignupMenu, SizeType } from '@/../@types/utils';
 import { Button, Form } from '../../../atoms';
-import { FormInput, FormRangeTimePicker, FormTextarea } from '../../../molecules';
+import {
+  FormInput,
+  FormRangeTimePicker,
+  FormTextarea,
+} from '../../../molecules';
 import ModalGym from './ModalGym';
 import { ButtonWrap, FormSearchGymWrap, FormWrapper } from './style';
-import { signupSelector, signupStepGymInfoSave, signupStepNext, signupStepPrev } from '@/../reducers/user';
-import { ButtonType, SignupMenu, SizeType } from '@/../@types/utils';
 import ModalPortal from '../../ModalPortal';
 
 const MoreGymInfoForm = () => {
@@ -16,7 +25,12 @@ const MoreGymInfoForm = () => {
 
   const { signupStepGymInfo, selectedGym } = useSelector(signupSelector);
   const [showModal, setShowModal] = useState(false);
-  const { handleSubmit, control, setValue } = useForm<{ startTime: Date; endTime: Date; gym: string; description: string;  }>({
+  const { handleSubmit, control, setValue } = useForm<{
+    startTime: Date;
+    endTime: Date;
+    gym: string;
+    description: string;
+  }>({
     defaultValues: {
       startTime: signupStepGymInfo?.startDate || new Date(),
       endTime: signupStepGymInfo?.endDate || new Date(),
@@ -30,11 +44,13 @@ const MoreGymInfoForm = () => {
   }, [showModal]);
 
   const onClickStepHandler = useCallback((data, e) => {
-    dispatch(signupStepGymInfoSave({
-      ...data,
-      startTime: format(data.startTime, 'HH:mm'),
-      endTime: format(data.endTime, 'HH:mm')
-    }));
+    dispatch(
+      signupStepGymInfoSave({
+        ...data,
+        startTime: format(data.startTime, 'HH:mm'),
+        endTime: format(data.endTime, 'HH:mm'),
+      })
+    );
     if (e.nativeEvent.submitter.name === 'next') {
       dispatch(signupStepNext(SignupMenu.FRIENDSINFO));
     } else {
@@ -106,7 +122,7 @@ const MoreGymInfoForm = () => {
             onCancel={changeShowModal}
             setShowModal={setShowModal}
             setGym={setValue}
-            {...{className: 'gym-modal'}}
+            {...{ className: 'gym-modal' }}
           />
         )}
       </ModalPortal>

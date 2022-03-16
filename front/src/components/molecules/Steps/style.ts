@@ -8,7 +8,7 @@ export const StepsWrapper = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   display: flex;
   width: 100%;
   text-align: initial;
@@ -18,7 +18,7 @@ export const StepsWrapper = styled.div`
     padding-left: 16px;
   }
 
-  & > div:last-child  > div > div {
+  & > div:last-child > div > div {
     &::after {
       display: none;
     }

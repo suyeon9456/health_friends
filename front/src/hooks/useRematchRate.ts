@@ -1,4 +1,7 @@
-const useRematchRate = (rematchingCount: number, matchingCount: number): number => {
+const useRematchRate = (
+  rematchingCount: number,
+  matchingCount: number
+): number => {
   return (rematchingCount / matchingCount) * 100;
 };
 

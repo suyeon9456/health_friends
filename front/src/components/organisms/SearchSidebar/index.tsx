@@ -3,11 +3,14 @@ import { useSelector } from 'react-redux';
 import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons';
 
 import { userSelector } from '@/../reducers/user';
+import { ButtonType, SizeType } from '@/../@types/utils';
 import { Avatar, Button } from '../../atoms';
 import { Sidebar } from './style';
-import { ButtonType, SizeType } from '@/../@types/utils';
 
-const SearchSidebar = ({ foldedGym, setFoldedGym }: {
+const SearchSidebar = ({
+  foldedGym,
+  setFoldedGym,
+}: {
   foldedGym: boolean;
   setFoldedGym: Dispatch<SetStateAction<boolean>>;
 }) => {
@@ -16,21 +19,19 @@ const SearchSidebar = ({ foldedGym, setFoldedGym }: {
     <Sidebar>
       <div>
         <Avatar size={SizeType.SMALL} src={me?.Image?.src} />
-        {!foldedGym
-          ? (
-            <Button
-              icon={<FullscreenExitOutlined />}
-              type={ButtonType.TEXT}
-              onClick={() => setFoldedGym(true)}
-            />
-          )
-          : (
-            <Button
-              icon={<FullscreenOutlined />}
-              type={ButtonType.TEXT}
-              onClick={() => setFoldedGym(false)}
-            />
-          )}
+        {!foldedGym ? (
+          <Button
+            icon={<FullscreenExitOutlined />}
+            type={ButtonType.TEXT}
+            onClick={() => setFoldedGym(true)}
+          />
+        ) : (
+          <Button
+            icon={<FullscreenOutlined />}
+            type={ButtonType.TEXT}
+            onClick={() => setFoldedGym(false)}
+          />
+        )}
       </div>
     </Sidebar>
   );

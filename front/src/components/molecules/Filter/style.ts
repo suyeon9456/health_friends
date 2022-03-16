@@ -14,7 +14,7 @@ export const FilterSelectorWrap = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   position: relative;
   display: inline-block;
   cursor: pointer;
@@ -29,7 +29,7 @@ export const FilterSelector = styled.div`
   background-color: #fff;
   border: 1px solid #d9d9d9;
   border-radius: 2px;
-  transition: all .3s cubic-bezier(.645,.045,.355,1);
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 `;
 
 export const FilterSelectorText = styled.span`
@@ -74,12 +74,14 @@ export const FilterContent = styled.div<{ show: boolean }>`
   color: #000000d9;
   border: 1px solid #f0f0f0;
   width: 300px;
-  border-radius: 5px; 
+  border-radius: 5px;
   box-shadow: 0 2px 8px #e8e9e9;
 
-  ${({ show }) => !show && css`
-    display: none;
-  `}
+  ${({ show }) =>
+    !show &&
+    css`
+      display: none;
+    `}
 `;
 
 export const CheckBoxGroup = styled.div`
@@ -91,6 +93,6 @@ export const CheckBoxGroup = styled.div`
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   display: inline-block;
 `;
