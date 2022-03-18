@@ -3,7 +3,7 @@ import Link from 'next/link';
 import axios, { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 import Slider from 'react-slick';
-import * as _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 import { BiCurrentLocation } from 'react-icons/bi';
 import { FetchRecommendData } from '@/../@types/fetchData';
@@ -209,7 +209,7 @@ const RecommendFriends = () => {
       </FriendsSubTitle>
       <FriendsBody>
         <FriendsCardList>
-          {!_.isEmpty(recommendData?.fullFriends) && !error ? (
+          {!isEmpty(recommendData?.fullFriends) && !error ? (
             <Slider {...settings}>
               {recommendData?.fullFriends?.map(
                 (friend: {

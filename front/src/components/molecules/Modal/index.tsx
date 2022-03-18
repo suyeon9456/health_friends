@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import * as _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { CloseOutlined } from '@ant-design/icons';
 
 import { ButtonType, ButtonTypeT } from '@/../@types/utils';
@@ -75,9 +75,9 @@ const Modal = ({
             {form ? (
               <Form onSubmit={onSubmit}>
                 <ModalBody>{children}</ModalBody>
-                {(footer ?? !_.isEmpty(actions)) && (
+                {(footer ?? !isEmpty(actions)) && (
                   <ModalFooter>
-                    {_.isEmpty(actions) ? (
+                    {isEmpty(actions) ? (
                       <>
                         <Button onClick={onCancel}>취소</Button>
                         <Button type={ButtonType.PRIMARY} submit>
@@ -101,9 +101,9 @@ const Modal = ({
             ) : (
               <>
                 <ModalBody>{children}</ModalBody>
-                {(footer ?? !_.isEmpty(actions)) && (
+                {(footer ?? !isEmpty(actions)) && (
                   <ModalFooter>
-                    {_.isEmpty(actions) ? (
+                    {isEmpty(actions) ? (
                       <>
                         <Button onClick={onCancel}>취소</Button>
                         <Button type={ButtonType.PRIMARY} onClick={onSubmit}>

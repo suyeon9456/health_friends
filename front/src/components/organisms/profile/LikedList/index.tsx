@@ -1,7 +1,7 @@
 import React from 'react';
 import axios, { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
-import * as _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { BiDotsVerticalRounded, BiEdit, BiHeart, BiUser } from 'react-icons/bi';
 import { ImDrawer2 } from 'react-icons/im';
 
@@ -39,7 +39,7 @@ const LikedList = () => {
   return (
     <LikedListWrap dataSize={likedFriends?.length}>
       <LikedListBody>
-        {!_.isEmpty(likedFriends) ? (
+        {!isEmpty(likedFriends) ? (
           likedFriends?.map((friend) => (
             <Card key={friend.id}>
               <CardCover>

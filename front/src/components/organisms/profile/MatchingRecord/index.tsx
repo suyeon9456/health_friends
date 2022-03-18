@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
 import { PlusOutlined } from '@ant-design/icons';
-import * as _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 import { RecordScheduleFetch } from '@/../@types/schedule';
 import useCheckbox from '@/hooks/useCheckbox';
@@ -34,11 +34,11 @@ const MatchingRecord = () => {
     ['record', status, term, type, limit, rejectedMatching],
     async () => {
       const statusquery =
-        !_.isEmpty(status) && `&${status.map((m) => `${m}=true`).join('&')}`;
+        !isEmpty(status) && `&${status.map((m) => `${m}=true`).join('&')}`;
       const termquery =
-        !_.isEmpty(term) && `&${term.map((m) => `${m}=true`).join('&')}`;
+        !isEmpty(term) && `&${term.map((m) => `${m}=true`).join('&')}`;
       const typequery =
-        !_.isEmpty(type) && `&${type.map((m) => `${m}=true`).join('&')}`;
+        !isEmpty(type) && `&${type.map((m) => `${m}=true`).join('&')}`;
       const {
         data,
       }: AxiosResponse<{

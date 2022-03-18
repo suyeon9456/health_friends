@@ -1,8 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { EditOutlined, UserAddOutlined } from '@ant-design/icons';
 import { format, startOfMonth, endOfMonth, addDays } from 'date-fns';
-import * as _ from 'lodash';
 
 import { userSelector } from '@/../reducers/user';
 import 'react-big-calendar/lib/css/react-big-calendar.css';

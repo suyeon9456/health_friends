@@ -8,7 +8,7 @@ import React, {
   SetStateAction,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import * as _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { ReloadOutlined } from '@ant-design/icons';
 
 import {
@@ -123,7 +123,7 @@ const SearchMap = ({
   }, []);
 
   useEffect(() => {
-    if (!_.isEmpty(gym)) {
+    if (!isEmpty(gym)) {
       if (customOverlay.current) {
         customOverlay.current.setMap(null);
       }

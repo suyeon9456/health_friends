@@ -2,7 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
-import * as _ from 'lodash';
+import groupBy from 'lodash/groupBy';
+import forIn from 'lodash/forIn';
+import orderBy from 'lodash/orderBy';
+import isEmpty from 'lodash/isEmpty';
 
 import { Matching } from '@/../@types/schedule';
 import { FetchRankedFriends, Rematching } from '@/../@types/fetchData';
@@ -39,9 +42,9 @@ const RankedFriends = () => {
       const { data }: AxiosResponse<FetchRankedFriends> = await axios.get(
         '/users/rankedFriends'
       );
-      const idGroup = _.groupBy(data.matching, 'id');
+      const idGroup = groupBy(data.matching, 'id');
       const matching: Matching[] = [];
-      _.forIn(idGroup, (value) => {
+      forIn(idGroup, (value) => {
         if (value.length > 1) {
           const req = {
             ...value[0],
@@ -59,7 +62,7 @@ const RankedFriends = () => {
       });
       return {
         rematching: data.rematching,
-        matching: _.orderBy(matching, ['count'], ['desc']),
+        matching: orderBy(matching, ['count'], ['desc']),
       };
     },
     { cacheTime: 2 * 60 * 1000 }
@@ -73,7 +76,7 @@ const RankedFriends = () => {
           <RankCardWrap>
             <RankTitle>재매칭 순위 TOP 5</RankTitle>
             <RankCard>
-              {!_.isEmpty(rankedFriends?.rematching) && !error ? (
+              {!isEmpty(rankedFriends?.rematching) && !error ? (
                 rankedFriends?.rematching?.map((friend, index: number) => {
                   const friendId = friend.id;
                   const profileUrl = ['/profile/', friendId].join('');
@@ -109,7 +112,7 @@ const RankedFriends = () => {
           <RankCardWrap>
             <RankTitle>매칭 순위 TOP 5</RankTitle>
             <RankCard>
-              {!_.isEmpty(rankedFriends?.matching) && !error ? (
+              {!isEmpty(rankedFriends?.matching) && !error ? (
                 rankedFriends?.matching?.map(
                   (friend: Matching, index: number) => {
                     const friendId = friend.id;

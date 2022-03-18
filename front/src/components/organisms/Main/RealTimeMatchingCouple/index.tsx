@@ -1,7 +1,7 @@
 import React from 'react';
 import axios, { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
-import * as _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 import { BiGroup, BiMap } from 'react-icons/bi';
 import { RealtimeMatching } from '@/../@types/fetchData';
@@ -45,7 +45,7 @@ const RealTimeMatchingCouple = () => {
       </MatchingCoupleHeader>
       <MatchingCoupleBody>
         <CoupleCardList>
-          {!_.isEmpty(realtimeMatching) && !error ? (
+          {!isEmpty(realtimeMatching) && !error ? (
             realtimeMatching?.map((matching) => {
               const reqImageSrc = matching?.Image?.src;
               const reqAvatarSrc = reqImageSrc || '';
