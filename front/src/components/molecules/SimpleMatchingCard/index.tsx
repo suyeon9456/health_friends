@@ -1,5 +1,5 @@
 import React from 'react';
-import { CloseOutlined, RightOutlined } from '@ant-design/icons';
+import { BiChevronRight, BiX } from 'react-icons/bi';
 
 import { ButtonType, SizeType, SizeTypeT } from '@/../@types/utils';
 import Avatar from '../../atoms/Avatar';
@@ -13,7 +13,7 @@ import {
   MatchingDate,
   CardClose,
 } from './style';
-import { Button } from '../../atoms';
+import { Button, Icon } from '../../atoms';
 
 const SimpleMatchingCard = ({
   nickname,
@@ -30,7 +30,7 @@ const SimpleMatchingCard = ({
 }) => (
   <SimpleCard>
     <CardClose>
-      <CloseOutlined onClick={onChangeShow} />
+      <Icon icon={<BiX />} onClick={onChangeShow} />
     </CardClose>
     <AvatarWrapper>
       <Avatar size={avatarSize} />
@@ -42,7 +42,7 @@ const SimpleMatchingCard = ({
     <MatchingDateWrapper>
       <MatchingDate>{date}</MatchingDate>
       <Button type={ButtonType.SIGNATURE} size={SizeType.SMALL}>
-        상세확인 <RightOutlined />
+        상세확인 <Icon icon={<BiChevronRight />} />
       </Button>
     </MatchingDateWrapper>
   </SimpleCard>

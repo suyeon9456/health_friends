@@ -1,10 +1,10 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { useSelector } from 'react-redux';
-import { FullscreenExitOutlined, FullscreenOutlined } from '@ant-design/icons';
+import { BiCollapse, BiExpand } from 'react-icons/bi';
 
 import { userSelector } from '@/../reducers/user';
 import { ButtonType, SizeType } from '@/../@types/utils';
-import { Avatar, Button } from '../../atoms';
+import { Avatar, Button, Icon } from '../../atoms';
 import { Sidebar } from './style';
 
 const SearchSidebar = ({
@@ -21,13 +21,13 @@ const SearchSidebar = ({
         <Avatar size={SizeType.SMALL} src={me?.Image?.src} />
         {!foldedGym ? (
           <Button
-            icon={<FullscreenExitOutlined />}
+            icon={<Icon icon={<BiCollapse />} />}
             type={ButtonType.TEXT}
             onClick={() => setFoldedGym(true)}
           />
         ) : (
           <Button
-            icon={<FullscreenOutlined />}
+            icon={<Icon icon={<BiExpand />} />}
             type={ButtonType.TEXT}
             onClick={() => setFoldedGym(false)}
           />

@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react';
 import Link from 'next/link';
-import { MenuOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
+import { BiMenu } from 'react-icons/bi';
 
 import { logoutRequest, userSelector } from '@/../reducers/user';
 import { SizeType } from '@/../@types/utils';
 import { Me } from '@/../@types/user';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 
-import { Avatar } from '../../atoms';
+import { Avatar, Icon } from '../../atoms';
 import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
 
 const Menu = () => {
@@ -86,7 +86,7 @@ const Menu = () => {
       <MenuItem type="tablet-phone" align="right" style={{ order: 2 }}>
         <MenuTitle>
           <MenuText onClick={changeShowDrawerMenu}>
-            <MenuOutlined />
+            <Icon icon={<BiMenu />} />
           </MenuText>
         </MenuTitle>
       </MenuItem>

@@ -1,6 +1,7 @@
 import React from 'react';
-import { GithubOutlined } from '@ant-design/icons';
+import { AiOutlineGithub } from 'react-icons/ai';
 
+import { Icon } from '@/components/atoms';
 import {
   IconWrap,
   FooterWrap,
@@ -26,7 +27,7 @@ const Footer = () => (
         <BlogWrap>
           <IconWrap>
             <a href="https://github.com/suyeon9456/health_friends">
-              <GithubOutlined />
+              <Icon icon={<AiOutlineGithub />} />
             </a>
           </IconWrap>
           <IconWrap>

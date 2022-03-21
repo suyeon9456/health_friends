@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DeleteOutlined, FrownOutlined } from '@ant-design/icons';
+import { BiSad, BiTrash } from 'react-icons/bi';
 
 export const ErrorContainer = styled.div`
   position: relative;
@@ -53,7 +53,7 @@ export const ErrorContent = styled.div`
   opacity: 0.8;
 `;
 
-export const ErrorContentIcon = styled(FrownOutlined)`
+export const ErrorContentIcon = styled(BiSad)`
   font-size: 30px;
   color: #ff4d4f;
 `;
@@ -80,7 +80,7 @@ export const ErrorButtonWrap = styled.span`
   transition: all 0.3s;
 `;
 
-export const ErrorRemoveButton = styled(DeleteOutlined)`
+export const ErrorRemoveButton = styled(BiTrash)`
   height: 20px;
   color: #fff;
   line-height: 1;

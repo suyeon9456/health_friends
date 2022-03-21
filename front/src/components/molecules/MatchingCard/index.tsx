@@ -1,6 +1,7 @@
 import React from 'react';
-import { UserOutlined } from '@ant-design/icons';
 
+import { Icon } from '@/components/atoms';
+import { BiUser } from 'react-icons/bi';
 import {
   Card,
   CardBody,
@@ -41,7 +42,7 @@ const MatchingCard = ({
         <img src={image} alt={image} />
       ) : (
         <div>
-          <UserOutlined />
+          <Icon icon={<BiUser />} />
         </div>
       )}
     </CardCover>

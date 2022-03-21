@@ -1,11 +1,12 @@
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { CloseOutlined } from '@ant-design/icons';
+import { BiX } from 'react-icons/bi';
 
 import { addLikeRequest, userSelector } from '@/../reducers/user';
 import { gymSelector } from '@/../reducers/gym';
 import { useModalDispatch } from '@/../store/modalStore';
 import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/utils';
+import { Icon } from '@/components/atoms';
 import { PropfileCard } from '../../molecules';
 import Button from '../../atoms/Button';
 import {
@@ -77,7 +78,7 @@ const SearchFriends = ({
         <SearchHeader>
           <SearchTitle>{gym.name} 친구검색 결과</SearchTitle>
           <Button
-            icon={<CloseOutlined />}
+            icon={<Icon icon={<BiX />} />}
             type={ButtonType.TEXT}
             onClick={onChangeFoldedFriends}
           />

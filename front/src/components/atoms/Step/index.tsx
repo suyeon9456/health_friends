@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckOutlined } from '@ant-design/icons';
+import { BiCheck } from 'react-icons/bi';
 
 import { Process, ProcessType } from '@/../@types/utils';
 import {
@@ -9,6 +9,7 @@ import {
   StepWrap,
   StepDescription,
 } from './style';
+import Icon from '../Icon';
 
 const Step = ({
   type,
@@ -23,7 +24,11 @@ const Step = ({
 }) => (
   <StepWrap>
     <StepIconWrap type={type}>
-      {type === Process.FINISHED ? <CheckOutlined /> : <span>{step}</span>}
+      {type === Process.FINISHED ? (
+        <Icon icon={<BiCheck />} />
+      ) : (
+        <span>{step}</span>
+      )}
     </StepIconWrap>
     <StepContentWrap>
       <StepTitle type={type}>{title}</StepTitle>

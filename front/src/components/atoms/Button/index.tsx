@@ -1,9 +1,10 @@
 import React from 'react';
-import { LoadingOutlined } from '@ant-design/icons';
+import { BiLoaderAlt } from 'react-icons/bi';
 
 import { ButtonProps } from '@/../@types/atoms';
 import { ButtonType, SizeType } from '@/../@types/utils';
 import { StyledButton } from './style';
+import Icon from '../Icon';
 
 const Button = ({
   children,
@@ -29,7 +30,7 @@ const Button = ({
     type={submit ? 'submit' : 'button'}
     {...props}
   >
-    {buttonLoading ? <LoadingOutlined /> : icon}
+    {buttonLoading ? <Icon icon={<BiLoaderAlt />} /> : icon}
     <span {...props}>{children}</span>
   </StyledButton>
 );

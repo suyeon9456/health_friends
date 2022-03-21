@@ -1,5 +1,5 @@
 import { SizeType, SizeTypeT } from '@/../@types/utils';
-import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
+import { BiLoaderAlt, BiSearchAlt } from 'react-icons/bi';
 import styled, { css } from 'styled-components';
 
 export const SearchWrap = styled.span<{ size?: SizeTypeT }>`
@@ -75,7 +75,7 @@ export const EnterIconWrapper = styled.span`
   align-items: center;
 `;
 
-export const SearchLoadingIcon = styled(LoadingOutlined)`
+export const SearchLoadingIcon = styled(BiLoaderAlt)`
   display: inline-block;
   color: inherit;
   font-style: normal;
@@ -87,7 +87,7 @@ export const SearchLoadingIcon = styled(LoadingOutlined)`
   -webkit-font-smoothing: antialiased;
 `;
 
-export const SearchIcon = styled(SearchOutlined)`
+export const SearchIcon = styled(BiSearchAlt)`
   display: inline-block;
   color: inherit;
   font-style: normal;

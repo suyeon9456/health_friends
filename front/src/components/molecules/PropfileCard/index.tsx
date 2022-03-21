@@ -1,5 +1,5 @@
 import React from 'react';
-import { LikeOutlined } from '@ant-design/icons';
+import { BiLike } from 'react-icons/bi';
 
 import { ButtonType, SizeType } from '@/../@types/utils';
 import {
@@ -11,7 +11,7 @@ import {
   MetaPercent,
   MetaTitle,
 } from './style';
-import { Avatar, Button } from '../../atoms';
+import { Avatar, Button, Icon } from '../../atoms';
 
 const ProfileCard = ({
   nickname,
@@ -33,7 +33,7 @@ const ProfileCard = ({
     <CardBody>
       <CardMeta>
         <MetaTitle>
-          {nickname} <LikeOutlined onClick={onLike} />
+          {nickname} <Icon icon={<BiLike />} onClick={onLike} />
         </MetaTitle>
         <MetaPercent>재매칭률: {percent}%</MetaPercent>
       </CardMeta>

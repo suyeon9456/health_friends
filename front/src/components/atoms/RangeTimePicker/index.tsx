@@ -1,12 +1,13 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
-import { SwapRightOutlined } from '@ant-design/icons';
 
 import { RangePickerProps } from '@/../@types/atoms';
 import { PickerType } from '@/../@types/utils';
+import { BiRightArrowAlt } from 'react-icons/bi';
 import { RangeTimePickerWrap, RangeSeparator, Separator } from './style';
 import CustomPickerInput from '../CustomPickerInput';
 import CustomCalendar from '../CustomCalendar';
+import Icon from '../Icon';
 
 const RangeTimePicker = ({
   size,
@@ -29,7 +30,7 @@ const RangeTimePicker = ({
     />
     <RangeSeparator>
       <Separator>
-        <SwapRightOutlined />
+        <Icon icon={<BiRightArrowAlt />} />
       </Separator>
     </RangeSeparator>
     <DatePicker

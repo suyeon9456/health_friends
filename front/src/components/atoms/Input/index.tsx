@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react';
-import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
+import { BiLock, BiLockOpen } from 'react-icons/bi';
 
 import { InputProps } from '@/../@types/atoms';
 import { InputType, SizeType } from '@/../@types/utils';
 import { InputContainer, InputContent, InputWrap, InputWrapBox } from './style';
+import Icon from '../Icon';
 
 const Input = ({
   name,
@@ -42,15 +43,13 @@ const Input = ({
               />
               <span>
                 {passwordType ? (
-                  <LockOutlined
-                    color="#000000d9"
-                    onClick={onChangePasswordType}
-                  />
+                  // <LockOutlined
+                  //   color="#000000d9"
+                  //   onClick={onChangePasswordType}
+                  // />
+                  <Icon icon={<BiLock />} onClick={onChangePasswordType} />
                 ) : (
-                  <UnlockOutlined
-                    color="#000000d9"
-                    onClick={onChangePasswordType}
-                  />
+                  <Icon icon={<BiLockOpen />} onClick={onChangePasswordType} />
                 )}
               </span>
             </InputWrap>

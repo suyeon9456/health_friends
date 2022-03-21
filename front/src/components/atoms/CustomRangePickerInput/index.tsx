@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import { CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { BiTime, BiCalendar } from 'react-icons/bi';
 
 import { CustomPickerInputProps } from '@/../@types/atoms';
 import { PickerType } from '@/../@types/utils';
@@ -9,6 +9,7 @@ import {
   PickerInputWrap,
   PickerSuffix,
 } from './style';
+import Icon from '../Icon';
 
 const CustomRangePickerInput = forwardRef(
   (
@@ -27,9 +28,9 @@ const CustomRangePickerInput = forwardRef(
       </PickerInputWrap>
       <PickerSuffix>
         {type === PickerType.DATE ? (
-          <CalendarOutlined />
+          <Icon icon={<BiCalendar />} />
         ) : (
-          <ClockCircleOutlined />
+          <Icon icon={<BiTime />} />
         )}
       </PickerSuffix>
     </RangePickerWrap>

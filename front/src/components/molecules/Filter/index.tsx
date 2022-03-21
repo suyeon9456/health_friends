@@ -1,11 +1,5 @@
-import React, {
-  useState,
-  useCallback,
-  useRef,
-  useEffect,
-  ChangeEvent,
-} from 'react';
-import { DownOutlined } from '@ant-design/icons';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { BiChevronDown } from 'react-icons/bi';
 
 import {
   FilterWrap,
@@ -16,7 +10,7 @@ import {
   FilterContent,
   CheckBoxGroup,
 } from './style';
-import { CheckBox } from '../../atoms';
+import { CheckBox, Icon } from '../../atoms';
 
 const Filter = ({
   label,
@@ -59,7 +53,7 @@ const Filter = ({
           <FilterSelectorText>{label}</FilterSelectorText>
         </FilterSelector>
         <FilterArrrowWrap>
-          <DownOutlined />
+          <Icon icon={<BiChevronDown />} />
         </FilterArrrowWrap>
       </FilterSelectorWrap>
       <FilterContent show={show} ref={filterEl}>

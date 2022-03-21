@@ -1,5 +1,4 @@
 import Alert from './Alert';
-import Confirm from './Confirm';
 import AvatarGroup from './AvatarGroup';
 import FormDatePicker from './FormDatePicker';
 import FormInput from './FormInput';
@@ -25,7 +24,6 @@ import DrawerMenu from './DrawerMenu';
 
 export {
   Alert,
-  Confirm,
   AvatarGroup,
   FormDatePicker,
   FormInput,

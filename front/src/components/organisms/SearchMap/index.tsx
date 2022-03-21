@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
-import { ReloadOutlined } from '@ant-design/icons';
+import { BiRevision } from 'react-icons/bi';
 
 import {
   changeMapBounds,
@@ -18,7 +18,7 @@ import {
   loadFriendsRequest,
 } from '@/../reducers/gym';
 import { ButtonType } from '@/../@types/utils';
-import { Button } from '../../atoms';
+import { Button, Icon } from '../../atoms';
 import { MapWrap } from './style';
 
 import styles from '../../../scss/searchMap.module.scss';
@@ -271,7 +271,7 @@ const SearchMap = ({
       {showButton && (
         <Button
           type={ButtonType.LINEPRIMARY}
-          icon={<ReloadOutlined />}
+          icon={<Icon icon={<BiRevision />} />}
           onClick={onSearchGyms}
         >
           현 지도에서 검색

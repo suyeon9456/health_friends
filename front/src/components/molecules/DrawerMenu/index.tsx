@@ -2,19 +2,19 @@ import React, { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  CloseOutlined,
-  LoginOutlined,
-  LogoutOutlined,
-  SearchOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+  BiUser,
+  BiX,
+  BiLogInCircle,
+  BiLogOutCircle,
+  BiSearchAlt,
+} from 'react-icons/bi';
 
 import { useShowDispatch } from '@/../store/contextStore';
 import { logoutRequest, userSelector } from '@/../reducers/user';
 
 import { ButtonType } from '@/../@types/utils';
 import { Me } from '@/../@types/user';
-import { Button, Avatar } from '../../atoms';
+import { Button, Avatar, Icon } from '../../atoms';
 import {
   Drawer,
   DrawerBody,
@@ -76,7 +76,7 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
                 )}
                 <Button
                   type={ButtonType.TEXT}
-                  icon={<CloseOutlined />}
+                  icon={<Icon icon={<BiX />} />}
                   onClick={changeShowDrawerMenu}
                 />
               </DrawerHeaderTitle>
@@ -85,7 +85,7 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
               <MemberMenu>
                 <MemberMenuItem>
                   <MenuText onClick={onLogout}>
-                    <LogoutOutlined />
+                    <Icon icon={<BiLogOutCircle />} />
                     로그아웃
                   </MenuText>
                 </MemberMenuItem>
@@ -94,13 +94,13 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
               <MemberMenu>
                 <MemberMenuItem>
                   <MenuText onClick={() => onChangePage('login')}>
-                    <LoginOutlined />
+                    <Icon icon={<BiLogInCircle />} />
                     로그인
                   </MenuText>
                 </MemberMenuItem>
                 <MemberMenuItem>
                   <MenuText onClick={() => onChangePage('signup')}>
-                    <UserOutlined />
+                    <Icon icon={<BiUser />} />
                     회원가입
                   </MenuText>
                 </MemberMenuItem>
@@ -112,7 +112,7 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
                   <MenuItem>
                     <MenuTitle>
                       <MenuText onClick={() => onChangePage('myinfo')}>
-                        <UserOutlined />
+                        <Icon icon={<BiUser />} />
                         {me?.nickname}님 프로필
                       </MenuText>
                     </MenuTitle>
@@ -121,7 +121,7 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
                 <MenuItem>
                   <MenuTitle>
                     <MenuText onClick={() => onChangePage('friends')}>
-                      <SearchOutlined />
+                      <Icon icon={<BiSearchAlt />} />
                       친구찾기
                     </MenuText>
                   </MenuTitle>

@@ -1,5 +1,5 @@
-import { CheckSquareOutlined, DeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
+import { BiCheckSquare, BiTrash } from 'react-icons/bi';
 
 export const ThumbnailContainer = styled.div`
   position: relative;
@@ -63,7 +63,7 @@ export const ThumbnailButtonWrap = styled.span`
   transition: all 0.3s;
 `;
 
-export const ThumbnailUploadCheckButton = styled(CheckSquareOutlined)`
+export const ThumbnailUploadCheckButton = styled(BiCheckSquare)`
   transition: color 0.3s ease;
   color: #fff;
   font-size: 16px;
@@ -74,7 +74,7 @@ export const ThumbnailUploadCheckButton = styled(CheckSquareOutlined)`
   margin: 5px;
 `;
 
-export const ThumbnailRemoveButton = styled(DeleteOutlined)`
+export const ThumbnailRemoveButton = styled(BiTrash)`
   height: 20px;
   color: #fff;
   line-height: 1;

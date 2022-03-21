@@ -98,10 +98,12 @@ export const DrawerHeaderTitle = styled.div`
   & > button {
     color: #00000073;
     font-weight: 700;
-    font-size: 16px;
     text-align: right;
     padding-right: 0;
     line-height: 1;
+    & > span {
+      font-size: 24px;
+    }
   }
 `;
 
@@ -170,7 +172,7 @@ export const MenuText = styled.a`
 
   & > span {
     margin-right: 10px;
-    font-size: 16px;
+    font-size: 18px;
   }
 `;
 

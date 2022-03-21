@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import isEmpty from 'lodash/isEmpty';
-import { CloseOutlined } from '@ant-design/icons';
+import { BiX } from 'react-icons/bi';
 
 import { ButtonType, ButtonTypeT } from '@/../@types/utils';
 import {
@@ -15,7 +15,7 @@ import {
   ModalTitle,
   ModalWrap,
 } from './style';
-import { Form, Button } from '../../atoms';
+import { Form, Button, Icon } from '../../atoms';
 
 const Modal = ({
   show,
@@ -67,7 +67,7 @@ const Modal = ({
         <ModalBox>
           <ModalContent>
             <ModalClose onClick={onCancel}>
-              <CloseOutlined />
+              <Icon icon={<BiX />} />
             </ModalClose>
             <ModalHeader>
               <ModalTitle>{title}</ModalTitle>

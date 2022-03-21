@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import {
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-  ExclamationCircleOutlined,
-  WarningOutlined,
-} from '@ant-design/icons';
+  BiCheckCircle,
+  BiErrorCircle,
+  BiInfoSquare,
+  BiXCircle,
+} from 'react-icons/bi';
 
 export const AlertContainer = styled.div`
   overflow-y: auto;
@@ -51,22 +51,22 @@ export const AlertIconWrapper = styled.div`
   width: 100%;
 `;
 
-export const AlertErrorIcon = styled(CloseCircleOutlined)`
+export const AlertErrorIcon = styled(BiXCircle)`
   font-size: 40px;
   color: #ff4d4f;
 `;
 
-export const AlertWarningIcon = styled(WarningOutlined)`
+export const AlertWarningIcon = styled(BiInfoSquare)`
   font-size: 40px;
   color: #faad14;
 `;
 
-export const AlertSuccessIcon = styled(CheckCircleOutlined)`
+export const AlertSuccessIcon = styled(BiCheckCircle)`
   font-size: 40px;
   color: #1890ff;
 `;
 
-export const AlertPrimaryIcon = styled(ExclamationCircleOutlined)`
+export const AlertPrimaryIcon = styled(BiErrorCircle)`
   font-size: 40px;
   color: #b37feb;
 `;

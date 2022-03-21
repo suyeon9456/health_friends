@@ -5,11 +5,10 @@ import {
   FieldError,
   FieldValues,
   Path,
-  UseControllerProps,
 } from 'react-hook-form';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { BiErrorCircle } from 'react-icons/bi';
 
-import { ErrorMessage, Input } from '@/components/atoms';
+import { ErrorMessage, Icon, Input } from '@/components/atoms';
 import { InputTypeT, SizeTypeT } from '@/../@types/utils';
 import { Essential, Label } from './style';
 
@@ -65,7 +64,7 @@ const FormInput = <T extends FieldValues>({
     />
     {error && (
       <ErrorMessage>
-        <ExclamationCircleOutlined /> {error.message}
+        <Icon icon={<BiErrorCircle />} /> {error.message}
       </ErrorMessage>
     )}
   </div>

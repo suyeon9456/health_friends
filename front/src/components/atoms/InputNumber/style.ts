@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 import { SizeType, SizeTypeT } from '@/../@types/utils';
 
 export const InputNumberWrap = styled.span<{ size?: SizeTypeT }>`
@@ -72,7 +72,7 @@ export const NumberHandlerUp = styled.span`
   position: relative;
 `;
 
-export const NumberHandlerUpInner = styled(UpOutlined)`
+export const NumberHandlerUpInner = styled(BiChevronUp)`
   top: 50%;
   margin-top: -5px;
   display: inline-block;
@@ -107,7 +107,7 @@ export const NumberHandlerDown = styled.span`
   position: relative;
 `;
 
-export const NumberHandlerDownInner = styled(DownOutlined)`
+export const NumberHandlerDownInner = styled(BiChevronDown)`
   top: 50%;
   margin-top: -5px;
   display: inline-block;

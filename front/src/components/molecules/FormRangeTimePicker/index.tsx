@@ -1,6 +1,5 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
-import { SwapRightOutlined } from '@ant-design/icons';
 import {
   Control,
   Controller,
@@ -8,6 +7,7 @@ import {
   FieldValues,
   Path,
 } from 'react-hook-form';
+import { BiRightArrowAlt } from 'react-icons/bi';
 
 import { BaseSizeTypeT, PickerType } from '@/../@types/utils';
 import {
@@ -16,7 +16,7 @@ import {
   Separator,
 } from '../../atoms/RangeTimePicker/style';
 import { Label, Essential } from '../FormTimePicker/style';
-import { CustomPickerInput, CustomCalendar } from '../../atoms';
+import { CustomPickerInput, CustomCalendar, Icon } from '../../atoms';
 
 interface FormRangeTimePickerType<T> {
   label: string;
@@ -65,7 +65,7 @@ const FormRangeTimePicker = <T extends FieldValues>({
       />
       <RangeSeparator>
         <Separator>
-          <SwapRightOutlined />
+          <Icon icon={<BiRightArrowAlt />} />
         </Separator>
       </RangeSeparator>
       <Controller

@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { LeftOutlined, RightOutlined, TeamOutlined } from '@ant-design/icons';
+import { BiChevronLeft, BiChevronRight, BiGroup } from 'react-icons/bi';
 
 import {
   gymSelector,
@@ -16,7 +16,7 @@ import {
 } from '@/../reducers/gym';
 import useInput from '../../../hooks/useInput';
 
-import { Search, Item } from '../../atoms';
+import { Search, Item, Icon } from '../../atoms';
 import SearchFriends from '../SearchFriends';
 import SearchSidebar from '../SearchSidebar';
 import {
@@ -133,7 +133,11 @@ const SearchGyms = ({
           onClick={changeFoldedGym}
           className="fold-button"
         >
-          {foldedGym ? <RightOutlined /> : <LeftOutlined />}
+          {foldedGym ? (
+            <Icon icon={<BiChevronRight />} />
+          ) : (
+            <Icon icon={<BiChevronLeft />} />
+          )}
         </FoldButton>
       )}
       <GymWrapper foldedGym={foldedGym}>
@@ -164,7 +168,7 @@ const SearchGyms = ({
                   <div>
                     <span>{gym.address}</span>
                     <div>
-                      <TeamOutlined /> {gym.Users.length}명
+                      <Icon icon={<BiGroup />} /> {gym.Users.length}명
                     </div>
                   </div>
                 }

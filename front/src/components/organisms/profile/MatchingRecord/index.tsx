@@ -1,14 +1,14 @@
 import React, { useCallback, useState } from 'react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
-import { PlusOutlined } from '@ant-design/icons';
+import { BiPlus } from 'react-icons/bi';
 import isEmpty from 'lodash/isEmpty';
 
 import { RecordScheduleFetch } from '@/../@types/schedule';
 import useCheckbox from '@/hooks/useCheckbox';
 import { ButtonType } from '@/../@types/utils';
 import { Filter } from '../../../molecules';
-import { Button, CheckBox } from '../../../atoms';
+import { Button, CheckBox, Icon } from '../../../atoms';
 import MatchingCardList from '../../MatchingCardList';
 import {
   CancelYnCheckBoxWrap,
@@ -124,7 +124,7 @@ const MatchingRecord = () => {
         <Button
           type={ButtonType.PRIMARY}
           disabled={count || schedules.length >= 0}
-          icon={<PlusOutlined />}
+          icon={<Icon icon={<BiPlus />} />}
           onClick={onMoreSchedule}
         >
           더보기

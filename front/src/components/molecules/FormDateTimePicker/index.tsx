@@ -7,10 +7,15 @@ import {
   FieldValues,
   Path,
 } from 'react-hook-form';
-import { CalendarOutlined, SwapRightOutlined } from '@ant-design/icons';
+import { BiCalendar, BiRightArrowAlt } from 'react-icons/bi';
 
 import { BaseSizeTypeT, PickerType } from '@/../@types/utils';
-import { CustomCalendar, CustomPickerInput, ErrorMessage } from '../../atoms';
+import {
+  CustomCalendar,
+  CustomPickerInput,
+  ErrorMessage,
+  Icon,
+} from '../../atoms';
 import {
   RangeSeparator,
   RangeTimePickerWrap,
@@ -67,7 +72,7 @@ const FormDateTimePicker = <T extends FieldValues>({
       />
       <RangeSeparator>
         <Separator>
-          <SwapRightOutlined />
+          <Icon icon={<BiRightArrowAlt />} />
         </Separator>
       </RangeSeparator>
       <Controller
@@ -92,7 +97,8 @@ const FormDateTimePicker = <T extends FieldValues>({
     </RangeTimePickerWrap>
     {error && (
       <ErrorMessage>
-        <CalendarOutlined /> {error.startError?.message ?? error.endError}
+        <Icon icon={<BiCalendar />} />{' '}
+        {error.startError?.message ?? error.endError}
       </ErrorMessage>
     )}
   </div>
