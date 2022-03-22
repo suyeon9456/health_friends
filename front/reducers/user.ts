@@ -115,19 +115,20 @@ const userSlice = createSlice({
       state.addLikeError = action.payload;
     },
     changeNickname(state, action) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       state.me!.nickname = action.payload;
     },
-  }
+  },
 });
 
 export const loginSelector = createDraftSafeSelector(
   (state: RootState) => state.user.loginError,
-  (loginError) => ({ loginError }),
-)
+  (loginError) => ({ loginError })
+);
 
 export const userSelector = createDraftSafeSelector(
   (state: RootState) => state.user.me,
-  (me) => ({ me }),
+  (me) => ({ me })
 );
 
 export const signupSelector = createDraftSafeSelector(
@@ -143,7 +144,7 @@ export const signupSelector = createDraftSafeSelector(
     signupStepMoreInfo,
     signupStepGymInfo,
     signupStepFriendsInfo,
-    selectedGym,
+    selectedGym
   ) => ({
     signupProcess,
     signupStepInfo,
@@ -151,7 +152,7 @@ export const signupSelector = createDraftSafeSelector(
     signupStepGymInfo,
     signupStepFriendsInfo,
     selectedGym,
-  }),
+  })
 );
 
 export const {
@@ -175,5 +176,5 @@ export const {
   addLikeSuccess,
   addLikeError,
   changeNickname,
-} = userSlice.actions
+} = userSlice.actions;
 export default userSlice.reducer;

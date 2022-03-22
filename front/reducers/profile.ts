@@ -1,6 +1,7 @@
-import { ProfileInitialState } from "../@types/reducer/state";
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { createDraftSafeSelector, createSlice } from '@reduxjs/toolkit';
-import { RootState } from "../store/configureStore";
+import { ProfileInitialState } from '../@types/reducer/state';
+import { RootState } from '../store/configureStore';
 
 const initialState: ProfileInitialState = {
   loadInfoLoading: false,
@@ -41,8 +42,14 @@ const profileSlice = createSlice({
       state.loadInfoError = null;
     },
     loadProfileInfoSuccess(state, action) {
-      const matchingTotalCount = action.payload.matching.length > 0 ? action.payload.matching[0].matchingCount : 0;
-      const matchingRecount = action.payload.matching.length > 0 ? action.payload.matching[0].rematchingCount : 0;
+      const matchingTotalCount =
+        action.payload.matching.length > 0
+          ? action.payload.matching[0].matchingCount
+          : 0;
+      const matchingRecount =
+        action.payload.matching.length > 0
+          ? action.payload.matching[0].rematchingCount
+          : 0;
       state.loadInfoLoading = false;
       state.loadInfoDone = true;
       state.loadInfoError = null;
@@ -51,7 +58,9 @@ const profileSlice = createSlice({
         ...action.payload.user,
         matchingTotalCount,
         matchingRecount,
-        mathcing: action.payload.matching.map(({ FriendId }: { FriendId: number }) => FriendId),
+        mathcing: action.payload.matching.map(
+          ({ FriendId }: { FriendId: number }) => FriendId
+        ),
       };
     },
     loadProfileInfoError(state, action) {
@@ -65,8 +74,14 @@ const profileSlice = createSlice({
       state.loadMyinfoError = null;
     },
     loadProfileMyinfoSuccess(state, action) {
-      const matchingTotalCount = action.payload.matching.length > 0 ? action.payload.matching[0].matchingCount : 0;
-      const matchingRecount = action.payload.matching.length > 0 ? action.payload.matching[0].rematchingCount : 0;
+      const matchingTotalCount =
+        action.payload.matching.length > 0
+          ? action.payload.matching[0].matchingCount
+          : 0;
+      const matchingRecount =
+        action.payload.matching.length > 0
+          ? action.payload.matching[0].rematchingCount
+          : 0;
       state.loadMyinfoLoading = false;
       state.loadMyinfoDone = true;
       state.loadMyinfoError = null;
@@ -75,7 +90,9 @@ const profileSlice = createSlice({
         Liked: action.payload.myinfo.Liked.map(({ id }: { id: number }) => id),
         matchingTotalCount,
         matchingRecount,
-        mathcing: action.payload.matching.map(({ FriendId }: { FriendId: number }) => FriendId),
+        mathcing: action.payload.matching.map(
+          ({ FriendId }: { FriendId: number }) => FriendId
+        ),
       };
     },
     loadProfileMyinfoError(state, action) {
@@ -198,7 +215,7 @@ export const profileSelector = createDraftSafeSelector(
     updateMyDescriptionDone,
     profile,
     imagePath,
-    uploadProfileImageError,
+    uploadProfileImageError
   ) => ({
     updateMyNicknameDone,
     updateMyDescriptionDone,
@@ -234,5 +251,5 @@ export const {
   addProfileImageSuccess,
   addProfileImageError,
   removeProfileImage,
-} = profileSlice.actions
+} = profileSlice.actions;
 export default profileSlice.reducer;

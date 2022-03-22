@@ -1,6 +1,6 @@
 const express = require('express');
 const { Op } = require('sequelize');
-const { Gym, User, Userdetail, Image } = require('../models');
+const { Gym, User, Userdetail, Image, Schedule } = require('../models');
 
 const router = express.Router();
 router.get('/', async (req, res, next) => { // GET /gym/
@@ -45,10 +45,6 @@ router.get('/:gymId', async (req, res, next) => { // GET /gym/1
     if (!gym) {
       return res.status(404).send('존재하지 않는 헬스장입니다.');
     }
-
-    // if(parseInt(req.query.lastId, 10)) {
-    //   where.id = { [Op.lt]: parseInt(req.query.lastId, 10) }
-    // }
     const userWhere = {};
     if (req.user) {
       userWhere.id = {
@@ -68,6 +64,14 @@ router.get('/:gymId', async (req, res, next) => { // GET /gym/1
           attributes: ['startTime', 'endTime', 'description', 'rematchingRate'],
         }, {
           model: Image,
+        }, {
+          model: Schedule,
+          as: 'reqSchedule',
+          attributes: ['id', 'RematchId', 'permission'],
+        }, {
+          model: Schedule,
+          as: 'resSchedule',
+          attributes: ['id', 'RematchId', 'permission'],
         }]
       }],
     });

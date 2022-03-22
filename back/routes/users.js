@@ -1,11 +1,7 @@
 const express = require('express');
 const { Op } = require('sequelize');
 const { User, Userdetail, Gym, Schedule, Image } = require('../models');
-const bcrypt = require('bcrypt');
-const passport = require('passport');
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs'); // 파일시스템을 조작할 수 있다.
 
 const { isNotLoggedIn, isLoggedIn } = require('./middlewares');
 const schedule = require('../models/schedule');
@@ -108,36 +104,6 @@ router.get('/rankedFriends', async (req, res, next) => { // GET /users/rankedFri
         attributes: ['id'],
       }],
     });
-    // const reqMatching = await Schedule.findAll({
-    //   where: {
-    //     permission: true,
-    //     isPermitted: true,
-    //   },
-    //   limit: 5,
-    //   attributes: ['UserId', [Sequelize.fn('count', '*'), 'count']],
-    //   include: [{
-    //     model: User,
-    //     as: 'Requester',
-    //     attributes: ['nickname'],
-    //   }],
-    //   group: 'UserId',
-    //   order: [[Sequelize.literal('count'), 'DESC']],
-    // });
-    // const resMatching = await Schedule.findAll({
-    //   where: {
-    //     permission: true,
-    //     isPermitted: true,
-    //   },
-    //   limit: 5,
-    //   attributes: [['FriendId', 'UserId'], [Sequelize.fn('count', '*'), 'count']],
-    //   include: [{
-    //     model: User,
-    //     as: 'Friend',
-    //     attributes: ['nickname'],
-    //   }],
-    //   group: 'FriendId',
-    //   order: [[Sequelize.literal('count'), 'DESC']],
-    // });
     res.status(200).json({ rematching, matching: reqMatching.concat(resMatching) });
   } catch (error) {
     console.error(error);
@@ -170,7 +136,7 @@ router.get('/realtimeMathcing', async (req, res, next) => { // GET /users/realti
         attributes: ['id', 'UserId'],
         include: [{
           model: Gym,
-          attributes: ['id', 'name'],
+          attributes: ['id', 'name', 'address'],
         }, {
           model: User,
           as: 'Receiver',

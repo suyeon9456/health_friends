@@ -1,5 +1,6 @@
-import { GymInitialState } from '../@types/reducer/state';
 import { createDraftSafeSelector, createSlice } from '@reduxjs/toolkit';
+import { GymInitialState } from '../@types/reducer/state';
+import { Image } from '../@types/image';
 import { RootState } from '../store/configureStore';
 
 const initialState: GymInitialState = {
@@ -62,10 +63,55 @@ const gymSlice = createSlice({
       state.loadFriendsError = null;
     },
     loadFriendsSuccess(state, action) {
+      console.log(action.payload);
+      const { Users } = action.payload;
       state.loadFriendsLoading = false;
       state.loadFriendsDone = true;
       state.loadFriendsError = null;
-      state.gym = action.payload;
+      state.gym = {
+        ...action.payload,
+        Users: Users.map(
+          (user: {
+            Image: Image;
+            UserGym: {
+              createdAt: string;
+              updatedAt: string;
+              UserId: number;
+              GymId: number;
+            };
+            Userdetail: {
+              startTime: string;
+              endTime: string;
+              description: string;
+            };
+            gender: 'femail' | 'male';
+            id: number;
+            nickname: string;
+            reqSchedule: Array<{
+              id: number;
+              permission: boolean;
+              RematchId: number | null;
+            }>;
+            resSchedule: Array<{
+              id: number;
+              permission: boolean;
+              RematchId: number | null;
+            }>;
+          }) => {
+            return {
+              ...user,
+              totalCount: user?.reqSchedule?.length + user?.resSchedule?.length,
+              rematchCount:
+                user?.reqSchedule?.filter(
+                  (req) => !!req.permission && !!req.RematchId
+                )?.length +
+                user?.resSchedule?.filter(
+                  (res) => !!res.permission && !!res.RematchId
+                )?.length,
+            };
+          }
+        ),
+      };
     },
     loadFriendsError(state, action) {
       state.loadFriendsLoading = false;
@@ -78,7 +124,7 @@ const gymSlice = createSlice({
     isLoadGyms(state, action) {
       state.isLoadGyms = action.payload;
     },
-  }
+  },
 });
 
 export const gymSelector = createDraftSafeSelector(
@@ -110,5 +156,5 @@ export const {
   loadFriendsError,
   changeMapBounds,
   isLoadGyms,
-} = gymSlice.actions
+} = gymSlice.actions;
 export default gymSlice.reducer;

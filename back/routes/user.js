@@ -92,8 +92,6 @@ router.get('/profile/myinfo', isLoggedIn, async (req, res, next) => {
       }]
     });
 
-    console.log('test2');
-
     const matching = await Schedule.findAll({
       attributes: [
         'FriendId',

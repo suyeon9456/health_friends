@@ -1,10 +1,18 @@
 import { Gyms } from '../gym';
 import { Schedules } from '../schedule';
-import { Me, Profile, RealtimeMatching, SignupFriendsInfo, SignupGymInfo, SignupInfo, SignupMoreInfo } from '../user';
+import {
+  Me,
+  Profile,
+  RealtimeMatching,
+  SignupFriendsInfo,
+  SignupGymInfo,
+  SignupInfo,
+  SignupMoreInfo,
+} from '../user';
 import { SignupMenuType } from '../utils';
 
 /* USER INITIAL STATE */
-export type UserInitialState = {
+export interface UserInitialState {
   loadMyInfoLoading: boolean;
   loadMyInfoDone: boolean;
   loadMyInfoError: string | null;
@@ -21,13 +29,13 @@ export type UserInitialState = {
   signupStepInfo: SignupInfo | null;
   signupStepMoreInfo: SignupMoreInfo | null;
   signupStepGymInfo: SignupGymInfo | null;
-  signupStepFriendsInfo: SignupFriendsInfo| null;
+  signupStepFriendsInfo: SignupFriendsInfo | null;
   selectedGym: {} | null;
   me: Me | null;
-};
+}
 
 /* PROFILE INITIAL STATE */
-export type ProfileInitialState = {
+export interface ProfileInitialState {
   loadInfoLoading: boolean;
   loadInfoDone: boolean;
   loadInfoError: string | null;
@@ -57,25 +65,25 @@ export type ProfileInitialState = {
 }
 
 /* GYM INITIAL STATE */
-export type GymInitialState = {
-  addGymLoading: boolean,
-  addGymDone: boolean,
-  addGymError: string | null,
-  loadGymLoading: boolean,
-  loadGymDone: boolean,
-  loadGymError: string | null,
-  loadFriendsLoading: boolean,
-  loadFriendsDone: boolean,
-  loadFriendsError: string | null,
-  isLoadGyms: boolean,
-  hasMoreGyms: boolean,
-  mapBounds: {},
-  gyms: Gyms | [],
-  gym: {},
+export interface GymInitialState {
+  addGymLoading: boolean;
+  addGymDone: boolean;
+  addGymError: string | null;
+  loadGymLoading: boolean;
+  loadGymDone: boolean;
+  loadGymError: string | null;
+  loadFriendsLoading: boolean;
+  loadFriendsDone: boolean;
+  loadFriendsError: string | null;
+  isLoadGyms: boolean;
+  hasMoreGyms: boolean;
+  mapBounds: {};
+  gyms: Gyms | [];
+  gym: {};
 }
 
 /* SCHEDULE INITIAL STATE */
-export type ScheduleInitialState = {
+export interface ScheduleInitialState {
   addScheduleLoading: boolean;
   addScheduleDone: boolean;
   addScheduleError: string | null;
@@ -99,4 +107,3 @@ export type ScheduleInitialState = {
   addPermissionError: string | null;
   schedule: Schedule | null;
 }
-

@@ -1,6 +1,6 @@
-import { CalendarEvent } from "calendar";
-import { Image } from "./image";
-import { FriendsList, User } from "./user";
+import { CalendarEvent } from 'calendar';
+import { Image } from './image';
+import { FriendsList, User } from './user';
 
 export interface Mathcing {
   id: number;
@@ -12,24 +12,24 @@ export interface Mathcing {
 export interface Rematching {
   id: number;
   nickname: string;
-  Userdetail: {id: number, rematchingRate: number};
+  Userdetail: { id: number; rematchingRate: number };
 }
 
 export interface FetchRecommendData {
-  fullFriends: FriendsList; 
+  fullFriends: FriendsList;
   closedFriends: FriendsList;
 }
 
 export interface FetchRankedFriends {
-  matching: Array<Mathcing>;
-  rematching: Array<Rematching>;
-};
+  matching: Mathcing[];
+  rematching: Rematching[];
+}
 
 export interface LikedFriend extends User {
   Image: Image;
 }
 
-export type FetchLikedFriends = Array<LikedFriend>;
+export type FetchLikedFriends = LikedFriend[];
 
 export interface RealtimeMatching extends User {
   reqSchedule: Array<{
@@ -39,11 +39,11 @@ export interface RealtimeMatching extends User {
       nickname: string;
       Image: Image;
     };
-    Gym: { id: number; name: string };
+    Gym: { id: number; name: string; address: string };
   }>;
   Image: Image;
   Gyms?: Array<{ id: number; name: string }>;
-  Friend?: Array<{ id: number; nickname: string; Image: Array<Image> }>;
+  Friend?: Array<{ id: number; nickname: string; Image: Image[] }>;
 }
 
 // export interface RecordSchedule {
@@ -72,7 +72,7 @@ export interface RealtimeMatching extends User {
 //   schedules: Array<RecordSchedule>;
 // };
 
-export type ScheduleType = {
+export interface ScheduleType {
   schedule: RecordSchedule;
   userMatching: Array<{
     FriendId: number;
@@ -87,4 +87,3 @@ export type ScheduleType = {
 }
 
 // export type MatchingCardSchedule
-
