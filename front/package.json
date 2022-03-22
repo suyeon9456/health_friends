@@ -1,5 +1,6 @@
 {
   "name": "health_friends_front",
+  "sideEffects": false,
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
