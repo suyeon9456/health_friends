@@ -6,7 +6,6 @@ export const MatchingCoupleWrap = styled.section`
 `;
 
 export const MatchingCoupleHeader = styled.div`
-  /* background-color: #FF9100; */
   position: absolute;
   top: 0;
   left: 0;
@@ -45,17 +44,23 @@ export const CoupleCardList = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(20%, auto));
   margin-top: 50px;
   grid-template-columns: 1fr 1fr 1fr;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const CoupleCard = styled.div`
+  padding: 25px 10px;
   position: relative;
-  /* width: 300px; */
   height: 220px;
   background-color: #ffffff;
   border: 1px solid rgb(230, 230, 230);
   border-radius: 5px;
   box-shadow: rgb(0 0 0 / 3%) 0px 5px 16px 0px;
-  display: flex;
+  & > .avatar-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 `;
 
 export const NoDataCard = styled.div`
@@ -88,25 +93,35 @@ export const NoDataText = styled.div`
 `;
 
 export const AvatarWrap = styled.div`
-  flex-grow: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   font-size: 14px;
   font-weight: 600;
+
+  & + & {
+    margin-left: 10px;
+  }
+
+  & > div {
+    font-size: 14px;
+
+    & > a {
+      color: rgb(89, 89, 89);
+      text-decoration: none;
+    }
+  }
 `;
 
 export const MatchingIcon = styled.div`
-  flex-grow: 1;
-  font-size: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  font-size: 16px;
   color: rgb(89, 89, 89);
-  & > .gym-name {
-    font-size: 12px;
+  & > div > .gym-name {
+    font-size: 14px;
     font-weight: 600;
+  }
+
+  & > .gym-address {
+    height: 50px;
+    padding: 2px 5px;
+    font-size: 12px;
   }
 `;

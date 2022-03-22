@@ -37,7 +37,7 @@ const LikedList = () => {
   );
 
   return (
-    <LikedListWrap dataSize={likedFriends?.length}>
+    <LikedListWrap>
       <LikedListBody>
         {!isEmpty(likedFriends) ? (
           likedFriends?.map((friend) => (

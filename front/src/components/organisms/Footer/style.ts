@@ -58,8 +58,9 @@ export const IconWrap = styled.div`
   }
   & > a > .icon-back {
     display: inline-block;
-    width: 24px;
-    height: 24px;
+    margin-top: 5px;
+    width: 22px;
+    height: 22px;
     background-color: #595959;
     border-radius: 50%;
     color: #ffffff;

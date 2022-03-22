@@ -2,40 +2,28 @@ import styled, { css } from 'styled-components';
 
 export const LikedListWrap = styled.div`
   position: relative;
-  width: 100% - 10px;
+  width: calc(100% - 10px);
   min-height: 626px;
-  border-radius: 5px;
   @media (max-width: 767px) {
     margin-left: 0;
   }
   margin-left: 10px;
   margin-top: 10px;
   box-sizing: border-box;
-  overflow: hidden;
-  ${({ dataSize = 0 }: { dataSize?: number }) =>
-    dataSize <= 0 &&
-    css`
-      display: flex;
-      justify-content: center;
-      background-color: #ffffff;
-      border: 1px solid #f0f0f0;
-      text-align: center;
-      min-height: 326px;
-      & > div {
-        align-self: center;
-      }
-    `}
 `;
 
 export const LikedListBody = styled.div`
   display: block;
-  width: auto;
-  text-align: left;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(25%, auto));
+  gap: 10px;
+  @media (max-width: 767px) {
+    grid-template-columns: repeat(auto-fill, minmax(50%, auto));
+  }
 `;
 
 export const Card = styled.div`
   display: inline-block;
-  width: 24%;
   height: 190px;
   border: 1px solid #f0f0f0;
   box-sizing: border-box;
@@ -51,28 +39,6 @@ export const Card = styled.div`
   background: #fff;
   border-radius: 8px;
   text-align: center;
-
-  @media (min-width: 951px) {
-    &:nth-child(2n) {
-      margin: 0 5px;
-    }
-    &:not(:nth-child(-n + 4)) {
-      margin-top: 4px;
-    }
-  }
-  box-sizing: border-box;
-  @media (max-width: 950px) {
-    width: 32%;
-    &:not(:nth-child(3n)):not(:nth-child(3n + 1)) {
-      margin: 0 5px;
-    }
-    &:not(:nth-child(-n + 3)) {
-      margin-top: 4px;
-    }
-  }
-  @media (max-width: 767px) {
-    width: 100%;
-  }
 `;
 
 export const CardCover = styled.div`

@@ -26,7 +26,7 @@ export const StyledAvatar = styled.span<AvatarProps>`
         width: 24px;
         height: 24px;
         line-height: 24px;
-        & > .anticon-user {
+        & > span {
           font-size: 12px;
         }
       `;
@@ -36,7 +36,7 @@ export const StyledAvatar = styled.span<AvatarProps>`
         width: 40px;
         height: 40px;
         line-height: 40px;
-        & > .anticon-user {
+        & > span {
           font-size: 20px;
         }
       `;
@@ -46,7 +46,7 @@ export const StyledAvatar = styled.span<AvatarProps>`
         width: ${size}px;
         height: ${size}px;
         line-height: ${size}px;
-        & > .anticon-user {
+        & > span {
           font-size: ${size ? +size : 0 / 2}px;
         }
       `;
@@ -56,7 +56,7 @@ export const StyledAvatar = styled.span<AvatarProps>`
       height: 32px;
       line-height: 32px;
 
-      & > .anticon-user {
+      & > span {
         font-size: 16px;
       }
     `;

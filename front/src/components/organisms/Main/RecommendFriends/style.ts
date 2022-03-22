@@ -95,6 +95,9 @@ export const CardAvatarWrap = styled.div`
   background-color: rgb(244, 245, 247);
   text-align: center;
   border-radius: 5px;
+  & > span {
+    font-size: 36px;
+  }
 `;
 
 export const CardContentWrap = styled.div`

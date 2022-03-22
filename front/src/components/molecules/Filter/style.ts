@@ -54,12 +54,15 @@ export const FilterArrrowWrap = styled.span`
   right: 11px;
   width: 12px;
   height: 12px;
-  margin-top: -6px;
+  margin-top: -10px;
   color: #00000040;
-  font-size: 12px;
   line-height: 1;
   text-align: center;
   pointer-events: none;
+
+  & > span {
+    font-size: 18px;
+  }
 `;
 
 export const FilterContent = styled.div<{ show: boolean }>`

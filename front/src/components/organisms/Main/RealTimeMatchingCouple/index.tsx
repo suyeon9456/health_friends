@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import axios, { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
@@ -54,20 +55,35 @@ const RealTimeMatchingCouple = () => {
               const resAvatarSrc = resImageSrc || '';
               return (
                 <CoupleCard key={matching.id}>
-                  <AvatarWrap>
-                    <Avatar size={82} src={reqAvatarSrc} />
-                    {matching.nickname}
-                  </AvatarWrap>
                   <MatchingIcon>
-                    <Icon icon={<BiMap />} />
-                    <span className="gym-name">
-                      {matching.reqSchedule[0].Gym.name}
-                    </span>
+                    <div>
+                      <Icon icon={<BiMap />} />
+                      <span className="gym-name">
+                        {matching.reqSchedule[0].Gym.name}
+                      </span>
+                    </div>
+                    <div className="gym-address">
+                      {matching.reqSchedule[0].Gym.address}
+                    </div>
                   </MatchingIcon>
-                  <AvatarWrap>
-                    <Avatar size={82} src={resAvatarSrc} />
-                    {matching.reqSchedule[0]?.Receiver?.nickname}
-                  </AvatarWrap>
+                  <div className="avatar-wrap">
+                    <AvatarWrap>
+                      <Avatar size={62} src={reqAvatarSrc} />
+                      <div>
+                        <Link href={`/profile/${matching.id}`}>
+                          <a>{matching.nickname}</a>
+                        </Link>
+                      </div>
+                    </AvatarWrap>
+                    <AvatarWrap>
+                      <Avatar size={62} src={resAvatarSrc} />
+                      <div>
+                        <Link href={`/profile/${matching.reqSchedule[0].id}`}>
+                          <a>{matching.reqSchedule[0]?.Receiver?.nickname}</a>
+                        </Link>
+                      </div>
+                    </AvatarWrap>
+                  </div>
                 </CoupleCard>
               );
             })

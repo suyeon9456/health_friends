@@ -144,4 +144,8 @@ export const MenuText = styled.a`
   & > img {
     height: 46px;
   }
+
+  & > span {
+    font-size: 18px;
+  }
 `;

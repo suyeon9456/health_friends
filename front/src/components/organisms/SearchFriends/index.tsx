@@ -7,6 +7,7 @@ import { gymSelector } from '@/../reducers/gym';
 import { useModalDispatch } from '@/../store/modalStore';
 import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/utils';
 import { Icon } from '@/components/atoms';
+import useRematchRate from '@/hooks/useRematchRate';
 import { PropfileCard } from '../../molecules';
 import Button from '../../atoms/Button';
 import {
@@ -88,6 +89,8 @@ const SearchFriends = ({
             gym?.Users.map(
               (user: {
                 id: number;
+                totalCount: number;
+                rematchCount: number;
                 nickname: string;
                 Userdetail: {
                   description: string;
@@ -98,14 +101,15 @@ const SearchFriends = ({
               }) => {
                 const imageSrc = user?.Image?.src;
                 const cardImageSrc = imageSrc || '';
+                const percent = user.rematchCount
+                  ? useRematchRate(user.rematchCount, user.totalCount)
+                  : 0;
                 return (
                   <PropfileCard
                     key={user.id}
                     image={cardImageSrc}
                     nickname={user.nickname}
-                    // description={user.Userdetail.description}
-                    // date={user.Userdetail.startTime}
-                    percent={user.Userdetail.rematchingRate}
+                    percent={percent}
                     onClick={onShowMatchingModal(user)}
                     onLike={onLike(user)}
                   />

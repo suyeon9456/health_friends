@@ -99,7 +99,6 @@ const SideBar = ({
   }, []);
 
   const onShowMatchingModal = useCallback(() => {
-    // setShowModal(true);
     contextDispatch({
       type: 'SHOW_CUSTOM_MODAL',
       payload: 'id',

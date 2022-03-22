@@ -123,7 +123,7 @@ const MatchingRecord = () => {
       <RecordFooter>
         <Button
           type={ButtonType.PRIMARY}
-          disabled={count || schedules.length >= 0}
+          disabled={count - schedules.length <= 0}
           icon={<Icon icon={<BiPlus />} />}
           onClick={onMoreSchedule}
         >
