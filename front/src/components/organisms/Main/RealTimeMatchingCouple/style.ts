@@ -96,6 +96,7 @@ export const AvatarWrap = styled.div`
   display: inline-block;
   font-size: 14px;
   font-weight: 600;
+  cursor: pointer;
 
   & + & {
     margin-left: 10px;
@@ -103,11 +104,7 @@ export const AvatarWrap = styled.div`
 
   & > div {
     font-size: 14px;
-
-    & > a {
-      color: rgb(89, 89, 89);
-      text-decoration: none;
-    }
+    color: rgb(89, 89, 89);
   }
 `;
 

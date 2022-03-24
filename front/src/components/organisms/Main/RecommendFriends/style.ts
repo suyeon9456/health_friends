@@ -50,6 +50,7 @@ export const FriendsCard = styled.div`
   border: 1px solid rgb(230, 230, 230);
   border-radius: 5px;
   box-shadow: rgb(0 0 0 / 3%) 0px 5px 16px 0px;
+  cursor: pointer;
 
   &:hover {
     box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014,
@@ -108,7 +109,6 @@ export const CardContentWrap = styled.div`
 export const ContentTitile = styled.span`
   font-size: 14px;
   font-weight: 600;
-  cursor: pointer;
 `;
 
 export const ContentDescription = styled.div`

@@ -218,22 +218,22 @@ const RecommendFriends = () => {
                   nickname: string;
                   Gyms: Array<{ address: string }>;
                 }) => (
-                  <FriendsCard key={friend.id}>
-                    <CardAvatarWrap>
-                      <Avatar
-                        size={82}
-                        src={friend?.Image ? `${friend?.Image?.src}` : ''}
-                      />
-                    </CardAvatarWrap>
-                    <CardContentWrap>
-                      <Link href={`/profile/${friend?.id}`}>
+                  <Link href={`/profile/${friend?.id}`} key={friend.id}>
+                    <FriendsCard>
+                      <CardAvatarWrap>
+                        <Avatar
+                          size={82}
+                          src={friend?.Image ? `${friend?.Image?.src}` : ''}
+                        />
+                      </CardAvatarWrap>
+                      <CardContentWrap>
                         <ContentTitile>{friend.nickname}</ContentTitile>
-                      </Link>
-                      <ContentDescription>
-                        {friend?.Gyms[0]?.address}
-                      </ContentDescription>
-                    </CardContentWrap>
-                  </FriendsCard>
+                        <ContentDescription>
+                          {friend?.Gyms[0]?.address}
+                        </ContentDescription>
+                      </CardContentWrap>
+                    </FriendsCard>
+                  </Link>
                 )
               )}
             </Slider>

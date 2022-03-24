@@ -28,7 +28,6 @@ const RealTimeMatchingCouple = () => {
     isLoading,
     error,
     data: realtimeMatching,
-    isFetching,
   } = useQuery<RealtimeMatching[] | undefined, AxiosError>(
     'realtimeMatching',
     async () => {
@@ -67,22 +66,21 @@ const RealTimeMatchingCouple = () => {
                     </div>
                   </MatchingIcon>
                   <div className="avatar-wrap">
-                    <AvatarWrap>
-                      <Avatar size={62} src={reqAvatarSrc} />
-                      <div>
-                        <Link href={`/profile/${matching.id}`}>
-                          <a>{matching.nickname}</a>
-                        </Link>
-                      </div>
-                    </AvatarWrap>
-                    <AvatarWrap>
-                      <Avatar size={62} src={resAvatarSrc} />
-                      <div>
-                        <Link href={`/profile/${matching.reqSchedule[0].id}`}>
-                          <a>{matching.reqSchedule[0]?.Receiver?.nickname}</a>
-                        </Link>
-                      </div>
-                    </AvatarWrap>
+                    <Link href={`/profile/${matching.id}`} key="req">
+                      <AvatarWrap>
+                        <Avatar size={62} src={reqAvatarSrc} />
+                        <div>{matching.nickname}</div>
+                      </AvatarWrap>
+                    </Link>
+                    <Link
+                      href={`/profile/${matching.reqSchedule[0].id}`}
+                      key="res"
+                    >
+                      <AvatarWrap>
+                        <Avatar size={62} src={resAvatarSrc} />
+                        <div>{matching.reqSchedule[0]?.Receiver?.nickname}</div>
+                      </AvatarWrap>
+                    </Link>
                   </div>
                 </CoupleCard>
               );

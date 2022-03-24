@@ -95,11 +95,6 @@ export const RankItem = styled.div`
   & span {
     margin-right: 10px;
   }
-
-  & a {
-    color: #000000d9;
-    text-decoration: none;
-  }
 `;
 
 export const NoDataCard = styled.div`

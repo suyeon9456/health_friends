@@ -28,11 +28,9 @@ import {
 
 const RankedFriends = () => {
   const {
-    status,
     isLoading,
     error,
     data: rankedFriends,
-    isFetching,
   } = useQuery<
     { rematching: Rematching[]; matching: Matching[] } | undefined,
     AxiosError
@@ -81,18 +79,14 @@ const RankedFriends = () => {
                   const friendId = friend.id;
                   const profileUrl = ['/profile/', friendId].join('');
                   return (
-                    <RankItemWrap key={friend.id}>
-                      <RankItem>
-                        <span>{index + 1}.</span>
-                        {friend ? (
-                          <Link href={profileUrl}>
-                            <a>{friend.nickname}</a>
-                          </Link>
-                        ) : (
-                          <div>없음</div>
-                        )}
-                      </RankItem>
-                    </RankItemWrap>
+                    <Link href={profileUrl} key={friend.id}>
+                      <RankItemWrap>
+                        <RankItem>
+                          <span>{index + 1}.</span>
+                          <div>{friend ? friend.nickname : '없음'}</div>
+                        </RankItem>
+                      </RankItemWrap>
+                    </Link>
                   );
                 })
               ) : (
@@ -118,18 +112,14 @@ const RankedFriends = () => {
                     const friendId = friend.id;
                     const profileUrl = ['/profile/', friendId].join('');
                     return (
-                      <RankItemWrap key={friend.id}>
-                        <RankItem>
-                          <span>{index + 1}.</span>
-                          {friend ? (
-                            <Link href={profileUrl}>
-                              <a>{friend.nickname}</a>
-                            </Link>
-                          ) : (
-                            <div>없음</div>
-                          )}
-                        </RankItem>
-                      </RankItemWrap>
+                      <Link href={profileUrl} key={friend.id}>
+                        <RankItemWrap key={friend.id}>
+                          <RankItem>
+                            <span>{index + 1}.</span>
+                            <div>{friend ? friend.nickname : '없음'}</div>
+                          </RankItem>
+                        </RankItemWrap>
+                      </Link>
                     );
                   }
                 )
