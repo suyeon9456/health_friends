@@ -18,7 +18,7 @@ router.post('/', async (req, res, next) => { // POST /schedule/
     if (schedule) {
       console.log('req.body', req.body);
       await schedule.setRequester(req.body.userId);
-      await schedule.setFriend(req.body.friendId);
+      await schedule.setReceiver(req.body.friendId);
       await schedule.setGym(req.body.gymId);
     }
     res.status(201).json(schedule);
