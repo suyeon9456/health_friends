@@ -13,7 +13,7 @@ export const MapWrap = styled.section`
   margin-top: 10px;
 
   @media (min-width: 768px) {
-    width: 100% - 10px;
+    width: calc(100% - 10px);
     height: 100%;
     margin-left: 10px;
   }

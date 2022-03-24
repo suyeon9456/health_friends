@@ -159,10 +159,14 @@ const SideBar = ({
           </InfoIconWrapper>
           <Progress
             label="재매칭률"
-            percent={useRematchRate(
-              profile?.matchingRecount,
-              profile?.matchingTotalCount
-            )}
+            percent={
+              profile?.matchingRecount
+                ? useRematchRate(
+                    profile?.matchingRecount,
+                    profile?.matchingTotalCount
+                  )
+                : 0
+            }
           />
         </InfoContent>
         <InfoContent key="response">

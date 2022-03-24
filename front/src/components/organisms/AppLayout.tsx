@@ -7,18 +7,22 @@ import Row from '../molecules/Row';
 import Col from '../molecules/Col';
 
 const AppLayout = ({
-  children,
+  childBlock,
   spanNumber,
+  children,
 }: {
-  children: React.ReactNode;
+  childBlock?: boolean;
   spanNumber?: number;
+  children: React.ReactNode;
 }) => {
   const { drawerShow } = useShowState();
   return (
     <div>
       <Menu />
       <Row justify="center">
-        <Col span={spanNumber ?? 22}>{children}</Col>
+        <Col span={spanNumber ?? 22} childBlock={childBlock}>
+          {children}
+        </Col>
       </Row>
       <DrawerMenu drawerShow={drawerShow} />
     </div>

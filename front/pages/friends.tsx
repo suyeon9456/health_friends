@@ -21,7 +21,7 @@ const Friends = () => {
   const [foldedGym, setFoldedGym] = useState(false);
 
   return (
-    <AppLayout>
+    <AppLayout childBlock>
       <Row>
         <Col xs={24} md={foldedGym && foldedFriends ? 1 : 8}>
           <SearchGyms

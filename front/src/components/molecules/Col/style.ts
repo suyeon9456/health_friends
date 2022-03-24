@@ -4,6 +4,7 @@ export const ColContainer = styled.div<{
   span?: number;
   xs?: number;
   md?: number;
+  childBlock?: boolean;
 }>`
   display: block;
   position: relative;
@@ -19,6 +20,13 @@ export const ColContainer = styled.div<{
     css`
       flex: 0 0 ${((100 / 24) * xs).toFixed(8)}%;
       max-width: ${((100 / 24) * xs).toFixed(8)}%;
+    `}
+  ${({ childBlock }) =>
+    childBlock &&
+    css`
+      flex: none;
+      width: 100%;
+      max-width: none;
     `}
   @media (min-width: 768px) {
     ${({ md }) =>

@@ -51,6 +51,7 @@ export const CardCover = styled.div`
 
 export const CardBody = styled.div`
   padding: 10px 0;
+  padding-left: 10px;
   flex-grow: 5;
   &::before {
     display: table;

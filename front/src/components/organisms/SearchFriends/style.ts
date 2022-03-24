@@ -7,6 +7,7 @@ export const SearchFriendsWrapper = styled.div<{
   position: absolute;
   display: flex;
   width: 100%;
+  min-width: 300px;
   height: auto;
   max-height: 535px;
   left: 0;

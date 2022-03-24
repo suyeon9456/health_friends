@@ -129,6 +129,8 @@ export const MenuTitle = styled.span`
 `;
 
 export const MenuText = styled.a`
+  display: inline-block;
+  height: 46px;
   text-decoration: none;
   background-color: transparent;
   outline: none;
@@ -138,7 +140,6 @@ export const MenuText = styled.a`
   transition: color 0.3s;
   -webkit-text-decoration-skip: objects;
   touch-action: manipulation;
-  color: rgba(0, 0, 0, 0.85);
   vertical-align: middle;
 
   & > img {
