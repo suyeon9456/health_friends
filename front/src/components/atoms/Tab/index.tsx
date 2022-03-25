@@ -11,10 +11,11 @@ const Tab = ({
   children: React.ReactNode;
   value: string;
   selectedValue: string;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLElement>) => void;
 }) => (
   <TabNav
     key={value}
+    type="button"
     value={value}
     selectedValue={selectedValue}
     onClick={onClick}
