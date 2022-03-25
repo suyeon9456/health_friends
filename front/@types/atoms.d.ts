@@ -1,6 +1,12 @@
-import React, { Dispatch, SetStateAction } from "react";
-import { FieldError } from "react-hook-form";
-import { BaseSizeTypeT, ButtonTypeT, InputTypeT, PickerTypeT, SizeTypeT } from "./utils";
+import React, { Dispatch, SetStateAction } from 'react';
+import { FieldError } from 'react-hook-form';
+import {
+  BaseSizeTypeT,
+  ButtonTypeT,
+  InputTypeT,
+  PickerTypeT,
+  SizeTypeT,
+} from './utils';
 
 export interface AvatarProps {
   size?: SizeTypeT | number;
@@ -24,7 +30,7 @@ export interface ButtonProps {
 export interface CheckBoxProps {
   label: string;
   value: string;
-  onChange?: (event:  React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   checked: boolean;
 }
 
@@ -46,12 +52,12 @@ export interface BasicInputProps {
   value: string;
   loading?: boolean;
   placeholder?: string;
-  onChange: (event:  React.ChangeEvent<HTMLInputElement>)  =>  void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface InputProps extends BasicInputProps {
   size?: SizeTypeT;
-  name?: string,
+  name?: string;
   type?: InputTypeT;
   disabled?: boolean;
   error?: FieldError | undefined;
@@ -73,7 +79,10 @@ export interface SearchProps extends BasicInputProps {
 
 export interface SelectProps {
   size?: SizeTypeT;
-  options: readonly { readonly value: string | number; readonly text: string; }[];
+  options: ReadonlyArray<{
+    readonly value: string | number;
+    readonly text: string;
+  }>;
   name: string;
   value: number | string;
   onChange: () => void;
@@ -105,4 +114,3 @@ export interface SliderButtonProps {
   style?: React.CSSProperties;
   onClick?: () => void;
 }
-
