@@ -27,6 +27,8 @@ const Modal = ({
   actions,
   form,
   footer,
+  widthSize,
+  isNotModalMask,
 }: {
   show?: boolean;
   title: React.ReactNode;
@@ -42,6 +44,8 @@ const Modal = ({
     | [];
   form?: boolean;
   footer?: boolean;
+  widthSize?: number;
+  isNotModalMask?: boolean;
   onCancel: (e?: React.MouseEvent<HTMLElement>) => void;
   onSubmit?: () => void;
 }) => {
@@ -62,9 +66,9 @@ const Modal = ({
   }, []);
   return (
     <ModalRoot className={className}>
-      <ModalMask />
+      {!isNotModalMask && <ModalMask />}
       <ModalWrap show={show}>
-        <ModalBox>
+        <ModalBox widthSize={widthSize}>
           <ModalContent>
             <ModalClose onClick={onCancel}>
               <Icon icon={<BiX />} />

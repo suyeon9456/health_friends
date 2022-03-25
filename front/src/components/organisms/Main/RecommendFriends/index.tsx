@@ -216,7 +216,7 @@ const RecommendFriends = () => {
                   id: number;
                   Image: { src: string } | null;
                   nickname: string;
-                  Gyms: Array<{ address: string }>;
+                  Gyms: Array<{ address: string; name: string }>;
                 }) => (
                   <Link href={`/profile/${friend?.id}`} key={friend.id}>
                     <FriendsCard>
@@ -230,6 +230,7 @@ const RecommendFriends = () => {
                         <ContentTitile>{friend.nickname}</ContentTitile>
                         <ContentDescription>
                           {friend?.Gyms[0]?.address}
+                          <span> {friend?.Gyms[0]?.name}</span>
                         </ContentDescription>
                       </CardContentWrap>
                     </FriendsCard>

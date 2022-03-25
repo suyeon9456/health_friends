@@ -17,10 +17,11 @@ router.get('/', async (req, res, next) => { // GET /gym/
 
 router.post('/', async (req, res, next) => { // POST /gym/
   try {
+    console.log(req.body);
     const gym = await Gym.create({
-      sido: req.body.sido,
-      sigungu: req.body.sigungu,
       address: req.body.address,
+      addressRoad: req.body.addressRoad,
+      phone: req.body.phone,
       name: req.body.name,
       latitude: req.body.latitude,
       longitude: req.body.longitude,
@@ -34,12 +35,13 @@ router.post('/', async (req, res, next) => { // POST /gym/
 
 router.get('/:gymId', async (req, res, next) => { // GET /gym/1
   try {
+    console.log('req.params.gymId', req.params.gymId);
     const where = {
       id: req.params.gymId
     }
     const gym = await Gym.findOne({
       where,
-      attributes: ['id', 'name'],
+      attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'addressRoad', 'phone'],
     });
 
     if (!gym) {
@@ -75,7 +77,7 @@ router.get('/:gymId', async (req, res, next) => { // GET /gym/1
         }]
       }],
     });
-    res.status(200).json(gymWithFriends);
+    res.status(200).json(gymWithFriends || gym);
   } catch (error) {
     console.error(error);
     next(error);

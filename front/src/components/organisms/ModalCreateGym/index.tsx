@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-  Dispatch,
-  SetStateAction,
-  ChangeEvent,
-} from 'react';
+import React, { useState, useCallback } from 'react';
 
 import { Control, UseFormSetValue } from 'react-hook-form';
 import { ButtonType } from '@/../@types/utils';
@@ -15,9 +9,9 @@ import KakaoPostcode from '../KakaoPostcode';
 import ModalPortal from '../ModalPortal';
 
 interface CreateModalType {
-  sido: string;
-  sigungu: string;
   address: string;
+  addressRoad: string;
+  phone: string;
   latitude: string;
   longitude: string;
   name: string;
@@ -28,14 +22,7 @@ const ModalCreateGym = ({
   setValue,
 }: {
   control: Control<CreateModalType, object>;
-  setValue: UseFormSetValue<{
-    sido: string;
-    sigungu: string;
-    address: string;
-    latitude: string;
-    longitude: string;
-    name: string;
-  }>;
+  setValue: UseFormSetValue<CreateModalType>;
 }) => {
   const [showPostcode, setShowPostcode] = useState(false);
   const changeShowPostcode = useCallback(() => {
@@ -46,8 +33,8 @@ const ModalCreateGym = ({
     <CreateFormWrap>
       <FormSearchPostcode>
         <FormInput
-          label="시 / 도"
-          id="sido"
+          label="헬스장"
+          id="name"
           control={control}
           placeholder="주소를 검색해주세요."
           essential
@@ -61,15 +48,15 @@ const ModalCreateGym = ({
         </div>
       </FormSearchPostcode>
       <FormInput
-        label="시 / 군 / 구"
-        id="sigungu"
+        label="주소"
+        id="addressRoad"
         control={control}
         placeholder="주소를 검색해주세요."
         essential
         disabled
       />
       <FormInput
-        label="상세주소"
+        label="지번"
         id="address"
         control={control}
         placeholder="주소를 검색해주세요."
@@ -77,11 +64,12 @@ const ModalCreateGym = ({
         disabled
       />
       <FormInput
-        label="헬스장명"
-        id="name"
+        label="전화번호"
+        id="phone"
         control={control}
-        placeholder="헬스장명을 입력해주세요."
+        placeholder="주소를 검색해주세요."
         essential
+        disabled
       />
       <ModalPortal>
         {showPostcode && (

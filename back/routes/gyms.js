@@ -23,7 +23,7 @@ router.get('/', async (req, res, next) => { // GET /gyms/
       where.id = { [Op.lt]: parseInt(req.query.lastId, 10) }
     }
     const gyms = await Gym.findAll({
-      attributes: ['id', 'name', 'address', 'latitude', 'longitude'],
+      attributes: ['id', 'name', 'address', 'addressRoad', 'phone', 'latitude', 'longitude'],
       where,
       limit: 5,
       include: [{

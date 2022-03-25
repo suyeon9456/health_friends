@@ -65,6 +65,7 @@ const SearchGyms = ({
       if (foldedFriends) {
         setFoldedFriends(false);
       }
+      console.log('test', gymId);
       dispatch(loadFriendsRequest({ gymId }));
     },
     [foldedFriends]
@@ -159,6 +160,8 @@ const SearchGyms = ({
               id: number;
               name: string;
               address: string;
+              addressRoad: string;
+              phone: string;
               Users: any[];
             }) => (
               <Item
@@ -166,7 +169,9 @@ const SearchGyms = ({
                 title={gym.name}
                 description={
                   <div>
-                    <span>{gym.address}</span>
+                    <span>{gym.addressRoad}</span>
+                    <span> ({gym.address})</span>
+                    <div>{gym.phone}</div>
                     <div>
                       <Icon icon={<BiGroup />} /> {gym.Users.length}명
                     </div>

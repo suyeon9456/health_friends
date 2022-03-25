@@ -20,7 +20,6 @@ export const ModalWrap = styled.div<{ show?: boolean }>`
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
   align-items: center;
-  background: rgba(0, 0, 0, 0.4);
   display: flex;
   position: fixed;
   z-index: 1060;
@@ -35,7 +34,7 @@ export const ModalWrap = styled.div<{ show?: boolean }>`
   transition: background-color 0.1s;
 `;
 
-export const ModalBox = styled.div`
+export const ModalBox = styled.div<{ widthSize?: number }>`
   position: relative;
   box-sizing: border-box;
   flex-direction: column;
@@ -51,6 +50,11 @@ export const ModalBox = styled.div`
   max-width: calc(100vw - 32px);
   margin: 0 auto;
   width: 520px;
+  ${({ widthSize }) =>
+    widthSize &&
+    css`
+      width: ${widthSize}px;
+    `}
   transform-origin: 129.6px 242px;
 `;
 

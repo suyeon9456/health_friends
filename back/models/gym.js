@@ -4,16 +4,20 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(30),
       allowNull: false,
     },
-    sido: {
-      type: DataTypes.STRING(10),
+    address: {
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
-    sigungu: {
-      type: DataTypes.STRING(10),
+    addressRoad: {
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     address: {
       type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    phone: {
+      type: DataTypes.STRING(15),
       allowNull: false,
     },
     latitude: {

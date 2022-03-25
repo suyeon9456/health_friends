@@ -153,7 +153,7 @@ const SearchMap = ({
       const avatarGroup = document.createElement('div');
       avatarGroup.className = `${styles.avatarGroup}`;
 
-      if (gym?.Users.length > 3) {
+      if (gym?.Users?.length > 3) {
         const anticon = document.createElement('a');
         anticon.className = `${styles.anticon}`;
         anticon.innerHTML = anticonUser;
@@ -191,7 +191,7 @@ const SearchMap = ({
         );
         avatarGroup.appendChild(plusAvatar);
       } else {
-        gym.Users.forEach((user: { Image?: { src: string } }) => {
+        gym.Users?.forEach((user: { Image?: { src: string } }) => {
           const anticon = document.createElement('a');
           anticon.className = `${styles.anticon}`;
           anticon.innerHTML = anticonUser;

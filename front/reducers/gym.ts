@@ -63,14 +63,16 @@ const gymSlice = createSlice({
       state.loadFriendsError = null;
     },
     loadFriendsSuccess(state, action) {
-      console.log(action.payload);
+      if (!action.payload) {
+        return;
+      }
       const { Users } = action.payload;
       state.loadFriendsLoading = false;
       state.loadFriendsDone = true;
       state.loadFriendsError = null;
       state.gym = {
         ...action.payload,
-        Users: Users.map(
+        Users: Users?.map(
           (user: {
             Image: Image;
             UserGym: {

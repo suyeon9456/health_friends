@@ -113,5 +113,10 @@ export const ContentTitile = styled.span`
 
 export const ContentDescription = styled.div`
   text-align: left;
-  font-size: 14px;
+  font-size: 12px;
+  text-overflow: ellipsis;
+
+  & > span {
+    font-weight: bold;
+  }
 `;

@@ -10,9 +10,9 @@ import ModalCreateGym from '../../ModalCreateGym';
 import { ModalBodyBox } from './style';
 
 interface CreateModalType {
-  sido: string;
-  sigungu: string;
   address: string;
+  addressRoad: string;
+  phone: string;
   latitude: string;
   longitude: string;
   name: string;
@@ -39,9 +39,9 @@ const ModalGym = ({
 
   const { handleSubmit, control, setValue } = useForm<CreateModalType>({
     defaultValues: {
-      sido: '',
-      sigungu: '',
       address: '',
+      addressRoad: '',
+      phone: '',
       latitude: '',
       longitude: '',
       name: '',
@@ -51,13 +51,14 @@ const ModalGym = ({
   const [selectedTab, setSelectedTab] = useState('search');
 
   const onChangeSelectedTab = useCallback(
-    (tab) => setSelectedTab(tab),
+    (tab) => {
+      setSelectedTab(tab);
+    },
     [selectedTab]
   );
 
   const onSubmit = useCallback(
     (data) => {
-      // 이벤트버블링 체크
       dispatch(addGymRequeset(data));
       setGym('gym', data.name);
       setShowModal(false);
