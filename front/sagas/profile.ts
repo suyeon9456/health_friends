@@ -1,8 +1,23 @@
-import { all, fork, call, put, takeLatest, ForkEffect, AllEffect } from 'redux-saga/effects';
+import {
+  all,
+  fork,
+  call,
+  put,
+  takeLatest,
+  ForkEffect,
+  AllEffect,
+} from 'redux-saga/effects';
 import axios, { AxiosResponse } from 'axios';
 
-import { Profile, SignupFriendsInfo, SignupGymInfo, SignupMoreInfo } from '../@types/user';
-import { loadProfileInfoRequest,
+import { PayloadAction } from '@reduxjs/toolkit';
+import {
+  Profile,
+  SignupFriendsInfo,
+  SignupGymInfo,
+  SignupMoreInfo,
+} from '../@types/user';
+import {
+  loadProfileInfoRequest,
   loadProfileInfoSuccess,
   loadProfileInfoError,
   loadProfileMyinfoRequest,
@@ -25,8 +40,8 @@ import { loadProfileInfoRequest,
   uploadProfileImageError,
   addProfileImageRequest,
   addProfileImageSuccess,
-  addProfileImageError } from '../reducers/profile';
-import { PayloadAction } from '@reduxjs/toolkit';
+  addProfileImageError,
+} from '../reducers/profile';
 import { changeNickname } from '../reducers/user';
 
 function loadProfileInfoAPI(data?: number): Promise<AxiosResponse<Profile>> {
@@ -35,7 +50,10 @@ function loadProfileInfoAPI(data?: number): Promise<AxiosResponse<Profile>> {
 
 function* loadProfileInfo(action: PayloadAction<number>) {
   try {
-    const result: AxiosResponse<Profile> = yield call(loadProfileInfoAPI, action.payload);
+    const result: AxiosResponse<Profile> = yield call(
+      loadProfileInfoAPI,
+      action.payload
+    );
     yield put(loadProfileInfoSuccess(result.data));
   } catch (error: any) {
     yield put(loadProfileInfoError(error.response.data));
@@ -55,39 +73,54 @@ function* loadProfileMyinfo() {
   }
 }
 
-function updateMyInfoAPI(data?: SignupMoreInfo & SignupGymInfo): Promise<AxiosResponse<Profile>> {
+function updateMyInfoAPI(
+  data?: SignupMoreInfo & SignupGymInfo
+): Promise<AxiosResponse<Profile>> {
   return axios.put('/user', data);
 }
 
 function* updateMyInfo(action: PayloadAction<SignupMoreInfo & SignupGymInfo>) {
-    try {
-      const result: AxiosResponse<Profile> = yield call(updateMyInfoAPI, action.payload);
-      yield put(updateMyinfoSuccess(result.data));
-    } catch (error: any) {
-      yield put(updateMyinfoError(error.response.data));
-    }
+  try {
+    const result: AxiosResponse<Profile> = yield call(
+      updateMyInfoAPI,
+      action.payload
+    );
+    yield put(updateMyinfoSuccess(result.data));
+  } catch (error: any) {
+    yield put(updateMyinfoError(error.response.data));
   }
+}
 
-function updateMyFriendsInfoAPI(data?: SignupFriendsInfo): Promise<AxiosResponse<Profile>> {
+function updateMyFriendsInfoAPI(
+  data?: SignupFriendsInfo
+): Promise<AxiosResponse<Profile>> {
   return axios.put('/user/detail', data);
 }
 
 function* updateMyFriendsInfo(action: PayloadAction<SignupFriendsInfo>) {
   try {
-    const result: AxiosResponse<Profile> = yield call(updateMyFriendsInfoAPI, action.payload);
+    const result: AxiosResponse<Profile> = yield call(
+      updateMyFriendsInfoAPI,
+      action.payload
+    );
     yield put(updateMyFriendsInfoSuccess(result.data));
   } catch (error: any) {
     yield put(updateMyFriendsInfoError(error.response.data));
   }
 }
 
-function updateMyNicknameAPI(data: { nickname: string }): Promise<AxiosResponse<{ nickname: string }>> {
+function updateMyNicknameAPI(data: {
+  nickname: string;
+}): Promise<AxiosResponse<{ nickname: string }>> {
   return axios.patch('/user/nickname', data);
 }
 
 function* updateMyNickname(action: PayloadAction<{ nickname: string }>) {
   try {
-    const result: AxiosResponse<{ nickname: string }> = yield call(updateMyNicknameAPI, action.payload);
+    const result: AxiosResponse<{ nickname: string }> = yield call(
+      updateMyNicknameAPI,
+      action.payload
+    );
     yield put(updateMyNicknameSuccess(result.data.nickname));
     yield put(changeNickname(result.data.nickname));
   } catch (error: any) {
@@ -95,39 +128,54 @@ function* updateMyNickname(action: PayloadAction<{ nickname: string }>) {
   }
 }
 
-function updateMyDescriptionAPI(data?: { description: string }): Promise<AxiosResponse<{ description: string }>> {
+function updateMyDescriptionAPI(data?: {
+  description: string;
+}): Promise<AxiosResponse<{ description: string }>> {
   return axios.patch('/user/description', data);
 }
 
 function* updateMyDescription(action: PayloadAction<{ description: string }>) {
   try {
-    const result: AxiosResponse<{ description: string }> = yield call(updateMyDescriptionAPI, action.payload);
+    const result: AxiosResponse<{ description: string }> = yield call(
+      updateMyDescriptionAPI,
+      action.payload
+    );
     yield put(updateMyDescriptionSuccess(result.data.description));
   } catch (error: any) {
     yield put(updateMyDescriptionError(error.response.data));
   }
 }
 
-function uploadProfileImageAPI(data?: FormData): Promise<AxiosResponse<string>> {
+function uploadProfileImageAPI(
+  data?: FormData
+): Promise<AxiosResponse<string>> {
   return axios.post('/user/image', data);
 }
 
 function* uploadProfileImage(action: PayloadAction<FormData>) {
   try {
-    const result: AxiosResponse<string> = yield call(uploadProfileImageAPI, action.payload);
+    const result: AxiosResponse<string> = yield call(
+      uploadProfileImageAPI,
+      action.payload
+    );
     yield put(uploadProfileImageSuccess(result.data));
   } catch (error: any) {
     yield put(uploadProfileImageError(error.response.data));
   }
 }
 
-function addProfileImageAPI(data?: { image: string }): Promise<AxiosResponse<Profile>> {
+function addProfileImageAPI(data?: {
+  image: string;
+}): Promise<AxiosResponse<Profile>> {
   return axios.post('/user/profileimage', data);
 }
 
 function* addProfileImage(action: PayloadAction<{ image: string }>) {
   try {
-    const result: AxiosResponse<Profile> = yield call(addProfileImageAPI, action.payload);
+    const result: AxiosResponse<Profile> = yield call(
+      addProfileImageAPI,
+      action.payload
+    );
     yield put(addProfileImageSuccess(result.data));
   } catch (error: any) {
     yield put(addProfileImageError(error.response.data));
@@ -166,7 +214,11 @@ function* watchAddProfileImage() {
   yield takeLatest(addProfileImageRequest, addProfileImage);
 }
 
-export default function* profileSaga(): Generator<ForkEffect<void> | AllEffect<any>, void, any> {
+export default function* profileSaga(): Generator<
+  ForkEffect<void> | AllEffect<any>,
+  void,
+  any
+> {
   yield all([
     yield fork(watchLoadProfileInfo),
     yield fork(watchLoadProfileMyinfo),
@@ -178,5 +230,3 @@ export default function* profileSaga(): Generator<ForkEffect<void> | AllEffect<a
     yield fork(watchAddProfileImage),
   ]);
 }
-
-

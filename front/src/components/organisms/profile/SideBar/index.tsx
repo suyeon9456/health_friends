@@ -90,7 +90,8 @@ const SideBar = ({
   }, [uploadState]);
 
   const onAddProfileImage = useCallback(() => {
-    dispatch(addProfileImageRequest({ image: imagePath }));
+    const thumbImagePath = imagePath.replace(/\/original\//, '/thumb/');
+    dispatch(addProfileImageRequest({ image: thumbImagePath }));
     onChangeUploadState();
   }, [imagePath]);
 

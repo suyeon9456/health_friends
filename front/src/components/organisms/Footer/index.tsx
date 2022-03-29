@@ -17,7 +17,10 @@ const Footer = () => (
     <FooterContentWrap>
       <FooterContent>
         <LogoWrap>
-          <img src="/images/sub_logo.png" alt="sub_logo" />
+          <img
+            src="https://img.health-friends.com/_next/images/sub_logo.png"
+            alt="sub_logo"
+          />
         </LogoWrap>
         <InfoWrap>
           <div>프로젝트 담당자: 조수연</div>

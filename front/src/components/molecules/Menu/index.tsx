@@ -33,7 +33,10 @@ const Menu = () => {
         <MenuTitle>
           <Link href="/">
             <MenuText>
-              <img src="/images/logo.png" alt="logo" />
+              <img
+                src="https://img.health-friends.com/_next/images/logo.png"
+                alt="logo"
+              />
             </MenuText>
           </Link>
         </MenuTitle>

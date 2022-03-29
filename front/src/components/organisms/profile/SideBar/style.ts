@@ -21,6 +21,9 @@ export const AvatarWrapper = styled.div`
 
   & > div {
     text-align: center;
+    & > button {
+      padding: 0;
+    }
     & > a {
       color: #9254de;
     }

@@ -16,7 +16,7 @@ export const BannerImage = styled.div`
   position: absolute;
   top: 0;
   right: 0;
-  background-image: url('/images/banner.jpg');
+  background-image: url('https://img.health-friends.com/_next/images/banner.jpg');
   display: inline-block;
   width: 100%;
   max-width: 1280px;

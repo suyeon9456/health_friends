@@ -389,9 +389,8 @@ const upload = multer({ // multer에 옵션 설정
 router.post('/image', isLoggedIn, upload.single('image'), async (req, res, next) => { // POST /user/image
   // upload 후에 실행됨
   // 업로드된 파일은 req.files를 확인
-  // console.log(req.file);
-  // res.json(req.file.filename);
-  res.json(req.file.location.replace(/\/original\//, '/thumb/'));
+  console.log(req.file);
+  res.json(req.file.location.replace(/https:\/\/health-friends-s3.s3.ap-northeast-2.amazonaws.com/, 'https://img.health-friends.com'));
 });
 
 router.post('/profileimage', isLoggedIn, async (req, res, next) => { // POST /user/profileimage
