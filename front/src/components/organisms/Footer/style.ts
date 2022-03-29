@@ -17,9 +17,8 @@ export const FooterContent = styled.div`
   padding: 10px 0;
   width: 100%;
   font-size: 12px;
-  /* font-weight: bold; */
   color: rgb(89, 89, 89);
-  height: 120px;
+  min-height: 120px;
   align-items: center;
   @media (max-width: 767px) {
     flex-wrap: wrap;
@@ -35,6 +34,7 @@ export const LogoWrap = styled.div`
 
   & > img {
     width: 200px;
+    height: 40px;
   }
 `;
 

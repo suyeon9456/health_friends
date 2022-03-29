@@ -143,6 +143,7 @@ export const MenuText = styled.a`
   vertical-align: middle;
 
   & > img {
+    width: 138px;
     height: 46px;
   }
 
