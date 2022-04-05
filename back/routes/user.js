@@ -21,6 +21,7 @@ try {
 
 router.get('/', async (req, res, next) => {
   try {
+    console.log('!!!!!!!!!!!!!!', req.user);
     if (req.user) {
       const user = await User.findOne({
         where: { id: req.user.id },
@@ -152,7 +153,7 @@ router.get('/profile/:userId', async (req, res, next) => {
         [Sequelize.literal(`(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND RematchId IS NOT NULL AND (UserId = ${req.params.userId} OR FriendId = ${req.params.userId}))`), 'rematchingCount']
       ],
       where: {
-        UserId: req.user.id,
+        UserId: req.params.userId,
         permission: true,
         isPermitted: true,
       },
@@ -468,10 +469,11 @@ router.patch('/:userId/like', isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.get('/like', isLoggedIn, async (req, res, next) => {
+router.get('/like', async (req, res, next) => {
   try {
+    const userId = req.query.userId || req.user.id;
     const user = await User.findOne({
-      where: { id: req.user.id },
+      where: { id: userId },
       attributes: ['id'],
     });
     const likedFriends = await user.getLiked({

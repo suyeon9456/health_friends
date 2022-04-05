@@ -3,6 +3,9 @@ import { useSelector } from 'react-redux';
 import { Control, FieldErrors } from 'react-hook-form';
 
 import { userSelector } from '@/../reducers/user';
+import { useQuery } from 'react-query';
+import { Me } from '@/../@types/user';
+import axios from 'axios';
 import {
   MatchingInfoWrap,
   InfoContent,
@@ -34,7 +37,10 @@ const MatchingRequestForm = ({
   control: Control<MatchingFormType, object>;
   errors?: FieldErrors;
 }) => {
-  const { me } = useSelector(userSelector);
+  const { data: me } = useQuery<Me>('user', async () => {
+    const { data } = await axios.get('/user');
+    return data;
+  });
 
   return (
     <RequestFriendWrap>
@@ -61,10 +67,10 @@ const MatchingRequestForm = ({
         <InfoContent id="my_info">
           <h4>내정보</h4>
           <Content>
-            <Avatar size={62} src={me?.Image?.src || ''} />
+            <Avatar size={62} src={me?.Image?.src ?? ''} />
             <div>
               <div className="nickname">{me?.nickname}</div>
-              <div>{me?.description}</div>
+              <div>{me?.Userdetail?.description}</div>
             </div>
           </Content>
         </InfoContent>

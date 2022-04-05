@@ -8,17 +8,23 @@ import InfoForm from '@/components/organisms/signup/InfoForm';
 import MoreInfoForm from '@/components/organisms/signup/MoreInfoForm';
 import MoreGymInfoForm from '@/components/organisms/signup/MoreGymInfoForm';
 import FriendsInfoForm from '@/components/organisms/signup/FriendsInfoForm';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 import styles from '../src/scss/signup.module.scss';
-import { signupSelector, userSelector } from '../reducers/user';
+import { signupSelector } from '../reducers/user';
 import { SignupMenuType, SignupMenu, SignupSteps } from '../@types/utils';
+import { Me } from '../@types/user';
 
 const Signup = () => {
-  const { me } = useSelector(userSelector);
+  const { data: me, isLoading } = useQuery<Me>('user', async () => {
+    const { data } = await axios.get('/user');
+    return data;
+  });
   const { signupProcess }: { signupProcess: SignupMenuType } =
     useSelector(signupSelector);
   const router = useRouter();
   useEffect(() => {
-    if (me?.id) {
+    if (!isLoading && me?.id) {
       void router.replace('/');
     }
   }, [me?.id]);

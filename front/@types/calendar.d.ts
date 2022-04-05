@@ -13,7 +13,7 @@ declare module 'calendar' {
     Gym: { address: string; name: string };
     Requester: { id: number; nickname: string; Image: object };
     address: string;
-    description: string
+    description: string;
     end: Date;
     endDate: string;
     gymName?: string;
@@ -24,5 +24,5 @@ declare module 'calendar' {
     start: Date;
     startDate: string;
   }
-  export type CalendarEvents = Array<CalendarEvent>
+  export type CalendarEvents = CalendarEvent[];
 }

@@ -6,8 +6,10 @@ import * as yup from 'yup';
 
 import { addScheduleRequest } from '@/../reducers/schedule';
 import { gymSelector } from '@/../reducers/gym';
-import { userSelector } from '@/../reducers/user';
 import { SizeType } from '@/../@types/utils';
+import { useQuery } from 'react-query';
+import { Me } from '@/../@types/user';
+import axios from 'axios';
 import { useDateFormat } from '../../../hooks';
 import { Modal } from '../../molecules';
 import { Avatar } from '../../atoms';
@@ -37,8 +39,11 @@ const ModalMatchingRequest = ({
   gymName?: string;
 }) => {
   const dispatch = useDispatch();
-  const { me } = useSelector(userSelector);
   const { gym } = useSelector(gymSelector);
+  const { data: me } = useQuery<Me>('user', async () => {
+    const { data } = await axios.get('/user');
+    return data;
+  });
 
   const { handleSubmit, control, setValue } = useForm({
     defaultValues: {

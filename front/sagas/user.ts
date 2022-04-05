@@ -1,9 +1,18 @@
-import { all, fork, call, put, takeLatest, ForkEffect, AllEffect } from 'redux-saga/effects';
+import {
+  all,
+  fork,
+  call,
+  put,
+  takeLatest,
+  ForkEffect,
+  AllEffect,
+} from 'redux-saga/effects';
 import axios, { AxiosResponse } from 'axios';
 
-import { User, Me } from '../@types/user';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { loadMyInfoRequest,
+import { User, Me } from '../@types/user';
+import {
+  loadMyInfoRequest,
   loadMyInfoSuccess,
   loadMyInfoError,
   loginRequest,
@@ -14,7 +23,8 @@ import { loadMyInfoRequest,
   logoutError,
   addLikeRequest,
   addLikeSuccess,
-  addLikeError } from '../reducers/user';
+  addLikeError,
+} from '../reducers/user';
 
 function loadMyInfoAPI(): Promise<AxiosResponse<Me>> {
   return axios.get('/user');
@@ -29,11 +39,14 @@ function* loadMyInfo() {
   }
 }
 
-function loginAPI(data?: { email: string; password: string }): Promise<AxiosResponse<Me>> {
+function loginAPI(data?: {
+  email: string;
+  password: string;
+}): Promise<AxiosResponse<Me>> {
   return axios.post('/user/login', data);
 }
 
-function* login(action: PayloadAction<{ email: string; password: string } >) {
+function* login(action: PayloadAction<{ email: string; password: string }>) {
   try {
     const result: AxiosResponse<Me> = yield call(loginAPI, action.payload);
     yield put(loginSuccess(result.data));
@@ -84,7 +97,11 @@ function* watchAddLike() {
   yield takeLatest(addLikeRequest, addLike);
 }
 
-export default function* userSaga(): Generator<ForkEffect<void> | AllEffect<any>, void, any> {
+export default function* userSaga(): Generator<
+  ForkEffect<void> | AllEffect<any>,
+  void,
+  any
+> {
   yield all([
     yield fork(watchLoadMyInfo),
     yield fork(watchLogin),

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { compareAsc } from 'date-fns';
 
@@ -7,9 +7,13 @@ import {
   updateCancellationRequest,
   updatePermissionRequest,
 } from '@/../reducers/schedule';
-import { userSelector } from '@/../reducers/user';
 import { MatchingCardProps } from '@/../@types/schedule';
 import { ButtonType } from '@/../@types/utils';
+import { useQuery } from 'react-query';
+import { Me } from '@/../@types/user';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { profileSelector } from '@/../reducers/profile';
 import { useDateFormat } from '../../../../hooks';
 import { Modal } from '../../../molecules';
 import { Avatar } from '../../../atoms';
@@ -24,11 +28,18 @@ const ModalMatchingDetail = ({
   schedule,
   onCancel,
 }: {
-  schedule?: MatchingCardProps;
+  schedule?: MatchingCardProps | null;
   onCancel: () => void;
 }) => {
+  const router = useRouter();
+  const { id: queryId } = router.query;
   const dispatch = useDispatch();
-  const { me } = useSelector(userSelector);
+
+  const { profile } = useSelector(profileSelector);
+  const { data: me } = useQuery<Me>('user', async () => {
+    const { data } = await axios.get('/user');
+    return data;
+  });
 
   const onAccept = useCallback(() => {
     if (!schedule) {
@@ -48,7 +59,7 @@ const ModalMatchingDetail = ({
     if (!isPermitted) {
       void Promise.all([
         userMathcing.includes(schedule?.Friend?.id),
-        friendMathcing.includes(me?.id),
+        friendMathcing.includes(queryId ? profile.id : me?.id),
       ])
         .then((values) => {
           const [userRematchYn, friendRematchYn] = values;
@@ -108,7 +119,7 @@ const ModalMatchingDetail = ({
 
     void Promise.all([
       userMathcing.includes(schedule.Friend.id),
-      friendMathcing.includes(me?.id),
+      friendMathcing.includes(queryId ? profile.id : me?.id),
     ])
       .then((values) => {
         const [userRematchYn, friendRematchYn] = values;
@@ -134,6 +145,8 @@ const ModalMatchingDetail = ({
         onCancel();
       });
   }, [schedule]);
+
+  useEffect(() => console.log('schedule', schedule), [schedule]);
 
   if (
     schedule?.isPermitted &&

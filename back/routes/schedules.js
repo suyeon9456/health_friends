@@ -6,17 +6,18 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => { // GET /schedules/
   try {
+    const userId = req.query.userId || req.user.id;
     const { before, after, scheduledRecord, lastRecord, requestRecord, receiveRecord, rejectedMatching } = req.query;
-
     const where = {
       isPermitted: { [Op.or]: [false, true] },
       permission: { [Op.or]: [false, true] },
       [Op.or]: [{
-          UserId: req.user.id,
+          UserId: userId,
         }, {
-          FriendId: req.user.id,
+          FriendId: userId,
       }],
-    }
+    };
+    
     if (scheduledRecord || lastRecord) {
       const list = [];
       const list1 = scheduledRecord ? { [Op.gte]: new Date() } : null;
@@ -33,11 +34,11 @@ router.get('/', async (req, res, next) => { // GET /schedules/
 
     if (requestRecord || receiveRecord) {
       if (requestRecord && !receiveRecord) {
-        where.UserId = req.user.id;
-        where.FriendId = { [Op.not]: req.user.id };
+        where.UserId = userId;
+        where.FriendId = { [Op.not]: userId };
       }
       if (receiveRecord && !requestRecord) {
-        where.FriendId = req.user.id;
+        where.FriendId = userId;
       }
     }
 
@@ -107,16 +108,16 @@ router.get('/', async (req, res, next) => { // GET /schedules/
 
 router.get('/calendar', async (req, res, next) => { // GET /schedules/calendar
   try {
-
     const { start, end } = req.query;
+    const userId = req.query.userId || req.user.id;
 
     const where = {
       startDate: { [Op.gte]: new Date(start) },
       endDate: { [Op.lt]: new Date(end) },
       [Op.or]: [{
-          UserId: req.user.id,
+          UserId: userId,
         }, {
-          FriendId: req.user.id,
+          FriendId: userId,
       }],
     }
 

@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { BiEdit } from 'react-icons/bi';
 
 import { userSelector } from '@/../reducers/user';
 import { profileSelector } from '@/../reducers/profile';
 import axios from 'axios';
 import { ButtonType, SizeType } from '@/../@types/utils';
+import { Me } from '@/../@types/user';
 import { Button, Icon, Input } from '../../../atoms';
 import {
   ContentText,
@@ -28,7 +29,10 @@ const Info = () => {
     axios.patch('/user/description', data)
   );
 
-  const { me } = useSelector(userSelector);
+  const { data: me } = useQuery<Me>('user', async () => {
+    const { data } = await axios.get('/user');
+    return data;
+  });
   const { profile, updateMyDescriptionDone } = useSelector(profileSelector);
   const [isEditNickname, setIsEditNickname] = useState<boolean>(false);
   const [isEditDescription, setIsEditDescription] = useState<boolean>(false);
@@ -90,7 +94,7 @@ const Info = () => {
           </InfoContent>
           <InfoButtonWrapper>
             {me?.id === profile?.id &&
-              (isEditNickname && me.id === profile?.id ? (
+              (isEditNickname && me?.id === profile?.id ? (
                 <div>
                   <Button
                     type={ButtonType.TEXT}

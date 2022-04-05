@@ -16,10 +16,12 @@ import {
   removeProfileImage,
   uploadProfileImageRequest,
 } from '@/../reducers/profile';
-import { userSelector } from '@/../reducers/user';
 import { ButtonType, Menu, ProfileMenuType } from '@/../@types/utils';
 import useRematchRate from '@/hooks/useRematchRate';
-import { useModalDispatch, useModalState } from '@/../store/modalStore';
+import { useModalDispatch } from '@/../store/modalStore';
+import { useQuery } from 'react-query';
+import { Me } from '@/../@types/user';
+import axios from 'axios';
 import useRate from '../../../../hooks/useRate';
 import Progress from '../../../molecules/Progress';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
@@ -45,10 +47,8 @@ const SideBar = ({
 }) => {
   const dispatch = useDispatch();
   const contextDispatch = useModalDispatch();
-  const { me } = useSelector(userSelector);
   const { profile, imagePath, uploadProfileImageError } =
     useSelector(profileSelector);
-  const { custom } = useModalState();
   const [uploadState, setUploadState] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [responseRate, onChangeResponseRate] = useRate({
@@ -62,6 +62,11 @@ const SideBar = ({
           permission: boolean;
         }) => f.isPermitted
       ).length || 0,
+  });
+
+  const { data: me } = useQuery<Me>('user', async () => {
+    const { data } = await axios.get('/user');
+    return data;
   });
 
   const onClickMenu = useCallback(

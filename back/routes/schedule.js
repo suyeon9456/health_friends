@@ -79,6 +79,7 @@ router.post('/re', async (req, res, next) => { // POST /schedule/re
 router.get('/:id', async (req, res, next) => { // GET /schedule/
   try {
     console.log(req.params);
+    const userId = req.query.userId || req.user.id;
     const where = {
       id: req.params.id,
     }
@@ -119,11 +120,11 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
     const userMatching = await Schedule.findAll({
       attributes: [
         'FriendId',
-        [Sequelize.literal(`(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND (UserId = ${req.user.id} OR FriendId = ${req.user.id}))`), 'matchingCount'],
-        [Sequelize.literal(`(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND RematchId IS NOT NULL AND (UserId = ${req.user.id} OR FriendId = ${req.user.id}))`), 'rematchingCount']
+        [Sequelize.literal(`(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND (UserId = ${userId} OR FriendId = ${userId}))`), 'matchingCount'],
+        [Sequelize.literal(`(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND RematchId IS NOT NULL AND (UserId = ${userId} OR FriendId = ${userId}))`), 'rematchingCount']
       ],
       where: {
-        UserId: req.user.id,
+        UserId: userId,
         permission: true,
         isPermitted: true,
         // RematchId: { [Op.not]: null },
@@ -135,14 +136,14 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
         // [Sequelize.fn('count', Sequelize.col('id')), 'count'],
         'FriendId',
         [Sequelize.literal(
-          `(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND (UserId = ${schedule.Requester.id === req.user.id ? schedule.Receiver.id : schedule.Requester.id} OR FriendId = ${schedule.Requester.id === req.user.id ? schedule.Receiver.id : schedule.Requester.id}))`
+          `(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND (UserId = ${schedule.Requester.id === userId ? schedule.Receiver.id : schedule.Requester.id} OR FriendId = ${schedule.Requester.id === userId ? schedule.Receiver.id : schedule.Requester.id}))`
           ), 'matchingCount'],
         [Sequelize.literal(
-          `(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND RematchId IS NOT NULL AND (UserId = ${schedule.Requester.id === req.user.id ? schedule.Receiver.id : schedule.Requester.id} OR FriendId = ${schedule.Requester.id === req.user.id ? schedule.Receiver.id : schedule.Requester.id}))`
+          `(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND RematchId IS NOT NULL AND (UserId = ${schedule.Requester.id === userId ? schedule.Receiver.id : schedule.Requester.id} OR FriendId = ${schedule.Requester.id === userId ? schedule.Receiver.id : schedule.Requester.id}))`
           ), 'rematchingCount']
       ],
       where: {
-        UserId: schedule.Requester.id === req.user.id ? schedule.Receiver.id : schedule.Requester.id,
+        UserId: schedule.Requester.id === userId ? schedule.Receiver.id : schedule.Requester.id,
         permission: true,
         isPermitted: true,
         RematchId: { [Op.not]: null },

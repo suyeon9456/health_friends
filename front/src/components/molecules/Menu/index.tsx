@@ -1,18 +1,23 @@
 import React, { useCallback } from 'react';
 import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { BiMenu } from 'react-icons/bi';
 
-import { logoutRequest, userSelector } from '@/../reducers/user';
+import { logoutRequest } from '@/../reducers/user';
 import { SizeType } from '@/../@types/utils';
 import { Me } from '@/../@types/user';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 
 import { Avatar, Icon } from '../../atoms';
 import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
 
 const Menu = () => {
-  const { me }: { me: Me } = useSelector(userSelector);
+  const { data: me } = useQuery<Me>('user', async () => {
+    const { data } = await axios.get('/user');
+    return data;
+  });
   const dispatch = useDispatch();
 
   const { drawerShow } = useShowState();

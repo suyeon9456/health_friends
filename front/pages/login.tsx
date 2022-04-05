@@ -1,12 +1,16 @@
 import React, { useEffect } from 'react';
 import Router from 'next/router';
-import { useSelector } from 'react-redux';
 
 import { AppLayout, LoginForm } from '@/components/organisms';
-import { userSelector } from '../reducers/user';
+import { useQuery } from 'react-query';
+import axios from 'axios';
+import { Me } from '../@types/user';
 
 const Login = () => {
-  const { me } = useSelector(userSelector);
+  const { data: me } = useQuery<Me>('user', async () => {
+    const { data } = await axios.get('/user');
+    return data;
+  });
   useEffect(() => {
     if (me?.id) {
       void Router.replace('/');

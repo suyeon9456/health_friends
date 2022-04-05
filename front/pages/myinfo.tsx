@@ -1,15 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import React, { useEffect, useState, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { GetServerSideProps } from 'next';
-import { Store } from 'redux';
-import { END } from 'redux-saga';
+import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
-import wrapper from '../store/configureStore';
-
-import { loadMyInfoRequest, userSelector } from '../reducers/user';
+import { useQuery } from 'react-query';
 import { loadProfileMyinfoRequest } from '../reducers/profile';
 
 import {
@@ -30,6 +24,7 @@ import {
   ProfileMenuType,
 } from '../@types/utils';
 import { useModalDispatch } from '../store/modalStore';
+import { Me } from '../@types/user';
 
 const Myinfo = () => {
   const router = useRouter();
@@ -37,13 +32,16 @@ const Myinfo = () => {
   const dispatch = useDispatch();
   const contextDispatch = useModalDispatch();
 
-  const { me } = useSelector(userSelector);
+  const { data: me, isLoading } = useQuery<Me>('user', async () => {
+    const { data } = await axios.get('/user');
+    return data;
+  });
   const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(Menu.INFO);
 
   const goMain = useCallback(() => router.push('/'), []);
 
   useEffect(() => {
-    if (!me) {
+    if (!isLoading && !me) {
       contextDispatch({
         type: 'SHOW_MODAL',
         payload: {
@@ -85,24 +83,24 @@ const Myinfo = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps =
-  wrapper.getServerSideProps((store) => async ({ req }) => {
-    const cookie = req ? req.headers.cookie : '';
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    axios!.defaults!.headers!.Cookie = '';
-    if (req && cookie) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      axios!.defaults!.headers!.Cookie = cookie;
-    }
-    store.dispatch(loadMyInfoRequest());
-    store.dispatch(END);
-    await (store as Store).sagaTask?.toPromise();
+// export const getServerSideProps: GetServerSideProps =
+//   wrapper.getServerSideProps((store) => async ({ req }) => {
+//     const cookie = req ? req.headers.cookie : '';
+//     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//     axios!.defaults!.headers!.Cookie = '';
+//     if (req && cookie) {
+//       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//       axios!.defaults!.headers!.Cookie = cookie;
+//     }
+//     store.dispatch(loadMyInfoRequest());
+//     store.dispatch(END);
+//     await (store as Store).sagaTask?.toPromise();
 
-    return {
-      props: {
-        allPostsData: {},
-      },
-    };
-  });
+//     return {
+//       props: {
+//         allPostsData: {},
+//       },
+//     };
+//   });
 
 export default Myinfo;

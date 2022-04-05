@@ -216,36 +216,30 @@ const RecommendFriends = () => {
         <FriendsCardList>
           {!isEmpty(recommendData?.fullFriends) && !error && !isLoading ? (
             <Slider {...settings}>
-              {recommendData?.fullFriends?.map(
-                (friend: {
-                  id: number;
-                  Image: { src: string } | null;
-                  nickname: string;
-                  Gyms: Array<{ address: string; name: string }>;
-                }) => (
-                  <Link href={`/profile/${friend?.id}`} key={friend.id}>
-                    <FriendsCard>
-                      <CardAvatarWrap>
-                        <Avatar
-                          size={82}
-                          src={friend?.Image ? `${friend?.Image?.src}` : ''}
-                        />
-                      </CardAvatarWrap>
-                      <CardContentWrap>
-                        <ContentTitile>{friend.nickname}</ContentTitile>
-                        <ContentDescription>
-                          {friend?.Gyms[0]?.address}
-                          <span> {friend?.Gyms[0]?.name}</span>
-                        </ContentDescription>
-                      </CardContentWrap>
-                    </FriendsCard>
-                  </Link>
-                )
-              )}
+              {recommendData?.fullFriends?.map((friend) => (
+                <Link href={`/profile/${friend?.id}`} key={friend.id}>
+                  <FriendsCard>
+                    <CardAvatarWrap>
+                      <Avatar
+                        size={82}
+                        src={friend?.Image ? `${friend?.Image?.src}` : ''}
+                      />
+                    </CardAvatarWrap>
+                    <CardContentWrap>
+                      <ContentTitile>{friend.nickname}</ContentTitile>
+                      <ContentDescription>
+                        {friend?.Gyms[0]?.address}
+                        <span> {friend?.Gyms[0]?.name}</span>
+                      </ContentDescription>
+                    </CardContentWrap>
+                  </FriendsCard>
+                </Link>
+              ))}
             </Slider>
           ) : (
-            Array.from({ length: 4 }, (_, i) => i).map(() => (
-              <FriendsLoadingCard>
+            Array.from({ length: 4 }, (_, i) => i).map((_, i) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <FriendsLoadingCard key={i}>
                 <LoadingAvatarWrap>
                   <LoadingAvatar className="lazyData" />
                 </LoadingAvatarWrap>

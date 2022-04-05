@@ -11,8 +11,11 @@ import {
 } from '@/../reducers/schedule';
 import { userSelector } from '@/../reducers/user';
 import { ModalType, ShowModalType } from '@/../@types/utils';
-import { Modal } from '../../../molecules';
+import { useQuery } from 'react-query';
+import { Me } from '@/../@types/user';
+import axios from 'axios';
 import MatchingRequestForm from '../../MatchingRequestForm';
+import { Modal } from '../../../molecules';
 
 const schema = yup
   .object({
@@ -32,7 +35,10 @@ const ModalMatchingEdit = ({
   mode: ShowModalType;
 }) => {
   const dispatch = useDispatch();
-  const { me } = useSelector(userSelector);
+  const { data: me } = useQuery<Me>('user', async () => {
+    const { data } = await axios.get('/user');
+    return data;
+  });
 
   const {
     handleSubmit,

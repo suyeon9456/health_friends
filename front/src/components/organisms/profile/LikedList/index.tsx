@@ -6,6 +6,8 @@ import { BiDotsVerticalRounded, BiEdit, BiHeart, BiUser } from 'react-icons/bi';
 import { ImDrawer2 } from 'react-icons/im';
 
 import { FetchLikedFriends } from '@/../@types/fetchData';
+import { useSelector } from 'react-redux';
+import { profileSelector } from '@/../reducers/profile';
 import { Icon } from '../../../atoms';
 import {
   LikedListWrap,
@@ -25,7 +27,8 @@ import {
   LoadingAction,
 } from './style';
 
-const LikedList = () => {
+const LikedList = ({ isProfile }: { isProfile?: boolean }) => {
+  const { profile } = useSelector(profileSelector);
   const {
     isLoading,
     error,
@@ -33,7 +36,8 @@ const LikedList = () => {
   } = useQuery<FetchLikedFriends | undefined, AxiosError>(
     'likedFriends',
     async () => {
-      const { data } = await axios.get('/user/like');
+      const userId = isProfile ? `?userId=${profile?.id}` : '';
+      const { data } = await axios.get(`/user/like${userId}`);
       return data;
     },
     { cacheTime: 2 * 60 * 1000 }
@@ -41,10 +45,11 @@ const LikedList = () => {
 
   return (
     <LikedListWrap>
-      <LikedListBody empty={!!isEmpty(likedFriends)}>
+      <LikedListBody empty={isLoading ? false : !!isEmpty(likedFriends)}>
         {isLoading &&
-          Array.from({ length: 9 }).map(() => (
-            <LoadingCard>
+          Array.from({ length: 9 }, (_, i) => i).map((_, i) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <LoadingCard key={i}>
               <LoadingCardCover>
                 <div className="lazyData" />
               </LoadingCardCover>
@@ -66,7 +71,7 @@ const LikedList = () => {
               </LoadingCardBody>
             </LoadingCard>
           ))}
-        {!isEmpty(likedFriends) ? (
+        {!isLoading && !isEmpty(likedFriends) ? (
           likedFriends?.map((friend) => (
             <Card key={friend.id}>
               <CardCover>

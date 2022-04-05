@@ -7,6 +7,8 @@ import isEmpty from 'lodash/isEmpty';
 import { RecordScheduleFetch } from '@/../@types/schedule';
 import useCheckbox from '@/hooks/useCheckbox';
 import { ButtonType } from '@/../@types/utils';
+import { useSelector } from 'react-redux';
+import { profileSelector } from '@/../reducers/profile';
 import { Filter } from '../../../molecules';
 import { Button, CheckBox, Icon } from '../../../atoms';
 import MatchingCardList from '../../MatchingCardList';
@@ -18,7 +20,8 @@ import {
   RecordWrap,
 } from './style';
 
-const MatchingRecord = () => {
+const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
+  const { profile } = useSelector(profileSelector);
   const [status, onChangeStatus] = useCheckbox<string>([]);
   const [term, onChangeTerm] = useCheckbox<string>([]);
   const [type, onChangeType] = useCheckbox<string>([]);
@@ -33,6 +36,7 @@ const MatchingRecord = () => {
   } = useQuery<any | undefined, AxiosError>(
     ['record', status, term, type, limit, rejectedMatching],
     async () => {
+      const userId = isProfile ? `userId=${profile?.id}&` : '';
       const statusquery =
         !isEmpty(status) && `&${status.map((m) => `${m}=true`).join('&')}`;
       const termquery =
@@ -45,7 +49,9 @@ const MatchingRecord = () => {
         count: number;
         schedules: RecordScheduleFetch[];
       }> = await axios.get(
-        `/schedules?limit=${limit}&rejectedMatching=${rejectedMatching}${termquery}${typequery}${statusquery}`
+        `/schedules?${userId}limit=${limit}&rejectedMatching=${rejectedMatching}${
+          !termquery ? '' : termquery
+        }${!typequery ? '' : typequery}${!statusquery ? '' : statusquery}`
       );
       return {
         ...data,

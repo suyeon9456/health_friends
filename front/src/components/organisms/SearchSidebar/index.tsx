@@ -1,11 +1,12 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { useSelector } from 'react-redux';
 import { BiCollapse, BiExpand } from 'react-icons/bi';
 
-import { userSelector } from '@/../reducers/user';
 import { ButtonType, SizeType } from '@/../@types/utils';
-import { Avatar, Button, Icon } from '../../atoms';
+import { useQuery } from 'react-query';
+import axios from 'axios';
+import { Me } from '@/../@types/user';
 import { Sidebar } from './style';
+import { Avatar, Button, Icon } from '../../atoms';
 
 const SearchSidebar = ({
   foldedGym,
@@ -14,7 +15,10 @@ const SearchSidebar = ({
   foldedGym: boolean;
   setFoldedGym: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { me } = useSelector(userSelector);
+  const { data: me } = useQuery<Me>('user', async () => {
+    const { data } = await axios.get('/user');
+    return data;
+  });
   return (
     <Sidebar>
       <div>

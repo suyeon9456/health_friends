@@ -1,24 +1,20 @@
-import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
 import { format, startOfMonth, endOfMonth, addDays } from 'date-fns';
 
-import { userSelector } from '@/../reducers/user';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useQuery } from 'react-query';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import { useQueries } from 'react-query';
+import axios from 'axios';
 import { CalendarEvents } from 'calendar';
 import { CalendarScheduleFetch } from '@/../@types/schedule';
+import { Me } from '@/../@types/user';
+import { useSelector } from 'react-redux';
+import { profileSelector } from '@/../reducers/profile';
 import { CalendarWrap, CardWrap } from './style';
 import { BigCalendar, SimpleMatchingCard } from '../../../molecules';
 import { useDateFormat } from '../../../../hooks';
 
-// const actions = [
-//   { icon: <UserAddOutlined />, key: 'rematch' },
-//   { icon: <EditOutlined />, key: 'edit' },
-// ];
-const MatchingCalendar = () => {
-  const { me } = useSelector(userSelector);
-
+const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
+  const { profile } = useSelector(profileSelector);
   const [range, setRange] = useState<{ start: Date; end: Date }>({
     start: addDays(startOfMonth(new Date()), -7),
     end: addDays(endOfMonth(new Date()), 7),
@@ -28,35 +24,33 @@ const MatchingCalendar = () => {
   const [nickname, setNickname] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [date, setDate] = useState<string>('');
+  const [events, setEvents] = useState<CalendarEvents>([]);
 
-  const { data: events } = useQuery<CalendarEvents | undefined, AxiosError>(
-    ['calendar', range],
-    async () => {
-      const { start, end } = range;
-      const { data }: AxiosResponse<CalendarScheduleFetch[]> = await axios.get(
-        `/schedules/calendar?start=${useDateFormat(
-          start,
-          'yyyy-MM-dd'
-        )}&end=${useDateFormat(end, 'yyyy-MM-dd')}`
-      );
-
-      return data?.map((schedule) => {
-        const eventNickname =
-          schedule?.Receiver?.id === me?.id
-            ? schedule?.Requester?.nickname
-            : schedule?.Receiver?.nickname;
-        return {
-          ...schedule,
-          start: new Date(schedule.startDate),
-          end: new Date(schedule.endDate),
-          address: schedule.Gym.address,
-          gymName: schedule.Gym.name,
-          nickname: eventNickname,
-        };
-      });
+  const [{ data: me }, { data: apiEvents, isLoading }] = useQueries<
+    [{ data: Me }, { data: CalendarScheduleFetch[] }]
+  >([
+    {
+      queryKey: ['user'],
+      queryFn: async () => {
+        const { data } = await axios.get('/user');
+        return data;
+      },
     },
-    { initialData: [] }
-  );
+    {
+      queryKey: ['calendar', range],
+      queryFn: async () => {
+        const { start, end } = range;
+        const userId = isProfile ? `userId=${profile?.id}&` : '';
+        const { data } = await axios.get(
+          `/schedules/calendar?${userId}start=${useDateFormat(
+            start,
+            'yyyy-MM-dd'
+          )}&end=${useDateFormat(end, 'yyyy-MM-dd')}`
+        );
+        return data;
+      },
+    },
+  ]);
 
   const onSelectEvent: (event: {
     nickname: string;
@@ -79,6 +73,27 @@ const MatchingCalendar = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (apiEvents) {
+      setEvents(
+        apiEvents?.map((schedule) => {
+          const eventNickname =
+            schedule?.Receiver?.id === me?.id
+              ? schedule?.Requester?.nickname
+              : schedule?.Receiver?.nickname;
+          return {
+            ...schedule,
+            start: new Date(schedule.startDate),
+            end: new Date(schedule.endDate),
+            address: schedule.Gym.address,
+            gymName: schedule.Gym.name,
+            nickname: eventNickname,
+          };
+        })
+      );
+    }
+  }, [apiEvents]);
+
   return (
     <CalendarWrap>
       <BigCalendar
@@ -91,7 +106,6 @@ const MatchingCalendar = () => {
           <SimpleMatchingCard
             nickname={nickname}
             address={address}
-            // actions={actions}
             date={date}
             onChangeShow={onChangeShowCard}
           />

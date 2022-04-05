@@ -12,6 +12,9 @@ import {
   RoleOptions,
   SizeType,
 } from '@/../@types/utils';
+import { useQuery } from 'react-query';
+import { Me } from '@/../@types/user';
+import axios from 'axios';
 import { InformationItem, Button, Icon } from '../../../atoms';
 import {
   Content,
@@ -24,10 +27,14 @@ import ModalEditInfo from '../ModalEditInfo';
 import ModalPortal from '../../ModalPortal';
 
 const MoreInfo = () => {
-  const { me } = useSelector(userSelector);
   const { profile } = useSelector(profileSelector);
   const [showEditModal, setShowEditModal] = useState(false);
   const [targetId, setTargetId] = useState('');
+
+  const { data: me } = useQuery<Me>('user', async () => {
+    const { data } = await axios.get('/user');
+    return data;
+  });
 
   const onChangeShowEditModal = useCallback(
     (e) => {

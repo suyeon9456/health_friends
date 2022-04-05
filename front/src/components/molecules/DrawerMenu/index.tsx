@@ -14,6 +14,8 @@ import { logoutRequest, userSelector } from '@/../reducers/user';
 
 import { ButtonType } from '@/../@types/utils';
 import { Me } from '@/../@types/user';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 import { Button, Avatar, Icon } from '../../atoms';
 import {
   Drawer,
@@ -38,7 +40,10 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
   const dispatch = useDispatch();
   const contextDispatch = useShowDispatch();
 
-  const { me }: { me: Me } = useSelector(userSelector);
+  const { data: me } = useQuery<Me>('user', async () => {
+    const { data } = await axios.get('/user');
+    return data;
+  });
 
   const onLogout = useCallback(() => {
     dispatch(logoutRequest());

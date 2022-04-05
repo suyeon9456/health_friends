@@ -8,6 +8,9 @@ import { useModalDispatch } from '@/../store/modalStore';
 import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/utils';
 import { Icon } from '@/components/atoms';
 import useRematchRate from '@/hooks/useRematchRate';
+import { useQuery } from 'react-query';
+import { Me } from '@/../@types/user';
+import axios from 'axios';
 import { PropfileCard } from '../../molecules';
 import Button from '../../atoms/Button';
 import {
@@ -31,7 +34,6 @@ const SearchFriends = ({
   const dispatch = useDispatch();
   const contextDispatch = useModalDispatch();
   const { loadFriendsLoading, gym } = useSelector(gymSelector);
-  const { me } = useSelector(userSelector);
 
   const [friend, setFriend] = useState<{
     id?: number;
@@ -41,6 +43,11 @@ const SearchFriends = ({
     UserGym?: { GymId?: number };
   }>({});
   const [showModal, setShowModal] = useState<boolean>(false);
+
+  const { data: me } = useQuery<Me>('user', async () => {
+    const { data } = await axios.get('/user');
+    return data;
+  });
 
   const onChangeFoldedFriends = useCallback(() => {
     setFoldedFriends((prev) => !prev);

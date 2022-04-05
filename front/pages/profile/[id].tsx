@@ -44,9 +44,9 @@ const Profile = () => {
         <Col xs={24} md={16}>
           {
             {
-              [Menu.LIKED]: <LikedList />,
-              [Menu.CALENDAR]: <MatchingCalendar />,
-              [Menu.RECORD]: <MatchingRecord />,
+              [Menu.LIKED]: <LikedList isProfile />,
+              [Menu.CALENDAR]: <MatchingCalendar isProfile />,
+              [Menu.RECORD]: <MatchingRecord isProfile />,
               [Menu.INFO]: (
                 <div>
                   <Info />

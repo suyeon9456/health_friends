@@ -6,6 +6,8 @@ export const LikedListWrap = styled.div`
   min-height: 626px;
   @media (max-width: 767px) {
     margin-left: 0;
+    margin-right: 0;
+    width: 100%;
   }
   margin-left: 10px;
   margin-top: 10px;

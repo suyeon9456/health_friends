@@ -1,6 +1,6 @@
-import { Gym, Gyms } from "./gym";
-import { Image } from "./image";
-import { User } from "./user";
+import { Gym, Gyms } from './gym';
+import { Image } from './image';
+import { User } from './user';
 
 export interface ScheduleModel {
   id: number;
@@ -26,7 +26,7 @@ export interface Schedule extends ScheduleModel {
     id: string;
     nickname: string;
     Image: Image;
-  }
+  };
   Gym: Gym;
   Cancel: ScheduledetailModel;
 }
@@ -40,10 +40,10 @@ export interface ScheduledetailModel {
 }
 
 interface Matching {
-  count: number,
-  id: number
-  nickname: string,
-  reqSchedule: Array<{ id: number }>,
+  count: number;
+  id: number;
+  nickname: string;
+  reqSchedule: Array<{ id: number }>;
 }
 
 export interface MatchingCount {
@@ -52,9 +52,9 @@ export interface MatchingCount {
   rematchingCount: number;
 }
 
-export type Schedules = Array<Schedule>;
+export type Schedules = Schedule[];
 
-export type MatchingCounts = Array<MatchingCount>;
+export type MatchingCounts = MatchingCount[];
 
 export interface RecordScheduleFetch {
   id: number;
@@ -72,10 +72,10 @@ export interface RecordScheduleFetch {
     isCanceled: boolean;
     updatedAt: string;
   };
-  Receiver: { id: number; nickname: string; Image: object };
+  Receiver: { id: number; nickname: string; Image: Image };
   Gym: { id: number; address: string; name: string };
-  Requester: { id: number; nickname: string; Image: object };
-};
+  Requester: { id: number; nickname: string; Image: Image };
+}
 
 export interface RecordSchedule {
   id: number;
@@ -137,7 +137,7 @@ export interface MatchingCardProps extends RecordScheduleFetch {
   Friend: {
     id: number;
     nickname: string;
-    Image: Image;
-  }
+    Image?: Image;
+  };
   lastYn?: number;
 }
