@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { loginRequest, loginSelector } from '@/../reducers/user';
 import { FormInput } from '@/components/molecules';
 import { Button, Form } from '@/components/atoms';
 import { useModalDispatch } from '@/../store/modalStore';
@@ -16,6 +14,9 @@ import {
   ModalStatus,
   SizeType,
 } from '@/../@types/utils';
+import { useRouter } from 'next/router';
+import { useMutation } from 'react-query';
+import axios from 'axios';
 import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
 
 const schema = yup
@@ -29,10 +30,13 @@ const schema = yup
   .required();
 
 const LoginForm = () => {
-  const dispatch = useDispatch();
+  const router = useRouter();
   const contextDispatch = useModalDispatch();
 
-  const { loginError } = useSelector(loginSelector);
+  const loginMutation = useMutation(
+    (data: { email: string; password: string }) =>
+      axios.post('/user/login', data)
+  );
 
   const {
     handleSubmit,
@@ -57,14 +61,20 @@ const LoginForm = () => {
 
   const onLogin = useCallback((data, e) => {
     e.preventDefault();
-    dispatch(loginRequest(data));
+    loginMutation.mutate(data);
   }, []);
 
   useEffect(() => {
-    if (loginError) {
+    if (loginMutation.isError) {
       changeShowAlert();
     }
-  }, [loginError]);
+  }, [loginMutation.isError]);
+
+  useEffect(() => {
+    if (loginMutation.isSuccess) {
+      void router.push('/');
+    }
+  }, [loginMutation.isSuccess]);
 
   return (
     <FormWrapper>

@@ -35,7 +35,6 @@ router.post('/', async (req, res, next) => { // POST /gym/
 
 router.get('/:gymId', async (req, res, next) => { // GET /gym/1
   try {
-    console.log('req.params.gymId', req.params.gymId);
     const where = {
       id: req.params.gymId
     }
@@ -74,6 +73,10 @@ router.get('/:gymId', async (req, res, next) => { // GET /gym/1
           model: Schedule,
           as: 'resSchedule',
           attributes: ['id', 'RematchId', 'permission'],
+        }, {
+          model: User,
+          as: 'Liker',
+          attributes: ['id'],
         }]
       }],
     });

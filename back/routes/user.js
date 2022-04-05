@@ -451,7 +451,7 @@ router.post('/profileimage', isLoggedIn, async (req, res, next) => { // POST /us
   }
 });
 
-router.patch('/:userId/like', isLoggedIn, async (req, res, next) => {
+router.post('/:userId/like', isLoggedIn, async (req, res, next) => {
   try {
     console.log(req.params);
     const user = await User.findOne({

@@ -2,13 +2,12 @@ import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { BiX } from 'react-icons/bi';
 
-import { addLikeRequest, userSelector } from '@/../reducers/user';
 import { gymSelector } from '@/../reducers/gym';
 import { useModalDispatch } from '@/../store/modalStore';
 import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/utils';
 import { Icon } from '@/components/atoms';
 import useRematchRate from '@/hooks/useRematchRate';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
 import axios from 'axios';
 import { PropfileCard } from '../../molecules';
@@ -49,6 +48,8 @@ const SearchFriends = ({
     return data;
   });
 
+  const likeMutation = useMutation((data) => axios.post(`/user/${data}/like`));
+
   const onChangeFoldedFriends = useCallback(() => {
     setFoldedFriends((prev) => !prev);
   }, [foldedFriends]);
@@ -75,7 +76,7 @@ const SearchFriends = ({
 
   const onLike = useCallback(
     (user) => () => {
-      dispatch(addLikeRequest(user.id));
+      likeMutation.mutate(user.id);
     },
     []
   );
@@ -105,12 +106,14 @@ const SearchFriends = ({
                   rematchingRate: number;
                 };
                 Image: { src: string };
+                Liker: Array<{ id: number }>;
               }) => {
                 const imageSrc = user?.Image?.src;
                 const cardImageSrc = imageSrc || '';
                 const percent = user.rematchCount
                   ? useRematchRate(user.rematchCount, user.totalCount)
                   : 0;
+                const isCheckedLike = !!user.Liker.find((l) => l.id === me?.id);
                 return (
                   <PropfileCard
                     key={user.id}
@@ -118,6 +121,7 @@ const SearchFriends = ({
                     nickname={user.nickname}
                     percent={percent}
                     isLoading={loadFriendsLoading}
+                    isCheckedLike={isCheckedLike}
                     onClick={onShowMatchingModal(user)}
                     onLike={onLike(user)}
                   />

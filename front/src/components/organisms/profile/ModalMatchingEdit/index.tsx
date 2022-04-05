@@ -9,7 +9,6 @@ import {
   addReScheduleRequest,
   updateScheduleRequest,
 } from '@/../reducers/schedule';
-import { userSelector } from '@/../reducers/user';
 import { ModalType, ShowModalType } from '@/../@types/utils';
 import { useQuery } from 'react-query';
 import { Me } from '@/../@types/user';

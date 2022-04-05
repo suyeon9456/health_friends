@@ -1,29 +1,31 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
 import { BiMenu } from 'react-icons/bi';
 
-import { logoutRequest } from '@/../reducers/user';
 import { SizeType } from '@/../@types/utils';
 import { Me } from '@/../@types/user';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 
 import { Avatar, Icon } from '../../atoms';
 import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
 
 const Menu = () => {
-  const { data: me } = useQuery<Me>('user', async () => {
-    const { data } = await axios.get('/user');
-    return data;
-  });
-  const dispatch = useDispatch();
+  const router = useRouter();
 
   const { drawerShow } = useShowState();
   const contextDispatch = useShowDispatch();
+  const [isChangeUser, setIsChangeUser] = useState(false);
+  const { data: me } = useQuery<Me>(['user', isChangeUser], async () => {
+    const { data } = await axios.get('/user');
+    return data;
+  });
+  const logoutMutation = useMutation(() => axios.post('/user/logout'));
+
   const onLogout = useCallback(() => {
-    dispatch(logoutRequest());
+    logoutMutation.mutate();
   }, []);
 
   const changeShowDrawerMenu = useCallback(() => {
@@ -32,6 +34,13 @@ const Menu = () => {
       value: !drawerShow,
     });
   }, [drawerShow]);
+
+  useEffect(() => {
+    if (logoutMutation.isSuccess) {
+      void router.push('/');
+      setIsChangeUser((prev) => !prev);
+    }
+  }, [logoutMutation.isSuccess]);
   return (
     <MenuList>
       <MenuItem type="home" align="left">

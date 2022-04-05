@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { BiGroup, BiHeart, BiRun, BiTime, BiUser } from 'react-icons/bi';
 
-import { userSelector } from '@/../reducers/user';
 import { profileSelector } from '@/../reducers/profile';
 import {
   AgeOptions,

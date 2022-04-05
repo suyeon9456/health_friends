@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { useMutation, useQuery } from 'react-query';
 import { BiEdit } from 'react-icons/bi';
 
-import { userSelector } from '@/../reducers/user';
 import { profileSelector } from '@/../reducers/profile';
 import axios from 'axios';
 import { ButtonType, SizeType } from '@/../@types/utils';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BiLike } from 'react-icons/bi';
+import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
 
 import { ButtonType, SizeType } from '@/../@types/utils';
 import {
@@ -22,6 +22,7 @@ const ProfileCard = ({
   image,
   percent,
   isLoading,
+  isCheckedLike,
   onClick,
   onLike,
 }: {
@@ -29,6 +30,7 @@ const ProfileCard = ({
   image: string;
   percent: number;
   isLoading?: boolean;
+  isCheckedLike?: boolean;
   onClick: () => void;
   onLike: () => void;
 }) => (
@@ -49,8 +51,13 @@ const ProfileCard = ({
           </>
         ) : (
           <>
-            <MetaTitle>
-              {nickname} <Icon icon={<BiLike />} onClick={onLike} />
+            <MetaTitle isCheckedLike={isCheckedLike}>
+              {nickname}
+              {!isCheckedLike ? (
+                <Icon icon={<RiHeart3Line />} onClick={onLike} />
+              ) : (
+                <Icon icon={<RiHeart3Fill />} />
+              )}
             </MetaTitle>
             <MetaPercent>재매칭률: {percent}%</MetaPercent>
           </>

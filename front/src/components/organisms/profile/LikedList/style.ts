@@ -134,6 +134,12 @@ export const MetaActions = styled.div`
   & > li:not(:last-child) {
     border-right: 1px solid #f0f0f0;
   }
+
+  & > .like {
+    & > span {
+      color: #9254de;
+    }
+  }
 `;
 
 export const Action = styled.li`

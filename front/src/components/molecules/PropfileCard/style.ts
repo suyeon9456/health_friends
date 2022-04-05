@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Card = styled.div`
   display: flex;
@@ -111,24 +111,30 @@ export const CardMeta = styled.div`
   }
 `;
 
-export const MetaTitle = styled.div`
+export const MetaTitle = styled.div<{ isCheckedLike?: boolean }>`
   overflow: hidden;
   color: #000000d9;
   font-weight: 500;
   font-size: 16px;
   white-space: nowrap;
   text-overflow: ellipsis;
-  /* margin-bottom: 8px; */
 
   & > span {
     color: #00000073;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
+    margin-left: 5px;
 
     &:hover {
-      color: #555;
+      color: #9254de;
     }
+    ${({ isCheckedLike }) =>
+      isCheckedLike &&
+      css`
+        color: #9254de;
+        cursor: default;
+      `}
   }
 `;
 

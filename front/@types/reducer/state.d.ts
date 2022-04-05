@@ -13,18 +13,6 @@ import { SignupMenuType } from '../utils';
 
 /* USER INITIAL STATE */
 export interface UserInitialState {
-  loadMyInfoLoading: boolean;
-  loadMyInfoDone: boolean;
-  loadMyInfoError: string | null;
-  loginLoading: boolean;
-  loginDone: boolean;
-  loginError: string | null;
-  logoutLoading: boolean;
-  logoutDone: boolean;
-  logoutError: string | null;
-  addLikeLoading: boolean;
-  addLikeDone: boolean;
-  addLikeError: string | null;
   signupProcess: SignupMenuType;
   signupStepInfo: SignupInfo | null;
   signupStepMoreInfo: SignupMoreInfo | null;

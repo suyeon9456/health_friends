@@ -1,8 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Control, FieldErrors } from 'react-hook-form';
 
-import { userSelector } from '@/../reducers/user';
 import { useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
 import axios from 'axios';

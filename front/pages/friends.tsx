@@ -1,11 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import React, { useState } from 'react';
-import { Store } from 'redux';
-import { END } from 'redux-saga';
-import axios from 'axios';
-
-import { GetServerSideProps } from 'next';
-import wrapper from '../store/configureStore';
 import {
   AppLayout,
   SearchGyms,
@@ -13,8 +6,6 @@ import {
   Row,
   Col,
 } from '../src/components/organisms';
-
-import { loadMyInfoRequest } from '../reducers/user';
 
 const Friends = () => {
   const [foldedFriends, setFoldedFriends] = useState(true);
@@ -42,24 +33,24 @@ const Friends = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps =
-  wrapper.getServerSideProps((store) => async ({ req }) => {
-    const cookie = req ? req.headers.cookie : '';
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    axios!.defaults!.headers!.Cookie = '';
-    if (req && cookie) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      axios!.defaults!.headers!.Cookie = cookie;
-    }
-    store.dispatch(loadMyInfoRequest());
-    store.dispatch(END);
-    await (store as Store).sagaTask?.toPromise();
+// export const getServerSideProps: GetServerSideProps =
+//   wrapper.getServerSideProps((store) => async ({ req }) => {
+//     const cookie = req ? req.headers.cookie : '';
+//     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//     axios!.defaults!.headers!.Cookie = '';
+//     if (req && cookie) {
+//       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//       axios!.defaults!.headers!.Cookie = cookie;
+//     }
+//     store.dispatch(loadMyInfoRequest());
+//     store.dispatch(END);
+//     await (store as Store).sagaTask?.toPromise();
 
-    return {
-      props: {
-        allPostsData: {},
-      },
-    };
-  });
+//     return {
+//       props: {
+//         allPostsData: {},
+//       },
+//     };
+//   });
 
 export default Friends;

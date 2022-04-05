@@ -1,6 +1,6 @@
 import React from 'react';
 import axios, { AxiosError } from 'axios';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
 import { BiDotsVerticalRounded, BiEdit, BiHeart, BiUser } from 'react-icons/bi';
 import { ImDrawer2 } from 'react-icons/im';
@@ -42,6 +42,8 @@ const LikedList = ({ isProfile }: { isProfile?: boolean }) => {
     },
     { cacheTime: 2 * 60 * 1000 }
   );
+
+  // const dellikeMutation = useMutation(() => axios.)
 
   return (
     <LikedListWrap>
@@ -87,7 +89,7 @@ const LikedList = ({ isProfile }: { isProfile?: boolean }) => {
                 <CardMeta>
                   <MetaTitle>{friend.nickname}</MetaTitle>
                   <MetaActions>
-                    <Action>
+                    <Action className="like">
                       <Icon icon={<BiHeart />} />
                     </Action>
                     <Action>
