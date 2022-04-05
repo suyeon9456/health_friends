@@ -122,3 +122,115 @@ export const MatchingIcon = styled.div`
     font-size: 12px;
   }
 `;
+
+export const LoadingMatchingIcon = styled.div`
+  font-size: 16px;
+  color: rgb(89, 89, 89);
+
+  & > div > * {
+    display: inline-block;
+    position: relative;
+    background: rgba(190, 190, 190, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        rgb(190 190 190 / 0%) 25%,
+        rgba(129, 129, 129, 0.2) 35%,
+        rgb(190 190 190 / 0%) 65%
+      );
+      animation: loading 2.5s infinite;
+      @keyframes loading {
+        0% {
+          transform: translateX(-150%);
+        }
+        50% {
+          transform: translateX(-60%);
+        }
+        100% {
+          transform: translate(150%);
+        }
+      }
+    }
+  }
+  & > div > .gym-name {
+    width: 80px;
+    height: 16px;
+  }
+
+  & > .gym-address {
+    height: 50px;
+    padding: 2px 5px;
+    font-size: 12px;
+
+    & > div {
+      width: 100%;
+      height: 16px;
+    }
+  }
+`;
+
+export const LoadingAvatarWrap = styled.div`
+  display: inline-block;
+
+  & + & {
+    margin-left: 10px;
+  }
+
+  & > * {
+    position: relative;
+    background: rgba(190, 190, 190, 0.2);
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        rgb(190 190 190 / 0%) 25%,
+        rgba(129, 129, 129, 0.2) 35%,
+        rgb(190 190 190 / 0%) 65%
+      );
+      animation: loading 2.5s infinite;
+      @keyframes loading {
+        0% {
+          transform: translateX(-150%);
+        }
+        50% {
+          transform: translateX(-60%);
+        }
+        100% {
+          transform: translate(150%);
+        }
+      }
+    }
+  }
+
+  & > span {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    white-space: nowrap;
+    border-radius: 5px;
+    width: 62px;
+    height: 62px;
+  }
+
+  & > div {
+    border-radius: 2px;
+    height: 24px;
+  }
+`;

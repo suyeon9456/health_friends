@@ -18,15 +18,18 @@ import {
   MetaActions,
   Action,
   Empty,
+  LoadingCard,
+  LoadingCardCover,
+  LoadingCardBody,
+  LoadingMetaTitle,
+  LoadingAction,
 } from './style';
 
 const LikedList = () => {
   const {
-    status,
     isLoading,
     error,
     data: likedFriends,
-    isFetching,
   } = useQuery<FetchLikedFriends | undefined, AxiosError>(
     'likedFriends',
     async () => {
@@ -38,7 +41,31 @@ const LikedList = () => {
 
   return (
     <LikedListWrap>
-      <LikedListBody>
+      <LikedListBody empty={!!isEmpty(likedFriends)}>
+        {isLoading &&
+          Array.from({ length: 9 }).map(() => (
+            <LoadingCard>
+              <LoadingCardCover>
+                <div className="lazyData" />
+              </LoadingCardCover>
+              <LoadingCardBody>
+                <CardMeta>
+                  <LoadingMetaTitle className="lazyData" />
+                  <MetaActions>
+                    <LoadingAction>
+                      <span className="lazyData" />
+                    </LoadingAction>
+                    <LoadingAction>
+                      <span className="lazyData" />
+                    </LoadingAction>
+                    <LoadingAction>
+                      <span className="lazyData" />
+                    </LoadingAction>
+                  </MetaActions>
+                </CardMeta>
+              </LoadingCardBody>
+            </LoadingCard>
+          ))}
         {!isEmpty(likedFriends) ? (
           likedFriends?.map((friend) => (
             <Card key={friend.id}>

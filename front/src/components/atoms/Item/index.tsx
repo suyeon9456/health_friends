@@ -6,24 +6,38 @@ import {
   ItemContent,
   ItemDescription,
   ItemTitle,
+  LoadingItemTitle,
+  LoadingItemDescription,
 } from './style';
 
 const Item = ({
   title,
   description,
+  isLoading,
   onClick,
 }: {
   title: string;
   description: React.ReactNode;
+  isLoading?: boolean;
   onClick?: () => void;
 }) => (
   <ItemCard>
     <ItemWrap>
       <ItemContent>
-        <ItemTitle onClick={onClick}>
-          <a>{title}</a>
-        </ItemTitle>
-        <ItemDescription>{description}</ItemDescription>
+        {isLoading ? (
+          <>
+            <LoadingItemTitle />
+            <LoadingItemDescription />
+            <LoadingItemDescription />
+          </>
+        ) : (
+          <>
+            <ItemTitle onClick={onClick}>
+              <a>{title}</a>
+            </ItemTitle>
+            <ItemDescription>{description}</ItemDescription>
+          </>
+        )}
       </ItemContent>
     </ItemWrap>
   </ItemCard>

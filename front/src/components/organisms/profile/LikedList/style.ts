@@ -12,11 +12,16 @@ export const LikedListWrap = styled.div`
   box-sizing: border-box;
 `;
 
-export const LikedListBody = styled.div`
-  display: block;
+export const LikedListBody = styled.div<{ empty: boolean }>`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(25%, auto));
   gap: 10px;
+
+  ${({ empty }) =>
+    empty &&
+    css`
+      display: block;
+    `}
   @media (max-width: 767px) {
     grid-template-columns: repeat(auto-fill, minmax(50%, auto));
   }
@@ -84,6 +89,7 @@ export const CardBody = styled.div`
 `;
 
 export const CardMeta = styled.div`
+  text-align: center;
   margin: -4px 0;
   &::before {
     display: table;
@@ -176,5 +182,99 @@ export const Empty = styled.div`
 
   & > * {
     color: #00000012;
+  }
+`;
+
+export const LoadingCard = styled.div`
+  display: inline-block;
+  height: 190px;
+  border: 1px solid #f0f0f0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  background: #fff;
+  border-radius: 8px;
+
+  & .lazyData {
+    position: relative;
+    background-color: rgb(244, 245, 247);
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        rgb(190 190 190 / 0%) 25%,
+        rgba(129, 129, 129, 0.2) 35%,
+        rgb(190 190 190 / 0%) 65%
+      );
+      animation: loading 2.5s infinite;
+      @keyframes loading {
+        0% {
+          transform: translateX(-150%);
+        }
+        50% {
+          transform: translateX(-60%);
+        }
+        100% {
+          transform: translate(150%);
+        }
+      }
+    }
+  }
+`;
+
+export const LoadingCardCover = styled.div`
+  margin-top: -1px;
+  margin-right: -1px;
+  margin-left: -1px;
+  height: 110px;
+  padding: 10px 0;
+
+  & > div {
+    margin: 0 auto;
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+  }
+`;
+
+export const LoadingCardBody = styled.div`
+  &::before {
+    display: table;
+    content: '';
+  }
+  &::after {
+    display: table;
+    clear: both;
+    content: '';
+  }
+`;
+
+export const LoadingMetaTitle = styled.div`
+  display: inline-block;
+  border-radius: 2px;
+  width: 150px;
+  height: 18px;
+  margin-bottom: 8px;
+`;
+
+export const LoadingAction = styled.li`
+  float: left;
+  margin: 12px 0;
+  text-align: center;
+  flex-grow: 1;
+
+  & > span {
+    display: inline-block;
+    border-radius: 2px;
+    width: 16px;
+    height: 16px;
   }
 `;

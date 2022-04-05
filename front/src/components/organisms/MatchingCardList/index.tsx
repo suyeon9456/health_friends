@@ -16,7 +16,7 @@ import {
 import { ModalType, ShowModalType } from '@/../@types/utils';
 import ModalMatchingDetail from '../profile/ModalMatchingDetail';
 import ModalMatchingEdit from '../profile/ModalMatchingEdit';
-import { MatchingCard } from '../../molecules';
+import { LoadingMatchingCard, MatchingCard } from '../../molecules';
 import { Icon } from '../../atoms';
 import { MatchingCardListWrap } from './style';
 
@@ -35,7 +35,6 @@ const MatchingCardList = ({ schedules }: { schedules: RecordSchedule[] }) => {
     isLoading,
     error,
     data: schedule,
-    isFetching,
   } = useQuery<MatchingCardProps | undefined, AxiosError>(
     ['schedule', matchingId],
     async () => {
@@ -180,6 +179,10 @@ const MatchingCardList = ({ schedules }: { schedules: RecordSchedule[] }) => {
             />
           );
         })}
+        {isLoading &&
+          Array.from({ length: 3 }, (_, i) => i).map(() => (
+            <LoadingMatchingCard />
+          ))}
       </MatchingCardListWrap>
       <ModalPortal>
         {showDetailModal && (

@@ -20,10 +20,8 @@ import {
   RankedFriendsHeader,
   RankedFriendsWrap,
   RankItemWrap,
-  NoDataCard,
-  NoDataContent,
-  NoDataIconWrap,
-  NoDataText,
+  LoadingRankItem,
+  LoadingRankWrap,
 } from './style';
 
 const RankedFriends = () => {
@@ -74,46 +72,13 @@ const RankedFriends = () => {
           <RankCardWrap>
             <RankTitle>재매칭 순위 TOP 5</RankTitle>
             <RankCard>
-              {!isEmpty(rankedFriends?.rematching) && !error ? (
-                rankedFriends?.rematching?.map((friend, index: number) => {
-                  const friendId = friend.id;
-                  const profileUrl = ['/profile/', friendId].join('');
-                  return (
-                    <Link href={profileUrl} key={friend.id}>
-                      <RankItemWrap>
-                        <RankItem>
-                          <span>{index + 1}.</span>
-                          <div>{friend ? friend.nickname : '없음'}</div>
-                        </RankItem>
-                      </RankItemWrap>
-                    </Link>
-                  );
-                })
-              ) : (
-                <NoDataCard>
-                  <NoDataContent>
-                    <NoDataIconWrap>
-                      <NoDataIcon width={62} height={62} color="#00000040" />
-                    </NoDataIconWrap>
-                    <NoDataText>
-                      <span>랭킹이 없습니다.</span>
-                    </NoDataText>
-                  </NoDataContent>
-                </NoDataCard>
-              )}
-            </RankCard>
-          </RankCardWrap>
-          <RankCardWrap>
-            <RankTitle>매칭 순위 TOP 5</RankTitle>
-            <RankCard>
-              {!isEmpty(rankedFriends?.matching) && !error ? (
-                rankedFriends?.matching?.map(
-                  (friend: Matching, index: number) => {
+              {!isEmpty(rankedFriends?.rematching) && !error && !isLoading
+                ? rankedFriends?.rematching?.map((friend, index: number) => {
                     const friendId = friend.id;
                     const profileUrl = ['/profile/', friendId].join('');
                     return (
                       <Link href={profileUrl} key={friend.id}>
-                        <RankItemWrap key={friend.id}>
+                        <RankItemWrap>
                           <RankItem>
                             <span>{index + 1}.</span>
                             <div>{friend ? friend.nickname : '없음'}</div>
@@ -121,20 +86,47 @@ const RankedFriends = () => {
                         </RankItemWrap>
                       </Link>
                     );
-                  }
-                )
-              ) : (
-                <NoDataCard>
-                  <NoDataContent>
-                    <NoDataIconWrap>
-                      <NoDataIcon width={62} height={62} color="#00000040" />
-                    </NoDataIconWrap>
-                    <NoDataText>
-                      <span>랭킹이 없습니다.</span>
-                    </NoDataText>
-                  </NoDataContent>
-                </NoDataCard>
-              )}
+                  })
+                : Array.from({ length: 5 }, (_, i) => i).map((_, i) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <LoadingRankWrap key={i}>
+                      <LoadingRankItem>
+                        <span />
+                        <div />
+                      </LoadingRankItem>
+                    </LoadingRankWrap>
+                  ))}
+            </RankCard>
+          </RankCardWrap>
+          <RankCardWrap>
+            <RankTitle>매칭 순위 TOP 5</RankTitle>
+            <RankCard>
+              {!isEmpty(rankedFriends?.matching) && !error && !isLoading
+                ? rankedFriends?.matching?.map(
+                    (friend: Matching, index: number) => {
+                      const friendId = friend.id;
+                      const profileUrl = ['/profile/', friendId].join('');
+                      return (
+                        <Link href={profileUrl} key={friend.id}>
+                          <RankItemWrap key={friend.id}>
+                            <RankItem>
+                              <span>{index + 1}.</span>
+                              <div>{friend ? friend.nickname : '없음'}</div>
+                            </RankItem>
+                          </RankItemWrap>
+                        </Link>
+                      );
+                    }
+                  )
+                : Array.from({ length: 5 }, (_, i) => i).map((_, i) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <LoadingRankWrap key={`${i}rank`}>
+                      <LoadingRankItem>
+                        <span />
+                        <div />
+                      </LoadingRankItem>
+                    </LoadingRankWrap>
+                  ))}
             </RankCard>
           </RankCardWrap>
         </RankCardList>

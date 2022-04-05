@@ -16,10 +16,8 @@ import {
   MatchingCoupleBody,
   MatchingCoupleHeader,
   MatchingCoupleWrap,
-  NoDataCard,
-  NoDataContent,
-  NoDataIconWrap,
-  NoDataText,
+  LoadingMatchingIcon,
+  LoadingAvatarWrap,
 } from './style';
 
 const RealTimeMatchingCouple = () => {
@@ -45,58 +43,72 @@ const RealTimeMatchingCouple = () => {
       </MatchingCoupleHeader>
       <MatchingCoupleBody>
         <CoupleCardList>
-          {!isEmpty(realtimeMatching) && !error ? (
-            realtimeMatching?.map((matching) => {
-              const reqImageSrc = matching?.Image?.src;
-              const reqAvatarSrc = reqImageSrc || '';
-              const resImageSrc =
-                matching?.reqSchedule[0]?.Receiver?.Image?.src;
-              const resAvatarSrc = resImageSrc || '';
-              return (
-                <CoupleCard key={matching.id}>
-                  <MatchingIcon>
+          {!isEmpty(realtimeMatching) && !error && !isLoading
+            ? realtimeMatching?.map((matching) => {
+                const reqImageSrc = matching?.Image?.src;
+                const reqAvatarSrc = reqImageSrc || '';
+                const resImageSrc =
+                  matching?.reqSchedule[0]?.Receiver?.Image?.src;
+                const resAvatarSrc = resImageSrc || '';
+                return (
+                  <CoupleCard key={matching.id}>
+                    <MatchingIcon>
+                      <div>
+                        <Icon icon={<BiMap />} />
+                        <span className="gym-name">
+                          {matching.reqSchedule[0].Gym.name}
+                        </span>
+                      </div>
+                      <div className="gym-address">
+                        {matching.reqSchedule[0].Gym.address}
+                      </div>
+                    </MatchingIcon>
+                    <div className="avatar-wrap">
+                      <Link href={`/profile/${matching.id}`} key="req">
+                        <AvatarWrap>
+                          <Avatar size={62} src={reqAvatarSrc} />
+                          <div>{matching.nickname}</div>
+                        </AvatarWrap>
+                      </Link>
+                      <Link
+                        href={`/profile/${matching.reqSchedule[0].id}`}
+                        key="res"
+                      >
+                        <AvatarWrap>
+                          <Avatar size={62} src={resAvatarSrc} />
+                          <div>
+                            {matching.reqSchedule[0]?.Receiver?.nickname}
+                          </div>
+                        </AvatarWrap>
+                      </Link>
+                    </div>
+                  </CoupleCard>
+                );
+              })
+            : Array.from({ length: 3 }, (_, i) => i).map((_, i) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <CoupleCard key={i}>
+                  <LoadingMatchingIcon>
                     <div>
-                      <Icon icon={<BiMap />} />
-                      <span className="gym-name">
-                        {matching.reqSchedule[0].Gym.name}
-                      </span>
+                      <span className="gym-name" />
                     </div>
                     <div className="gym-address">
-                      {matching.reqSchedule[0].Gym.address}
+                      <div />
+                      <div />
                     </div>
-                  </MatchingIcon>
+                  </LoadingMatchingIcon>
                   <div className="avatar-wrap">
-                    <Link href={`/profile/${matching.id}`} key="req">
-                      <AvatarWrap>
-                        <Avatar size={62} src={reqAvatarSrc} />
-                        <div>{matching.nickname}</div>
-                      </AvatarWrap>
-                    </Link>
-                    <Link
-                      href={`/profile/${matching.reqSchedule[0].id}`}
-                      key="res"
-                    >
-                      <AvatarWrap>
-                        <Avatar size={62} src={resAvatarSrc} />
-                        <div>{matching.reqSchedule[0]?.Receiver?.nickname}</div>
-                      </AvatarWrap>
-                    </Link>
+                    <LoadingAvatarWrap>
+                      <span />
+                      <div />
+                    </LoadingAvatarWrap>
+                    <LoadingAvatarWrap>
+                      <span />
+                      <div />
+                    </LoadingAvatarWrap>
                   </div>
                 </CoupleCard>
-              );
-            })
-          ) : (
-            <NoDataCard>
-              <NoDataContent>
-                <NoDataIconWrap>
-                  <NoDataIcon width={62} height={62} color="#00000040" />
-                </NoDataIconWrap>
-                <NoDataText>
-                  <span>현재 운동중인 매칭이 없습니다.</span>
-                </NoDataText>
-              </NoDataContent>
-            </NoDataCard>
-          )}
+              ))}
         </CoupleCardList>
       </MatchingCoupleBody>
     </MatchingCoupleWrap>

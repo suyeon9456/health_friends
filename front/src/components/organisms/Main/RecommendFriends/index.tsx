@@ -21,10 +21,11 @@ import {
   CardContentWrap,
   ContentTitile,
   ContentDescription,
-  NoDataCard,
-  NoDataContent,
-  NoDataIconWrap,
-  NoDataText,
+  FriendsLoadingCard,
+  LoadingAvatarWrap,
+  LoadingAvatar,
+  LoadingTitle,
+  LoadingDescription,
 } from './style';
 import {
   Avatar,
@@ -76,20 +77,24 @@ const RecommendFriends = () => {
   const [isReloadLocation, setIsReloadLocation] = useState<boolean>(false);
   const [locationYn, setLocationYn] = useState<boolean>(false);
 
-  const { error, data: recommendData } = useQuery<
-    FetchRecommendData | undefined,
-    AxiosError
-  >(['recommendFriends', location], async () => {
-    if (!location) {
-      return;
+  const {
+    error,
+    data: recommendData,
+    isLoading,
+  } = useQuery<FetchRecommendData | undefined, AxiosError>(
+    ['recommendFriends', location],
+    async () => {
+      if (!location) {
+        return;
+      }
+      const { regionSiName, regionGuName, regionDongName, mainAddressNo } =
+        location;
+      const { data } = await axios.get(
+        `/users/recommendFriends?si=${regionSiName}&gu=${regionGuName}&dong=${regionDongName}&mainAddressNo=${mainAddressNo}`
+      );
+      return data;
     }
-    const { regionSiName, regionGuName, regionDongName, mainAddressNo } =
-      location;
-    const { data } = await axios.get(
-      `/users/recommendFriends?si=${regionSiName}&gu=${regionGuName}&dong=${regionDongName}&mainAddressNo=${mainAddressNo}`
-    );
-    return data;
-  });
+  );
 
   const reLoadLocation = useCallback(
     () => setIsReloadLocation(true),
@@ -209,7 +214,7 @@ const RecommendFriends = () => {
       </FriendsSubTitle>
       <FriendsBody>
         <FriendsCardList>
-          {!isEmpty(recommendData?.fullFriends) && !error ? (
+          {!isEmpty(recommendData?.fullFriends) && !error && !isLoading ? (
             <Slider {...settings}>
               {recommendData?.fullFriends?.map(
                 (friend: {
@@ -239,16 +244,18 @@ const RecommendFriends = () => {
               )}
             </Slider>
           ) : (
-            <NoDataCard>
-              <NoDataContent>
-                <NoDataIconWrap>
-                  <NoDataIcon width={62} height={62} color="#00000040" />
-                </NoDataIconWrap>
-                <NoDataText>
-                  <span>활동하는 친구가 없습니다.</span>
-                </NoDataText>
-              </NoDataContent>
-            </NoDataCard>
+            Array.from({ length: 4 }, (_, i) => i).map(() => (
+              <FriendsLoadingCard>
+                <LoadingAvatarWrap>
+                  <LoadingAvatar className="lazyData" />
+                </LoadingAvatarWrap>
+                <CardContentWrap>
+                  <LoadingTitle className="lazyData" />
+                  <LoadingDescription className="lazyData" />
+                  <LoadingDescription className="lazyData" />
+                </CardContentWrap>
+              </FriendsLoadingCard>
+            ))
           )}
         </FriendsCardList>
       </FriendsBody>

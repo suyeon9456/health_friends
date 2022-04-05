@@ -8,6 +8,10 @@ import {
   CardBody,
   CardCover,
   CardMeta,
+  LoadingAction,
+  LoadingAvatar,
+  LoadingMetaPercent,
+  LoadingMetaTitle,
   MetaPercent,
   MetaTitle,
 } from './style';
@@ -17,31 +21,54 @@ const ProfileCard = ({
   nickname,
   image,
   percent,
+  isLoading,
   onClick,
   onLike,
 }: {
   nickname: string;
   image: string;
   percent: number;
+  isLoading?: boolean;
   onClick: () => void;
   onLike: () => void;
 }) => (
   <Card>
     <CardCover>
-      <Avatar size={SizeType.LARGE} src={image} />
+      {isLoading ? (
+        <LoadingAvatar />
+      ) : (
+        <Avatar size={SizeType.LARGE} src={image} />
+      )}
     </CardCover>
     <CardBody>
       <CardMeta>
-        <MetaTitle>
-          {nickname} <Icon icon={<BiLike />} onClick={onLike} />
-        </MetaTitle>
-        <MetaPercent>재매칭률: {percent}%</MetaPercent>
+        {isLoading ? (
+          <>
+            <LoadingMetaTitle className="lazyData" />
+            <LoadingMetaPercent className="lazyData" />
+          </>
+        ) : (
+          <>
+            <MetaTitle>
+              {nickname} <Icon icon={<BiLike />} onClick={onLike} />
+            </MetaTitle>
+            <MetaPercent>재매칭률: {percent}%</MetaPercent>
+          </>
+        )}
       </CardMeta>
     </CardBody>
     <CardActions>
-      <Button size={SizeType.SMALL} type={ButtonType.PRIMARY} onClick={onClick}>
-        매칭신청
-      </Button>
+      {isLoading ? (
+        <LoadingAction className="lazyData" />
+      ) : (
+        <Button
+          size={SizeType.SMALL}
+          type={ButtonType.PRIMARY}
+          onClick={onClick}
+        >
+          매칭신청
+        </Button>
+      )}
     </CardActions>
   </Card>
 );

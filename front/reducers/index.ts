@@ -9,7 +9,7 @@ import schedule from './schedule';
 const rootReducer = (state: any, action: any) => {
   switch (action.type) {
     case HYDRATE:
-      console.log('HYDRATE', HYDRATE);
+      // console.log('HYDRATE', HYDRATE);
       // console.log('payload', action.payload);
       return action.payload;
     default: {

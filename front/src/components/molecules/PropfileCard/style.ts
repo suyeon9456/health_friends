@@ -22,6 +22,40 @@ export const Card = styled.div`
     display: flex;
     align-items: center;
   }
+
+  & .lazyData {
+    position: relative;
+    overflow: hidden;
+    background: rgba(190, 190, 190, 0.2);
+    border-radius: 2px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        rgb(190 190 190 / 0%) 25%,
+        rgba(129, 129, 129, 0.2) 35%,
+        rgb(190 190 190 / 0%) 65%
+      );
+      animation: loading 2.5s infinite;
+      @keyframes loading {
+        0% {
+          transform: translateX(-150%);
+        }
+        50% {
+          transform: translateX(-60%);
+        }
+        100% {
+          transform: translate(150%);
+        }
+      }
+    }
+  }
 `;
 
 export const CardCover = styled.div`
@@ -145,4 +179,35 @@ export const CardActions = styled.div`
   & > button {
     float: right;
   }
+`;
+
+export const LoadingAvatar = styled.span`
+  box-sizing: border-box;
+  background: rgba(190, 190, 190, 0.2);
+  margin: 0;
+  padding: 0;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+`;
+
+export const LoadingMetaTitle = styled.div`
+  display: inline-block;
+  width: 120px;
+  height: 26px;
+`;
+
+export const LoadingMetaPercent = styled.div`
+  width: 100px;
+  height: 22px;
+`;
+
+export const LoadingAction = styled.div`
+  display: inline-block;
+  width: 60px;
+  height: 24px;
 `;

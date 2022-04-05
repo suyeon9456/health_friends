@@ -21,6 +21,7 @@ import Filter from './Filter';
 import FormRangeTimePicker from './FormRangeTimePicker';
 import BigCalendarToolbar from './BigCalendarToolbar';
 import DrawerMenu from './DrawerMenu';
+import LoadingMatchingCard from './LoadingMatchingCard';
 
 export {
   Alert,
@@ -46,4 +47,5 @@ export {
   FormRangeTimePicker,
   BigCalendarToolbar,
   DrawerMenu,
+  LoadingMatchingCard,
 };

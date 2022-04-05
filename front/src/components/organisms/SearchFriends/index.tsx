@@ -30,7 +30,7 @@ const SearchFriends = ({
 }) => {
   const dispatch = useDispatch();
   const contextDispatch = useModalDispatch();
-  const { gym } = useSelector(gymSelector);
+  const { loadFriendsLoading, gym } = useSelector(gymSelector);
   const { me } = useSelector(userSelector);
 
   const [friend, setFriend] = useState<{
@@ -110,6 +110,7 @@ const SearchFriends = ({
                     image={cardImageSrc}
                     nickname={user.nickname}
                     percent={percent}
+                    isLoading={loadFriendsLoading}
                     onClick={onShowMatchingModal(user)}
                     onLike={onLike(user)}
                   />

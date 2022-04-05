@@ -125,3 +125,64 @@ export const NoDataText = styled.div`
   font-weight: bold;
   color: #00000040;
 `;
+
+export const LoadingRankWrap = styled.div`
+  border-bottom: 1px solid #d9d9d9;
+  border: 1px solid rgb(230, 230, 230);
+  border-radius: 5px;
+  background-color: #ffffff;
+  margin-bottom: 4px;
+  box-sizing: border-box;
+`;
+
+export const LoadingRankItem = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  padding: 12px 16px;
+  color: #000000d9;
+  line-height: 1.5715;
+
+  & > * {
+    display: inline-block;
+    position: relative;
+    height: 22px;
+    background: rgba(190, 190, 190, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        rgb(190 190 190 / 0%) 25%,
+        rgba(129, 129, 129, 0.2) 35%,
+        rgb(190 190 190 / 0%) 65%
+      );
+      animation: loading 2.5s infinite;
+      @keyframes loading {
+        0% {
+          transform: translateX(-150%);
+        }
+        50% {
+          transform: translateX(-60%);
+        }
+        100% {
+          transform: translate(150%);
+        }
+      }
+    }
+  }
+
+  & > span {
+    margin-right: 10px;
+    width: 16px;
+  }
+  & > div {
+    width: 360px;
+  }
+`;

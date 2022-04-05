@@ -15,9 +15,10 @@ interface SagaStore extends Store {
 const sagaMiddleware = createSagaMiddleware();
 
 const createStore = configureStore({
-  reducer: reducer,
+  reducer,
   // middleware: [sagaMiddleware],
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sagaMiddleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(sagaMiddleware),
   devTools: process.env.NODE_ENV === 'development',
 });
 
@@ -25,15 +26,13 @@ const store = () => {
   // Next Redux Toolkit 에서 saga를 사용해야할 때
   (createStore as SagaStore).sagaTask = sagaMiddleware.run(rootSaga);
   return createStore;
-}
+};
 
-const wrapper = createWrapper(store, { debug: process.env.NODE_ENV === 'development' });
+const wrapper = createWrapper(store, {
+  debug: process.env.NODE_ENV === 'development',
+});
 
 export type RootState = ReturnType<typeof createStore.getState>;
 export type AppDispatch = typeof createStore.dispatch;
-
-// export type AppStore = ReturnType<typeof store>;
-// export type AppState = ReturnType<AppStore['getState']>;
-// export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppState, unknown, Action>;
 
 export default wrapper;

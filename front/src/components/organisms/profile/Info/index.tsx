@@ -29,8 +29,7 @@ const Info = () => {
   );
 
   const { me } = useSelector(userSelector);
-  const { profile, updateMyNicknameDone, updateMyDescriptionDone } =
-    useSelector(profileSelector);
+  const { profile, updateMyDescriptionDone } = useSelector(profileSelector);
   const [isEditNickname, setIsEditNickname] = useState<boolean>(false);
   const [isEditDescription, setIsEditDescription] = useState<boolean>(false);
 

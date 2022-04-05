@@ -120,3 +120,82 @@ export const ContentDescription = styled.div`
     font-weight: bold;
   }
 `;
+
+export const FriendsLoadingCard = styled.div`
+  margin: 10px 0 !important;
+  width: 200px !important;
+  height: 200px;
+  background-color: #ffffff;
+  border: 1px solid rgb(230, 230, 230);
+  border-radius: 5px;
+  & > div > .lazyData::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      rgb(190 190 190 / 0%) 25%,
+      rgba(129, 129, 129, 0.2) 35%,
+      rgb(190 190 190 / 0%) 65%
+    );
+    animation: loading 2.5s infinite;
+    @keyframes loading {
+      0% {
+        transform: translateX(-150%);
+      }
+      50% {
+        transform: translateX(-60%);
+      }
+      100% {
+        transform: translate(150%);
+      }
+    }
+  }
+`;
+
+export const LoadingAvatarWrap = styled.div`
+  position: relative;
+  width: 100%;
+  height: 110px;
+  padding: 10px;
+  background-color: rgb(244, 245, 247);
+  text-align: center;
+  border-radius: 5px;
+`;
+
+export const LoadingAvatar = styled.span`
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  background: rgba(190, 190, 190, 0.2);
+  border-radius: 5px;
+  width: 82px;
+  height: 82px;
+  overflow: hidden;
+`;
+
+export const LoadingTitle = styled.span`
+  display: inline-block;
+  position: relative;
+  width: 50px;
+  height: 16px;
+  background: rgba(190, 190, 190, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+`;
+
+export const LoadingDescription = styled.div`
+  display: inline-block;
+  position: relative;
+  width: 170px;
+  height: 16px;
+  background: rgba(190, 190, 190, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+`;

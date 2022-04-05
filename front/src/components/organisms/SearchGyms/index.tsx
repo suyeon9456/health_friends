@@ -65,7 +65,6 @@ const SearchGyms = ({
       if (foldedFriends) {
         setFoldedFriends(false);
       }
-      console.log('test', gymId);
       dispatch(loadFriendsRequest({ gymId }));
     },
     [foldedFriends]
