@@ -39,6 +39,11 @@ const gymSlice = createSlice({
       state.addGymDone = false;
       state.addGymError = action.payload;
     },
+    loadGyms(state, action) {
+      state.gyms = action.payload;
+      state.gym = {};
+      state.isLoadGyms = false;
+    },
     loadGymRequest(state, action) {
       state.loadGymLoading = true;
       state.loadGymDone = false;
@@ -160,6 +165,7 @@ export const {
   addGymRequeset,
   addGymSuccess,
   addGymError,
+  loadGyms,
   loadGymRequest,
   loadGymSuccess,
   loadGymError,

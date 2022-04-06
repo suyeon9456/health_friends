@@ -241,7 +241,7 @@ const SearchMap = ({
   }, [gym || gym?.latitude || gym?.longitude]);
 
   useEffect(() => {
-    gyms.forEach(
+    gyms?.forEach(
       (gymItem: {
         id: number;
         latitude: string;

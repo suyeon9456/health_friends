@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
 
 import { AppLayout } from '@/components/organisms';
 import { Steps } from '@/components/molecules';
@@ -8,26 +7,15 @@ import InfoForm from '@/components/organisms/signup/InfoForm';
 import MoreInfoForm from '@/components/organisms/signup/MoreInfoForm';
 import MoreGymInfoForm from '@/components/organisms/signup/MoreGymInfoForm';
 import FriendsInfoForm from '@/components/organisms/signup/FriendsInfoForm';
-import { useQuery } from 'react-query';
 import axios from 'axios';
+import { GetServerSidePropsContext } from 'next';
 import styles from '../src/scss/signup.module.scss';
 import { signupSelector } from '../reducers/user';
 import { SignupMenuType, SignupMenu, SignupSteps } from '../@types/utils';
-import { Me } from '../@types/user';
 
 const Signup = () => {
-  const { data: me, isLoading } = useQuery<Me>('user', async () => {
-    const { data } = await axios.get('/user');
-    return data;
-  });
   const { signupProcess }: { signupProcess: SignupMenuType } =
     useSelector(signupSelector);
-  const router = useRouter();
-  useEffect(() => {
-    if (!isLoading && me?.id) {
-      void router.replace('/');
-    }
-  }, [me?.id]);
 
   return (
     <AppLayout>
@@ -50,6 +38,30 @@ const Signup = () => {
       </div>
     </AppLayout>
   );
+};
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const cookie = context.req ? context.req.headers.cookie : '';
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  axios.defaults.headers!.Cookie = '';
+  if (context.req && cookie) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    axios.defaults.headers!.Cookie = cookie;
+  }
+  const { data } = await axios.get('/user');
+  if (data) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
 };
 
 export default Signup;

@@ -23,7 +23,13 @@ import { MatchingCardListWrap } from './style';
 
 import ModalPortal from '../ModalPortal';
 
-const MatchingCardList = ({ schedules }: { schedules: RecordSchedule[] }) => {
+const MatchingCardList = ({
+  schedules,
+  isLoading,
+}: {
+  schedules: RecordSchedule[];
+  isLoading: boolean;
+}) => {
   const router = useRouter();
   const { id: queryId } = router.query;
   const { profile } = useSelector(profileSelector);
@@ -33,7 +39,7 @@ const MatchingCardList = ({ schedules }: { schedules: RecordSchedule[] }) => {
   const [modalType, setModalType] = useState<ShowModalType>(ModalType.VIEW);
   const [schedule, setSchedule] = useState<MatchingCardProps | null>(null);
 
-  const [{ data: me }, { data: apiSchedule, isLoading }] = useQueries<
+  const [{ data: me }, { data: apiSchedule }] = useQueries<
     [
       { data: Me },
       {

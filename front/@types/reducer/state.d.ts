@@ -24,24 +24,6 @@ export interface UserInitialState {
 
 /* PROFILE INITIAL STATE */
 export interface ProfileInitialState {
-  loadInfoLoading: boolean;
-  loadInfoDone: boolean;
-  loadInfoError: string | null;
-  loadMyinfoLoading: boolean;
-  loadMyinfoDone: boolean;
-  loadMyinfoError: string | null;
-  updateMyInfoLoading: boolean;
-  updateMyInfoDone: boolean;
-  updateMyInfoError: string | null;
-  updateMyFriendsInfoLoading: boolean;
-  updateMyFriendsInfoDone: boolean;
-  updateMyFriendsInfoError: string | null;
-  updateMyNicknameLoading: boolean;
-  updateMyNicknameDone: boolean;
-  updateMyNicknameError: string | null;
-  updateMyDescriptionLoading: boolean;
-  updateMyDescriptionDone: boolean;
-  updateMyDescriptionError: string | null;
   uploadProfileImageLoading: boolean;
   uploadProfileImageDone: boolean;
   uploadProfileImageError: string | null;

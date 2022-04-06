@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
 import {
   BiUser,
   BiX,
@@ -40,10 +39,14 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
 
   const [isChangeUser, setIsChangeUser] = useState(false);
 
-  const { data: me } = useQuery<Me>(['user', isChangeUser], async () => {
-    const { data } = await axios.get('/user');
-    return data;
-  });
+  const { data: me } = useQuery<Me>(
+    ['user', isChangeUser],
+    async () => {
+      const { data } = await axios.get('/user');
+      return data;
+    },
+    { refetchOnWindowFocus: false, retry: false }
+  );
 
   const logoutMutation = useMutation(() => axios.post('/user/logout'));
 

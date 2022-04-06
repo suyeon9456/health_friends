@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 
-import {
-  profileSelector,
-  updateMyFriendsInfoRequest,
-  updateMyinfoRequest,
-} from '@/../reducers/profile';
+import { profileSelector } from '@/../reducers/profile';
+import { useMutation, useQueryClient } from 'react-query';
+import axios from 'axios';
+import { SignupGymInfo, SignupMoreInfo } from '@/../@types/user';
 import { useDateFormat } from '../../../../hooks';
 import { Modal } from '../../../molecules';
 import EditInfoForm from '../EditInfoForm';
@@ -23,8 +22,14 @@ const ModalEditInfo = ({
   onCancel: (e?: React.MouseEvent<HTMLElement>) => void;
   setCloseModal: (close: boolean) => void;
 }) => {
-  const dispatch = useDispatch();
   const { profile } = useSelector(profileSelector);
+  const queryClient = useQueryClient();
+  const myinfoMutation = useMutation((data: SignupMoreInfo & SignupGymInfo) =>
+    axios.put('/user', data)
+  );
+  const friendsInfoMutation = useMutation((data: SignupMoreInfo) =>
+    axios.put('/user/detail', data)
+  );
 
   const { handleSubmit, control, setValue } = useForm({
     defaultValues: {
@@ -40,23 +45,20 @@ const ModalEditInfo = ({
   const onSubmit = useCallback(
     (data) => {
       if (targetId === 'more-info') {
-        dispatch(
-          updateMyinfoRequest({
-            ...data,
-            startTime: format(data.startTime, 'HH:mm'),
-            endTime: format(data.endTime, 'HH:mm'),
-          })
-        );
+        myinfoMutation.mutate({
+          ...data,
+          startTime: format(data.startTime, 'HH:mm'),
+          endTime: format(data.endTime, 'HH:mm'),
+        });
+        // void queryClient.invalidateQueries('profile');
       }
       if (targetId === 'friends-info') {
-        dispatch(
-          updateMyFriendsInfoRequest({
-            gender: data.gender,
-            age: data.age,
-            career: data.career,
-            role: data.role,
-          })
-        );
+        friendsInfoMutation.mutate({
+          gender: data.gender,
+          age: data.age,
+          career: data.career,
+          role: data.role,
+        });
       }
       setCloseModal(false);
     },
@@ -95,6 +97,12 @@ const ModalEditInfo = ({
       setValue('role', profile?.role);
     }
   }, [targetId]);
+
+  useEffect(() => {
+    if (myinfoMutation.isSuccess) {
+      void queryClient.invalidateQueries('profile');
+    }
+  }, [myinfoMutation]);
 
   return (
     <Modal

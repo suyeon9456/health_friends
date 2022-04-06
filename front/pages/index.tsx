@@ -1,14 +1,10 @@
+import axios from 'axios';
+import { GetServerSideProps } from 'next';
 import React from 'react';
-// import { GetServerSideProps } from 'next';
-// import { END } from 'redux-saga';
-// import axios from 'axios';
+import { dehydrate, QueryClient } from 'react-query';
 
-// import { Store } from 'redux';
 import { AppLayout, Main, Footer } from '../src/components/organisms';
-
-// import wrapper from '../store/configureStore';
-
-// import { loadMyInfoRequest } from '../reducers/user';
+import wrapper from '../store/configureStore';
 
 const Home = () => (
   <AppLayout spanNumber={24}>

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import { loadProfileInfoRequest } from '@/../reducers/profile';
+import { loadProfile } from '@/../reducers/profile';
 import { Menu, ProfileMenuType } from '@/../@types/utils';
 
+import { useQuery } from 'react-query';
+import axios from 'axios';
 import {
   AppLayout,
   SideBar,
@@ -23,9 +25,27 @@ const Profile = () => {
   const { id } = router.query;
   const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(Menu.INFO);
 
+  const {
+    data: profile,
+    isFetched,
+    dataUpdatedAt,
+  } = useQuery(
+    ['profile', id],
+    async () => {
+      const { data } = await axios.get(`/user/profile/${id}`);
+      return data;
+    },
+    {
+      refetchOnWindowFocus: false,
+      retry: false,
+    }
+  );
+
   useEffect(() => {
-    dispatch(loadProfileInfoRequest(id));
-  }, [id]);
+    if (isFetched) {
+      dispatch(loadProfile(profile));
+    }
+  }, [dataUpdatedAt]);
 
   return (
     <AppLayout>
@@ -73,4 +93,4 @@ const Profile = () => {
 //     };
 //   });
 
-// export default Profile;
+export default Profile;

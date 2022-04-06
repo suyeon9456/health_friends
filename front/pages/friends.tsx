@@ -1,4 +1,7 @@
+import axios from 'axios';
+import { GetServerSideProps } from 'next';
 import React, { useState } from 'react';
+import { QueryClient } from 'react-query';
 import {
   AppLayout,
   SearchGyms,
@@ -6,6 +9,7 @@ import {
   Row,
   Col,
 } from '../src/components/organisms';
+import wrapper from '../store/configureStore';
 
 const Friends = () => {
   const [foldedFriends, setFoldedFriends] = useState(true);
@@ -33,24 +37,18 @@ const Friends = () => {
   );
 };
 
-// export const getServerSideProps: GetServerSideProps =
-//   wrapper.getServerSideProps((store) => async ({ req }) => {
-//     const cookie = req ? req.headers.cookie : '';
-//     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-//     axios!.defaults!.headers!.Cookie = '';
-//     if (req && cookie) {
-//       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-//       axios!.defaults!.headers!.Cookie = cookie;
-//     }
-//     store.dispatch(loadMyInfoRequest());
-//     store.dispatch(END);
-//     await (store as Store).sagaTask?.toPromise();
-
-//     return {
-//       props: {
-//         allPostsData: {},
-//       },
-//     };
-//   });
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps(() => async () => {
+    const queryClient = new QueryClient();
+    await queryClient.prefetchInfiniteQuery('realtimeMathcing', () =>
+      axios.get('/users/realtimeMathcing')
+    );
+    console.log('queryClient', queryClient);
+    return {
+      props: {
+        // dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+      },
+    };
+  });
 
 export default Friends;

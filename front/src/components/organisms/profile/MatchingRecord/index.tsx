@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
 import { BiPlus } from 'react-icons/bi';
@@ -27,12 +27,54 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
   const [type, onChangeType] = useCheckbox<string>([]);
   const [limit, setLimit] = useState<number>(3);
   const [rejectedMatching, setRejectedMatching] = useState<boolean>(false);
+  const [schedules, setSchedules] = useState<any>([]);
+
+  // const query = useInfiniteQuery(
+  //   ['record', status, term, type, limit, rejectedMatching],
+  //   async (fetchBlacklist) => {
+  //     const userId = isProfile ? `userId=${profile?.id}&` : '';
+  //     const statusquery =
+  //       !isEmpty(status) && `&${status.map((m) => `${m}=true`).join('&')}`;
+  //     const termquery =
+  //       !isEmpty(term) && `&${term.map((m) => `${m}=true`).join('&')}`;
+  //     const typequery =
+  //       !isEmpty(type) && `&${type.map((m) => `${m}=true`).join('&')}`;
+  //     const {
+  //       data,
+  //     }: AxiosResponse<{
+  //       isLast: boolean;
+  //       schedules: RecordScheduleFetch[];
+  //     }> = await axios.get(
+  //       `/schedules?${userId}limit=${limit}&rejectedMatching=${rejectedMatching}${
+  //         !termquery ? '' : termquery
+  //       }${!typequery ? '' : typequery}${!statusquery ? '' : statusquery}`
+  //     );
+  //     return {
+  //       result: data.schedules.map((schedule) => ({
+  //         ...schedule,
+  //         start: new Date(schedule?.startDate),
+  //         end: new Date(schedule?.endDate),
+  //       })),
+  //       nextPage: limit + 3,
+  //       isLast: data.isLast,
+  //     };
+  //   },
+  //   {
+  //     getNextPageParam: (lastPage, pages) => {
+  //       console.log('lastPage', lastPage);
+  //       if (!lastPage.isLast) return lastPage.nextPage;
+  //       return undefined;
+  //     },
+  //     refetchOnWindowFocus: false,
+  //     refetchOnMount: true,
+  //     refetchOnReconnect: true,
+  //     retry: 1,
+  //   }
+  // );
 
   const {
-    isLoading,
-    error,
-    data: { count, schedules },
     isFetching,
+    data: { isLast, apiSchedules },
   } = useQuery<any | undefined, AxiosError>(
     ['record', status, term, type, limit, rejectedMatching],
     async () => {
@@ -46,7 +88,7 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
       const {
         data,
       }: AxiosResponse<{
-        count: number;
+        isLast: boolean;
         schedules: RecordScheduleFetch[];
       }> = await axios.get(
         `/schedules?${userId}limit=${limit}&rejectedMatching=${rejectedMatching}${
@@ -55,14 +97,18 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
       );
       return {
         ...data,
-        schedules: data.schedules.map((schedule) => ({
+        apiSchedules: data.schedules.map((schedule) => ({
           ...schedule,
           start: new Date(schedule?.startDate),
           end: new Date(schedule?.endDate),
         })),
       };
     },
-    { initialData: { count: 0, schedules: [] } }
+    {
+      initialData: { isLast: false, schedules: [] },
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
   );
 
   const onMoreSchedule = useCallback(() => {
@@ -81,6 +127,17 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
     [rejectedMatching]
   );
 
+  useEffect(() => {
+    if (!isEmpty(apiSchedules)) {
+      if (schedules?.length === 0) {
+        return setSchedules(apiSchedules);
+      }
+      setSchedules([...schedules, ...apiSchedules]);
+    }
+  }, [apiSchedules]);
+  useEffect(() => {
+    console.log('isFetching', isFetching);
+  }, [isFetching]);
   return (
     <RecordWrap>
       <FilterList>
@@ -123,13 +180,13 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
           onChange={onChangeRejectedMatching}
         />
       </CancelYnCheckBoxWrap>
-      <RecordBody schedules={schedules.length}>
-        <MatchingCardList schedules={schedules} />
+      <RecordBody schedules={schedules?.length}>
+        <MatchingCardList schedules={schedules} isLoading={isFetching} />
       </RecordBody>
       <RecordFooter>
         <Button
           type={ButtonType.PRIMARY}
-          disabled={count - schedules.length <= 0}
+          disabled={isLast}
           icon={<Icon icon={<BiPlus />} />}
           onClick={onMoreSchedule}
         >

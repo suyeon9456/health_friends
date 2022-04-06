@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { BiEdit } from 'react-icons/bi';
 
 import { profileSelector } from '@/../reducers/profile';
@@ -21,6 +21,7 @@ import {
 import useInput from '../../../../hooks/useInput';
 
 const Info = () => {
+  const queryClient = useQueryClient();
   const nicknameMutation = useMutation((data: { nickname: string }) =>
     axios.patch('/user/nickname', data)
   );
@@ -28,11 +29,18 @@ const Info = () => {
     axios.patch('/user/description', data)
   );
 
-  const { data: me } = useQuery<Me>('user', async () => {
-    const { data } = await axios.get('/user');
-    return data;
-  });
-  const { profile, updateMyDescriptionDone } = useSelector(profileSelector);
+  const { data: me } = useQuery<Me>(
+    'user',
+    async () => {
+      const { data } = await axios.get('/user');
+      return data;
+    },
+    {
+      refetchOnWindowFocus: false,
+      retry: false,
+    }
+  );
+  const { profile } = useSelector(profileSelector);
   const [isEditNickname, setIsEditNickname] = useState<boolean>(false);
   const [isEditDescription, setIsEditDescription] = useState<boolean>(false);
 
@@ -40,7 +48,7 @@ const Info = () => {
     profile?.nickname || ''
   );
   const [description, onChangeDescription] = useInput<string>(
-    profile?.description || ''
+    profile?.Userdetail?.description || ''
   );
 
   const onChangeIsEditNickname = useCallback(() => {
@@ -62,13 +70,17 @@ const Info = () => {
   useEffect(() => {
     if (nicknameMutation.isSuccess) {
       setIsEditNickname(false);
+      void queryClient.invalidateQueries('profile');
+      void queryClient.invalidateQueries('user');
     }
   }, [nicknameMutation.isSuccess]);
   useEffect(() => {
-    if (updateMyDescriptionDone) {
+    if (descMutation.isSuccess) {
       setIsEditDescription(false);
+      void queryClient.invalidateQueries('profile');
+      void queryClient.invalidateQueries('user');
     }
-  }, [updateMyDescriptionDone]);
+  }, [descMutation.isSuccess]);
 
   return (
     <InfoWrapper>

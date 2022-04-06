@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { BiX } from 'react-icons/bi';
 
 import { gymSelector } from '@/../reducers/gym';
@@ -7,7 +7,7 @@ import { useModalDispatch } from '@/../store/modalStore';
 import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/utils';
 import { Icon } from '@/components/atoms';
 import useRematchRate from '@/hooks/useRematchRate';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Me } from '@/../@types/user';
 import axios from 'axios';
 import { PropfileCard } from '../../molecules';
@@ -30,7 +30,6 @@ const SearchFriends = ({
   foldedFriends: boolean;
   setFoldedFriends: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const dispatch = useDispatch();
   const contextDispatch = useModalDispatch();
   const { loadFriendsLoading, gym } = useSelector(gymSelector);
 
@@ -43,10 +42,15 @@ const SearchFriends = ({
   }>({});
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const { data: me } = useQuery<Me>('user', async () => {
-    const { data } = await axios.get('/user');
-    return data;
-  });
+  const queryClient = useQueryClient();
+  const { data: me } = useQuery<Me>(
+    'user',
+    async () => {
+      const { data } = await axios.get('/user');
+      return data;
+    },
+    { refetchOnWindowFocus: false, retry: false }
+  );
 
   const likeMutation = useMutation((data) => axios.post(`/user/${data}/like`));
 
@@ -77,6 +81,7 @@ const SearchFriends = ({
   const onLike = useCallback(
     (user) => () => {
       likeMutation.mutate(user.id);
+      // queryClient.invalidateQueries('user');
     },
     []
   );

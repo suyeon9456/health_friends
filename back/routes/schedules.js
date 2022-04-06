@@ -99,7 +99,9 @@ router.get('/', async (req, res, next) => { // GET /schedules/
       order: [ ['startDate', 'DESC'] ],
     });
 
-    res.status(201).json({ schedules, count: schedulesCount.count });
+    const resultSchedules = schedules.slice(parseInt(req.query.limit, 10) - 3);
+
+    res.status(201).json({ schedules: resultSchedules, isLast: schedulesCount.count - schedules.length < 1 });
   } catch (error) {
     console.error(error);
     next(error);

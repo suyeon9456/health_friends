@@ -1,27 +1,28 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { BiMenu } from 'react-icons/bi';
 
 import { SizeType } from '@/../@types/utils';
 import { Me } from '@/../@types/user';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 
 import { Avatar, Icon } from '../../atoms';
 import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
 
 const Menu = () => {
-  const router = useRouter();
-
   const { drawerShow } = useShowState();
   const contextDispatch = useShowDispatch();
-  const [isChangeUser, setIsChangeUser] = useState(false);
-  const { data: me } = useQuery<Me>(['user', isChangeUser], async () => {
-    const { data } = await axios.get('/user');
-    return data;
-  });
+  const queryClient = useQueryClient();
+  const { data: me } = useQuery<Me>(
+    ['user'],
+    async () => {
+      const { data } = await axios.get('/user');
+      return data;
+    },
+    { refetchOnWindowFocus: false, retry: false }
+  );
   const logoutMutation = useMutation(() => axios.post('/user/logout'));
 
   const onLogout = useCallback(() => {
@@ -37,8 +38,7 @@ const Menu = () => {
 
   useEffect(() => {
     if (logoutMutation.isSuccess) {
-      void router.push('/');
-      setIsChangeUser((prev) => !prev);
+      void queryClient.invalidateQueries('user');
     }
   }, [logoutMutation.isSuccess]);
   return (

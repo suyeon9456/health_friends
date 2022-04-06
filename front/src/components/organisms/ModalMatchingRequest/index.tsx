@@ -40,10 +40,14 @@ const ModalMatchingRequest = ({
 }) => {
   const dispatch = useDispatch();
   const { gym } = useSelector(gymSelector);
-  const { data: me } = useQuery<Me>('user', async () => {
-    const { data } = await axios.get('/user');
-    return data;
-  });
+  const { data: me } = useQuery<Me>(
+    'user',
+    async () => {
+      const { data } = await axios.get('/user');
+      return data;
+    },
+    { refetchOnWindowFocus: false, retry: false }
+  );
 
   const { handleSubmit, control, setValue } = useForm({
     defaultValues: {

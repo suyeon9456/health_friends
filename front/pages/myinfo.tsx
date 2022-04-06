@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
 import axios from 'axios';
 
-import { useQuery } from 'react-query';
-import { loadProfileMyinfoRequest } from '../reducers/profile';
+import { GetServerSidePropsContext } from 'next';
+import { useQuery, useQueryClient } from 'react-query';
+import { loadProfile } from '../reducers/profile';
 
 import {
   AppLayout,
@@ -17,45 +17,33 @@ import {
 import MatchingCalendar from '../src/components/organisms/profile/MatchingCalendar';
 import MatchingRecord from '../src/components/organisms/profile/MatchingRecord';
 import LikedList from '../src/components/organisms/profile/LikedList';
-import {
-  GlobalModal,
-  Menu,
-  ModalStatus,
-  ProfileMenuType,
-} from '../@types/utils';
-import { useModalDispatch } from '../store/modalStore';
-import { Me } from '../@types/user';
+import { Menu, ProfileMenuType } from '../@types/utils';
 
 const Myinfo = () => {
-  const router = useRouter();
-
   const dispatch = useDispatch();
-  const contextDispatch = useModalDispatch();
-
-  const { data: me, isLoading } = useQuery<Me>('user', async () => {
-    const { data } = await axios.get('/user');
-    return data;
-  });
   const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(Menu.INFO);
 
-  const goMain = useCallback(() => router.push('/'), []);
+  const {
+    data: profile,
+    isFetched,
+    dataUpdatedAt,
+  } = useQuery(
+    'profile',
+    async () => {
+      const { data } = await axios.get('/user/profile/myinfo');
+      return data;
+    },
+    {
+      refetchOnWindowFocus: false,
+      retry: false,
+    }
+  );
 
   useEffect(() => {
-    if (!isLoading && !me) {
-      contextDispatch({
-        type: 'SHOW_MODAL',
-        payload: {
-          type: GlobalModal.ALERT,
-          statusType: ModalStatus.WARNING,
-          message: '로그인 후 사용가능 합니다.',
-          block: true,
-          callback: goMain,
-        },
-      });
-      return;
+    if (isFetched) {
+      dispatch(loadProfile(profile));
     }
-    dispatch(loadProfileMyinfoRequest());
-  }, [me]);
+  }, [dataUpdatedAt]);
 
   return (
     <AppLayout>
@@ -83,24 +71,28 @@ const Myinfo = () => {
   );
 };
 
-// export const getServerSideProps: GetServerSideProps =
-//   wrapper.getServerSideProps((store) => async ({ req }) => {
-//     const cookie = req ? req.headers.cookie : '';
-//     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-//     axios!.defaults!.headers!.Cookie = '';
-//     if (req && cookie) {
-//       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-//       axios!.defaults!.headers!.Cookie = cookie;
-//     }
-//     store.dispatch(loadMyInfoRequest());
-//     store.dispatch(END);
-//     await (store as Store).sagaTask?.toPromise();
-
-//     return {
-//       props: {
-//         allPostsData: {},
-//       },
-//     };
-//   });
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const cookie = context.req ? context.req.headers.cookie : '';
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  axios.defaults.headers!.Cookie = '';
+  if (context.req && cookie) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    axios.defaults.headers!.Cookie = cookie;
+  }
+  const { data } = await axios.get('/user');
+  if (!data) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+};
 
 export default Myinfo;

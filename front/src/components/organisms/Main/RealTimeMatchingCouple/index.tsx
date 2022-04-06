@@ -46,10 +46,10 @@ const RealTimeMatchingCouple = () => {
           {!isEmpty(realtimeMatching) && !error && !isLoading
             ? realtimeMatching?.map((matching) => {
                 const reqImageSrc = matching?.Image?.src;
-                const reqAvatarSrc = reqImageSrc || '';
+                const reqAvatarSrc = reqImageSrc ?? '';
                 const resImageSrc =
                   matching?.reqSchedule[0]?.Receiver?.Image?.src;
-                const resAvatarSrc = resImageSrc || '';
+                const resAvatarSrc = resImageSrc ?? '';
                 return (
                   <CoupleCard key={matching.id}>
                     <MatchingIcon>

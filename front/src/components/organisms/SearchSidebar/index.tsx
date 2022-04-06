@@ -15,10 +15,14 @@ const SearchSidebar = ({
   foldedGym: boolean;
   setFoldedGym: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { data: me } = useQuery<Me>('user', async () => {
-    const { data } = await axios.get('/user');
-    return data;
-  });
+  const { data: me } = useQuery<Me>(
+    'user',
+    async () => {
+      const { data } = await axios.get('/user');
+      return data;
+    },
+    { refetchOnWindowFocus: false, retry: false }
+  );
   return (
     <Sidebar>
       <div>

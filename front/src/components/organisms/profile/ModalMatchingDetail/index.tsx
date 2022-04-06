@@ -36,10 +36,14 @@ const ModalMatchingDetail = ({
   const dispatch = useDispatch();
 
   const { profile } = useSelector(profileSelector);
-  const { data: me } = useQuery<Me>('user', async () => {
-    const { data } = await axios.get('/user');
-    return data;
-  });
+  const { data: me } = useQuery<Me>(
+    'user',
+    async () => {
+      const { data } = await axios.get('/user');
+      return data;
+    },
+    { refetchOnWindowFocus: false, retry: false }
+  );
 
   const onAccept = useCallback(() => {
     if (!schedule) {

@@ -35,10 +35,14 @@ const MatchingRequestForm = ({
   control: Control<MatchingFormType, object>;
   errors?: FieldErrors;
 }) => {
-  const { data: me } = useQuery<Me>('user', async () => {
-    const { data } = await axios.get('/user');
-    return data;
-  });
+  const { data: me } = useQuery<Me>(
+    'user',
+    async () => {
+      const { data } = await axios.get('/user');
+      return data;
+    },
+    { refetchOnWindowFocus: false, retry: false }
+  );
 
   return (
     <RequestFriendWrap>

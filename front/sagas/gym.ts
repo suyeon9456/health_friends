@@ -51,7 +51,6 @@ function loadGymsAPI(data: LoadGymProps): Promise<AxiosResponse<Gyms>> {
 
 function* loadGyms(action: PayloadAction<LoadGymProps>) {
   try {
-    console.log('test', action.payload);
     const result: AxiosResponse<Gyms> = yield call(loadGymsAPI, action.payload);
     yield put(loadGymSuccess(result.data));
   } catch (error: any) {

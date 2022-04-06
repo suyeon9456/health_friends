@@ -317,7 +317,7 @@ router.put('/', isLoggedIn, async (req, res, next) => {
         model: Image,
       }]
     });
-    res.status(200).json(user);
+    res.json(user);
   } catch (error) {
     console.error(error);
     next(error);
