@@ -35,7 +35,9 @@
     "@type/reducer/user.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".eslintrc.js"
+    ".eslintrc.js",
+    "jest.config.ts",
+    "jest.setup.ts",
   ],
   "exclude": [
     "node_modules"

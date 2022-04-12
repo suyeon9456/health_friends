@@ -1,6 +1,7 @@
 {
   "presets": [
 	"@babel/typescript"
+  // "next/jest"
   ],
   "plugins": [
     "@babel/proposal-class-properties",

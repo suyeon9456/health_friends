@@ -7,13 +7,14 @@ module.exports = {
     ecmaFeatures: {
       jsf: true,
     },
-    project: './tsconfig.json',
+    project: ['./tsconfig.json', './tsconfig.eslint.json'],
     tsconfigRootDir: __dirname,
   },
   env: {
     browser: true,
     node: true,
     es6: true,
+    jest: true,
   },
   extends: [
     'airbnb',
