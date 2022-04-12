@@ -1,6 +1,7 @@
 import useDateFormat from './useDateFormat';
 import useInput from './useInput';
-import useTextarea from './useTextarea';
-import useLoginCheck from './useLoginCheck';
+import useCheckbox from './useCheckbox';
+import useRate from './useRate';
+import useRematchRate from './useRematchRate';
 
-export { useDateFormat, useInput, useTextarea, useLoginCheck };
+export { useDateFormat, useInput, useCheckbox, useRate, useRematchRate };

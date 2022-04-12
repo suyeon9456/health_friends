@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-type ReturnTypes = [number, () => void];
+type ReturnTypes = [number, (t: number, n: number) => void];
 
 const useRate = ({
   total,
@@ -11,9 +11,13 @@ const useRate = ({
 }): ReturnTypes => {
   const [rate, setRate] = useState<number>(0);
 
-  const handler = useCallback(() => {
-    setRate(Math.round((number / total) * 100));
-  }, [total, number]);
+  const handler = useCallback((t, n) => {
+    setRate(Math.round((n / t) * 100));
+  }, []);
+
+  useEffect(() => {
+    handler(total, number);
+  }, []);
 
   return [rate, handler];
 };

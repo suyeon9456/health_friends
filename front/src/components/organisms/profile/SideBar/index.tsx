@@ -82,7 +82,17 @@ const SideBar = ({
 
   useEffect(() => {
     if (profile) {
-      onChangeResponseRate();
+      onChangeResponseRate(
+        profile.resSchedule?.length || 0,
+        profile.resSchedule?.filter(
+          (f: {
+            FriendId: number;
+            id: number;
+            isPermitted: boolean;
+            permission: boolean;
+          }) => f.isPermitted
+        ).length || 0
+      );
     }
   }, [profile]);
 

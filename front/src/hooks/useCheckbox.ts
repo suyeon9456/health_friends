@@ -15,12 +15,12 @@ type ReturnTypes<T> = [
 const useCheckbox = <T>(defaultValue: T[]): ReturnTypes<T> => {
   const [value, setValue] = useState<T[]>(defaultValue);
   // eslint-disable-next-line no-shadow
-  const handler = useCallback((checked, value) => {
+  const handler = useCallback((checked, v) => {
     if (checked) {
-      setValue([...value, value]);
+      setValue([...value, v]);
     } else {
       // 체크 해제
-      setValue(value.filter((el: T) => el !== value));
+      setValue(value.filter((el: T) => el !== v));
     }
   }, []);
   return [value, handler, setValue];
