@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Link from 'next/link';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
 
 import { BiGroup, BiMap } from 'react-icons/bi';
 import { RealtimeMatching } from '@/../@types/fetchData';
-import { Avatar, Icon, NoDataIcon } from '../../../atoms';
+import { loadRealTimeMatchingAPI } from '@/api/user';
+import { ButtonType, SizeType } from '@/../@types/utils';
+import { Avatar, Button, Icon, NoDataIcon } from '../../../atoms';
 import {
   AvatarWrap,
   CoupleCard,
@@ -18,20 +20,19 @@ import {
   MatchingCoupleWrap,
   LoadingMatchingIcon,
   LoadingAvatarWrap,
+  NoDataContainer,
+  NoDataContent,
+  NoDataText,
 } from './style';
 
 const RealTimeMatchingCouple = () => {
   const {
-    status,
     isLoading,
     error,
     data: realtimeMatching,
   } = useQuery<RealtimeMatching[] | undefined, AxiosError>(
     'realtimeMatching',
-    async () => {
-      const { data } = await axios.get('/users/realtimeMathcing');
-      return data;
-    },
+    () => loadRealTimeMatchingAPI(),
     { cacheTime: 2 * 60 * 1000 }
   );
   return (
@@ -109,6 +110,19 @@ const RealTimeMatchingCouple = () => {
                   </div>
                 </CoupleCard>
               ))}
+          {(isEmpty(realtimeMatching) || error) && (
+            <NoDataContainer>
+              <NoDataContent>
+                <NoDataIcon width={60} height={60} color="#00000040" />
+                <NoDataText>현재 진행중인 매칭이 없습니다.</NoDataText>
+                <Link href="/friends">
+                  <Button type={ButtonType.TEXT} size={SizeType.SMALL}>
+                    매칭신청하러 가기
+                  </Button>
+                </Link>
+              </NoDataContent>
+            </NoDataContainer>
+          )}
         </CoupleCardList>
       </MatchingCoupleBody>
     </MatchingCoupleWrap>

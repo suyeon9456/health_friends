@@ -38,8 +38,9 @@ export const MatchingCoupleBody = styled.div`
 `;
 
 export const CoupleCardList = styled.div`
-  width: 100%;
+  position: relative;
   display: grid;
+  width: 100%;
   gap: 10px 20px;
   grid-template-columns: repeat(auto-fill, minmax(20%, auto));
   margin-top: 50px;
@@ -63,31 +64,29 @@ export const CoupleCard = styled.div`
   }
 `;
 
-export const NoDataCard = styled.div`
-  position: relative;
-  width: 100% !important;
-  height: 120px;
-  background-color: #ffffff;
-  border: 1px solid rgb(230, 230, 230);
+export const NoDataContainer = styled.div`
+  position: absolute;
+  background: rgb(160 160 160 / 26%);
+  box-shadow: rgb(0 0 0 / 3%) 0px 0px 20px 20px;
+  width: 100%;
+  height: 220px;
   border-radius: 5px;
-  box-shadow: rgb(0 0 0 / 3%) 0px 5px 16px 0px;
   display: flex;
   align-items: center;
 `;
 
 export const NoDataContent = styled.div`
   width: 100%;
-`;
-
-export const NoDataIconWrap = styled.div`
   text-align: center;
-  width: 100%;
+  & > button > span {
+    color: #00000040;
+    /* font-weight: bold; */
+    text-decoration: underline;
+  }
 `;
 
 export const NoDataText = styled.div`
-  text-align: center;
-  width: 100%;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: bold;
   color: #00000040;
 `;
