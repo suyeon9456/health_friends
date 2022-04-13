@@ -1,4 +1,4 @@
-import { User } from './user';
+import { User, UserGym } from './user';
 
 export interface Gym {
   id: number;
@@ -6,7 +6,9 @@ export interface Gym {
   latitude: string;
   longitude: string;
   address: string;
-  Users?: User[];
+  addressRoad: string;
+  phone: string;
+  Users?: UserGym[];
 }
 
 export interface Address {

@@ -14,6 +14,7 @@ import {
 import { useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
 import { loadLoginedUserAPI } from '@/api/user';
+import { meKey } from '@/../@types/queryKey';
 import { InformationItem, Button, Icon } from '../../../atoms';
 import {
   Content,
@@ -30,7 +31,7 @@ const MoreInfo = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [targetId, setTargetId] = useState('');
 
-  const { data: me } = useQuery<Me>('user', () => loadLoginedUserAPI(), {
+  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
   });

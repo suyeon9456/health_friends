@@ -11,13 +11,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import { BiRevision } from 'react-icons/bi';
 
-import {
-  changeMapBounds,
-  gymSelector,
-  isLoadGyms,
-  loadFriendsRequest,
-} from '@/../reducers/gym';
+import { changeMapBounds, gymSelector, isLoadGyms } from '@/../reducers/gym';
 import { ButtonType } from '@/../@types/utils';
+import { useQueryClient } from 'react-query';
+import { gymAndFriendsByIdKey } from '@/../@types/queryKey';
 import { Button, Icon } from '../../atoms';
 import { MapWrap } from './style';
 
@@ -30,6 +27,7 @@ const SearchMap = ({
   foldedFriends: boolean;
   setFoldedFriends: Dispatch<SetStateAction<boolean>>;
 }) => {
+  const queryClient = useQueryClient();
   const dispatch = useDispatch();
 
   const { gym, gyms } = useSelector(gymSelector);
@@ -54,7 +52,7 @@ const SearchMap = ({
       if (foldedFriends) {
         setFoldedFriends(false);
       }
-      dispatch(loadFriendsRequest({ gymId }));
+      void queryClient.invalidateQueries(gymAndFriendsByIdKey(gymId));
     },
     [foldedFriends]
   );

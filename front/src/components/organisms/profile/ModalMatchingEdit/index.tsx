@@ -13,6 +13,7 @@ import { ModalType, ShowModalType } from '@/../@types/utils';
 import { useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
 import { loadLoginedUserAPI } from '@/api/user';
+import { meKey } from '@/../@types/queryKey';
 import MatchingRequestForm from '../../MatchingRequestForm';
 import { Modal } from '../../../molecules';
 
@@ -34,7 +35,7 @@ const ModalMatchingEdit = ({
   mode: ShowModalType;
 }) => {
   const dispatch = useDispatch();
-  const { data: me } = useQuery<Me>('user', () => loadLoginedUserAPI(), {
+  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
   });

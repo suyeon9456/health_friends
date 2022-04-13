@@ -6,7 +6,7 @@ const Icon = ({
   onClick,
 }: {
   icon: React.ReactElement;
-  onClick?: () => void;
+  onClick?: (props?: any) => void;
 }) => (
   // eslint-disable-next-line jsx-a11y/no-static-element-interactions
   <span className="icon" onClick={onClick}>

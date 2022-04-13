@@ -7,13 +7,15 @@ const router = express.Router();
 router.get('/', async (req, res, next) => { // GET /gyms/
   try {
     const where = {};
+    console.log(decodeURIComponent(req.query.searchWord));
     if (req.query.searchWord) {
       where[Op.or] = [{
-        name: { [Op.like]: "%" + req.query.searchWord + "%" },
+        name: { [Op.like]: "%" + decodeURIComponent(req.query.searchWord) + "%" },
       }, {
-        address: { [Op.like]: "%" + req.query.searchWord + "%" },
+        address: { [Op.like]: "%" + decodeURIComponent(req.query.searchWord) + "%" },
       }];
     }
+    console.log(where);
 
     if (!!(req.query.swLat && req.query.neLat && req.query.swLon && req.query.neLon)) {
       where.latitude = { [Op.between]: [req.query.swLat, req.query.neLat] };

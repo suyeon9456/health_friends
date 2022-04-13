@@ -51,6 +51,27 @@ export interface Friends extends User {
   Gyms: Gym[];
 }
 
+export interface UserGym extends User {
+  Image: Image;
+  UserGym: {
+    createdAt: string;
+    updatedAt: string;
+    UserId: number;
+    GymId: number;
+  };
+  Userdetail: Userdetail;
+  reqSchedule: Array<{
+    id: number;
+    permission: boolean;
+    RematchId: number | null;
+  }>;
+  resSchedule: Array<{
+    id: number;
+    permission: boolean;
+    RematchId: number | null;
+  }>;
+}
+
 export interface RankedFriends extends User {
   Userdetail?: { id: number; rematchingRate: number };
   resSchedule?: number[];

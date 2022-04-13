@@ -4,6 +4,7 @@ import { Control, FieldErrors } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
 import { loadLoginedUserAPI } from '@/api/user';
+import { meKey } from '@/../@types/queryKey';
 import {
   MatchingInfoWrap,
   InfoContent,
@@ -35,7 +36,7 @@ const MatchingRequestForm = ({
   control: Control<MatchingFormType, object>;
   errors?: FieldErrors;
 }) => {
-  const { data: me } = useQuery<Me>('user', () => loadLoginedUserAPI(), {
+  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
   });

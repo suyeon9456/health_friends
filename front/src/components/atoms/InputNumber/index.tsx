@@ -1,4 +1,6 @@
 import { InputNumberProps } from '@/../@types/atoms';
+import { InputNumberType } from '@/../@types/utils';
+import useInputNumber from '@/hooks/useInputNumber';
 import React, { useCallback } from 'react';
 
 import {
@@ -19,10 +21,14 @@ const InputNumber = ({
   ...props
 }: InputNumberProps) => {
   const onChangeUpAge = useCallback(() => {
-    setValue((prev: string) => (parseInt(prev, 10) + 1).toString());
+    setValue((prev: string) =>
+      useInputNumber({ type: InputNumberType.PLUSE, prev })
+    );
   }, [value]);
   const onChangeDownAge = useCallback(() => {
-    setValue((prev: string) => (parseInt(prev, 10) - 1).toString());
+    setValue((prev: string) =>
+      useInputNumber({ type: InputNumberType.MINUS, prev })
+    );
   }, [value]);
   return (
     <InputNumberWrap size={size}>

@@ -10,6 +10,7 @@ import { SizeType } from '@/../@types/utils';
 import { useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
 import { loadLoginedUserAPI } from '@/api/user';
+import { meKey } from '@/../@types/queryKey';
 import { useDateFormat } from '../../../hooks';
 import { Modal } from '../../molecules';
 import { Avatar } from '../../atoms';
@@ -40,7 +41,7 @@ const ModalMatchingRequest = ({
 }) => {
   const dispatch = useDispatch();
   const { gym } = useSelector(gymSelector);
-  const { data: me } = useQuery<Me>('user', () => loadLoginedUserAPI(), {
+  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
   });
@@ -76,7 +77,6 @@ const ModalMatchingRequest = ({
   }, []);
 
   useEffect(() => {
-    console.log('test');
     if (gym) {
       setValue('gym', `${gym?.address}${gym?.name}`);
     }

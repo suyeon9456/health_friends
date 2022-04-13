@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {
   BiUser,
@@ -12,8 +12,9 @@ import { useShowDispatch } from '@/../store/contextStore';
 
 import { ButtonType } from '@/../@types/utils';
 import { Me } from '@/../@types/user';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { loadLoginedUserAPI, logoutAPI } from '@/api/user';
+import { meKey } from '@/../@types/queryKey';
 import { Button, Avatar, Icon } from '../../atoms';
 import {
   Drawer,
@@ -36,20 +37,18 @@ import {
 const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
   const router = useRouter();
   const contextDispatch = useShowDispatch();
+  const queryClient = useQueryClient();
 
-  const [isChangeUser, setIsChangeUser] = useState(false);
+  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
 
-  const { data: me } = useQuery<Me>(
-    ['user', isChangeUser],
-    () => loadLoginedUserAPI(),
-    { refetchOnWindowFocus: false, retry: false }
-  );
+  const logoutMutation = useMutation(() => logoutAPI(), {
+    onSuccess: () => queryClient.invalidateQueries(meKey),
+  });
 
-  const logoutMutation = useMutation(() => logoutAPI());
-
-  const onLogout = useCallback(() => {
-    logoutMutation.mutate();
-  }, []);
+  const onLogout = useCallback(() => logoutMutation.mutate(), []);
 
   const changeShowDrawerMenu = useCallback(() => {
     contextDispatch({
@@ -60,8 +59,7 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
 
   const onChangePage = useCallback(
     (link: string) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      router.push(`/${link}`);
+      void router.push(`/${link}`);
       changeShowDrawerMenu();
     },
     [drawerShow]
@@ -70,7 +68,6 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
   useEffect(() => {
     if (logoutMutation.isSuccess) {
       void router.push('/');
-      setIsChangeUser((prev) => !prev);
       changeShowDrawerMenu();
     }
   }, [logoutMutation.isSuccess]);

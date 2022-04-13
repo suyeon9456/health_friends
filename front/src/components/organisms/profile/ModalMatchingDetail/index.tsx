@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { compareAsc } from 'date-fns';
 
@@ -14,6 +14,7 @@ import { Me } from '@/../@types/user';
 import { useRouter } from 'next/router';
 import { profileSelector } from '@/../reducers/profile';
 import { loadLoginedUserAPI } from '@/api/user';
+import { meKey } from '@/../@types/queryKey';
 import { useDateFormat } from '../../../../hooks';
 import { Modal } from '../../../molecules';
 import { Avatar } from '../../../atoms';
@@ -36,7 +37,7 @@ const ModalMatchingDetail = ({
   const dispatch = useDispatch();
 
   const { profile } = useSelector(profileSelector);
-  const { data: me } = useQuery<Me>('user', () => loadLoginedUserAPI(), {
+  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
   });
@@ -145,8 +146,6 @@ const ModalMatchingDetail = ({
         onCancel();
       });
   }, [schedule]);
-
-  useEffect(() => console.log('schedule', schedule), [schedule]);
 
   if (
     schedule?.isPermitted &&

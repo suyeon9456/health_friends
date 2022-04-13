@@ -1,3 +1,11 @@
+export const InputNumberType = {
+  PLUSE: 'PLUSE',
+  MINUS: 'MINUS',
+} as const;
+
+export type InputNumberTypeT =
+  typeof InputNumberType[keyof typeof InputNumberType];
+
 export const SizeType = {
   DEFAULT: 'DEFAULT',
   SMALL: 'SMALL',

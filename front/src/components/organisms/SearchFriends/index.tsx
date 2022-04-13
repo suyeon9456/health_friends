@@ -10,6 +10,7 @@ import useRematchRate from '@/hooks/useRematchRate';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Me } from '@/../@types/user';
 import { addLikeAPI, loadLoginedUserAPI } from '@/api/user';
+import { gymAndFriendsByIdKey, meKey } from '@/../@types/queryKey';
 import { PropfileCard } from '../../molecules';
 import Button from '../../atoms/Button';
 import {
@@ -22,16 +23,18 @@ import ModalPortal from '../ModalPortal';
 import ModalMatchingRequest from '../ModalMatchingRequest';
 
 const SearchFriends = ({
+  isLoading,
   foldedGym,
   foldedFriends,
   setFoldedFriends,
 }: {
+  isLoading: boolean;
   foldedGym: boolean;
   foldedFriends: boolean;
   setFoldedFriends: Dispatch<SetStateAction<boolean>>;
 }) => {
   const contextDispatch = useModalDispatch();
-  const { loadFriendsLoading, gym } = useSelector(gymSelector);
+  const { gym } = useSelector(gymSelector);
 
   const [friend, setFriend] = useState<{
     id?: number;
@@ -43,12 +46,18 @@ const SearchFriends = ({
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
-  const { data: me } = useQuery<Me>('user', () => loadLoginedUserAPI(), {
+  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
   });
 
-  const likeMutation = useMutation((data: number) => addLikeAPI(data));
+  const likeMutation = useMutation((data: number) => addLikeAPI(data), {
+    onSuccess: () => {
+      console.log('success');
+      void queryClient.invalidateQueries(meKey);
+      void queryClient.invalidateQueries(gymAndFriendsByIdKey(gym.id));
+    },
+  });
 
   const onChangeFoldedFriends = useCallback(() => {
     setFoldedFriends((prev) => !prev);
@@ -75,10 +84,7 @@ const SearchFriends = ({
   );
 
   const onLike = useCallback(
-    (user) => () => {
-      likeMutation.mutate(user.id);
-      // queryClient.invalidateQueries('user');
-    },
+    (userId: number) => likeMutation.mutate(userId),
     []
   );
 
@@ -86,7 +92,7 @@ const SearchFriends = ({
     <>
       <SearchFriendsWrapper foldedGym={foldedGym} foldedFriends={foldedFriends}>
         <SearchHeader>
-          <SearchTitle>{gym.name} 친구검색 결과</SearchTitle>
+          <SearchTitle>{gym?.name} 친구검색 결과</SearchTitle>
           <Button
             icon={<Icon icon={<BiX />} />}
             type={ButtonType.TEXT}
@@ -118,13 +124,14 @@ const SearchFriends = ({
                 return (
                   <PropfileCard
                     key={user.id}
+                    userId={user.id}
                     image={cardImageSrc}
                     nickname={user.nickname}
                     percent={percent}
-                    isLoading={loadFriendsLoading}
+                    isLoading={isLoading}
                     isCheckedLike={isCheckedLike}
-                    onClick={onShowMatchingModal(user)}
-                    onLike={onLike(user)}
+                    onClick={onShowMatchingModal(user.id)}
+                    onLike={onLike}
                   />
                 );
               }

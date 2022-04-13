@@ -9,11 +9,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { BiChevronLeft, BiChevronRight, BiGroup } from 'react-icons/bi';
 
-import {
-  gymSelector,
-  loadFriendsRequest,
-  loadGymRequest,
-} from '@/../reducers/gym';
+import { gymSelector, loadFriends, loadGyms } from '@/../reducers/gym';
+import { useQueries } from 'react-query';
+import { loadGymAndFriendsAPI, loadGymsAPI } from '@/api/user';
+import { gymAndFriendsByIdKey, gymsKey } from '@/../@types/queryKey';
+import { Gym } from '@/../@types/gym';
 import useInput from '../../../hooks/useInput';
 
 import { Search, Item, Icon } from '../../atoms';
@@ -44,45 +44,81 @@ const SearchGyms = ({
   const dispatch = useDispatch();
 
   const { searchText } = router.query;
-  const { mapBounds, gyms, hasMoreGyms, loadGymLoading, isLoadGyms } =
-    useSelector(gymSelector);
-
-  const [browserHeight, setBrowserHeight] = useState<number>(0);
+  const {
+    mapBounds: { swLon, swLat, neLon, neLat },
+    hasMoreGyms,
+    isLoadGyms,
+  } = useSelector(gymSelector);
 
   const [searchWord, onChangeSearchWord] = useInput<string>('');
+  const [browserHeight, setBrowserHeight] = useState<number>(0);
+  const [gymId, setGymId] = useState<number>(0);
+  const [isSearch, setIsSearch] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string | string>('');
+
+  const [{ isLoading }, { data: gyms }] = useQueries<
+    [{ isLoading: boolean }, { data: Gym[] }]
+  >([
+    {
+      queryKey: gymAndFriendsByIdKey(gymId),
+      queryFn: () => loadGymAndFriendsAPI({ gymId }),
+      onSuccess: (data) => {
+        dispatch(loadFriends(data));
+      },
+      refetchOnWindowFocus: false,
+      retry: false,
+    },
+    {
+      queryKey: gymsKey({
+        searchWord: searchQuery,
+        swLon,
+        swLat,
+        neLon,
+        neLat,
+        isLoadGyms,
+        isSearch,
+      }),
+      queryFn: () => {
+        return loadGymsAPI({
+          searchWord: searchQuery,
+          swLon,
+          swLat,
+          neLon,
+          neLat,
+          isLoadGyms,
+          isSearch,
+        });
+      },
+      onSuccess: (data) => {
+        if (!data) return;
+        dispatch(loadGyms(data));
+        setIsSearch(false);
+      },
+      refetchOnWindowFocus: false,
+      retry: false,
+    },
+  ]);
 
   const changeFoldedGym = useCallback(() => {
     setFoldedGym((prev) => !prev);
   }, [foldedGym]);
 
   const onSearchGyms = useCallback(() => {
-    dispatch(loadGymRequest({ searchWord }));
+    setSearchQuery(searchWord);
+    setIsSearch(true);
     void router.push(`?searchText=${searchWord}`, undefined, { shallow: true });
   }, [searchWord]);
 
   const onClickGym = useCallback(
-    (gymId) => () => {
+    (targetGymId) => () => {
       if (foldedFriends) {
         setFoldedFriends(false);
       }
-      dispatch(loadFriendsRequest({ gymId }));
+      console.log('>', targetGymId);
+      setGymId(targetGymId);
     },
     [foldedFriends]
   );
-
-  useEffect(() => {
-    if (isLoadGyms && mapBounds) {
-      dispatch(
-        loadGymRequest({
-          searchWord,
-          swLon: mapBounds.swLon,
-          swLat: mapBounds.swLat,
-          neLon: mapBounds.neLon,
-          neLat: mapBounds.neLat,
-        })
-      );
-    }
-  }, [isLoadGyms, mapBounds]);
 
   useEffect(() => {
     if (!foldedFriends) {
@@ -91,34 +127,13 @@ const SearchGyms = ({
   }, [foldedFriends]);
 
   useEffect(() => {
-    function onScroll() {
-      if (
-        window.scrollY + document.documentElement.clientHeight >
-        document.documentElement.scrollHeight - 300
-      ) {
-        if (hasMoreGyms && !loadGymLoading) {
-          const lastId = gyms[gyms.length - 1]?.id;
-          dispatch(
-            loadGymRequest({
-              lastId,
-              searchWord,
-            })
-          );
-        }
-      }
-    }
-    window.addEventListener('scroll', onScroll);
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-    };
-  }, [gyms, hasMoreGyms, loadGymLoading]);
-
-  useEffect(() => {
     setBrowserHeight(document.documentElement.clientHeight);
   }, [browserHeight]);
 
   useEffect(() => {
-    dispatch(loadGymRequest({ searchWord: searchText }));
+    if (!searchText || Array.isArray(searchText)) return;
+    setSearchQuery(searchText);
+    setIsSearch(true);
   }, []);
 
   return (
@@ -142,7 +157,7 @@ const SearchGyms = ({
       )}
       <GymWrapper foldedGym={foldedGym}>
         <SearchHeader>
-          <span>{gyms.length}개의 헬스장</span>
+          <span>{gyms?.length}개의 헬스장</span>
           <SearchTitle>{searchWord || '전체 헬스장'} 검색 결과</SearchTitle>
         </SearchHeader>
         <SearchFormWrapper>
@@ -154,35 +169,27 @@ const SearchGyms = ({
           />
         </SearchFormWrapper>
         <SearchListWrapper browserHeight={browserHeight}>
-          {gyms.map(
-            (gym: {
-              id: number;
-              name: string;
-              address: string;
-              addressRoad: string;
-              phone: string;
-              Users: any[];
-            }) => (
-              <Item
-                key={gym.id}
-                title={gym.name}
-                description={
+          {gyms?.map((gym) => (
+            <Item
+              key={gym.id}
+              title={gym.name}
+              description={
+                <div>
+                  <span>{gym.addressRoad}</span>
+                  <span> ({gym.address})</span>
+                  <div>{gym.phone}</div>
                   <div>
-                    <span>{gym.addressRoad}</span>
-                    <span> ({gym.address})</span>
-                    <div>{gym.phone}</div>
-                    <div>
-                      <Icon icon={<BiGroup />} /> {gym.Users.length}명
-                    </div>
+                    <Icon icon={<BiGroup />} /> {gym?.Users?.length}명
                   </div>
-                }
-                onClick={onClickGym(gym.id)}
-              />
-            )
-          )}
+                </div>
+              }
+              onClick={onClickGym(gym.id)}
+            />
+          ))}
         </SearchListWrapper>
       </GymWrapper>
       <SearchFriends
+        isLoading={isLoading}
         foldedGym={foldedGym}
         foldedFriends={foldedFriends}
         setFoldedFriends={setFoldedFriends}

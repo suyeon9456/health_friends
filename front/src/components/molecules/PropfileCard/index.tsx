@@ -18,6 +18,7 @@ import {
 import { Avatar, Button, Icon } from '../../atoms';
 
 const ProfileCard = ({
+  userId,
   nickname,
   image,
   percent,
@@ -26,13 +27,14 @@ const ProfileCard = ({
   onClick,
   onLike,
 }: {
+  userId: number;
   nickname: string;
   image: string;
   percent: number;
   isLoading?: boolean;
   isCheckedLike?: boolean;
   onClick: () => void;
-  onLike: () => void;
+  onLike: (id: number) => void;
 }) => (
   <Card>
     <CardCover>
@@ -54,7 +56,7 @@ const ProfileCard = ({
             <MetaTitle isCheckedLike={isCheckedLike}>
               {nickname}
               {!isCheckedLike ? (
-                <Icon icon={<RiHeart3Line />} onClick={onLike} />
+                <Icon icon={<RiHeart3Line />} onClick={() => onLike(userId)} />
               ) : (
                 <Icon icon={<RiHeart3Fill />} />
               )}

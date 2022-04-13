@@ -5,8 +5,8 @@ import { loadProfile } from '@/../reducers/profile';
 import { Menu, ProfileMenuType } from '@/../@types/utils';
 
 import { useQuery } from 'react-query';
-import axios from 'axios';
 import { loadProfileAPI } from '@/api/user';
+import { profileByIdKey } from '@/../@types/queryKey';
 import {
   AppLayout,
   SideBar,
@@ -30,7 +30,7 @@ const Profile = () => {
     data: profile,
     isFetched,
     dataUpdatedAt,
-  } = useQuery(['profile', id], () => loadProfileAPI(id), {
+  } = useQuery(profileByIdKey(id), () => loadProfileAPI(id), {
     refetchOnWindowFocus: false,
     retry: false,
   });

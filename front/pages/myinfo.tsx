@@ -19,6 +19,7 @@ import MatchingCalendar from '../src/components/organisms/profile/MatchingCalend
 import MatchingRecord from '../src/components/organisms/profile/MatchingRecord';
 import LikedList from '../src/components/organisms/profile/LikedList';
 import { Menu, ProfileMenuType } from '../@types/utils';
+import { profileKey } from '../@types/queryKey';
 
 const Myinfo = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const Myinfo = () => {
     data: profile,
     isFetched,
     dataUpdatedAt,
-  } = useQuery('profile', () => loadMyinfoAPI(), {
+  } = useQuery(profileKey, () => loadMyinfoAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
   });

@@ -39,12 +39,6 @@ export interface GymInitialState {
   addGymLoading: boolean;
   addGymDone: boolean;
   addGymError: string | null;
-  loadGymLoading: boolean;
-  loadGymDone: boolean;
-  loadGymError: string | null;
-  loadFriendsLoading: boolean;
-  loadFriendsDone: boolean;
-  loadFriendsError: string | null;
   isLoadGyms: boolean;
   hasMoreGyms: boolean;
   mapBounds: {};

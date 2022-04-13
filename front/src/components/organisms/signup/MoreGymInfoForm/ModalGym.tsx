@@ -4,6 +4,10 @@ import { useForm, UseFormSetValue } from 'react-hook-form';
 
 import { addGymRequeset } from '@/../reducers/gym';
 import { SearchGymTabs } from '@/../@types/utils';
+import { useMutation } from 'react-query';
+import { addGymAPI } from '@/api/user';
+import { Address, Gym } from '@/../@types/gym';
+import { selectGym } from '@/../reducers/user';
 import { Modal, Tabs } from '../../../molecules';
 import ModalSearchGym from '../../ModalSearchGym';
 import ModalCreateGym from '../../ModalCreateGym';
@@ -50,6 +54,12 @@ const ModalGym = ({
 
   const [selectedTab, setSelectedTab] = useState('search');
 
+  const gymMutation = useMutation((data: Address) => addGymAPI(data), {
+    onSuccess: (gym: Gym) => {
+      dispatch(selectGym({ id: gym.id, name: gym.name }));
+    },
+  });
+
   const onChangeSelectedTab = useCallback(
     (tab) => {
       setSelectedTab(tab);
@@ -59,7 +69,7 @@ const ModalGym = ({
 
   const onSubmit = useCallback(
     (data) => {
-      dispatch(addGymRequeset(data));
+      gymMutation.mutate(data);
       setGym('gym', data.name);
       setShowModal(false);
     },

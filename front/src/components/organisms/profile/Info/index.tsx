@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { BiEdit } from 'react-icons/bi';
@@ -11,6 +11,7 @@ import {
   updateDescriptionAPI,
   updateNicknameAPI,
 } from '@/api/user';
+import { meKey, profileKey } from '@/../@types/queryKey';
 import { Button, Icon, Input } from '../../../atoms';
 import {
   ContentText,
@@ -26,17 +27,6 @@ import useInput from '../../../../hooks/useInput';
 
 const Info = () => {
   const queryClient = useQueryClient();
-  const nicknameMutation = useMutation((data: { nickname: string }) =>
-    updateNicknameAPI(data)
-  );
-  const descMutation = useMutation((data: { description: string }) =>
-    updateDescriptionAPI(data)
-  );
-
-  const { data: me } = useQuery<Me>('user', () => loadLoginedUserAPI(), {
-    refetchOnWindowFocus: false,
-    retry: false,
-  });
   const { profile } = useSelector(profileSelector);
   const [isEditNickname, setIsEditNickname] = useState<boolean>(false);
   const [isEditDescription, setIsEditDescription] = useState<boolean>(false);
@@ -47,6 +37,31 @@ const Info = () => {
   const [description, onChangeDescription] = useInput<string>(
     profile?.Userdetail?.description || ''
   );
+  const nicknameMutation = useMutation(
+    (data: { nickname: string }) => updateNicknameAPI(data),
+    {
+      onSuccess: () => {
+        void queryClient.invalidateQueries(profileKey);
+        void queryClient.invalidateQueries(meKey);
+        void onChangeIsEditNickname();
+      },
+    }
+  );
+  const descMutation = useMutation(
+    (data: { description: string }) => updateDescriptionAPI(data),
+    {
+      onSuccess: () => {
+        void queryClient.invalidateQueries(profileKey);
+        void queryClient.invalidateQueries(meKey);
+        void onChangeIsEditDescription();
+      },
+    }
+  );
+
+  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
 
   const onChangeIsEditNickname = useCallback(() => {
     setIsEditNickname((prev) => !prev);
@@ -63,21 +78,6 @@ const Info = () => {
   const onUpdatDescription = useCallback(() => {
     descMutation.mutate({ description });
   }, [description]);
-
-  useEffect(() => {
-    if (nicknameMutation.isSuccess) {
-      setIsEditNickname(false);
-      void queryClient.invalidateQueries('profile');
-      void queryClient.invalidateQueries('user');
-    }
-  }, [nicknameMutation.isSuccess]);
-  useEffect(() => {
-    if (descMutation.isSuccess) {
-      setIsEditDescription(false);
-      void queryClient.invalidateQueries('profile');
-      void queryClient.invalidateQueries('user');
-    }
-  }, [descMutation.isSuccess]);
 
   return (
     <InfoWrapper>
