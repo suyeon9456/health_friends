@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import { GetServerSidePropsContext } from 'next';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
+import { loadMyinfoAPI } from '@/api/user';
 import { loadProfile } from '../reducers/profile';
 
 import {
@@ -27,17 +28,10 @@ const Myinfo = () => {
     data: profile,
     isFetched,
     dataUpdatedAt,
-  } = useQuery(
-    'profile',
-    async () => {
-      const { data } = await axios.get('/user/profile/myinfo');
-      return data;
-    },
-    {
-      refetchOnWindowFocus: false,
-      retry: false,
-    }
-  );
+  } = useQuery('profile', () => loadMyinfoAPI(), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
 
   useEffect(() => {
     if (isFetched) {

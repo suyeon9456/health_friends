@@ -9,7 +9,7 @@ import { Icon } from '@/components/atoms';
 import useRematchRate from '@/hooks/useRematchRate';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Me } from '@/../@types/user';
-import axios from 'axios';
+import { addLikeAPI, loadLoginedUserAPI } from '@/api/user';
 import { PropfileCard } from '../../molecules';
 import Button from '../../atoms/Button';
 import {
@@ -43,16 +43,12 @@ const SearchFriends = ({
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
-  const { data: me } = useQuery<Me>(
-    'user',
-    async () => {
-      const { data } = await axios.get('/user');
-      return data;
-    },
-    { refetchOnWindowFocus: false, retry: false }
-  );
+  const { data: me } = useQuery<Me>('user', () => loadLoginedUserAPI(), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
 
-  const likeMutation = useMutation((data) => axios.post(`/user/${data}/like`));
+  const likeMutation = useMutation((data: number) => addLikeAPI(data));
 
   const onChangeFoldedFriends = useCallback(() => {
     setFoldedFriends((prev) => !prev);

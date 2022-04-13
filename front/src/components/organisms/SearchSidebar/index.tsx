@@ -3,8 +3,8 @@ import { BiCollapse, BiExpand } from 'react-icons/bi';
 
 import { ButtonType, SizeType } from '@/../@types/utils';
 import { useQuery } from 'react-query';
-import axios from 'axios';
 import { Me } from '@/../@types/user';
+import { loadLoginedUserAPI } from '@/api/user';
 import { Sidebar } from './style';
 import { Avatar, Button, Icon } from '../../atoms';
 
@@ -15,14 +15,10 @@ const SearchSidebar = ({
   foldedGym: boolean;
   setFoldedGym: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { data: me } = useQuery<Me>(
-    'user',
-    async () => {
-      const { data } = await axios.get('/user');
-      return data;
-    },
-    { refetchOnWindowFocus: false, retry: false }
-  );
+  const { data: me } = useQuery<Me>('user', () => loadLoginedUserAPI(), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
   return (
     <Sidebar>
       <div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import axios, { AxiosError } from 'axios';
-import { useMutation, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
 import { BiDotsVerticalRounded, BiEdit, BiHeart, BiUser } from 'react-icons/bi';
 import { ImDrawer2 } from 'react-icons/im';
@@ -8,6 +8,7 @@ import { ImDrawer2 } from 'react-icons/im';
 import { FetchLikedFriends } from '@/../@types/fetchData';
 import { useSelector } from 'react-redux';
 import { profileSelector } from '@/../reducers/profile';
+import { loadLikedListAPI } from '@/api/user';
 import { Icon } from '../../../atoms';
 import {
   LikedListWrap,
@@ -35,15 +36,12 @@ const LikedList = ({ isProfile }: { isProfile?: boolean }) => {
     data: likedFriends,
   } = useQuery<FetchLikedFriends | undefined, AxiosError>(
     'likedFriends',
-    async () => {
+    () => {
       const userId = isProfile ? `?userId=${profile?.id}` : '';
-      const { data } = await axios.get(`/user/like${userId}`);
-      return data;
+      return loadLikedListAPI(userId);
     },
     { cacheTime: 2 * 60 * 1000 }
   );
-
-  // const dellikeMutation = useMutation(() => axios.)
 
   return (
     <LikedListWrap>

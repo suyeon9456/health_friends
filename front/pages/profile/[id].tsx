@@ -6,6 +6,7 @@ import { Menu, ProfileMenuType } from '@/../@types/utils';
 
 import { useQuery } from 'react-query';
 import axios from 'axios';
+import { loadProfileAPI } from '@/api/user';
 import {
   AppLayout,
   SideBar,
@@ -29,17 +30,10 @@ const Profile = () => {
     data: profile,
     isFetched,
     dataUpdatedAt,
-  } = useQuery(
-    ['profile', id],
-    async () => {
-      const { data } = await axios.get(`/user/profile/${id}`);
-      return data;
-    },
-    {
-      refetchOnWindowFocus: false,
-      retry: false,
-    }
-  );
+  } = useQuery(['profile', id], () => loadProfileAPI(id), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
 
   useEffect(() => {
     if (isFetched) {

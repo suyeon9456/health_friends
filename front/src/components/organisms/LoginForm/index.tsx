@@ -16,7 +16,7 @@ import {
 } from '@/../@types/utils';
 import { useRouter } from 'next/router';
 import { useMutation } from 'react-query';
-import axios from 'axios';
+import { loginAPI } from '@/api/user';
 import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
 
 const schema = yup
@@ -34,8 +34,7 @@ const LoginForm = () => {
   const contextDispatch = useModalDispatch();
 
   const loginMutation = useMutation(
-    (data: { email: string; password: string }) =>
-      axios.post('/user/login', data)
+    (data: { email: string; password: string }) => loginAPI(data)
   );
 
   const {
@@ -98,7 +97,12 @@ const LoginForm = () => {
             error={errors.password}
           />
         </InputWrapper>
-        <Button type={ButtonType.PRIMARY} block submit>
+        <Button
+          type={ButtonType.PRIMARY}
+          block
+          submit
+          buttonLoading={loginMutation.isLoading}
+        >
           로그인
         </Button>
       </Form>

@@ -5,7 +5,7 @@ import { BiMenu } from 'react-icons/bi';
 import { SizeType } from '@/../@types/utils';
 import { Me } from '@/../@types/user';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import axios from 'axios';
+import { loadLoginedUserAPI, logoutAPI } from '@/api/user';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 
 import { Avatar, Icon } from '../../atoms';
@@ -15,15 +15,11 @@ const Menu = () => {
   const { drawerShow } = useShowState();
   const contextDispatch = useShowDispatch();
   const queryClient = useQueryClient();
-  const { data: me } = useQuery<Me>(
-    ['user'],
-    async () => {
-      const { data } = await axios.get('/user');
-      return data;
-    },
-    { refetchOnWindowFocus: false, retry: false }
-  );
-  const logoutMutation = useMutation(() => axios.post('/user/logout'));
+  const { data: me } = useQuery<Me>(['user'], () => loadLoginedUserAPI(), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
+  const logoutMutation = useMutation(() => logoutAPI());
 
   const onLogout = useCallback(() => {
     logoutMutation.mutate();

@@ -21,7 +21,7 @@ import useRematchRate from '@/hooks/useRematchRate';
 import { useModalDispatch } from '@/../store/modalStore';
 import { useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
-import axios from 'axios';
+import { loadLoginedUserAPI } from '@/api/user';
 import useRate from '../../../../hooks/useRate';
 import Progress from '../../../molecules/Progress';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
@@ -64,14 +64,10 @@ const SideBar = ({
       ).length || 0,
   });
 
-  const { data: me } = useQuery<Me>(
-    'user',
-    async () => {
-      const { data } = await axios.get('/user');
-      return data;
-    },
-    { refetchOnWindowFocus: false, retry: false }
-  );
+  const { data: me } = useQuery<Me>('user', () => loadLoginedUserAPI(), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
 
   const onClickMenu = useCallback(
     (menu) => {

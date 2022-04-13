@@ -11,9 +11,9 @@ import { MatchingCardProps } from '@/../@types/schedule';
 import { ButtonType } from '@/../@types/utils';
 import { useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { profileSelector } from '@/../reducers/profile';
+import { loadLoginedUserAPI } from '@/api/user';
 import { useDateFormat } from '../../../../hooks';
 import { Modal } from '../../../molecules';
 import { Avatar } from '../../../atoms';
@@ -36,14 +36,10 @@ const ModalMatchingDetail = ({
   const dispatch = useDispatch();
 
   const { profile } = useSelector(profileSelector);
-  const { data: me } = useQuery<Me>(
-    'user',
-    async () => {
-      const { data } = await axios.get('/user');
-      return data;
-    },
-    { refetchOnWindowFocus: false, retry: false }
-  );
+  const { data: me } = useQuery<Me>('user', () => loadLoginedUserAPI(), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
 
   const onAccept = useCallback(() => {
     if (!schedule) {

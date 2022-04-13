@@ -1,15 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
-import groupBy from 'lodash/groupBy';
-import forIn from 'lodash/forIn';
-import orderBy from 'lodash/orderBy';
 import isEmpty from 'lodash/isEmpty';
 
 import { Matching } from '@/../@types/schedule';
-import { FetchRankedFriends, Rematching } from '@/../@types/fetchData';
-import { NoDataIcon } from '@/components/atoms';
+import { Rematching } from '@/../@types/fetchData';
+import { loadRankedFriendsAPI } from '@/api/user';
 import {
   RankItem,
   RankTitle,
@@ -32,37 +29,9 @@ const RankedFriends = () => {
   } = useQuery<
     { rematching: Rematching[]; matching: Matching[] } | undefined,
     AxiosError
-  >(
-    'rankedFriends',
-    async () => {
-      const { data }: AxiosResponse<FetchRankedFriends> = await axios.get(
-        '/users/rankedFriends'
-      );
-      const idGroup = groupBy(data.matching, 'id');
-      const matching: Matching[] = [];
-      forIn(idGroup, (value) => {
-        if (value.length > 1) {
-          const req = {
-            ...value[0],
-            count: value[0].reqSchedule.length + value[1].resSchedule.length,
-          };
-          return matching.push(req);
-        }
-        return matching.push({
-          ...value[0],
-          count:
-            value[0].reqSchedule?.length ||
-            0 + value[0].resSchedule?.length ||
-            0,
-        });
-      });
-      return {
-        rematching: data.rematching,
-        matching: orderBy(matching, ['count'], ['desc']),
-      };
-    },
-    { cacheTime: 2 * 60 * 1000 }
-  );
+  >('rankedFriends', () => loadRankedFriendsAPI(), {
+    cacheTime: 2 * 60 * 1000,
+  });
 
   return (
     <RankedFriendsWrap>

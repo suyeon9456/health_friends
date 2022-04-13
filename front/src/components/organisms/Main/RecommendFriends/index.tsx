@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 import Slider from 'react-slick';
 import isEmpty from 'lodash/isEmpty';
@@ -10,6 +10,7 @@ import { FetchRecommendData } from '@/../@types/fetchData';
 import { Location } from 'map';
 import { useModalDispatch } from '@/../store/modalStore';
 import { GlobalModal, ModalStatus } from '@/../@types/utils';
+import { loadRecommendFriendsAPI } from '@/api/user';
 import {
   FriendsWrap,
   FriendsTitle,
@@ -30,7 +31,6 @@ import {
 import {
   Avatar,
   Icon,
-  NoDataIcon,
   ReactSliderNextButton,
   ReactSliderPrevButton,
 } from '../../../atoms';
@@ -83,16 +83,11 @@ const RecommendFriends = () => {
     isLoading,
   } = useQuery<FetchRecommendData | undefined, AxiosError>(
     ['recommendFriends', location],
-    async () => {
+    () => {
       if (!location) {
         return;
       }
-      const { regionSiName, regionGuName, regionDongName, mainAddressNo } =
-        location;
-      const { data } = await axios.get(
-        `/users/recommendFriends?si=${regionSiName}&gu=${regionGuName}&dong=${regionDongName}&mainAddressNo=${mainAddressNo}`
-      );
-      return data;
+      return loadRecommendFriendsAPI(location);
     }
   );
 

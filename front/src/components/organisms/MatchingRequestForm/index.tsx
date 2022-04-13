@@ -3,7 +3,7 @@ import { Control, FieldErrors } from 'react-hook-form';
 
 import { useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
-import axios from 'axios';
+import { loadLoginedUserAPI } from '@/api/user';
 import {
   MatchingInfoWrap,
   InfoContent,
@@ -35,14 +35,10 @@ const MatchingRequestForm = ({
   control: Control<MatchingFormType, object>;
   errors?: FieldErrors;
 }) => {
-  const { data: me } = useQuery<Me>(
-    'user',
-    async () => {
-      const { data } = await axios.get('/user');
-      return data;
-    },
-    { refetchOnWindowFocus: false, retry: false }
-  );
+  const { data: me } = useQuery<Me>('user', () => loadLoginedUserAPI(), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
 
   return (
     <RequestFriendWrap>

@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form';
 
 import { profileSelector } from '@/../reducers/profile';
 import { useMutation, useQueryClient } from 'react-query';
-import axios from 'axios';
 import { SignupGymInfo, SignupMoreInfo } from '@/../@types/user';
+import { updateFriendsInfoAPI, updateMyinfoAPI } from '@/api/user';
 import { useDateFormat } from '../../../../hooks';
 import { Modal } from '../../../molecules';
 import EditInfoForm from '../EditInfoForm';
@@ -25,10 +25,10 @@ const ModalEditInfo = ({
   const { profile } = useSelector(profileSelector);
   const queryClient = useQueryClient();
   const myinfoMutation = useMutation((data: SignupMoreInfo & SignupGymInfo) =>
-    axios.put('/user', data)
+    updateMyinfoAPI(data)
   );
   const friendsInfoMutation = useMutation((data: SignupMoreInfo) =>
-    axios.put('/user/detail', data)
+    updateFriendsInfoAPI(data)
   );
 
   const { handleSubmit, control, setValue } = useForm({

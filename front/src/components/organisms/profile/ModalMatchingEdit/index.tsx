@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,7 +12,7 @@ import {
 import { ModalType, ShowModalType } from '@/../@types/utils';
 import { useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
-import axios from 'axios';
+import { loadLoginedUserAPI } from '@/api/user';
 import MatchingRequestForm from '../../MatchingRequestForm';
 import { Modal } from '../../../molecules';
 
@@ -34,14 +34,10 @@ const ModalMatchingEdit = ({
   mode: ShowModalType;
 }) => {
   const dispatch = useDispatch();
-  const { data: me } = useQuery<Me>(
-    'user',
-    async () => {
-      const { data } = await axios.get('/user');
-      return data;
-    },
-    { refetchOnWindowFocus: false, retry: false }
-  );
+  const { data: me } = useQuery<Me>('user', () => loadLoginedUserAPI(), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
 
   const {
     handleSubmit,

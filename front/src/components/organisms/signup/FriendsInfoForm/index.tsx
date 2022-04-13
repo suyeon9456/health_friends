@@ -20,7 +20,7 @@ import {
   SizeType,
 } from '@/../@types/utils';
 import { useMutation } from 'react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import {
   SignupInfo,
   SignupMoreInfo,
@@ -28,9 +28,10 @@ import {
   SignupFriendsInfo,
 } from '@/../@types/user';
 import { useModalDispatch } from '@/../store/modalStore';
+import { signupAPI } from '@/api/user';
 import { ButtonWrap, FormWrapper } from './style';
 import { Form, Button } from '../../../atoms';
-import { Alert, FormSelect } from '../../../molecules';
+import { FormSelect } from '../../../molecules';
 
 const FriendsInfoForm = () => {
   const dispatch = useDispatch();
@@ -67,7 +68,7 @@ const FriendsInfoForm = () => {
       gymInfo: SignupGymInfo;
       selectedGym: {};
       friendsInfo: SignupFriendsInfo;
-    }) => axios.post('/user', data),
+    }) => signupAPI(data),
     {
       onError: async (error: AxiosError) => {
         contextDispatch({

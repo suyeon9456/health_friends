@@ -4,9 +4,13 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { BiEdit } from 'react-icons/bi';
 
 import { profileSelector } from '@/../reducers/profile';
-import axios from 'axios';
 import { ButtonType, SizeType } from '@/../@types/utils';
 import { Me } from '@/../@types/user';
+import {
+  loadLoginedUserAPI,
+  updateDescriptionAPI,
+  updateNicknameAPI,
+} from '@/api/user';
 import { Button, Icon, Input } from '../../../atoms';
 import {
   ContentText,
@@ -23,23 +27,16 @@ import useInput from '../../../../hooks/useInput';
 const Info = () => {
   const queryClient = useQueryClient();
   const nicknameMutation = useMutation((data: { nickname: string }) =>
-    axios.patch('/user/nickname', data)
+    updateNicknameAPI(data)
   );
   const descMutation = useMutation((data: { description: string }) =>
-    axios.patch('/user/description', data)
+    updateDescriptionAPI(data)
   );
 
-  const { data: me } = useQuery<Me>(
-    'user',
-    async () => {
-      const { data } = await axios.get('/user');
-      return data;
-    },
-    {
-      refetchOnWindowFocus: false,
-      retry: false,
-    }
-  );
+  const { data: me } = useQuery<Me>('user', () => loadLoginedUserAPI(), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
   const { profile } = useSelector(profileSelector);
   const [isEditNickname, setIsEditNickname] = useState<boolean>(false);
   const [isEditDescription, setIsEditDescription] = useState<boolean>(false);

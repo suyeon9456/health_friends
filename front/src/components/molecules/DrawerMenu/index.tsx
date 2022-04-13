@@ -13,7 +13,7 @@ import { useShowDispatch } from '@/../store/contextStore';
 import { ButtonType } from '@/../@types/utils';
 import { Me } from '@/../@types/user';
 import { useMutation, useQuery } from 'react-query';
-import axios from 'axios';
+import { loadLoginedUserAPI, logoutAPI } from '@/api/user';
 import { Button, Avatar, Icon } from '../../atoms';
 import {
   Drawer,
@@ -41,14 +41,11 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
 
   const { data: me } = useQuery<Me>(
     ['user', isChangeUser],
-    async () => {
-      const { data } = await axios.get('/user');
-      return data;
-    },
+    () => loadLoginedUserAPI(),
     { refetchOnWindowFocus: false, retry: false }
   );
 
-  const logoutMutation = useMutation(() => axios.post('/user/logout'));
+  const logoutMutation = useMutation(() => logoutAPI());
 
   const onLogout = useCallback(() => {
     logoutMutation.mutate();
@@ -71,7 +68,6 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
   );
 
   useEffect(() => {
-    console.log(logoutMutation.isSuccess);
     if (logoutMutation.isSuccess) {
       void router.push('/');
       setIsChangeUser((prev) => !prev);

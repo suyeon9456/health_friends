@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 import { BiPlus } from 'react-icons/bi';
 import isEmpty from 'lodash/isEmpty';
 
-import { RecordScheduleFetch } from '@/../@types/schedule';
 import useCheckbox from '@/hooks/useCheckbox';
 import { ButtonType } from '@/../@types/utils';
 import { useSelector } from 'react-redux';
 import { profileSelector } from '@/../reducers/profile';
+import { loadSchedulesAPI } from '@/api/user';
 import { Filter } from '../../../molecules';
 import { Button, CheckBox, Icon } from '../../../atoms';
 import MatchingCardList from '../../MatchingCardList';
@@ -29,55 +29,12 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
   const [rejectedMatching, setRejectedMatching] = useState<boolean>(false);
   const [schedules, setSchedules] = useState<any>([]);
 
-  // const query = useInfiniteQuery(
-  //   ['record', status, term, type, limit, rejectedMatching],
-  //   async (fetchBlacklist) => {
-  //     const userId = isProfile ? `userId=${profile?.id}&` : '';
-  //     const statusquery =
-  //       !isEmpty(status) && `&${status.map((m) => `${m}=true`).join('&')}`;
-  //     const termquery =
-  //       !isEmpty(term) && `&${term.map((m) => `${m}=true`).join('&')}`;
-  //     const typequery =
-  //       !isEmpty(type) && `&${type.map((m) => `${m}=true`).join('&')}`;
-  //     const {
-  //       data,
-  //     }: AxiosResponse<{
-  //       isLast: boolean;
-  //       schedules: RecordScheduleFetch[];
-  //     }> = await axios.get(
-  //       `/schedules?${userId}limit=${limit}&rejectedMatching=${rejectedMatching}${
-  //         !termquery ? '' : termquery
-  //       }${!typequery ? '' : typequery}${!statusquery ? '' : statusquery}`
-  //     );
-  //     return {
-  //       result: data.schedules.map((schedule) => ({
-  //         ...schedule,
-  //         start: new Date(schedule?.startDate),
-  //         end: new Date(schedule?.endDate),
-  //       })),
-  //       nextPage: limit + 3,
-  //       isLast: data.isLast,
-  //     };
-  //   },
-  //   {
-  //     getNextPageParam: (lastPage, pages) => {
-  //       console.log('lastPage', lastPage);
-  //       if (!lastPage.isLast) return lastPage.nextPage;
-  //       return undefined;
-  //     },
-  //     refetchOnWindowFocus: false,
-  //     refetchOnMount: true,
-  //     refetchOnReconnect: true,
-  //     retry: 1,
-  //   }
-  // );
-
   const {
     isFetching,
     data: { isLast, apiSchedules },
   } = useQuery<any | undefined, AxiosError>(
     ['record', status, term, type, limit, rejectedMatching],
-    async () => {
+    () => {
       const userId = isProfile ? `userId=${profile?.id}&` : '';
       const statusquery =
         !isEmpty(status) && `&${status.map((m) => `${m}=true`).join('&')}`;
@@ -85,24 +42,14 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
         !isEmpty(term) && `&${term.map((m) => `${m}=true`).join('&')}`;
       const typequery =
         !isEmpty(type) && `&${type.map((m) => `${m}=true`).join('&')}`;
-      const {
-        data,
-      }: AxiosResponse<{
-        isLast: boolean;
-        schedules: RecordScheduleFetch[];
-      }> = await axios.get(
-        `/schedules?${userId}limit=${limit}&rejectedMatching=${rejectedMatching}${
-          !termquery ? '' : termquery
-        }${!typequery ? '' : typequery}${!statusquery ? '' : statusquery}`
-      );
-      return {
-        ...data,
-        apiSchedules: data.schedules.map((schedule) => ({
-          ...schedule,
-          start: new Date(schedule?.startDate),
-          end: new Date(schedule?.endDate),
-        })),
-      };
+      return loadSchedulesAPI({
+        userId,
+        limit,
+        rejectedMatching,
+        statusquery,
+        termquery,
+        typequery,
+      });
     },
     {
       initialData: { isLast: false, schedules: [] },

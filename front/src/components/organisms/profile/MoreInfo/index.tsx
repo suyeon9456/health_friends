@@ -13,7 +13,7 @@ import {
 } from '@/../@types/utils';
 import { useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
-import axios from 'axios';
+import { loadLoginedUserAPI } from '@/api/user';
 import { InformationItem, Button, Icon } from '../../../atoms';
 import {
   Content,
@@ -30,14 +30,10 @@ const MoreInfo = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [targetId, setTargetId] = useState('');
 
-  const { data: me } = useQuery<Me>(
-    'user',
-    async () => {
-      const { data } = await axios.get('/user');
-      return data;
-    },
-    { refetchOnWindowFocus: false, retry: false }
-  );
+  const { data: me } = useQuery<Me>('user', () => loadLoginedUserAPI(), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
 
   const onChangeShowEditModal = useCallback(
     (e) => {
