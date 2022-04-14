@@ -3,9 +3,6 @@ import { GymInitialState } from '../@types/reducer/state';
 import { RootState } from '../store/configureStore';
 
 const initialState: GymInitialState = {
-  addGymLoading: false,
-  addGymDone: false,
-  addGymError: null,
   isLoadGyms: false,
   hasMoreGyms: false,
   mapBounds: {},
@@ -17,22 +14,8 @@ const gymSlice = createSlice({
   name: 'GYM',
   initialState,
   reducers: {
-    addGymRequeset(state, action) {
-      state.addGymLoading = true;
-      state.addGymDone = false;
-      state.addGymError = null;
-    },
-    addGymSuccess(state) {
-      state.addGymLoading = false;
-      state.addGymDone = true;
-      state.addGymError = null;
-    },
-    addGymError(state, action) {
-      state.addGymLoading = false;
-      state.addGymDone = false;
-      state.addGymError = action.payload;
-    },
     loadGyms(state, action) {
+      console.log('reducer', action.payload);
       state.gyms = action.payload;
       state.gym = {};
       state.isLoadGyms = false;
@@ -43,6 +26,7 @@ const gymSlice = createSlice({
       state.isLoadGyms = false;
     },
     loadFriends(state, action) {
+      console.log('reducer');
       state.gym = action.payload;
     },
     changeMapBounds(state, action) {
@@ -55,24 +39,12 @@ const gymSlice = createSlice({
 });
 
 export const gymSelector = createDraftSafeSelector(
-  (state: RootState) => state.gym.loadFriendsLoading,
-  (state: RootState) => state.gym.loadGymLoading,
   (state: RootState) => state.gym.isLoadGyms,
   (state: RootState) => state.gym.hasMoreGyms,
   (state: RootState) => state.gym.mapBounds,
   (state: RootState) => state.gym.gyms,
   (state: RootState) => state.gym.gym,
-  (
-    loadFriendsLoading,
-    loadGymLoading,
-    isLoadGyms,
-    hasMoreGyms,
-    mapBounds,
-    gyms,
-    gym
-  ) => ({
-    loadFriendsLoading,
-    loadGymLoading,
+  (isLoadGyms, hasMoreGyms, mapBounds, gyms, gym) => ({
     isLoadGyms,
     hasMoreGyms,
     mapBounds,
@@ -81,13 +53,6 @@ export const gymSelector = createDraftSafeSelector(
   })
 );
 
-export const {
-  addGymRequeset,
-  addGymSuccess,
-  addGymError,
-  loadGyms,
-  loadFriends,
-  changeMapBounds,
-  isLoadGyms,
-} = gymSlice.actions;
+export const { changeMapBounds, isLoadGyms, loadFriends, loadGyms } =
+  gymSlice.actions;
 export default gymSlice.reducer;

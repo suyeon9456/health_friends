@@ -1,12 +1,11 @@
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useForm, UseFormSetValue } from 'react-hook-form';
 
-import { addGymRequeset } from '@/../reducers/gym';
 import { SearchGymTabs } from '@/../@types/utils';
 import { useMutation } from 'react-query';
 import { addGymAPI } from '@/api/user';
-import { Address, Gym } from '@/../@types/gym';
+import { Address } from '@/../@types/gym';
 import { selectGym } from '@/../reducers/user';
 import { Modal, Tabs } from '../../../molecules';
 import ModalSearchGym from '../../ModalSearchGym';
@@ -55,7 +54,7 @@ const ModalGym = ({
   const [selectedTab, setSelectedTab] = useState('search');
 
   const gymMutation = useMutation((data: Address) => addGymAPI(data), {
-    onSuccess: (gym: Gym) => {
+    onSuccess: (gym) => {
       dispatch(selectGym({ id: gym.id, name: gym.name }));
     },
   });

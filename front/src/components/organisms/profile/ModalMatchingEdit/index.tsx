@@ -1,19 +1,16 @@
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import {
-  addReScheduleRequest,
-  updateScheduleRequest,
-} from '@/../reducers/schedule';
 import { ModalType, ShowModalType } from '@/../@types/utils';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
 import { loadLoginedUserAPI } from '@/api/user';
 import { meKey } from '@/../@types/queryKey';
+import { Schedule } from '@/../@types/schedule';
+import { addReScheduleAPI, updateScheduleAPI } from '@/api/schedule';
 import MatchingRequestForm from '../../MatchingRequestForm';
 import { Modal } from '../../../molecules';
 
@@ -34,7 +31,6 @@ const ModalMatchingEdit = ({
   onCancel: () => void;
   mode: ShowModalType;
 }) => {
-  const dispatch = useDispatch();
   const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
@@ -55,6 +51,13 @@ const ModalMatchingEdit = ({
     resolver: yupResolver(schema),
   });
 
+  const scheduleMutation = useMutation((data: Schedule) =>
+    addReScheduleAPI(data)
+  );
+  const updateScheduleMutation = useMutation((data: Schedule) =>
+    updateScheduleAPI(data)
+  ); // state.schedule = null;
+
   const onSubmit = useCallback(
     (data) => {
       const date = format(new Date(data.startDate), 'yyyy-MM-dd');
@@ -65,27 +68,23 @@ const ModalMatchingEdit = ({
       );
       const dateTime = [date, time].join(' ');
       if (mode === ModalType.EDIT) {
-        dispatch(
-          updateScheduleRequest({
-            ...data,
-            startDate: startDateTime,
-            endDate: dateTime,
-            id: schedule.id,
-          })
-        );
+        updateScheduleMutation.mutate({
+          ...data,
+          startDate: startDateTime,
+          endDate: dateTime,
+          id: schedule.id,
+        });
       }
       if (mode === ModalType.REMATCH) {
-        dispatch(
-          addReScheduleRequest({
-            ...data,
-            startDate: startDateTime,
-            endDate: dateTime,
-            id: schedule?.id,
-            userId: me?.id,
-            friendId: schedule?.Friend?.id,
-            gymId: schedule?.Gym?.id,
-          })
-        );
+        scheduleMutation.mutate({
+          ...data,
+          startDate: startDateTime,
+          endDate: dateTime,
+          id: schedule?.id,
+          userId: me?.id,
+          friendId: schedule?.Friend?.id,
+          gymId: schedule?.Gym?.id,
+        });
       }
     },
     [mode, schedule]

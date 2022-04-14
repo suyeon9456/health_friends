@@ -82,9 +82,7 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
       setSchedules([...schedules, ...apiSchedules]);
     }
   }, [apiSchedules]);
-  useEffect(() => {
-    console.log('isFetching', isFetching);
-  }, [isFetching]);
+
   return (
     <RecordWrap>
       <FilterList>

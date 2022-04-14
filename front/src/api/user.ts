@@ -4,7 +4,7 @@ import { backUrl } from '@/../config/config';
 import groupBy from 'lodash/groupBy';
 import forIn from 'lodash/forIn';
 import orderBy from 'lodash/orderBy';
-import isEmpty from 'lodash/isEmpty';
+
 import { Matching, RecordScheduleFetch } from '@/../@types/schedule';
 import { FetchRankedFriends } from '@/../@types/fetchData';
 import { Location } from 'map';
@@ -87,36 +87,42 @@ export const loadSignupGymsAPI = (searchWord?: string) => {
 export const loadGymsAPI = ({
   lastId,
   searchWord,
-  swLon,
-  swLat,
-  neLon,
-  neLat,
-  isLoadGyms,
-  isSearch,
 }: {
   lastId?: number;
   searchWord?: string;
-  swLon?: string;
-  swLat?: string;
-  neLon?: string;
-  neLat?: string;
-  isLoadGyms: boolean;
-  isSearch: boolean;
 }) => {
-  const basicGymsApi = `/gyms?lastId=${
-    lastId ?? 0
-  }&searchWord=${encodeURIComponent(searchWord ?? '')}`;
-  if (isSearch) {
-    return axios.get(basicGymsApi).then((response) => response.data);
-  }
-  if (isLoadGyms) {
-    console.log('통과');
-    return axios
-      .get(
-        `${basicGymsApi}&swLon=${swLon}&swLat=${swLat}&neLon=${neLon}&neLat=${neLat}`
-      )
-      .then((response) => response.data);
-  }
+  return axios
+    .get(
+      `/gyms?lastId=${lastId ?? 0}&searchWord=${encodeURIComponent(
+        searchWord ?? ''
+      )}`
+    )
+    .then((response) => response.data);
+};
+
+export const loadMapAPI = ({
+  lastId,
+  searchWord,
+  mapBounds,
+}: {
+  lastId?: number;
+  searchWord?: string;
+  mapBounds: {
+    swLon: string;
+    swLat: string;
+    neLon: string;
+    neLat: string;
+  };
+}) => {
+  if (!mapBounds) return;
+  const { swLon, swLat, neLon, neLat } = mapBounds;
+  return axios
+    .get(
+      `/gyms?lastId=${lastId ?? 0}&searchWord=${encodeURIComponent(
+        searchWord ?? ''
+      )}&swLon=${swLon}&swLat=${swLat}&neLon=${neLon}&neLat=${neLat}`
+    )
+    .then((response) => response.data);
 };
 
 export const loadGymAndFriendsAPI = ({
@@ -215,9 +221,7 @@ export const addLikeAPI = (data: number) => {
 };
 
 export const addGymAPI = (data: Address) => {
-  return axios
-    .post('/gym', data)
-    .then((response: { data: Gym }) => response.data);
+  return axios.post('/gym', data).then((response) => response.data);
 };
 
 export const updateMyinfoAPI = (data: SignupMoreInfo & SignupGymInfo) => {

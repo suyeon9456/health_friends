@@ -9,31 +9,26 @@ export const signupGymsKey = (searchWord?: string) =>
 export const gymsKey = ({
   lastId,
   searchWord,
-  swLon,
-  swLat,
-  neLon,
-  neLat,
-  isLoadGyms,
   isSearch,
 }: {
   lastId?: number;
   searchWord?: string;
-  swLon?: string;
-  swLat?: string;
-  neLon?: string;
-  neLat?: string;
-  isLoadGyms?: boolean;
   isSearch?: boolean;
-}) =>
-  [
-    'gym',
-    lastId,
-    searchWord,
-    swLon,
-    swLat,
-    neLon,
-    neLat,
-    isLoadGyms,
-    isSearch,
-  ] as const;
+}) => ['gym', lastId, searchWord, isSearch] as const;
+export const mapKey = ({
+  lastId,
+  searchWord,
+  mapBounds,
+  isLoadGyms,
+}: {
+  lastId?: number;
+  searchWord?: string;
+  mapBounds?: {
+    swLon: string;
+    swLat: string;
+    neLon: string;
+    neLat: string;
+  };
+  isLoadGyms?: boolean;
+}) => ['gym', lastId, searchWord, mapBounds, isLoadGyms] as const;
 export const gymAndFriendsByIdKey = (gymId?: number) => ['gym', gymId] as const;

@@ -1,16 +1,17 @@
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { addScheduleRequest } from '@/../reducers/schedule';
 import { gymSelector } from '@/../reducers/gym';
 import { SizeType } from '@/../@types/utils';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
 import { loadLoginedUserAPI } from '@/api/user';
 import { meKey } from '@/../@types/queryKey';
+import { addScheduleAPI } from '@/api/schedule';
+import { Schedule } from '@/../@types/schedule';
 import { useDateFormat } from '../../../hooks';
 import { Modal } from '../../molecules';
 import { Avatar } from '../../atoms';
@@ -39,7 +40,6 @@ const ModalMatchingRequest = ({
   };
   gymName?: string;
 }) => {
-  const dispatch = useDispatch();
   const { gym } = useSelector(gymSelector);
   const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
@@ -56,23 +56,26 @@ const ModalMatchingRequest = ({
     resolver: yupResolver(schema),
   });
 
+  const scheduleMutation = useMutation((data: Schedule) =>
+    addScheduleAPI(data)
+  );
+
   const onChangeShowModal = useCallback(() => {
     setShowModal(false);
   }, []);
 
   const onMatchingRequest = useCallback((data) => {
+    console.log('friend', friend);
     const date = useDateFormat(new Date(data.startDate), 'yyyy-MM-dd');
     const time = useDateFormat(new Date(data.endDate), 'HH:mm');
     const end = new Date([date, time].join(' '));
-    dispatch(
-      addScheduleRequest({
-        ...data,
-        endDate: end,
-        userId: me?.id,
-        friendId: friend?.id,
-        gymId: friend?.UserGym?.GymId ?? gym?.id,
-      })
-    );
+    scheduleMutation.mutate({
+      ...data,
+      endDate: end,
+      userId: me?.id,
+      friendId: friend,
+      gymId: friend?.UserGym?.GymId ?? gym?.id,
+    });
     onChangeShowModal();
   }, []);
 

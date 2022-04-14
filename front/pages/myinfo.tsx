@@ -41,7 +41,7 @@ const Myinfo = () => {
   }, [dataUpdatedAt]);
 
   return (
-    <AppLayout>
+    <AppLayout childBlock>
       <Row>
         <Col xs={24} md={8}>
           <SideBar profileMenu={profileMenu} setProfileMenu={setProfileMenu} />

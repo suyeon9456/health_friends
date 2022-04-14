@@ -36,38 +36,9 @@ export interface ProfileInitialState {
 
 /* GYM INITIAL STATE */
 export interface GymInitialState {
-  addGymLoading: boolean;
-  addGymDone: boolean;
-  addGymError: string | null;
   isLoadGyms: boolean;
   hasMoreGyms: boolean;
   mapBounds: {};
   gyms: Gyms | [];
   gym: {};
-}
-
-/* SCHEDULE INITIAL STATE */
-export interface ScheduleInitialState {
-  addScheduleLoading: boolean;
-  addScheduleDone: boolean;
-  addScheduleError: string | null;
-  addReScheduleLoading: boolean;
-  addReScheduleDone: boolean;
-  addReScheduleError: string | null;
-  updateScheduleLoading: boolean;
-  updateScheduleDone: boolean;
-  updateScheduleError: string | null;
-  updatePermissionLoading: boolean;
-  updatePermissionDone: boolean;
-  updatePermissionError: string | null;
-  addCancellationLoading: boolean;
-  addCancellationDone: boolean;
-  addCancellationError: string | null;
-  updateCancellationLoading: boolean;
-  updateCancellationDone: boolean;
-  updateCancellationError: string | null;
-  addPermissionLoading: boolean;
-  addPermissionDone: boolean;
-  addPermissionError: string | null;
-  schedule: Schedule | null;
 }

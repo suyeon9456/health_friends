@@ -79,6 +79,28 @@ const MatchingCardList = ({
     },
   ]);
 
+  const onChangeShowEditModal = useCallback(() => {
+    setShowEditModal((prev) => !prev);
+  }, [showEditModal]);
+
+  const onChangeShowDetailModal = useCallback(() => {
+    setShowDetailModal((prev) => !prev);
+  }, [showEditModal]);
+
+  const onClickAction = useCallback(
+    ({ key, id }) => {
+      setMatchingId(id);
+      setModalType(key);
+      if (key === ModalType.VIEW) {
+        setShowDetailModal((prev) => !prev);
+      }
+      if (key === ModalType.EDIT || key === ModalType.REMATCH) {
+        setShowEditModal((prev) => !prev);
+      }
+    },
+    [showDetailModal, showEditModal, modalType, matchingId]
+  );
+
   useEffect(() => {
     if (apiSchedule) {
       const {
@@ -126,28 +148,6 @@ const MatchingCardList = ({
       });
     }
   }, [apiSchedule]);
-
-  const onChangeShowEditModal = useCallback(() => {
-    setShowEditModal((prev) => !prev);
-  }, [showEditModal]);
-
-  const onChangeShowDetailModal = useCallback(() => {
-    setShowDetailModal((prev) => !prev);
-  }, [showEditModal]);
-
-  const onClickAction = useCallback(
-    ({ key, id }) => {
-      setMatchingId(id);
-      setModalType(key);
-      if (key === ModalType.VIEW) {
-        setShowDetailModal((prev) => !prev);
-      }
-      if (key === ModalType.EDIT || key === ModalType.REMATCH) {
-        setShowEditModal((prev) => !prev);
-      }
-    },
-    [showDetailModal, showEditModal, modalType, matchingId]
-  );
 
   return (
     <>

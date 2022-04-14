@@ -1,4 +1,4 @@
-export type LoadGymProps = {
+export interface LoadGymProps {
   lastId?: number;
   searchWord: string;
   swLon?: string;
@@ -7,7 +7,7 @@ export type LoadGymProps = {
   neLat?: string;
 }
 
-export type LoadSchedulesProps = {
+export interface LoadSchedulesProps {
   profileMenu: string;
   limit: number;
   term: string[];
@@ -16,12 +16,10 @@ export type LoadSchedulesProps = {
   rejectedMatching: boolean;
 }
 
-export type UpdateCancellationProps = {
+export interface UpdateCancellationProps {
   id: number;
-  friendId: number;
-  cancelId: number;
-  userRematchRate: number;
-  friendRematchRate: number;
+  friendId?: number;
+  cancelId?: number;
 }
 
 export interface ActionType<T, D> {
@@ -30,5 +28,5 @@ export interface ActionType<T, D> {
 }
 
 export interface CustomActionType<T, D, C> extends ActionType<T, D> {
-  lastId: C
+  lastId: C;
 }

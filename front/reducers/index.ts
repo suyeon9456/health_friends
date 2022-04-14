@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 
 import user from './user';
 import profile from './profile';
-import schedule from './schedule';
+import gym from './gym';
 
 const rootReducer = (state: any, action: any) => {
   switch (action.type) {
@@ -12,7 +12,7 @@ const rootReducer = (state: any, action: any) => {
       // console.log('payload', action.payload);
       return action.payload;
     default: {
-      const combineReducer = combineReducers({ user, schedule, profile });
+      const combineReducer = combineReducers({ user, profile, gym });
       return combineReducer(state, action);
     }
   }

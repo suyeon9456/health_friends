@@ -10,9 +10,9 @@ import { useRouter } from 'next/router';
 import { BiChevronLeft, BiChevronRight, BiGroup } from 'react-icons/bi';
 
 import { gymSelector, loadFriends, loadGyms } from '@/../reducers/gym';
-import { useQueries } from 'react-query';
-import { loadGymAndFriendsAPI, loadGymsAPI } from '@/api/user';
-import { gymAndFriendsByIdKey, gymsKey } from '@/../@types/queryKey';
+import { useQuery } from 'react-query';
+import { loadGymAndFriendsAPI, loadGymsAPI, loadMapAPI } from '@/api/user';
+import { gymAndFriendsByIdKey, gymsKey, mapKey } from '@/../@types/queryKey';
 import { Gym } from '@/../@types/gym';
 import useInput from '../../../hooks/useInput';
 
@@ -44,11 +44,7 @@ const SearchGyms = ({
   const dispatch = useDispatch();
 
   const { searchText } = router.query;
-  const {
-    mapBounds: { swLon, swLat, neLon, neLat },
-    hasMoreGyms,
-    isLoadGyms,
-  } = useSelector(gymSelector);
+  const { gyms, mapBounds, isLoadGyms } = useSelector(gymSelector);
 
   const [searchWord, onChangeSearchWord] = useInput<string>('');
   const [browserHeight, setBrowserHeight] = useState<number>(0);
@@ -56,48 +52,44 @@ const SearchGyms = ({
   const [isSearch, setIsSearch] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string | string>('');
 
-  const [{ isLoading }, { data: gyms }] = useQueries<
-    [{ isLoading: boolean }, { data: Gym[] }]
-  >([
+  const { isLoading } = useQuery(
+    gymAndFriendsByIdKey(gymId),
+    () => loadGymAndFriendsAPI({ gymId }),
     {
-      queryKey: gymAndFriendsByIdKey(gymId),
-      queryFn: () => loadGymAndFriendsAPI({ gymId }),
-      onSuccess: (data) => {
-        dispatch(loadFriends(data));
-      },
+      onSuccess: (data) => dispatch(loadFriends(data)),
       refetchOnWindowFocus: false,
       retry: false,
-    },
+      enabled: !!gymId,
+    }
+  );
+
+  const _map = useQuery(
+    mapKey({ searchWord: searchQuery, isLoadGyms, mapBounds }),
+    () => loadMapAPI({ searchWord: searchQuery, mapBounds }),
     {
-      queryKey: gymsKey({
-        searchWord: searchQuery,
-        swLon,
-        swLat,
-        neLon,
-        neLat,
-        isLoadGyms,
-        isSearch,
-      }),
-      queryFn: () => {
-        return loadGymsAPI({
-          searchWord: searchQuery,
-          swLon,
-          swLat,
-          neLon,
-          neLat,
-          isLoadGyms,
-          isSearch,
-        });
-      },
       onSuccess: (data) => {
-        if (!data) return;
         dispatch(loadGyms(data));
         setIsSearch(false);
       },
       refetchOnWindowFocus: false,
       retry: false,
-    },
-  ]);
+      enabled: !!isLoadGyms,
+    }
+  );
+
+  const _search = useQuery(
+    gymsKey({ searchWord: searchQuery, isSearch }),
+    () => loadGymsAPI({ searchWord: searchQuery }),
+    {
+      onSuccess: (data) => {
+        dispatch(loadGyms(data));
+        setIsSearch(false);
+      },
+      refetchOnWindowFocus: false,
+      retry: false,
+      enabled: !!isSearch,
+    }
+  );
 
   const changeFoldedGym = useCallback(() => {
     setFoldedGym((prev) => !prev);
@@ -114,7 +106,6 @@ const SearchGyms = ({
       if (foldedFriends) {
         setFoldedFriends(false);
       }
-      console.log('>', targetGymId);
       setGymId(targetGymId);
     },
     [foldedFriends]
@@ -169,7 +160,7 @@ const SearchGyms = ({
           />
         </SearchFormWrapper>
         <SearchListWrapper browserHeight={browserHeight}>
-          {gyms?.map((gym) => (
+          {gyms?.map((gym: Gym) => (
             <Item
               key={gym.id}
               title={gym.name}
