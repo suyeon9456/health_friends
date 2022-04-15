@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { loadProfile } from '@/../reducers/profile';
-import { Menu, ProfileMenuType } from '@/../@types/utils';
+import {
+  GlobalModal,
+  Menu,
+  ModalStatus,
+  ProfileMenuType,
+} from '@/../@types/utils';
 
 import { useQuery } from 'react-query';
 import { loadProfileAPI } from '@/api/user';
 import { profileByIdKey } from '@/../@types/queryKey';
+import { useModalDispatch } from '@/../store/modalStore';
 import {
   AppLayout,
   SideBar,
@@ -20,26 +26,34 @@ import MatchingRecord from '../../src/components/organisms/profile/MatchingRecor
 import LikedList from '../../src/components/organisms/profile/LikedList';
 
 const Profile = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
+  const dispatch = useDispatch();
+  const contextDispatch = useModalDispatch();
 
   const { id } = router.query;
   const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(Menu.INFO);
 
-  const {
-    data: profile,
-    isFetched,
-    dataUpdatedAt,
-  } = useQuery(profileByIdKey(id), () => loadProfileAPI(id), {
+  useQuery(profileByIdKey(id), () => loadProfileAPI(id), {
     refetchOnWindowFocus: false,
     retry: false,
+    enabled: !!id,
+    onSuccess: (data) => {
+      if (!data) return;
+      dispatch(loadProfile(data));
+    },
+    onError: () => {
+      contextDispatch({
+        type: 'SHOW_MODAL',
+        payload: {
+          type: GlobalModal.ALERT,
+          statusType: ModalStatus.ERROR,
+          message: '존재하지 않는 사용자입니다.',
+          block: true,
+          callback: () => router.replace('/'),
+        },
+      });
+    },
   });
-
-  useEffect(() => {
-    if (isFetched) {
-      dispatch(loadProfile(profile));
-    }
-  }, [dataUpdatedAt]);
 
   return (
     <AppLayout>
@@ -66,25 +80,5 @@ const Profile = () => {
     </AppLayout>
   );
 };
-
-// export const getServerSideProps: GetServerSideProps =
-//   wrapper.getServerSideProps((store) => async ({ req }) => {
-//     const cookie = req ? req.headers.cookie : '';
-//     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-//     axios!.defaults!.headers!.Cookie = '';
-//     if (req && cookie) {
-//       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-//       axios!.defaults!.headers!.Cookie = cookie;
-//     }
-//     store.dispatch(loadMyInfoRequest());
-//     store.dispatch(END);
-//     await (store as Store).sagaTask?.toPromise();
-
-//     return {
-//       props: {
-//         allPostsData: {},
-//       },
-//     };
-//   });
 
 export default Profile;

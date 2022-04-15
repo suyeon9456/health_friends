@@ -5,6 +5,7 @@ import axios from 'axios';
 import { GetServerSidePropsContext } from 'next';
 import { useQuery } from 'react-query';
 import { loadMyinfoAPI } from '@/api/user';
+import { useRouter } from 'next/router';
 import { loadProfile } from '../reducers/profile';
 
 import {
@@ -18,11 +19,19 @@ import {
 import MatchingCalendar from '../src/components/organisms/profile/MatchingCalendar';
 import MatchingRecord from '../src/components/organisms/profile/MatchingRecord';
 import LikedList from '../src/components/organisms/profile/LikedList';
-import { Menu, ProfileMenuType } from '../@types/utils';
+import {
+  GlobalModal,
+  Menu,
+  ModalStatus,
+  ProfileMenuType,
+} from '../@types/utils';
 import { profileKey } from '../@types/queryKey';
+import { useModalDispatch } from '../store/modalStore';
 
 const Myinfo = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
+  const contextDispatch = useModalDispatch();
   const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(Menu.INFO);
 
   const {
@@ -32,6 +41,17 @@ const Myinfo = () => {
   } = useQuery(profileKey, () => loadMyinfoAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
+    onError: () =>
+      contextDispatch({
+        type: 'SHOW_MODAL',
+        payload: {
+          type: GlobalModal.ALERT,
+          statusType: ModalStatus.ERROR,
+          message: '존재하지 않는 사용자입니다.',
+          block: true,
+          callback: () => router.replace('/'),
+        },
+      }),
   });
 
   useEffect(() => {

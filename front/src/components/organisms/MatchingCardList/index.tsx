@@ -6,15 +6,22 @@ import { BiEdit, BiPin, BiRepeat } from 'react-icons/bi';
 
 import { profileSelector } from '@/../reducers/profile';
 
-import { useQueries } from 'react-query';
+import { useQueries, useQuery } from 'react-query';
 import axios from 'axios';
 import {
   MatchingCardProps,
   RecordSchedule,
   RecordScheduleFetch,
 } from '@/../@types/schedule';
-import { ModalType, ShowModalType } from '@/../@types/utils';
+import {
+  loginedUserProfile,
+  ModalType,
+  ShowModalType,
+} from '@/../@types/utils';
 import { Me } from '@/../@types/user';
+import { meKey, scheduleByIdKey } from '@/../@types/queryKey';
+import { loadLoginedUserAPI } from '@/api/user';
+import { loadScheduleAPI } from '@/api/schedule';
 import ModalMatchingDetail from '../profile/ModalMatchingDetail';
 import ModalMatchingEdit from '../profile/ModalMatchingEdit';
 import { LoadingMatchingCard, MatchingCard } from '../../molecules';
@@ -39,45 +46,31 @@ const MatchingCardList = ({
   const [modalType, setModalType] = useState<ShowModalType>(ModalType.VIEW);
   const [schedule, setSchedule] = useState<MatchingCardProps | null>(null);
 
-  const [{ data: me }, { data: apiSchedule }] = useQueries<
-    [
-      { data: Me },
-      {
-        data: {
-          schedule: RecordScheduleFetch;
-          userMatching: Array<{
-            FriendId: number;
-            matchingCount: number;
-            rematchingCount: number;
-          }>;
-          friendMatching: Array<{
-            FriendId: number;
-            matchingCount: number;
-            rematchingCount: number;
-          }>;
-        };
-      }
-    ]
-  >([
+  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
+  const { data: apiSchedule } = useQuery<{
+    schedule: RecordScheduleFetch;
+    userMatching: Array<{
+      FriendId: number;
+      matchingCount: number;
+      rematchingCount: number;
+    }>;
+    friendMatching: Array<{
+      FriendId: number;
+      matchingCount: number;
+      rematchingCount: number;
+    }>;
+  }>(
+    scheduleByIdKey(matchingId),
+    () => loadScheduleAPI(matchingId, queryId ? `?userId=${profile.id}` : ''),
     {
-      queryKey: ['user'],
-      queryFn: async () => {
-        const { data } = await axios.get('/user');
-        return data;
-      },
-    },
-    {
-      queryKey: ['schedule', matchingId],
-      queryFn: async () => {
-        if (!matchingId) {
-          return;
-        }
-        const userId = queryId ? `?userId=${profile.id}` : '';
-        const { data } = await axios.get(`/schedule/${matchingId}${userId}`);
-        return data;
-      },
-    },
-  ]);
+      refetchOnWindowFocus: false,
+      retry: false,
+      enabled: !!matchingId,
+    }
+  );
 
   const onChangeShowEditModal = useCallback(() => {
     setShowEditModal((prev) => !prev);
@@ -108,14 +101,10 @@ const MatchingCardList = ({
         userMatching,
         friendMatching,
       } = apiSchedule;
-      const userTotalCount =
-        userMatching.length > 0 ? userMatching[0].matchingCount : 0;
-      const userReCount =
-        userMatching.length > 0 ? userMatching[0].rematchingCount : 0;
-      const friendTotalCount =
-        friendMatching.length > 0 ? friendMatching[0].matchingCount : 0;
-      const friendReCount =
-        friendMatching.length > 0 ? friendMatching[0].rematchingCount : 0;
+      const userTotalCount = userMatching?.[0]?.matchingCount || 0;
+      const userReCount = userMatching?.[0]?.rematchingCount || 0;
+      const friendTotalCount = friendMatching?.[0]?.matchingCount || 0;
+      const friendReCount = friendMatching?.[0]?.rematchingCount || 0;
       const user = me ?? profile;
       setSchedule({
         ...fetchSchedule,
@@ -152,57 +141,30 @@ const MatchingCardList = ({
   return (
     <>
       <MatchingCardListWrap>
-        {schedules?.map((targetSchedule) => {
-          const startDate = format(
-            targetSchedule?.start,
-            'yyyy년 MM월 dd일 HH:mm'
-          );
-          const endDate = format(targetSchedule?.end, 'HH:mm');
-          const date = [startDate, ' ~ ', endDate].join('');
-          const friend = targetSchedule?.Receiver?.id;
-          const nickname =
-            friend === me?.id
-              ? targetSchedule?.Requester?.nickname
-              : targetSchedule?.Receiver?.nickname;
-          const imageSrc =
-            friend === me?.id
-              ? targetSchedule?.Requester?.Image?.src
-              : targetSchedule?.Receiver?.Image?.src;
-          const cardImageSrc = imageSrc ?? '';
+        {schedules?.map((target) => {
+          const { start, end, Receiver, Requester } = target;
+          const startDate = format(start, 'yyyy년 MM월 dd일 HH:mm');
+          const endDate = format(end, 'HH:mm');
+          const friend = profile.id === Receiver.id ? Requester : Receiver;
+          console.log(friend);
           // 오늘 일자보다 전 일자의 event는 -1을 리턴한다.
-          const compareToday = compareAsc(
-            new Date(targetSchedule.start),
-            new Date()
-          );
+          const compareToday = compareAsc(new Date(target.start), new Date());
           return (
             <MatchingCard
-              key={targetSchedule.id}
-              matchingId={targetSchedule.id}
-              nickname={nickname}
-              description={targetSchedule.Gym.address + targetSchedule.Gym.name}
-              image={cardImageSrc}
-              date={date}
+              key={target.id}
+              matchingId={target.id}
+              nickname={friend.nickname}
+              description={target.Gym.address + target.Gym.name}
+              image={friend.Image?.src ?? ''}
+              date={[startDate, ' ~ ', endDate].join('')}
               onClickView={onClickAction}
               actions={
                 me?.id === profile?.id
-                  ? [
-                      {
-                        icon: <Icon icon={<BiPin />} />,
-                        key: ModalType.FIX,
-                        onClick: onClickAction,
-                      },
-                      {
-                        icon: <Icon icon={<BiRepeat />} />,
-                        key: ModalType.REMATCH,
-                        onClick: onClickAction,
-                      },
-                      {
-                        icon: <Icon icon={<BiEdit />} />,
-                        key: ModalType.EDIT,
-                        onClick: onClickAction,
-                        disabled: compareToday < 0,
-                      },
-                    ]
+                  ? loginedUserProfile(
+                      <Icon icon={<BiPin />} />,
+                      onClickAction,
+                      compareToday
+                    )
                   : []
               }
             />

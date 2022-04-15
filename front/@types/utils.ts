@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export const InputNumberType = {
   PLUSE: 'PLUSE',
   MINUS: 'MINUS',
@@ -157,3 +159,65 @@ export const GlobalModal = {
 } as const;
 
 export type GlobalModalType = typeof GlobalModal[keyof typeof GlobalModal];
+
+export const detailActions = (onRefuse: () => void, onAccept: () => void) =>
+  [
+    { id: 'refuse', title: '거절', onClick: onRefuse },
+    {
+      id: 'accept',
+      title: '수락',
+      type: ButtonType.SIGNATURE,
+      onClick: onAccept,
+    },
+  ] as const;
+
+export const reqCancelActions = (onRequest: () => void) =>
+  [
+    {
+      id: 'cancel',
+      title: '취소요청',
+      type: ButtonType.ERROR,
+      onClick: onRequest,
+    },
+  ] as const;
+
+export const resCancelActions = (onResponse: () => void) =>
+  [
+    {
+      id: 'cancelcheck',
+      title: '취소요청 승인',
+      type: ButtonType.ERROR,
+      onClick: onResponse,
+    },
+  ] as const;
+
+export const MatchingActionType = {
+  DEFAULT: 'DEFAULT',
+  DETAIL: 'DETAIL',
+  REQ_CANCEL: 'REQ_CANCEL',
+  RES_CANCEL: 'RES_CANCEL',
+} as const;
+
+export const loginedUserProfile = (
+  icon: ReactNode,
+  onClickAction: ({ key, id }: any) => void,
+  compareToday: number
+) =>
+  [
+    {
+      icon,
+      key: ModalType.FIX,
+      onClick: onClickAction,
+    },
+    {
+      icon,
+      key: ModalType.REMATCH,
+      onClick: onClickAction,
+    },
+    {
+      icon,
+      key: ModalType.EDIT,
+      onClick: onClickAction,
+      disabled: compareToday < 0,
+    },
+  ] as const;

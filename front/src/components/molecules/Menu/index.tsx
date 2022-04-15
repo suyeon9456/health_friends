@@ -6,7 +6,7 @@ import { SizeType } from '@/../@types/utils';
 import { Me } from '@/../@types/user';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { loadLoginedUserAPI, logoutAPI } from '@/api/user';
-import { meKey } from '@/../@types/queryKey';
+import { meKey, profileKey } from '@/../@types/queryKey';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 
 import { Avatar, Icon } from '../../atoms';
@@ -21,7 +21,10 @@ const Menu = () => {
     retry: false,
   });
   const logoutMutation = useMutation(() => logoutAPI(), {
-    onSuccess: () => queryClient.invalidateQueries(meKey),
+    onSuccess: () => {
+      void queryClient.invalidateQueries(meKey);
+      void queryClient.invalidateQueries(profileKey);
+    },
   });
 
   const onLogout = useCallback(() => {

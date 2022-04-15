@@ -17,7 +17,7 @@ export interface LoadSchedulesProps {
 }
 
 export interface UpdateCancellationProps {
-  id: number;
+  id?: number | null;
   friendId?: number;
   cancelId?: number;
 }

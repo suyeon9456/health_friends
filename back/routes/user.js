@@ -145,6 +145,7 @@ router.get('/profile/:userId', async (req, res, next) => {
         model: Image,
       }]
     });
+    if (!user) return res.status(400).send('존재하지 않는 사용자입니다.');
 
     const matching = await Schedule.findAll({
       attributes: [

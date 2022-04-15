@@ -35,6 +35,13 @@ const Modal = ({
   className?: string;
   children: React.ReactElement;
   actions?:
+    | ReadonlyArray<{
+        id: string;
+        title?: string;
+        type?: ButtonTypeT;
+        onClick: () => void;
+      }>
+    | readonly []
     | Array<{
         id: string;
         title?: string;

@@ -19,20 +19,27 @@ const profileSlice = createSlice({
   initialState,
   reducers: {
     loadProfile(state, action) {
-      const matchingTotalCount =
-        action.payload.matching.length > 0
-          ? action.payload.matching[0].matchingCount
-          : 0;
-      const matchingRecount =
-        action.payload.matching.length > 0
-          ? action.payload.matching[0].rematchingCount
-          : 0;
+      const { matching, user, myinfo } = action.payload;
+      const matchingTotalCount = matching?.[0]?.matchingCount || 0;
+      const matchingRecount = matching?.[0]?.rematchingCount || 0;
+      if (!myinfo) {
+        state.profile = {
+          ...user,
+          Liked: user.Liked?.map(({ id }: { id: number }) => id),
+          matchingTotalCount,
+          matchingRecount,
+          mathcing: matching.map(
+            ({ FriendId }: { FriendId: number }) => FriendId
+          ),
+        };
+        return;
+      }
       state.profile = {
-        ...action.payload.myinfo,
-        Liked: action.payload.myinfo.Liked.map(({ id }: { id: number }) => id),
+        ...myinfo,
+        Liked: myinfo.Liked?.map(({ id }: { id: number }) => id),
         matchingTotalCount,
         matchingRecount,
-        mathcing: action.payload.matching.map(
+        mathcing: matching.map(
           ({ FriendId }: { FriendId: number }) => FriendId
         ),
       };

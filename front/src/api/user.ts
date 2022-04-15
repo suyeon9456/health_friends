@@ -158,46 +158,6 @@ export const loadGymAndFriendsAPI = ({
     });
 };
 
-export const loadSchedulesAPI = ({
-  userId,
-  limit,
-  rejectedMatching,
-  termquery,
-  typequery,
-  statusquery,
-}: {
-  userId: string;
-  limit: number;
-  rejectedMatching: boolean;
-  termquery: string | false;
-  typequery: string | false;
-  statusquery: string | false;
-}) => {
-  return axios
-    .get(
-      `/schedules?${userId}limit=${limit}&rejectedMatching=${rejectedMatching}${
-        !termquery ? '' : termquery
-      }${!typequery ? '' : typequery}${!statusquery ? '' : statusquery}`
-    )
-    .then(
-      ({
-        data,
-      }: {
-        data: {
-          isLast: boolean;
-          schedules: RecordScheduleFetch[];
-        };
-      }) => ({
-        ...data,
-        apiSchedules: data.schedules.map((schedule) => ({
-          ...schedule,
-          start: new Date(schedule?.startDate),
-          end: new Date(schedule?.endDate),
-        })),
-      })
-    );
-};
-
 export const signupAPI = (data: {
   info: SignupInfo;
   moreInfo: SignupMoreInfo;

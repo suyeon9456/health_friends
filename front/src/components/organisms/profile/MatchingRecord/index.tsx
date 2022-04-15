@@ -8,7 +8,8 @@ import useCheckbox from '@/hooks/useCheckbox';
 import { ButtonType } from '@/../@types/utils';
 import { useSelector } from 'react-redux';
 import { profileSelector } from '@/../reducers/profile';
-import { loadSchedulesAPI } from '@/api/user';
+import { schedulesByIdKey } from '@/../@types/queryKey';
+import { loadSchedulesAPI } from '@/api/schedule';
 import { Filter } from '../../../molecules';
 import { Button, CheckBox, Icon } from '../../../atoms';
 import MatchingCardList from '../../MatchingCardList';
@@ -33,28 +34,29 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
     isFetching,
     data: { isLast, apiSchedules },
   } = useQuery<any | undefined, AxiosError>(
-    ['record', status, term, type, limit, rejectedMatching],
-    () => {
-      const userId = isProfile ? `userId=${profile?.id}&` : '';
-      const statusquery =
-        !isEmpty(status) && `&${status.map((m) => `${m}=true`).join('&')}`;
-      const termquery =
-        !isEmpty(term) && `&${term.map((m) => `${m}=true`).join('&')}`;
-      const typequery =
-        !isEmpty(type) && `&${type.map((m) => `${m}=true`).join('&')}`;
-      return loadSchedulesAPI({
-        userId,
+    schedulesByIdKey({
+      profileId: profile.id,
+      status,
+      term,
+      type,
+      limit,
+      rejectedMatching,
+    }),
+    () =>
+      loadSchedulesAPI({
+        isProfile,
+        profileId: profile.id,
         limit,
+        status,
+        term,
+        type,
         rejectedMatching,
-        statusquery,
-        termquery,
-        typequery,
-      });
-    },
+      }),
     {
       initialData: { isLast: false, schedules: [] },
       retry: false,
       refetchOnWindowFocus: false,
+      enabled: !!profile?.id,
     }
   );
 

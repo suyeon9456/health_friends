@@ -177,39 +177,22 @@ router.put('/', async (req, res, next) => { // PUT /schedule/
 router.put('/permission', isLoggedIn, async (req, res, next) => { // PUT /schedule/permission
   try {
     console.log(req.body);
-    console.log(req.user.id);
-    const { scheduleId, permission, userRematchRate, friendId, friendRematchRate } = req.body;
+    const { scheduleId, permission, friendId } = req.body;
     
     const friend = await User.findOne({ where: { id: friendId } });
     if (!friend) {
       res.status(403).send('해당 친구는 존재하지 않는 사용자입니다.');
     }
 
-    const schedule = await Schedule.update({
+    await Schedule.update({
       permission: permission,
       isPermitted: true,
-      RematchId: (userRematchRate && userRematchRate) && req.user.id,
     }, {
       where: {
         id: scheduleId,
         FriendId: req.user.id,
       }
     });
-
-    if (!friendRematchRate) {
-      await Userdetail.update({
-        rematchingRate: myRematchingRate
-      }, {
-        where: { UserId: req.user.id }
-      });
-    }
-    if (!userRematchRate) {
-      await Userdetail.update({
-        rematchingRate: friendRematchingRate
-      }, {
-        where: { UserId: friendId }
-      });
-    }
 
     const updatedSchedule = await Schedule.findOne({
       where: { id: scheduleId },
@@ -227,7 +210,7 @@ router.put('/permission', isLoggedIn, async (req, res, next) => { // PUT /schedu
         attributes: [ 'id', 'nickname' ],
       }, {
         model: User,
-        as: 'Friend',
+        as: 'Receiver',
         attributes: [ 'id', 'nickname', ],
       }, {
         model: Gym,
@@ -310,42 +293,7 @@ router.put('/cancel', isLoggedIn, async (req, res, next) => { // PUT /schedule/c
     }, {
       where: { ScheduleId: req.body.id }
     });
-
-    await Userdetail.update({ rematchingRate: req.body.userRematchRate }, {
-      where: { UserId: req.user.id }
-    });
-
-    await Userdetail.update({ rematchingRate: req.body.friendRematchRate }, {
-      where: { UserId: req.body.friendId }
-    });
-
-    const updatedSchedule = await Schedule.findOne({
-      where: { id: schedule.id },
-      attributes: [
-        'id',
-        'description',
-        'permission',
-        'isPermitted',
-        [Sequelize.fn('date_format', Sequelize.col('Schedule.startDate'), '%Y-%m-%d %H:%i'), 'startDate'],
-        [Sequelize.fn('date_format', Sequelize.col('Schedule.endDate'), '%Y-%m-%d %H:%i'), 'endDate']
-      ],
-      include: [{
-        model: User,
-        as: 'Requester',
-        attributes: [ 'id', 'nickname' ],
-      }, {
-        model: User,
-        as: 'Receiver',
-        attributes: [ 'id', 'nickname', ],
-      }, {
-        model: Gym,
-        attributes: ['id', 'address', 'name'],
-      }, {
-        model: ScheduleDetail,
-        as: 'Cancel'
-      }],
-    });
-    res.status(201).json(updatedSchedule);
+    res.status(201).send('답변을 완료하였습니다.');
   } catch (error) {
     console.error(error);
     next(error);
