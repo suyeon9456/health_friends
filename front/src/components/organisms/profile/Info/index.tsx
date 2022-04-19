@@ -5,13 +5,9 @@ import { BiEdit } from 'react-icons/bi';
 
 import { profileSelector } from '@/../reducers/profile';
 import { ButtonType, SizeType } from '@/../@types/utils';
-import { Me } from '@/../@types/user';
-import {
-  loadLoginedUserAPI,
-  updateDescriptionAPI,
-  updateNicknameAPI,
-} from '@/api/user';
+import { updateDescriptionAPI, updateNicknameAPI } from '@/api/user';
 import { meKey, profileKey } from '@/../@types/queryKey';
+import { meSelector } from '@/../reducers/user';
 import { Button, Icon, Input } from '../../../atoms';
 import {
   ContentText,
@@ -28,6 +24,7 @@ import useInput from '../../../../hooks/useInput';
 const Info = () => {
   const queryClient = useQueryClient();
   const { profile } = useSelector(profileSelector);
+  const me = useSelector(meSelector);
   const [isEditNickname, setIsEditNickname] = useState<boolean>(false);
   const [isEditDescription, setIsEditDescription] = useState<boolean>(false);
 
@@ -57,11 +54,6 @@ const Info = () => {
       },
     }
   );
-
-  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
-    refetchOnWindowFocus: false,
-    retry: false,
-  });
 
   const onChangeIsEditNickname = useCallback(() => {
     setIsEditNickname((prev) => !prev);

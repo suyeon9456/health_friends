@@ -1,6 +1,7 @@
+import { Control, FieldErrors } from 'react-hook-form';
 import { Gym, Gyms } from './gym';
 import { Image } from './image';
-import { User } from './user';
+import { Friends, User } from './user';
 
 export interface ScheduleModel {
   id: number;
@@ -154,4 +155,28 @@ export interface ScheduleAPI {
     matchingCount: number;
     rematchingCount: number;
   }>;
+}
+
+export interface ReqMatchingFormProps {
+  friend?: {
+    nickname: string;
+    Userdetail: { description: string };
+    Image: { src: string };
+  };
+  control: Control<
+    {
+      startDate: Date;
+      endDate: Date;
+      gym: string;
+      description: string;
+    },
+    object
+  >;
+  errors?: FieldErrors;
+}
+
+export interface ReqMatchingProps {
+  setShowModal: (prop: boolean) => void;
+  friend?: Friends;
+  gymName?: string;
 }

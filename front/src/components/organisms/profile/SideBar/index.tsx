@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, SetStateAction } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   BiTrophy,
   BiCommentCheck,
@@ -10,19 +10,16 @@ import {
   BiHeart,
 } from 'react-icons/bi';
 
-import {
-  addProfileImageRequest,
-  profileSelector,
-  removeProfileImage,
-  uploadProfileImageRequest,
-} from '@/../reducers/profile';
+import { profileSelector } from '@/../reducers/profile';
 import { ButtonType, Menu, ProfileMenuType } from '@/../@types/utils';
 import useRematchRate from '@/hooks/useRematchRate';
 import { useModalDispatch } from '@/../store/modalStore';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Me } from '@/../@types/user';
 import { loadLoginedUserAPI } from '@/api/user';
-import { meKey } from '@/../@types/queryKey';
+import { meKey, profileKey } from '@/../@types/queryKey';
+import { addImageAPI, uploadImageAPI } from '@/api/profile';
+import { originalToThumb } from '@/../utils/regexp';
 import useRate from '../../../../hooks/useRate';
 import Progress from '../../../molecules/Progress';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
@@ -46,22 +43,17 @@ const SideBar = ({
   profileMenu: ProfileMenuType;
   setProfileMenu: React.Dispatch<SetStateAction<ProfileMenuType>>;
 }) => {
-  const dispatch = useDispatch();
   const contextDispatch = useModalDispatch();
-  const { profile, imagePath, uploadProfileImageError } =
-    useSelector(profileSelector);
+  const queryClient = useQueryClient();
+  const { profile } = useSelector(profileSelector);
   const [uploadState, setUploadState] = useState<boolean>(false);
+  const [imgPath, setImgPath] = useState<string>('');
   const [showModal, setShowModal] = useState<boolean>(false);
   const [responseRate, onChangeResponseRate] = useRate({
     total: profile?.resSchedule?.length || 0,
     number:
       profile?.resSchedule?.filter(
-        (f: {
-          FriendId: number;
-          id: number;
-          isPermitted: boolean;
-          permission: boolean;
-        }) => f.isPermitted
+        (f: { isPermitted: boolean }) => f.isPermitted
       ).length || 0,
   });
 
@@ -70,35 +62,32 @@ const SideBar = ({
     retry: false,
   });
 
+  const uploadImage = useMutation((data: FormData) => uploadImageAPI(data), {
+    onSuccess: (originalPath) => {
+      if (typeof originalPath === 'string') {
+        setImgPath(originalPath);
+      }
+    },
+  });
+
+  const addImage = useMutation((data: string) => addImageAPI(data), {
+    onSuccess: () => queryClient.invalidateQueries(profileKey),
+  });
+
   const onClickMenu = useCallback(
     (menu) => {
       setProfileMenu(menu);
+      // void router.push(`?tab=${menu}`, undefined, { shallow: true });
     },
     [profileMenu]
   );
-
-  useEffect(() => {
-    if (profile) {
-      onChangeResponseRate(
-        profile.resSchedule?.length || 0,
-        profile.resSchedule?.filter(
-          (f: {
-            FriendId: number;
-            id: number;
-            isPermitted: boolean;
-            permission: boolean;
-          }) => f.isPermitted
-        ).length || 0
-      );
-    }
-  }, [profile]);
 
   const onChangeImage = useCallback((e) => {
     const imageFormData = new FormData();
     [].forEach.call(e.target.files, (f) => {
       imageFormData.append('image', f);
     });
-    dispatch(uploadProfileImageRequest(imageFormData));
+    uploadImage.mutate(imageFormData);
   }, []);
 
   const onChangeUploadState = useCallback(() => {
@@ -106,14 +95,14 @@ const SideBar = ({
   }, [uploadState]);
 
   const onAddProfileImage = useCallback(() => {
-    const thumbImagePath = imagePath.replace(/\/original\//, '/thumb/');
-    dispatch(addProfileImageRequest({ image: thumbImagePath }));
+    const thumbImg = originalToThumb(imgPath);
+    addImage.mutate(thumbImg);
     onChangeUploadState();
-  }, [imagePath]);
+  }, [imgPath]);
 
   const onRemoveUploadImage = useCallback(() => {
-    dispatch(removeProfileImage());
-  }, []);
+    setImgPath('');
+  }, [imgPath]);
 
   const onShowMatchingModal = useCallback(() => {
     contextDispatch({
@@ -122,6 +111,17 @@ const SideBar = ({
     });
   }, [me?.id]);
 
+  useEffect(() => {
+    if (profile) {
+      onChangeResponseRate(
+        profile.resSchedule?.length || 0,
+        profile.resSchedule?.filter(
+          (f: { isPermitted: boolean }) => f.isPermitted
+        ).length || 0
+      );
+    }
+  }, [profile]);
+
   return (
     <SideBarWrapper>
       <AvatarWrapper>
@@ -129,11 +129,11 @@ const SideBar = ({
           <>
             <Form encType="multipart/form-data">
               <Upload
-                id={imagePath}
+                id={imgPath}
                 name="image"
-                src={imagePath}
+                src={imgPath}
                 onChange={onChangeImage}
-                uploadError={uploadProfileImageError}
+                uploadError={uploadImage.isError}
                 onAddImage={onAddProfileImage}
                 onRemove={onRemoveUploadImage}
               />

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { GetServerSidePropsContext } from 'next';
 import { useQuery } from 'react-query';
-import { loadMyinfoAPI } from '@/api/user';
+import { loadLoginedUserAPI, loadMyinfoAPI } from '@/api/user';
 import { useRouter } from 'next/router';
 import { loadProfile } from '../reducers/profile';
 
@@ -25,14 +25,22 @@ import {
   ModalStatus,
   ProfileMenuType,
 } from '../@types/utils';
-import { profileKey } from '../@types/queryKey';
+import { meKey, profileKey } from '../@types/queryKey';
 import { useModalDispatch } from '../store/modalStore';
+import { Me } from '../@types/user';
+import { loadMe } from '../reducers/user';
 
 const Myinfo = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const contextDispatch = useModalDispatch();
   const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(Menu.INFO);
+
+  const _ = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
+    refetchOnWindowFocus: false,
+    retry: false,
+    onSuccess: (data) => loadMe(data),
+  });
 
   const {
     data: profile,

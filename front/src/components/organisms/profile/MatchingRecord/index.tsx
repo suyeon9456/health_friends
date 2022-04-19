@@ -6,7 +6,12 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 
 import useCheckbox from '@/hooks/useCheckbox';
-import { ButtonType } from '@/../@types/utils';
+import {
+  ButtonType,
+  PeriodFilter,
+  StateFilter,
+  TypeFilter,
+} from '@/../@types/utils';
 import { useSelector } from 'react-redux';
 import { profileSelector } from '@/../reducers/profile';
 import { schedulesByIdKey } from '@/../@types/queryKey';
@@ -27,7 +32,6 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
   const [status, onChangeStatus] = useCheckbox<string>([]);
   const [term, onChangeTerm] = useCheckbox<string>([]);
   const [type, onChangeType] = useCheckbox<string>([]);
-  const [limit, setLimit] = useState<number>(3);
   const [rejectedMatching, setRejectedMatching] = useState<boolean>(false);
   const [schedules, setSchedules] = useState<any>([]);
 
@@ -69,6 +73,10 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
           setSchedules(pages[0]);
           return;
         }
+        if (pages.length === 1) {
+          setSchedules(pages[0]);
+          return;
+        }
         if (!isEqual(schedules, pages[pages.length - 1])) {
           setSchedules([...schedules, ...pages[pages.length - 1]]);
         }
@@ -76,20 +84,10 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
     }
   );
 
-  const onMoreSchedule = useCallback(() => {
-    setLimit((prev) => prev + 3);
-    void fetchNextPage();
-  }, [limit]);
-
   const onChangeRejectedMatching = useCallback(
     (e) => {
       setSchedules([]);
-      if (e.currentTarget.checked) {
-        setRejectedMatching(true);
-      } else {
-        // 체크 해제
-        setRejectedMatching(false);
-      }
+      setRejectedMatching(e.currentTarget.checked);
     },
     [rejectedMatching]
   );
@@ -100,30 +98,21 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
         <Filter
           key="state"
           label="매칭상태"
-          items={[
-            { value: 'before', text: '매칭수락 후' },
-            { value: 'after', text: '매칭수락 전' },
-          ]}
+          items={StateFilter}
           onChange={onChangeStatus}
           checkList={status}
         />
         <Filter
           key="period"
           label="매칭기간"
-          items={[
-            { value: 'scheduledRecord', text: '예정된매칭' },
-            { value: 'lastRecord', text: '지난매칭' },
-          ]}
+          items={PeriodFilter}
           onChange={onChangeTerm}
           checkList={term}
         />
         <Filter
           key="type"
           label="매칭유형"
-          items={[
-            { value: 'requestRecord', text: '보낸매칭' },
-            { value: 'receiveRecord', text: '받은매칭' },
-          ]}
+          items={TypeFilter}
           onChange={onChangeType}
           checkList={type}
         />
@@ -144,7 +133,7 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
           type={ButtonType.PRIMARY}
           disabled={!hasNextPage}
           icon={<Icon icon={<BiPlus />} />}
-          onClick={onMoreSchedule}
+          onClick={() => fetchNextPage()}
         >
           더보기
         </Button>

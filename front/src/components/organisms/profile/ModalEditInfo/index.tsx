@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 
 import { profileSelector } from '@/../reducers/profile';
 import { useMutation, useQueryClient } from 'react-query';
 import { SignupGymInfo, SignupMoreInfo } from '@/../@types/user';
 import { updateFriendsInfoAPI, updateMyinfoAPI } from '@/api/user';
-import { useDateFormat } from '../../../../hooks';
+import { createTimeToDateTime, formatTime } from '@/../utils/date';
 import { Modal } from '../../../molecules';
 import EditInfoForm from '../EditInfoForm';
 
@@ -47,8 +46,8 @@ const ModalEditInfo = ({
       if (targetId === 'more-info') {
         myinfoMutation.mutate({
           ...data,
-          startTime: format(data.startTime, 'HH:mm'),
-          endTime: format(data.endTime, 'HH:mm'),
+          startTime: formatTime(data.startTime),
+          endTime: formatTime(data.endTime),
         });
         // void queryClient.invalidateQueries('profile');
       }
@@ -75,22 +74,9 @@ const ModalEditInfo = ({
     if (targetId === 'more-info') {
       setValue(
         'startTime',
-        new Date(
-          [
-            useDateFormat(new Date(), 'yyyy-MM-dd'),
-            profile?.Userdetail?.startTime,
-          ].join(' ')
-        )
+        createTimeToDateTime(profile?.Userdetail?.startTime)
       );
-      setValue(
-        'endTime',
-        new Date(
-          [
-            useDateFormat(new Date(), 'yyyy-MM-dd'),
-            profile?.Userdetail?.endTime,
-          ].join(' ')
-        )
-      );
+      setValue('endTime', createTimeToDateTime(profile?.Userdetail?.endTime));
       setValue('gender', profile?.gender);
       setValue('age', profile?.age);
       setValue('career', profile?.career);

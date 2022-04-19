@@ -21,12 +21,7 @@ import {
 } from '@/../@types/utils';
 import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
-import {
-  SignupInfo,
-  SignupMoreInfo,
-  SignupGymInfo,
-  SignupFriendsInfo,
-} from '@/../@types/user';
+import { SignupSteps, SignupMutationSteps } from '@/../@types/user';
 import { useModalDispatch } from '@/../store/modalStore';
 import { signupAPI } from '@/api/user';
 import { ButtonWrap, FormWrapper } from './style';
@@ -42,13 +37,7 @@ const FriendsInfoForm = () => {
     signupStepMoreInfo: moreInfo,
     signupStepGymInfo: gymInfo,
     signupStepFriendsInfo,
-  }: {
-    selectedGym: {};
-    signupStepInfo: SignupInfo;
-    signupStepMoreInfo: SignupMoreInfo;
-    signupStepGymInfo: SignupGymInfo;
-    signupStepFriendsInfo: SignupFriendsInfo;
-  } = useSelector(signupSelector);
+  }: SignupSteps = useSelector(signupSelector);
 
   const { handleSubmit, control } = useForm({
     defaultValues: {
@@ -61,31 +50,22 @@ const FriendsInfoForm = () => {
     },
   });
 
-  const mutation = useMutation(
-    (data: {
-      info: SignupInfo;
-      moreInfo: SignupMoreInfo;
-      gymInfo: SignupGymInfo;
-      selectedGym: {};
-      friendsInfo: SignupFriendsInfo;
-    }) => signupAPI(data),
-    {
-      onError: async (error: AxiosError) => {
-        contextDispatch({
-          type: 'SHOW_MODAL',
-          payload: {
-            type: GlobalModal.ALERT,
-            statusType: ModalStatus.WARNING,
-            message: error.response?.data,
-            block: true,
-          },
-        });
-      },
-      onSuccess: () => {
-        void Router.replace('/');
-      },
-    }
-  );
+  const mutation = useMutation((data: SignupMutationSteps) => signupAPI(data), {
+    onError: async (error: AxiosError) => {
+      contextDispatch({
+        type: 'SHOW_MODAL',
+        payload: {
+          type: GlobalModal.ALERT,
+          statusType: ModalStatus.WARNING,
+          message: error.response?.data,
+          block: true,
+        },
+      });
+    },
+    onSuccess: () => {
+      void Router.replace('/');
+    },
+  });
 
   const onClickSignup = useCallback(
     async (data, e) => {

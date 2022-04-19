@@ -1,24 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { format, startOfMonth, endOfMonth, addDays } from 'date-fns';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useQueries } from 'react-query';
-import axios from 'axios';
+import { useQuery } from 'react-query';
 import { CalendarEvents } from 'calendar';
 import { CalendarScheduleFetch } from '@/../@types/schedule';
-import { Me } from '@/../@types/user';
 import { useSelector } from 'react-redux';
 import { profileSelector } from '@/../reducers/profile';
+import { loadCalendarScheduleAPI } from '@/api/schedule';
+import { formatDateTime } from '@/../utils/date';
+import useSelectRage from '@/hooks/useSelectRage';
+import { meSelector } from '@/../reducers/user';
 import { CalendarWrap, CardWrap } from './style';
 import { BigCalendar, SimpleMatchingCard } from '../../../molecules';
-import { useDateFormat } from '../../../../hooks';
 
 const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
   const { profile } = useSelector(profileSelector);
-  const [range, setRange] = useState<{ start: Date; end: Date }>({
-    start: addDays(startOfMonth(new Date()), -7),
-    end: addDays(endOfMonth(new Date()), 7),
-  });
+  const me = useSelector(meSelector);
+  const [range, onChangeRange] = useSelectRage();
 
   const [showCard, setShowCard] = useState<boolean>(false);
   const [nickname, setNickname] = useState<string>('');
@@ -26,31 +24,18 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
   const [date, setDate] = useState<string>('');
   const [events, setEvents] = useState<CalendarEvents>([]);
 
-  const [{ data: me }, { data: apiEvents, isLoading }] = useQueries<
-    [{ data: Me }, { data: CalendarScheduleFetch[] }]
-  >([
+  const { data: apiEvents } = useQuery<CalendarScheduleFetch[]>(
+    ['calendar', range],
+    () =>
+      loadCalendarScheduleAPI({
+        range,
+        profileId: isProfile ? profile.id : null,
+      }),
     {
-      queryKey: ['user'],
-      queryFn: async () => {
-        const { data } = await axios.get('/user');
-        return data;
-      },
-    },
-    {
-      queryKey: ['calendar', range],
-      queryFn: async () => {
-        const { start, end } = range;
-        const userId = isProfile ? `userId=${profile?.id}&` : '';
-        const { data } = await axios.get(
-          `/schedules/calendar?${userId}start=${useDateFormat(
-            start,
-            'yyyy-MM-dd'
-          )}&end=${useDateFormat(end, 'yyyy-MM-dd')}`
-        );
-        return data;
-      },
-    },
-  ]);
+      refetchOnWindowFocus: false,
+      retry: false,
+    }
+  );
 
   const onSelectEvent: (event: {
     nickname: string;
@@ -59,19 +44,13 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
   }) => void = useCallback((event) => {
     setNickname(event.nickname);
     setAddress(event.address);
-    setDate(format(event.start, 'yyyy-MM-dd HH:mm'));
+    setDate(formatDateTime(event.start));
     setShowCard(true);
   }, []);
 
   const onChangeShowCard = useCallback(() => {
     setShowCard(false);
   }, [showCard]);
-
-  const onRangeChange = useCallback((eventRange: any) => {
-    if (eventRange) {
-      setRange(eventRange);
-    }
-  }, []);
 
   useEffect(() => {
     if (apiEvents) {
@@ -99,7 +78,7 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
       <BigCalendar
         events={events}
         onSelectEvent={onSelectEvent}
-        onRangeChange={onRangeChange}
+        onRangeChange={onChangeRange}
       />
       {showCard && (
         <CardWrap>

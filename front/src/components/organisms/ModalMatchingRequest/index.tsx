@@ -11,8 +11,8 @@ import { Me } from '@/../@types/user';
 import { loadLoginedUserAPI } from '@/api/user';
 import { meKey } from '@/../@types/queryKey';
 import { addScheduleAPI } from '@/api/schedule';
-import { Schedule } from '@/../@types/schedule';
-import { useDateFormat } from '../../../hooks';
+import { ReqMatchingProps, Schedule } from '@/../@types/schedule';
+import { createEndDate } from '@/../utils/date';
 import { Modal } from '../../molecules';
 import { Avatar } from '../../atoms';
 import MatchingRequestForm from '../MatchingRequestForm';
@@ -29,17 +29,7 @@ const ModalMatchingRequest = ({
   setShowModal,
   friend,
   gymName,
-}: {
-  setShowModal: (prop: boolean) => void;
-  friend?: {
-    id?: number;
-    nickname?: string;
-    UserGym?: { GymId?: number };
-    Userdetail?: object;
-    Image?: object;
-  };
-  gymName?: string;
-}) => {
+}: ReqMatchingProps) => {
   const { gym } = useSelector(gymSelector);
   const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
@@ -65,13 +55,9 @@ const ModalMatchingRequest = ({
   }, []);
 
   const onMatchingRequest = useCallback((data) => {
-    console.log('friend', friend);
-    const date = useDateFormat(new Date(data.startDate), 'yyyy-MM-dd');
-    const time = useDateFormat(new Date(data.endDate), 'HH:mm');
-    const end = new Date([date, time].join(' '));
     scheduleMutation.mutate({
       ...data,
-      endDate: end,
+      endDate: createEndDate(data.startDate, data.endDate),
       userId: me?.id,
       friendId: friend,
       gymId: friend?.UserGym?.GymId ?? gym?.id,

@@ -1,10 +1,4 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { BiChevronLeft, BiChevronRight, BiGroup } from 'react-icons/bi';
@@ -13,7 +7,7 @@ import { gymSelector, loadFriends, loadGyms } from '@/../reducers/gym';
 import { useQuery } from 'react-query';
 import { loadGymAndFriendsAPI, loadGymsAPI, loadMapAPI } from '@/api/user';
 import { gymAndFriendsByIdKey, gymsKey, mapKey } from '@/../@types/queryKey';
-import { Gym } from '@/../@types/gym';
+import { Gym, SearchGymsFoldedStatesProps } from '@/../@types/gym';
 import useInput from '../../../hooks/useInput';
 
 import { Search, Item, Icon } from '../../atoms';
@@ -34,12 +28,7 @@ const SearchGyms = ({
   setFoldedFriends,
   foldedGym,
   setFoldedGym,
-}: {
-  foldedFriends: boolean;
-  setFoldedFriends: Dispatch<SetStateAction<boolean>>;
-  foldedGym: boolean;
-  setFoldedGym: Dispatch<SetStateAction<boolean>>;
-}) => {
+}: SearchGymsFoldedStatesProps) => {
   const router = useRouter();
   const dispatch = useDispatch();
 

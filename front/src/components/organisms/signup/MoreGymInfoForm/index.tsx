@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -10,6 +9,7 @@ import {
   signupStepPrev,
 } from '@/../reducers/user';
 import { ButtonType, SignupMenu, SizeType } from '@/../@types/utils';
+import { formatTime } from '@/../utils/date';
 import { Button, Form } from '../../../atoms';
 import {
   FormInput,
@@ -47,8 +47,8 @@ const MoreGymInfoForm = () => {
     dispatch(
       signupStepGymInfoSave({
         ...data,
-        startTime: format(data.startTime, 'HH:mm'),
-        endTime: format(data.endTime, 'HH:mm'),
+        startTime: formatTime(data.startTime),
+        endTime: formatTime(data.endTime),
       })
     );
     if (e.nativeEvent.submitter.name === 'next') {

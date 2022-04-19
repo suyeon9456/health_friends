@@ -32,6 +32,7 @@ interface Props {
 export const matchingActions = (
   onCancel: () => void,
   schedule: Props,
+  profileId: number,
   me?: Me
 ):
   | ReadonlyArray<{
@@ -104,6 +105,7 @@ export const matchingActions = (
     });
   }, [schedule]);
   if (!me) return [];
+  if (profileId !== me.id) return [];
   if (!isLast && !isPermitted && Requester?.id !== me?.id)
     return detailActions(onRefuse, onAccept);
   if (permission && !schedule?.Cancel) return reqCancelActions(onCancelRequest);

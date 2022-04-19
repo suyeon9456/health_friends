@@ -10,9 +10,11 @@ import {
 } from '@/../@types/utils';
 
 import { useQuery } from 'react-query';
-import { loadProfileAPI } from '@/api/user';
-import { profileByIdKey } from '@/../@types/queryKey';
+import { loadLoginedUserAPI, loadProfileAPI } from '@/api/user';
+import { meKey, profileByIdKey } from '@/../@types/queryKey';
 import { useModalDispatch } from '@/../store/modalStore';
+import { Me } from '@/../@types/user';
+import { loadMe } from '@/../reducers/user';
 import {
   AppLayout,
   SideBar,
@@ -32,6 +34,12 @@ const Profile = () => {
 
   const { id } = router.query;
   const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(Menu.INFO);
+
+  const _ = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
+    refetchOnWindowFocus: false,
+    retry: false,
+    onSuccess: (data) => loadMe(data),
+  });
 
   useQuery(profileByIdKey(id), () => loadProfileAPI(id), {
     refetchOnWindowFocus: false,

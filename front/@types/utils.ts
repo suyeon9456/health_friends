@@ -231,3 +231,20 @@ export const loginedUserProfile = (
       disabled: compareToday < 0,
     },
   ] as const;
+
+export const StateFilter = [
+  { value: 'before', text: '매칭수락 후' },
+  { value: 'after', text: '매칭수락 전' },
+] as const;
+
+export const PeriodFilter = [
+  { value: 'scheduledRecord', text: '예정된매칭' },
+  { value: 'lastRecord', text: '지난매칭' },
+] as const;
+
+export const TypeFilter = [
+  { value: 'requestRecord', text: '보낸매칭' },
+  { value: 'receiveRecord', text: '받은매칭' },
+] as const;
+
+// export type SearchGymTabsType = typeof SearchGymTabs[number];

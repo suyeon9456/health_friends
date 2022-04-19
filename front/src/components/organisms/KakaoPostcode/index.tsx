@@ -181,7 +181,6 @@ const KakaoPostcode = ({
 
     // 키워드 검색을 요청하는 함수입니다
     const searchPlaces = () => {
-      console.log('?');
       ps.keywordSearch(`${keyword} 헬스`, placesSearchCB);
     };
     searchPlaces();

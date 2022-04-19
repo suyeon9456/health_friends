@@ -410,42 +410,10 @@ router.post('/profileimage', isLoggedIn, async (req, res, next) => { // POST /us
         }
       });
     }
-  
+    console.log(req.body);
     const image = await Image.create({ src: req.body.image });
-  
     await user.setImage(image);
-    console.log(req.file);
-    const fullUser = await User.findOne({
-      where: { id: user.id },
-      attributes: {
-        exclude: ['password'],
-      },
-      include: [{
-        model: Userdetail,
-        attributes: [
-          'description',
-          'startTime',
-          'endTime',
-          'friendsAge',
-          'friendsCareer',
-          'friendsGender',
-          'friendsRole'
-        ],
-      }, {
-        model: Gym,
-      }, {
-        model: Schedule,
-        as: 'reqSchedule',
-        attributes: ['id', 'permission', 'FriendId']
-      }, {
-        model: Schedule,
-        as: 'resSchedule',
-        attributes: ['id', 'isPermitted', 'permission', [Sequelize.col('UserId'), 'FriendId']]
-      }, {
-        model: Image,
-      }]
-    });
-    res.status(200).json(fullUser);
+    res.status(200).send('업로드 성공');
   } catch (error) {
     console.error(error);
     next(error);

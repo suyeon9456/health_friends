@@ -1,10 +1,10 @@
 import React from 'react';
-import { Control, FieldErrors } from 'react-hook-form';
 
 import { useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
 import { loadLoginedUserAPI } from '@/api/user';
 import { meKey } from '@/../@types/queryKey';
+import { ReqMatchingFormProps } from '@/../@types/schedule';
 import {
   MatchingInfoWrap,
   InfoContent,
@@ -16,26 +16,11 @@ import {
 import { FormInput, FormTextarea, FormDateTimePicker } from '../../molecules';
 import { Avatar } from '../../atoms';
 
-interface MatchingFormType {
-  startDate: Date;
-  endDate: Date;
-  gym: string;
-  description: string;
-}
-
 const MatchingRequestForm = ({
   friend,
   control,
   errors,
-}: {
-  friend?: {
-    nickname: string;
-    Userdetail: { description: string };
-    Image: { src: string };
-  };
-  control: Control<MatchingFormType, object>;
-  errors?: FieldErrors;
-}) => {
+}: ReqMatchingFormProps) => {
   const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
     retry: false,

@@ -39,6 +39,7 @@ const userSlice = createSlice({
     selectGym(state, action) {
       state.selectedGym = action.payload;
     },
+    loadMe(state, action) {},
     changeNickname(state, action) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       state.me!.nickname = action.payload;
@@ -70,6 +71,11 @@ export const signupSelector = createDraftSafeSelector(
   })
 );
 
+export const meSelector = createDraftSafeSelector(
+  (state: RootState) => state.user.me,
+  (me) => me
+);
+
 export const {
   signupStepNext,
   signupStepPrev,
@@ -78,6 +84,7 @@ export const {
   signupStepGymInfoSave,
   signupStepFriendsInfoSave,
   selectGym,
+  loadMe,
   changeNickname,
 } = userSlice.actions;
 export default userSlice.reducer;

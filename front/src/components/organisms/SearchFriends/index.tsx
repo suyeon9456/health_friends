@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { BiX } from 'react-icons/bi';
 
@@ -8,7 +8,7 @@ import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/utils';
 import { Icon } from '@/components/atoms';
 import useRematchRate from '@/hooks/useRematchRate';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { Me } from '@/../@types/user';
+import { Friends, GymUsers, Me, SearchFriendsProps } from '@/../@types/user';
 import { addLikeAPI, loadLoginedUserAPI } from '@/api/user';
 import { gymAndFriendsByIdKey, meKey } from '@/../@types/queryKey';
 import { PropfileCard } from '../../molecules';
@@ -27,22 +27,11 @@ const SearchFriends = ({
   foldedGym,
   foldedFriends,
   setFoldedFriends,
-}: {
-  isLoading: boolean;
-  foldedGym: boolean;
-  foldedFriends: boolean;
-  setFoldedFriends: Dispatch<SetStateAction<boolean>>;
-}) => {
+}: SearchFriendsProps) => {
   const contextDispatch = useModalDispatch();
   const { gym } = useSelector(gymSelector);
 
-  const [friend, setFriend] = useState<{
-    id?: number;
-    nickname?: string;
-    Userdetail?: object;
-    Image?: object;
-    UserGym?: { GymId?: number };
-  }>({});
+  const [friend, setFriend] = useState<Friends>();
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
@@ -53,7 +42,6 @@ const SearchFriends = ({
 
   const likeMutation = useMutation((data: number) => addLikeAPI(data), {
     onSuccess: () => {
-      console.log('success');
       void queryClient.invalidateQueries(meKey);
       void queryClient.invalidateQueries(gymAndFriendsByIdKey(gym.id));
     },
@@ -83,11 +71,6 @@ const SearchFriends = ({
     [me?.id]
   );
 
-  const onLike = useCallback(
-    (userId: number) => likeMutation.mutate(userId),
-    []
-  );
-
   return (
     <>
       <SearchFriendsWrapper foldedGym={foldedGym} foldedFriends={foldedFriends}>
@@ -101,41 +84,26 @@ const SearchFriends = ({
         </SearchHeader>
         <FriendsListWrapper>
           {gym?.Users &&
-            gym?.Users.map(
-              (user: {
-                id: number;
-                totalCount: number;
-                rematchCount: number;
-                nickname: string;
-                Userdetail: {
-                  description: string;
-                  startTime: string;
-                  rematchingRate: number;
-                };
-                Image: { src: string };
-                Liker: Array<{ id: number }>;
-              }) => {
-                const imageSrc = user?.Image?.src;
-                const cardImageSrc = imageSrc || '';
-                const percent = user.rematchCount
-                  ? useRematchRate(user.rematchCount, user.totalCount)
-                  : 0;
-                const isCheckedLike = !!user.Liker.find((l) => l.id === me?.id);
-                return (
-                  <PropfileCard
-                    key={user.id}
-                    userId={user.id}
-                    image={cardImageSrc}
-                    nickname={user.nickname}
-                    percent={percent}
-                    isLoading={isLoading}
-                    isCheckedLike={isCheckedLike}
-                    onClick={onShowMatchingModal(user.id)}
-                    onLike={onLike}
-                  />
-                );
-              }
-            )}
+            gym?.Users.map((user: GymUsers) => {
+              const imageSrc = user?.Image?.src || '';
+              const percent = user.rematchCount
+                ? useRematchRate(user.rematchCount, user.totalCount)
+                : 0;
+              const isCheckedLike = !!user.Liker.find((l) => l.id === me?.id);
+              return (
+                <PropfileCard
+                  key={user.id}
+                  userId={user.id}
+                  image={imageSrc}
+                  nickname={user.nickname}
+                  percent={percent}
+                  isLoading={isLoading}
+                  isCheckedLike={isCheckedLike}
+                  onClick={onShowMatchingModal(user.id)}
+                  onLike={(userId: number) => likeMutation.mutate(userId)}
+                />
+              );
+            })}
         </FriendsListWrapper>
       </SearchFriendsWrapper>
       <ModalPortal>

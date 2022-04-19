@@ -19,7 +19,7 @@ const Filter = ({
   checkList,
 }: {
   label: string;
-  items: Array<{ value: string; text: string }>;
+  items: ReadonlyArray<{ value: string; text: string }>;
   onChange: (checked: boolean, value: string) => void;
   checkList: string[];
 }) => {

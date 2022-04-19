@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect } from 'react';
-import format from 'date-fns/format';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -11,6 +10,7 @@ import { loadLoginedUserAPI } from '@/api/user';
 import { meKey } from '@/../@types/queryKey';
 import { Schedule } from '@/../@types/schedule';
 import { addReScheduleAPI, updateScheduleAPI } from '@/api/schedule';
+import { createEndDate, formatDateTime } from '@/../utils/date';
 import MatchingRequestForm from '../../MatchingRequestForm';
 import { Modal } from '../../../molecules';
 
@@ -56,17 +56,12 @@ const ModalMatchingEdit = ({
   );
   const updateScheduleMutation = useMutation((data: Schedule) =>
     updateScheduleAPI(data)
-  ); // state.schedule = null;
+  );
 
   const onSubmit = useCallback(
     (data) => {
-      const date = format(new Date(data.startDate), 'yyyy-MM-dd');
-      const time = format(new Date(data.endDate), 'HH:mm');
-      const startDateTime = format(
-        new Date(data.startDate),
-        'yyyy-MM-dd HH:mm'
-      );
-      const dateTime = [date, time].join(' ');
+      const startDateTime = formatDateTime(data.startDate);
+      const dateTime = createEndDate(data.startDate, data.endDate);
       if (mode === ModalType.EDIT) {
         updateScheduleMutation.mutate({
           ...data,

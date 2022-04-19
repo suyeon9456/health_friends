@@ -24,14 +24,7 @@ export interface UserInitialState {
 
 /* PROFILE INITIAL STATE */
 export interface ProfileInitialState {
-  uploadProfileImageLoading: boolean;
-  uploadProfileImageDone: boolean;
-  uploadProfileImageError: string | null;
-  addProfileImageLoading: boolean;
-  addProfileImageDone: boolean;
-  addProfileImageError: string | null;
   profile: Profile | null;
-  imagePath: string | null;
 }
 
 /* GYM INITIAL STATE */

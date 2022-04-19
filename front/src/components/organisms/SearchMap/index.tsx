@@ -15,6 +15,7 @@ import { changeMapBounds, gymSelector, isLoadGyms } from '@/../reducers/gym';
 import { ButtonType } from '@/../@types/utils';
 import { useQueryClient } from 'react-query';
 import { gymAndFriendsByIdKey } from '@/../@types/queryKey';
+import { Location } from '@/../@types/gym';
 import { Button, Icon } from '../../atoms';
 import { MapWrap } from './style';
 
@@ -36,12 +37,7 @@ const SearchMap = ({
   const customOverlay = useRef<any>(null);
 
   const [showButton, setShowButton] = useState<boolean>(false);
-  const [bounds, setBounds] = useState<{
-    swLon?: string;
-    swLat?: string;
-    neLon?: string;
-    neLat?: string;
-  }>({});
+  const [bounds, setBounds] = useState<Location>({});
 
   const onSearchGyms = useCallback(() => {
     dispatch(isLoadGyms(true));

@@ -11,10 +11,7 @@ import {
   RoleOptions,
   SizeType,
 } from '@/../@types/utils';
-import { useQuery } from 'react-query';
-import { Me } from '@/../@types/user';
-import { loadLoginedUserAPI } from '@/api/user';
-import { meKey } from '@/../@types/queryKey';
+import { meSelector } from '@/../reducers/user';
 import { InformationItem, Button, Icon } from '../../../atoms';
 import {
   Content,
@@ -28,13 +25,9 @@ import ModalPortal from '../../ModalPortal';
 
 const MoreInfo = () => {
   const { profile } = useSelector(profileSelector);
+  const me = useSelector(meSelector);
   const [showEditModal, setShowEditModal] = useState(false);
   const [targetId, setTargetId] = useState('');
-
-  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
-    refetchOnWindowFocus: false,
-    retry: false,
-  });
 
   const onChangeShowEditModal = useCallback(
     (e) => {

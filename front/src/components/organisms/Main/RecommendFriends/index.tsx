@@ -159,15 +159,11 @@ const RecommendFriends = () => {
           status: string
         ) => {
           if (status === (window as any).kakao.maps.services.Status.OK) {
-            const regionSiName = result[0]?.address?.region_1depth_name;
-            const regionGuName = result[0]?.address?.region_2depth_name;
-            const regionDongName = result[0]?.address?.region_3depth_name;
-            const mainAddressNo = result[0]?.address?.main_address_no;
             setLocation({
-              regionSiName,
-              regionGuName,
-              regionDongName,
-              mainAddressNo,
+              regionSiName: result[0]?.address?.region_1depth_name,
+              regionGuName: result[0]?.address?.region_2depth_name,
+              regionDongName: result[0]?.address?.region_3depth_name,
+              mainAddressNo: result[0]?.address?.main_address_no,
             });
           }
         }
@@ -176,7 +172,7 @@ const RecommendFriends = () => {
     if (isReloadLocation) {
       setIsReloadLocation(false);
     }
-  }, [isReloadLocation]);
+  }, []);
 
   useEffect(() => {
     if (!locationYn) {

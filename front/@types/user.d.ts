@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+import { Control, FieldValues } from 'react-hook-form';
 import { Image } from './image';
 import { Schedule } from './schedule';
 
@@ -48,7 +50,17 @@ export interface Profile extends User {
 
 export interface Friends extends User {
   Image: Image | null;
-  Gyms: Gym[];
+  Gyms?: Gym[];
+  Userdetail?: Userdetail;
+  UserGym?: { GymId?: number };
+}
+
+export interface GymUsers extends User {
+  totalCount: number;
+  rematchCount: number;
+  Image: { src: string };
+  Userdetail?: Userdetail;
+  Liker: Array<{ id: number }>;
 }
 
 export interface UserGym extends User {
@@ -113,3 +125,40 @@ export interface SignupData {
 }
 
 export type FriendsList = Friends[];
+
+interface EditInfoFormType extends FieldValues {
+  startTime: Date;
+  endTime: Date;
+  gender: string;
+  age: number;
+  career: number;
+  role: number;
+}
+
+export interface EditProfileProps {
+  targetId: string;
+  control: Control<EditInfoFormType, object>;
+}
+
+export interface SearchFriendsProps {
+  isLoading: boolean;
+  foldedGym: boolean;
+  foldedFriends: boolean;
+  setFoldedFriends: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface SignupSteps {
+  selectedGym: {};
+  signupStepInfo: SignupInfo;
+  signupStepMoreInfo: SignupMoreInfo;
+  signupStepGymInfo: SignupGymInfo;
+  signupStepFriendsInfo: SignupFriendsInfo;
+}
+
+export interface SignupMutationSteps {
+  selectedGym: {};
+  info: SignupInfo;
+  moreInfo: SignupMoreInfo;
+  gymInfo: SignupGymInfo;
+  friendsInfo: SignupFriendsInfo;
+}

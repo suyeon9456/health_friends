@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -34,7 +34,11 @@ const LoginForm = () => {
   const contextDispatch = useModalDispatch();
 
   const loginMutation = useMutation(
-    (data: { email: string; password: string }) => loginAPI(data)
+    (data: { email: string; password: string }) => loginAPI(data),
+    {
+      onSuccess: () => router.push('/'),
+      onError: () => changeShowAlert(),
+    }
   );
 
   const {
@@ -62,18 +66,6 @@ const LoginForm = () => {
     e.preventDefault();
     loginMutation.mutate(data);
   }, []);
-
-  useEffect(() => {
-    if (loginMutation.isError) {
-      changeShowAlert();
-    }
-  }, [loginMutation.isError]);
-
-  useEffect(() => {
-    if (loginMutation.isSuccess) {
-      void router.push('/');
-    }
-  }, [loginMutation.isSuccess]);
 
   return (
     <FormWrapper>

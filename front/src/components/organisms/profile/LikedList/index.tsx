@@ -30,11 +30,10 @@ import {
 
 const LikedList = ({ isProfile }: { isProfile?: boolean }) => {
   const { profile } = useSelector(profileSelector);
-  const {
-    isLoading,
-    error,
-    data: likedFriends,
-  } = useQuery<FetchLikedFriends | undefined, AxiosError>(
+  const { isLoading, data: likedFriends } = useQuery<
+    FetchLikedFriends | undefined,
+    AxiosError
+  >(
     'likedFriends',
     () => {
       const userId = isProfile ? `?userId=${profile?.id}` : '';

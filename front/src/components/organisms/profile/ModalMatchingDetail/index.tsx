@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { compareAsc } from 'date-fns';
 
 import { MatchingCardProps } from '@/../@types/schedule';
 import { useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
-import { useRouter } from 'next/router';
 import { profileSelector } from '@/../reducers/profile';
 import { loadLoginedUserAPI } from '@/api/user';
 import { meKey } from '@/../@types/queryKey';
@@ -27,17 +26,11 @@ const ModalMatchingDetail = ({
   schedule?: MatchingCardProps | null;
   onCancel: () => void;
 }) => {
-  const router = useRouter();
-  const { id: queryId } = router.query;
-
   const { profile } = useSelector(profileSelector);
   const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
   });
-
-  useEffect(() => console.log(schedule), [schedule]);
-  // if (!schedule) return;
 
   return (
     <Modal
@@ -59,6 +52,7 @@ const ModalMatchingDetail = ({
             RequestId: schedule?.Cancel?.RequestId,
           },
         },
+        profile.id,
         me
       )}
     >

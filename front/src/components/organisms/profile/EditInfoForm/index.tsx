@@ -1,5 +1,4 @@
 import React from 'react';
-import { Control, FieldValues } from 'react-hook-form';
 
 import {
   AgeOptions,
@@ -9,25 +8,11 @@ import {
   RoleOptions,
   SizeType,
 } from '@/../@types/utils';
+import { EditProfileProps } from '@/../@types/user';
 import { FormRangeTimePicker, FormSelect } from '../../../molecules';
 import { FormWrap } from './style';
 
-interface EditInfoFormType extends FieldValues {
-  startTime: Date;
-  endTime: Date;
-  gender: string;
-  age: number;
-  career: number;
-  role: number;
-}
-
-const EditInfoForm = ({
-  targetId,
-  control,
-}: {
-  targetId: string;
-  control: Control<EditInfoFormType, object>;
-}) => (
+const EditInfoForm = ({ targetId, control }: EditProfileProps) => (
   <FormWrap>
     <FormSelect
       label="연령"

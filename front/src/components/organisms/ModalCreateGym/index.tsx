@@ -1,29 +1,14 @@
 import React, { useState, useCallback } from 'react';
 
-import { Control, UseFormSetValue } from 'react-hook-form';
 import { ButtonType } from '@/../@types/utils';
+import { CreateGym } from '@/../@types/gym';
 import { CreateFormWrap, FormSearchPostcode } from './style';
 import { Button } from '../../atoms';
 import { FormInput } from '../../molecules';
 import KakaoPostcode from '../KakaoPostcode';
 import ModalPortal from '../ModalPortal';
 
-interface CreateModalType {
-  address: string;
-  addressRoad: string;
-  phone: string;
-  latitude: string;
-  longitude: string;
-  name: string;
-}
-
-const ModalCreateGym = ({
-  control,
-  setValue,
-}: {
-  control: Control<CreateModalType, object>;
-  setValue: UseFormSetValue<CreateModalType>;
-}) => {
+const ModalCreateGym = ({ control, setValue }: CreateGym) => {
   const [showPostcode, setShowPostcode] = useState(false);
   const changeShowPostcode = useCallback(() => {
     setShowPostcode((prev) => !prev);

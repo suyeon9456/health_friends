@@ -1,25 +1,16 @@
-import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useForm, UseFormSetValue } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import { SearchGymTabs } from '@/../@types/utils';
 import { useMutation } from 'react-query';
 import { addGymAPI } from '@/api/user';
-import { Address } from '@/../@types/gym';
+import { Address, CreateGymForm, CreateGymProps } from '@/../@types/gym';
 import { selectGym } from '@/../reducers/user';
 import { Modal, Tabs } from '../../../molecules';
 import ModalSearchGym from '../../ModalSearchGym';
 import ModalCreateGym from '../../ModalCreateGym';
 import { ModalBodyBox } from './style';
-
-interface CreateModalType {
-  address: string;
-  addressRoad: string;
-  phone: string;
-  latitude: string;
-  longitude: string;
-  name: string;
-}
 
 const ModalGym = ({
   title,
@@ -27,20 +18,10 @@ const ModalGym = ({
   setShowModal,
   setGym,
   ...props
-}: {
-  title: string;
-  onCancel: () => void;
-  setShowModal: Dispatch<SetStateAction<boolean>>;
-  setGym: UseFormSetValue<{
-    startTime: Date;
-    endTime: Date;
-    gym: string;
-    description: string;
-  }>;
-}) => {
+}: CreateGymProps) => {
   const dispatch = useDispatch();
 
-  const { handleSubmit, control, setValue } = useForm<CreateModalType>({
+  const { handleSubmit, control, setValue } = useForm<CreateGymForm>({
     defaultValues: {
       address: '',
       addressRoad: '',

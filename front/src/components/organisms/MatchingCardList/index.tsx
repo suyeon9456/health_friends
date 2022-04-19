@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { format, compareAsc } from 'date-fns';
+import { compareAsc } from 'date-fns';
 import { BiEdit, BiPin, BiRepeat } from 'react-icons/bi';
 
 import { profileSelector } from '@/../reducers/profile';
@@ -13,11 +13,11 @@ import {
   ModalType,
   ShowModalType,
 } from '@/../@types/utils';
-import { Me } from '@/../@types/user';
-import { meKey, scheduleByIdKey } from '@/../@types/queryKey';
-import { loadLoginedUserAPI } from '@/api/user';
+import { scheduleByIdKey } from '@/../@types/queryKey';
 import { loadScheduleAPI } from '@/api/schedule';
 import useScheduleData from '@/hooks/useScheduleData';
+import { rangeMatchingDate } from '@/../utils/date';
+import { meSelector } from '@/../reducers/user';
 import ModalMatchingDetail from '../profile/ModalMatchingDetail';
 import ModalMatchingEdit from '../profile/ModalMatchingEdit';
 import { LoadingMatchingCard, MatchingCard } from '../../molecules';
@@ -36,16 +36,13 @@ const MatchingCardList = ({
   const router = useRouter();
   const { id: queryId } = router.query;
   const { profile } = useSelector(profileSelector);
+  const me = useSelector(meSelector);
   const [matchingId, setMatchingId] = useState<number | null>(null);
   const [showDetailModal, setShowDetailModal] = useState<boolean>(false);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [modalType, setModalType] = useState<ShowModalType>(ModalType.VIEW);
   const [schedule, onChangeSchedule] = useScheduleData();
 
-  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
-    refetchOnWindowFocus: false,
-    retry: false,
-  });
   const _result = useQuery<ScheduleAPI>(
     scheduleByIdKey(matchingId, queryId, profile.id),
     () => loadScheduleAPI(matchingId, queryId, profile.id),
@@ -88,11 +85,7 @@ const MatchingCardList = ({
       <MatchingCardListWrap>
         {schedules?.map((target) => {
           const { start, end, Receiver, Requester } = target;
-          const startDate = format(start, 'yyyy년 MM월 dd일 HH:mm');
-          const endDate = format(end, 'HH:mm');
           const friend = profile.id === Receiver.id ? Requester : Receiver;
-          // 오늘 일자보다 전 일자의 event는 -1을 리턴한다.
-          const compareToday = compareAsc(new Date(target.start), new Date());
           return (
             <MatchingCard
               key={target.id}
@@ -100,7 +93,7 @@ const MatchingCardList = ({
               nickname={friend.nickname}
               description={target.Gym.address + target.Gym.name}
               image={friend.Image?.src ?? ''}
-              date={[startDate, ' ~ ', endDate].join('')}
+              date={rangeMatchingDate(start, end)}
               onClickView={onClickAction}
               actions={
                 me?.id === profile?.id
@@ -111,7 +104,7 @@ const MatchingCardList = ({
                         <Icon icon={<BiEdit />} />,
                       ],
                       onClickAction,
-                      compareToday
+                      compareAsc(start, new Date())
                     )
                   : []
               }
