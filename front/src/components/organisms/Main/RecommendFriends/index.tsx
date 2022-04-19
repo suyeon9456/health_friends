@@ -219,8 +219,8 @@ const RecommendFriends = () => {
                     <CardContentWrap>
                       <ContentTitile>{friend.nickname}</ContentTitile>
                       <ContentDescription>
-                        {friend?.Gyms[0]?.address}
-                        <span> {friend?.Gyms[0]?.name}</span>
+                        {friend?.Gyms?.[0].address}
+                        <span> {friend?.Gyms?.[0].name}</span>
                       </ContentDescription>
                     </CardContentWrap>
                   </FriendsCard>
