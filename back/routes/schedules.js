@@ -7,6 +7,7 @@ const router = express.Router();
 router.get('/', async (req, res, next) => { // GET /schedules/
   try {
     const userId = req.query.userId || req.user.id;
+    const listSize = 3;
     const { before, after, scheduledRecord, lastRecord, requestRecord, receiveRecord, rejectedMatching } = req.query;
     const where = {
       isPermitted: { [Op.or]: [false, true] },
@@ -17,6 +18,8 @@ router.get('/', async (req, res, next) => { // GET /schedules/
           FriendId: userId,
       }],
     };
+
+    let detailWhere = null;
     
     if (scheduledRecord || lastRecord) {
       const list = [];
@@ -56,16 +59,19 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         where.permission = { [Op.or]: [false, true] }
       }
     }
+
     if (rejectedMatching === 'true') {
-      where.permission = false;
+      detailWhere = {
+        isCanceled: true
+      };
     }
 
     const schedulesCount = await Schedule.findAndCountAll({ where });
 
     const schedules = await Schedule.findAll({
       where,
-      // limit: req.query.profileMenu === 'calendar' ? null : parseInt(req.query.limit, 10),
-      limit: parseInt(req.query.limit, 10),
+      limit: listSize,
+      offset: parseInt(req.query.limit, 10),
       attributes: [
         'id',
         'description',
@@ -94,14 +100,15 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         attributes: ['address', 'name'],
       }, {
         model: ScheduleDetail,
-        as: 'Cancel'
+        as: 'Cancel',
+        where: detailWhere,
       }],
       order: [ ['startDate', 'DESC'] ],
     });
 
-    const resultSchedules = schedules.slice(parseInt(req.query.limit, 10) - 3);
-
-    res.status(201).json({ schedules: resultSchedules, isLast: schedulesCount.count - schedules.length < 1 });
+    res.status(201).json({ schedules,
+      nextCursor: (schedulesCount.count - (parseInt(req.query.limit, 10) + 
+      3)) > 0 ? parseInt(req.query.limit, 10) + 3 : -1 });
   } catch (error) {
     console.error(error);
     next(error);

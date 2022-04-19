@@ -73,6 +73,9 @@ export const NoDataContainer = styled.div`
   border-radius: 5px;
   display: flex;
   align-items: center;
+  @media (max-width: 767px) {
+    height: 100%;
+  }
 `;
 
 export const NoDataContent = styled.div`

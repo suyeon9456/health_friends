@@ -29,19 +29,12 @@ const MatchingCard = ({
   date: string;
   image?: string;
   onClickView: ({ key, id }: { key: string; id: number }) => void;
-  actions?:
-    | ReadonlyArray<{
-        key: string;
-        icon: React.ReactNode;
-        disabled?: boolean;
-        onClick: ({ key, id }: { key: string; id: number }) => void;
-      }>
-    | Array<{
-        key: string;
-        icon: React.ReactNode;
-        disabled?: boolean;
-        onClick: ({ key, id }: { key: string; id: number }) => void;
-      }>;
+  actions?: ReadonlyArray<{
+    key: string;
+    icon: React.ReactNode;
+    disabled?: boolean;
+    onClick: ({ key, id }: { key: string; id: number }) => void;
+  }>;
 }) => (
   <Card>
     <CardCover>

@@ -9,19 +9,19 @@ export const schedulesByIdKey = ({
   status,
   term,
   type,
-  limit,
   rejectedMatching,
 }: {
   profileId: number;
   status: string[];
   term: string[];
   type: string[];
-  limit: number;
   rejectedMatching: boolean;
-}) =>
-  ['record', profileId, status, term, type, limit, rejectedMatching] as const;
-export const scheduleByIdKey = (matchingId?: number | null) =>
-  ['schedule', matchingId] as const;
+}) => ['record', profileId, status, term, type, rejectedMatching] as const;
+export const scheduleByIdKey = (
+  matchingId?: number | null,
+  queryId?: string | string[],
+  profileId?: number
+) => ['schedule', matchingId, queryId, profileId] as const;
 
 export const signupGymsKey = (searchWord?: string) =>
   ['signup', 'gym', searchWord] as const;

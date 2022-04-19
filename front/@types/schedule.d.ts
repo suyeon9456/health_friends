@@ -141,3 +141,17 @@ export interface MatchingCardProps extends RecordScheduleFetch {
   };
   lastYn?: number;
 }
+
+export interface ScheduleAPI {
+  schedule: RecordScheduleFetch;
+  userMatching: Array<{
+    FriendId: number;
+    matchingCount: number;
+    rematchingCount: number;
+  }>;
+  friendMatching: Array<{
+    FriendId: number;
+    matchingCount: number;
+    rematchingCount: number;
+  }>;
+}

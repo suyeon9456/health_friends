@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { format, compareAsc } from 'date-fns';
@@ -6,13 +6,8 @@ import { BiEdit, BiPin, BiRepeat } from 'react-icons/bi';
 
 import { profileSelector } from '@/../reducers/profile';
 
-import { useQueries, useQuery } from 'react-query';
-import axios from 'axios';
-import {
-  MatchingCardProps,
-  RecordSchedule,
-  RecordScheduleFetch,
-} from '@/../@types/schedule';
+import { useQuery } from 'react-query';
+import { RecordSchedule, ScheduleAPI } from '@/../@types/schedule';
 import {
   loginedUserProfile,
   ModalType,
@@ -22,6 +17,7 @@ import { Me } from '@/../@types/user';
 import { meKey, scheduleByIdKey } from '@/../@types/queryKey';
 import { loadLoginedUserAPI } from '@/api/user';
 import { loadScheduleAPI } from '@/api/schedule';
+import useScheduleData from '@/hooks/useScheduleData';
 import ModalMatchingDetail from '../profile/ModalMatchingDetail';
 import ModalMatchingEdit from '../profile/ModalMatchingEdit';
 import { LoadingMatchingCard, MatchingCard } from '../../molecules';
@@ -44,31 +40,23 @@ const MatchingCardList = ({
   const [showDetailModal, setShowDetailModal] = useState<boolean>(false);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [modalType, setModalType] = useState<ShowModalType>(ModalType.VIEW);
-  const [schedule, setSchedule] = useState<MatchingCardProps | null>(null);
+  const [schedule, onChangeSchedule] = useScheduleData();
 
   const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
   });
-  const { data: apiSchedule } = useQuery<{
-    schedule: RecordScheduleFetch;
-    userMatching: Array<{
-      FriendId: number;
-      matchingCount: number;
-      rematchingCount: number;
-    }>;
-    friendMatching: Array<{
-      FriendId: number;
-      matchingCount: number;
-      rematchingCount: number;
-    }>;
-  }>(
-    scheduleByIdKey(matchingId),
-    () => loadScheduleAPI(matchingId, queryId ? `?userId=${profile.id}` : ''),
+  const _result = useQuery<ScheduleAPI>(
+    scheduleByIdKey(matchingId, queryId, profile.id),
+    () => loadScheduleAPI(matchingId, queryId, profile.id),
     {
       refetchOnWindowFocus: false,
       retry: false,
       enabled: !!matchingId,
+      onSuccess: (data) => {
+        if (!data) return;
+        onChangeSchedule(data, profile);
+      },
     }
   );
 
@@ -78,7 +66,8 @@ const MatchingCardList = ({
 
   const onChangeShowDetailModal = useCallback(() => {
     setShowDetailModal((prev) => !prev);
-  }, [showEditModal]);
+    setMatchingId(null);
+  }, [showEditModal, matchingId, queryId, profile]);
 
   const onClickAction = useCallback(
     ({ key, id }) => {
@@ -94,50 +83,6 @@ const MatchingCardList = ({
     [showDetailModal, showEditModal, modalType, matchingId]
   );
 
-  useEffect(() => {
-    if (apiSchedule) {
-      const {
-        schedule: fetchSchedule,
-        userMatching,
-        friendMatching,
-      } = apiSchedule;
-      const userTotalCount = userMatching?.[0]?.matchingCount || 0;
-      const userReCount = userMatching?.[0]?.rematchingCount || 0;
-      const friendTotalCount = friendMatching?.[0]?.matchingCount || 0;
-      const friendReCount = friendMatching?.[0]?.rematchingCount || 0;
-      const user = me ?? profile;
-      setSchedule({
-        ...fetchSchedule,
-        start: new Date(fetchSchedule.startDate),
-        end: new Date(fetchSchedule.endDate),
-        userMathcing: userMatching.map(
-          ({ FriendId }: { FriendId: number }) => FriendId
-        ),
-        userTotalCount,
-        userReCount,
-        friendMathcing: friendMatching.map(
-          ({ FriendId }: { FriendId: number }) => FriendId
-        ),
-        friendTotalCount,
-        friendReCount,
-        Friend: {
-          id:
-            fetchSchedule.Receiver.id === user.id
-              ? user.id
-              : fetchSchedule.Receiver.id,
-          nickname:
-            fetchSchedule.Receiver.id === user.id
-              ? user.nickname
-              : fetchSchedule.Receiver.nickname,
-          Image:
-            fetchSchedule.Receiver.id === user.id
-              ? user.Image
-              : fetchSchedule.Receiver.Image,
-        },
-      });
-    }
-  }, [apiSchedule]);
-
   return (
     <>
       <MatchingCardListWrap>
@@ -146,7 +91,6 @@ const MatchingCardList = ({
           const startDate = format(start, 'yyyy년 MM월 dd일 HH:mm');
           const endDate = format(end, 'HH:mm');
           const friend = profile.id === Receiver.id ? Requester : Receiver;
-          console.log(friend);
           // 오늘 일자보다 전 일자의 event는 -1을 리턴한다.
           const compareToday = compareAsc(new Date(target.start), new Date());
           return (
@@ -161,7 +105,11 @@ const MatchingCardList = ({
               actions={
                 me?.id === profile?.id
                   ? loginedUserProfile(
-                      <Icon icon={<BiPin />} />,
+                      [
+                        <Icon icon={<BiPin />} />,
+                        <Icon icon={<BiRepeat />} />,
+                        <Icon icon={<BiEdit />} />,
+                      ],
                       onClickAction,
                       compareToday
                     )

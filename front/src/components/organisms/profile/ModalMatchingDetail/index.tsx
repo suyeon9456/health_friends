@@ -43,9 +43,7 @@ const ModalMatchingDetail = ({
     <Modal
       title={`${schedule?.Friend?.nickname}님과의 매칭정보`}
       onCancel={onCancel}
-      footer={
-        !schedule?.isPermitted || compareAsc(schedule?.start, new Date()) > -1
-      }
+      footer
       actions={matchingActions(
         onCancel,
         {

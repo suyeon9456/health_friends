@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { AxiosError } from 'axios';
-import { useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import { BiPlus } from 'react-icons/bi';
+import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 
 import useCheckbox from '@/hooks/useCheckbox';
@@ -30,42 +31,59 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
   const [rejectedMatching, setRejectedMatching] = useState<boolean>(false);
   const [schedules, setSchedules] = useState<any>([]);
 
-  const {
-    isFetching,
-    data: { isLast, apiSchedules },
-  } = useQuery<any | undefined, AxiosError>(
+  const { isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery<
+    any[],
+    AxiosError
+  >(
     schedulesByIdKey({
       profileId: profile.id,
       status,
       term,
       type,
-      limit,
       rejectedMatching,
     }),
-    () =>
+    ({ pageParam = 0 }) =>
       loadSchedulesAPI({
         isProfile,
         profileId: profile.id,
-        limit,
+        limit: pageParam,
         status,
         term,
         type,
         rejectedMatching,
       }),
     {
-      initialData: { isLast: false, schedules: [] },
-      retry: false,
       refetchOnWindowFocus: false,
-      enabled: !!profile?.id,
+      retry: false,
+      enabled: !!profile.id,
+      getNextPageParam: (lastPage) => {
+        return lastPage[lastPage.length - 1].nextCursor > 0
+          ? lastPage[lastPage.length - 1].nextCursor
+          : undefined;
+      },
+      onSuccess: ({ pages }) => {
+        if (isEmpty(pages[0])) {
+          return;
+        }
+        if (schedules?.length === 0) {
+          setSchedules(pages[0]);
+          return;
+        }
+        if (!isEqual(schedules, pages[pages.length - 1])) {
+          setSchedules([...schedules, ...pages[pages.length - 1]]);
+        }
+      },
     }
   );
 
   const onMoreSchedule = useCallback(() => {
     setLimit((prev) => prev + 3);
+    void fetchNextPage();
   }, [limit]);
 
   const onChangeRejectedMatching = useCallback(
     (e) => {
+      setSchedules([]);
       if (e.currentTarget.checked) {
         setRejectedMatching(true);
       } else {
@@ -75,15 +93,6 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
     },
     [rejectedMatching]
   );
-
-  useEffect(() => {
-    if (!isEmpty(apiSchedules)) {
-      if (schedules?.length === 0) {
-        return setSchedules(apiSchedules);
-      }
-      setSchedules([...schedules, ...apiSchedules]);
-    }
-  }, [apiSchedules]);
 
   return (
     <RecordWrap>
@@ -133,7 +142,7 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
       <RecordFooter>
         <Button
           type={ButtonType.PRIMARY}
-          disabled={isLast}
+          disabled={!hasNextPage}
           icon={<Icon icon={<BiPlus />} />}
           onClick={onMoreSchedule}
         >

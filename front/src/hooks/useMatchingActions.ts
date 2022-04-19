@@ -5,6 +5,7 @@ import {
   detailActions,
   reqCancelActions,
   resCancelActions,
+  waitCancelActions,
 } from '@/../@types/utils';
 import {
   addCancelAPI,
@@ -53,7 +54,9 @@ export const matchingActions = (
   const cancelMutation = useMutation(
     (data: { id?: number }) => addCancelAPI(data),
     {
-      onSuccess: () => onCancel(),
+      onSuccess: () => {
+        onCancel();
+      },
     }
   );
 
@@ -100,12 +103,13 @@ export const matchingActions = (
       cancelId: Cancel?.id,
     });
   }, [schedule]);
-
-  if (!me || (!isLast && !isPermitted && Requester?.id !== me?.id))
+  if (!me) return [];
+  if (!isLast && !isPermitted && Requester?.id !== me?.id)
     return detailActions(onRefuse, onAccept);
   if (permission && !schedule?.Cancel) return reqCancelActions(onCancelRequest);
   if (permission && schedule?.Cancel) {
     const { RequestId } = schedule?.Cancel;
+    if (RequestId === me?.id) return waitCancelActions(onCancel);
     if (RequestId !== me?.id) return resCancelActions(onCancelResponse);
   }
   return [];

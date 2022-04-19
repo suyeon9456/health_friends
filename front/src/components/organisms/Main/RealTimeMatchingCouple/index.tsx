@@ -116,9 +116,11 @@ const RealTimeMatchingCouple = () => {
                 <NoDataIcon width={60} height={60} color="#00000040" />
                 <NoDataText>현재 진행중인 매칭이 없습니다.</NoDataText>
                 <Link href="/friends" passHref>
-                  <Button type={ButtonType.TEXT} size={SizeType.SMALL}>
-                    매칭신청하러 가기
-                  </Button>
+                  <a>
+                    <Button type={ButtonType.TEXT} size={SizeType.SMALL}>
+                      매칭신청하러 가기
+                    </Button>
+                  </a>
                 </Link>
               </NoDataContent>
             </NoDataContainer>

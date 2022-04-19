@@ -66,7 +66,7 @@ router.post('/re', async (req, res, next) => { // POST /schedule/re
     })
     if (schedule) {
       await schedule.setRequester(userId);
-      await schedule.setFriend(friendId);
+      await schedule.setReceiver(friendId);
       await schedule.setGym(gymId);
     }
     res.status(201).json(schedule);

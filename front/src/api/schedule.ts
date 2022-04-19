@@ -46,23 +46,26 @@ export const loadSchedulesAPI = ({
         data,
       }: {
         data: {
-          isLast: boolean;
+          nextCursor: number;
           schedules: RecordScheduleFetch[];
         };
-      }) => ({
-        ...data,
-        apiSchedules: data.schedules.map((schedule) => ({
+      }) =>
+        data.schedules.map((schedule) => ({
           ...schedule,
           start: new Date(schedule?.startDate),
           end: new Date(schedule?.endDate),
-        })),
-      })
+          nextCursor: data.nextCursor,
+        }))
     );
 };
 
-export const loadScheduleAPI = (matchingId: number | null, userId: string) => {
+export const loadScheduleAPI = (
+  matchingId: number | null,
+  queryId?: string | string[],
+  profileId?: number
+) => {
   return axios
-    .get(`/schedule/${matchingId}${userId}`)
+    .get(`/schedule/${matchingId}${queryId ? `?userId=${profileId}` : ''}`)
     .then((response) => response.data);
 };
 

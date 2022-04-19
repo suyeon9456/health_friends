@@ -181,6 +181,16 @@ export const reqCancelActions = (onRequest: () => void) =>
     },
   ] as const;
 
+export const waitCancelActions = (onCancel: () => void) =>
+  [
+    {
+      id: 'cancel',
+      title: '취소응답 대기중',
+      type: ButtonType.ERROR,
+      onClick: onCancel,
+    },
+  ] as const;
+
 export const resCancelActions = (onResponse: () => void) =>
   [
     {
@@ -199,23 +209,23 @@ export const MatchingActionType = {
 } as const;
 
 export const loginedUserProfile = (
-  icon: ReactNode,
+  icon: ReactNode[],
   onClickAction: ({ key, id }: any) => void,
   compareToday: number
 ) =>
   [
     {
-      icon,
+      icon: icon[0],
       key: ModalType.FIX,
       onClick: onClickAction,
     },
     {
-      icon,
+      icon: icon[1],
       key: ModalType.REMATCH,
       onClick: onClickAction,
     },
     {
-      icon,
+      icon: icon[2],
       key: ModalType.EDIT,
       onClick: onClickAction,
       disabled: compareToday < 0,
