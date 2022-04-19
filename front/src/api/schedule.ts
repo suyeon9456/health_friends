@@ -7,6 +7,8 @@ import {
 } from '@/../@types/schedule';
 import { UpdateCancellationProps } from '@/../@types/action';
 import isEmpty from 'lodash/isEmpty';
+import { formatBasicType } from '@/../utils/date';
+import { stringOrDate } from 'react-big-calendar';
 
 axios.defaults.baseURL = backUrl;
 axios.defaults.withCredentials = true;
@@ -66,6 +68,27 @@ export const loadScheduleAPI = (
 ) => {
   return axios
     .get(`/schedule/${matchingId}${queryId ? `?userId=${profileId}` : ''}`)
+    .then((response) => response.data);
+};
+
+export const loadCalendarScheduleAPI = ({
+  range,
+  profileId,
+}: {
+  range: {
+    start: stringOrDate;
+    end: stringOrDate;
+  };
+  profileId: number | null;
+}) => {
+  const { start, end } = range;
+  const userId = profileId ? `userId=${profileId}&` : '';
+  return axios
+    .get(
+      `/schedules/calendar?${userId}start=${formatBasicType(
+        start
+      )}&end=${formatBasicType(end)}`
+    )
     .then((response) => response.data);
 };
 
