@@ -1,4 +1,4 @@
-import { ModalStatusType } from "./utils";
+import { ModalStatusType } from './utils';
 
 export type AlertType = 'error' | 'warning' | 'success';
 

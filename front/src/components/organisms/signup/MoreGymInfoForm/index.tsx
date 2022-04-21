@@ -9,7 +9,7 @@ import {
   signupStepPrev,
 } from '@/../reducers/user';
 import { ButtonType, SignupMenu, SizeType } from '@/../@types/utils';
-import { formatTime } from '@/../utils/date';
+import { formatTime } from '@/../@utils/date';
 import { Button, Form } from '../../../atoms';
 import {
   FormInput,

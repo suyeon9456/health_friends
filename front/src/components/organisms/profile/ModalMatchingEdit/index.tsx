@@ -7,10 +7,10 @@ import { ModalType, ShowModalType } from '@/../@types/utils';
 import { useMutation, useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
 import { loadLoginedUserAPI } from '@/api/user';
-import { meKey } from '@/../@types/queryKey';
+import { meKey } from '@/../@utils/queryKey';
 import { Schedule } from '@/../@types/schedule';
 import { addReScheduleAPI, updateScheduleAPI } from '@/api/schedule';
-import { createEndDate, formatDateTime } from '@/../utils/date';
+import { createEndDate, formatDateTime } from '@/../@utils/date';
 import MatchingRequestForm from '../../MatchingRequestForm';
 import { Modal } from '../../../molecules';
 

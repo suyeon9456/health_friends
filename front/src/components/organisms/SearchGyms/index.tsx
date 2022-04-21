@@ -5,9 +5,10 @@ import { BiChevronLeft, BiChevronRight, BiGroup } from 'react-icons/bi';
 
 import { gymSelector, loadFriends, loadGyms } from '@/../reducers/gym';
 import { useQuery } from 'react-query';
-import { loadGymAndFriendsAPI, loadGymsAPI, loadMapAPI } from '@/api/user';
-import { gymAndFriendsByIdKey, gymsKey, mapKey } from '@/../@types/queryKey';
-import { Gym, SearchGymsFoldedStatesProps } from '@/../@types/gym';
+import { loadGymAndFriendsAPI } from '@/api/user';
+import { loadGymsAPI, loadMapAPI } from '@/api/gym';
+import { gymAndFriendsByIdKey, gymsKey, mapKey } from '@/../@utils/queryKey';
+import { Gym, SearchGymsProps } from '@/../@types/gym';
 import useInput from '../../../hooks/useInput';
 
 import { Search, Item, Icon } from '../../atoms';
@@ -28,7 +29,7 @@ const SearchGyms = ({
   setFoldedFriends,
   foldedGym,
   setFoldedGym,
-}: SearchGymsFoldedStatesProps) => {
+}: SearchGymsProps) => {
   const router = useRouter();
   const dispatch = useDispatch();
 

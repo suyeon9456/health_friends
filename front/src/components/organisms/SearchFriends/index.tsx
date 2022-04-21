@@ -8,9 +8,14 @@ import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/utils';
 import { Icon } from '@/components/atoms';
 import useRematchRate from '@/hooks/useRematchRate';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { Friends, GymUsers, Me, SearchFriendsProps } from '@/../@types/user';
+import {
+  UserGym,
+  SelectedGymUser,
+  Me,
+  SearchFriendsProps,
+} from '@/../@types/user';
 import { addLikeAPI, loadLoginedUserAPI } from '@/api/user';
-import { gymAndFriendsByIdKey, meKey } from '@/../@types/queryKey';
+import { gymAndFriendsByIdKey, meKey } from '@/../@utils/queryKey';
 import { PropfileCard } from '../../molecules';
 import Button from '../../atoms/Button';
 import {
@@ -31,7 +36,7 @@ const SearchFriends = ({
   const contextDispatch = useModalDispatch();
   const { gym } = useSelector(gymSelector);
 
-  const [friend, setFriend] = useState<Friends>();
+  const [friend, setFriend] = useState<UserGym>();
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
@@ -84,8 +89,8 @@ const SearchFriends = ({
         </SearchHeader>
         <FriendsListWrapper>
           {gym?.Users &&
-            gym?.Users.map((user: GymUsers) => {
-              const imageSrc = user?.Image?.src || '';
+            gym?.Users.map((user: SelectedGymUser) => {
+              const imageSrc = user.Image?.src ?? '';
               const percent = user.rematchCount
                 ? useRematchRate(user.rematchCount, user.totalCount)
                 : 0;

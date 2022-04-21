@@ -6,7 +6,7 @@ import { BiEdit } from 'react-icons/bi';
 import { profileSelector } from '@/../reducers/profile';
 import { ButtonType, SizeType } from '@/../@types/utils';
 import { updateDescriptionAPI, updateNicknameAPI } from '@/api/user';
-import { meKey, profileKey } from '@/../@types/queryKey';
+import { meKey, profileKey } from '@/../@utils/queryKey';
 import { meSelector } from '@/../reducers/user';
 import { Button, Icon, Input } from '../../../atoms';
 import {

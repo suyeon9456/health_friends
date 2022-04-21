@@ -1,14 +1,14 @@
 import React from 'react';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
 import { BiDotsVerticalRounded, BiEdit, BiHeart, BiUser } from 'react-icons/bi';
 import { ImDrawer2 } from 'react-icons/im';
 
-import { FetchLikedFriends } from '@/../@types/fetchData';
 import { useSelector } from 'react-redux';
 import { profileSelector } from '@/../reducers/profile';
-import { loadLikedListAPI } from '@/api/user';
+import { loadLikedListAPI } from '@/api/profile';
+import { LikedFriendAPI } from '@/../@types/user';
 import { Icon } from '../../../atoms';
 import {
   LikedListWrap,
@@ -31,7 +31,7 @@ import {
 const LikedList = ({ isProfile }: { isProfile?: boolean }) => {
   const { profile } = useSelector(profileSelector);
   const { isLoading, data: likedFriends } = useQuery<
-    FetchLikedFriends | undefined,
+    LikedFriendAPI[] | undefined,
     AxiosError
   >(
     'likedFriends',

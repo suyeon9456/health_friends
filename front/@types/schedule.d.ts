@@ -1,7 +1,7 @@
 import { Control, FieldErrors } from 'react-hook-form';
 import { Gym, Gyms } from './gym';
 import { Image } from './image';
-import { Friends, User } from './user';
+import { User, UserGym } from './user';
 
 export interface ScheduleModel {
   id: number;
@@ -17,19 +17,19 @@ export interface ScheduleModel {
 }
 
 export interface Schedule extends ScheduleModel {
-  Requester?: {
+  Requester: {
     id: string;
     nickname: string;
     Image: Image;
     Liker: User;
   };
-  Receiver?: {
+  Receiver: {
     id: string;
     nickname: string;
     Image: Image;
   };
   Gym: Gym;
-  Cancel: ScheduledetailModel;
+  Cancel?: ScheduledetailModel;
 }
 
 export interface ScheduledetailModel {
@@ -38,26 +38,24 @@ export interface ScheduledetailModel {
   RequestId: number;
   ResponseId: number;
   ScheduleId: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
-interface Matching {
+interface MatchingAPI {
   count: number;
   id: number;
   nickname: string;
   reqSchedule: Array<{ id: number }>;
 }
 
-export interface MatchingCount {
-  FriendId: number;
-  matchingCount: number;
-  rematchingCount: number;
+export interface RematchingAPI {
+  id: number;
+  nickname: string;
+  Userdetail: { id: number; rematchingRate: number };
 }
 
-export type Schedules = Schedule[];
-
-export type MatchingCounts = MatchingCount[];
-
-export interface RecordScheduleFetch {
+export interface RecordScheduleAPI {
   id: number;
   description: string;
   endDate: string;
@@ -78,55 +76,30 @@ export interface RecordScheduleFetch {
   Requester: { id: number; nickname: string; Image: Image };
 }
 
-export interface RecordSchedule {
-  id: number;
-  isPermitted: boolean;
-  description: string;
-  endDate: string;
-  isPermitted: boolean;
-  permission: boolean;
-  startDate: string;
+export interface RecordSchedule extends RecordScheduleAPI {
   start: Date;
   end: Date;
-  Cancel?: {
-    RequestId: number;
-    ResponseId: number;
-    ScheduleId: number;
-    createdAt: string;
-    id: number;
-    isCanceled: boolean;
-    updatedAt: string;
-  };
-  Receiver: { id: number; nickname: string; Image: Image };
-  Gym: { id: number; address: string; name: string };
-  Requester: { id: number; nickname: string; Image: Image };
 }
 
-export interface CalendarScheduleFetch {
-  Cancel?: {
-    RequestId: number;
-    ResponseId: number;
-    ScheduleId: number;
-    createdAt: string;
-    id: number;
-    isCanceled: boolean;
-    updatedAt: string;
-  };
-  Receiver: { id: number; nickname: string; Image: object };
-  Gym: { address: string; name: string };
-  Requester: { id: number; nickname: string; Image: object };
-  address: string;
+export interface CalendarScheduleAPI extends Schedule {
   description: string;
   endDate: string;
-  gymName?: string;
   id: number;
   isPermitted: boolean;
-  nickname: string;
   permission: boolean;
   startDate: string;
 }
 
-export interface MatchingCardProps extends RecordScheduleFetch {
+export interface CalendarEvent extends CalendarScheduleAPI {
+  Gym: { address: string; name: string };
+  address: string;
+  gymName?: string;
+  nickname: string;
+  start: Date;
+  end: Date;
+}
+
+export interface MatchingCardProps extends RecordScheduleAPI {
   start: Date;
   end: Date;
   userMathcing: number[];
@@ -144,7 +117,7 @@ export interface MatchingCardProps extends RecordScheduleFetch {
 }
 
 export interface ScheduleAPI {
-  schedule: RecordScheduleFetch;
+  schedule: RecordScheduleAPI;
   userMatching: Array<{
     FriendId: number;
     matchingCount: number;
@@ -157,7 +130,7 @@ export interface ScheduleAPI {
   }>;
 }
 
-export interface ReqMatchingFormProps {
+export interface MatchingReqFormProps {
   friend?: {
     nickname: string;
     Userdetail: { description: string };
@@ -175,8 +148,14 @@ export interface ReqMatchingFormProps {
   errors?: FieldErrors;
 }
 
-export interface ReqMatchingProps {
+export interface ModalMatchingProps {
   setShowModal: (prop: boolean) => void;
-  friend?: Friends;
+  friend?: UserGym;
   gymName?: string;
+}
+
+export interface UpdateCancelAPI {
+  id?: number | null;
+  friendId?: number;
+  cancelId?: number;
 }

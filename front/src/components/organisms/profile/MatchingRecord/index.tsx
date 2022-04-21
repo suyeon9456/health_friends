@@ -14,7 +14,7 @@ import {
 } from '@/../@types/utils';
 import { useSelector } from 'react-redux';
 import { profileSelector } from '@/../reducers/profile';
-import { schedulesByIdKey } from '@/../@types/queryKey';
+import { schedulesByIdKey } from '@/../@utils/queryKey';
 import { loadSchedulesAPI } from '@/api/schedule';
 import { Filter } from '../../../molecules';
 import { Button, CheckBox, Icon } from '../../../atoms';

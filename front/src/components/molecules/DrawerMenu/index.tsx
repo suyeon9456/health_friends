@@ -14,7 +14,7 @@ import { ButtonType } from '@/../@types/utils';
 import { Me } from '@/../@types/user';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { loadLoginedUserAPI, logoutAPI } from '@/api/user';
-import { meKey } from '@/../@types/queryKey';
+import { meKey } from '@/../@utils/queryKey';
 import { Button, Avatar, Icon } from '../../atoms';
 import {
   Drawer,

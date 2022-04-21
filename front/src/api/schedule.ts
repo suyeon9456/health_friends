@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { backUrl } from '@/../config/config';
 import {
-  RecordScheduleFetch,
+  RecordScheduleAPI,
   Schedule,
   ScheduleModel,
+  UpdateCancelAPI,
 } from '@/../@types/schedule';
-import { UpdateCancellationProps } from '@/../@types/action';
 import isEmpty from 'lodash/isEmpty';
-import { formatBasicType } from '@/../utils/date';
+import { formatDate } from '@/../@utils/date';
 import { stringOrDate } from 'react-big-calendar';
 
 axios.defaults.baseURL = backUrl;
@@ -49,7 +49,7 @@ export const loadSchedulesAPI = ({
       }: {
         data: {
           nextCursor: number;
-          schedules: RecordScheduleFetch[];
+          schedules: RecordScheduleAPI[];
         };
       }) =>
         data.schedules.map((schedule) => ({
@@ -85,9 +85,9 @@ export const loadCalendarScheduleAPI = ({
   const userId = profileId ? `userId=${profileId}&` : '';
   return axios
     .get(
-      `/schedules/calendar?${userId}start=${formatBasicType(
-        start
-      )}&end=${formatBasicType(end)}`
+      `/schedules/calendar?${userId}start=${formatDate(start)}&end=${formatDate(
+        end
+      )}`
     )
     .then((response) => response.data);
 };
@@ -118,6 +118,6 @@ export const updatePermissionAPI = (data: {
     .then((response) => response.data);
 };
 
-export const updateCancelAPI = (data: UpdateCancellationProps) => {
+export const updateCancelAPI = (data: UpdateCancelAPI) => {
   return axios.put('/schedule/cancel', data).then((response) => response.data);
 };

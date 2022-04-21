@@ -1,14 +1,14 @@
 import React, { useState, useCallback } from 'react';
 
 import { ButtonType } from '@/../@types/utils';
-import { CreateGym } from '@/../@types/gym';
+import { ModalCreateGymProps } from '@/../@types/gym';
 import { CreateFormWrap, FormSearchPostcode } from './style';
 import { Button } from '../../atoms';
 import { FormInput } from '../../molecules';
 import KakaoPostcode from '../KakaoPostcode';
 import ModalPortal from '../ModalPortal';
 
-const ModalCreateGym = ({ control, setValue }: CreateGym) => {
+const ModalCreateGym = ({ control, setValue }: ModalCreateGymProps) => {
   const [showPostcode, setShowPostcode] = useState(false);
   const changeShowPostcode = useCallback(() => {
     setShowPostcode((prev) => !prev);

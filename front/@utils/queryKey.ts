@@ -1,3 +1,5 @@
+import { Location } from '../@types/gym';
+
 export const meKey = ['user'] as const;
 
 export const profileKey = ['profile'] as const;
@@ -42,12 +44,7 @@ export const mapKey = ({
 }: {
   lastId?: number;
   searchWord?: string;
-  mapBounds?: {
-    swLon: string;
-    swLat: string;
-    neLon: string;
-    neLat: string;
-  };
+  mapBounds?: Location;
   isLoadGyms?: boolean;
 }) => ['gym', lastId, searchWord, mapBounds, isLoadGyms] as const;
 export const gymAndFriendsByIdKey = (gymId?: number) => ['gym', gymId] as const;

@@ -1,5 +1,5 @@
-import { Gyms } from '../gym';
-import { Schedules } from '../schedule';
+import { Gyms } from './gym';
+import { Schedules } from './schedule';
 import {
   Me,
   Profile,
@@ -8,8 +8,8 @@ import {
   SignupGymInfo,
   SignupInfo,
   SignupMoreInfo,
-} from '../user';
-import { SignupMenuType } from '../utils';
+} from './user';
+import { SignupMenuType } from './utils';
 
 /* USER INITIAL STATE */
 export interface UserInitialState {

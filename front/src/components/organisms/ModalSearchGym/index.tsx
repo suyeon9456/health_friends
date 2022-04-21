@@ -3,14 +3,14 @@ import { useDispatch } from 'react-redux';
 
 import { selectGym } from '@/../reducers/user';
 import { useQuery } from 'react-query';
-import { signupGymsKey } from '@/../@types/queryKey';
+import { signupGymsKey } from '@/../@utils/queryKey';
 import { loadSignupGymsAPI } from '@/api/user';
-import { Gym, SearchGymProps } from '@/../@types/gym';
+import { Gym, ModalSearchGymProps } from '@/../@types/gym';
 import useInput from '../../../hooks/useInput';
 import { Search, Item } from '../../atoms';
 import { BoxContent, GymListWrap, ListCard } from './style';
 
-const ModalSearchGym = ({ setShowModal, setGym }: SearchGymProps) => {
+const ModalSearchGym = ({ setShowModal, setGym }: ModalSearchGymProps) => {
   const dispatch = useDispatch();
 
   const [searchWord, onChangeSearchWord] = useInput<string>('');

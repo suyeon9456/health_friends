@@ -4,8 +4,7 @@ import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
 
-import { Matching } from '@/../@types/schedule';
-import { Rematching } from '@/../@types/fetchData';
+import { MatchingAPI, RematchingAPI } from '@/../@types/schedule';
 import { loadRankedFriendsAPI } from '@/api/user';
 import {
   RankItem,
@@ -27,7 +26,7 @@ const RankedFriends = () => {
     error,
     data: rankedFriends,
   } = useQuery<
-    { rematching: Rematching[]; matching: Matching[] } | undefined,
+    { rematching: RematchingAPI[]; matching: MatchingAPI[] } | undefined,
     AxiosError
   >('rankedFriends', () => loadRankedFriendsAPI(), {
     cacheTime: 2 * 60 * 1000,
@@ -72,7 +71,7 @@ const RankedFriends = () => {
             <RankCard>
               {!isEmpty(rankedFriends?.matching) && !error && !isLoading
                 ? rankedFriends?.matching?.map(
-                    (friend: Matching, index: number) => {
+                    (friend: MatchingAPI, index: number) => {
                       const friendId = friend.id;
                       const profileUrl = ['/profile/', friendId].join('');
                       return (

@@ -1,5 +1,5 @@
 import { createDraftSafeSelector, createSlice } from '@reduxjs/toolkit';
-import { GymInitialState } from '../@types/reducer/state';
+import { GymInitialState } from '../@types/state';
 import { RootState } from '../store/configureStore';
 
 const initialState: GymInitialState = {

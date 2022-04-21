@@ -9,10 +9,10 @@ import { SizeType } from '@/../@types/utils';
 import { useMutation, useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
 import { loadLoginedUserAPI } from '@/api/user';
-import { meKey } from '@/../@types/queryKey';
+import { meKey } from '@/../@utils/queryKey';
 import { addScheduleAPI } from '@/api/schedule';
-import { ReqMatchingProps, Schedule } from '@/../@types/schedule';
-import { createEndDate } from '@/../utils/date';
+import { ModalMatchingProps, Schedule } from '@/../@types/schedule';
+import { createEndDate } from '@/../@utils/date';
 import { Modal } from '../../molecules';
 import { Avatar } from '../../atoms';
 import MatchingRequestForm from '../MatchingRequestForm';
@@ -29,7 +29,7 @@ const ModalMatchingRequest = ({
   setShowModal,
   friend,
   gymName,
-}: ReqMatchingProps): React.ReactElement => {
+}: ModalMatchingProps): React.ReactElement => {
   const { gym } = useSelector(gymSelector);
   const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,

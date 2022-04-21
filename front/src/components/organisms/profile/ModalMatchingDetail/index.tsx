@@ -7,7 +7,7 @@ import { useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
 import { profileSelector } from '@/../reducers/profile';
 import { loadLoginedUserAPI } from '@/api/user';
-import { meKey } from '@/../@types/queryKey';
+import { meKey } from '@/../@utils/queryKey';
 import { matchingActions } from '@/hooks/useMatchingActions';
 import { useDateFormat } from '../../../../hooks';
 import { Modal } from '../../../molecules';

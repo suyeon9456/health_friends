@@ -13,10 +13,10 @@ import {
   ModalType,
   ShowModalType,
 } from '@/../@types/utils';
-import { scheduleByIdKey } from '@/../@types/queryKey';
+import { scheduleByIdKey } from '@/../@utils/queryKey';
 import { loadScheduleAPI } from '@/api/schedule';
 import useScheduleData from '@/hooks/useScheduleData';
-import { rangeMatchingDate } from '@/../utils/date';
+import { rangeDate } from '@/../@utils/date';
 import { meSelector } from '@/../reducers/user';
 import ModalMatchingDetail from '../profile/ModalMatchingDetail';
 import ModalMatchingEdit from '../profile/ModalMatchingEdit';
@@ -93,7 +93,7 @@ const MatchingCardList = ({
               nickname={friend.nickname}
               description={target.Gym.address + target.Gym.name}
               image={friend.Image?.src ?? ''}
-              date={rangeMatchingDate(start, end)}
+              date={rangeDate(start, end)}
               onClickView={onClickAction}
               actions={
                 me?.id === profile?.id

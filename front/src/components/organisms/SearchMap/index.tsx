@@ -1,12 +1,5 @@
 /* eslint-disable no-undef */
-import React, {
-  useEffect,
-  useRef,
-  useState,
-  useCallback,
-  Dispatch,
-  SetStateAction,
-} from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import { BiRevision } from 'react-icons/bi';
@@ -14,20 +7,15 @@ import { BiRevision } from 'react-icons/bi';
 import { changeMapBounds, gymSelector, isLoadGyms } from '@/../reducers/gym';
 import { ButtonType } from '@/../@types/utils';
 import { useQueryClient } from 'react-query';
-import { gymAndFriendsByIdKey } from '@/../@types/queryKey';
+import { gymAndFriendsByIdKey } from '@/../@utils/queryKey';
 import { Location } from '@/../@types/gym';
+import { SearchMapProps } from '@/../@types/map';
 import { Button, Icon } from '../../atoms';
 import { MapWrap } from './style';
 
 import styles from '../../../scss/searchMap.module.scss';
 
-const SearchMap = ({
-  foldedFriends,
-  setFoldedFriends,
-}: {
-  foldedFriends: boolean;
-  setFoldedFriends: Dispatch<SetStateAction<boolean>>;
-}) => {
+const SearchMap = ({ foldedFriends, setFoldedFriends }: SearchMapProps) => {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
 

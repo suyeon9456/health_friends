@@ -5,27 +5,19 @@ import groupBy from 'lodash/groupBy';
 import forIn from 'lodash/forIn';
 import orderBy from 'lodash/orderBy';
 
-import { Matching, RecordScheduleFetch } from '@/../@types/schedule';
-import { FetchRankedFriends } from '@/../@types/fetchData';
-import { Location } from 'map';
+import { MatchingAPI } from '@/../@types/schedule';
+import { Location } from '@/../@types/map';
 import {
+  RankedFriendsAPI,
   SignupFriendsInfo,
   SignupGymInfo,
   SignupInfo,
   SignupMoreInfo,
 } from '@/../@types/user';
-import { Address, Gym } from '@/../@types/gym';
+import { Gym } from '@/../@types/gym';
 
 axios.defaults.baseURL = backUrl;
 axios.defaults.withCredentials = true;
-
-export const loadMyinfoAPI = () => {
-  return axios.get('/user/profile/myinfo').then((response) => response.data);
-};
-
-export const loadProfileAPI = (id?: string | string[]) => {
-  return axios.get(`/user/profile/${id}`).then((response) => response.data);
-};
 
 export const loadLoginedUserAPI = () => {
   return axios.get(`/user`).then((response) => response.data);
@@ -34,9 +26,9 @@ export const loadLoginedUserAPI = () => {
 export const loadRankedFriendsAPI = () => {
   return axios
     .get(`/users/rankedFriends`)
-    .then(({ data }: { data: FetchRankedFriends }) => {
+    .then(({ data }: { data: RankedFriendsAPI }) => {
       const idGroup = groupBy(data.matching, 'id');
-      const matching: Matching[] = [];
+      const matching: MatchingAPI[] = [];
       forIn(idGroup, (value) => {
         if (value.length > 1) {
           const req = {
@@ -74,54 +66,9 @@ export const loadRecommendFriendsAPI = (location: Location) => {
     .then((response) => response.data);
 };
 
-export const loadLikedListAPI = (userId: string) => {
-  return axios.get(`/user/like${userId}`).then((response) => response.data);
-};
-
 export const loadSignupGymsAPI = (searchWord?: string) => {
   return axios
     .get(`/gyms?searchWord=${encodeURIComponent(searchWord ?? '')}`)
-    .then((response) => response.data);
-};
-
-export const loadGymsAPI = ({
-  lastId,
-  searchWord,
-}: {
-  lastId?: number;
-  searchWord?: string;
-}) => {
-  return axios
-    .get(
-      `/gyms?lastId=${lastId ?? 0}&searchWord=${encodeURIComponent(
-        searchWord ?? ''
-      )}`
-    )
-    .then((response) => response.data);
-};
-
-export const loadMapAPI = ({
-  lastId,
-  searchWord,
-  mapBounds,
-}: {
-  lastId?: number;
-  searchWord?: string;
-  mapBounds: {
-    swLon: string;
-    swLat: string;
-    neLon: string;
-    neLat: string;
-  };
-}) => {
-  if (!mapBounds) return;
-  const { swLon, swLat, neLon, neLat } = mapBounds;
-  return axios
-    .get(
-      `/gyms?lastId=${lastId ?? 0}&searchWord=${encodeURIComponent(
-        searchWord ?? ''
-      )}&swLon=${swLon}&swLat=${swLat}&neLon=${neLon}&neLat=${neLat}`
-    )
     .then((response) => response.data);
 };
 
@@ -178,10 +125,6 @@ export const logoutAPI = () => {
 
 export const addLikeAPI = (data: number) => {
   return axios.post(`/user/${data}/like`).then((response) => response.data);
-};
-
-export const addGymAPI = (data: Address) => {
-  return axios.post('/gym', data).then((response) => response.data);
 };
 
 export const updateMyinfoAPI = (data: SignupMoreInfo & SignupGymInfo) => {

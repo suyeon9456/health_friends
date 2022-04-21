@@ -2,12 +2,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useQuery } from 'react-query';
-import { CalendarEvents } from 'calendar';
-import { CalendarScheduleFetch } from '@/../@types/schedule';
+import { CalendarScheduleAPI, CalendarEvent } from '@/../@types/schedule';
 import { useSelector } from 'react-redux';
 import { profileSelector } from '@/../reducers/profile';
 import { loadCalendarScheduleAPI } from '@/api/schedule';
-import { formatDateTime } from '@/../utils/date';
+import { formatDateTime } from '@/../@utils/date';
 import useSelectRage from '@/hooks/useSelectRage';
 import { meSelector } from '@/../reducers/user';
 import { CalendarWrap, CardWrap } from './style';
@@ -22,9 +21,9 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
   const [nickname, setNickname] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [date, setDate] = useState<string>('');
-  const [events, setEvents] = useState<CalendarEvents>([]);
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
 
-  const { data: apiEvents } = useQuery<CalendarScheduleFetch[]>(
+  const { data: apiEvents } = useQuery<CalendarScheduleAPI[]>(
     ['calendar', range],
     () =>
       loadCalendarScheduleAPI({
@@ -57,9 +56,9 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
       setEvents(
         apiEvents?.map((schedule) => {
           const eventNickname =
-            schedule?.Receiver?.id === me?.id
-              ? schedule?.Requester?.nickname
-              : schedule?.Receiver?.nickname;
+            schedule.Receiver?.id === me?.id
+              ? schedule.Requester.nickname
+              : schedule.Receiver.nickname;
           return {
             ...schedule,
             start: new Date(schedule.startDate),

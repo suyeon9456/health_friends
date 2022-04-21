@@ -6,7 +6,7 @@ import { profileSelector } from '@/../reducers/profile';
 import { useMutation, useQueryClient } from 'react-query';
 import { SignupGymInfo, SignupMoreInfo } from '@/../@types/user';
 import { updateFriendsInfoAPI, updateMyinfoAPI } from '@/api/user';
-import { createTimeToDateTime, formatTime } from '@/../utils/date';
+import { createTimeToDateTime, formatTime } from '@/../@utils/date';
 import { Modal } from '../../../molecules';
 import EditInfoForm from '../EditInfoForm';
 

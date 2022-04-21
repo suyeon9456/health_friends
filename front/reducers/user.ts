@@ -1,6 +1,6 @@
 import { createDraftSafeSelector, createSlice } from '@reduxjs/toolkit';
 import * as _ from 'lodash';
-import { UserInitialState } from '../@types/reducer/state';
+import { UserInitialState } from '../@types/state';
 import { SignupMenu } from '../@types/utils';
 import { RootState } from '../store/configureStore';
 
@@ -39,7 +39,10 @@ const userSlice = createSlice({
     selectGym(state, action) {
       state.selectedGym = action.payload;
     },
-    loadMe(state, action) {},
+    loadMe(state, action) {
+      console.log(action);
+      state.me = action.payload;
+    },
     changeNickname(state, action) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       state.me!.nickname = action.payload;

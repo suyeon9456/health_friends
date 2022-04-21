@@ -1,4 +1,4 @@
-import { UpdateCancellationProps } from '@/../@types/action';
+import { UpdateCancelAPI } from '@/../@types/schedule';
 import { Me } from '@/../@types/user';
 import {
   ButtonTypeT,
@@ -62,7 +62,7 @@ export const matchingActions = (
   );
 
   const updateCancelMutation = useMutation(
-    (data: UpdateCancellationProps) => updateCancelAPI(data),
+    (data: UpdateCancelAPI) => updateCancelAPI(data),
     {
       onSuccess: () => onCancel(),
     }

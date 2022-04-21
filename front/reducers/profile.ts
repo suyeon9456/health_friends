@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { createDraftSafeSelector, createSlice } from '@reduxjs/toolkit';
-import { ProfileInitialState } from '../@types/reducer/state';
+import { ProfileInitialState } from '../@types/state';
 import { RootState } from '../store/configureStore';
 
 const initialState: ProfileInitialState = {

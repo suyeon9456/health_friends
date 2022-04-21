@@ -10,8 +10,9 @@ import {
 } from '@/../@types/utils';
 
 import { useQuery } from 'react-query';
-import { loadLoginedUserAPI, loadProfileAPI } from '@/api/user';
-import { meKey, profileByIdKey } from '@/../@types/queryKey';
+import { loadLoginedUserAPI } from '@/api/user';
+import { loadProfileAPI } from '@/api/profile';
+import { meKey, profileByIdKey } from '@/../@utils/queryKey';
 import { useModalDispatch } from '@/../store/modalStore';
 import { Me } from '@/../@types/user';
 import { loadMe } from '@/../reducers/user';
@@ -38,7 +39,7 @@ const Profile = () => {
   const _ = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
-    onSuccess: (data) => loadMe(data),
+    onSuccess: (data) => dispatch(loadMe(data)),
   });
 
   useQuery(profileByIdKey(id), () => loadProfileAPI(id), {

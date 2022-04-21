@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 
 import { SearchGymTabs } from '@/../@types/utils';
 import { useMutation } from 'react-query';
-import { addGymAPI } from '@/api/user';
-import { Address, CreateGymForm, CreateGymProps } from '@/../@types/gym';
+import { addGymAPI } from '@/api/gym';
+import { AddressAPIProps, CreateGymForm, ModalGymProps } from '@/../@types/gym';
 import { selectGym } from '@/../reducers/user';
 import { Modal, Tabs } from '../../../molecules';
 import ModalSearchGym from '../../ModalSearchGym';
@@ -18,7 +18,7 @@ const ModalGym = ({
   setShowModal,
   setGym,
   ...props
-}: CreateGymProps) => {
+}: ModalGymProps) => {
   const dispatch = useDispatch();
 
   const { handleSubmit, control, setValue } = useForm<CreateGymForm>({
@@ -34,7 +34,7 @@ const ModalGym = ({
 
   const [selectedTab, setSelectedTab] = useState('search');
 
-  const gymMutation = useMutation((data: Address) => addGymAPI(data), {
+  const gymMutation = useMutation((data: AddressAPIProps) => addGymAPI(data), {
     onSuccess: (gym) => {
       dispatch(selectGym({ id: gym.id, name: gym.name }));
     },

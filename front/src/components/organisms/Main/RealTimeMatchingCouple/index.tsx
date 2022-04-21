@@ -5,9 +5,9 @@ import { useQuery } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
 
 import { BiGroup, BiMap } from 'react-icons/bi';
-import { RealtimeMatching } from '@/../@types/fetchData';
 import { loadRealTimeMatchingAPI } from '@/api/user';
 import { ButtonType, SizeType } from '@/../@types/utils';
+import { RealtimeMatchingAPI } from '@/../@types/user';
 import { Avatar, Button, Icon, NoDataIcon } from '../../../atoms';
 import {
   AvatarWrap,
@@ -30,7 +30,7 @@ const RealTimeMatchingCouple = () => {
     isLoading,
     error,
     data: realtimeMatching,
-  } = useQuery<RealtimeMatching[] | undefined, AxiosError>(
+  } = useQuery<RealtimeMatchingAPI[] | undefined, AxiosError>(
     'realtimeMatching',
     () => loadRealTimeMatchingAPI(),
     { cacheTime: 2 * 60 * 1000 }

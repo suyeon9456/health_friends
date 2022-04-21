@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-import { Input, Search } from '@/components/atoms';
+import { Search } from '@/components/atoms';
 import { useInput } from '@/hooks';
-import { KeywordPlace } from 'map';
+import { KeywordPlace } from '@/../@types/map';
 import React, {
   Dispatch,
   SetStateAction,

@@ -1,32 +1,34 @@
 import React, { createContext, useContext } from 'react';
 import { GlobalModalType, ModalStatusType } from '../@types/utils';
 
-export type Initial = {
+export interface Initial {
   id?: string;
   type?: GlobalModalType;
   statusType?: ModalStatusType;
   message?: any;
   block?: boolean;
-  callback?: () => void
+  callback?: () => void;
 }
 
 // state type
-export type InitialState = {
+export interface InitialState {
   basic: Initial[];
-  custom: {
+  custom: Array<{
     id?: string;
-  }[];
-};
+  }>;
+}
 
 type Action =
-  | { type: 'SHOW_MODAL';
+  | {
+      type: 'SHOW_MODAL';
       payload: {
         type: GlobalModalType;
         statusType: ModalStatusType;
         message: any;
         block?: boolean;
         callback?: () => void;
-    } }
+      };
+    }
   | { type: 'HIDDEN_MODAL'; payload: string }
   | { type: 'SHOW_CUSTOM_MODAL'; payload: string }
   | { type: 'HIDDEN_CUSTOM_MODAL'; payload: string };
@@ -37,18 +39,22 @@ export const initialState: InitialState = {
 };
 
 export const UseModalStateContext = createContext<InitialState | null>(null);
-export const UseModalDispatchContext = createContext<React.Dispatch<Action> | null>(null);
+export const UseModalDispatchContext =
+  createContext<React.Dispatch<Action> | null>(null);
 
 export const modalReducer = (state = initialState, action: Action) => {
   switch (action.type) {
     case 'SHOW_MODAL':
       return {
         ...state,
-        basic: [...state.basic,
+        basic: [
+          ...state.basic,
           {
             ...action.payload,
-            id: `${action.payload}_${Date.now()}`
-          }]
+            // eslint-disable-next-line @typescript-eslint/no-base-to-string
+            id: `${action.payload}_${Date.now()}`,
+          },
+        ],
       };
     case 'HIDDEN_MODAL':
       return {
@@ -58,10 +64,12 @@ export const modalReducer = (state = initialState, action: Action) => {
     case 'SHOW_CUSTOM_MODAL':
       return {
         ...state,
-        custom: [...state.custom,
+        custom: [
+          ...state.custom,
           {
-            id: action.payload
-          }]
+            id: action.payload,
+          },
+        ],
       };
     case 'HIDDEN_CUSTOM_MODAL':
       return {

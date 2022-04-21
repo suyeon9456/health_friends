@@ -6,11 +6,11 @@ import Slider from 'react-slick';
 import isEmpty from 'lodash/isEmpty';
 
 import { BiCurrentLocation } from 'react-icons/bi';
-import { FetchRecommendData } from '@/../@types/fetchData';
-import { Location } from 'map';
+import { Location } from '@/../@types/map';
 import { useModalDispatch } from '@/../store/modalStore';
 import { GlobalModal, ModalStatus } from '@/../@types/utils';
 import { loadRecommendFriendsAPI } from '@/api/user';
+import { RecommendFriendsAPI } from '@/../@types/user';
 import {
   FriendsWrap,
   FriendsTitle,
@@ -81,7 +81,7 @@ const RecommendFriends = () => {
     error,
     data: recommendData,
     isLoading,
-  } = useQuery<FetchRecommendData | undefined, AxiosError>(
+  } = useQuery<RecommendFriendsAPI | undefined, AxiosError>(
     ['recommendFriends', location],
     () => {
       if (!location) {

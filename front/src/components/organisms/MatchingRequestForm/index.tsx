@@ -3,8 +3,8 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { Me } from '@/../@types/user';
 import { loadLoginedUserAPI } from '@/api/user';
-import { meKey } from '@/../@types/queryKey';
-import { ReqMatchingFormProps } from '@/../@types/schedule';
+import { meKey } from '@/../@utils/queryKey';
+import { MatchingReqFormProps } from '@/../@types/schedule';
 import {
   MatchingInfoWrap,
   InfoContent,
@@ -20,7 +20,7 @@ const MatchingRequestForm = ({
   friend,
   control,
   errors,
-}: ReqMatchingFormProps) => {
+}: MatchingReqFormProps) => {
   const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
     retry: false,

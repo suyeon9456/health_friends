@@ -40,30 +40,20 @@ export interface Me extends User {
   Image: Image;
 }
 
-export interface Profile extends User {
-  Userdetail: Userdetail;
+export interface Profile extends Me {
   Gyms: Gym;
   Schedule: Schedule;
-  Image: Image;
   Liked: number[];
 }
 
-export interface Friends extends User {
-  Image: Image | null;
-  Gyms?: Gym[];
-  Userdetail?: Userdetail;
-  UserGym?: { GymId?: number };
-}
-
-export interface GymUsers extends User {
+export interface SelectedGymUser extends Me {
   totalCount: number;
   rematchCount: number;
-  Image: { src: string };
-  Userdetail?: Userdetail;
   Liker: Array<{ id: number }>;
 }
 
 export interface UserGym extends User {
+  Gyms: Gym;
   Image: Image;
   UserGym: {
     createdAt: string;
@@ -124,20 +114,19 @@ export interface SignupData {
   signupFriendsInfo: SignupFriendsInfo;
 }
 
-export type FriendsList = Friends[];
-
-interface EditInfoFormType extends FieldValues {
-  startTime: Date;
-  endTime: Date;
-  gender: string;
-  age: number;
-  career: number;
-  role: number;
-}
-
 export interface EditProfileProps {
   targetId: string;
-  control: Control<EditInfoFormType, object>;
+  control: Control<
+    {
+      startTime: Date;
+      endTime: Date;
+      gender: string;
+      age: number;
+      career: number;
+      role: number;
+    },
+    object
+  >;
 }
 
 export interface SearchFriendsProps {
@@ -161,4 +150,33 @@ export interface SignupMutationSteps {
   moreInfo: SignupMoreInfo;
   gymInfo: SignupGymInfo;
   friendsInfo: SignupFriendsInfo;
+}
+
+export interface RecommendFriendsAPI {
+  fullFriends: UserGym[];
+  closedFriends: UserGym[];
+}
+
+export interface RankedFriendsAPI {
+  matching: Mathcing[];
+  rematching: Rematching[];
+}
+
+export interface LikedFriendAPI extends User {
+  Image: Image;
+}
+
+export interface RealtimeMatchingAPI extends User {
+  reqSchedule: Array<{
+    id: number;
+    UserId: number;
+    Receiver: {
+      nickname: string;
+      Image: Image;
+    };
+    Gym: { id: number; name: string; address: string };
+  }>;
+  Image: Image;
+  Gyms?: Array<{ id: number; name: string }>;
+  Friend?: Array<{ id: number; nickname: string; Image: Image[] }>;
 }

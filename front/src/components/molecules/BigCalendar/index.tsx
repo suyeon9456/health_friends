@@ -8,7 +8,7 @@ import {
 import { format, parse, startOfWeek, getDay, compareAsc } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
-import { CalendarEvents } from 'calendar';
+import { CalendarEvent } from '@/../@types/schedule';
 import BigCalendarToolbar from '../BigCalendarToolbar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
@@ -69,7 +69,7 @@ const BigCalendar = ({
   onSelectEvent,
   onRangeChange,
 }: {
-  events?: CalendarEvents;
+  events?: CalendarEvent[];
   onSelectEvent: (event: {
     nickname: string;
     address: string;
