@@ -29,7 +29,7 @@ const ModalMatchingRequest = ({
   setShowModal,
   friend,
   gymName,
-}: ReqMatchingProps) => {
+}: ReqMatchingProps): React.ReactElement => {
   const { gym } = useSelector(gymSelector);
   const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
