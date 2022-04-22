@@ -25,7 +25,7 @@ export const loadLoginedUserAPI = () => {
 
 export const loadRankedFriendsAPI = () => {
   return axios
-    .get(`/users/rankedFriends`)
+    .get(`/users/ranked`)
     .then(({ data }: { data: RankedFriendsAPI }) => {
       const idGroup = groupBy(data.matching, 'id');
       const matching: MatchingAPI[] = [];
@@ -53,7 +53,7 @@ export const loadRankedFriendsAPI = () => {
 };
 
 export const loadRealTimeMatchingAPI = () => {
-  return axios.get('/users/realtimeMathcing').then((response) => response.data);
+  return axios.get('/schedules/realtime').then((response) => response.data);
 };
 
 export const loadRecommendFriendsAPI = (location: Location) => {
@@ -61,7 +61,7 @@ export const loadRecommendFriendsAPI = (location: Location) => {
     location;
   return axios
     .get(
-      `/users/recommendFriends?si=${regionSiName}&gu=${regionGuName}&dong=${regionDongName}&mainAddressNo=${mainAddressNo}`
+      `/users/recommend?si=${regionSiName}&gu=${regionGuName}&dong=${regionDongName}&mainAddressNo=${mainAddressNo}`
     )
     .then((response) => response.data);
 };

@@ -1,13 +1,14 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { BiEdit } from 'react-icons/bi';
 
 import { profileSelector } from '@/../reducers/profile';
-import { ButtonType, SizeType } from '@/../@types/utils';
+import { meSelector } from '@/../reducers/user';
+import useInput from '@/hooks/useInput';
 import { updateDescriptionAPI, updateNicknameAPI } from '@/api/user';
 import { meKey, profileKey } from '@/../@utils/queryKey';
-import { meSelector } from '@/../reducers/user';
+import { ButtonType, SizeType } from '@/../@types/utils';
 import { Button, Icon, Input } from '../../../atoms';
 import {
   ContentText,
@@ -19,7 +20,6 @@ import {
   InfoHeader,
   InfoWrapper,
 } from './style';
-import useInput from '../../../../hooks/useInput';
 
 const Info = () => {
   const queryClient = useQueryClient();

@@ -16,19 +16,30 @@ export const Card = styled.div`
   position: relative;
   background: #fff;
   border-radius: 8px;
+  overflow: hidden;
 
   &:hover {
     box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014,
       0 9px 28px 8px #0000000d;
     border-color: transparent;
+    & .box {
+      display: block;
+    }
+
+    & img {
+      transform: scale(1.2);
+    }
   }
 `;
 
 export const CardCover = styled.div`
+  position: relative;
+  /* border-radius: 8px; */
   margin-top: -1px;
   margin-right: -1px;
   margin-left: -1px;
   height: 180px;
+  overflow: hidden;
 
   & > * {
     display: block;
@@ -50,6 +61,15 @@ export const CardCover = styled.div`
     vertical-align: middle;
     text-align: center;
     font-size: 90px;
+  }
+
+  & .box {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-color: #cccccc7a;
   }
 `;
 

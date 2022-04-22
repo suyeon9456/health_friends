@@ -3,11 +3,11 @@ import Link from 'next/link';
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
-
 import { BiGroup, BiMap } from 'react-icons/bi';
+
 import { loadRealTimeMatchingAPI } from '@/api/user';
 import { ButtonType, SizeType } from '@/../@types/utils';
-import { RealtimeMatchingAPI } from '@/../@types/user';
+import { RealtimeAPI } from '@/../@types/schedule';
 import { Avatar, Button, Icon, NoDataIcon } from '../../../atoms';
 import {
   AvatarWrap,
@@ -29,8 +29,8 @@ const RealTimeMatchingCouple = () => {
   const {
     isLoading,
     error,
-    data: realtimeMatching,
-  } = useQuery<RealtimeMatchingAPI[] | undefined, AxiosError>(
+    data: matchings,
+  } = useQuery<RealtimeAPI[] | undefined, AxiosError>(
     'realtimeMatching',
     () => loadRealTimeMatchingAPI(),
     { cacheTime: 2 * 60 * 1000 }
@@ -44,42 +44,39 @@ const RealTimeMatchingCouple = () => {
       </MatchingCoupleHeader>
       <MatchingCoupleBody>
         <CoupleCardList>
-          {!isEmpty(realtimeMatching) && !error && !isLoading
-            ? realtimeMatching?.map((matching) => {
-                const reqImageSrc = matching?.Image?.src;
-                const reqAvatarSrc = reqImageSrc ?? '';
-                const resImageSrc =
-                  matching?.reqSchedule[0]?.Receiver?.Image?.src;
-                const resAvatarSrc = resImageSrc ?? '';
+          {!isEmpty(matchings) && !error && !isLoading
+            ? matchings?.map((matching) => {
                 return (
                   <CoupleCard key={matching.id}>
                     <MatchingIcon>
                       <div>
                         <Icon icon={<BiMap />} />
-                        <span className="gym-name">
-                          {matching.reqSchedule[0].Gym.name}
-                        </span>
+                        <span className="gym-name">{matching.Gym.name}</span>
                       </div>
                       <div className="gym-address">
-                        {matching.reqSchedule[0].Gym.address}
+                        {`${matching.Gym.address}(${matching.Gym.addressRoad})`}
                       </div>
                     </MatchingIcon>
                     <div className="avatar-wrap">
-                      <Link href={`/profile/${matching.id}`} key="req">
-                        <AvatarWrap>
-                          <Avatar size={62} src={reqAvatarSrc} />
-                          <div>{matching.nickname}</div>
-                        </AvatarWrap>
-                      </Link>
                       <Link
-                        href={`/profile/${matching.reqSchedule[0].id}`}
-                        key="res"
+                        href={`/profile/${matching.Requester.id}`}
+                        key="req"
                       >
                         <AvatarWrap>
-                          <Avatar size={62} src={resAvatarSrc} />
-                          <div>
-                            {matching.reqSchedule[0]?.Receiver?.nickname}
-                          </div>
+                          <Avatar
+                            size={62}
+                            src={matching.Requester.Image?.src ?? ''}
+                          />
+                          <div>{matching.Requester.nickname}</div>
+                        </AvatarWrap>
+                      </Link>
+                      <Link href={`/profile/${matching.Receiver.id}`} key="res">
+                        <AvatarWrap>
+                          <Avatar
+                            size={62}
+                            src={matching.Receiver.Image?.src ?? ''}
+                          />
+                          <div>{matching.Receiver.nickname}</div>
                         </AvatarWrap>
                       </Link>
                     </div>
@@ -110,7 +107,7 @@ const RealTimeMatchingCouple = () => {
                   </div>
                 </CoupleCard>
               ))}
-          {(isEmpty(realtimeMatching) || error) && (
+          {(isEmpty(matchings) || error) && (
             <NoDataContainer>
               <NoDataContent>
                 <NoDataIcon width={60} height={60} color="#00000040" />

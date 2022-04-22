@@ -2,11 +2,11 @@ import React, { useState, useCallback } from 'react';
 
 import { ButtonType } from '@/../@types/utils';
 import { ModalCreateGymProps } from '@/../@types/gym';
-import { CreateFormWrap, FormSearchPostcode } from './style';
-import { Button } from '../../atoms';
 import { FormInput } from '../../molecules';
+import { Button } from '../../atoms';
 import KakaoPostcode from '../KakaoPostcode';
 import ModalPortal from '../ModalPortal';
+import { CreateFormWrap, FormSearchPostcode } from './style';
 
 const ModalCreateGym = ({ control, setValue }: ModalCreateGymProps) => {
   const [showPostcode, setShowPostcode] = useState(false);

@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
+import { useMutation } from 'react-query';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -19,7 +20,6 @@ import {
   SignupMenu,
   SizeType,
 } from '@/../@types/utils';
-import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
 import { SignupSteps, SignupMutationSteps } from '@/../@types/user';
 import { useModalDispatch } from '@/../store/modalStore';

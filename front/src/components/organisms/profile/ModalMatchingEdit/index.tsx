@@ -1,18 +1,17 @@
 import React, { useCallback, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { ModalType, ShowModalType } from '@/../@types/utils';
-import { useMutation, useQuery } from 'react-query';
-import { Me } from '@/../@types/user';
-import { loadLoginedUserAPI } from '@/api/user';
-import { meKey } from '@/../@utils/queryKey';
-import { Schedule } from '@/../@types/schedule';
+import { meSelector } from '@/../reducers/user';
 import { addReScheduleAPI, updateScheduleAPI } from '@/api/schedule';
 import { createEndDate, formatDateTime } from '@/../@utils/date';
-import MatchingRequestForm from '../../MatchingRequestForm';
+import { ModalType, ShowModalType } from '@/../@types/utils';
+import { Schedule } from '@/../@types/schedule';
 import { Modal } from '../../../molecules';
+import MatchingRequestForm from '../../MatchingRequestForm';
 
 const schema = yup
   .object({
@@ -31,10 +30,7 @@ const ModalMatchingEdit = ({
   onCancel: () => void;
   mode: ShowModalType;
 }) => {
-  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
-    refetchOnWindowFocus: false,
-    retry: false,
-  });
+  const me = useSelector(meSelector);
 
   const {
     handleSubmit,
@@ -45,7 +41,7 @@ const ModalMatchingEdit = ({
     defaultValues: {
       startDate: new Date(),
       endDate: new Date(),
-      gym: `${schedule?.Gym?.address} ${schedule?.Gym?.name}` || '',
+      gym: `${schedule.Gym.address} ${schedule.Gym.name}` || '',
       description: '',
     },
     resolver: yupResolver(schema),

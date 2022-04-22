@@ -165,18 +165,3 @@ export interface RankedFriendsAPI {
 export interface LikedFriendAPI extends User {
   Image: Image;
 }
-
-export interface RealtimeMatchingAPI extends User {
-  reqSchedule: Array<{
-    id: number;
-    UserId: number;
-    Receiver: {
-      nickname: string;
-      Image: Image;
-    };
-    Gym: { id: number; name: string; address: string };
-  }>;
-  Image: Image;
-  Gyms?: Array<{ id: number; name: string }>;
-  Friend?: Array<{ id: number; nickname: string; Image: Image[] }>;
-}

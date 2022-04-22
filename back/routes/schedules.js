@@ -70,8 +70,8 @@ router.get('/', async (req, res, next) => { // GET /schedules/
 
     const schedules = await Schedule.findAll({
       where,
-      limit: listSize,
-      offset: parseInt(req.query.limit, 10),
+      limit: parseInt(req.query.limit, 10) + listSize,
+      // offset: parseInt(req.query.limit, 10),
       attributes: [
         'id',
         'description',
@@ -170,6 +170,61 @@ router.get('/calendar', async (req, res, next) => { // GET /schedules/calendar
     });
 
     res.status(201).json(schedules);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.get('/realtime', async (req, res, next) => { // GET /schedules/realtime
+  try {
+    const now = new Date();
+    const matching = await Schedule.findAll({
+      where: {
+        [Op.and]: [{
+          startDate: {[Op.lte]: now},
+        }, {
+          endDate: {[Op.gte]: now},
+        }, {
+          isPermitted: true,
+        }, {
+          permission: true,
+        }],
+        '$Cancel.isCanceled$': { [Op.ne]: null },
+      },
+      attributes: ['id'],
+      include: [{
+        model: User,
+        as: 'Requester',
+        attributes: [
+          'id',
+          'nickname'
+        ],
+        include: [{
+          model: Image,
+          attributes: ['id', 'src']
+        }],
+      }, {
+        model: User,
+        as: 'Receiver',
+        attributes: [
+          'id',
+          'nickname'
+        ],
+        include: [{
+          model: Image,
+          attributes: ['id', 'src']
+        }],
+      }, {
+        model: Gym,
+        attributes: ['address', 'addressRoad', 'name'],
+      }, {
+        model: ScheduleDetail,
+        as: 'Cancel',
+      }],
+    });
+
+    res.status(200).json(matching);
   } catch (error) {
     console.error(error);
     next(error);

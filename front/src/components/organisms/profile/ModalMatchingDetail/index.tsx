@@ -2,14 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { compareAsc } from 'date-fns';
 
-import { MatchingCardProps } from '@/../@types/schedule';
-import { useQuery } from 'react-query';
-import { Me } from '@/../@types/user';
 import { profileSelector } from '@/../reducers/profile';
-import { loadLoginedUserAPI } from '@/api/user';
-import { meKey } from '@/../@utils/queryKey';
+import { meSelector } from '@/../reducers/user';
+import { useDateFormat } from '@/hooks';
 import { matchingActions } from '@/hooks/useMatchingActions';
-import { useDateFormat } from '../../../../hooks';
+import { MatchingCardProps } from '@/../@types/schedule';
 import { Modal } from '../../../molecules';
 import { Avatar } from '../../../atoms';
 import {
@@ -26,11 +23,8 @@ const ModalMatchingDetail = ({
   schedule?: MatchingCardProps | null;
   onCancel: () => void;
 }) => {
+  const me = useSelector(meSelector);
   const { profile } = useSelector(profileSelector);
-  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
-    refetchOnWindowFocus: false,
-    retry: false,
-  });
 
   return (
     <Modal
@@ -47,10 +41,7 @@ const ModalMatchingDetail = ({
             ? compareAsc(schedule?.start, new Date()) < 0
             : true,
           Requester: { id: schedule?.Requester.id },
-          Cancel: {
-            id: schedule?.Cancel?.id,
-            RequestId: schedule?.Cancel?.RequestId,
-          },
+          Cancel: schedule?.Cancel,
         },
         profile.id,
         me
@@ -77,7 +68,8 @@ const ModalMatchingDetail = ({
             ~ {useDateFormat(schedule?.end ?? new Date(), 'HH:mm')}
           </div>
           <div>
-            {schedule?.Gym?.address} {schedule?.Gym?.name}
+            {schedule?.Gym?.addressRoad}({schedule?.Gym?.address}){' '}
+            {schedule?.Gym?.name}
           </div>
         </MatchingInfoWrap>
         <DescriptionWrap>

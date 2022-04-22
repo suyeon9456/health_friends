@@ -4,8 +4,8 @@ import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
 
-import { MatchingAPI, RematchingAPI } from '@/../@types/schedule';
 import { loadRankedFriendsAPI } from '@/api/user';
+import { MatchingAPI, RematchingAPI } from '@/../@types/schedule';
 import {
   RankItem,
   RankTitle,
@@ -24,7 +24,7 @@ const RankedFriends = () => {
   const {
     isLoading,
     error,
-    data: rankedFriends,
+    data: ranking,
   } = useQuery<
     { rematching: RematchingAPI[]; matching: MatchingAPI[] } | undefined,
     AxiosError
@@ -40,16 +40,16 @@ const RankedFriends = () => {
           <RankCardWrap>
             <RankTitle>재매칭 순위 TOP 5</RankTitle>
             <RankCard>
-              {!isEmpty(rankedFriends?.rematching) && !error && !isLoading
-                ? rankedFriends?.rematching?.map((friend, index: number) => {
-                    const friendId = friend.id;
-                    const profileUrl = ['/profile/', friendId].join('');
+              {!isEmpty(ranking?.rematching) && !error && !isLoading
+                ? Array.from({ length: 5 }, (_, i) => i).map((_, i) => {
+                    const user = ranking?.rematching[i];
+                    const profileUrl = ['/profile/', user?.id ?? ''].join('');
                     return (
-                      <Link href={profileUrl} key={friend.id}>
-                        <RankItemWrap>
+                      <Link href={profileUrl} key={user?.id ?? i}>
+                        <RankItemWrap key={user?.id ?? i}>
                           <RankItem>
-                            <span>{index + 1}.</span>
-                            <div>{friend ? friend.nickname : '없음'}</div>
+                            <span>{i + 1}.</span>
+                            <div>{user?.nickname ?? '없음'}</div>
                           </RankItem>
                         </RankItemWrap>
                       </Link>
@@ -69,23 +69,21 @@ const RankedFriends = () => {
           <RankCardWrap>
             <RankTitle>매칭 순위 TOP 5</RankTitle>
             <RankCard>
-              {!isEmpty(rankedFriends?.matching) && !error && !isLoading
-                ? rankedFriends?.matching?.map(
-                    (friend: MatchingAPI, index: number) => {
-                      const friendId = friend.id;
-                      const profileUrl = ['/profile/', friendId].join('');
-                      return (
-                        <Link href={profileUrl} key={friend.id}>
-                          <RankItemWrap key={friend.id}>
-                            <RankItem>
-                              <span>{index + 1}.</span>
-                              <div>{friend ? friend.nickname : '없음'}</div>
-                            </RankItem>
-                          </RankItemWrap>
-                        </Link>
-                      );
-                    }
-                  )
+              {!isEmpty(ranking?.matching) && !error && !isLoading
+                ? Array.from({ length: 5 }, (_, i) => i).map((_, i) => {
+                    const user = ranking?.matching[i];
+                    const profileUrl = ['/profile/', user?.id ?? ''].join('');
+                    return (
+                      <Link href={profileUrl} key={user?.id ?? i}>
+                        <RankItemWrap key={user?.id ?? i}>
+                          <RankItem>
+                            <span>{i + 1}.</span>
+                            <div>{user?.nickname ?? '없음'}</div>
+                          </RankItem>
+                        </RankItemWrap>
+                      </Link>
+                    );
+                  })
                 : Array.from({ length: 5 }, (_, i) => i).map((_, i) => (
                     // eslint-disable-next-line react/no-array-index-key
                     <LoadingRankWrap key={`${i}rank`}>

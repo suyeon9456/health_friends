@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
-
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useQuery } from 'react-query';
-import { CalendarScheduleAPI, CalendarEvent } from '@/../@types/schedule';
 import { useSelector } from 'react-redux';
+import { useQuery } from 'react-query';
+
 import { profileSelector } from '@/../reducers/profile';
+import { meSelector } from '@/../reducers/user';
+import useSelectRage from '@/hooks/useSelectRage';
 import { loadCalendarScheduleAPI } from '@/api/schedule';
 import { formatDateTime } from '@/../@utils/date';
-import useSelectRage from '@/hooks/useSelectRage';
-import { meSelector } from '@/../reducers/user';
-import { CalendarWrap, CardWrap } from './style';
+import { CalendarScheduleAPI, CalendarEvent } from '@/../@types/schedule';
 import { BigCalendar, SimpleMatchingCard } from '../../../molecules';
+import { CalendarWrap, CardWrap } from './style';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
   const { profile } = useSelector(profileSelector);

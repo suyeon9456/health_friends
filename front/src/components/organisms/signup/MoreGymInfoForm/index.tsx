@@ -8,17 +8,17 @@ import {
   signupStepNext,
   signupStepPrev,
 } from '@/../reducers/user';
-import { ButtonType, SignupMenu, SizeType } from '@/../@types/utils';
 import { formatTime } from '@/../@utils/date';
-import { Button, Form } from '../../../atoms';
+import { ButtonType, SignupMenu, SizeType } from '@/../@types/utils';
 import {
   FormInput,
   FormRangeTimePicker,
   FormTextarea,
 } from '../../../molecules';
+import { Button, Form } from '../../../atoms';
 import ModalGym from './ModalGym';
-import { ButtonWrap, FormSearchGymWrap, FormWrapper } from './style';
 import ModalPortal from '../../ModalPortal';
+import { ButtonWrap, FormSearchGymWrap, FormWrapper } from './style';
 
 const MoreGymInfoForm = () => {
   const dispatch = useDispatch();

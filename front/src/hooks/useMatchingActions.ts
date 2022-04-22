@@ -69,7 +69,6 @@ export const matchingActions = (
   );
 
   const onAccept = useCallback(() => {
-    if (!schedule) return;
     const { id } = schedule;
 
     if (!isPermitted) {
@@ -82,7 +81,6 @@ export const matchingActions = (
   }, [schedule]);
 
   const onRefuse = useCallback(() => {
-    if (!schedule) return;
     scheduleMutation.mutate({
       scheduleId: schedule.id,
       permission: false,
@@ -95,7 +93,6 @@ export const matchingActions = (
   }, [schedule]);
 
   const onCancelResponse = useCallback(() => {
-    if (!schedule) return;
     const { id, Cancel } = schedule;
 
     updateCancelMutation.mutate({
@@ -106,9 +103,12 @@ export const matchingActions = (
   }, [schedule]);
   if (!me) return [];
   if (profileId !== me.id) return [];
-  if (!isLast && !isPermitted && Requester?.id !== me?.id)
-    return detailActions(onRefuse, onAccept);
-  if (permission && !schedule?.Cancel) return reqCancelActions(onCancelRequest);
+  if (!isLast) {
+    if (!isPermitted && Requester?.id !== me?.id)
+      return detailActions(onRefuse, onAccept);
+    if (permission && !schedule?.Cancel)
+      return reqCancelActions(onCancelRequest);
+  }
   if (permission && schedule?.Cancel) {
     const { RequestId } = schedule?.Cancel;
     if (RequestId === me?.id) return waitCancelActions(onCancel);

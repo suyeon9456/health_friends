@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useMutation, useQueryClient } from 'react-query';
 import { useForm } from 'react-hook-form';
 
 import { profileSelector } from '@/../reducers/profile';
-import { useMutation, useQueryClient } from 'react-query';
-import { SignupGymInfo, SignupMoreInfo } from '@/../@types/user';
 import { updateFriendsInfoAPI, updateMyinfoAPI } from '@/api/user';
 import { createTimeToDateTime, formatTime } from '@/../@utils/date';
+import { SignupGymInfo, SignupMoreInfo } from '@/../@types/user';
 import { Modal } from '../../../molecules';
 import EditInfoForm from '../EditInfoForm';
 

@@ -1,30 +1,29 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
 import { compareAsc } from 'date-fns';
 import { BiEdit, BiPin, BiRepeat } from 'react-icons/bi';
 
 import { profileSelector } from '@/../reducers/profile';
+import { meSelector } from '@/../reducers/user';
+import useScheduleData from '@/hooks/useScheduleData';
+import { loadScheduleAPI } from '@/api/schedule';
 
-import { useQuery } from 'react-query';
-import { RecordSchedule, ScheduleAPI } from '@/../@types/schedule';
+import { rangeDate } from '@/../@utils/date';
+import { RecordSchedule, RecordScheduleAPI } from '@/../@types/schedule';
 import {
   loginedUserProfile,
   ModalType,
   ShowModalType,
 } from '@/../@types/utils';
 import { scheduleByIdKey } from '@/../@utils/queryKey';
-import { loadScheduleAPI } from '@/api/schedule';
-import useScheduleData from '@/hooks/useScheduleData';
-import { rangeDate } from '@/../@utils/date';
-import { meSelector } from '@/../reducers/user';
-import ModalMatchingDetail from '../profile/ModalMatchingDetail';
-import ModalMatchingEdit from '../profile/ModalMatchingEdit';
 import { LoadingMatchingCard, MatchingCard } from '../../molecules';
 import { Icon } from '../../atoms';
-import { MatchingCardListWrap } from './style';
-
+import ModalMatchingDetail from '../profile/ModalMatchingDetail';
+import ModalMatchingEdit from '../profile/ModalMatchingEdit';
 import ModalPortal from '../ModalPortal';
+import { MatchingCardListWrap } from './style';
 
 const MatchingCardList = ({
   schedules,
@@ -43,7 +42,7 @@ const MatchingCardList = ({
   const [modalType, setModalType] = useState<ShowModalType>(ModalType.VIEW);
   const [schedule, onChangeSchedule] = useScheduleData();
 
-  const _result = useQuery<ScheduleAPI>(
+  const _result = useQuery<RecordScheduleAPI>(
     scheduleByIdKey(matchingId, queryId, profile.id),
     () => loadScheduleAPI(matchingId, queryId, profile.id),
     {
@@ -84,8 +83,9 @@ const MatchingCardList = ({
     <>
       <MatchingCardListWrap>
         {schedules?.map((target) => {
-          const { start, end, Receiver, Requester } = target;
+          const { start, end, Receiver, Requester, Cancel } = target;
           const friend = profile.id === Receiver.id ? Requester : Receiver;
+          console.log(target);
           return (
             <MatchingCard
               key={target.id}
@@ -95,6 +95,7 @@ const MatchingCardList = ({
               image={friend.Image?.src ?? ''}
               date={rangeDate(start, end)}
               onClickView={onClickAction}
+              isCancel={!!Cancel && !Cancel?.isCanceled}
               actions={
                 me?.id === profile?.id
                   ? loginedUserProfile(

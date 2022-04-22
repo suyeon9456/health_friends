@@ -1,11 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
 import { BiDotsVerticalRounded, BiEdit, BiHeart, BiUser } from 'react-icons/bi';
 import { ImDrawer2 } from 'react-icons/im';
 
-import { useSelector } from 'react-redux';
 import { profileSelector } from '@/../reducers/profile';
 import { loadLikedListAPI } from '@/api/profile';
 import { LikedFriendAPI } from '@/../@types/user';

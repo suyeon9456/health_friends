@@ -1,20 +1,20 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useQuery } from 'react-query';
 
 import { selectGym } from '@/../reducers/user';
-import { useQuery } from 'react-query';
-import { signupGymsKey } from '@/../@utils/queryKey';
+import useInput from '@/hooks/useInput';
 import { loadSignupGymsAPI } from '@/api/user';
+import { signupGymsKey } from '@/../@utils/queryKey';
 import { Gym, ModalSearchGymProps } from '@/../@types/gym';
-import useInput from '../../../hooks/useInput';
 import { Search, Item } from '../../atoms';
 import { BoxContent, GymListWrap, ListCard } from './style';
 
 const ModalSearchGym = ({ setShowModal, setGym }: ModalSearchGymProps) => {
   const dispatch = useDispatch();
 
-  const [searchWord, onChangeSearchWord] = useInput<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchWord, onChangeSearchWord] = useInput<string>('');
 
   const { data: gyms } = useQuery<Gym[]>(
     signupGymsKey(searchQuery),

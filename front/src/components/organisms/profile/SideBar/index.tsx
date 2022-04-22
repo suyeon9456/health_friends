@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState, SetStateAction } from 'react';
 import { useSelector } from 'react-redux';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import {
   BiTrophy,
   BiCommentCheck,
@@ -10,20 +11,19 @@ import {
   BiHeart,
 } from 'react-icons/bi';
 
-import { profileSelector } from '@/../reducers/profile';
-import { ButtonType, Menu, ProfileMenuType } from '@/../@types/utils';
-import useRematchRate from '@/hooks/useRematchRate';
 import { useModalDispatch } from '@/../store/modalStore';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { Me } from '@/../@types/user';
-import { loadLoginedUserAPI } from '@/api/user';
-import { meKey, profileKey } from '@/../@utils/queryKey';
+import { profileSelector } from '@/../reducers/profile';
+import useRate from '@/hooks/useRate';
+import useRematchRate from '@/hooks/useRematchRate';
 import { addImageAPI, uploadImageAPI } from '@/api/profile';
+import { profileKey } from '@/../@utils/queryKey';
 import { originalToThumb } from '@/../@utils/regexp';
-import useRate from '../../../../hooks/useRate';
+import { ButtonType, Menu, ProfileMenuType } from '@/../@types/utils';
+import { meSelector } from '@/../reducers/user';
 import Progress from '../../../molecules/Progress';
-import ModalMatchingRequest from '../../ModalMatchingRequest';
 import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
+import ModalMatchingRequest from '../../ModalMatchingRequest';
+import ModalPortal from '../../ModalPortal';
 import {
   AvatarWrapper,
   InfoContent,
@@ -34,7 +34,6 @@ import {
   SideMenu,
   SideMenuWrap,
 } from './style';
-import ModalPortal from '../../ModalPortal';
 
 const SideBar = ({
   profileMenu,
@@ -43,9 +42,10 @@ const SideBar = ({
   profileMenu: ProfileMenuType;
   setProfileMenu: React.Dispatch<SetStateAction<ProfileMenuType>>;
 }) => {
-  const contextDispatch = useModalDispatch();
   const queryClient = useQueryClient();
+  const contextDispatch = useModalDispatch();
   const { profile } = useSelector(profileSelector);
+  const me = useSelector(meSelector);
   const [uploadState, setUploadState] = useState<boolean>(false);
   const [imgPath, setImgPath] = useState<string>('');
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -55,11 +55,6 @@ const SideBar = ({
       profile?.resSchedule?.filter(
         (f: { isPermitted: boolean }) => f.isPermitted
       ).length || 0,
-  });
-
-  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
-    refetchOnWindowFocus: false,
-    retry: false,
   });
 
   const uploadImage = useMutation((data: FormData) => uploadImageAPI(data), {
@@ -75,10 +70,7 @@ const SideBar = ({
   });
 
   const onClickMenu = useCallback(
-    (menu) => {
-      setProfileMenu(menu);
-      // void router.push(`?tab=${menu}`, undefined, { shallow: true });
-    },
+    (menu) => setProfileMenu(menu),
     [profileMenu]
   );
 

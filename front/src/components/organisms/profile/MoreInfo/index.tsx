@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { BiGroup, BiHeart, BiRun, BiTime, BiUser } from 'react-icons/bi';
 
 import { profileSelector } from '@/../reducers/profile';
+import { meSelector } from '@/../reducers/user';
 import {
   AgeOptions,
   ButtonType,
@@ -11,8 +12,9 @@ import {
   RoleOptions,
   SizeType,
 } from '@/../@types/utils';
-import { meSelector } from '@/../reducers/user';
 import { InformationItem, Button, Icon } from '../../../atoms';
+import ModalEditInfo from '../ModalEditInfo';
+import ModalPortal from '../../ModalPortal';
 import {
   Content,
   ContentTitle,
@@ -20,8 +22,6 @@ import {
   MoreInfoContent,
   MoreInfoWrapper,
 } from './style';
-import ModalEditInfo from '../ModalEditInfo';
-import ModalPortal from '../../ModalPortal';
 
 const MoreInfo = () => {
   const { profile } = useSelector(profileSelector);

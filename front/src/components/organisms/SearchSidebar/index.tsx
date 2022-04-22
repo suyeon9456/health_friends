@@ -1,12 +1,12 @@
 import React, { Dispatch, SetStateAction } from 'react';
+import { useQuery } from 'react-query';
 import { BiCollapse, BiExpand } from 'react-icons/bi';
 
-import { ButtonType, SizeType } from '@/../@types/utils';
-import { useQuery } from 'react-query';
-import { Me } from '@/../@types/user';
 import { loadLoginedUserAPI } from '@/api/user';
-import { Sidebar } from './style';
+import { ButtonType, SizeType } from '@/../@types/utils';
+import { Me } from '@/../@types/user';
 import { Avatar, Button, Icon } from '../../atoms';
+import { Sidebar } from './style';
 
 const SearchSidebar = ({
   foldedGym,

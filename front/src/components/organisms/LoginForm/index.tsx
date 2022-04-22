@@ -1,12 +1,13 @@
 import React, { useCallback } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useMutation } from 'react-query';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { FormInput } from '@/components/molecules';
-import { Button, Form } from '@/components/atoms';
 import { useModalDispatch } from '@/../store/modalStore';
+import { loginAPI } from '@/api/user';
 import {
   ButtonType,
   GlobalModal,
@@ -14,9 +15,9 @@ import {
   ModalStatus,
   SizeType,
 } from '@/../@types/utils';
-import { useRouter } from 'next/router';
-import { useMutation } from 'react-query';
-import { loginAPI } from '@/api/user';
+
+import { FormInput } from '@/components/molecules';
+import { Button, Form } from '@/components/atoms';
 import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
 
 const schema = yup

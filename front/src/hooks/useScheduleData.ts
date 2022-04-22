@@ -1,34 +1,19 @@
-import { MatchingCardProps, ScheduleAPI } from '@/../@types/schedule';
+import { MatchingCardProps, RecordScheduleAPI } from '@/../@types/schedule';
 import { Profile } from '@/../@types/user';
 import { useCallback, useState } from 'react';
 
 type ReturnTypes = [
   MatchingCardProps | null,
-  (data: ScheduleAPI, profile: Profile) => void
+  (data: RecordScheduleAPI, profile: Profile) => void
 ];
 
 const useScheduleData = (): ReturnTypes => {
   const [value, setValue] = useState<MatchingCardProps | null>(null);
-  const handler = useCallback((fetchSchedule: ScheduleAPI, profile) => {
-    const { schedule, userMatching, friendMatching } = fetchSchedule;
-    const userTotalCount = userMatching?.[0]?.matchingCount || 0;
-    const userReCount = userMatching?.[0]?.rematchingCount || 0;
-    const friendTotalCount = friendMatching?.[0]?.matchingCount || 0;
-    const friendReCount = friendMatching?.[0]?.rematchingCount || 0;
+  const handler = useCallback((schedule: RecordScheduleAPI, profile) => {
     setValue({
       ...schedule,
       start: new Date(schedule.startDate),
       end: new Date(schedule.endDate),
-      userMathcing: userMatching.map(
-        ({ FriendId }: { FriendId: number }) => FriendId
-      ),
-      userTotalCount,
-      userReCount,
-      friendMathcing: friendMatching.map(
-        ({ FriendId }: { FriendId: number }) => FriendId
-      ),
-      friendTotalCount,
-      friendReCount,
       Friend:
         schedule.Receiver.id === profile.id
           ? schedule.Requester

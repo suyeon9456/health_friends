@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { useQuery } from 'react-query';
 import { BiChevronLeft, BiChevronRight, BiGroup } from 'react-icons/bi';
 
 import { gymSelector, loadFriends, loadGyms } from '@/../reducers/gym';
-import { useQuery } from 'react-query';
+import useInput from '@/hooks/useInput';
 import { loadGymAndFriendsAPI } from '@/api/user';
 import { loadGymsAPI, loadMapAPI } from '@/api/gym';
 import { gymAndFriendsByIdKey, gymsKey, mapKey } from '@/../@utils/queryKey';
 import { Gym, SearchGymsProps } from '@/../@types/gym';
-import useInput from '../../../hooks/useInput';
 
-import { Search, Item, Icon } from '../../atoms';
+import { Search, Item, Icon } from '@/components/atoms';
 import SearchFriends from '../SearchFriends';
 import SearchSidebar from '../SearchSidebar';
 import {

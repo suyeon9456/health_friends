@@ -72,7 +72,7 @@ export interface RecordScheduleAPI {
     updatedAt: string;
   };
   Receiver: { id: number; nickname: string; Image: Image };
-  Gym: { id: number; address: string; name: string };
+  Gym: { id: number; address: string; name: string; addressRoad?: string };
   Requester: { id: number; nickname: string; Image: Image };
 }
 
@@ -102,12 +102,12 @@ export interface CalendarEvent extends CalendarScheduleAPI {
 export interface MatchingCardProps extends RecordScheduleAPI {
   start: Date;
   end: Date;
-  userMathcing: number[];
-  friendMathcing: number[];
-  userTotalCount: number;
-  userReCount: number;
-  friendTotalCount: number;
-  friendReCount: number;
+  // userMathcing: number[];
+  // friendMathcing: number[];
+  // userTotalCount: number;
+  // userReCount: number;
+  // friendTotalCount: number;
+  // friendReCount: number;
   Friend: {
     id: number;
     nickname: string;
@@ -116,19 +116,19 @@ export interface MatchingCardProps extends RecordScheduleAPI {
   lastYn?: number;
 }
 
-export interface ScheduleAPI {
-  schedule: RecordScheduleAPI;
-  userMatching: Array<{
-    FriendId: number;
-    matchingCount: number;
-    rematchingCount: number;
-  }>;
-  friendMatching: Array<{
-    FriendId: number;
-    matchingCount: number;
-    rematchingCount: number;
-  }>;
-}
+// export interface ScheduleAPI {
+//   schedule: RecordScheduleAPI;
+//   userMatching: Array<{
+//     FriendId: number;
+//     matchingCount: number;
+//     rematchingCount: number;
+//   }>;
+//   friendMatching: Array<{
+//     FriendId: number;
+//     matchingCount: number;
+//     rematchingCount: number;
+//   }>;
+// }
 
 export interface MatchingReqFormProps {
   friend?: {
@@ -158,4 +158,18 @@ export interface UpdateCancelAPI {
   id?: number | null;
   friendId?: number;
   cancelId?: number;
+}
+
+export interface RealtimeAPI {
+  id: number;
+  Gym: { address: string; addressRoad: string; name: string };
+  Receiver: { id: number; nickname: string; Image: Image };
+  Requester: { id: number; nickname: string; Image: Image };
+  Cancel: ScheduledetailModel;
+}
+
+export interface PermissionAPI {
+  scheduleId?: number;
+  permission: boolean;
+  friendId?: number;
 }

@@ -1,13 +1,13 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useQueryClient } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
 import { BiRevision } from 'react-icons/bi';
 
 import { changeMapBounds, gymSelector, isLoadGyms } from '@/../reducers/gym';
-import { ButtonType } from '@/../@types/utils';
-import { useQueryClient } from 'react-query';
 import { gymAndFriendsByIdKey } from '@/../@utils/queryKey';
+import { ButtonType } from '@/../@types/utils';
 import { Location } from '@/../@types/gym';
 import { SearchMapProps } from '@/../@types/map';
 import { Button, Icon } from '../../atoms';

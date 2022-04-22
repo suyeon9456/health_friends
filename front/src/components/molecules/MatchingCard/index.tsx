@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { Icon } from '@/components/atoms';
+import { Button, Icon } from '@/components/atoms';
 import { BiUser } from 'react-icons/bi';
+import { ButtonType } from '@/../@types/utils';
 import {
   Card,
   CardBody,
@@ -21,6 +22,7 @@ const MatchingCard = ({
   date,
   image,
   onClickView,
+  isCancel,
   actions,
 }: {
   matchingId: number;
@@ -29,6 +31,7 @@ const MatchingCard = ({
   date: string;
   image?: string;
   onClickView: ({ key, id }: { key: string; id: number }) => void;
+  isCancel?: boolean;
   actions?: ReadonlyArray<{
     key: string;
     icon: React.ReactNode;
@@ -45,6 +48,9 @@ const MatchingCard = ({
           <Icon icon={<BiUser />} />
         </div>
       )}
+      <div className="box">
+        {isCancel && <Button type={ButtonType.ERROR}>취소진행중</Button>}
+      </div>
     </CardCover>
     <CardBody
       matchingId={matchingId}

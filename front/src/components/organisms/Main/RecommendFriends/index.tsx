@@ -4,12 +4,12 @@ import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 import Slider from 'react-slick';
 import isEmpty from 'lodash/isEmpty';
-
 import { BiCurrentLocation } from 'react-icons/bi';
-import { Location } from '@/../@types/map';
+
 import { useModalDispatch } from '@/../store/modalStore';
-import { GlobalModal, ModalStatus } from '@/../@types/utils';
 import { loadRecommendFriendsAPI } from '@/api/user';
+import { Location } from '@/../@types/map';
+import { GlobalModal, ModalStatus } from '@/../@types/utils';
 import { RecommendFriendsAPI } from '@/../@types/user';
 import {
   FriendsWrap,

@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { BiSearchAlt } from 'react-icons/bi';
 
 import { ButtonType, SizeType } from '@/../@types/utils';
-import { Button, Icon } from '../../../atoms';
 import RecommendFriends from '../RecommendFriends';
+import { Button, Icon } from '../../../atoms';
 import {
   BannerWrap,
   BannerImage,

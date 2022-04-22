@@ -8,7 +8,7 @@ const schedule = require('../models/schedule');
 
 const router = express.Router();
 
-router.get('/recommendFriends', async (req, res, next) => { // GET /users/recommendFriends
+router.get('/recommend', async (req, res, next) => { // GET /users/recommendFriends
   try {
     const where = {
       [Op.and]: [{
@@ -29,11 +29,8 @@ router.get('/recommendFriends', async (req, res, next) => { // GET /users/recomm
         model: Image,
         attributes: ['id', 'src'],
       }, {
-        model: Userdetail,
-        attributes: ['id', 'rematchingRate'],
-      }, {
         model: Gym,
-        attributes: ['id', 'name', 'address'],
+        attributes: ['id', 'name', 'address', 'addressRoad'],
         where,
       }],
     });
@@ -53,8 +50,7 @@ router.get('/recommendFriends', async (req, res, next) => { // GET /users/recomm
           attributes: ['id', 'src'],
         }, {
           model: Gym,
-          attributes: ['id', 'name', 'address'],
-          // where,
+          attributes: ['id', 'name', 'address', 'addressRoad'],
         }],
       });
     }
@@ -67,7 +63,7 @@ router.get('/recommendFriends', async (req, res, next) => { // GET /users/recomm
   }
 });
 
-router.get('/rankedFriends', async (req, res, next) => { // GET /users/rankedFriends
+router.get('/ranked', async (req, res, next) => { // GET /users/ranked
   try {
     const rematching = await User.findAll({
       attributes: ['id', 'nickname'],
@@ -105,51 +101,6 @@ router.get('/rankedFriends', async (req, res, next) => { // GET /users/rankedFri
       }],
     });
     res.status(200).json({ rematching, matching: reqMatching.concat(resMatching) });
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-router.get('/realtimeMathcing', async (req, res, next) => { // GET /users/realtimeMathcing
-  try {
-    const now = new Date();
-    const realtimeMatching = await User.findAll({
-      attributes: ['id', 'nickname'],
-      include: [{
-        model: Image,
-        attributes: ['id', 'src'],
-      }, {
-        model: Schedule,
-        as: 'reqSchedule',
-        where: {
-          [Op.and]: [{
-            startDate: {[Op.lte]: now},
-          }, {
-            endDate: {[Op.gte]: now},
-          }, {
-            isPermitted: true,
-          }, {
-            permission: true,
-          }],
-        },
-        attributes: ['id', 'UserId'],
-        include: [{
-          model: Gym,
-          attributes: ['id', 'name', 'address'],
-        }, {
-          model: User,
-          as: 'Receiver',
-          attributes: ['id', 'nickname'],
-          include: [{
-            model: Image,
-            attributes: ['id', 'src'],
-          },]
-        }],
-      }],
-    });
-
-    res.status(200).json(realtimeMatching);
   } catch (error) {
     console.error(error);
     next(error);

@@ -27,3 +27,14 @@ export interface SearchMapProps {
   foldedFriends: boolean;
   setFoldedFriends: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface MapAPI {
+  lastId?: number;
+  searchWord?: string;
+  mapBounds: {
+    swLon: string;
+    swLat: string;
+    neLon: string;
+    neLat: string;
+  };
+}

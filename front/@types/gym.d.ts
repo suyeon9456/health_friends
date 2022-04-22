@@ -80,7 +80,7 @@ export interface ModalCreateGymProps {
   }>;
 }
 
-export interface AddressAPIProps {
+export interface AddressAPI {
   id?: number;
   sido: string;
   sigungu: string;

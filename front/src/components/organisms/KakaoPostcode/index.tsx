@@ -1,7 +1,4 @@
 /* eslint-disable no-undef */
-import { Search } from '@/components/atoms';
-import { useInput } from '@/hooks';
-import { KeywordPlace } from '@/../@types/map';
 import React, {
   Dispatch,
   SetStateAction,
@@ -12,7 +9,11 @@ import React, {
 } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
 
-import { Modal } from '../../molecules';
+import { useInput } from '@/hooks';
+import { KeywordPlace } from '@/../@types/map';
+
+import { Modal } from '@/components/molecules';
+import { Search } from '@/components/atoms';
 import { ModalBodyBox, SearchList, SearchMap, SearchResultWrap } from './style';
 
 const KakaoPostcode = ({

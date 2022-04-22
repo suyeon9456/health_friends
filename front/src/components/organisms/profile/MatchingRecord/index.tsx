@@ -1,21 +1,20 @@
 import React, { useCallback, useState } from 'react';
-import { AxiosError } from 'axios';
+import { useSelector } from 'react-redux';
 import { useInfiniteQuery } from 'react-query';
-import { BiPlus } from 'react-icons/bi';
-import isEqual from 'lodash/isEqual';
+import { AxiosError } from 'axios';
 import isEmpty from 'lodash/isEmpty';
+import { BiPlus } from 'react-icons/bi';
 
+import { profileSelector } from '@/../reducers/profile';
 import useCheckbox from '@/hooks/useCheckbox';
+import { loadSchedulesAPI } from '@/api/schedule';
 import {
   ButtonType,
   PeriodFilter,
   StateFilter,
   TypeFilter,
 } from '@/../@types/utils';
-import { useSelector } from 'react-redux';
-import { profileSelector } from '@/../reducers/profile';
 import { schedulesByIdKey } from '@/../@utils/queryKey';
-import { loadSchedulesAPI } from '@/api/schedule';
 import { Filter } from '../../../molecules';
 import { Button, CheckBox, Icon } from '../../../atoms';
 import MatchingCardList from '../../MatchingCardList';
@@ -29,11 +28,11 @@ import {
 
 const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
   const { profile } = useSelector(profileSelector);
+  const [rejectedMatching, setRejectedMatching] = useState<boolean>(false);
+  const [schedules, setSchedules] = useState<any>([]);
   const [status, onChangeStatus] = useCheckbox<string>([]);
   const [term, onChangeTerm] = useCheckbox<string>([]);
   const [type, onChangeType] = useCheckbox<string>([]);
-  const [rejectedMatching, setRejectedMatching] = useState<boolean>(false);
-  const [schedules, setSchedules] = useState<any>([]);
 
   const { isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery<
     any[],
@@ -66,20 +65,11 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
           : undefined;
       },
       onSuccess: ({ pages }) => {
-        if (isEmpty(pages[0])) {
+        if (isEmpty(pages)) {
+          setSchedules([]);
           return;
         }
-        if (schedules?.length === 0) {
-          setSchedules(pages[0]);
-          return;
-        }
-        if (pages.length === 1) {
-          setSchedules(pages[0]);
-          return;
-        }
-        if (!isEqual(schedules, pages[pages.length - 1])) {
-          setSchedules([...schedules, ...pages[pages.length - 1]]);
-        }
+        setSchedules(pages[pages.length - 1]);
       },
     }
   );

@@ -1,10 +1,12 @@
 import React from 'react';
-
 import { useQuery } from 'react-query';
-import { Me } from '@/../@types/user';
+
 import { loadLoginedUserAPI } from '@/api/user';
 import { meKey } from '@/../@utils/queryKey';
+import { Me } from '@/../@types/user';
 import { MatchingReqFormProps } from '@/../@types/schedule';
+import { FormInput, FormTextarea, FormDateTimePicker } from '../../molecules';
+import { Avatar } from '../../atoms';
 import {
   MatchingInfoWrap,
   InfoContent,
@@ -13,8 +15,6 @@ import {
   Content,
   DescriptionWrap,
 } from './style';
-import { FormInput, FormTextarea, FormDateTimePicker } from '../../molecules';
-import { Avatar } from '../../atoms';
 
 const MatchingRequestForm = ({
   friend,

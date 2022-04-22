@@ -1,31 +1,30 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { BiX } from 'react-icons/bi';
 
-import { gymSelector } from '@/../reducers/gym';
 import { useModalDispatch } from '@/../store/modalStore';
-import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/utils';
-import { Icon } from '@/components/atoms';
+import { gymSelector } from '@/../reducers/gym';
 import useRematchRate from '@/hooks/useRematchRate';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { addLikeAPI, loadLoginedUserAPI } from '@/api/user';
+import { gymAndFriendsByIdKey, meKey } from '@/../@utils/queryKey';
+import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/utils';
 import {
   UserGym,
   SelectedGymUser,
   Me,
   SearchFriendsProps,
 } from '@/../@types/user';
-import { addLikeAPI, loadLoginedUserAPI } from '@/api/user';
-import { gymAndFriendsByIdKey, meKey } from '@/../@utils/queryKey';
-import { PropfileCard } from '../../molecules';
-import Button from '../../atoms/Button';
+import { Icon, Button } from '@/components/atoms';
+import { PropfileCard } from '@/components/molecules';
+import ModalPortal from '../ModalPortal';
+import ModalMatchingRequest from '../ModalMatchingRequest';
 import {
   FriendsListWrapper,
   SearchFriendsWrapper,
   SearchHeader,
   SearchTitle,
 } from './style';
-import ModalPortal from '../ModalPortal';
-import ModalMatchingRequest from '../ModalMatchingRequest';
 
 const SearchFriends = ({
   isLoading,
@@ -33,13 +32,13 @@ const SearchFriends = ({
   foldedFriends,
   setFoldedFriends,
 }: SearchFriendsProps) => {
+  const queryClient = useQueryClient();
   const contextDispatch = useModalDispatch();
   const { gym } = useSelector(gymSelector);
 
   const [friend, setFriend] = useState<UserGym>();
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const queryClient = useQueryClient();
   const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
