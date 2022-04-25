@@ -20,6 +20,7 @@ import { profileKey } from '@/../@utils/queryKey';
 import { originalToThumb } from '@/../@utils/regexp';
 import { ButtonType, Menu, ProfileMenuType } from '@/../@types/utils';
 import { meSelector } from '@/../reducers/user';
+import { useRouter } from 'next/router';
 import Progress from '../../../molecules/Progress';
 import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
@@ -42,10 +43,11 @@ const SideBar = ({
   profileMenu: ProfileMenuType;
   setProfileMenu: React.Dispatch<SetStateAction<ProfileMenuType>>;
 }) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const contextDispatch = useModalDispatch();
-  const { profile } = useSelector(profileSelector);
   const me = useSelector(meSelector);
+  const { profile } = useSelector(profileSelector);
   const [uploadState, setUploadState] = useState<boolean>(false);
   const [imgPath, setImgPath] = useState<string>('');
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -70,8 +72,15 @@ const SideBar = ({
   });
 
   const onClickMenu = useCallback(
-    (menu) => setProfileMenu(menu),
-    [profileMenu]
+    (menu) => {
+      console.log('query', router.query);
+      console.log('menu', menu);
+      void router.push({ query: { id: profile.id, tab: menu } }, undefined, {
+        shallow: true,
+      });
+      setProfileMenu(menu);
+    },
+    [profileMenu, profile]
   );
 
   const onChangeImage = useCallback((e) => {

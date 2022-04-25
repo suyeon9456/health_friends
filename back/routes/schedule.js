@@ -1,6 +1,6 @@
 const express = require('express');
 const { Op } = require('sequelize');
-const { Schedule, ScheduleDetail, User, Gym, Userdetail, Image } = require('../models');
+const { Schedule, Cancel, User, Gym, Userdetail, Image } = require('../models');
 
 const { isLoggedIn } = require('./middlewares');
 
@@ -113,8 +113,7 @@ router.get('/:id', async (req, res, next) => { // GET /schedule/
         model: Gym,
         attributes: ['id', 'address', 'addressRoad', 'name'],
       }, {
-        model: ScheduleDetail,
-        as: 'Cancel'
+        model: Cancel,
       }],
     });
 
@@ -183,8 +182,7 @@ router.put('/permission', isLoggedIn, async (req, res, next) => { // PUT /schedu
         model: Gym,
         attributes: ['id', 'address', 'name'],
       }, {
-        model: ScheduleDetail,
-        as: 'Cancel'
+        model: Cancel,
       }],
     });
     res.status(201).json(updatedSchedule);
@@ -203,10 +201,12 @@ router.post('/cancel', isLoggedIn, async (req, res, next) => { // POST /schedule
       res.status(403).send('존재하지 않는 매칭입니다.');
     }
     
-    await ScheduleDetail.create({
+    const cancel = await Cancel.create({
       RequestId: req.user.id,
       ScheduleId: schedule.id,
     });
+
+    await schedule.setCancel(cancel.id);
 
     const updatedSchedule = await Schedule.findOne({
       where: { id: schedule.id },
@@ -230,8 +230,7 @@ router.post('/cancel', isLoggedIn, async (req, res, next) => { // POST /schedule
         model: Gym,
         attributes: ['id', 'address', 'name'],
       }, {
-        model: ScheduleDetail,
-        as: 'Cancel'
+        model: Cancel,
       }],
     });
     res.status(201).json(updatedSchedule);
@@ -244,7 +243,7 @@ router.post('/cancel', isLoggedIn, async (req, res, next) => { // POST /schedule
 router.put('/cancel', isLoggedIn, async (req, res, next) => { // PUT /schedule/cancel
   try {
     console.log(req.body);
-    const schedule = await Schedule.findOne({ where: { id: req.body.id }, attributes: ['id'] });
+    const schedule = await Schedule.findOne({ where: { id: req.body.id }, attributes: ['id', 'CancelId'] });
 
     if (!schedule) {
       res.status(403).send('존재하지 않는 매칭입니다.');
@@ -253,12 +252,13 @@ router.put('/cancel', isLoggedIn, async (req, res, next) => { // PUT /schedule/c
     await Schedule.update({ permission: false }, {
       where: { id: req.body.id }
     });
+    console.log('cancelId', schedule.CancelId);
 
-    await ScheduleDetail.update({
+    await Cancel.update({
       ResponseId: req.user.id,
       isCanceled: true,
     }, {
-      where: { ScheduleId: req.body.id }
+      where: { id: schedule.CancelId }
     });
     res.status(201).send('답변을 완료하였습니다.');
   } catch (error) {

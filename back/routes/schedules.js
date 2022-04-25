@@ -1,6 +1,6 @@
 const express = require('express');
 const { Op } = Sequelize = require('sequelize');
-const { Schedule, ScheduleDetail, User, Gym, Image } = require('../models');
+const { Schedule, Cancel, User, Gym, Image } = require('../models');
 
 const router = express.Router();
 
@@ -8,7 +8,8 @@ router.get('/', async (req, res, next) => { // GET /schedules/
   try {
     const userId = req.query.userId || req.user.id;
     const listSize = 3;
-    const { before, after, scheduledRecord, lastRecord, requestRecord, receiveRecord, rejectedMatching } = req.query;
+    const { fs, fp, ft, isCanceled } = req.query;
+    
     const where = {
       isPermitted: { [Op.or]: [false, true] },
       permission: { [Op.or]: [false, true] },
@@ -21,46 +22,44 @@ router.get('/', async (req, res, next) => { // GET /schedules/
 
     let detailWhere = null;
     
-    if (scheduledRecord || lastRecord) {
-      const list = [];
-      const list1 = scheduledRecord ? { [Op.gte]: new Date() } : null;
-      const list2 = lastRecord ? { [Op.lt]: new Date() } : null;
-      if (list1) {
-        list.push(list1);
+    if (fp && !fp.includes(',')) {
+      console.log('?');
+      if (fp === 'scheduled') {
+        where.startDate = {
+          [Op.or]: [{ [Op.gte]: new Date() }]
+        };
       }
-      if (list2) {
-        list.push(list2);
+      if (fp === 'last') {
+        where.startDate = {
+          [Op.or]: [{ [Op.lt]: new Date() }]
+        };
       }
-      const startDateWhere = { [Op.or]: list };
-      where.startDate = startDateWhere;
     }
 
-    if (requestRecord || receiveRecord) {
-      if (requestRecord && !receiveRecord) {
+    if (ft && !ft.includes(',')) {
+      if (ft === 'request') {
         where.UserId = userId;
-        where.FriendId = { [Op.not]: userId };
       }
-      if (receiveRecord && !requestRecord) {
+      if (ft === 'receive') {
         where.FriendId = userId;
       }
     }
 
-    if (before || after) {
-      if (before || !after) {
+    if (fs && !fs.includes(',')) {
+      if (fs === 'before') {
         where.isPermitted = false;
         where.permission = false;
       }
-      if (after || !before) {
+      if (fs === 'after') {
         where.isPermitted = true;
-        where.permission = { [Op.or]: [false, true] }
-      }
-      if (after && before) {
-        where.isPermitted = { [Op.or]: [false, true] }
         where.permission = { [Op.or]: [false, true] }
       }
     }
 
-    if (rejectedMatching === 'true') {
+    console.log('isCanceled', isCanceled);
+
+    if (isCanceled) {
+      console.log('???');
       detailWhere = {
         isCanceled: true
       };
@@ -69,9 +68,12 @@ router.get('/', async (req, res, next) => { // GET /schedules/
     const schedulesCount = await Schedule.findAndCountAll({ where });
 
     const schedules = await Schedule.findAll({
-      where,
-      limit: parseInt(req.query.limit, 10) + listSize,
-      // offset: parseInt(req.query.limit, 10),
+      where: {
+        ...where,
+        // '$Cancel.isCanceled$': isCanceled ? { [Op.ne]: null } : { [Op.eq]: null },
+      },
+      limit: listSize,
+      offset: parseInt(req.query.limit, 10),
       attributes: [
         'id',
         'description',
@@ -99,8 +101,7 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         model: Gym,
         attributes: ['address', 'name'],
       }, {
-        model: ScheduleDetail,
-        as: 'Cancel',
+        model: Cancel,
         where: detailWhere,
       }],
       order: [ ['startDate', 'DESC'] ],
@@ -164,8 +165,7 @@ router.get('/calendar', async (req, res, next) => { // GET /schedules/calendar
         model: Gym,
         attributes: ['address'],
       }, {
-        model: ScheduleDetail,
-        as: 'Cancel'
+        model: Cancel,
       }],
     });
 
@@ -189,8 +189,9 @@ router.get('/realtime', async (req, res, next) => { // GET /schedules/realtime
           isPermitted: true,
         }, {
           permission: true,
+        }, {
+          CancelId: null
         }],
-        '$Cancel.isCanceled$': { [Op.ne]: null },
       },
       attributes: ['id'],
       include: [{
@@ -218,9 +219,6 @@ router.get('/realtime', async (req, res, next) => { // GET /schedules/realtime
       }, {
         model: Gym,
         attributes: ['address', 'addressRoad', 'name'],
-      }, {
-        model: ScheduleDetail,
-        as: 'Cancel',
       }],
     });
 

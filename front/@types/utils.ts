@@ -238,13 +238,13 @@ export const StateFilter = [
 ] as const;
 
 export const PeriodFilter = [
-  { value: 'scheduledRecord', text: '예정된매칭' },
-  { value: 'lastRecord', text: '지난매칭' },
+  { value: 'scheduled', text: '예정된매칭' },
+  { value: 'last', text: '지난매칭' },
 ] as const;
 
 export const TypeFilter = [
-  { value: 'requestRecord', text: '보낸매칭' },
-  { value: 'receiveRecord', text: '받은매칭' },
+  { value: 'request', text: '보낸매칭' },
+  { value: 'receive', text: '받은매칭' },
 ] as const;
 
 // export type SearchGymTabsType = typeof SearchGymTabs[number];

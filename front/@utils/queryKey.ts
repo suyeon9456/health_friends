@@ -11,14 +11,14 @@ export const schedulesByIdKey = ({
   status,
   term,
   type,
-  rejectedMatching,
+  isCanceled,
 }: {
   profileId: number;
   status: string[];
   term: string[];
   type: string[];
-  rejectedMatching: boolean;
-}) => ['record', profileId, status, term, type, rejectedMatching] as const;
+  isCanceled: boolean;
+}) => ['record', profileId, status, term, type, isCanceled] as const;
 export const scheduleByIdKey = (
   matchingId?: number | null,
   queryId?: string | string[],

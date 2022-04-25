@@ -15,6 +15,7 @@ import {
   TypeFilter,
 } from '@/../@types/utils';
 import { schedulesByIdKey } from '@/../@utils/queryKey';
+import { useRouter } from 'next/router';
 import { Filter } from '../../../molecules';
 import { Button, CheckBox, Icon } from '../../../atoms';
 import MatchingCardList from '../../MatchingCardList';
@@ -27,8 +28,10 @@ import {
 } from './style';
 
 const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
+  const router = useRouter();
+  const { ft } = router.query;
   const { profile } = useSelector(profileSelector);
-  const [rejectedMatching, setRejectedMatching] = useState<boolean>(false);
+  const [isCanceled, setIsCanceled] = useState<boolean>(false);
   const [schedules, setSchedules] = useState<any>([]);
   const [status, onChangeStatus] = useCheckbox<string>([]);
   const [term, onChangeTerm] = useCheckbox<string>([]);
@@ -43,18 +46,30 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
       status,
       term,
       type,
-      rejectedMatching,
+      isCanceled,
     }),
-    ({ pageParam = 0 }) =>
-      loadSchedulesAPI({
+    ({ pageParam = 0 }) => {
+      // const filter: { fs?: string; fp?: string; ft?: string } = {};
+      // if (!isEmpty(status)) filter.fs = status.join(',');
+      // if (!isEmpty(term)) filter.fp = term.join(',');
+      // if (!isEmpty(type)) filter.ft = type.join(',');
+      // void router.push(
+      //   { query: { id: profile.id, tab: Menu.RECORD, ...filter } },
+      //   undefined,
+      //   {
+      //     shallow: true,
+      //   }
+      // );
+      return loadSchedulesAPI({
         isProfile,
-        profileId: profile.id,
+        profileId: profile?.id,
         limit: pageParam,
         status,
         term,
         type,
-        rejectedMatching,
-      }),
+        isCanceled,
+      });
+    },
     {
       refetchOnWindowFocus: false,
       retry: false,
@@ -69,6 +84,10 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
           setSchedules([]);
           return;
         }
+        if (pages.length > 1) {
+          setSchedules((prev: any) => [...prev, ...pages[pages.length - 1]]);
+          return;
+        }
         setSchedules(pages[pages.length - 1]);
       },
     }
@@ -77,9 +96,9 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
   const onChangeRejectedMatching = useCallback(
     (e) => {
       setSchedules([]);
-      setRejectedMatching(e.currentTarget.checked);
+      setIsCanceled(e.currentTarget.checked);
     },
-    [rejectedMatching]
+    [isCanceled]
   );
 
   return (
@@ -111,7 +130,7 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
         <CheckBox
           label="취소된 매칭으로 보기"
           value="cancel"
-          checked={rejectedMatching}
+          checked={isCanceled}
           onChange={onChangeRejectedMatching}
         />
       </CancelYnCheckBoxWrap>

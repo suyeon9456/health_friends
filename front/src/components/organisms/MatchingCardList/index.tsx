@@ -85,7 +85,6 @@ const MatchingCardList = ({
         {schedules?.map((target) => {
           const { start, end, Receiver, Requester, Cancel } = target;
           const friend = profile.id === Receiver.id ? Requester : Receiver;
-          console.log(target);
           return (
             <MatchingCard
               key={target.id}

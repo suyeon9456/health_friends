@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
@@ -43,13 +43,10 @@ const Myinfo = () => {
     onSuccess: (data) => dispatch(loadMe(data)),
   });
 
-  const {
-    data: profile,
-    isFetched,
-    dataUpdatedAt,
-  } = useQuery(profileKey, () => loadMyinfoAPI(), {
+  const _profile = useQuery(profileKey, () => loadMyinfoAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
+    onSuccess: (data) => dispatch(loadProfile(data)),
     onError: () =>
       contextDispatch({
         type: 'SHOW_MODAL',
@@ -63,11 +60,11 @@ const Myinfo = () => {
       }),
   });
 
-  useEffect(() => {
-    if (isFetched) {
-      dispatch(loadProfile(profile));
-    }
-  }, [dataUpdatedAt]);
+  const page = useMemo(() => {
+    return router.query.tab !== undefined ? router.query.tab : Menu.INFO;
+  }, [router.query]);
+
+  useEffect(() => setProfileMenu(page), [page]);
 
   return (
     <AppLayout childBlock>

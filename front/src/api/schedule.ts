@@ -20,7 +20,7 @@ export const loadSchedulesAPI = ({
   status,
   term,
   type,
-  rejectedMatching,
+  isCanceled,
 }: {
   isProfile?: boolean;
   profileId: number;
@@ -28,20 +28,18 @@ export const loadSchedulesAPI = ({
   status: string[];
   term: string[];
   type: string[];
-  rejectedMatching: boolean;
+  isCanceled: boolean;
 }) => {
   const userId = isProfile ? `userId=${profileId}&` : '';
-  const statusquery =
-    !isEmpty(status) && `&${status.map((m) => `${m}=true`).join('&')}`;
-  const termquery =
-    !isEmpty(term) && `&${term.map((m) => `${m}=true`).join('&')}`;
-  const typequery =
-    !isEmpty(type) && `&${type.map((m) => `${m}=true`).join('&')}`;
+  const fs = !isEmpty(status) && `&fs=${status.map((m) => `${m}`).join(',')}`;
+  const fp = !isEmpty(term) && `&fp=${term.map((m) => `${m}`).join(',')}`;
+  const ft = !isEmpty(type) && `&ft=${type.map((m) => `${m}`).join(',')}`;
+  const cancel = isCanceled ? '&isCanceled=true' : '';
   return axios
     .get(
-      `/schedules?${userId}limit=${limit}&rejectedMatching=${rejectedMatching}${
-        !termquery ? '' : termquery
-      }${!typequery ? '' : typequery}${!statusquery ? '' : statusquery}`
+      `/schedules?${userId}limit=${limit}${cancel}${fp || ''}${ft || ''}${
+        fs || ''
+      }`
     )
     .then(
       ({

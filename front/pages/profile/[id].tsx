@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { loadProfile } from '@/../reducers/profile';
@@ -63,6 +63,16 @@ const Profile = () => {
       });
     },
   });
+
+  const page = useMemo(() => {
+    return router.query.tab !== undefined ? router.query.tab : Menu.INFO;
+  }, [router.query]);
+
+  useEffect(() => {
+    // if (typeof page !== 'string') return;
+    // const test: ProfileMenuType = Menu.page;
+    setProfileMenu(page);
+  }, [page]);
 
   return (
     <AppLayout>

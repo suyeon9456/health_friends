@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const ScheduleDetail = sequelize.define('ScheduleDetail', {
+  const Cancel = sequelize.define('Cancel', {
     isCanceled: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     charset: 'utf8mb4',
     collate: 'utf8mb4_general_ci',
   });
-  ScheduleDetail.associate = (db) => {
-    db.ScheduleDetail.belongsTo(db.Schedule);
+  Cancel.associate = (db) => {
+    // db.Cancel.belongsTo(db.Schedule);
   };
-  return ScheduleDetail;
+  return Cancel;
 }

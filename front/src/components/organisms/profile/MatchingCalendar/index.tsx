@@ -28,7 +28,7 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
     () =>
       loadCalendarScheduleAPI({
         range,
-        profileId: isProfile ? profile.id : null,
+        profileId: isProfile ? profile?.id : null,
       }),
     {
       refetchOnWindowFocus: false,
