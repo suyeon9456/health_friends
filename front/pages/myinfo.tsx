@@ -60,11 +60,11 @@ const Myinfo = () => {
       }),
   });
 
-  // const page = useMemo(() => {
-  //   return router.query.tab !== undefined ? router.query.tab : Menu.INFO;
-  // }, [router.query]);
+  const page = useMemo(() => {
+    return router.query.tab !== undefined ? router.query.tab : Menu.INFO;
+  }, [router.query]);
 
-  // useEffect(() => setProfileMenu(page), [page]);
+  useEffect(() => setProfileMenu(page as ProfileMenuType), [page]);
 
   return (
     <AppLayout childBlock>
