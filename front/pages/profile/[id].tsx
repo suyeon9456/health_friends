@@ -64,15 +64,15 @@ const Profile = () => {
     },
   });
 
-  const page = useMemo(() => {
-    return router.query.tab !== undefined ? router.query.tab : Menu.INFO;
-  }, [router.query]);
+  // const page = useMemo(() => {
+  //   return router.query.tab !== undefined ? router.query.tab : Menu.INFO;
+  // }, [router.query]);
 
-  useEffect(() => {
-    // if (typeof page !== 'string') return;
-    // const test: ProfileMenuType = Menu.page;
-    setProfileMenu(page);
-  }, [page]);
+  // useEffect(() => {
+  //   // if (typeof page !== 'string') return;
+  //   // const test: ProfileMenuType = Menu.page;
+  //   setProfileMenu(page);
+  // }, [page]);
 
   return (
     <AppLayout>
