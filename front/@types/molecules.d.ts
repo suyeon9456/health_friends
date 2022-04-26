@@ -1,4 +1,5 @@
-import { ModalStatusType } from './utils';
+import { Control, FieldError, Path } from 'react-hook-form';
+import { InputTypeT, ModalStatusType, SizeTypeT } from './utils';
 
 export type AlertType = 'error' | 'warning' | 'success';
 
@@ -14,4 +15,16 @@ export interface AlertProps extends BasicPopupProps {
 
 export interface ConfirmProps extends BasicPopupProps {
   onCancel: () => void;
+}
+
+export interface FormInputProps<T> {
+  label?: string;
+  id: Path<T>;
+  size?: SizeTypeT;
+  type?: InputTypeT;
+  placeholder?: string;
+  essential?: boolean;
+  control?: Control<T, object>;
+  error?: FieldError | undefined;
+  disabled?: boolean;
 }

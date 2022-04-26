@@ -1,28 +1,10 @@
 import React from 'react';
-import {
-  Control,
-  Controller,
-  FieldError,
-  FieldValues,
-  Path,
-} from 'react-hook-form';
+import { Controller, FieldValues } from 'react-hook-form';
 import { BiErrorCircle } from 'react-icons/bi';
 
 import { ErrorMessage, Icon, Input } from '@/components/atoms';
-import { InputTypeT, SizeTypeT } from '@/../@types/utils';
+import { FormInputProps } from '@/../@types/molecules';
 import { Essential, Label } from './style';
-
-interface FormInputType<T> {
-  label?: string;
-  id: Path<T>;
-  size?: SizeTypeT;
-  type?: InputTypeT;
-  placeholder?: string;
-  essential?: boolean;
-  control?: Control<T, object>;
-  error?: FieldError | undefined;
-  disabled?: boolean;
-}
 
 const FormInput = <T extends FieldValues>({
   label,
@@ -35,10 +17,10 @@ const FormInput = <T extends FieldValues>({
   error,
   disabled,
   ...props
-}: FormInputType<T>) => (
+}: FormInputProps<T>) => (
   <div>
     {label && (
-      <Label>
+      <Label htmlFor={id}>
         {label}
         {essential && <Essential />}
       </Label>
