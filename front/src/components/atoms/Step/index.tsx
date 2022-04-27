@@ -11,30 +11,32 @@ import {
 } from './style';
 import Icon from '../Icon';
 
-const Step = ({
-  type,
-  step,
-  title,
-  description,
-}: {
-  type: ProcessType;
-  step: number;
-  title: string;
-  description: string;
-}) => (
-  <StepWrap>
-    <StepIconWrap type={type}>
-      {type === Process.FINISHED ? (
-        <Icon icon={<BiCheck />} />
-      ) : (
-        <span>{step}</span>
-      )}
-    </StepIconWrap>
-    <StepContentWrap>
-      <StepTitle type={type}>{title}</StepTitle>
-      <StepDescription>{description}</StepDescription>
-    </StepContentWrap>
-  </StepWrap>
+const Step = React.memo(
+  ({
+    type,
+    step,
+    title,
+    description,
+  }: {
+    type: ProcessType;
+    step: number;
+    title: string;
+    description: string;
+  }) => (
+    <StepWrap>
+      <StepIconWrap type={type}>
+        {type === Process.FINISHED ? (
+          <Icon icon={<BiCheck />} />
+        ) : (
+          <span>{step}</span>
+        )}
+      </StepIconWrap>
+      <StepContentWrap>
+        <StepTitle type={type}>{title}</StepTitle>
+        <StepDescription>{description}</StepDescription>
+      </StepContentWrap>
+    </StepWrap>
+  )
 );
 
 export default Step;

@@ -6,10 +6,12 @@ import { SizeType } from '@/../@types/utils';
 import { StyledAvatar } from './style';
 import Icon from '../Icon';
 
-const Avatar = ({ size = SizeType.DEFAULT, src, ...props }: AvatarProps) => (
-  <StyledAvatar size={size} src={src} {...props}>
-    {src ? <img src={src} alt={src} /> : <Icon icon={<BiUser />} />}
-  </StyledAvatar>
+const Avatar = React.memo(
+  ({ size = SizeType.DEFAULT, src, ...props }: AvatarProps) => (
+    <StyledAvatar size={size} src={src} {...props}>
+      {src ? <img src={src} alt={src} /> : <Icon icon={<BiUser />} />}
+    </StyledAvatar>
+  )
 );
 
 export default Avatar;

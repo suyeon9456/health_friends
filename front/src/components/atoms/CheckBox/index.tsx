@@ -9,19 +9,21 @@ import {
   BasicCheckBoxText,
 } from './style';
 
-const CheckBox = ({ label, value, onChange, checked }: CheckBoxProps) => (
-  <Label>
-    <BasicCheckBoxWrap>
-      <BasicCheckBox
-        type="checkbox"
-        value={value}
-        checked={checked}
-        onChange={onChange}
-      />
-      <BasicCheckBoxInner checked={checked} />
-    </BasicCheckBoxWrap>
-    <BasicCheckBoxText>{label}</BasicCheckBoxText>
-  </Label>
+const CheckBox = React.memo(
+  ({ label, value, onChange, checked }: CheckBoxProps) => (
+    <Label>
+      <BasicCheckBoxWrap>
+        <BasicCheckBox
+          type="checkbox"
+          value={value}
+          checked={checked}
+          onChange={onChange}
+        />
+        <BasicCheckBoxInner checked={checked} />
+      </BasicCheckBoxWrap>
+      <BasicCheckBoxText>{label}</BasicCheckBoxText>
+    </Label>
+  )
 );
 
 export default CheckBox;
