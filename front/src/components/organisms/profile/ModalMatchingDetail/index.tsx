@@ -4,9 +4,9 @@ import { compareAsc } from 'date-fns';
 
 import { profileSelector } from '@/../reducers/profile';
 import { meSelector } from '@/../reducers/user';
-import { useDateFormat } from '@/hooks';
 import { matchingActions } from '@/hooks/useMatchingActions';
 import { MatchingCardProps } from '@/../@types/schedule';
+import { rangeDate } from '@/../@utils/date';
 import { Modal } from '../../../molecules';
 import { Avatar } from '../../../atoms';
 import {
@@ -61,11 +61,10 @@ const ModalMatchingDetail = ({
         <MatchingInfoWrap>
           <h4>매칭정보</h4>
           <div>
-            {useDateFormat(
+            {rangeDate(
               schedule?.start ?? new Date(),
-              'yyyy년 MM월 dd일 HH:mm'
-            )}{' '}
-            ~ {useDateFormat(schedule?.end ?? new Date(), 'HH:mm')}
+              schedule?.end ?? new Date()
+            )}
           </div>
           <div>
             {schedule?.Gym?.addressRoad}({schedule?.Gym?.address}){' '}

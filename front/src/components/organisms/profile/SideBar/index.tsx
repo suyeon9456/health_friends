@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, SetStateAction } from 'react';
 import { useSelector } from 'react-redux';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import {
   BiTrophy,
   BiCommentCheck,
@@ -14,13 +14,13 @@ import {
 import { useModalDispatch } from '@/../store/modalStore';
 import { profileSelector } from '@/../reducers/profile';
 import useRate from '@/hooks/useRate';
-import useRematchRate from '@/hooks/useRematchRate';
 import { addImageAPI, uploadImageAPI } from '@/api/profile';
 import { profileKey } from '@/../@utils/queryKey';
 import { originalToThumb } from '@/../@utils/regexp';
 import { ButtonType, Menu, ProfileMenuType } from '@/../@types/utils';
 import { meSelector } from '@/../reducers/user';
 import { useRouter } from 'next/router';
+import { rematchRate } from '@/../@utils/calculation';
 import Progress from '../../../molecules/Progress';
 import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
@@ -179,7 +179,7 @@ const SideBar = ({
             label="재매칭률"
             percent={
               profile?.matchingRecount
-                ? useRematchRate(
+                ? rematchRate(
                     profile?.matchingRecount,
                     profile?.matchingTotalCount
                   )

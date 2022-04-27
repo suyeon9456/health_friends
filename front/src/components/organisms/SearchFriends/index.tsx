@@ -5,7 +5,6 @@ import { BiX } from 'react-icons/bi';
 
 import { useModalDispatch } from '@/../store/modalStore';
 import { gymSelector } from '@/../reducers/gym';
-import useRematchRate from '@/hooks/useRematchRate';
 import { addLikeAPI, loadLoginedUserAPI } from '@/api/user';
 import { gymAndFriendsByIdKey, meKey } from '@/../@utils/queryKey';
 import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/utils';
@@ -17,6 +16,7 @@ import {
 } from '@/../@types/user';
 import { Icon, Button } from '@/components/atoms';
 import { PropfileCard } from '@/components/molecules';
+import { rematchRate } from '@/../@utils/calculation';
 import ModalPortal from '../ModalPortal';
 import ModalMatchingRequest from '../ModalMatchingRequest';
 import {
@@ -91,7 +91,7 @@ const SearchFriends = ({
             gym?.Users.map((user: SelectedGymUser) => {
               const imageSrc = user.Image?.src ?? '';
               const percent = user.rematchCount
-                ? useRematchRate(user.rematchCount, user.totalCount)
+                ? rematchRate(user.rematchCount, user.totalCount)
                 : 0;
               const isCheckedLike = !!user.Liker.find((l) => l.id === me?.id);
               return (
