@@ -1,22 +1,18 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { BiX } from 'react-icons/bi';
 
 import { useModalDispatch } from '@/../store/modalStore';
 import { gymSelector } from '@/../reducers/gym';
-import { addLikeAPI, loadLoginedUserAPI } from '@/api/user';
+import { addLikeAPI } from '@/api/user';
 import { gymAndFriendsByIdKey, meKey } from '@/../@utils/queryKey';
 import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/utils';
-import {
-  UserGym,
-  SelectedGymUser,
-  Me,
-  SearchFriendsProps,
-} from '@/../@types/user';
+import { UserGym, SelectedGymUser, SearchFriendsProps } from '@/../@types/user';
 import { Icon, Button } from '@/components/atoms';
 import { PropfileCard } from '@/components/molecules';
 import { rematchRate } from '@/../@utils/calculation';
+import { useLoadLoginedUser } from '@/hooks';
 import ModalPortal from '../ModalPortal';
 import ModalMatchingRequest from '../ModalMatchingRequest';
 import {
@@ -39,10 +35,7 @@ const SearchFriends = ({
   const [friend, setFriend] = useState<UserGym>();
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
-    refetchOnWindowFocus: false,
-    retry: false,
-  });
+  const { data: me } = useLoadLoginedUser();
 
   const likeMutation = useMutation((data: number) => addLikeAPI(data), {
     onSuccess: () => {
@@ -90,9 +83,7 @@ const SearchFriends = ({
           {gym?.Users &&
             gym?.Users.map((user: SelectedGymUser) => {
               const imageSrc = user.Image?.src ?? '';
-              const percent = user.rematchCount
-                ? rematchRate(user.rematchCount, user.totalCount)
-                : 0;
+              const percent = rematchRate(user.totalCount, user.rematchCount);
               const isCheckedLike = !!user.Liker.find((l) => l.id === me?.id);
               return (
                 <PropfileCard

@@ -1,10 +1,7 @@
 import React from 'react';
-import { useQuery } from 'react-query';
 
-import { loadLoginedUserAPI } from '@/api/user';
-import { meKey } from '@/../@utils/queryKey';
-import { Me } from '@/../@types/user';
 import { MatchingReqFormProps } from '@/../@types/schedule';
+import { useLoadLoginedUser } from '@/hooks';
 import { FormInput, FormTextarea, FormDateTimePicker } from '../../molecules';
 import { Avatar } from '../../atoms';
 import {
@@ -21,10 +18,7 @@ const MatchingRequestForm = ({
   control,
   errors,
 }: MatchingReqFormProps) => {
-  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
-    refetchOnWindowFocus: false,
-    retry: false,
-  });
+  const { data: me } = useLoadLoginedUser();
 
   return (
     <RequestFriendWrap>

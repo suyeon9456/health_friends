@@ -1,6 +1,7 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { BiChevronDown } from 'react-icons/bi';
 
+import useIsState from '@/hooks/useIsState';
 import {
   FilterWrap,
   FilterSelectorWrap,
@@ -25,30 +26,26 @@ const Filter = ({
 }) => {
   const filterEl = useRef<HTMLInputElement>(null);
   const filterSelectorEl = useRef<HTMLInputElement>(null);
-  const [show, setShow] = useState(false);
-
-  const onChangeShow = useCallback(() => {
-    setShow((prev) => !prev);
-  }, [show]);
+  const [isShow, onChangeIsShow, setIsShow] = useIsState(false);
 
   useEffect(() => {
     const handleFilterOff = (e: { target: Node | null }) => {
       if (
-        show &&
+        isShow &&
         !filterSelectorEl.current?.contains(e?.target) &&
         !filterEl.current?.contains(e.target)
       ) {
-        setShow(false);
+        setIsShow(false);
       }
     };
     window.addEventListener('click', handleFilterOff as EventListener);
     return () => {
       window.removeEventListener('click', handleFilterOff as EventListener);
     };
-  }, [show]);
+  }, [isShow]);
   return (
     <FilterWrap>
-      <FilterSelectorWrap ref={filterSelectorEl} onClick={onChangeShow}>
+      <FilterSelectorWrap ref={filterSelectorEl} onClick={onChangeIsShow}>
         <FilterSelector>
           <FilterSelectorText>{label}</FilterSelectorText>
         </FilterSelector>
@@ -56,7 +53,7 @@ const Filter = ({
           <Icon icon={<BiChevronDown />} />
         </FilterArrrowWrap>
       </FilterSelectorWrap>
-      <FilterContent show={show} ref={filterEl}>
+      <FilterContent show={isShow} ref={filterEl}>
         <CheckBoxGroup>
           {items.map((item, i) => (
             <CheckBox

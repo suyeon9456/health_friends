@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { BiGroup, BiHeart, BiRun, BiTime, BiUser } from 'react-icons/bi';
 
 import { profileSelector } from '@/../reducers/profile';
 import { meSelector } from '@/../reducers/user';
@@ -9,14 +8,16 @@ import {
   ButtonType,
   CareerOptions,
   GenderOptions,
+  InfoContent,
   RoleOptions,
   SizeType,
 } from '@/../@types/utils';
-import { InformationItem, Button, Icon } from '../../../atoms';
+import { Information } from '@/components/molecules';
+import { profileRangeTime } from '@/../@utils/date';
+import { Button } from '../../../atoms';
 import ModalEditInfo from '../ModalEditInfo';
 import ModalPortal from '../../ModalPortal';
 import {
-  Content,
   ContentTitle,
   MoreInfoBody,
   MoreInfoContent,
@@ -26,8 +27,8 @@ import {
 const MoreInfo = () => {
   const { profile } = useSelector(profileSelector);
   const me = useSelector(meSelector);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [targetId, setTargetId] = useState('');
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [targetId, setTargetId] = useState<string>('');
 
   const onChangeShowEditModal = useCallback(
     (e) => {
@@ -41,7 +42,7 @@ const MoreInfo = () => {
   return (
     <MoreInfoWrapper>
       <MoreInfoBody>
-        <MoreInfoContent key="more-info">
+        <MoreInfoContent key={InfoContent.MORE}>
           <ContentTitle>
             <h4>추가정보</h4>
             {me?.id === profile?.id && (
@@ -55,57 +56,26 @@ const MoreInfo = () => {
               </Button>
             )}
           </ContentTitle>
-          <Content>
-            <InformationItem
-              title="나이"
-              icon={<Icon icon={<BiUser />} />}
-              content={
-                AgeOptions.find(
-                  (option: { value: number }) =>
-                    option.value === parseInt(profile?.age, 10)
-                )?.text
-              }
-            />
-            <InformationItem
-              title="운동시간"
-              icon={<Icon icon={<BiTime />} />}
-              content={`${profile?.Userdetail?.startTime || '00:00'} ~ ${
-                profile?.Userdetail?.endTime || '00:00'
-              }`}
-            />
-            <InformationItem
-              title="운동경력"
-              icon={<Icon icon={<BiRun />} />}
-              content={
-                CareerOptions.find(
-                  (option: { value: number }) =>
-                    option.value === parseInt(profile?.career, 10)
-                )?.text
-              }
-            />
-            <InformationItem
-              title="성별"
-              icon={<Icon icon={<BiHeart />} />}
-              content={
-                GenderOptions.find(
+          <Information
+            type={InfoContent.MORE}
+            age={AgeOptions[parseInt(profile?.age, 10)]}
+            time={profileRangeTime(
+              profile?.Userdetail?.startTime,
+              profile?.Userdetail?.endTime
+            )}
+            career={CareerOptions[parseInt(profile?.career, 10)]}
+            gender={
+              GenderOptions[
+                GenderOptions.findIndex(
                   (option: { value: string }) =>
                     option.value === profile?.gender
-                )?.text
-              }
-            />
-            <InformationItem
-              title="역할"
-              icon={<Icon icon={<BiGroup />} />}
-              content={
-                RoleOptions.find(
-                  (option: { value: number }) =>
-                    option.value === parseInt(profile?.role, 10)
-                )?.text
-              }
-            />
-          </Content>
+                )
+              ]
+            }
+            role={RoleOptions[parseInt(profile?.role, 10)]}
+          />
         </MoreInfoContent>
-        <MoreInfoContent key="more-friends-info">
+        <MoreInfoContent key={InfoContent.FRIENDS}>
           <ContentTitle>
             <h4>매칭되고 싶은 친구정보</h4>
             {me?.id === profile?.id && (
@@ -119,51 +89,22 @@ const MoreInfo = () => {
               </Button>
             )}
           </ContentTitle>
-          <Content>
-            <InformationItem
-              title="나이"
-              icon={<Icon icon={<BiUser />} />}
-              content={
-                AgeOptions.find(
-                  (option: { value: number }) =>
-                    option.value ===
-                    parseInt(profile?.Userdetail?.friendsAge, 10)
-                )?.text
-              }
-            />
-            <InformationItem
-              title="운동경력"
-              icon={<Icon icon={<BiRun />} />}
-              content={
-                CareerOptions.find(
-                  (option: { value: number }) =>
-                    option.value ===
-                    parseInt(profile?.Userdetail?.friendsCareer, 10)
-                )?.text
-              }
-            />
-            <InformationItem
-              title="성별"
-              icon={<Icon icon={<BiHeart />} />}
-              content={
-                GenderOptions.find(
+          <Information
+            type={InfoContent.FRIENDS}
+            age={AgeOptions[parseInt(profile?.Userdetail?.friendsAge, 10)]}
+            career={
+              CareerOptions[parseInt(profile?.Userdetail?.friendsCareer, 10)]
+            }
+            gender={
+              GenderOptions[
+                GenderOptions.findIndex(
                   (option: { value: string }) =>
                     option.value === profile?.Userdetail?.friendsGender
-                )?.text
-              }
-            />
-            <InformationItem
-              title="역할"
-              icon={<Icon icon={<BiGroup />} />}
-              content={
-                RoleOptions.find(
-                  (option: { value: number }) =>
-                    option.value ===
-                    parseInt(profile?.Userdetail?.friendsRole, 10)
-                )?.text
-              }
-            />
-          </Content>
+                )
+              ]
+            }
+            role={RoleOptions[parseInt(profile?.Userdetail?.friendsRole, 10)]}
+          />
         </MoreInfoContent>
       </MoreInfoBody>
       <ModalPortal>

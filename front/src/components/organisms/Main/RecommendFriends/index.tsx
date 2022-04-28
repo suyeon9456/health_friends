@@ -11,6 +11,7 @@ import { loadRecommendFriendsAPI } from '@/api/user';
 import { Location } from '@/../@types/map';
 import { GlobalModal, ModalStatus } from '@/../@types/utils';
 import { RecommendFriendsAPI } from '@/../@types/user';
+import useIsState from '@/hooks/useIsState';
 import {
   FriendsWrap,
   FriendsTitle,
@@ -75,7 +76,7 @@ const RecommendFriends = () => {
   const contextDispatch = useModalDispatch();
   const [location, setLocation] = useState<Location | null>(null);
   const [isReloadLocation, setIsReloadLocation] = useState<boolean>(false);
-  const [locationYn, setLocationYn] = useState<boolean>(false);
+  const [isLocation, onChangeIsLocation, setIsLocation] = useIsState(false);
 
   const {
     error,
@@ -94,10 +95,6 @@ const RecommendFriends = () => {
   const reLoadLocation = useCallback(
     () => setIsReloadLocation(true),
     [isReloadLocation]
-  );
-  const onChangeLocationYn = useCallback(
-    () => setLocationYn((prev) => !prev),
-    []
   );
 
   useEffect(() => {
@@ -136,7 +133,7 @@ const RecommendFriends = () => {
         ({ code: errorCode }) => {
           console.error(errorCode);
           if (errorCode === 1) {
-            setLocationYn(true);
+            setIsLocation(true);
 
             setLocation({
               regionSiName: '서울시',
@@ -175,7 +172,7 @@ const RecommendFriends = () => {
   }, []);
 
   useEffect(() => {
-    if (!locationYn) {
+    if (!isLocation) {
       return;
     }
     contextDispatch({
@@ -186,10 +183,10 @@ const RecommendFriends = () => {
         message:
           '현재위치에서 활동중인 친구가 궁금하다면 위치 엑세스를 허용해주세요.',
         block: true,
-        callback: onChangeLocationYn,
+        callback: onChangeIsLocation,
       },
     });
-  }, [locationYn]);
+  }, [isLocation]);
 
   return (
     <FriendsWrap>

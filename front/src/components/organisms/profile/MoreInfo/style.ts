@@ -54,10 +54,3 @@ export const ContentTitle = styled.div`
     font-weight: 600;
   }
 `;
-
-export const Content = styled.div`
-  padding-top: 20px;
-  & > div:not(:last-child) {
-    margin-bottom: 10px;
-  }
-`;

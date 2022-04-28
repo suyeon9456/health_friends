@@ -42,7 +42,7 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
     AxiosError
   >(
     schedulesByIdKey({
-      profileId: profile.id,
+      profileId: profile?.id,
       status,
       term,
       type,
@@ -73,7 +73,7 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
     {
       refetchOnWindowFocus: false,
       retry: false,
-      enabled: !!profile.id,
+      enabled: !!profile,
       getNextPageParam: (lastPage) => {
         return lastPage[lastPage.length - 1].nextCursor > 0
           ? lastPage[lastPage.length - 1].nextCursor

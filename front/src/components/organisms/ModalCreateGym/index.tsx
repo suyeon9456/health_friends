@@ -1,7 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 
 import { ButtonType } from '@/../@types/utils';
 import { ModalCreateGymProps } from '@/../@types/gym';
+import useIsState from '@/hooks/useIsState';
 import { FormInput } from '../../molecules';
 import { Button } from '../../atoms';
 import KakaoPostcode from '../KakaoPostcode';
@@ -9,10 +10,8 @@ import ModalPortal from '../ModalPortal';
 import { CreateFormWrap, FormSearchPostcode } from './style';
 
 const ModalCreateGym = ({ control, setValue }: ModalCreateGymProps) => {
-  const [showPostcode, setShowPostcode] = useState(false);
-  const changeShowPostcode = useCallback(() => {
-    setShowPostcode((prev) => !prev);
-  }, [showPostcode]);
+  const [isShowPostcode, changeIsShowPostcode, setIsShowPostcode] =
+    useIsState(false);
 
   return (
     <CreateFormWrap>
@@ -27,7 +26,7 @@ const ModalCreateGym = ({ control, setValue }: ModalCreateGymProps) => {
         />
         <div className="button-wrap">
           <div />
-          <Button type={ButtonType.PRIMARY} onClick={changeShowPostcode}>
+          <Button type={ButtonType.PRIMARY} onClick={changeIsShowPostcode}>
             주소 검색
           </Button>
         </div>
@@ -57,10 +56,10 @@ const ModalCreateGym = ({ control, setValue }: ModalCreateGymProps) => {
         disabled
       />
       <ModalPortal>
-        {showPostcode && (
+        {isShowPostcode && (
           <KakaoPostcode
-            onCancel={changeShowPostcode}
-            setShowPostcode={setShowPostcode}
+            onCancel={changeIsShowPostcode}
+            setShowPostcode={setIsShowPostcode}
             setValue={setValue}
           />
         )}

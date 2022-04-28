@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from 'react-query';
 import { BiEdit } from 'react-icons/bi';
@@ -9,6 +9,7 @@ import useInput from '@/hooks/useInput';
 import { updateDescriptionAPI, updateNicknameAPI } from '@/api/user';
 import { meKey, profileKey } from '@/../@utils/queryKey';
 import { ButtonType, SizeType } from '@/../@types/utils';
+import useIsState from '@/hooks/useIsState';
 import { Button, Icon, Input } from '../../../atoms';
 import {
   ContentText,
@@ -25,8 +26,8 @@ const Info = () => {
   const queryClient = useQueryClient();
   const { profile } = useSelector(profileSelector);
   const me = useSelector(meSelector);
-  const [isEditNickname, setIsEditNickname] = useState<boolean>(false);
-  const [isEditDescription, setIsEditDescription] = useState<boolean>(false);
+  const [isEditNickname, onChangeIsEditNickname] = useIsState(false);
+  const [isEditDescription, onChangeIsEditDescription] = useIsState(false);
 
   const [nickname, onChangeNickname] = useInput<string>(
     profile?.nickname || ''
@@ -34,6 +35,7 @@ const Info = () => {
   const [description, onChangeDescription] = useInput<string>(
     profile?.Userdetail?.description || ''
   );
+
   const nicknameMutation = useMutation(
     (data: { nickname: string }) => updateNicknameAPI(data),
     {
@@ -54,14 +56,6 @@ const Info = () => {
       },
     }
   );
-
-  const onChangeIsEditNickname = useCallback(() => {
-    setIsEditNickname((prev) => !prev);
-  }, [isEditNickname]);
-
-  const onChangeIsEditDescription = useCallback(() => {
-    setIsEditDescription((prev) => !prev);
-  }, [isEditDescription]);
 
   const onUpdateNickname = useCallback(() => {
     nicknameMutation.mutate({ nickname });

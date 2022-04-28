@@ -1,10 +1,12 @@
 import { InputNumberType, InputNumberTypeT } from '../@types/utils';
 
 export const rematchRate = (
-  rematchingCount: number,
-  matchingCount: number
+  matchingCount: number,
+  rematchingCount?: number
 ): number => {
-  return Math.round((rematchingCount / matchingCount) * 100);
+  return rematchingCount
+    ? Math.round((rematchingCount / matchingCount) * 100)
+    : 0;
 };
 
 export const inputNumber = ({

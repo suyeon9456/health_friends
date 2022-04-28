@@ -1,4 +1,4 @@
-import { UpdateCancelAPI } from '@/../@types/schedule';
+import { MatchingCardProps, UpdateCancelAPI } from '@/../@types/schedule';
 import { Me } from '@/../@types/user';
 import {
   ButtonTypeT,
@@ -12,10 +12,11 @@ import {
   updateCancelAPI,
   updatePermissionAPI,
 } from '@/api/schedule';
-import { useCallback } from 'react';
+import { isLastDate } from '@/../@utils/date';
+import { useCallback, useState } from 'react';
 import { useMutation } from 'react-query';
 
-interface Props {
+interface CustomScheduleType {
   id?: number;
   isPermitted?: boolean;
   permission?: boolean;
@@ -29,90 +30,130 @@ interface Props {
   };
 }
 
-export const matchingActions = (
-  onCancel: () => void,
-  schedule: Props,
-  profileId: number,
-  me?: Me
-):
+interface Props {
+  schedule: MatchingCardProps;
+  profileId: number;
+  me: Me;
+}
+type StateType =
   | ReadonlyArray<{
       id: string;
       title?: string;
       type?: ButtonTypeT;
       onClick: () => void;
     }>
-  | readonly [] => {
-  if (!schedule) return [];
-  const { isPermitted, permission, isLast, Requester } = schedule;
+  | readonly [];
+
+type ReturnType = [StateType, (prop: Props) => void];
+
+const useMatchingActions = (
+  defaultValues: [],
+  callback: () => void
+): ReturnType => {
+  const [actions, setActions] = useState<StateType>(defaultValues);
+  const [customSchedule, setCustomSchedule] =
+    useState<CustomScheduleType | null>(null);
   const scheduleMutation = useMutation(
     (data: { scheduleId?: number; permission: boolean; friendId?: number }) =>
       updatePermissionAPI(data),
     {
-      onSuccess: () => onCancel(),
+      onSuccess: () => callback(),
     }
   );
 
   const cancelMutation = useMutation(
     (data: { id?: number }) => addCancelAPI(data),
     {
-      onSuccess: () => {
-        onCancel();
-      },
+      onSuccess: () => callback(),
     }
   );
 
   const updateCancelMutation = useMutation(
     (data: UpdateCancelAPI) => updateCancelAPI(data),
     {
-      onSuccess: () => onCancel(),
+      onSuccess: () => callback(),
     }
   );
 
   const onAccept = useCallback(() => {
-    const { id } = schedule;
+    if (!customSchedule) return;
+    const { id, isPermitted } = customSchedule;
 
     if (!isPermitted) {
       scheduleMutation.mutate({
         scheduleId: id,
         permission: true,
-        friendId: schedule?.Requester?.id,
+        friendId: customSchedule?.Requester?.id,
       });
     }
-  }, [schedule]);
+  }, [customSchedule]);
 
   const onRefuse = useCallback(() => {
+    if (!customSchedule) return;
     scheduleMutation.mutate({
-      scheduleId: schedule.id,
+      scheduleId: customSchedule.id,
       permission: false,
-      friendId: schedule?.Requester?.id,
+      friendId: customSchedule?.Requester?.id,
     });
-  }, [schedule]);
+  }, [customSchedule]);
 
   const onCancelRequest = useCallback(() => {
-    cancelMutation.mutate({ id: schedule.id });
-  }, [schedule]);
+    if (!customSchedule) return;
+    cancelMutation.mutate({ id: customSchedule.id });
+  }, [customSchedule]);
 
   const onCancelResponse = useCallback(() => {
-    const { id, Cancel } = schedule;
+    if (!customSchedule) return;
+    const { id, Cancel } = customSchedule;
 
     updateCancelMutation.mutate({
       id,
-      friendId: schedule?.Requester?.id,
+      friendId: customSchedule?.Requester?.id,
       cancelId: Cancel?.id,
     });
-  }, [schedule]);
-  if (!me) return [];
-  if (profileId !== me.id) return [];
-  if (!isLast) {
-    if (!isPermitted && Requester?.id !== me?.id)
-      return detailActions(onRefuse, onAccept);
-    if (permission && !schedule?.Cancel)
-      return reqCancelActions(onCancelRequest);
-  }
-  if (permission && schedule?.Cancel) {
-    const { RequestId } = schedule?.Cancel;
-    if (RequestId === me?.id) return waitCancelActions(onCancel);
-    if (RequestId !== me?.id) return resCancelActions(onCancelResponse);
-  }
-  return [];
+  }, [customSchedule]);
+
+  const onChangeActions = useCallback(
+    ({ schedule, profileId, me }: Props) => {
+      setCustomSchedule(schedule);
+      const { start } = schedule;
+      const isLast = isLastDate(start);
+      if (!me) {
+        setActions([]);
+        return;
+      }
+      if (profileId !== me.id) {
+        setActions([]);
+        return;
+      }
+      if (!isLast) {
+        if (!schedule.isPermitted && schedule.Requester?.id !== me?.id) {
+          setActions(detailActions(onRefuse, onAccept));
+          return;
+        }
+        if (schedule.permission && !schedule?.Cancel) {
+          setActions(reqCancelActions(onCancelRequest));
+          return;
+        }
+      }
+      if (schedule.permission && schedule?.Cancel) {
+        const { RequestId, isCanceled } = schedule?.Cancel;
+        if (isCanceled) {
+          setActions([]);
+          return;
+        }
+        if (RequestId === me?.id) {
+          setActions(waitCancelActions(callback));
+          return;
+        }
+        if (RequestId !== me?.id) {
+          setActions(resCancelActions(onCancelResponse));
+        }
+      }
+    },
+    [actions]
+  );
+  return [actions, onChangeActions];
 };
+
+export default useMatchingActions;

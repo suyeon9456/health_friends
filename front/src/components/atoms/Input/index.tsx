@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { BiLock, BiLockOpen } from 'react-icons/bi';
 
 import { InputProps } from '@/../@types/atoms';
 import { InputType, SizeType } from '@/../@types/utils';
+import useIsState from '@/hooks/useIsState';
 import { InputContainer, InputContent, InputWrap, InputWrapBox } from './style';
 import Icon from '../Icon';
 
@@ -18,11 +19,7 @@ const Input = ({
   error,
   ...props
 }: InputProps) => {
-  const [passwordType, setPasswordType] = useState(true);
-
-  const onChangePasswordType = useCallback(() => {
-    setPasswordType((prev) => !prev);
-  }, []);
+  const [isPassword, onChangeIsPassword] = useIsState(true);
 
   if (type === InputType.PASSWORD) {
     return (
@@ -33,7 +30,7 @@ const Input = ({
               <InputContainer
                 name={name}
                 rules={{ required: true }}
-                type={passwordType ? 'password' : 'text'}
+                type={isPassword ? 'password' : 'text'}
                 passwordType={type}
                 value={value}
                 onChange={onChange}
@@ -42,14 +39,10 @@ const Input = ({
                 {...props}
               />
               <span>
-                {passwordType ? (
-                  // <LockOutlined
-                  //   color="#000000d9"
-                  //   onClick={onChangePasswordType}
-                  // />
-                  <Icon icon={<BiLock />} onClick={onChangePasswordType} />
+                {isPassword ? (
+                  <Icon icon={<BiLock />} onClick={onChangeIsPassword} />
                 ) : (
-                  <Icon icon={<BiLockOpen />} onClick={onChangePasswordType} />
+                  <Icon icon={<BiLockOpen />} onClick={onChangeIsPassword} />
                 )}
               </span>
             </InputWrap>

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
@@ -10,6 +10,7 @@ import {
 } from '@/../reducers/user';
 import { formatTime } from '@/../@utils/date';
 import { ButtonType, SignupMenu, SizeType } from '@/../@types/utils';
+import useIsState from '@/hooks/useIsState';
 import {
   FormInput,
   FormRangeTimePicker,
@@ -24,7 +25,7 @@ const MoreGymInfoForm = () => {
   const dispatch = useDispatch();
 
   const { signupStepGymInfo, selectedGym } = useSelector(signupSelector);
-  const [showModal, setShowModal] = useState(false);
+  const [isShow, onchangeIsShow, setIsShow] = useIsState(false);
   const { handleSubmit, control, setValue } = useForm<{
     startTime: Date;
     endTime: Date;
@@ -38,10 +39,6 @@ const MoreGymInfoForm = () => {
       description: signupStepGymInfo?.description || '',
     },
   });
-
-  const changeShowModal = useCallback(() => {
-    setShowModal((prev) => !prev);
-  }, [showModal]);
 
   const onClickStepHandler = useCallback((data, e) => {
     dispatch(
@@ -74,14 +71,14 @@ const MoreGymInfoForm = () => {
             size={SizeType.LARGE}
             control={control}
             disabled
-            {...{ onClick: changeShowModal }}
+            {...{ onClick: onchangeIsShow }}
           />
           <div className="button-wrap">
             <div />
             <Button
               type={ButtonType.PRIMARY}
               size={SizeType.LARGE}
-              onClick={changeShowModal}
+              onClick={onchangeIsShow}
             >
               헬스장 찾기
             </Button>
@@ -116,11 +113,11 @@ const MoreGymInfoForm = () => {
         </ButtonWrap>
       </Form>
       <ModalPortal>
-        {showModal && (
+        {isShow && (
           <ModalGym
             title="헬스장 찾기/등록"
-            onCancel={changeShowModal}
-            setShowModal={setShowModal}
+            onCancel={onchangeIsShow}
+            setShowModal={setIsShow}
             setGym={setValue}
             {...{ className: 'gym-modal' }}
           />

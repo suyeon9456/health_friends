@@ -11,10 +11,10 @@ import {
 import { useShowDispatch } from '@/../store/contextStore';
 
 import { ButtonType } from '@/../@types/utils';
-import { Me } from '@/../@types/user';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { loadLoginedUserAPI, logoutAPI } from '@/api/user';
+import { useMutation, useQueryClient } from 'react-query';
+import { logoutAPI } from '@/api/user';
 import { meKey } from '@/../@utils/queryKey';
+import { useLoadLoginedUser } from '@/hooks';
 import { Button, Avatar, Icon } from '../../atoms';
 import {
   Drawer,
@@ -39,10 +39,7 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
   const contextDispatch = useShowDispatch();
   const queryClient = useQueryClient();
 
-  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
-    refetchOnWindowFocus: false,
-    retry: false,
-  });
+  const { data: me } = useLoadLoginedUser();
 
   const logoutMutation = useMutation(() => logoutAPI(), {
     onSuccess: () => queryClient.invalidateQueries(meKey),

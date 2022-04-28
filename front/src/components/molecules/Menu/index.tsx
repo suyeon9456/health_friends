@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { BiMenu } from 'react-icons/bi';
 
 import { SizeType } from '@/../@types/utils';
-import { Me } from '@/../@types/user';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { loadLoginedUserAPI, logoutAPI } from '@/api/user';
+import { useMutation, useQueryClient } from 'react-query';
+import { logoutAPI } from '@/api/user';
 import { meKey, profileKey } from '@/../@utils/queryKey';
+import { useLoadLoginedUser } from '@/hooks';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 
 import { Avatar, Icon } from '../../atoms';
@@ -16,10 +16,8 @@ const Menu = () => {
   const { drawerShow } = useShowState();
   const contextDispatch = useShowDispatch();
   const queryClient = useQueryClient();
-  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
-    refetchOnWindowFocus: false,
-    retry: false,
-  });
+
+  const { data: me } = useLoadLoginedUser();
   const logoutMutation = useMutation(() => logoutAPI(), {
     onSuccess: () => {
       void queryClient.invalidateQueries(meKey);

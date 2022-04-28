@@ -18,6 +18,7 @@ import {
   ShowModalType,
 } from '@/../@types/utils';
 import { scheduleByIdKey } from '@/../@utils/queryKey';
+import useIsState from '@/hooks/useIsState';
 import { LoadingMatchingCard, MatchingCard } from '../../molecules';
 import { Icon } from '../../atoms';
 import ModalMatchingDetail from '../profile/ModalMatchingDetail';
@@ -38,17 +39,18 @@ const MatchingCardList = ({
   const me = useSelector(meSelector);
   const [matchingId, setMatchingId] = useState<number | null>(null);
   const [showDetailModal, setShowDetailModal] = useState<boolean>(false);
-  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [isShowEditModal, onChangeIsShowEditModal, setIsShowEditModal] =
+    useIsState(false);
   const [modalType, setModalType] = useState<ShowModalType>(ModalType.VIEW);
   const [schedule, onChangeSchedule] = useScheduleData();
 
   const _result = useQuery<RecordScheduleAPI>(
-    scheduleByIdKey(matchingId, queryId, profile.id),
-    () => loadScheduleAPI(matchingId, queryId, profile.id),
+    scheduleByIdKey(matchingId, queryId, profile?.id),
+    () => loadScheduleAPI(matchingId, queryId, profile?.id),
     {
       refetchOnWindowFocus: false,
       retry: false,
-      enabled: !!matchingId,
+      enabled: !!matchingId && !!profile,
       onSuccess: (data) => {
         if (!data) return;
         onChangeSchedule(data, profile);
@@ -56,14 +58,10 @@ const MatchingCardList = ({
     }
   );
 
-  const onChangeShowEditModal = useCallback(() => {
-    setShowEditModal((prev) => !prev);
-  }, [showEditModal]);
-
   const onChangeShowDetailModal = useCallback(() => {
     setShowDetailModal((prev) => !prev);
     setMatchingId(null);
-  }, [showEditModal, matchingId, queryId, profile]);
+  }, [isShowEditModal, matchingId, queryId, profile]);
 
   const onClickAction = useCallback(
     ({ key, id }) => {
@@ -73,10 +71,10 @@ const MatchingCardList = ({
         setShowDetailModal((prev) => !prev);
       }
       if (key === ModalType.EDIT || key === ModalType.REMATCH) {
-        setShowEditModal((prev) => !prev);
+        setIsShowEditModal((prev) => !prev);
       }
     },
-    [showDetailModal, showEditModal, modalType, matchingId]
+    [showDetailModal, isShowEditModal, modalType, matchingId]
   );
 
   return (
@@ -124,10 +122,10 @@ const MatchingCardList = ({
             onCancel={onChangeShowDetailModal}
           />
         )}
-        {showEditModal && (
+        {isShowEditModal && (
           <ModalMatchingEdit
             schedule={schedule}
-            onCancel={onChangeShowEditModal}
+            onCancel={onChangeIsShowEditModal}
             mode={modalType}
           />
         )}

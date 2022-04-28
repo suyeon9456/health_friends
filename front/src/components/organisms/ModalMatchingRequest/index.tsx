@@ -6,13 +6,11 @@ import * as yup from 'yup';
 
 import { gymSelector } from '@/../reducers/gym';
 import { SizeType } from '@/../@types/utils';
-import { useMutation, useQuery } from 'react-query';
-import { Me } from '@/../@types/user';
-import { loadLoginedUserAPI } from '@/api/user';
-import { meKey } from '@/../@utils/queryKey';
+import { useMutation } from 'react-query';
 import { addScheduleAPI } from '@/api/schedule';
 import { ModalMatchingProps, Schedule } from '@/../@types/schedule';
 import { createEndDate } from '@/../@utils/date';
+import { useLoadLoginedUser } from '@/hooks';
 import { Modal } from '../../molecules';
 import { Avatar } from '../../atoms';
 import MatchingRequestForm from '../MatchingRequestForm';
@@ -31,10 +29,7 @@ const ModalMatchingRequest = ({
   gymName,
 }: ModalMatchingProps): React.ReactElement => {
   const { gym } = useSelector(gymSelector);
-  const { data: me } = useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
-    refetchOnWindowFocus: false,
-    retry: false,
-  });
+  const { data: me } = useLoadLoginedUser();
 
   const { handleSubmit, control, setValue } = useForm({
     defaultValues: {

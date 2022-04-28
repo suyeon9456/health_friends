@@ -21,6 +21,7 @@ import { ButtonType, Menu, ProfileMenuType } from '@/../@types/utils';
 import { meSelector } from '@/../reducers/user';
 import { useRouter } from 'next/router';
 import { rematchRate } from '@/../@utils/calculation';
+import useIsState from '@/hooks/useIsState';
 import Progress from '../../../molecules/Progress';
 import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
@@ -48,9 +49,9 @@ const SideBar = ({
   const contextDispatch = useModalDispatch();
   const me = useSelector(meSelector);
   const { profile } = useSelector(profileSelector);
-  const [uploadState, setUploadState] = useState<boolean>(false);
   const [imgPath, setImgPath] = useState<string>('');
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [isUpload, onChangeIsUpload] = useIsState(false);
   const [responseRate, onChangeResponseRate] = useRate({
     total: profile?.resSchedule?.length || 0,
     number:
@@ -73,8 +74,6 @@ const SideBar = ({
 
   const onClickMenu = useCallback(
     (menu) => {
-      console.log('query', router.query);
-      console.log('menu', menu);
       void router.push({ query: { id: profile.id, tab: menu } }, undefined, {
         shallow: true,
       });
@@ -91,14 +90,10 @@ const SideBar = ({
     uploadImage.mutate(imageFormData);
   }, []);
 
-  const onChangeUploadState = useCallback(() => {
-    setUploadState((prev) => !prev);
-  }, [uploadState]);
-
   const onAddProfileImage = useCallback(() => {
     const thumbImg = originalToThumb(imgPath);
     addImage.mutate(thumbImg);
-    onChangeUploadState();
+    onChangeIsUpload();
   }, [imgPath]);
 
   const onRemoveUploadImage = useCallback(() => {
@@ -126,7 +121,7 @@ const SideBar = ({
   return (
     <SideBarWrapper>
       <AvatarWrapper>
-        {me?.id && uploadState ? (
+        {me?.id && isUpload ? (
           <>
             <Form encType="multipart/form-data">
               <Upload
@@ -140,7 +135,7 @@ const SideBar = ({
               />
             </Form>
             <div>
-              <Button type={ButtonType.TEXT} onClick={onChangeUploadState}>
+              <Button type={ButtonType.TEXT} onClick={onChangeIsUpload}>
                 취소
               </Button>
             </div>
@@ -153,7 +148,7 @@ const SideBar = ({
             />
             {me?.id && profile?.id === me?.id ? (
               <div>
-                <Button type={ButtonType.TEXT} onClick={onChangeUploadState}>
+                <Button type={ButtonType.TEXT} onClick={onChangeIsUpload}>
                   프로필 사진 변경하기
                 </Button>
               </div>
@@ -177,14 +172,10 @@ const SideBar = ({
           </InfoIconWrapper>
           <Progress
             label="재매칭률"
-            percent={
+            percent={rematchRate(
+              profile?.matchingTotalCount,
               profile?.matchingRecount
-                ? rematchRate(
-                    profile?.matchingRecount,
-                    profile?.matchingTotalCount
-                  )
-                : 0
-            }
+            )}
           />
         </InfoContent>
         <InfoContent key="response">
@@ -211,8 +202,8 @@ const SideBar = ({
       </InfoWrapper>
       <SideMenuWrap active={profileMenu}>
         <SideMenu
-          key="info"
-          id="info"
+          key={Menu.INFO}
+          id={Menu.INFO}
           onClick={() => onClickMenu(Menu.INFO)}
           className={profileMenu === Menu.INFO ? 'active' : ''}
         >
@@ -222,8 +213,8 @@ const SideBar = ({
           </MenuText>
         </SideMenu>
         <SideMenu
-          key="calendar"
-          id="calendar"
+          key={Menu.CALENDAR}
+          id={Menu.CALENDAR}
           onClick={() => onClickMenu(Menu.CALENDAR)}
           className={profileMenu === Menu.CALENDAR ? 'active' : ''}
         >
@@ -231,8 +222,8 @@ const SideBar = ({
           <MenuText>매칭일정</MenuText>
         </SideMenu>
         <SideMenu
-          key="record"
-          id="record"
+          key={Menu.RECORD}
+          id={Menu.RECORD}
           onClick={() => onClickMenu(Menu.RECORD)}
           className={profileMenu === Menu.RECORD ? 'active' : ''}
         >
@@ -240,8 +231,8 @@ const SideBar = ({
           <MenuText>매칭기록</MenuText>
         </SideMenu>
         <SideMenu
-          key="liked"
-          id="liked"
+          key={Menu.LIKED}
+          id={Menu.LIKED}
           onClick={() => onClickMenu(Menu.LIKED)}
           className={profileMenu === Menu.LIKED ? 'active' : ''}
         >

@@ -248,3 +248,10 @@ export const TypeFilter = [
 ] as const;
 
 // export type SearchGymTabsType = typeof SearchGymTabs[number];
+
+export const InfoContent = {
+  MORE: 'MORE',
+  FRIENDS: 'FRIENDS',
+} as const;
+
+export type InfoContentType = typeof InfoContent[keyof typeof InfoContent];
