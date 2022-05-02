@@ -31,11 +31,6 @@ export const FooterContent = styled.div`
 
 export const LogoWrap = styled.div`
   flex: 1 1 0;
-
-  & > img {
-    width: 200px;
-    height: 40px;
-  }
 `;
 
 export const InfoWrap = styled.div`

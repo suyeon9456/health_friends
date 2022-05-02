@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { BiSearchAlt } from 'react-icons/bi';
 
 import { ButtonType, SizeType } from '@/../@types/utils';
@@ -7,18 +8,27 @@ import RecommendFriends from '../RecommendFriends';
 import { Button, Icon } from '../../../atoms';
 import {
   BannerWrap,
-  BannerImage,
+  BannerImageWrap,
   BannerContent,
   BannerContentWrap,
   BannerHeader,
   BannerHeaderTitle,
-  BannerImageWrap,
+  BannerImageBack,
+  BannerImage,
 } from './style';
 
 const MainBanner = () => (
   <BannerWrap>
-    <BannerImageWrap />
-    <BannerImage />
+    <BannerImageBack />
+    <BannerImageWrap>
+      <BannerImage>
+        <Image
+          src="https://img.health-friends.com/_next/images/banner.jpg"
+          layout="fill"
+          priority
+        />
+      </BannerImage>
+    </BannerImageWrap>
     <BannerHeader>
       <Link href="/friends" passHref>
         <a>

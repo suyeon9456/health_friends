@@ -1,26 +1,35 @@
 import styled from 'styled-components';
+import Image from 'next/image';
 
 export const BannerWrap = styled.section`
   position: relative;
   width: 100%;
 `;
 
-export const BannerImageWrap = styled.div`
+export const BannerImageBack = styled.div`
   position: absolute;
   background-color: #b5b5b5;
   width: 100%;
   height: 400px;
 `;
 
-export const BannerImage = styled.div`
+export const BannerImageWrap = styled.div`
   position: absolute;
   top: 0;
   right: 0;
-  background-image: url('https://img.health-friends.com/_next/images/banner.jpg');
   display: inline-block;
   width: 100%;
   max-width: 1280px;
   height: 400px;
+`;
+
+export const BannerImage = styled.div`
+  width: 100%;
+  height: 400px;
+  position: relative;
+  & > img {
+    object-fit: cover;
+  }
 `;
 
 export const BannerHeader = styled.div`

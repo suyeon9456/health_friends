@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { logoutAPI } from '@/api/user';
 import { meKey, profileKey } from '@/../@utils/queryKey';
 import { useLoadLoginedUser } from '@/hooks';
+import Image from 'next/image';
 import { useShowDispatch, useShowState } from '../../../../store/contextStore';
 
 import { Avatar, Icon } from '../../atoms';
@@ -41,8 +42,11 @@ const Menu = () => {
         <MenuTitle>
           <Link href="/">
             <MenuText>
-              <img
+              <Image
                 src="https://img.health-friends.com/_next/images/logo.png"
+                width={138}
+                height={46}
+                layout="intrinsic"
                 alt="logo"
               />
             </MenuText>

@@ -2,6 +2,7 @@ import React from 'react';
 import { AiOutlineGithub } from 'react-icons/ai';
 
 import { Icon } from '@/components/atoms';
+import Image from 'next/image';
 import {
   IconWrap,
   FooterWrap,
@@ -17,8 +18,11 @@ const Footer = () => (
     <FooterContentWrap>
       <FooterContent>
         <LogoWrap>
-          <img
+          <Image
             src="https://img.health-friends.com/_next/images/sub_logo.png"
+            width={200}
+            height={40}
+            layout="intrinsic"
             alt="sub_logo"
           />
         </LogoWrap>
