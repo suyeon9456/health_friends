@@ -10,7 +10,6 @@ import { gymAndFriendsByIdKey } from '@/../@utils/queryKey';
 import { ButtonType } from '@/../@types/utils';
 import { Location } from '@/../@types/gym';
 import { SearchMapProps } from '@/../@types/map';
-import { userIcon } from '@/../@utils/svg';
 import { avatarContainer, overlayContainer } from '@/../@utils/tamplate';
 import { Button, Icon } from '../../atoms';
 import { MapWrap } from './style';

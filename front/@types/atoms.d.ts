@@ -10,7 +10,7 @@ import {
 
 export interface AvatarProps {
   size?: SizeTypeT | number;
-  src?: string;
+  src?: StaticImport;
   style?: React.CSSProperties;
 }
 

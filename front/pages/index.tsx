@@ -1,10 +1,9 @@
-import axios from 'axios';
-import { GetServerSideProps } from 'next';
+import { loadRealTimeMatchingAPI } from '@/api/user';
+import { GetStaticProps, GetStaticPropsContext } from 'next';
 import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
 
 import { AppLayout, Main, Footer } from '../src/components/organisms';
-import wrapper from '../store/configureStore';
 
 const Home = () => (
   <AppLayout spanNumber={24}>
@@ -46,5 +45,22 @@ const Home = () => (
 //       },
 //     };
 //   });
+
+export const getStaticProps: GetStaticProps = async (
+  context: GetStaticPropsContext
+) => {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(['realtime'], () =>
+    loadRealTimeMatchingAPI()
+  );
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+      // dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
+    revalidate: 30,
+  };
+};
 
 export default Home;

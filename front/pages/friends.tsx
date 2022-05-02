@@ -1,7 +1,13 @@
+import { loadGymsAPI } from '@/api/gym';
 import axios from 'axios';
-import { GetServerSideProps } from 'next';
+import {
+  GetServerSideProps,
+  GetStaticProps,
+  GetStaticPropsContext,
+} from 'next';
 import React, { useState } from 'react';
-import { QueryClient } from 'react-query';
+import { dehydrate, QueryClient } from 'react-query';
+import { gymsKey } from '../@utils/queryKey';
 import {
   AppLayout,
   SearchGyms,
@@ -37,18 +43,23 @@ const Friends = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps =
-  wrapper.getServerSideProps(() => async () => {
-    const queryClient = new QueryClient();
-    await queryClient.prefetchInfiniteQuery('realtimeMathcing', () =>
-      axios.get('/users/realtimeMathcing')
-    );
-    console.log('queryClient', queryClient);
-    return {
-      props: {
-        // dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-      },
-    };
-  });
+export const getStaticProps: GetStaticProps = async (
+  context: GetStaticPropsContext
+) => {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(
+    gymsKey({ searchWord: '', isSearch: true }),
+    () => loadGymsAPI({ searchWord: '' })
+  );
+  console.log(JSON.stringify(dehydrate(queryClient)));
+
+  return {
+    props: {
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+      // dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
+    revalidate: 30,
+  };
+};
 
 export default Friends;

@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState, SetStateAction } from 'react';
+import React, { useCallback, useState, SetStateAction } from 'react';
+import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from 'react-query';
 import {
@@ -13,18 +14,16 @@ import {
 
 import { useModalDispatch } from '@/../store/modalStore';
 import { profileSelector } from '@/../reducers/profile';
-import useRate from '@/hooks/useRate';
-import { addImageAPI, uploadImageAPI } from '@/api/profile';
-import { profileKey } from '@/../@utils/queryKey';
-import { originalToThumb } from '@/../@utils/regexp';
-import { ButtonType, Menu, ProfileMenuType } from '@/../@types/utils';
 import { meSelector } from '@/../reducers/user';
-import { useRouter } from 'next/router';
-import { rematchRate } from '@/../@utils/calculation';
 import useIsState from '@/hooks/useIsState';
-import Progress from '../../../molecules/Progress';
+import { addImageAPI, uploadImageAPI } from '@/api/profile';
+import { rematchRate, responseRate } from '@/../@utils/calculation';
+import { originalToThumb } from '@/../@utils/regexp';
+import { profileKey } from '@/../@utils/queryKey';
+import { ButtonType, Menu, ProfileMenuType } from '@/../@types/utils';
 import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
+import Progress from '../../../molecules/Progress';
 import ModalPortal from '../../ModalPortal';
 import {
   AvatarWrapper,
@@ -52,13 +51,6 @@ const SideBar = ({
   const [imgPath, setImgPath] = useState<string>('');
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isUpload, onChangeIsUpload] = useIsState(false);
-  const [responseRate, onChangeResponseRate] = useRate({
-    total: profile?.resSchedule?.length || 0,
-    number:
-      profile?.resSchedule?.filter(
-        (f: { isPermitted: boolean }) => f.isPermitted
-      ).length || 0,
-  });
 
   const uploadImage = useMutation((data: FormData) => uploadImageAPI(data), {
     onSuccess: (originalPath) => {
@@ -106,17 +98,6 @@ const SideBar = ({
       payload: 'id',
     });
   }, [me?.id]);
-
-  useEffect(() => {
-    if (profile) {
-      onChangeResponseRate(
-        profile.resSchedule?.length || 0,
-        profile.resSchedule?.filter(
-          (f: { isPermitted: boolean }) => f.isPermitted
-        ).length || 0
-      );
-    }
-  }, [profile]);
 
   return (
     <SideBarWrapper>
@@ -182,7 +163,10 @@ const SideBar = ({
           <InfoIconWrapper>
             <Icon icon={<BiCommentCheck />} />
           </InfoIconWrapper>
-          <Progress label="응답률" percent={responseRate || 0} />
+          <Progress
+            label="응답률"
+            percent={responseRate(profile?.resSchedule)}
+          />
         </InfoContent>
         <InfoContent key="address">
           <InfoIconWrapper>

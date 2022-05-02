@@ -9,6 +9,18 @@ export const rematchRate = (
     : 0;
 };
 
+export const responseRate = (
+  resSchedule?: Array<{ isPermitted: boolean }>
+): number => {
+  if (!resSchedule) return 0;
+  const total = resSchedule.length;
+  const number =
+    resSchedule.filter((f: { isPermitted: boolean }) => f.isPermitted).length ||
+    0;
+
+  return Math.round((number / total) * 100);
+};
+
 export const inputNumber = ({
   type,
   prev,

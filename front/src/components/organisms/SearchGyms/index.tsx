@@ -39,7 +39,7 @@ const SearchGyms = ({
   const [searchWord, onChangeSearchWord] = useInput<string>('');
   const [browserHeight, setBrowserHeight] = useState<number>(0);
   const [gymId, setGymId] = useState<number>(0);
-  const [isSearch, setIsSearch] = useState<boolean>(false);
+  const [isSearch, setIsSearch] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string | string>('');
 
   const { isLoading } = useQuery(
