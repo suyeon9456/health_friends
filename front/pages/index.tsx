@@ -1,7 +1,13 @@
 import { loadRealTimeMatchingAPI } from '@/api/user';
-import { GetStaticProps, GetStaticPropsContext } from 'next';
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  GetStaticProps,
+  GetStaticPropsContext,
+} from 'next';
 import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
+import { recommendKey } from '../@utils/queryKey';
 
 import { AppLayout, Main, Footer } from '../src/components/organisms';
 
@@ -46,11 +52,14 @@ const Home = () => (
 //     };
 //   });
 
-export const getStaticProps: GetStaticProps = async (
-  context: GetStaticPropsContext
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
 ) => {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(['realtime'], () =>
+    loadRealTimeMatchingAPI()
+  );
+  await queryClient.prefetchQuery(recommendKey(null), () =>
     loadRealTimeMatchingAPI()
   );
 
@@ -59,7 +68,6 @@ export const getStaticProps: GetStaticProps = async (
       dehydratedState: dehydrate(queryClient),
       // dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
-    revalidate: 30,
   };
 };
 

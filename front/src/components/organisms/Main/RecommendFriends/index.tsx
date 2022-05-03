@@ -12,6 +12,7 @@ import { Location } from '@/../@types/map';
 import { GlobalModal, ModalStatus } from '@/../@types/utils';
 import { RecommendFriendsAPI } from '@/../@types/user';
 import useIsState from '@/hooks/useIsState';
+import { recommendKey } from '@/../@utils/queryKey';
 import {
   FriendsWrap,
   FriendsTitle,
@@ -83,12 +84,16 @@ const RecommendFriends = () => {
     data: recommendData,
     isLoading,
   } = useQuery<RecommendFriendsAPI | undefined, AxiosError>(
-    ['recommendFriends', location],
+    recommendKey(location),
     () => {
-      if (!location) {
-        return;
-      }
-      return loadRecommendFriendsAPI(location);
+      return loadRecommendFriendsAPI(
+        location ?? {
+          regionSiName: '',
+          regionGuName: '',
+          regionDongName: '',
+          mainAddressNo: '',
+        }
+      );
     }
   );
 

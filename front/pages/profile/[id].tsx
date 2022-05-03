@@ -15,6 +15,7 @@ import { profileByIdKey } from '@/../@utils/queryKey';
 import { useModalDispatch } from '@/../store/modalStore';
 import { loadMe } from '@/../reducers/user';
 import { useLoadLoginedUser } from '@/hooks';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import {
   AppLayout,
   SideBar,
@@ -93,6 +94,22 @@ const Profile = () => {
       </Row>
     </AppLayout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  // const queryClient = new QueryClient();
+  // await queryClient.prefetchQuery(['realtime'], () =>
+  //   loadRealTimeMatchingAPI()
+  // );
+
+  return {
+    props: {
+      // dehydratedState: dehydrate(queryClient),
+      // dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
+  };
 };
 
 export default Profile;

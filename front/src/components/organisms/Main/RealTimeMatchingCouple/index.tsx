@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
@@ -32,12 +32,11 @@ const RealTimeMatchingCouple = () => {
     data: matchings,
   } = useQuery<RealtimeAPI[] | undefined, AxiosError>(
     ['realtime'],
-    () => loadRealTimeMatchingAPI()
-    // { cacheTime: 2 * 60 * 1000 }
-    // {
-    //   refetchOnWindowFocus: false,
-    //   retry: false,
-    // }
+    () => loadRealTimeMatchingAPI(),
+    {
+      staleTime: 1 * 60 * 1000,
+      retry: false,
+    }
   );
   return (
     <MatchingCoupleWrap>
