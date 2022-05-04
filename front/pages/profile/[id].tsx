@@ -9,7 +9,7 @@ import {
   ProfileMenuType,
 } from '@/../@types/utils';
 
-import { useQuery } from 'react-query';
+import { dehydrate, QueryClient, useQuery } from 'react-query';
 import { loadProfileAPI } from '@/api/profile';
 import { profileByIdKey } from '@/../@utils/queryKey';
 import { useModalDispatch } from '@/../store/modalStore';
@@ -39,8 +39,9 @@ const Profile = () => {
   const _ = useLoadLoginedUser({ onSuccess: (data) => dispatch(loadMe(data)) });
 
   useQuery(profileByIdKey(id), () => loadProfileAPI(id), {
-    refetchOnWindowFocus: false,
+    // staleTime: 5 * 60 * 1000,
     retry: false,
+    refetchOnWindowFocus: false,
     enabled: !!id,
     onSuccess: (data) => {
       if (!data) return;
@@ -99,14 +100,15 @@ const Profile = () => {
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  // const queryClient = new QueryClient();
-  // await queryClient.prefetchQuery(['realtime'], () =>
-  //   loadRealTimeMatchingAPI()
-  // );
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(profileByIdKey(context?.params?.id), () =>
+    loadProfileAPI(context?.params?.id)
+  );
+  console.log(JSON.parse(JSON.stringify(dehydrate(queryClient))));
 
   return {
     props: {
-      // dehydratedState: dehydrate(queryClient),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       // dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   };

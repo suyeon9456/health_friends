@@ -15,7 +15,6 @@ router.get('/', async (req, res, next) => { // GET /gyms/
         address: { [Op.like]: "%" + decodeURIComponent(req.query.searchWord) + "%" },
       }];
     }
-    console.log(where);
 
     if (!!(req.query.swLat && req.query.neLat && req.query.swLon && req.query.neLon)) {
       where.latitude = { [Op.between]: [req.query.swLat, req.query.neLat] };
@@ -25,7 +24,6 @@ router.get('/', async (req, res, next) => { // GET /gyms/
     if (parseInt(req.query.lastId, 10)) {
       where.id = { [Op.lt]: parseInt(req.query.lastId, 10) }
     }
-    console.log('???????', where);
     const gyms = await Gym.findAll({
       attributes: ['id', 'name', 'address', 'addressRoad', 'phone', 'latitude', 'longitude'],
       where,
@@ -33,7 +31,8 @@ router.get('/', async (req, res, next) => { // GET /gyms/
       include: [{
         model: User,
         attributes: ['id'],
-      }]
+      }],
+      order: [ ['latitude', 'DESC'], ['longitude', 'DESC'] ],
     });
     res.status(200).json(gyms);
   } catch (error) {

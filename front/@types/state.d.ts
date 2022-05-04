@@ -31,7 +31,7 @@ export interface ProfileInitialState {
 export interface GymInitialState {
   isLoadGyms: boolean;
   hasMoreGyms: boolean;
-  mapBounds: {};
+  mapBounds: {} | null;
   gyms: Gyms | [];
   gym: {};
 }

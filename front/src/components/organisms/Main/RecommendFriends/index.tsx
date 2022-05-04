@@ -7,7 +7,7 @@ import isEmpty from 'lodash/isEmpty';
 import { BiCurrentLocation } from 'react-icons/bi';
 
 import { useModalDispatch } from '@/../store/modalStore';
-import { loadRecommendFriendsAPI } from '@/api/user';
+import { loadRecommendAPI } from '@/api/user';
 import { Location } from '@/../@types/map';
 import { GlobalModal, ModalStatus } from '@/../@types/utils';
 import { RecommendFriendsAPI } from '@/../@types/user';
@@ -85,15 +85,10 @@ const RecommendFriends = () => {
     isLoading,
   } = useQuery<RecommendFriendsAPI | undefined, AxiosError>(
     recommendKey(location),
-    () => {
-      return loadRecommendFriendsAPI(
-        location ?? {
-          regionSiName: '',
-          regionGuName: '',
-          regionDongName: '',
-          mainAddressNo: '',
-        }
-      );
+    () => loadRecommendAPI(location),
+    {
+      staleTime: 5 * 60 * 1000,
+      retry: false,
     }
   );
 

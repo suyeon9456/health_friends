@@ -5,10 +5,10 @@ import { useQueryClient } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
 import { BiRevision } from 'react-icons/bi';
 
-import { changeMapBounds, gymSelector, isLoadGyms } from '@/../reducers/gym';
+import { changeMapBounds, gymSelector } from '@/../reducers/gym';
 import { gymAndFriendsByIdKey } from '@/../@utils/queryKey';
 import { ButtonType } from '@/../@types/utils';
-import { Location } from '@/../@types/gym';
+import { Gym, Location } from '@/../@types/gym';
 import { SearchMapProps } from '@/../@types/map';
 import { avatarContainer, overlayContainer } from '@/../@utils/tamplate';
 import { Button, Icon } from '../../atoms';
@@ -29,8 +29,8 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: SearchMapProps) => {
   const [bounds, setBounds] = useState<Location>({});
 
   const onSearchGyms = useCallback(() => {
-    dispatch(isLoadGyms(true));
-  }, []);
+    dispatch(changeMapBounds(bounds));
+  }, [bounds]);
 
   const onClickGym = useCallback(
     (gymId) => () => {
@@ -42,10 +42,37 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: SearchMapProps) => {
     [foldedFriends]
   );
 
+  const moveLocation = useCallback((lat, lon) => {
+    if (customOverlay.current) {
+      customOverlay.current.setMap(null);
+    }
+    // 위도 && 경도 위치로 지도이동
+    const moveLatLon = new (window as any).kakao.maps.LatLng(lat, lon);
+    map.current.panTo(moveLatLon);
+
+    return moveLatLon;
+  }, []);
+
+  const overlayGym = useCallback((location, targetGym) => {
+    const { name, address, Users } = targetGym;
+    const contentWrap = document.createElement('div');
+    contentWrap.className = `${styles.contentWrap}`;
+    contentWrap.innerHTML = overlayContainer({ name, address });
+    const avatarGroup = avatarContainer(Users);
+    contentWrap.querySelector(`.${styles.inner}`)?.prepend(avatarGroup);
+
+    customOverlay.current = new (window as any).kakao.maps.CustomOverlay({
+      position: location,
+      content: contentWrap,
+      xAnchor: 0.5,
+      yAnchor: 0.96,
+    });
+    customOverlay.current.setMap(map.current);
+  }, []);
+
   useEffect(() => {
     if (bounds) {
       const debounce = setTimeout(() => {
-        dispatch(changeMapBounds(bounds));
         setShowButton(true);
       }, 1000); // setTimeout 설정
       return () => clearTimeout(debounce);
@@ -74,17 +101,6 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: SearchMapProps) => {
       (window as any).kakao.maps.ControlPosition.RIGHT
     );
 
-    // 지도 영역정보를 얻어옵니다
-    const mapBounds = map.current.getBounds();
-    // 영역정보의 남서쪽 정보를 얻어옵니다
-    const swLatlng = mapBounds.getSouthWest();
-    // 영역정보의 북동쪽 정보를 얻어옵니다
-    const neLatlng = mapBounds.getNorthEast();
-
-    const { La: swLon, Ma: swLat } = swLatlng;
-    const { La: neLon, Ma: neLat } = neLatlng;
-    dispatch(changeMapBounds({ swLon, swLat, neLon, neLat }));
-
     (window as any).kakao.maps.event.addListener(
       map.current,
       'bounds_changed',
@@ -106,57 +122,33 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: SearchMapProps) => {
   }, []);
 
   useEffect(() => {
-    if (!isEmpty(gym)) {
-      if (customOverlay.current) {
-        customOverlay.current.setMap(null);
-      }
-      const { latitude: lat, longitude: lon } = gym;
-      // 위도 && 경도 위치로 지도이동
-      const moveLatLon = new (window as any).kakao.maps.LatLng(lat, lon);
-      map.current.panTo(moveLatLon);
-
-      const contentWrap = document.createElement('div');
-      contentWrap.className = `${styles.contentWrap}`;
-      contentWrap.innerHTML = overlayContainer({
-        name: gym.name,
-        address: gym.address,
-      });
-      const avatarGroup = avatarContainer(gym?.Users);
-      contentWrap.querySelector(`.${styles.inner}`)?.prepend(avatarGroup);
-
-      customOverlay.current = new (window as any).kakao.maps.CustomOverlay({
-        position: moveLatLon,
-        content: contentWrap,
-        xAnchor: 0.5,
-        yAnchor: 0.96,
-      });
-      customOverlay.current.setMap(map.current);
-    }
-  }, [gym || gym?.latitude || gym?.longitude]);
+    if (isEmpty(gym)) return;
+    const gymLocation = moveLocation(gym.latitude, gym.longitude);
+    overlayGym(gymLocation, gym);
+  }, [gym]);
 
   useEffect(() => {
-    gyms?.forEach(
-      (gymItem: {
-        id: number;
-        latitude: string;
-        longitude: string;
-        name: string;
-      }) => {
-        const marker = new (window as any).kakao.maps.Marker({
-          map: map.current, // 마커를 표시할 지도
-          position: new (window as any).kakao.maps.LatLng(
-            gymItem.latitude,
-            gymItem.longitude
-          ), // 마커를 표시할 위치
-          title: gymItem.name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-        });
-        (window as any).kakao.maps.event.addListener(
-          marker,
-          'click',
-          onClickGym(gymItem.id)
-        );
-      }
-    );
+    if (isEmpty(gyms)) return;
+    // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+    const gymsBounds = new (window as any).kakao.maps.LatLngBounds();
+    gyms?.forEach(({ id, name, latitude, longitude }: Gym) => {
+      const location = new (window as any).kakao.maps.LatLng(
+        latitude,
+        longitude
+      );
+      const marker = new (window as any).kakao.maps.Marker({
+        map: map.current, // 마커를 표시할 지도
+        position: location, // 마커를 표시할 위치
+        title: name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+      });
+      gymsBounds.extend(location);
+      (window as any).kakao.maps.event.addListener(
+        marker,
+        'click',
+        onClickGym(id)
+      );
+    });
+    map.current.setBounds(gymsBounds);
   }, [gyms]);
 
   return (

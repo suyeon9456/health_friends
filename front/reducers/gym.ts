@@ -5,8 +5,8 @@ import { RootState } from '../store/configureStore';
 const initialState: GymInitialState = {
   isLoadGyms: false,
   hasMoreGyms: false,
-  mapBounds: {},
-  gyms: [],
+  mapBounds: null,
+  gyms: null,
   gym: {},
 };
 

@@ -7,6 +7,7 @@ const useLoadLoginedUser = (options?: { onSuccess?: (data: Me) => void }) => {
   return useQuery<Me>(meKey, () => loadLoginedUserAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
+    staleTime: 5 * 60 * 1000,
     ...options,
   });
 };

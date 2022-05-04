@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
 
-import { loadRankedFriendsAPI } from '@/api/user';
+import { loadRankingAPI } from '@/api/user';
 import { MatchingAPI, RematchingAPI } from '@/../@types/schedule';
 import {
   RankItem,
@@ -28,8 +28,9 @@ const RankedFriends = () => {
   } = useQuery<
     { rematching: RematchingAPI[]; matching: MatchingAPI[] } | undefined,
     AxiosError
-  >('rankedFriends', () => loadRankedFriendsAPI(), {
-    cacheTime: 2 * 60 * 1000,
+  >(['ranking'], () => loadRankingAPI(), {
+    staleTime: 2 * 60 * 1000,
+    retry: false,
   });
 
   return (

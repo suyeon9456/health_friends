@@ -4,11 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'react-query';
 import { BiChevronLeft, BiChevronRight, BiGroup } from 'react-icons/bi';
 
-import { gymSelector, loadFriends, loadGyms } from '@/../reducers/gym';
+import {
+  changeMapBounds,
+  gymSelector,
+  loadFriends,
+  loadGyms,
+} from '@/../reducers/gym';
 import useInput from '@/hooks/useInput';
 import { loadGymAndFriendsAPI } from '@/api/user';
-import { loadGymsAPI, loadMapAPI } from '@/api/gym';
-import { gymAndFriendsByIdKey, gymsKey, mapKey } from '@/../@utils/queryKey';
+import { loadGymsAPI } from '@/api/gym';
+import { gymAndFriendsByIdKey, gymsKey } from '@/../@utils/queryKey';
 import { Gym, SearchGymsProps } from '@/../@types/gym';
 
 import { Search, Item, Icon } from '@/components/atoms';
@@ -34,12 +39,11 @@ const SearchGyms = ({
   const dispatch = useDispatch();
 
   const { searchText } = router.query;
-  const { gyms, mapBounds, isLoadGyms } = useSelector(gymSelector);
+  const { gyms, mapBounds } = useSelector(gymSelector);
 
   const [searchWord, onChangeSearchWord] = useInput<string>('');
   const [browserHeight, setBrowserHeight] = useState<number>(0);
   const [gymId, setGymId] = useState<number>(0);
-  const [isSearch, setIsSearch] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string | string>('');
 
   const { isLoading } = useQuery(
@@ -53,31 +57,15 @@ const SearchGyms = ({
     }
   );
 
-  const _map = useQuery(
-    mapKey({ searchWord: searchQuery, isLoadGyms, mapBounds }),
-    () => loadMapAPI({ searchWord: searchQuery, mapBounds }),
+  const _gyms = useQuery(
+    gymsKey({ searchWord: searchQuery, mapBounds }),
+    () => loadGymsAPI({ searchWord: searchQuery, mapBounds }),
     {
       onSuccess: (data) => {
         dispatch(loadGyms(data));
-        setIsSearch(false);
       },
       refetchOnWindowFocus: false,
       retry: false,
-      enabled: !!isLoadGyms,
-    }
-  );
-
-  const _search = useQuery(
-    gymsKey({ searchWord: searchQuery, isSearch }),
-    () => loadGymsAPI({ searchWord: searchQuery }),
-    {
-      onSuccess: (data) => {
-        dispatch(loadGyms(data));
-        setIsSearch(false);
-      },
-      refetchOnWindowFocus: false,
-      retry: false,
-      enabled: !!isSearch,
     }
   );
 
@@ -87,7 +75,8 @@ const SearchGyms = ({
 
   const onSearchGyms = useCallback(() => {
     setSearchQuery(searchWord);
-    setIsSearch(true);
+    void _gyms.refetch();
+    dispatch(changeMapBounds(null));
     void router.push(`?searchText=${searchWord}`, undefined, { shallow: true });
   }, [searchWord]);
 
@@ -114,7 +103,7 @@ const SearchGyms = ({
   useEffect(() => {
     if (!searchText || Array.isArray(searchText)) return;
     setSearchQuery(searchText);
-    setIsSearch(true);
+    // setIsSearch(true);
   }, []);
 
   return (

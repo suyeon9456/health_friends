@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
 import { BiGroup, BiMap } from 'react-icons/bi';
 
-import { loadRealTimeMatchingAPI } from '@/api/user';
+import { loadRealtimeAPI } from '@/api/user';
 import { ButtonType, SizeType } from '@/../@types/utils';
 import { RealtimeAPI } from '@/../@types/schedule';
 import { Avatar, Button, Icon, NoDataIcon } from '../../../atoms';
@@ -32,7 +32,7 @@ const RealTimeMatchingCouple = () => {
     data: matchings,
   } = useQuery<RealtimeAPI[] | undefined, AxiosError>(
     ['realtime'],
-    () => loadRealTimeMatchingAPI(),
+    () => loadRealtimeAPI(),
     {
       staleTime: 1 * 60 * 1000,
       retry: false,

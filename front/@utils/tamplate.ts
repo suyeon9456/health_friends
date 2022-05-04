@@ -26,6 +26,7 @@ export const overlayContainer = ({
 };
 
 export const avatarContainer = (member: any[]) => {
+  console.log(member);
   const avatarGroup = document.createElement('div');
   avatarGroup.className = `${styles.avatarGroup}`;
 
@@ -36,11 +37,11 @@ export const avatarContainer = (member: any[]) => {
     console.log('click');
   });
 
-  if (member.length > 3) {
+  if (member?.length > 3) {
     const plusAvatar = document.createElement('span');
     plusAvatar.className = `${styles.plusAvatar}`;
     plusAvatar.innerText = `+ ${member.length - 3}`;
-    member.forEach((user, i) => {
+    member?.forEach((user, i) => {
       const avatar = document.createElement('span');
       avatar.className = `${styles.avatar}`;
       if (i <= 3) {

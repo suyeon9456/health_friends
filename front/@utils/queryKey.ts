@@ -1,10 +1,10 @@
-import { Location } from '../@types/gym';
+import { Location } from '../@types/map';
 
 export const meKey = ['user'] as const;
 
 export const profileKey = ['profile'] as const;
 export const profileByIdKey = (profileId?: string | string[]) =>
-  ['todos', profileId] as const;
+  ['profile', profileId] as const;
 
 export const schedulesByIdKey = ({
   profileId,
@@ -30,21 +30,21 @@ export const signupGymsKey = (searchWord?: string) =>
 export const gymsKey = ({
   lastId,
   searchWord,
-  isSearch,
-}: {
-  lastId?: number;
-  searchWord?: string;
-  isSearch?: boolean;
-}) => ['gym', lastId, searchWord, isSearch] as const;
-export const mapKey = ({
-  lastId,
-  searchWord,
   mapBounds,
-  isLoadGyms,
 }: {
   lastId?: number;
   searchWord?: string;
-  mapBounds?: Location;
-  isLoadGyms?: boolean;
-}) => ['gym', lastId, searchWord, mapBounds, isLoadGyms] as const;
+  mapBounds?: Location | null;
+}) => ['gym', { lastId, searchWord, mapBounds }] as const;
 export const gymAndFriendsByIdKey = (gymId?: number) => ['gym', gymId] as const;
+
+export const recommendKey = (location?: Location | null) =>
+  [
+    'recommend',
+    location ?? {
+      regionSiName: '',
+      regionGuName: '',
+      regionDongName: '',
+      mainAddressNo: '',
+    },
+  ] as const;

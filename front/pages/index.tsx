@@ -1,10 +1,5 @@
-import { loadRealTimeMatchingAPI } from '@/api/user';
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  GetStaticProps,
-  GetStaticPropsContext,
-} from 'next';
+import { loadRankingAPI, loadRealtimeAPI, loadRecommendAPI } from '@/api/user';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
 import { recommendKey } from '../@utils/queryKey';
@@ -56,17 +51,13 @@ export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(['realtime'], () =>
-    loadRealTimeMatchingAPI()
-  );
-  await queryClient.prefetchQuery(recommendKey(null), () =>
-    loadRealTimeMatchingAPI()
-  );
+  await queryClient.prefetchQuery(['realtime'], () => loadRealtimeAPI());
+  await queryClient.prefetchQuery(['ranking'], () => loadRankingAPI());
+  await queryClient.prefetchQuery(recommendKey(), () => loadRecommendAPI());
 
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
-      // dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   };
 };
