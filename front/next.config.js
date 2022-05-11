@@ -11,6 +11,9 @@ module.exports = withBundleAnalyzer({
   },
   compress: true,
   withImages: withImages(),
+  images: {
+    domains: ['img.health-friends.com'],
+  },
   webpack(config) {
     const prod = process.env.NODE_ENV === 'production';
     const plugins = [...config.plugins];
