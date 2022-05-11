@@ -1,8 +1,13 @@
-import { loadRankingAPI, loadRealtimeAPI, loadRecommendAPI } from '@/api/user';
+import {
+  loadLoginedUserAPI,
+  loadRankingAPI,
+  loadRealtimeAPI,
+  loadRecommendAPI,
+} from '@/api/user';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import React from 'react';
 import { dehydrate, QueryClient } from 'react-query';
-import { recommendKey } from '../@utils/queryKey';
+import { meKey, recommendKey } from '../@utils/queryKey';
 
 import { AppLayout, Main, Footer } from '../src/components/organisms';
 
@@ -54,6 +59,7 @@ export const getServerSideProps: GetServerSideProps = async (
   await queryClient.prefetchQuery(['realtime'], () => loadRealtimeAPI());
   await queryClient.prefetchQuery(['ranking'], () => loadRankingAPI());
   await queryClient.prefetchQuery(recommendKey(), () => loadRecommendAPI());
+  await queryClient.prefetchQuery(meKey, () => loadLoginedUserAPI());
 
   return {
     props: {
