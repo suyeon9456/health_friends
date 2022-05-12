@@ -66,7 +66,11 @@ const SideBar = ({
 
   const onClickMenu = useCallback(
     (menu) => {
-      void router.push({ query: { id: profile.id, tab: menu } }, undefined, {
+      const query =
+        router.pathname === '/myinfo'
+          ? { tab: menu }
+          : { id: profile.id, tab: menu };
+      void router.push({ query }, undefined, {
         shallow: true,
       });
       setProfileMenu(menu);
