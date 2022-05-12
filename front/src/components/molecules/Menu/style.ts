@@ -131,7 +131,6 @@ export const MenuTitle = styled.span`
 export const MenuText = styled.a`
   display: inline-block;
   height: 46px;
-  text-decoration: none;
   background-color: transparent;
   outline: none;
   cursor: pointer;

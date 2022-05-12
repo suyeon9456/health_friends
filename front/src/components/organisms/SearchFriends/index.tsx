@@ -1,10 +1,8 @@
 import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from 'react-query';
 import { BiX } from 'react-icons/bi';
 
 import { useModalDispatch } from '@/../store/modalStore';
-import { gymSelector } from '@/../reducers/gym';
 import { addLikeAPI } from '@/api/user';
 import { gymAndFriendsByIdKey, meKey } from '@/../@utils/queryKey';
 import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/utils';
@@ -27,10 +25,10 @@ const SearchFriends = ({
   foldedGym,
   foldedFriends,
   setFoldedFriends,
+  friends,
 }: SearchFriendsProps) => {
   const queryClient = useQueryClient();
   const contextDispatch = useModalDispatch();
-  const { gym } = useSelector(gymSelector);
 
   const [friend, setFriend] = useState<UserGym>();
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -40,7 +38,7 @@ const SearchFriends = ({
   const likeMutation = useMutation((data: number) => addLikeAPI(data), {
     onSuccess: () => {
       void queryClient.invalidateQueries(meKey);
-      void queryClient.invalidateQueries(gymAndFriendsByIdKey(gym.id));
+      void queryClient.invalidateQueries(gymAndFriendsByIdKey(friends.id));
     },
   });
 
@@ -72,7 +70,7 @@ const SearchFriends = ({
     <>
       <SearchFriendsWrapper foldedGym={foldedGym} foldedFriends={foldedFriends}>
         <SearchHeader>
-          <SearchTitle>{gym?.name} 친구검색 결과</SearchTitle>
+          <SearchTitle>{friends?.name} 친구검색 결과</SearchTitle>
           <Button
             icon={<Icon icon={<BiX />} />}
             type={ButtonType.TEXT}
@@ -80,8 +78,8 @@ const SearchFriends = ({
           />
         </SearchHeader>
         <FriendsListWrapper>
-          {gym?.Users &&
-            gym?.Users.map((user: SelectedGymUser) => {
+          {friends?.Users &&
+            friends?.Users.map((user: SelectedGymUser) => {
               const imageSrc = user.Image?.src ?? '';
               const percent = rematchRate(user.totalCount, user.rematchCount);
               const isCheckedLike = !!user.Liker.find((l) => l.id === me?.id);

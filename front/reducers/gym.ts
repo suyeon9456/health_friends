@@ -16,8 +16,10 @@ const gymSlice = createSlice({
   reducers: {
     loadGyms(state, action) {
       console.log('reducer', action.payload);
-      state.gyms = action.payload;
-      state.gym = {};
+      state.gyms = action.payload.data;
+      if (!action.payload.selectedGym) {
+        state.gym = {};
+      }
       state.isLoadGyms = false;
     },
     loadGym(state, action) {
@@ -26,7 +28,6 @@ const gymSlice = createSlice({
       state.isLoadGyms = false;
     },
     loadFriends(state, action) {
-      console.log('reducer');
       state.gym = action.payload;
     },
     changeMapBounds(state, action) {

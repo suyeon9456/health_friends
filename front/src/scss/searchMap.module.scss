@@ -1,7 +1,7 @@
 .contentWrap {
   position: relative;
   width: 225px;
-  height: 146px;
+  height: 186px;
   padding-bottom: 10px;
   box-sizing: border-box;
   list-style: none;
@@ -11,8 +11,8 @@
   & > .contentArrow {
     position: absolute;
     display: block;
-    width: 8.48528137px;
-    height: 8.48528137px;
+    width: 18.48528137px;
+    height: 18.48528137px;
     overflow: hidden;
     background: 0 0;
     pointer-events: none;
@@ -27,8 +27,8 @@
       bottom: 0;
       left: 0;
       display: block;
-      width: 6px;
-      height: 6px;
+      width: 18px;
+      height: 18px;
       margin: auto;
       background-color: #393D49;
       content: "";
@@ -39,9 +39,10 @@
   }
 
   & > .contentInner {
+    height: 176px;
     background-color: #393D49;
     background-clip: padding-box;
-    border-radius: 2px;
+    border-radius: 8px;
     box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
 
     & > .inner {
@@ -56,7 +57,7 @@
         font-size: 14px;
         justify-content: flex-end;
         align-items: center;
-        height: 34px;
+        height: 44px;
 
         & > .plusAvatar {
           box-sizing: border-box;
@@ -74,9 +75,10 @@
           background: #b37feb;
           border-radius: 2px;
 
-          width: 24px;
-          height: 24px;
-          line-height: 24px;
+          width: 34px;
+          height: 34px;
+          line-height: 29px;
+          font-weight: bold;
         }
         
         & > .avatar {
@@ -95,11 +97,11 @@
           background: #ccc;
           border-radius: 2px;
 
-          width: 24px;
-          height: 24px;
-          line-height: 24px;
-          margin-right: 2px;
-          font-size: 12px;
+          width: 34px;
+          height: 34px;
+          line-height: 29px;
+          margin-right: 4px;
+          font-size: 20px;
 
           & > .anticon {
             display: inline-block;
@@ -123,7 +125,7 @@
 
       & > .innerTitle {
         position: relative;
-        padding: 4px 0 0;
+        padding: 18px 0 0;
         font-weight: 500;
         color: #b37feb;
         font-size: 14px;

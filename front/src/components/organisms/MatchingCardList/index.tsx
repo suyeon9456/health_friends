@@ -11,7 +11,7 @@ import useScheduleData from '@/hooks/useScheduleData';
 import { loadScheduleAPI } from '@/api/schedule';
 
 import { rangeDate } from '@/../@utils/date';
-import { RecordSchedule, RecordScheduleAPI } from '@/../@types/schedule';
+import { RecordScheduleAPI } from '@/../@types/schedule';
 import {
   loginedUserProfile,
   ModalType,

@@ -11,12 +11,14 @@ import { ButtonType } from '@/../@types/utils';
 import { Gym, Location } from '@/../@types/gym';
 import { SearchMapProps } from '@/../@types/map';
 import { avatarContainer, overlayContainer } from '@/../@utils/tamplate';
+import { useRouter } from 'next/router';
 import { Button, Icon } from '../../atoms';
 import { MapWrap } from './style';
 
 import styles from '../../../scss/searchMap.module.scss';
 
 const SearchMap = ({ foldedFriends, setFoldedFriends }: SearchMapProps) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
 
@@ -54,18 +56,26 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: SearchMapProps) => {
   }, []);
 
   const overlayGym = useCallback((location, targetGym) => {
-    const { name, address, Users } = targetGym;
+    const { name, address, Users, addressRoad } = targetGym;
     const contentWrap = document.createElement('div');
     contentWrap.className = `${styles.contentWrap}`;
-    contentWrap.innerHTML = overlayContainer({ name, address });
-    const avatarGroup = avatarContainer(Users);
+    contentWrap.innerHTML = overlayContainer({ name, address, addressRoad });
+    const avatarClick = (id: number) => {
+      void router.replace(`/profile/${id}`);
+    };
+    const avatarGroup = avatarContainer(
+      Users,
+      avatarClick,
+      foldedFriends,
+      setFoldedFriends
+    );
     contentWrap.querySelector(`.${styles.inner}`)?.prepend(avatarGroup);
 
     customOverlay.current = new (window as any).kakao.maps.CustomOverlay({
       position: location,
       content: contentWrap,
       xAnchor: 0.5,
-      yAnchor: 0.96,
+      yAnchor: 1.01,
     });
     customOverlay.current.setMap(map.current);
   }, []);

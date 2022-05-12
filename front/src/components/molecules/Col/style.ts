@@ -26,7 +26,7 @@ export const ColContainer = styled.div<{
     css`
       flex: none;
       width: 100%;
-      max-width: none;
+      max-width: 1280px;
     `}
   @media (min-width: 768px) {
     ${({ md }) =>

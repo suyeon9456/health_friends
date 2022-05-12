@@ -38,15 +38,17 @@ const SearchGyms = ({
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const { searchText } = router.query;
+  const { searchText, gym: selectedGym } = router.query;
   const { gyms, mapBounds } = useSelector(gymSelector);
 
   const [searchWord, onChangeSearchWord] = useInput<string>('');
   const [browserHeight, setBrowserHeight] = useState<number>(0);
   const [gymId, setGymId] = useState<number>(0);
-  const [searchQuery, setSearchQuery] = useState<string | string>('');
+  const [searchQuery, setSearchQuery] = useState<string>(
+    (!!searchText && !Array.isArray(searchText) && searchText) || ''
+  );
 
-  const { isLoading } = useQuery(
+  const { isLoading, data: friends } = useQuery(
     gymAndFriendsByIdKey(gymId),
     () => loadGymAndFriendsAPI({ gymId }),
     {
@@ -62,7 +64,7 @@ const SearchGyms = ({
     () => loadGymsAPI({ searchWord: searchQuery, mapBounds }),
     {
       onSuccess: (data) => {
-        dispatch(loadGyms(data));
+        dispatch(loadGyms({ data, selectedGym }));
       },
       refetchOnWindowFocus: false,
       retry: false,
@@ -75,7 +77,6 @@ const SearchGyms = ({
 
   const onSearchGyms = useCallback(() => {
     setSearchQuery(searchWord);
-    void _gyms.refetch();
     dispatch(changeMapBounds(null));
     void router.push(`?searchText=${searchWord}`, undefined, { shallow: true });
   }, [searchWord]);
@@ -86,6 +87,13 @@ const SearchGyms = ({
         setFoldedFriends(false);
       }
       setGymId(targetGymId);
+      void router.push(
+        {
+          query: { ...router.query, gym: targetGymId },
+        },
+        undefined,
+        { shallow: true }
+      );
     },
     [foldedFriends]
   );
@@ -101,9 +109,12 @@ const SearchGyms = ({
   }, [browserHeight]);
 
   useEffect(() => {
-    if (!searchText || Array.isArray(searchText)) return;
-    setSearchQuery(searchText);
-    // setIsSearch(true);
+    if (selectedGym && !Array.isArray(selectedGym)) {
+      if (foldedFriends) {
+        setFoldedFriends(false);
+      }
+      setGymId(parseInt(selectedGym, 10));
+    }
   }, []);
 
   return (
@@ -163,6 +174,7 @@ const SearchGyms = ({
         foldedGym={foldedGym}
         foldedFriends={foldedFriends}
         setFoldedFriends={setFoldedFriends}
+        friends={friends}
       />
     </SearchWrapper>
   );

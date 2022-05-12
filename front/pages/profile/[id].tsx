@@ -66,8 +66,6 @@ const Profile = () => {
   }, [router.query]);
 
   useEffect(() => {
-    // if (typeof page !== 'string') return;
-    // const test: ProfileMenuType = Menu.page;
     setProfileMenu(page as ProfileMenuType);
   }, [page]);
 

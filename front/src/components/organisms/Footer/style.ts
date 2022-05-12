@@ -65,7 +65,6 @@ export const IconWrap = styled.div`
     text-align: center;
   }
   & > a {
-    text-decoration: none;
     color: #595959;
     & span {
       font-size: 24px;

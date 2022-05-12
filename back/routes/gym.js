@@ -55,7 +55,7 @@ router.get('/:gymId', async (req, res, next) => { // GET /gym/1
 
     const gymWithFriends = await Gym.findOne({
       where: { id: gym.id },
-      attributes: ['id', 'name', 'latitude', 'longitude', 'address'],
+      attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'addressRoad'],
       include: [{
         model: User,
         where: userWhere,

@@ -12,3 +12,7 @@ body {
   background-color: rgb(248, 249, 251);
   color: #000000d9;
 }
+
+a {
+  text-decoration: none;
+}

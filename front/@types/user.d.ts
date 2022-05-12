@@ -134,6 +134,7 @@ export interface SearchFriendsProps {
   foldedGym: boolean;
   foldedFriends: boolean;
   setFoldedFriends: Dispatch<SetStateAction<boolean>>;
+  friends?: Gym;
 }
 
 export interface SignupSteps {
