@@ -45,7 +45,6 @@ export const getServerSideProps: GetServerSideProps = async (
     gymsKey({ searchWord: '', mapBounds: null }),
     () => loadGymsAPI({ searchWord: '', mapBounds: null })
   );
-  console.log(JSON.stringify(dehydrate(queryClient)));
 
   return {
     props: {

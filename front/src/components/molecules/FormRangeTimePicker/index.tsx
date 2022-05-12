@@ -71,25 +71,22 @@ const FormRangeTimePicker = <T extends FieldValues>({
       <Controller
         control={control}
         name={endName}
-        render={({ field: { value, onChange } }) => {
-          console.log(value);
-          return (
-            <DatePicker
-              name={endName}
-              selected={value}
-              onChange={onChange}
-              showTimeSelect
-              showTimeSelectOnly
-              timeIntervals={15}
-              timeCaption="Time"
-              dateFormat="HH:mm"
-              customInput={
-                <CustomPickerInput type={PickerType.TIME} size={size} />
-              }
-              calendarContainer={CustomCalendar}
-            />
-          );
-        }}
+        render={({ field: { value, onChange } }) => (
+          <DatePicker
+            name={endName}
+            selected={value}
+            onChange={onChange}
+            showTimeSelect
+            showTimeSelectOnly
+            timeIntervals={15}
+            timeCaption="Time"
+            dateFormat="HH:mm"
+            customInput={
+              <CustomPickerInput type={PickerType.TIME} size={size} />
+            }
+            calendarContainer={CustomCalendar}
+          />
+        )}
       />
     </RangeTimePickerWrap>
   </div>

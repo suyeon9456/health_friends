@@ -102,7 +102,6 @@ export const getServerSideProps: GetServerSideProps = async (
   await queryClient.prefetchQuery(profileByIdKey(context?.params?.id), () =>
     loadProfileAPI(context?.params?.id)
   );
-  console.log(JSON.parse(JSON.stringify(dehydrate(queryClient))));
 
   return {
     props: {

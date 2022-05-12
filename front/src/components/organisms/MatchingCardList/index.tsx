@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
@@ -78,8 +78,6 @@ const MatchingCardList = ({
     },
     [showDetailModal, isShowEditModal, modalType, matchingId]
   );
-
-  useEffect(() => console.log(pages, pageParams), [pages, pageParams]);
 
   return (
     <>

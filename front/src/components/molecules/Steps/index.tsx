@@ -20,7 +20,6 @@ const Steps = ({
   return (
     <StepsWrapper>
       {steps.map(({ step, title, description }, index) => {
-        console.log('test', target);
         let type: ProcessType = Process.WAIT;
         if (index === target) {
           type = Process.PROCESS;
