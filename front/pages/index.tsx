@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps = async (
   await queryClient.prefetchQuery(['realtime'], () => loadRealtimeAPI());
   await queryClient.prefetchQuery(['ranking'], () => loadRankingAPI());
   await queryClient.prefetchQuery(recommendKey(), () => loadRecommendAPI());
-  await queryClient.prefetchQuery(meKey, () => loadLoginedUserAPI());
+  // await queryClient.prefetchQuery(meKey, () => loadLoginedUserAPI());
 
   return {
     props: {

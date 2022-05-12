@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -18,6 +18,7 @@ import {
 
 import { FormInput } from '@/components/molecules';
 import { Button, Form } from '@/components/atoms';
+import { meKey } from '@/../@utils/queryKey';
 import { ButtonWrapper, FormWrapper, InputWrapper } from './style';
 
 const schema = yup
@@ -33,11 +34,15 @@ const schema = yup
 const LoginForm = () => {
   const router = useRouter();
   const contextDispatch = useModalDispatch();
+  const queryClient = useQueryClient();
 
   const loginMutation = useMutation(
     (data: { email: string; password: string }) => loginAPI(data),
     {
-      onSuccess: () => router.push('/'),
+      onSuccess: () => {
+        void queryClient.invalidateQueries(meKey);
+        void router.push('/');
+      },
       onError: () => changeShowAlert(),
     }
   );
