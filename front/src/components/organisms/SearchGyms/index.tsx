@@ -106,7 +106,7 @@ const SearchGyms = ({
 
   useEffect(() => {
     setBrowserHeight(document.documentElement.clientHeight);
-  }, [browserHeight]);
+  }, []);
 
   useEffect(() => {
     if (selectedGym && !Array.isArray(selectedGym)) {
