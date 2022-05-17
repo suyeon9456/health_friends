@@ -34,6 +34,7 @@ const Input = ({
                 passwordType={type}
                 value={value}
                 onChange={onChange}
+                onCopy={() => false}
                 inputsize={size}
                 placeholder={placeholder}
                 {...props}
