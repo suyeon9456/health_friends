@@ -33,5 +33,3 @@ export const SelectContainer = styled.select<{ selectsize?: SizeTypeT }>`
     border-right-width: 1px !important;
   }
 `;
-
-export const Options = styled.option``;

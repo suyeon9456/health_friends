@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { SelectProps } from '@/../@types/atoms';
-import { SelectContainer, Options } from './style';
+import { SelectContainer } from './style';
 
 const Select = React.memo(
   ({ size, options, name, value, onChange }: SelectProps) => (
@@ -12,9 +12,9 @@ const Select = React.memo(
       onChange={onChange}
     >
       {options.map((option) => (
-        <Options key={option.value} value={option.value}>
+        <option key={option.value} value={option.value}>
           {option.text}
-        </Options>
+        </option>
       ))}
     </SelectContainer>
   )

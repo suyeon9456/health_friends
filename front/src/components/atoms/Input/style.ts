@@ -9,6 +9,7 @@ interface Input {
   loading?: boolean;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onCopy?: () => boolean;
   placeholder?: string;
   disabled?: boolean;
   error?: FieldError | undefined;

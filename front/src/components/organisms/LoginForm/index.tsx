@@ -83,6 +83,7 @@ const LoginForm = () => {
             placeholder="이메일 계정을 입력해주세요."
             control={control}
             error={errors.email}
+            {...{ autofocus: true }}
           />
         </InputWrapper>
         <InputWrapper>
