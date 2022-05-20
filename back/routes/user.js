@@ -21,7 +21,6 @@ try {
 
 router.get('/', async (req, res, next) => {
   try {
-    console.log('!!!!!!!!!!!!!!', req.user);
     if (req.user) {
       const user = await User.findOne({
         where: { id: req.user.id },
