@@ -84,7 +84,7 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: SearchMapProps) => {
     if (bounds) {
       const debounce = setTimeout(() => {
         setShowButton(true);
-      }, 1000); // setTimeout 설정
+      }, 1000);
       return () => clearTimeout(debounce);
     }
   }, [bounds]);
