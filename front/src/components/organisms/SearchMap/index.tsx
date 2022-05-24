@@ -94,7 +94,7 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: SearchMapProps) => {
     const options = {
       center: new (window as any).kakao.maps.LatLng(37.566826, 126.9786567),
       // 지도의 중심좌표 (서울시청)
-      level: 3, // 지도의 레벨(확대, 축소 정도)
+      level: 3, // 지도의 레벨(확대, 축소)
     };
     map.current = new (window as any).kakao.maps.Map(container, options);
 
