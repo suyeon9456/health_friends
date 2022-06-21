@@ -42,3 +42,7 @@
 
 사용자 서로가 평가한 점수가 아닌 재결합률을 확인하여 매칭을 원하는 사용자를 찾는데 도움을 받을 수 있습니다.
 
+# Client Flowchart
+
+![health-friends-front-flowchart drawio](https://user-images.githubusercontent.com/57613143/174755513-29267735-597e-4e6f-8e80-78f56c444312.png)
+# 
