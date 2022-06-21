@@ -1,4 +1,4 @@
-# 💻 health-friends(https://health-friends.com)
+# 💻 [health-friends](https://health-friends.com)
 <div align="center"><img src="https://img.health-friends.com/_next/images/logo.png"></div>
 <br/>
 <div align="center">
@@ -43,6 +43,8 @@
 사용자 서로가 평가한 점수가 아닌 재결합률을 확인하여 매칭을 원하는 사용자를 찾는데 도움을 받을 수 있습니다.
 
 # Client Flowchart
-
 ![health-friends-front-flowchart drawio](https://user-images.githubusercontent.com/57613143/174755513-29267735-597e-4e6f-8e80-78f56c444312.png)
-# 
+# Project Architecture
+![health-friends-architecture drawio (1)](https://user-images.githubusercontent.com/57613143/174785493-a42e9e19-b2fe-492c-97fe-a5ba7efe1476.png)
+# Member
+1인 프로젝트 입니다.
