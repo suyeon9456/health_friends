@@ -8,7 +8,7 @@ import {
 } from '@/hooks/index';
 
 describe('custom hooks test', () => {
-  test('useInput test', () => {
+  it('useInput test', () => {
     const { result }: any = renderHook((defaultValue: any) => useInput('test'));
     expect(result?.current[0]).toEqual('test');
     act(() => {
@@ -20,7 +20,7 @@ describe('custom hooks test', () => {
     });
     expect(result?.current[0]).toEqual('setValue test');
   });
-  test('useCheckbox test', () => {
+  it('useCheckbox test', () => {
     const { result }: any = renderHook(() => useCheckbox<string>([]));
     expect(result?.current[0]).toEqual([]);
     act(() => {
@@ -38,13 +38,13 @@ describe('custom hooks test', () => {
     });
     expect(result?.current[0]).toEqual(['open', 'close']);
   });
-  test('useDateFormat test', () => {
+  it('useDateFormat test', () => {
     const { result }: any = renderHook(() =>
       useDateFormat(new Date(2022, 4, 12), 'yyyy-MM-dd')
     );
     expect(result?.current).toEqual('2022-05-12');
   });
-  test('useRate test', () => {
+  it('useRate test', () => {
     const { result }: any = renderHook(
       ({ defaultValue }) => useRate(defaultValue),
       {
@@ -58,7 +58,7 @@ describe('custom hooks test', () => {
     );
     expect(result?.current[0]).toEqual(30);
   });
-  test('useRematchRate test', () => {
+  it('useRematchRate test', () => {
     const { result }: any = renderHook(() => useRematchRate(30, 100));
     expect(result?.current).toEqual(30);
   });
