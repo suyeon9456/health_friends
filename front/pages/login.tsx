@@ -1,8 +1,8 @@
 import React from 'react';
+import { GetStaticProps, GetStaticPropsContext } from 'next';
 
 import { AppLayout, LoginForm } from '@/components/organisms';
 import axios from 'axios';
-import { GetServerSidePropsContext } from 'next';
 
 const Login = () => (
   <AppLayout>
@@ -10,8 +10,8 @@ const Login = () => (
   </AppLayout>
 );
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
+export const getStaticProps: GetStaticProps = async (
+  context: GetStaticPropsContext
 ) => {
   const cookie = context.req ? context.req.headers.cookie : '';
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

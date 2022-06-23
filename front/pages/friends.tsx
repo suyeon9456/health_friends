@@ -1,8 +1,13 @@
-import { loadGymsAPI } from '@/api/gym';
+import React from 'react';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import React, { useState } from 'react';
+import Head from 'next/head';
+import { loadGymsAPI } from '@/api/gym';
 import { dehydrate, QueryClient } from 'react-query';
+import { useSelector } from 'react-redux';
+import ErrorBoundary from '@/components/organisms/ErrorBoundary';
+import Fallback from '@/components/organisms/Main/RecommendFriends/Fallback';
 import { gymsKey } from '../@utils/queryKey';
+import { foldedItemSelector } from '../reducers/gym';
 import {
   AppLayout,
   SearchGyms,
@@ -12,28 +17,34 @@ import {
 } from '../src/components/organisms';
 
 const Friends = () => {
-  const [foldedFriends, setFoldedFriends] = useState(true);
-  const [foldedGym, setFoldedGym] = useState(false);
+  const { isFoldedGym, isFoldedFriends } = useSelector(foldedItemSelector);
 
   return (
-    <AppLayout childBlock>
-      <Row>
-        <Col xs={24} md={foldedGym && foldedFriends ? 1 : 8}>
-          <SearchGyms
-            foldedFriends={foldedFriends}
-            setFoldedFriends={setFoldedFriends}
-            foldedGym={foldedGym}
-            setFoldedGym={setFoldedGym}
-          />
-        </Col>
-        <Col xs={24} md={foldedGym && foldedFriends ? 23 : 16}>
-          <SearchMap
-            foldedFriends={foldedFriends}
-            setFoldedFriends={setFoldedFriends}
-          />
-        </Col>
-      </Row>
-    </AppLayout>
+    <>
+      <Head>
+        <title>함께 운동할 친구찾기</title>
+        <script
+          type="text/javascript"
+          src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b59bfdf3af450270c49c69d14f47cdd5&libraries=services"
+        />
+      </Head>
+      <AppLayout childBlock>
+        <Row>
+          <Col xs={24} md={isFoldedGym && isFoldedFriends ? 1 : 8}>
+            <SearchGyms />
+          </Col>
+          <Col xs={24} md={isFoldedGym && isFoldedFriends ? 23 : 16}>
+            <ErrorBoundary
+              isRefresh
+              fallback={Fallback}
+              message="지도를 로드하는데 실패 하였습니다."
+            >
+              <SearchMap />
+            </ErrorBoundary>
+          </Col>
+        </Row>
+      </AppLayout>
+    </>
   );
 };
 

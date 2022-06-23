@@ -3,10 +3,12 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import { GetServerSidePropsContext } from 'next';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryErrorResetBoundary } from 'react-query';
 import { loadMyinfoAPI } from '@/api/profile';
 import { useRouter } from 'next/router';
 import { useLoadLoginedUser } from '@/hooks';
+import ErrorBoundary from '@/components/organisms/ErrorBoundary';
+import Fallback from '@/components/organisms/Main/RecommendFriends/Fallback';
 import { loadProfile } from '../reducers/profile';
 
 import {
@@ -34,11 +36,12 @@ const Myinfo = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const contextDispatch = useModalDispatch();
+  const { reset } = useQueryErrorResetBoundary();
   const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(Menu.INFO);
 
   const _ = useLoadLoginedUser({ onSuccess: (data) => dispatch(loadMe(data)) });
 
-  const _profile = useQuery(profileKey, () => loadMyinfoAPI(), {
+  useQuery(profileKey, () => loadMyinfoAPI(), {
     refetchOnWindowFocus: false,
     retry: false,
     onSuccess: (data) => dispatch(loadProfile(data)),
@@ -70,9 +73,33 @@ const Myinfo = () => {
         <Col xs={24} md={16}>
           {
             {
-              [Menu.LIKED]: <LikedList />,
-              [Menu.CALENDAR]: <MatchingCalendar />,
-              [Menu.RECORD]: <MatchingRecord />,
+              [Menu.LIKED]: (
+                <ErrorBoundary
+                  onReset={reset}
+                  fallback={Fallback}
+                  message="관심친구를 로드하는데 실패 하였습니다."
+                >
+                  <LikedList />
+                </ErrorBoundary>
+              ),
+              [Menu.CALENDAR]: (
+                <ErrorBoundary
+                  onReset={reset}
+                  fallback={Fallback}
+                  message="매칭일정을 로드하는데 실패 하였습니다."
+                >
+                  <MatchingCalendar />
+                </ErrorBoundary>
+              ),
+              [Menu.RECORD]: (
+                <ErrorBoundary
+                  onReset={reset}
+                  fallback={Fallback}
+                  message="매칭기록을 로드하는데 실패 하였습니다."
+                >
+                  <MatchingRecord />
+                </ErrorBoundary>
+              ),
               [Menu.INFO]: (
                 <div>
                   <Info />
