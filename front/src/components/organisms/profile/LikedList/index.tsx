@@ -39,7 +39,7 @@ const LikedList = ({ isProfile }: { isProfile?: boolean }) => {
       const userId = isProfile ? `?userId=${profile?.id}` : '';
       return loadLikedListAPI(userId);
     },
-    { cacheTime: 2 * 60 * 1000 }
+    { cacheTime: 2 * 60 * 1000, useErrorBoundary: true, retry: false }
   );
 
   return (

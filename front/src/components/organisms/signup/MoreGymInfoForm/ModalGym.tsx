@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 import { SearchGymTabs } from '@/../@types/utils';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryErrorResetBoundary } from 'react-query';
 import { addGymAPI } from '@/api/gym';
 import { AddressAPI, CreateGymForm, ModalGymProps } from '@/../@types/gym';
 import { selectGym } from '@/../reducers/user';
@@ -11,6 +11,8 @@ import { Modal, Tabs } from '../../../molecules';
 import ModalSearchGym from '../../ModalSearchGym';
 import ModalCreateGym from '../../ModalCreateGym';
 import { ModalBodyBox } from './style';
+import ErrorBoundary from '../../ErrorBoundary';
+import Fallback from '../../Main/RecommendFriends/Fallback';
 
 const ModalGym = ({
   title,
@@ -20,6 +22,7 @@ const ModalGym = ({
   ...props
 }: ModalGymProps) => {
   const dispatch = useDispatch();
+  const { reset } = useQueryErrorResetBoundary();
 
   const { handleSubmit, control, setValue } = useForm<CreateGymForm>({
     defaultValues: {
@@ -72,7 +75,13 @@ const ModalGym = ({
           block
         />
         {selectedTab === 'search' ? (
-          <ModalSearchGym setShowModal={setShowModal} setGym={setGym} />
+          <ErrorBoundary
+            onReset={reset}
+            fallback={Fallback}
+            message="헬스장을 로드하는데 실패 하였습니다."
+          >
+            <ModalSearchGym setShowModal={setShowModal} setGym={setGym} />
+          </ErrorBoundary>
         ) : (
           <ModalCreateGym setValue={setValue} control={control} />
         )}
