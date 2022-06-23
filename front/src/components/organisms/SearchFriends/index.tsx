@@ -1,104 +1,45 @@
 import React, { useCallback, useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
 import { BiX } from 'react-icons/bi';
 
-import { useModalDispatch } from '@/../store/modalStore';
-import { addLikeAPI } from '@/api/user';
-import { gymAndFriendsByIdKey, meKey } from '@/../@utils/queryKey';
-import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/utils';
-import { UserGym, SelectedGymUser, SearchFriendsProps } from '@/../@types/user';
+import { ButtonType } from '@/../@types/utils';
+import { UserGym } from '@/../@types/user';
 import { Icon, Button } from '@/components/atoms';
-import { PropfileCard } from '@/components/molecules';
-import { rematchRate } from '@/../@utils/calculation';
-import { useLoadLoginedUser } from '@/hooks';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  changeIsFoldedFriends,
+  foldedItemSelector,
+  gymSelector,
+} from '@/../reducers/gym';
 import ModalPortal from '../ModalPortal';
 import ModalMatchingRequest from '../ModalMatchingRequest';
-import {
-  FriendsListWrapper,
-  SearchFriendsWrapper,
-  SearchHeader,
-  SearchTitle,
-} from './style';
+import { FriendsListWrapper, SearchHeader, SearchTitle } from './style';
+import FriendsList from './FriendsList';
 
-const SearchFriends = ({
-  isLoading,
-  foldedGym,
-  foldedFriends,
-  setFoldedFriends,
-  friends,
-}: SearchFriendsProps) => {
-  const queryClient = useQueryClient();
-  const contextDispatch = useModalDispatch();
+const SearchFriends = () => {
+  const dispatch = useDispatch();
+  const { isFoldedFriends } = useSelector(foldedItemSelector);
+  const { selectedGym } = useSelector(gymSelector);
 
   const [friend, setFriend] = useState<UserGym>();
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const { data: me } = useLoadLoginedUser();
-
-  const likeMutation = useMutation((data: number) => addLikeAPI(data), {
-    onSuccess: () => {
-      void queryClient.invalidateQueries(meKey);
-      void queryClient.invalidateQueries(gymAndFriendsByIdKey(friends.id));
-    },
-  });
-
   const onChangeFoldedFriends = useCallback(() => {
-    setFoldedFriends((prev) => !prev);
-  }, [foldedFriends]);
-
-  const onShowMatchingModal = useCallback(
-    (user) => () => {
-      if (!me?.id) {
-        contextDispatch({
-          type: 'SHOW_MODAL',
-          payload: {
-            type: GlobalModal.ALERT,
-            statusType: ModalStatus.WARNING,
-            message: '로그인이 필요한 페이지입니다.',
-            block: true,
-          },
-        });
-        return;
-      }
-      setFriend(user);
-      setShowModal(true);
-    },
-    [me?.id]
-  );
+    dispatch(changeIsFoldedFriends(!isFoldedFriends));
+  }, [isFoldedFriends]);
 
   return (
     <>
-      <SearchFriendsWrapper foldedGym={foldedGym} foldedFriends={foldedFriends}>
-        <SearchHeader>
-          <SearchTitle>{friends?.name} 친구검색 결과</SearchTitle>
-          <Button
-            icon={<Icon icon={<BiX />} />}
-            type={ButtonType.TEXT}
-            onClick={onChangeFoldedFriends}
-          />
-        </SearchHeader>
-        <FriendsListWrapper>
-          {friends?.Users &&
-            friends?.Users.map((user: SelectedGymUser) => {
-              const imageSrc = user.Image?.src ?? '';
-              const percent = rematchRate(user.totalCount, user.rematchCount);
-              const isCheckedLike = !!user.Liker.find((l) => l.id === me?.id);
-              return (
-                <PropfileCard
-                  key={user.id}
-                  userId={user.id}
-                  image={imageSrc}
-                  nickname={user.nickname}
-                  percent={percent}
-                  isLoading={isLoading}
-                  isCheckedLike={isCheckedLike}
-                  onClick={onShowMatchingModal(user.id)}
-                  onLike={(userId: number) => likeMutation.mutate(userId)}
-                />
-              );
-            })}
-        </FriendsListWrapper>
-      </SearchFriendsWrapper>
+      <SearchHeader>
+        <SearchTitle>{selectedGym?.name} 친구검색 결과</SearchTitle>
+        <Button
+          icon={<Icon icon={<BiX />} />}
+          type={ButtonType.TEXT}
+          onClick={onChangeFoldedFriends}
+        />
+      </SearchHeader>
+      <FriendsListWrapper>
+        <FriendsList setFriend={setFriend} setShowModal={setShowModal} />
+      </FriendsListWrapper>
       <ModalPortal>
         {showModal && (
           <ModalMatchingRequest setShowModal={setShowModal} friend={friend} />

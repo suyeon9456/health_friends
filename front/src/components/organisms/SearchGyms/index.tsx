@@ -1,22 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { useQuery } from 'react-query';
-import { BiChevronLeft, BiChevronRight, BiGroup } from 'react-icons/bi';
+import { useQueryErrorResetBoundary } from 'react-query';
+import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 
 import {
+  changeIsFoldedFriends,
+  changeIsFoldedGym,
   changeMapBounds,
+  changeSelectedGym,
+  foldedItemSelector,
   gymSelector,
-  loadFriends,
-  loadGyms,
 } from '@/../reducers/gym';
 import useInput from '@/hooks/useInput';
-import { loadGymAndFriendsAPI } from '@/api/user';
-import { loadGymsAPI } from '@/api/gym';
-import { gymAndFriendsByIdKey, gymsKey } from '@/../@utils/queryKey';
-import { Gym, SearchGymsProps } from '@/../@types/gym';
 
-import { Search, Item, Icon } from '@/components/atoms';
+import { Search, Icon } from '@/components/atoms';
 import SearchFriends from '../SearchFriends';
 import SearchSidebar from '../SearchSidebar';
 import {
@@ -24,122 +22,90 @@ import {
   SearchWrapper,
   SearchTitle,
   SearchFormWrapper,
-  SearchListWrapper,
   GymWrapper,
   FoldButton,
+  SearchListWrapper,
+  SearchFriendsWrapper,
 } from './style';
+import GymList from './GymList';
+import ErrorBoundary from '../ErrorBoundary';
+import Fallback from '../Main/RecommendFriends/Fallback';
 
-const SearchGyms = ({
-  foldedFriends,
-  setFoldedFriends,
-  foldedGym,
-  setFoldedGym,
-}: SearchGymsProps) => {
+const SearchGyms = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const { reset } = useQueryErrorResetBoundary();
 
   const { searchText, gym: selectedGym } = router.query;
-  const { gyms, mapBounds } = useSelector(gymSelector);
-
-  const [searchWord, onChangeSearchWord] = useInput<string>('');
+  const { gyms, selectedGym: gym } = useSelector(gymSelector);
+  const { isFoldedGym, isFoldedFriends } = useSelector(foldedItemSelector);
   const [browserHeight, setBrowserHeight] = useState<number>(0);
-  const [gymId, setGymId] = useState<number>(0);
-  const [searchQuery, setSearchQuery] = useState<string>(
+  const searchQuery = useRef<string>(
     (!!searchText && !Array.isArray(searchText) && searchText) || ''
   );
-
-  const { isLoading, data: friends } = useQuery(
-    gymAndFriendsByIdKey(gymId),
-    () => loadGymAndFriendsAPI({ gymId }),
-    {
-      onSuccess: (data) => dispatch(loadFriends(data)),
-      refetchOnWindowFocus: false,
-      retry: false,
-      enabled: !!gymId,
-    }
-  );
-
-  const _gyms = useQuery(
-    gymsKey({ searchWord: searchQuery, mapBounds }),
-    () => loadGymsAPI({ searchWord: searchQuery, mapBounds }),
-    {
-      onSuccess: (data) => {
-        dispatch(loadGyms({ data, selectedGym }));
-      },
-      refetchOnWindowFocus: false,
-      retry: false,
-    }
-  );
+  const [searchWord, onChangeSearchWord] = useInput<string>('');
 
   const changeFoldedGym = useCallback(() => {
-    setFoldedGym((prev) => !prev);
-  }, [foldedGym]);
+    dispatch(changeIsFoldedGym(!isFoldedGym));
+  }, [isFoldedGym]);
 
   const onSearchGyms = useCallback(() => {
-    setSearchQuery(searchWord);
+    searchQuery.current = searchWord;
     dispatch(changeMapBounds(null));
     void router.push(`?searchText=${searchWord}`, undefined, { shallow: true });
   }, [searchWord]);
 
-  const onClickGym = useCallback(
-    (targetGymId) => () => {
-      if (foldedFriends) {
-        setFoldedFriends(false);
-      }
-      setGymId(targetGymId);
-      void router.push(
-        {
-          query: { ...router.query, gym: targetGymId },
-        },
-        undefined,
-        { shallow: true }
-      );
-    },
-    [foldedFriends]
-  );
-
   useEffect(() => {
-    if (!foldedFriends) {
-      setFoldedGym(false);
+    if (!isFoldedFriends) {
+      dispatch(changeIsFoldedGym(false));
     }
-  }, [foldedFriends]);
-
-  useEffect(() => {
-    setBrowserHeight(document.documentElement.clientHeight);
-  }, []);
+  }, [isFoldedFriends]);
 
   useEffect(() => {
     if (selectedGym && !Array.isArray(selectedGym)) {
-      if (foldedFriends) {
-        setFoldedFriends(false);
+      if (isFoldedFriends) {
+        dispatch(changeIsFoldedFriends(false));
       }
-      setGymId(parseInt(selectedGym, 10));
+      dispatch(
+        changeSelectedGym(
+          gyms?.find(
+            ({ id }: { id: number }) => id === parseInt(selectedGym, 10)
+          )
+        )
+      );
     }
+  }, [gyms]);
+
+  useEffect(() => {
+    console.log(document.documentElement.clientHeight);
+    setBrowserHeight(document.documentElement.clientHeight);
   }, []);
 
   return (
     <SearchWrapper
-      foldedBlock={foldedGym && foldedFriends}
-      foldedOnlyGym={foldedGym && !foldedFriends}
+      foldedBlock={isFoldedGym && isFoldedFriends}
+      foldedOnlyGym={isFoldedGym && !isFoldedFriends}
     >
-      <SearchSidebar foldedGym={foldedGym} setFoldedGym={setFoldedGym} />
-      {foldedFriends || (
+      <SearchSidebar />
+      {isFoldedFriends || (
         <FoldButton
-          foldedGym={foldedGym}
+          foldedGym={isFoldedGym}
           onClick={changeFoldedGym}
           className="fold-button"
         >
-          {foldedGym ? (
+          {isFoldedGym ? (
             <Icon icon={<BiChevronRight />} />
           ) : (
             <Icon icon={<BiChevronLeft />} />
           )}
         </FoldButton>
       )}
-      <GymWrapper foldedGym={foldedGym}>
+      <GymWrapper foldedGym={isFoldedGym}>
         <SearchHeader>
           <span>{gyms?.length}개의 헬스장</span>
-          <SearchTitle>{searchWord || '전체 헬스장'} 검색 결과</SearchTitle>
+          <SearchTitle>
+            {searchQuery.current || '전체 헬스장'} 검색 결과
+          </SearchTitle>
         </SearchHeader>
         <SearchFormWrapper>
           <Search
@@ -150,32 +116,32 @@ const SearchGyms = ({
           />
         </SearchFormWrapper>
         <SearchListWrapper browserHeight={browserHeight}>
-          {gyms?.map((gym: Gym) => (
-            <Item
-              key={gym.id}
-              title={gym.name}
-              description={
-                <div>
-                  <span>{gym.addressRoad}</span>
-                  <span> ({gym.address})</span>
-                  <div>{gym.phone}</div>
-                  <div>
-                    <Icon icon={<BiGroup />} /> {gym?.Users?.length}명
-                  </div>
-                </div>
-              }
-              onClick={onClickGym(gym.id)}
+          <ErrorBoundary
+            key={searchQuery.current}
+            onReset={reset}
+            fallback={Fallback}
+            message="실시간 운동중인 매칭 커플을 로드하는데 실패 하였습니다."
+          >
+            <GymList
+              searchQuery={searchQuery.current}
+              selectedGym={selectedGym}
             />
-          ))}
+          </ErrorBoundary>
         </SearchListWrapper>
       </GymWrapper>
-      <SearchFriends
-        isLoading={isLoading}
-        foldedGym={foldedGym}
-        foldedFriends={foldedFriends}
-        setFoldedFriends={setFoldedFriends}
-        friends={friends}
-      />
+      <SearchFriendsWrapper
+        foldedGym={isFoldedGym}
+        foldedFriends={isFoldedFriends}
+      >
+        <ErrorBoundary
+          key={gym?.id}
+          onReset={reset}
+          fallback={Fallback}
+          message="실시간 운동중인 매칭 커플을 로드하는데 실패 하였습니다."
+        >
+          <SearchFriends />
+        </ErrorBoundary>
+      </SearchFriendsWrapper>
     </SearchWrapper>
   );
 };

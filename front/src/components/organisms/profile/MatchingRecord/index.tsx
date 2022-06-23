@@ -64,6 +64,7 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
           ? lastPage[lastPage.length - 1].nextCursor
           : undefined;
       },
+      useErrorBoundary: true,
     }
   );
 

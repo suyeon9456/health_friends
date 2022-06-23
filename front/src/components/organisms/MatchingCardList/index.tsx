@@ -19,6 +19,7 @@ import {
 } from '@/../@types/utils';
 import { scheduleByIdKey } from '@/../@utils/queryKey';
 import useIsState from '@/hooks/useIsState';
+import { AxiosError } from 'axios';
 import { LoadingMatchingCard, MatchingCard } from '../../molecules';
 import { Icon } from '../../atoms';
 import ModalMatchingDetail from '../profile/ModalMatchingDetail';
@@ -46,7 +47,7 @@ const MatchingCardList = ({
   const [modalType, setModalType] = useState<ShowModalType>(ModalType.VIEW);
   const [schedule, onChangeSchedule] = useScheduleData();
 
-  const _result = useQuery<RecordScheduleAPI>(
+  const _result = useQuery<RecordScheduleAPI | undefined, AxiosError>(
     scheduleByIdKey(matchingId, queryId, profile?.id),
     () => loadScheduleAPI(matchingId, queryId, profile?.id),
     {

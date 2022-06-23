@@ -1,35 +1,17 @@
 import React, { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useQuery } from 'react-query';
-
-import { selectGym } from '@/../reducers/user';
 import useInput from '@/hooks/useInput';
-import { loadSignupGymsAPI } from '@/api/user';
-import { signupGymsKey } from '@/../@utils/queryKey';
-import { Gym, ModalSearchGymProps } from '@/../@types/gym';
-import { Search, Item } from '../../atoms';
-import { BoxContent, GymListWrap, ListCard } from './style';
+import { ModalSearchGymProps } from '@/../@types/gym';
+import { useQueryErrorResetBoundary } from 'react-query';
+import { Search } from '../../atoms';
+import { BoxContent, GymListWrap } from './style';
+import GymList from './GymList';
+import ErrorBoundary from '../ErrorBoundary';
+import Fallback from '../Main/RecommendFriends/Fallback';
 
 const ModalSearchGym = ({ setShowModal, setGym }: ModalSearchGymProps) => {
-  const dispatch = useDispatch();
-
+  const { reset } = useQueryErrorResetBoundary();
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchWord, onChangeSearchWord] = useInput<string>('');
-
-  const { data: gyms } = useQuery<Gym[]>(
-    signupGymsKey(searchQuery),
-    () => loadSignupGymsAPI(searchQuery),
-    { initialData: [] }
-  );
-
-  const onClick = useCallback(
-    (gym) => {
-      dispatch(selectGym({ id: gym.id, name: gym.name }));
-      setGym('gym', gym.name);
-      setShowModal(false);
-    },
-    [gyms]
-  );
 
   const onSearch = useCallback(() => {
     setSearchQuery(searchWord);
@@ -44,16 +26,17 @@ const ModalSearchGym = ({ setShowModal, setGym }: ModalSearchGymProps) => {
         enterButton
       />
       <GymListWrap>
-        <ListCard>
-          {gyms?.map((gym) => (
-            <Item
-              key={gym.id}
-              title={gym.name}
-              description={gym.address}
-              onClick={() => onClick(gym)}
-            />
-          ))}
-        </ListCard>
+        <ErrorBoundary
+          onReset={reset}
+          fallback={Fallback}
+          message="해당 검색어에 대한 헬스장을 로드하는데 실패 하였습니다."
+        >
+          <GymList
+            searchQuery={searchQuery}
+            setGym={setGym}
+            setShowModal={setShowModal}
+          />
+        </ErrorBoundary>
       </GymListWrap>
     </BoxContent>
   );

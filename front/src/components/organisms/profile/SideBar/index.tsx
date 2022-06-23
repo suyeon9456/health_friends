@@ -2,15 +2,7 @@ import React, { useCallback, useState, SetStateAction } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from 'react-query';
-import {
-  BiTrophy,
-  BiCommentCheck,
-  BiBuildingHouse,
-  BiUser,
-  BiCalendar,
-  BiReceipt,
-  BiHeart,
-} from 'react-icons/bi';
+import { BiTrophy, BiCommentCheck, BiBuildingHouse } from 'react-icons/bi';
 
 import { useModalDispatch } from '@/../store/modalStore';
 import { profileSelector } from '@/../reducers/profile';
@@ -21,6 +13,7 @@ import { rematchRate, responseRate } from '@/../@utils/calculation';
 import { originalToThumb } from '@/../@utils/regexp';
 import { profileKey } from '@/../@utils/queryKey';
 import { ButtonType, Menu, ProfileMenuType } from '@/../@types/utils';
+import SideBarTabMenu from '@/components/molecules/SideBarTabMenu';
 import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
 import Progress from '../../../molecules/Progress';
@@ -30,10 +23,7 @@ import {
   InfoContent,
   InfoIconWrapper,
   InfoWrapper,
-  MenuText,
   SideBarWrapper,
-  SideMenu,
-  SideMenuWrap,
 } from './style';
 
 const SideBar = ({
@@ -43,7 +33,6 @@ const SideBar = ({
   profileMenu: ProfileMenuType;
   setProfileMenu: React.Dispatch<SetStateAction<ProfileMenuType>>;
 }) => {
-  const router = useRouter();
   const queryClient = useQueryClient();
   const contextDispatch = useModalDispatch();
   const me = useSelector(meSelector);
@@ -63,20 +52,6 @@ const SideBar = ({
   const addImage = useMutation((data: string) => addImageAPI(data), {
     onSuccess: () => queryClient.invalidateQueries(profileKey),
   });
-
-  const onClickMenu = useCallback(
-    (menu) => {
-      const query =
-        router.pathname === '/myinfo'
-          ? { tab: menu }
-          : { id: profile.id, tab: menu };
-      void router.push({ query }, undefined, {
-        shallow: true,
-      });
-      setProfileMenu(menu);
-    },
-    [profileMenu, profile]
-  );
 
   const onChangeImage = useCallback((e) => {
     const imageFormData = new FormData();
@@ -188,46 +163,10 @@ const SideBar = ({
           </div>
         </InfoContent>
       </InfoWrapper>
-      <SideMenuWrap active={profileMenu}>
-        <SideMenu
-          key={Menu.INFO}
-          id={Menu.INFO}
-          onClick={() => onClickMenu(Menu.INFO)}
-          className={profileMenu === Menu.INFO ? 'active' : ''}
-        >
-          <Icon icon={<BiUser />} />
-          <MenuText>
-            {me?.id && profile?.id === me?.id ? '내정보' : '정보'}
-          </MenuText>
-        </SideMenu>
-        <SideMenu
-          key={Menu.CALENDAR}
-          id={Menu.CALENDAR}
-          onClick={() => onClickMenu(Menu.CALENDAR)}
-          className={profileMenu === Menu.CALENDAR ? 'active' : ''}
-        >
-          <Icon icon={<BiCalendar />} />
-          <MenuText>매칭일정</MenuText>
-        </SideMenu>
-        <SideMenu
-          key={Menu.RECORD}
-          id={Menu.RECORD}
-          onClick={() => onClickMenu(Menu.RECORD)}
-          className={profileMenu === Menu.RECORD ? 'active' : ''}
-        >
-          <Icon icon={<BiReceipt />} />
-          <MenuText>매칭기록</MenuText>
-        </SideMenu>
-        <SideMenu
-          key={Menu.LIKED}
-          id={Menu.LIKED}
-          onClick={() => onClickMenu(Menu.LIKED)}
-          className={profileMenu === Menu.LIKED ? 'active' : ''}
-        >
-          <Icon icon={<BiHeart />} />
-          <MenuText>관심친구</MenuText>
-        </SideMenu>
-      </SideMenuWrap>
+      <SideBarTabMenu
+        profileMenu={profileMenu}
+        setProfileMenu={setProfileMenu}
+      />
       <ModalPortal>
         {showModal && (
           <ModalMatchingRequest

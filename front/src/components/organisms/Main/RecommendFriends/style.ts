@@ -7,6 +7,14 @@ export const FriendsWrap = styled.div`
   text-align: center;
 `;
 
+export const FriendsErrorWrap = styled.div`
+  width: 100%;
+  height: 313.3px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+`;
+
 export const FriendsTitle = styled.div`
   font-size: 16px;
   font-weight: 600;
@@ -119,6 +127,18 @@ export const ContentDescription = styled.div`
   & > span {
     font-weight: bold;
   }
+`;
+
+export const FriendsErrorCard = styled.div`
+  width: 100%;
+  color: #cccccc;
+  text-align: center;
+`;
+
+export const ErrorMessage = styled.div``;
+
+export const ErrorIconWrap = styled.div`
+  font-size: 28px;
 `;
 
 export const FriendsLoadingCard = styled.div`

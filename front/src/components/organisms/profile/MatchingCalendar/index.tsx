@@ -8,6 +8,7 @@ import useSelectRage from '@/hooks/useSelectRage';
 import { loadCalendarScheduleAPI } from '@/api/schedule';
 import { formatDateTime } from '@/../@utils/date';
 import { CalendarScheduleAPI, CalendarEvent } from '@/../@types/schedule';
+import { AxiosError } from 'axios';
 import { BigCalendar, SimpleMatchingCard } from '../../../molecules';
 import { CalendarWrap, CardWrap } from './style';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -23,7 +24,10 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
   const [date, setDate] = useState<string>('');
   const [events, setEvents] = useState<CalendarEvent[]>([]);
 
-  const { data: apiEvents } = useQuery<CalendarScheduleAPI[]>(
+  const { data: apiEvents } = useQuery<
+    CalendarScheduleAPI[] | undefined,
+    AxiosError
+  >(
     ['calendar', range],
     () =>
       loadCalendarScheduleAPI({
@@ -33,6 +37,7 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
     {
       refetchOnWindowFocus: false,
       retry: false,
+      useErrorBoundary: true,
     }
   );
 

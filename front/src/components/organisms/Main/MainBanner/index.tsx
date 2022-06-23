@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { BiSearchAlt } from 'react-icons/bi';
 
 import { ButtonType, SizeType } from '@/../@types/utils';
+import { QueryErrorResetBoundary } from 'react-query';
 import RecommendFriends from '../RecommendFriends';
 import { Button, Icon } from '../../../atoms';
 import {
@@ -16,6 +17,8 @@ import {
   BannerImageBack,
   BannerImage,
 } from './style';
+import Fallback from '../RecommendFriends/Fallback';
+import ErrorBoundary from '../../ErrorBoundary';
 
 const MainBanner = () => (
   <BannerWrap>
@@ -50,7 +53,19 @@ const MainBanner = () => (
     </BannerHeader>
     <BannerContentWrap>
       <BannerContent>
-        <RecommendFriends />
+        <QueryErrorResetBoundary>
+          {({ reset }) => {
+            return (
+              <ErrorBoundary
+                onReset={reset}
+                fallback={Fallback}
+                message="위치에서 운동하는 추천친구를 로드하는데 실패 하였습니다."
+              >
+                <RecommendFriends />
+              </ErrorBoundary>
+            );
+          }}
+        </QueryErrorResetBoundary>
       </BannerContent>
     </BannerContentWrap>
   </BannerWrap>

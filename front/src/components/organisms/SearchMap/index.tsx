@@ -5,11 +5,15 @@ import { useQueryClient } from 'react-query';
 import isEmpty from 'lodash/isEmpty';
 import { BiRevision } from 'react-icons/bi';
 
-import { changeMapBounds, gymSelector } from '@/../reducers/gym';
+import {
+  changeIsFoldedFriends,
+  changeMapBounds,
+  foldedItemSelector,
+  gymSelector,
+} from '@/../reducers/gym';
 import { gymAndFriendsByIdKey } from '@/../@utils/queryKey';
 import { ButtonType } from '@/../@types/utils';
 import { Gym, Location } from '@/../@types/gym';
-import { SearchMapProps } from '@/../@types/map';
 import { avatarContainer, overlayContainer } from '@/../@utils/tamplate';
 import { useRouter } from 'next/router';
 import { Button, Icon } from '../../atoms';
@@ -17,12 +21,13 @@ import { MapWrap } from './style';
 
 import styles from '../../../scss/searchMap.module.scss';
 
-const SearchMap = ({ foldedFriends, setFoldedFriends }: SearchMapProps) => {
+const SearchMap = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
 
   const { gym, gyms } = useSelector(gymSelector);
+  const { isFoldedFriends } = useSelector(foldedItemSelector);
 
   const map = useRef<any>();
   const customOverlay = useRef<any>(null);
@@ -36,12 +41,12 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: SearchMapProps) => {
 
   const onClickGym = useCallback(
     (gymId) => () => {
-      if (foldedFriends) {
-        setFoldedFriends(false);
+      if (isFoldedFriends) {
+        dispatch(changeIsFoldedFriends(false));
       }
       void queryClient.invalidateQueries(gymAndFriendsByIdKey(gymId));
     },
-    [foldedFriends]
+    [isFoldedFriends]
   );
 
   const moveLocation = useCallback((lat, lon) => {
@@ -63,12 +68,11 @@ const SearchMap = ({ foldedFriends, setFoldedFriends }: SearchMapProps) => {
     const avatarClick = (id: number) => {
       void router.replace(`/profile/${id}`);
     };
-    const avatarGroup = avatarContainer(
-      Users,
-      avatarClick,
-      foldedFriends,
-      setFoldedFriends
-    );
+    const avatarGroup = avatarContainer(Users, avatarClick, () => {
+      if (isFoldedFriends) {
+        dispatch(changeIsFoldedFriends(false));
+      }
+    });
     contentWrap.querySelector(`.${styles.inner}`)?.prepend(avatarGroup);
 
     customOverlay.current = new (window as any).kakao.maps.CustomOverlay({
