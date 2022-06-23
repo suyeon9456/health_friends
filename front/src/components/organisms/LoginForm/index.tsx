@@ -35,7 +35,6 @@ const LoginForm = () => {
   const router = useRouter();
   const contextDispatch = useModalDispatch();
   const queryClient = useQueryClient();
-
   const loginMutation = useMutation(
     (data: { email: string; password: string }) => loginAPI(data),
     {
@@ -83,7 +82,7 @@ const LoginForm = () => {
             placeholder="이메일 계정을 입력해주세요."
             control={control}
             error={errors.email}
-            {...{ autofocus: true }}
+            {...{ autoFocus: true }}
           />
         </InputWrapper>
         <InputWrapper>
@@ -106,18 +105,6 @@ const LoginForm = () => {
         </Button>
       </Form>
       <ButtonWrapper>
-        <div>
-          <Button>
-            <Link href="/" passHref>
-              <a>아이디 찾기</a>
-            </Link>
-          </Button>
-          <Button>
-            <Link href="/" passHref>
-              <a>비밀번호 찾기</a>
-            </Link>
-          </Button>
-        </div>
         <Button type={ButtonType.LINEPRIMARY} block>
           <Link href="/signup">
             <a className="line-primary">회원가입</a>
