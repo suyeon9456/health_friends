@@ -8,6 +8,9 @@ const initialState: GymInitialState = {
   mapBounds: null,
   gyms: null,
   gym: {},
+  isFoldedGym: false,
+  isFoldedFriends: true,
+  selectedGym: null,
 };
 
 const gymSlice = createSlice({
@@ -15,7 +18,6 @@ const gymSlice = createSlice({
   initialState,
   reducers: {
     loadGyms(state, action) {
-      console.log('reducer', action.payload);
       state.gyms = action.payload.data;
       if (!action.payload.selectedGym) {
         state.gym = {};
@@ -36,6 +38,16 @@ const gymSlice = createSlice({
     isLoadGyms(state, action) {
       state.isLoadGyms = action.payload;
     },
+    changeIsFoldedGym(state, action) {
+      state.isFoldedGym = action.payload;
+    },
+    changeIsFoldedFriends(state, action) {
+      console.log(action.payload);
+      state.isFoldedFriends = action.payload;
+    },
+    changeSelectedGym(state, action) {
+      state.selectedGym = action.payload;
+    },
   },
 });
 
@@ -45,15 +57,33 @@ export const gymSelector = createDraftSafeSelector(
   (state: RootState) => state.gym.mapBounds,
   (state: RootState) => state.gym.gyms,
   (state: RootState) => state.gym.gym,
-  (isLoadGyms, hasMoreGyms, mapBounds, gyms, gym) => ({
+  (state: RootState) => state.gym.selectedGym,
+  (isLoadGyms, hasMoreGyms, mapBounds, gyms, gym, selectedGym) => ({
     isLoadGyms,
     hasMoreGyms,
     mapBounds,
     gyms,
     gym,
+    selectedGym,
   })
 );
 
-export const { changeMapBounds, isLoadGyms, loadFriends, loadGyms } =
-  gymSlice.actions;
+export const foldedItemSelector = createDraftSafeSelector(
+  (state: RootState) => state.gym.isFoldedGym,
+  (state: RootState) => state.gym.isFoldedFriends,
+  (isFoldedGym, isFoldedFriends) => ({
+    isFoldedGym,
+    isFoldedFriends,
+  })
+);
+
+export const {
+  changeMapBounds,
+  isLoadGyms,
+  loadFriends,
+  loadGyms,
+  changeIsFoldedGym,
+  changeIsFoldedFriends,
+  changeSelectedGym,
+} = gymSlice.actions;
 export default gymSlice.reducer;
