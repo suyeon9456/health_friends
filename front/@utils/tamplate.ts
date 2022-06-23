@@ -31,8 +31,7 @@ export const overlayContainer = ({
 export const avatarContainer = (
   member: any[],
   avatarClick: (id: number) => void,
-  foldedFriends: boolean,
-  setFoldedFriends: Dispatch<SetStateAction<boolean>>
+  handler: () => void
 ) => {
   console.log(member);
   const avatarGroup = document.createElement('div');
@@ -49,11 +48,7 @@ export const avatarContainer = (
     const plusAvatar = document.createElement('a');
     plusAvatar.className = `${styles.plusAvatar}`;
     plusAvatar.innerText = `+ ${member.length - 2}`;
-    plusAvatar.addEventListener('click', () => {
-      if (foldedFriends) {
-        setFoldedFriends(false);
-      }
-    });
+    plusAvatar.addEventListener('click', handler);
     member?.forEach((user, i) => {
       const avatar = document.createElement('a');
       avatar.className = `${styles.avatar}`;

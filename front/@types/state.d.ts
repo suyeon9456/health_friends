@@ -1,4 +1,4 @@
-import { Gyms } from './gym';
+import { Gym, Gyms } from './gym';
 import { Schedules } from './schedule';
 import {
   Me,
@@ -34,4 +34,7 @@ export interface GymInitialState {
   mapBounds: {} | null;
   gyms: Gyms | [];
   gym: {};
+  isFoldedGym: boolean;
+  isFoldedFriends: boolean;
+  selectedGym: Gym | null;
 }

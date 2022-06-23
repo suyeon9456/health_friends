@@ -49,7 +49,7 @@ export interface Profile extends Me {
 export interface SelectedGymUser extends Me {
   totalCount: number;
   rematchCount: number;
-  Liker: Array<{ id: number }>;
+  Liker?: Array<{ id?: number }>;
 }
 
 export interface UserGym extends User {
@@ -127,14 +127,6 @@ export interface EditProfileProps {
     },
     object
   >;
-}
-
-export interface SearchFriendsProps {
-  isLoading: boolean;
-  foldedGym: boolean;
-  foldedFriends: boolean;
-  setFoldedFriends: Dispatch<SetStateAction<boolean>>;
-  friends?: Gym;
 }
 
 export interface SignupSteps {

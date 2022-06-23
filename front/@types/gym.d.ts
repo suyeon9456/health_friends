@@ -39,13 +39,6 @@ export interface ModalSearchGymProps {
   }>;
 }
 
-export interface SearchGymsProps {
-  foldedFriends: boolean;
-  setFoldedFriends: Dispatch<SetStateAction<boolean>>;
-  foldedGym: boolean;
-  setFoldedGym: Dispatch<SetStateAction<boolean>>;
-}
-
 export interface ModalGymProps {
   title: string;
   onCancel: () => void;

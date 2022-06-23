@@ -23,11 +23,6 @@ export interface KeywordPlace {
   y: string;
 }
 
-export interface SearchMapProps {
-  foldedFriends: boolean;
-  setFoldedFriends: Dispatch<SetStateAction<boolean>>;
-}
-
 export interface MapAPI {
   lastId?: number;
   searchWord?: string;
