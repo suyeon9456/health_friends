@@ -5,24 +5,45 @@ axios.defaults.baseURL = backUrl;
 axios.defaults.withCredentials = true;
 
 export const loadMyinfoAPI = () => {
-  return axios.get('/user/profile/myinfo').then((response) => response.data);
+  try {
+    return axios.get('/user/profile/myinfo').then((response) => response.data);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const loadProfileAPI = (id?: string | string[]) => {
-  return axios.get(`/user/profile/${id}`).then((response) => response.data);
+  try {
+    return axios.get(`/user/profile/${id}`).then((response) => response.data);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const loadLikedListAPI = (userId: string) => {
-  return axios.get(`/user/like${userId}`).then((response) => response.data);
+  try {
+    return axios.get(`/user/like${userId}`).then((response) => response.data);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const uploadImageAPI = (data: FormData) => {
-  return axios.post('/user/image', data).then((response) => response.data);
+  try {
+    return axios.post('/user/image', data).then((response) => response.data);
+  } catch (error) {
+    console.log(error);
+    throw new Error('axios error');
+  }
 };
 
 export const addImageAPI = (data: string) => {
-  console.log(data);
-  return axios
-    .post('/user/profileimage', { image: data })
-    .then((response) => response.data);
+  try {
+    return axios
+      .post('/user/profileimage', { image: data })
+      .then((response) => response.data);
+  } catch (error) {
+    console.log(error);
+    throw new Error('axios error');
+  }
 };
