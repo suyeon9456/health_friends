@@ -27,7 +27,6 @@ const RangePicker = ({
       onChange={(update: [Date | null, Date | null]) => {
         setDateRange(update);
       }}
-      // isClearable
       customInput={
         <CustomRangePickerInput type={type} placeholder={placeholder} />
       }

@@ -31,8 +31,6 @@ const formats = {
       localizer.format(start, 'MM월 dd일', locales.ko),
       localizer.format(end, 'MM월 dd일', locales.ko),
     ].join(' — '),
-  // dayRangeHeaderFormat: ({ start, end }) => localizer.format(start, 'MM월 dd일', locales.ko) +
-  // ' — ' + localizer.format(end, 'MM월 dd일', locales.ko),
   dayHeaderFormat: (date: Date) =>
     localizer.format(date, 'yyyy년 MM월 dd일', locales.ko),
 };
@@ -85,13 +83,11 @@ const BigCalendar = ({
     localizer={localizer}
     events={events}
     startAccessor="start"
-    // endAccessor="end"
     style={{ height: 520, width: '100%' }}
     onSelectEvent={onSelectEvent}
     onRangeChange={onRangeChange}
     components={{
       event: Event,
-      // agenda: { event: EventAgenda },
       toolbar: BigCalendarToolbar,
     }}
   />

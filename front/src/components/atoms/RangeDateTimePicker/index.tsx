@@ -21,12 +21,10 @@ const RangeDateTimePicker = ({
       selected={startDate}
       onChange={(data) => onChangeStartDate(data)}
       showTimeSelect
-      // showTimeSelectOnly
       timeIntervals={15}
       timeCaption="Time"
       timeFormat="HH:mm"
       dateFormat="yyyy년 MM월 dd일 HH:mm"
-      // placeholderText={placeholder}
       customInput={<CustomPickerInput type={PickerType.DATE} size={size} />}
       calendarContainer={CustomCalendar}
     />
