@@ -8,13 +8,12 @@ import {
   BiSearchAlt,
 } from 'react-icons/bi';
 
-import { useShowDispatch } from '@/../store/contextStore';
-
 import { ButtonType } from '@/../@types/utils';
 import { useMutation, useQueryClient } from 'react-query';
 import { logoutAPI } from '@/api/user';
 import { meKey } from '@/../@utils/queryKey';
 import { useLoadLoginedUser } from '@/hooks';
+import { useModalDispatch } from '@/../store/modalStore';
 import { Button, Avatar, Icon } from '../../atoms';
 import {
   Drawer,
@@ -36,7 +35,7 @@ import {
 
 const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
   const router = useRouter();
-  const contextDispatch = useShowDispatch();
+  const contextDispatch = useModalDispatch();
   const queryClient = useQueryClient();
 
   const { data: me } = useLoadLoginedUser();
@@ -49,8 +48,8 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
 
   const changeShowDrawerMenu = useCallback(() => {
     contextDispatch({
-      type: 'CHANGE_STATE',
-      value: !drawerShow,
+      type: 'CHANGE_DRAWER',
+      payload: !drawerShow,
     });
   }, [drawerShow]);
 

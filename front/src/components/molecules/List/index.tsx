@@ -5,9 +5,11 @@ import { ListCard } from './style';
 
 const List = ({
   list,
+  children,
   ...props
 }: {
   list: Array<{ title: string; description: string }>;
+  children: React.ReactNode;
 }) => (
   <ListCard {...props}>
     {list.map((item) => (

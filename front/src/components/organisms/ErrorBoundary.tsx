@@ -26,13 +26,12 @@ class ErrorBoundary extends React.Component<Props, State> {
   }
 
   static getDerivedStateFromError(error: Error) {
-    console.log('getDerivedStateFromError');
     return { hasError: true, info: error };
   }
 
   resetErrorBoundary = () => {
-    console.log('this.props', this.props);
     const { onReset } = this.props;
+    console.log('에러', onReset);
     // eslint-disable-next-line no-void
     onReset == null ? void 0 : onReset();
     this.reset();

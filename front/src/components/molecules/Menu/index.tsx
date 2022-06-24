@@ -8,14 +8,14 @@ import { logoutAPI } from '@/api/user';
 import { meKey, profileKey } from '@/../@utils/queryKey';
 import { useLoadLoginedUser } from '@/hooks';
 import Image from 'next/image';
-import { useShowDispatch, useShowState } from '../../../../store/contextStore';
+import { useModalDispatch, useModalState } from '@/../store/modalStore';
 
 import { Avatar, Icon } from '../../atoms';
 import { MenuItem, MenuList, MenuText, MenuTitle } from './style';
 
 const Menu = () => {
-  const { drawerShow } = useShowState();
-  const contextDispatch = useShowDispatch();
+  const { isDrawer } = useModalState();
+  const contextDispatch = useModalDispatch();
   const queryClient = useQueryClient();
 
   const { data: me } = useLoadLoginedUser();
@@ -32,10 +32,10 @@ const Menu = () => {
 
   const changeShowDrawerMenu = useCallback(() => {
     contextDispatch({
-      type: 'CHANGE_STATE',
-      value: !drawerShow,
+      type: 'CHANGE_DRAWER',
+      payload: !isDrawer,
     });
-  }, [drawerShow]);
+  }, [isDrawer]);
   return (
     <MenuList>
       <MenuItem type="home" align="left">

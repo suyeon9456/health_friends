@@ -16,6 +16,7 @@ export interface InitialState {
   custom: Array<{
     id?: string;
   }>;
+  isDrawer: boolean;
 }
 
 type Action =
@@ -31,15 +32,17 @@ type Action =
     }
   | { type: 'HIDDEN_MODAL'; payload: string }
   | { type: 'SHOW_CUSTOM_MODAL'; payload: string }
-  | { type: 'HIDDEN_CUSTOM_MODAL'; payload: string };
+  | { type: 'HIDDEN_CUSTOM_MODAL'; payload: string }
+  | { type: 'CHANGE_DRAWER'; payload: boolean };
 
 export const initialState: InitialState = {
   basic: [],
   custom: [],
+  isDrawer: false,
 };
 
-export const UseModalStateContext = createContext<InitialState | null>(null);
-export const UseModalDispatchContext =
+export const ModalStateContext = createContext<InitialState | null>(null);
+export const ModalDispatchContext =
   createContext<React.Dispatch<Action> | null>(null);
 
 export const modalReducer = (state = initialState, action: Action) => {
@@ -76,18 +79,23 @@ export const modalReducer = (state = initialState, action: Action) => {
         ...state,
         custom: state.custom.filter(({ id }) => id !== action.payload),
       };
+    case 'CHANGE_DRAWER':
+      return {
+        ...state,
+        isDrawer: action.payload,
+      };
     default:
       return state;
   }
 };
 
 export const useModalState = () => {
-  const state = useContext(UseModalStateContext);
+  const state = useContext(ModalStateContext);
   if (!state) throw new Error('TodosProvider not found');
   return state;
 };
 export const useModalDispatch = () => {
-  const dispatch = useContext(UseModalDispatchContext);
+  const dispatch = useContext(ModalDispatchContext);
   if (!dispatch) throw new Error('error');
   return dispatch;
 };

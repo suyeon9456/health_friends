@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useShowState } from '../../../store/contextStore';
+import { useModalState } from '@/../store/modalStore';
 
 import { Menu, DrawerMenu } from '../molecules';
 import Row from '../molecules/Row';
@@ -15,7 +15,7 @@ const AppLayout = ({
   spanNumber?: number;
   children: React.ReactNode;
 }) => {
-  const { drawerShow } = useShowState();
+  const { isDrawer } = useModalState();
   return (
     <div>
       <Menu />
@@ -24,7 +24,7 @@ const AppLayout = ({
           {children}
         </Col>
       </Row>
-      <DrawerMenu drawerShow={drawerShow} />
+      <DrawerMenu drawerShow={isDrawer} />
     </div>
   );
 };
