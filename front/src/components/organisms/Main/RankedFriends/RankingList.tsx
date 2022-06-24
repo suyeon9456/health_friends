@@ -18,17 +18,11 @@ import {
 } from './style';
 
 const RankingList = () => {
-  const {
-    isLoading,
-    error,
-    data: ranking,
-  } = useQuery<
+  const { isLoading, data: ranking } = useQuery<
     { rematching: RematchingAPI[]; matching: MatchingAPI[] } | undefined,
     AxiosError
   >(['ranking'], () => loadRankingAPI(), {
     staleTime: 2 * 60 * 1000,
-    retry: false,
-    useErrorBoundary: true,
   });
   return (
     <RankCardList>

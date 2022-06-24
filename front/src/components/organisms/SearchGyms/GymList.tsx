@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'react-query';
@@ -31,14 +31,16 @@ const GymList = ({
 
   const _gyms = useQuery(
     gymsKey({ searchWord: searchQuery, mapBounds }),
-    () => loadGymsAPI({ searchWord: searchQuery, mapBounds }),
+    () =>
+      useMemo(
+        () => loadGymsAPI({ searchWord: searchQuery, mapBounds }),
+        [searchQuery, mapBounds]
+      ),
     {
       onSuccess: (data) => {
         dispatch(loadGyms({ data, selectedGym }));
       },
       refetchOnWindowFocus: false,
-      retry: false,
-      useErrorBoundary: true,
     }
   );
 

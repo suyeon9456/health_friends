@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { useQueryErrorResetBoundary } from 'react-query';
+import {
+  QueryErrorResetBoundary,
+  useQueryErrorResetBoundary,
+} from 'react-query';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 
 import {
@@ -34,7 +37,8 @@ import Fallback from '../Main/RecommendFriends/Fallback';
 const SearchGyms = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { reset } = useQueryErrorResetBoundary();
+  console.log('useQueryErrorResetBoundary()', useQueryErrorResetBoundary());
+  const useError = useQueryErrorResetBoundary();
 
   const { searchText, gym: selectedGym } = router.query;
   const { gyms, selectedGym: gym } = useSelector(gymSelector);
@@ -82,67 +86,71 @@ const SearchGyms = () => {
   }, []);
 
   return (
-    <SearchWrapper
-      foldedBlock={isFoldedGym && isFoldedFriends}
-      foldedOnlyGym={isFoldedGym && !isFoldedFriends}
-    >
-      <SearchSidebar />
-      {isFoldedFriends || (
-        <FoldButton
-          foldedGym={isFoldedGym}
-          onClick={changeFoldedGym}
-          className="fold-button"
+    <QueryErrorResetBoundary>
+      {({ reset }) => (
+        <SearchWrapper
+          foldedBlock={isFoldedGym && isFoldedFriends}
+          foldedOnlyGym={isFoldedGym && !isFoldedFriends}
         >
-          {isFoldedGym ? (
-            <Icon icon={<BiChevronRight />} />
-          ) : (
-            <Icon icon={<BiChevronLeft />} />
+          <SearchSidebar />
+          {isFoldedFriends || (
+            <FoldButton
+              foldedGym={isFoldedGym}
+              onClick={changeFoldedGym}
+              className="fold-button"
+            >
+              {isFoldedGym ? (
+                <Icon icon={<BiChevronRight />} />
+              ) : (
+                <Icon icon={<BiChevronLeft />} />
+              )}
+            </FoldButton>
           )}
-        </FoldButton>
-      )}
-      <GymWrapper foldedGym={isFoldedGym}>
-        <SearchHeader>
-          <span>{gyms?.length}개의 헬스장</span>
-          <SearchTitle>
-            {searchQuery.current || '전체 헬스장'} 검색 결과
-          </SearchTitle>
-        </SearchHeader>
-        <SearchFormWrapper>
-          <Search
-            placeholder="관심 지역 및 헬스장을 검색해보세요."
-            value={searchWord}
-            onChange={onChangeSearchWord}
-            onSearch={onSearchGyms}
-          />
-        </SearchFormWrapper>
-        <SearchListWrapper browserHeight={browserHeight}>
-          <ErrorBoundary
-            key={searchQuery.current}
-            onReset={reset}
-            fallback={Fallback}
-            message="실시간 운동중인 매칭 커플을 로드하는데 실패 하였습니다."
+          <GymWrapper foldedGym={isFoldedGym}>
+            <SearchHeader>
+              <span>{gyms?.length}개의 헬스장</span>
+              <SearchTitle>
+                {searchQuery.current || '전체 헬스장'} 검색 결과
+              </SearchTitle>
+            </SearchHeader>
+            <SearchFormWrapper>
+              <Search
+                placeholder="관심 지역 및 헬스장을 검색해보세요."
+                value={searchWord}
+                onChange={onChangeSearchWord}
+                onSearch={onSearchGyms}
+              />
+            </SearchFormWrapper>
+            <SearchListWrapper browserHeight={browserHeight}>
+              <ErrorBoundary
+                key={searchQuery.current}
+                onReset={useError.reset}
+                fallback={Fallback}
+                message="실시간 운동중인 매칭 커플을 로드하는데 실패 하였습니다."
+              >
+                <GymList
+                  searchQuery={searchQuery.current}
+                  selectedGym={selectedGym}
+                />
+              </ErrorBoundary>
+            </SearchListWrapper>
+          </GymWrapper>
+          <SearchFriendsWrapper
+            foldedGym={isFoldedGym}
+            foldedFriends={isFoldedFriends}
           >
-            <GymList
-              searchQuery={searchQuery.current}
-              selectedGym={selectedGym}
-            />
-          </ErrorBoundary>
-        </SearchListWrapper>
-      </GymWrapper>
-      <SearchFriendsWrapper
-        foldedGym={isFoldedGym}
-        foldedFriends={isFoldedFriends}
-      >
-        <ErrorBoundary
-          key={gym?.id}
-          onReset={reset}
-          fallback={Fallback}
-          message="실시간 운동중인 매칭 커플을 로드하는데 실패 하였습니다."
-        >
-          <SearchFriends />
-        </ErrorBoundary>
-      </SearchFriendsWrapper>
-    </SearchWrapper>
+            <ErrorBoundary
+              key={gym?.id}
+              onReset={reset}
+              fallback={Fallback}
+              message="실시간 운동중인 매칭 커플을 로드하는데 실패 하였습니다."
+            >
+              <SearchFriends />
+            </ErrorBoundary>
+          </SearchFriendsWrapper>
+        </SearchWrapper>
+      )}
+    </QueryErrorResetBoundary>
   );
 };
 

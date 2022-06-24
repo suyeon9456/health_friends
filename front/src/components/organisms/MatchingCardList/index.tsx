@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
@@ -33,7 +33,7 @@ const MatchingCardList = ({
   pageParams,
 }: {
   isLoading: boolean;
-  pages?: any[][];
+  pages?: Array<any[] | undefined> | undefined;
   pageParams?: any[];
 }) => {
   const router = useRouter();
@@ -49,10 +49,13 @@ const MatchingCardList = ({
 
   const _result = useQuery<RecordScheduleAPI | undefined, AxiosError>(
     scheduleByIdKey(matchingId, queryId, profile?.id),
-    () => loadScheduleAPI(matchingId, queryId, profile?.id),
+    () =>
+      useMemo(
+        () => loadScheduleAPI(matchingId, queryId, profile?.id),
+        [matchingId, queryId, profile?.id]
+      ),
     {
       refetchOnWindowFocus: false,
-      retry: false,
       enabled: !!matchingId && !!profile,
       onSuccess: (data) => {
         if (!data) return;
@@ -85,7 +88,8 @@ const MatchingCardList = ({
       <MatchingCardListWrap>
         {Array.from({ length: pageParams?.length ?? 0 }, (_, i) => i).map(
           (_, i) => {
-            return pages?.[i].map((target) => {
+            if (!pages) return null;
+            return pages?.[i]?.map((target) => {
               const { start, end, Receiver, Requester, Cancel } = target;
               const friend = profile.id === Receiver.id ? Requester : Receiver;
               return (

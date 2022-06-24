@@ -49,7 +49,6 @@ const ModalEditInfo = ({
           startTime: formatTime(data.startTime),
           endTime: formatTime(data.endTime),
         });
-        // void queryClient.invalidateQueries('profile');
       }
       if (targetId === 'friends-info') {
         friendsInfoMutation.mutate({

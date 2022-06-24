@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback } from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { useModalDispatch } from '@/../store/modalStore';
@@ -27,12 +27,14 @@ const FriendsList = ({
   const { data: me } = useLoadLoginedUser();
   const { isLoading, data: friends } = useQuery(
     gymAndFriendsByIdKey(selectedGym?.id),
-    () => loadGymAndFriendsAPI({ gymId: selectedGym?.id }),
+    () =>
+      useMemo(
+        () => loadGymAndFriendsAPI({ gymId: selectedGym?.id }),
+        [selectedGym?.id]
+      ),
     {
       onSuccess: (data) => dispatch(loadFriends(data)),
       refetchOnWindowFocus: false,
-      retry: false,
-      useErrorBoundary: true,
       enabled: !!selectedGym?.id,
     }
   );

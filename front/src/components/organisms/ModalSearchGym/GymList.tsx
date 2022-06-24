@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useQuery } from 'react-query';
 
@@ -29,8 +29,8 @@ const GymList = ({
 
   const { data: gyms } = useQuery<Gym[] | undefined, AxiosError>(
     signupGymsKey(searchQuery),
-    () => loadSignupGymsAPI(searchQuery),
-    { initialData: [], retry: false, useErrorBoundary: true }
+    () => useMemo(() => loadSignupGymsAPI(searchQuery), [searchQuery]),
+    { initialData: [] }
   );
 
   const onClick = useCallback(

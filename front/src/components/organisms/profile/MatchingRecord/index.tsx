@@ -33,7 +33,7 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
   const [type, onChangeType] = useCheckbox<string>([]);
 
   const { isFetching, hasNextPage, fetchNextPage, data } = useInfiniteQuery<
-    any[],
+    any[] | undefined,
     AxiosError
   >(
     schedulesByIdKey({
@@ -56,10 +56,10 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
     },
     {
       refetchOnWindowFocus: false,
-      retry: false,
       enabled: !!profile,
       staleTime: 2 * 60 * 1000,
       getNextPageParam: (lastPage) => {
+        if (!lastPage) return;
         return lastPage[lastPage.length - 1].nextCursor > 0
           ? lastPage[lastPage.length - 1].nextCursor
           : undefined;

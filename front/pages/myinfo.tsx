@@ -41,22 +41,26 @@ const Myinfo = () => {
 
   const _ = useLoadLoginedUser({ onSuccess: (data) => dispatch(loadMe(data)) });
 
-  useQuery(profileKey, () => loadMyinfoAPI(), {
-    refetchOnWindowFocus: false,
-    retry: false,
-    onSuccess: (data) => dispatch(loadProfile(data)),
-    onError: () =>
-      contextDispatch({
-        type: 'SHOW_MODAL',
-        payload: {
-          type: GlobalModal.ALERT,
-          statusType: ModalStatus.ERROR,
-          message: '존재하지 않는 사용자입니다.',
-          block: true,
-          callback: () => router.replace('/'),
-        },
-      }),
-  });
+  useQuery(
+    profileKey,
+    () => useMemo(() => () => loadMyinfoAPI(), [profileKey]),
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => dispatch(loadProfile(data)),
+      onError: () =>
+        contextDispatch({
+          type: 'SHOW_MODAL',
+          payload: {
+            type: GlobalModal.ALERT,
+            statusType: ModalStatus.ERROR,
+            message: '존재하지 않는 사용자입니다.',
+            block: true,
+            callback: () => router.replace('/'),
+          },
+        }),
+      useErrorBoundary: false,
+    }
+  );
 
   const page = useMemo(() => {
     return router.query.tab !== undefined ? router.query.tab : Menu.INFO;

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
@@ -79,17 +79,14 @@ const RecommendFriends = () => {
   const [isReloadLocation, setIsReloadLocation] = useState<boolean>(false);
   const [isLocation, onChangeIsLocation, setIsLocation] = useIsState(false);
 
-  const {
-    error,
-    data: recommendData,
-    isLoading,
-  } = useQuery<RecommendFriendsAPI | undefined, AxiosError>(
+  const { data: recommendData, isLoading } = useQuery<
+    RecommendFriendsAPI | undefined,
+    AxiosError
+  >(
     recommendKey(location),
-    () => loadRecommendAPI(location),
+    () => useMemo(() => loadRecommendAPI(location), [location]),
     {
       staleTime: 5 * 60 * 1000,
-      retry: false,
-      useErrorBoundary: true,
     }
   );
 
@@ -203,7 +200,7 @@ const RecommendFriends = () => {
       </FriendsSubTitle>
       <FriendsBody>
         <FriendsCardList>
-          {!isEmpty(recommendData?.fullFriends) && !error && !isLoading ? (
+          {!isEmpty(recommendData?.fullFriends) && !isLoading ? (
             <Slider {...settings}>
               {recommendData?.fullFriends?.map((friend) => (
                 <Link href={`/profile/${friend?.id}`} key={friend.id}>

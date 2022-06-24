@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useQuery } from 'react-query';
 
@@ -30,15 +30,15 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
   >(
     ['calendar', range],
     () =>
-      loadCalendarScheduleAPI({
-        range,
-        profileId: isProfile ? profile?.id : null,
-      }),
-    {
-      refetchOnWindowFocus: false,
-      retry: false,
-      useErrorBoundary: true,
-    }
+      useMemo(
+        () =>
+          loadCalendarScheduleAPI({
+            range,
+            profileId: isProfile ? profile?.id : null,
+          }),
+        [range]
+      ),
+    { refetchOnWindowFocus: false }
   );
 
   const onSelectEvent: (event: {

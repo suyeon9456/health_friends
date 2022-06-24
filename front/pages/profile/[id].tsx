@@ -46,28 +46,32 @@ const Profile = () => {
 
   const _ = useLoadLoginedUser({ onSuccess: (data) => dispatch(loadMe(data)) });
 
-  useQuery(profileByIdKey(id), () => loadProfileAPI(id), {
-    // staleTime: 5 * 60 * 1000,
-    retry: false,
-    refetchOnWindowFocus: false,
-    enabled: !!id,
-    onSuccess: (data) => {
-      if (!data) return;
-      dispatch(loadProfile(data));
-    },
-    onError: () => {
-      contextDispatch({
-        type: 'SHOW_MODAL',
-        payload: {
-          type: GlobalModal.ALERT,
-          statusType: ModalStatus.ERROR,
-          message: '존재하지 않는 사용자입니다.',
-          block: true,
-          callback: () => router.replace('/'),
-        },
-      });
-    },
-  });
+  useQuery(
+    profileByIdKey(id),
+    () => useMemo(() => () => loadProfileAPI(id), [id]),
+    {
+      staleTime: 5 * 60 * 1000,
+      refetchOnWindowFocus: false,
+      enabled: !!id,
+      onSuccess: (data) => {
+        if (!data) return;
+        dispatch(loadProfile(data));
+      },
+      onError: () => {
+        contextDispatch({
+          type: 'SHOW_MODAL',
+          payload: {
+            type: GlobalModal.ALERT,
+            statusType: ModalStatus.ERROR,
+            message: '존재하지 않는 사용자입니다.',
+            block: true,
+            callback: () => router.replace('/'),
+          },
+        });
+      },
+      useErrorBoundary: false,
+    }
+  );
 
   const page = useMemo(() => {
     return router.query.tab !== undefined ? router.query.tab : Menu.INFO;
