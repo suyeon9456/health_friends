@@ -12,7 +12,7 @@ import ModalSearchGym from '../../ModalSearchGym';
 import ModalCreateGym from '../../ModalCreateGym';
 import { ModalBodyBox } from './style';
 import ErrorBoundary from '../../ErrorBoundary';
-import Fallback from '../../Main/RecommendFriends/Fallback';
+import ErrorFallback from '../../ErrorFallback';
 
 const ModalGym = ({
   title,
@@ -77,7 +77,7 @@ const ModalGym = ({
         {selectedTab === 'search' ? (
           <ErrorBoundary
             onReset={reset}
-            fallback={Fallback}
+            fallback={ErrorFallback}
             message="헬스장을 로드하는데 실패 하였습니다."
           >
             <ModalSearchGym setShowModal={setShowModal} setGym={setGym} />

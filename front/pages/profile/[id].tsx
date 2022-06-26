@@ -22,7 +22,7 @@ import { loadMe } from '@/../reducers/user';
 import { useLoadLoginedUser } from '@/hooks';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import ErrorBoundary from '@/components/organisms/ErrorBoundary';
-import Fallback from '@/components/organisms/Main/RecommendFriends/Fallback';
+import ErrorFallback from '@/components/organisms/ErrorFallback';
 import {
   AppLayout,
   SideBar,
@@ -93,7 +93,7 @@ const Profile = () => {
               [Menu.LIKED]: (
                 <ErrorBoundary
                   onReset={reset}
-                  fallback={Fallback}
+                  fallback={ErrorFallback}
                   message="관심친구를 로드하는데 실패 하였습니다."
                 >
                   <LikedList isProfile />
@@ -102,7 +102,7 @@ const Profile = () => {
               [Menu.CALENDAR]: (
                 <ErrorBoundary
                   onReset={reset}
-                  fallback={Fallback}
+                  fallback={ErrorFallback}
                   message="매칭일정을 로드하는데 실패 하였습니다."
                 >
                   <MatchingCalendar isProfile />
@@ -111,7 +111,7 @@ const Profile = () => {
               [Menu.RECORD]: (
                 <ErrorBoundary
                   onReset={reset}
-                  fallback={Fallback}
+                  fallback={ErrorFallback}
                   message="매칭기록을 로드하는데 실패 하였습니다."
                 >
                   <MatchingRecord isProfile />

@@ -24,11 +24,6 @@ import {
   CardContentWrap,
   ContentTitile,
   ContentDescription,
-  FriendsLoadingCard,
-  LoadingAvatarWrap,
-  LoadingAvatar,
-  LoadingTitle,
-  LoadingDescription,
 } from './style';
 import {
   Avatar,
@@ -36,6 +31,7 @@ import {
   ReactSliderNextButton,
   ReactSliderPrevButton,
 } from '../../../atoms';
+import LoadingFallback from './LoadingFallback';
 
 const settings = {
   dots: true,
@@ -82,13 +78,9 @@ const RecommendFriends = () => {
   const { data: recommendData, isLoading } = useQuery<
     RecommendFriendsAPI | undefined,
     AxiosError
-  >(
-    recommendKey(location),
-    () => useMemo(() => loadRecommendAPI(location), [location]),
-    {
-      staleTime: 5 * 60 * 1000,
-    }
-  );
+  >(recommendKey(location), () => loadRecommendAPI(location), {
+    staleTime: 5 * 60 * 1000,
+  });
 
   const reLoadLocation = useCallback(
     () => setIsReloadLocation(true),
@@ -223,19 +215,7 @@ const RecommendFriends = () => {
               ))}
             </Slider>
           ) : (
-            Array.from({ length: 4 }, (_, i) => i).map((_, i) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <FriendsLoadingCard key={i}>
-                <LoadingAvatarWrap>
-                  <LoadingAvatar className="lazyData" />
-                </LoadingAvatarWrap>
-                <CardContentWrap>
-                  <LoadingTitle className="lazyData" />
-                  <LoadingDescription className="lazyData" />
-                  <LoadingDescription className="lazyData" />
-                </CardContentWrap>
-              </FriendsLoadingCard>
-            ))
+            <LoadingFallback />
           )}
         </FriendsCardList>
       </FriendsBody>

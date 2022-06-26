@@ -21,12 +21,8 @@ import {
   MetaActions,
   Action,
   Empty,
-  LoadingCard,
-  LoadingCardCover,
-  LoadingCardBody,
-  LoadingMetaTitle,
-  LoadingAction,
 } from './style';
+import LoadingFallback from './LoadingFallback';
 
 const LikedList = ({ isProfile }: { isProfile?: boolean }) => {
   const { profile } = useSelector(profileSelector);
@@ -34,42 +30,18 @@ const LikedList = ({ isProfile }: { isProfile?: boolean }) => {
     LikedFriendAPI[] | undefined,
     AxiosError
   >(
-    'likedFriends',
+    ['likedFriends'],
     () => {
       const userId = isProfile ? `?userId=${profile?.id}` : '';
       return loadLikedListAPI(userId);
     },
-    { cacheTime: 2 * 60 * 1000, useErrorBoundary: true, retry: false }
+    { cacheTime: 2 * 60 * 1000 }
   );
 
   return (
     <LikedListWrap>
       <LikedListBody empty={isLoading ? false : !!isEmpty(likedFriends)}>
-        {isLoading &&
-          Array.from({ length: 9 }, (_, i) => i).map((_, i) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <LoadingCard key={i}>
-              <LoadingCardCover>
-                <div className="lazyData" />
-              </LoadingCardCover>
-              <LoadingCardBody>
-                <CardMeta>
-                  <LoadingMetaTitle className="lazyData" />
-                  <MetaActions>
-                    <LoadingAction>
-                      <span className="lazyData" />
-                    </LoadingAction>
-                    <LoadingAction>
-                      <span className="lazyData" />
-                    </LoadingAction>
-                    <LoadingAction>
-                      <span className="lazyData" />
-                    </LoadingAction>
-                  </MetaActions>
-                </CardMeta>
-              </LoadingCardBody>
-            </LoadingCard>
-          ))}
+        {isLoading && <LoadingFallback />}
         {!isLoading && !isEmpty(likedFriends) ? (
           likedFriends?.map((friend) => (
             <Card key={friend.id}>

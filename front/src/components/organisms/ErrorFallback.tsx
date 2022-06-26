@@ -8,10 +8,10 @@ import {
   ErrorIconWrap,
   FriendsErrorWrap,
   ErrorMessage,
-} from './style';
-import { Button, Icon } from '../../../atoms';
+} from './Main/RecommendFriends/style';
+import { Button, Icon } from '../atoms';
 
-const Fallback = ({
+const ErrorFallback = ({
   isRefresh,
   onRefresh,
   onReset,
@@ -44,4 +44,4 @@ const Fallback = ({
   );
 };
 
-export default Fallback;
+export default ErrorFallback;

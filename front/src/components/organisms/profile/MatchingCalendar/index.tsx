@@ -30,14 +30,10 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
   >(
     ['calendar', range],
     () =>
-      useMemo(
-        () =>
-          loadCalendarScheduleAPI({
-            range,
-            profileId: isProfile ? profile?.id : null,
-          }),
-        [range]
-      ),
+      loadCalendarScheduleAPI({
+        range,
+        profileId: isProfile ? profile?.id : null,
+      }),
     { refetchOnWindowFocus: false }
   );
 

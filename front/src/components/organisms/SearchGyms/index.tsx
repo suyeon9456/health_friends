@@ -1,10 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  QueryErrorResetBoundary,
-  useQueryErrorResetBoundary,
-} from 'react-query';
+import { QueryErrorResetBoundary } from 'react-query';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 
 import {
@@ -32,13 +29,11 @@ import {
 } from './style';
 import GymList from './GymList';
 import ErrorBoundary from '../ErrorBoundary';
-import Fallback from '../Main/RecommendFriends/Fallback';
+import ErrorFallback from '../ErrorFallback';
 
 const SearchGyms = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  console.log('useQueryErrorResetBoundary()', useQueryErrorResetBoundary());
-  const useError = useQueryErrorResetBoundary();
 
   const { searchText, gym: selectedGym } = router.query;
   const { gyms, selectedGym: gym } = useSelector(gymSelector);
@@ -81,7 +76,6 @@ const SearchGyms = () => {
   }, [gyms]);
 
   useEffect(() => {
-    console.log(document.documentElement.clientHeight);
     setBrowserHeight(document.documentElement.clientHeight);
   }, []);
 
@@ -124,9 +118,9 @@ const SearchGyms = () => {
             <SearchListWrapper browserHeight={browserHeight}>
               <ErrorBoundary
                 key={searchQuery.current}
-                onReset={useError.reset}
-                fallback={Fallback}
-                message="실시간 운동중인 매칭 커플을 로드하는데 실패 하였습니다."
+                onReset={reset}
+                fallback={ErrorFallback}
+                message="검색결과를 로드하는데 실패 하였습니다."
               >
                 <GymList
                   searchQuery={searchQuery.current}
@@ -142,8 +136,8 @@ const SearchGyms = () => {
             <ErrorBoundary
               key={gym?.id}
               onReset={reset}
-              fallback={Fallback}
-              message="실시간 운동중인 매칭 커플을 로드하는데 실패 하였습니다."
+              fallback={ErrorFallback}
+              message="헬스장일 이용중인 사용자를 로드하는데 실패 하였습니다."
             >
               <SearchFriends />
             </ErrorBoundary>

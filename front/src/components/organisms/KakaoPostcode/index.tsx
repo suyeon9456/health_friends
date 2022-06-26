@@ -14,6 +14,7 @@ import { KeywordPlace } from '@/../@types/map';
 
 import { Modal } from '@/components/molecules';
 import { Search } from '@/components/atoms';
+import useKakaomap from '@/hooks/useKakaomap';
 import { ModalBodyBox, SearchList, SearchMap, SearchResultWrap } from './style';
 
 const KakaoPostcode = ({
@@ -32,7 +33,8 @@ const KakaoPostcode = ({
     name: string;
   }>;
 }) => {
-  const map = useRef<any>();
+  // const map = useRef<any>();
+  const map = useKakaomap();
   const infowindow = useRef<any>();
   const [gymPlaces, setGymPlaces] = useState<KeywordPlace[]>([]);
   const [isSearch, setIsSearch] = useState<boolean>(true);
@@ -125,6 +127,7 @@ const KakaoPostcode = ({
       console.log('검색 결과가 존재하지 않습니다.');
     } else if (status === (window as any).kakao.maps.services.Status.ERROR) {
       console.log('검색 결과 중 오류가 발생했습니다.');
+      throw new Error('검색 결과 중 오류가 발생했습니다.');
     }
   }, []);
 
@@ -146,31 +149,6 @@ const KakaoPostcode = ({
   }, [isSearch]);
 
   useEffect(() => {
-    const container = document.getElementById('kakaoMap');
-    const options = {
-      // 지도의 중심좌표 (서울시청)
-      center: new (window as any).kakao.maps.LatLng(37.566826, 126.9786567),
-      level: 3, // 지도의 레벨(확대, 축소 정도)
-    };
-    map.current = new (window as any).kakao.maps.Map(container, options);
-
-    // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성
-    const mapTypeControl = new (window as any).kakao.maps.MapTypeControl();
-    map?.current?.addControl(
-      mapTypeControl,
-      (window as any).kakao.maps.ControlPosition.TOPRIGHT
-    );
-    // 지도 확대 축소를 제어할 수 있는 줌 컨트롤을 생성
-    const zoomControl = new (window as any).kakao.maps.ZoomControl();
-    map?.current?.addControl(
-      zoomControl,
-      (window as any).kakao.maps.ControlPosition.RIGHT
-    );
-
-    if (!isSearch) {
-      return;
-    }
-
     // 장소 검색 객체를 생성합니다
     const ps = new (window as any).kakao.maps.services.Places();
 

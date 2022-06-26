@@ -8,7 +8,7 @@ import { loadMyinfoAPI } from '@/api/profile';
 import { useRouter } from 'next/router';
 import { useLoadLoginedUser } from '@/hooks';
 import ErrorBoundary from '@/components/organisms/ErrorBoundary';
-import Fallback from '@/components/organisms/Main/RecommendFriends/Fallback';
+import ErrorFallback from '@/components/organisms/ErrorFallback';
 import { loadProfile } from '../reducers/profile';
 
 import {
@@ -41,26 +41,22 @@ const Myinfo = () => {
 
   const _ = useLoadLoginedUser({ onSuccess: (data) => dispatch(loadMe(data)) });
 
-  useQuery(
-    profileKey,
-    () => useMemo(() => () => loadMyinfoAPI(), [profileKey]),
-    {
-      refetchOnWindowFocus: false,
-      onSuccess: (data) => dispatch(loadProfile(data)),
-      onError: () =>
-        contextDispatch({
-          type: 'SHOW_MODAL',
-          payload: {
-            type: GlobalModal.ALERT,
-            statusType: ModalStatus.ERROR,
-            message: '존재하지 않는 사용자입니다.',
-            block: true,
-            callback: () => router.replace('/'),
-          },
-        }),
-      useErrorBoundary: false,
-    }
-  );
+  useQuery(profileKey, () => loadMyinfoAPI(), {
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => dispatch(loadProfile(data)),
+    onError: () =>
+      contextDispatch({
+        type: 'SHOW_MODAL',
+        payload: {
+          type: GlobalModal.ALERT,
+          statusType: ModalStatus.ERROR,
+          message: '존재하지 않는 사용자입니다.',
+          block: true,
+          callback: () => router.replace('/'),
+        },
+      }),
+    useErrorBoundary: false,
+  });
 
   const page = useMemo(() => {
     return router.query.tab !== undefined ? router.query.tab : Menu.INFO;
@@ -80,7 +76,7 @@ const Myinfo = () => {
               [Menu.LIKED]: (
                 <ErrorBoundary
                   onReset={reset}
-                  fallback={Fallback}
+                  fallback={ErrorFallback}
                   message="관심친구를 로드하는데 실패 하였습니다."
                 >
                   <LikedList />
@@ -89,7 +85,7 @@ const Myinfo = () => {
               [Menu.CALENDAR]: (
                 <ErrorBoundary
                   onReset={reset}
-                  fallback={Fallback}
+                  fallback={ErrorFallback}
                   message="매칭일정을 로드하는데 실패 하였습니다."
                 >
                   <MatchingCalendar />
@@ -98,7 +94,7 @@ const Myinfo = () => {
               [Menu.RECORD]: (
                 <ErrorBoundary
                   onReset={reset}
-                  fallback={Fallback}
+                  fallback={ErrorFallback}
                   message="매칭기록을 로드하는데 실패 하였습니다."
                 >
                   <MatchingRecord />

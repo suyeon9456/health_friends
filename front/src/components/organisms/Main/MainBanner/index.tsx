@@ -17,7 +17,7 @@ import {
   BannerImageBack,
   BannerImage,
 } from './style';
-import Fallback from '../RecommendFriends/Fallback';
+import ErrorFallback from '../../ErrorFallback';
 import ErrorBoundary from '../../ErrorBoundary';
 
 const MainBanner = () => (
@@ -54,17 +54,15 @@ const MainBanner = () => (
     <BannerContentWrap>
       <BannerContent>
         <QueryErrorResetBoundary>
-          {({ reset }) => {
-            return (
-              <ErrorBoundary
-                onReset={reset}
-                fallback={Fallback}
-                message="위치에서 운동하는 추천친구를 로드하는데 실패 하였습니다."
-              >
-                <RecommendFriends />
-              </ErrorBoundary>
-            );
-          }}
+          {({ reset }) => (
+            <ErrorBoundary
+              onReset={reset}
+              fallback={ErrorFallback}
+              message="위치에서 운동하는 추천친구를 로드하는데 실패 하였습니다."
+            >
+              <RecommendFriends />
+            </ErrorBoundary>
+          )}
         </QueryErrorResetBoundary>
       </BannerContent>
     </BannerContentWrap>

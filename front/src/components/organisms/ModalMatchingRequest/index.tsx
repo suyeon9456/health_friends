@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
+import { useMutation } from 'react-query';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -6,7 +7,6 @@ import * as yup from 'yup';
 
 import { gymSelector } from '@/../reducers/gym';
 import { SizeType } from '@/../@types/utils';
-import { useMutation } from 'react-query';
 import { addScheduleAPI } from '@/api/schedule';
 import { ModalMatchingProps, Schedule } from '@/../@types/schedule';
 import { createEndDate } from '@/../@utils/date';

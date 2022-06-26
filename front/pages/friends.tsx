@@ -5,7 +5,7 @@ import { loadGymsAPI } from '@/api/gym';
 import { dehydrate, QueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import ErrorBoundary from '@/components/organisms/ErrorBoundary';
-import Fallback from '@/components/organisms/Main/RecommendFriends/Fallback';
+import ErrorFallback from '@/components/organisms/ErrorFallback';
 import { gymsKey } from '../@utils/queryKey';
 import { foldedItemSelector } from '../reducers/gym';
 import {
@@ -36,7 +36,7 @@ const Friends = () => {
           <Col xs={24} md={isFoldedGym && isFoldedFriends ? 23 : 16}>
             <ErrorBoundary
               isRefresh
-              fallback={Fallback}
+              fallback={ErrorFallback}
               message="지도를 로드하는데 실패 하였습니다."
             >
               <SearchMap />

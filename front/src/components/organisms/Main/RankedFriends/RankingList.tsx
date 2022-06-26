@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
@@ -13,9 +13,8 @@ import {
   RankCardList,
   RankCardWrap,
   RankItemWrap,
-  LoadingRankItem,
-  LoadingRankWrap,
 } from './style';
+import LoadingFallback from './LoadingFallback';
 
 const RankingList = () => {
   const { isLoading, data: ranking } = useQuery<
@@ -29,59 +28,47 @@ const RankingList = () => {
       <RankCardWrap>
         <RankTitle>재매칭 순위 TOP 5</RankTitle>
         <RankCard>
-          {!isLoading
-            ? Array.from({ length: 5 }, (_, i) => i).map((_, i) => {
-                const user = ranking?.rematching[i];
-                const profileUrl = ['/profile/', user?.id ?? ''].join('');
-                return (
-                  <Link href={profileUrl} key={user?.id ?? i}>
-                    <RankItemWrap key={user?.id ?? i}>
-                      <RankItem>
-                        <span>{i + 1}.</span>
-                        <div>{user?.nickname ?? ''}</div>
-                      </RankItem>
-                    </RankItemWrap>
-                  </Link>
-                );
-              })
-            : Array.from({ length: 5 }, (_, i) => i).map((_, i) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <LoadingRankWrap key={i}>
-                  <LoadingRankItem>
-                    <span />
-                    <div />
-                  </LoadingRankItem>
-                </LoadingRankWrap>
-              ))}
+          {!isLoading ? (
+            Array.from({ length: 5 }, (_, i) => i).map((_, i) => {
+              const user = ranking?.rematching[i];
+              const profileUrl = ['/profile/', user?.id ?? ''].join('');
+              return (
+                <Link href={profileUrl} key={user?.id ?? i}>
+                  <RankItemWrap key={user?.id ?? i}>
+                    <RankItem>
+                      <span>{i + 1}.</span>
+                      <div>{user?.nickname ?? ''}</div>
+                    </RankItem>
+                  </RankItemWrap>
+                </Link>
+              );
+            })
+          ) : (
+            <LoadingFallback />
+          )}
         </RankCard>
       </RankCardWrap>
       <RankCardWrap>
         <RankTitle>매칭 순위 TOP 5</RankTitle>
         <RankCard>
-          {!isLoading
-            ? Array.from({ length: 5 }, (_, i) => i).map((_, i) => {
-                const user = ranking?.matching[i];
-                const profileUrl = ['/profile/', user?.id ?? ''].join('');
-                return (
-                  <Link href={profileUrl} key={user?.id ?? i}>
-                    <RankItemWrap key={user?.id ?? i}>
-                      <RankItem>
-                        <span>{i + 1}.</span>
-                        <div>{user?.nickname ?? ''}</div>
-                      </RankItem>
-                    </RankItemWrap>
-                  </Link>
-                );
-              })
-            : Array.from({ length: 5 }, (_, i) => i).map((_, i) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <LoadingRankWrap key={`${i}rank`}>
-                  <LoadingRankItem>
-                    <span />
-                    <div />
-                  </LoadingRankItem>
-                </LoadingRankWrap>
-              ))}
+          {!isLoading ? (
+            Array.from({ length: 5 }, (_, i) => i).map((_, i) => {
+              const user = ranking?.matching[i];
+              const profileUrl = ['/profile/', user?.id ?? ''].join('');
+              return (
+                <Link href={profileUrl} key={user?.id ?? i}>
+                  <RankItemWrap key={user?.id ?? i}>
+                    <RankItem>
+                      <span>{i + 1}.</span>
+                      <div>{user?.nickname ?? ''}</div>
+                    </RankItem>
+                  </RankItemWrap>
+                </Link>
+              );
+            })
+          ) : (
+            <LoadingFallback />
+          )}
         </RankCard>
       </RankCardWrap>
     </RankCardList>

@@ -1,15 +1,22 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { meSelector } from '@/../reducers/user';
-import { addReScheduleAPI, updateScheduleAPI } from '@/api/schedule';
+import {
+  addReScheduleAPI,
+  loadScheduleAPI,
+  updateScheduleAPI,
+} from '@/api/schedule';
 import { createEndDate, formatDateTime } from '@/../@utils/date';
 import { ModalType, ShowModalType } from '@/../@types/utils';
-import { Schedule } from '@/../@types/schedule';
+import { MatchingCardProps, Schedule } from '@/../@types/schedule';
+import { AxiosError } from 'axios';
+import { scheduleByIdKey } from '@/../@utils/queryKey';
+import { profileSelector } from '@/../reducers/profile';
 import { Modal } from '../../../molecules';
 import MatchingRequestForm from '../../MatchingRequestForm';
 
@@ -22,15 +29,37 @@ const schema = yup
   .required();
 
 const ModalMatchingEdit = ({
-  schedule,
+  matchingId,
+  queryId,
   onCancel,
   mode,
 }: {
-  schedule: any;
+  matchingId: number | null;
+  queryId?: string | string[];
   onCancel: () => void;
   mode: ShowModalType;
 }) => {
   const me = useSelector(meSelector);
+  const { profile } = useSelector(profileSelector);
+
+  const { data } = useQuery<MatchingCardProps | undefined, AxiosError>(
+    scheduleByIdKey(matchingId, queryId, profile?.id),
+    () => loadScheduleAPI(matchingId, queryId, profile?.id),
+    {
+      refetchOnWindowFocus: false,
+      enabled: !!matchingId && !!profile,
+    }
+  );
+
+  const schedule = useMemo(() => {
+    if (!data) return null;
+    return {
+      ...data,
+      start: new Date(data.startDate),
+      end: new Date(data.endDate),
+      Friend: data.Receiver.id === profile.id ? data.Requester : data.Receiver,
+    };
+  }, [data]);
 
   const {
     handleSubmit,
@@ -41,26 +70,30 @@ const ModalMatchingEdit = ({
     defaultValues: {
       startDate: new Date(),
       endDate: new Date(),
-      gym: `${schedule.Gym.address} ${schedule.Gym.name}` || '',
+      gym: `${schedule?.Gym.address} ${schedule?.Gym.name}` || '',
       description: '',
     },
     resolver: yupResolver(schema),
   });
 
-  const scheduleMutation = useMutation((data: Schedule) =>
-    addReScheduleAPI(data)
+  const scheduleMutation = useMutation((scheduleData: Schedule) =>
+    addReScheduleAPI(scheduleData)
   );
-  const updateScheduleMutation = useMutation((data: Schedule) =>
-    updateScheduleAPI(data)
+  const updateScheduleMutation = useMutation((scheduleData: Schedule) =>
+    updateScheduleAPI(scheduleData)
   );
 
   const onSubmit = useCallback(
-    (data) => {
-      const startDateTime = formatDateTime(data.startDate);
-      const dateTime = createEndDate(data.startDate, data.endDate);
+    (scheduleData) => {
+      if (!schedule) return;
+      const startDateTime = formatDateTime(scheduleData.startDate);
+      const dateTime = createEndDate(
+        scheduleData.startDate,
+        scheduleData.endDate
+      );
       if (mode === ModalType.EDIT) {
         updateScheduleMutation.mutate({
-          ...data,
+          ...scheduleData,
           startDate: startDateTime,
           endDate: dateTime,
           id: schedule.id,
@@ -68,7 +101,7 @@ const ModalMatchingEdit = ({
       }
       if (mode === ModalType.REMATCH) {
         scheduleMutation.mutate({
-          ...data,
+          ...scheduleData,
           startDate: startDateTime,
           endDate: dateTime,
           id: schedule?.id,
@@ -98,6 +131,10 @@ const ModalMatchingEdit = ({
     }
   }, [schedule]);
 
+  if (!schedule) {
+    return null;
+  }
+
   return (
     <Modal
       title={`${schedule?.Friend?.nickname}님과의 ${
@@ -109,7 +146,7 @@ const ModalMatchingEdit = ({
       form
     >
       <MatchingRequestForm
-        friend={schedule?.Friend}
+        friend={schedule.Friend}
         control={control}
         errors={errors}
       />

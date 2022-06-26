@@ -42,7 +42,13 @@ const MatchingCard = ({
   <Card>
     <CardCover>
       {image ? (
-        <img src={image} alt={image} />
+        <img
+          src={image}
+          alt={image}
+          onError={() => {
+            throw new Error('img 로그 오류');
+          }}
+        />
       ) : (
         <div>
           <Icon icon={<BiUser />} />

@@ -1,20 +1,18 @@
 import React, { useCallback, useState, SetStateAction } from 'react';
-import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from 'react-query';
 import { BiTrophy, BiCommentCheck, BiBuildingHouse } from 'react-icons/bi';
 
-import { useModalDispatch } from '@/../store/modalStore';
 import { profileSelector } from '@/../reducers/profile';
 import { meSelector } from '@/../reducers/user';
 import useIsState from '@/hooks/useIsState';
 import { addImageAPI, uploadImageAPI } from '@/api/profile';
 import { rematchRate, responseRate } from '@/../@utils/calculation';
-import { originalToThumb } from '@/../@utils/regexp';
 import { profileKey } from '@/../@utils/queryKey';
-import { ButtonType, Menu, ProfileMenuType } from '@/../@types/utils';
+import { ProfileMenuType } from '@/../@types/utils';
 import SideBarTabMenu from '@/components/molecules/SideBarTabMenu';
-import { Avatar, Button, Form, Icon, Upload } from '../../../atoms';
+import FormImage from '@/components/molecules/FormImage';
+import { Icon } from '../../../atoms';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
 import Progress from '../../../molecules/Progress';
 import ModalPortal from '../../ModalPortal';
@@ -25,6 +23,7 @@ import {
   InfoWrapper,
   SideBarWrapper,
 } from './style';
+import ProfileAvatar from './ProfileAvatar';
 
 const SideBar = ({
   profileMenu,
@@ -34,7 +33,6 @@ const SideBar = ({
   setProfileMenu: React.Dispatch<SetStateAction<ProfileMenuType>>;
 }) => {
   const queryClient = useQueryClient();
-  const contextDispatch = useModalDispatch();
   const me = useSelector(meSelector);
   const { profile } = useSelector(profileSelector);
   const [imgPath, setImgPath] = useState<string>('');
@@ -53,76 +51,23 @@ const SideBar = ({
     onSuccess: () => queryClient.invalidateQueries(profileKey),
   });
 
-  const onChangeImage = useCallback((e) => {
-    const imageFormData = new FormData();
-    [].forEach.call(e.target.files, (f) => {
-      imageFormData.append('image', f);
-    });
-    uploadImage.mutate(imageFormData);
-  }, []);
-
-  const onAddProfileImage = useCallback(() => {
-    const thumbImg = originalToThumb(imgPath);
-    addImage.mutate(thumbImg);
-    onChangeIsUpload();
-  }, [imgPath]);
-
   const onRemoveUploadImage = useCallback(() => {
     setImgPath('');
   }, [imgPath]);
-
-  const onShowMatchingModal = useCallback(() => {
-    contextDispatch({
-      type: 'SHOW_CUSTOM_MODAL',
-      payload: 'id',
-    });
-  }, [me?.id]);
 
   return (
     <SideBarWrapper>
       <AvatarWrapper>
         {me?.id && isUpload ? (
-          <>
-            <Form encType="multipart/form-data">
-              <Upload
-                id={imgPath}
-                name="image"
-                src={imgPath}
-                onChange={onChangeImage}
-                uploadError={uploadImage.isError}
-                onAddImage={onAddProfileImage}
-                onRemove={onRemoveUploadImage}
-              />
-            </Form>
-            <div>
-              <Button type={ButtonType.TEXT} onClick={onChangeIsUpload}>
-                취소
-              </Button>
-            </div>
-          </>
+          <FormImage
+            imgPath={imgPath}
+            uploadImage={uploadImage}
+            addImage={addImage}
+            onChangeIsUpload={onChangeIsUpload}
+            onRemoveUploadImage={onRemoveUploadImage}
+          />
         ) : (
-          <>
-            <Avatar
-              size={128}
-              src={profile?.Image ? `${profile?.Image?.src}` : ''}
-            />
-            {me?.id && profile?.id === me?.id ? (
-              <div>
-                <Button type={ButtonType.TEXT} onClick={onChangeIsUpload}>
-                  프로필 사진 변경하기
-                </Button>
-              </div>
-            ) : (
-              <div>
-                <Button
-                  type={ButtonType.SIGNATURE}
-                  onClick={onShowMatchingModal}
-                >
-                  매칭신청
-                </Button>
-              </div>
-            )}
-          </>
+          <ProfileAvatar onChangeIsUpload={onChangeIsUpload} />
         )}
       </AvatarWrapper>
       <InfoWrapper>

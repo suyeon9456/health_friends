@@ -1,25 +1,18 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
 import { compareAsc } from 'date-fns';
 import { BiEdit, BiPin, BiRepeat } from 'react-icons/bi';
 
 import { profileSelector } from '@/../reducers/profile';
 import { meSelector } from '@/../reducers/user';
-import useScheduleData from '@/hooks/useScheduleData';
-import { loadScheduleAPI } from '@/api/schedule';
 
 import { rangeDate } from '@/../@utils/date';
-import { RecordScheduleAPI } from '@/../@types/schedule';
 import {
   loginedUserProfile,
   ModalType,
   ShowModalType,
 } from '@/../@types/utils';
-import { scheduleByIdKey } from '@/../@utils/queryKey';
-import useIsState from '@/hooks/useIsState';
-import { AxiosError } from 'axios';
 import { LoadingMatchingCard, MatchingCard } from '../../molecules';
 import { Icon } from '../../atoms';
 import ModalMatchingDetail from '../profile/ModalMatchingDetail';
@@ -40,47 +33,23 @@ const MatchingCardList = ({
   const { id: queryId } = router.query;
   const { profile } = useSelector(profileSelector);
   const me = useSelector(meSelector);
-  const [matchingId, setMatchingId] = useState<number | null>(null);
-  const [showDetailModal, setShowDetailModal] = useState<boolean>(false);
-  const [isShowEditModal, onChangeIsShowEditModal, setIsShowEditModal] =
-    useIsState(false);
-  const [modalType, setModalType] = useState<ShowModalType>(ModalType.VIEW);
-  const [schedule, onChangeSchedule] = useScheduleData();
 
-  const _result = useQuery<RecordScheduleAPI | undefined, AxiosError>(
-    scheduleByIdKey(matchingId, queryId, profile?.id),
-    () =>
-      useMemo(
-        () => loadScheduleAPI(matchingId, queryId, profile?.id),
-        [matchingId, queryId, profile?.id]
-      ),
-    {
-      refetchOnWindowFocus: false,
-      enabled: !!matchingId && !!profile,
-      onSuccess: (data) => {
-        if (!data) return;
-        onChangeSchedule(data, profile);
-      },
-    }
-  );
+  const [matchingId, setMatchingId] = useState<number | null>(null);
+  const [isShowModal, setIsShowModal] = useState<boolean>(false);
+  const [modalType, setModalType] = useState<ShowModalType>(ModalType.VIEW);
 
   const onChangeShowDetailModal = useCallback(() => {
-    setShowDetailModal((prev) => !prev);
+    setIsShowModal((prev) => !prev);
     setMatchingId(null);
-  }, [isShowEditModal, matchingId, queryId, profile]);
+  }, [isShowModal, matchingId, queryId, profile]);
 
   const onClickAction = useCallback(
     ({ key, id }) => {
       setMatchingId(id);
       setModalType(key);
-      if (key === ModalType.VIEW) {
-        setShowDetailModal((prev) => !prev);
-      }
-      if (key === ModalType.EDIT || key === ModalType.REMATCH) {
-        setIsShowEditModal((prev) => !prev);
-      }
+      setIsShowModal((prev) => !prev);
     },
-    [showDetailModal, isShowEditModal, modalType, matchingId]
+    [isShowModal, modalType, matchingId]
   );
 
   return (
@@ -120,26 +89,24 @@ const MatchingCardList = ({
             });
           }
         )}
-        {isLoading &&
-          Array.from({ length: 3 }, (_, i) => i).map((_, i) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <LoadingMatchingCard key={i} />
-          ))}
+        {isLoading && <LoadingMatchingCard />}
       </MatchingCardListWrap>
       <ModalPortal>
-        {showDetailModal && (
-          <ModalMatchingDetail
-            schedule={schedule}
-            onCancel={onChangeShowDetailModal}
-          />
-        )}
-        {isShowEditModal && (
-          <ModalMatchingEdit
-            schedule={schedule}
-            onCancel={onChangeIsShowEditModal}
-            mode={modalType}
-          />
-        )}
+        {isShowModal &&
+          (modalType === ModalType.VIEW ? (
+            <ModalMatchingDetail
+              matchingId={matchingId}
+              queryId={queryId}
+              onCancel={onChangeShowDetailModal}
+            />
+          ) : (
+            <ModalMatchingEdit
+              matchingId={matchingId}
+              queryId={queryId}
+              onCancel={onChangeShowDetailModal}
+              mode={modalType}
+            />
+          ))}
       </ModalPortal>
     </>
   );

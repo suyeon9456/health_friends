@@ -6,7 +6,7 @@ import { Search } from '../../atoms';
 import { BoxContent, GymListWrap } from './style';
 import GymList from './GymList';
 import ErrorBoundary from '../ErrorBoundary';
-import Fallback from '../Main/RecommendFriends/Fallback';
+import ErrorFallback from '../ErrorFallback';
 
 const ModalSearchGym = ({ setShowModal, setGym }: ModalSearchGymProps) => {
   const { reset } = useQueryErrorResetBoundary();
@@ -28,7 +28,7 @@ const ModalSearchGym = ({ setShowModal, setGym }: ModalSearchGymProps) => {
       <GymListWrap>
         <ErrorBoundary
           onReset={reset}
-          fallback={Fallback}
+          fallback={ErrorFallback}
           message="해당 검색어에 대한 헬스장을 로드하는데 실패 하였습니다."
         >
           <GymList
