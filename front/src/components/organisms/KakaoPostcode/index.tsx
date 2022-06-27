@@ -33,7 +33,6 @@ const KakaoPostcode = ({
     name: string;
   }>;
 }) => {
-  // const map = useRef<any>();
   const map = useKakaomap();
   const infowindow = useRef<any>();
   const [gymPlaces, setGymPlaces] = useState<KeywordPlace[]>([]);
