@@ -62,7 +62,7 @@ export interface RecordScheduleAPI {
   isPermitted: boolean;
   permission: boolean;
   startDate: string;
-  Cancel?: {
+  Cancel: {
     RequestId: number;
     ResponseId: number;
     ScheduleId: number;
@@ -71,9 +71,19 @@ export interface RecordScheduleAPI {
     isCanceled: boolean;
     updatedAt: string;
   };
-  Receiver: { id: number; nickname: string; Image: Image };
+  Receiver: {
+    id: number;
+    nickname: string;
+    Image: Image;
+    Userdetail: { description };
+  };
   Gym: { id: number; address: string; name: string; addressRoad?: string };
-  Requester: { id: number; nickname: string; Image: Image };
+  Requester: {
+    id: number;
+    nickname: string;
+    Image: Image;
+    Userdetail: { description };
+  };
 }
 
 export interface RecordSchedule extends RecordScheduleAPI {
@@ -102,39 +112,24 @@ export interface CalendarEvent extends CalendarScheduleAPI {
 export interface MatchingCardProps extends RecordScheduleAPI {
   start: Date;
   end: Date;
-  // userMathcing: number[];
-  // friendMathcing: number[];
-  // userTotalCount: number;
-  // userReCount: number;
-  // friendTotalCount: number;
-  // friendReCount: number;
-  Friend: {
-    id: number;
-    nickname: string;
-    Image?: Image;
-  };
   lastYn?: number;
 }
 
-// export interface ScheduleAPI {
-//   schedule: RecordScheduleAPI;
-//   userMatching: Array<{
-//     FriendId: number;
-//     matchingCount: number;
-//     rematchingCount: number;
-//   }>;
-//   friendMatching: Array<{
-//     FriendId: number;
-//     matchingCount: number;
-//     rematchingCount: number;
-//   }>;
-// }
+export interface MatchingDetail extends MatchingCardProps {
+  Friend?: {
+    id: number;
+    nickname: string;
+    Image?: Image;
+    Userdetail: { description: string };
+  };
+}
 
 export interface MatchingReqFormProps {
   friend?: {
+    id: number;
     nickname: string;
     Userdetail: { description: string };
-    Image: { src: string };
+    Image?: Image;
   };
   control: Control<
     {
@@ -172,4 +167,48 @@ export interface PermissionAPI {
   scheduleId?: number;
   permission: boolean;
   friendId?: number;
+}
+
+export type RecordPage = Array<{
+  start: Date;
+  end: Date;
+  nextCursor: number;
+  id: number;
+  description: string;
+  endDate: string;
+  isPermitted: boolean;
+  permission: boolean;
+  startDate: string;
+  Cancel: {
+    RequestId: number;
+    ResponseId: number;
+    ScheduleId: number;
+    createdAt: string;
+    id: number;
+    isCanceled: boolean;
+    updatedAt: string;
+  } | null;
+  Receiver: {
+    id: number;
+    nickname: string;
+    Image: Image;
+    Userdetail: { description: string };
+  };
+  Gym: {
+    id: number;
+    address: string;
+    name: string;
+    addressRoad?: string;
+  };
+  Requester: {
+    id: number;
+    nickname: string;
+    Image: Image;
+    Userdetail: { description: string };
+  };
+}>;
+
+export interface RecordPages {
+  pageParams: unknown[];
+  pages: RecordPage[];
 }

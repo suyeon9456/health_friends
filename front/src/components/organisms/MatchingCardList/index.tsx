@@ -13,6 +13,7 @@ import {
   ModalType,
   ShowModalType,
 } from '@/../@types/utils';
+import { RecordPage } from '@/../@types/schedule';
 import { LoadingMatchingCard, MatchingCard } from '../../molecules';
 import { Icon } from '../../atoms';
 import ModalMatchingDetail from '../profile/ModalMatchingDetail';
@@ -26,8 +27,8 @@ const MatchingCardList = ({
   pageParams,
 }: {
   isLoading: boolean;
-  pages?: Array<any[] | undefined> | undefined;
-  pageParams?: any[];
+  pages?: Array<RecordPage | undefined> | undefined;
+  pageParams?: unknown[];
 }) => {
   const router = useRouter();
   const { id: queryId } = router.query;

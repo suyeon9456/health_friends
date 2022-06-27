@@ -6,6 +6,8 @@ import Document, {
   NextScript,
   DocumentContext,
 } from 'next/document';
+import { AppPropsType, AppType } from 'next/dist/shared/lib/utils';
+import { NextRouter } from 'next/router';
 import { ServerStyleSheet } from 'styled-components';
 
 class MyDocument extends Document {
@@ -15,8 +17,10 @@ class MyDocument extends Document {
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: (App: any) => (props: any) =>
-            sheet.collectStyles(<App {...props} />),
+          enhanceApp:
+            (App: AppType) =>
+            (props: React.PropsWithChildren<AppPropsType<NextRouter, {}>>) =>
+              sheet.collectStyles(<App {...props} />),
         });
       const initialProps = await Document.getInitialProps(ctx);
       return {

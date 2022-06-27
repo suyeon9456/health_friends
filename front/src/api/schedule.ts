@@ -58,7 +58,7 @@ export const loadSchedulesAPI = ({
             nextCursor: data.nextCursor,
           }))
       );
-  } catch (error) {
+  } catch (error: unknown) {
     console.log(error);
   }
 };
@@ -72,7 +72,7 @@ export const loadScheduleAPI = (
     return axios
       .get(`/schedule/${matchingId}${queryId ? `?userId=${profileId}` : ''}`)
       .then((response) => response.data);
-  } catch (error) {
+  } catch (error: unknown) {
     console.log(error);
   }
 };
@@ -97,7 +97,7 @@ export const loadCalendarScheduleAPI = ({
         )}&end=${formatDate(end)}`
       )
       .then((response) => response.data);
-  } catch (error) {
+  } catch (error: unknown) {
     console.log(error);
   }
 };
@@ -105,7 +105,7 @@ export const loadCalendarScheduleAPI = ({
 export const addScheduleAPI = (data: Schedule) => {
   try {
     return axios.post('/schedule', data).then((response) => response.data);
-  } catch (error) {
+  } catch (error: unknown) {
     console.log(error);
     throw new Error('axios error');
   }
@@ -114,7 +114,7 @@ export const addScheduleAPI = (data: Schedule) => {
 export const addReScheduleAPI = (data: Schedule) => {
   try {
     return axios.post('/schedule/re', data).then((response) => response.data);
-  } catch (error) {
+  } catch (error: unknown) {
     console.log(error);
     throw new Error('axios error');
   }
@@ -125,7 +125,7 @@ export const addCancelAPI = (data: { id?: number }) => {
     return axios
       .post('/schedule/cancel', data)
       .then((response) => response.data);
-  } catch (error) {
+  } catch (error: unknown) {
     console.log(error);
     throw new Error('axios error');
   }
@@ -134,7 +134,7 @@ export const addCancelAPI = (data: { id?: number }) => {
 export const updateScheduleAPI = (data: ScheduleModel) => {
   try {
     return axios.put('/schedule', data).then((response) => response.data);
-  } catch (error) {
+  } catch (error: unknown) {
     console.log(error);
     throw new Error('axios error');
   }
@@ -149,7 +149,7 @@ export const updatePermissionAPI = (data: {
     return axios
       .put('/schedule/permission', data)
       .then((response) => response.data);
-  } catch (error) {
+  } catch (error: unknown) {
     console.log(error);
     throw new Error('axios error');
   }
@@ -160,7 +160,7 @@ export const updateCancelAPI = (data: UpdateCancelAPI) => {
     return axios
       .put('/schedule/cancel', data)
       .then((response) => response.data);
-  } catch (error) {
+  } catch (error: unknown) {
     console.log(error);
     throw new Error('axios error');
   }

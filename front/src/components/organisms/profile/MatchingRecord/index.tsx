@@ -14,6 +14,7 @@ import {
   TypeFilter,
 } from '@/../@types/utils';
 import { schedulesByIdKey } from '@/../@utils/queryKey';
+import { RecordPage } from '@/../@types/schedule';
 import { Filter } from '../../../molecules';
 import { Button, CheckBox, Icon } from '../../../atoms';
 import MatchingCardList from '../../MatchingCardList';
@@ -33,7 +34,7 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
   const [type, onChangeType] = useCheckbox<string>([]);
 
   const { isFetching, hasNextPage, fetchNextPage, data } = useInfiniteQuery<
-    any[] | undefined,
+    RecordPage | undefined,
     AxiosError
   >(
     schedulesByIdKey({
@@ -43,7 +44,7 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
       type,
       isCanceled,
     }),
-    ({ pageParam = 0 }) => {
+    ({ pageParam = 0 }: any) => {
       return loadSchedulesAPI({
         isProfile,
         profileId: profile?.id,
@@ -58,7 +59,7 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
       refetchOnWindowFocus: false,
       enabled: !!profile,
       staleTime: 2 * 60 * 1000,
-      getNextPageParam: (lastPage) => {
+      getNextPageParam: (lastPage: RecordPage | undefined) => {
         if (!lastPage) return;
         return lastPage[lastPage.length - 1].nextCursor > 0
           ? lastPage[lastPage.length - 1].nextCursor

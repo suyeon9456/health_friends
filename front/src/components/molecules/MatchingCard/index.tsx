@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button, Icon } from '@/components/atoms';
 import { BiUser } from 'react-icons/bi';
@@ -38,48 +38,52 @@ const MatchingCard = ({
     disabled?: boolean;
     onClick: ({ key, id }: { key: string; id: number }) => void;
   }>;
-}) => (
-  <Card>
-    <CardCover>
-      {image ? (
-        <img
-          src={image}
-          alt={image}
-          onError={() => {
-            throw new Error('img 로그 오류');
-          }}
-        />
-      ) : (
-        <div>
-          <Icon icon={<BiUser />} />
+}) => {
+  const [isImageError, setIsImageError] = useState(false);
+  return (
+    <Card>
+      <CardCover>
+        {image && !isImageError ? (
+          <img
+            src={image}
+            alt={image}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null; // prevents looping
+              setIsImageError(true);
+            }}
+          />
+        ) : (
+          <div>
+            <Icon icon={<BiUser />} />
+          </div>
+        )}
+        <div className="box">
+          {isCancel && <Button type={ButtonType.ERROR}>취소진행중</Button>}
         </div>
-      )}
-      <div className="box">
-        {isCancel && <Button type={ButtonType.ERROR}>취소진행중</Button>}
-      </div>
-    </CardCover>
-    <CardBody
-      matchingId={matchingId}
-      onClick={() => onClickView({ key: 'VIEW', id: matchingId })}
-    >
-      <CardMeta>
-        <MetaDate>{date}</MetaDate>
-        <MetaTitle>{nickname}</MetaTitle>
-        <MetaDescription>{description}</MetaDescription>
-      </CardMeta>
-    </CardBody>
-    <CardActions>
-      {actions?.map(({ key, icon, disabled, onClick }) => (
-        <Action
-          key={key}
-          onClick={() => onClick({ key, id: matchingId })}
-          disabled={disabled ?? false}
-        >
-          {icon}
-        </Action>
-      ))}
-    </CardActions>
-  </Card>
-);
+      </CardCover>
+      <CardBody
+        matchingId={matchingId}
+        onClick={() => onClickView({ key: 'VIEW', id: matchingId })}
+      >
+        <CardMeta>
+          <MetaDate>{date}</MetaDate>
+          <MetaTitle>{nickname}</MetaTitle>
+          <MetaDescription>{description}</MetaDescription>
+        </CardMeta>
+      </CardBody>
+      <CardActions>
+        {actions?.map(({ key, icon, disabled, onClick }) => (
+          <Action
+            key={key}
+            onClick={() => onClick({ key, id: matchingId })}
+            disabled={disabled ?? false}
+          >
+            {icon}
+          </Action>
+        ))}
+      </CardActions>
+    </Card>
+  );
+};
 
 export default MatchingCard;
