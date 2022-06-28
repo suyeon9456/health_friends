@@ -9,6 +9,7 @@ import Document, {
 import { AppPropsType, AppType } from 'next/dist/shared/lib/utils';
 import { NextRouter } from 'next/router';
 import { ServerStyleSheet } from 'styled-components';
+import { GA_TRACKING_ID } from '../lib/gtag';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -55,6 +56,23 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
           <link rel="icon" href="/favicon.ico" />
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-62NL4NR7SF"
+          />
+          <script
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_TRACKING_ID}', {
+                page_path: window.location.pathname,
+              });
+          `,
+            }}
+          />
         </Head>
         <body>
           <Main />

@@ -1,4 +1,4 @@
-import React, { useReducer, useRef } from 'react';
+import React, { useEffect, useReducer, useRef } from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
@@ -8,6 +8,7 @@ import '../src/scss/css/global.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import GlobalModal from '@/components/organisms/GlobalModal';
+import { useRouter } from 'next/router';
 import wrapper from '../store/configureStore';
 import {
   ModalStateContext,
@@ -15,8 +16,10 @@ import {
   ModalDispatchContext,
   initialState,
 } from '../store/modalStore';
+import * as gtag from '../lib/gtag';
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const router = useRouter();
   const queryClientRef = useRef<QueryClient>();
   if (!queryClientRef.current) {
     queryClientRef.current = new QueryClient({
@@ -29,6 +32,17 @@ const App = ({ Component, pageProps }: AppProps) => {
     });
   }
   const [modalState, modalDispatch] = useReducer(modalReducer, initialState);
+
+  useEffect(() => {
+    console.log('?');
+    const handleRouteChange = (url: URL) => {
+      gtag.pageview(url);
+    };
+    router.events.on('routeChangeComplete', handleRouteChange);
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
 
   return (
     <>
