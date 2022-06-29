@@ -40,7 +40,7 @@ const LoginForm = () => {
     {
       onSuccess: () => {
         void queryClient.invalidateQueries(meKey);
-        void router.push('/');
+        void router.back();
       },
       onError: () => changeShowAlert(),
     }
