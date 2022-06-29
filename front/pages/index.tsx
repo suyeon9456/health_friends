@@ -11,6 +11,10 @@ const Home = () => (
   <>
     <Head>
       <meta charSet="utf-8" />
+      <meta
+        name="description"
+        content="내가 이용하는 헬스장에서 운동하는 친구 찾아 함께 운동 해보자"
+      />
       <title>health-friends</title>
       <script
         type="text/javascript"

@@ -22,6 +22,7 @@ const Friends = () => {
   return (
     <>
       <Head>
+        <link rel="canonical" href="https://health-friends.com/friends" />
         <title>함께 운동할 친구찾기</title>
         <script
           type="text/javascript"

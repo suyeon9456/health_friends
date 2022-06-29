@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import Head from 'next/head';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
@@ -65,52 +66,61 @@ const Myinfo = () => {
   useEffect(() => setProfileMenu(page as ProfileMenuType), [page]);
 
   return (
-    <AppLayout childBlock>
-      <Row>
-        <Col xs={24} md={8}>
-          <SideBar profileMenu={profileMenu} setProfileMenu={setProfileMenu} />
-        </Col>
-        <Col xs={24} md={16}>
-          {
+    <>
+      <Head>
+        <link rel="canonical" href="https://health-friends.com/myinfo" />
+        <title>마이페이지</title>
+      </Head>
+      <AppLayout childBlock>
+        <Row>
+          <Col xs={24} md={8}>
+            <SideBar
+              profileMenu={profileMenu}
+              setProfileMenu={setProfileMenu}
+            />
+          </Col>
+          <Col xs={24} md={16}>
             {
-              [Menu.LIKED]: (
-                <ErrorBoundary
-                  onReset={reset}
-                  fallback={ErrorFallback}
-                  message="관심친구를 로드하는데 실패 하였습니다."
-                >
-                  <LikedList />
-                </ErrorBoundary>
-              ),
-              [Menu.CALENDAR]: (
-                <ErrorBoundary
-                  onReset={reset}
-                  fallback={ErrorFallback}
-                  message="매칭일정을 로드하는데 실패 하였습니다."
-                >
-                  <MatchingCalendar />
-                </ErrorBoundary>
-              ),
-              [Menu.RECORD]: (
-                <ErrorBoundary
-                  onReset={reset}
-                  fallback={ErrorFallback}
-                  message="매칭기록을 로드하는데 실패 하였습니다."
-                >
-                  <MatchingRecord />
-                </ErrorBoundary>
-              ),
-              [Menu.INFO]: (
-                <div>
-                  <Info />
-                  <MoreInfo />
-                </div>
-              ),
-            }[profileMenu]
-          }
-        </Col>
-      </Row>
-    </AppLayout>
+              {
+                [Menu.LIKED]: (
+                  <ErrorBoundary
+                    onReset={reset}
+                    fallback={ErrorFallback}
+                    message="관심친구를 로드하는데 실패 하였습니다."
+                  >
+                    <LikedList />
+                  </ErrorBoundary>
+                ),
+                [Menu.CALENDAR]: (
+                  <ErrorBoundary
+                    onReset={reset}
+                    fallback={ErrorFallback}
+                    message="매칭일정을 로드하는데 실패 하였습니다."
+                  >
+                    <MatchingCalendar />
+                  </ErrorBoundary>
+                ),
+                [Menu.RECORD]: (
+                  <ErrorBoundary
+                    onReset={reset}
+                    fallback={ErrorFallback}
+                    message="매칭기록을 로드하는데 실패 하였습니다."
+                  >
+                    <MatchingRecord />
+                  </ErrorBoundary>
+                ),
+                [Menu.INFO]: (
+                  <div>
+                    <Info />
+                    <MoreInfo />
+                  </div>
+                ),
+              }[profileMenu]
+            }
+          </Col>
+        </Row>
+      </AppLayout>
+    </>
   );
 };
 

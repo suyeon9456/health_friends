@@ -16,7 +16,7 @@ import {
   ModalDispatchContext,
   initialState,
 } from '../store/modalStore';
-import * as gtag from '../lib/gtag';
+import * as gtag from '../@utils/gtag';
 
 const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
@@ -34,7 +34,6 @@ const App = ({ Component, pageProps }: AppProps) => {
   const [modalState, modalDispatch] = useReducer(modalReducer, initialState);
 
   useEffect(() => {
-    console.log('?');
     const handleRouteChange = (url: URL) => {
       gtag.pageview(url);
     };
@@ -48,6 +47,19 @@ const App = ({ Component, pageProps }: AppProps) => {
     <>
       <Head>
         <meta charSet="utf-8" />
+        <meta property="og:title" content="health-friends" />
+        <meta
+          property="og:image"
+          content="https://img.health-friends.com/_next/images/logo.png"
+        />
+        <meta
+          property="og:description"
+          content="내가 이용하는 헬스장에서 운동하는 친구 찾아 함께 운동 해보자"
+        />
+        <meta
+          name="description"
+          content="내가 이용하는 헬스장에서 운동하는 친구 찾아 함께 운동 해보자"
+        />
       </Head>
       <ModalStateContext.Provider value={modalState}>
         <ModalDispatchContext.Provider value={modalDispatch}>

@@ -9,7 +9,7 @@ import Document, {
 import { AppPropsType, AppType } from 'next/dist/shared/lib/utils';
 import { NextRouter } from 'next/router';
 import { ServerStyleSheet } from 'styled-components';
-import { GA_TRACKING_ID } from '../lib/gtag';
+import { GA_TRACKING_ID } from '../@utils/gtag';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {

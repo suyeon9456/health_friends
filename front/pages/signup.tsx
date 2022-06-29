@@ -1,4 +1,5 @@
 import React from 'react';
+import Head from 'next/head';
 import { useSelector } from 'react-redux';
 
 import { AppLayout } from '@/components/organisms';
@@ -18,25 +19,30 @@ const Signup = () => {
     useSelector(signupSelector);
 
   return (
-    <AppLayout>
-      <div className={styles.signupLayout}>
-        <Steps
-          steps={SignupSteps}
-          process={signupProcess}
-          target={SignupSteps.findIndex(({ step }) => step === signupProcess)}
-        />
-        <div className={styles.contentsWrap}>
-          {
+    <>
+      <Head>
+        <title>회원가입</title>
+      </Head>
+      <AppLayout>
+        <div className={styles.signupLayout}>
+          <Steps
+            steps={SignupSteps}
+            process={signupProcess}
+            target={SignupSteps.findIndex(({ step }) => step === signupProcess)}
+          />
+          <div className={styles.contentsWrap}>
             {
-              [SignupMenu.INFO]: <InfoForm />,
-              [SignupMenu.MOREINFO]: <MoreInfoForm />,
-              [SignupMenu.GYMINFO]: <MoreGymInfoForm />,
-              [SignupMenu.FRIENDSINFO]: <FriendsInfoForm />,
-            }[signupProcess]
-          }
+              {
+                [SignupMenu.INFO]: <InfoForm />,
+                [SignupMenu.MOREINFO]: <MoreInfoForm />,
+                [SignupMenu.GYMINFO]: <MoreGymInfoForm />,
+                [SignupMenu.FRIENDSINFO]: <FriendsInfoForm />,
+              }[signupProcess]
+            }
+          </div>
         </div>
-      </div>
-    </AppLayout>
+      </AppLayout>
+    </>
   );
 };
 
