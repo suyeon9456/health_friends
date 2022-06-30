@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from 'react-query';
 import { BiTrophy, BiCommentCheck, BiBuildingHouse } from 'react-icons/bi';
 
-import { profileSelector } from '@/../reducers/profile';
+import { profileSelector, tabSelector } from '@/../reducers/profile';
 import { meSelector } from '@/../reducers/user';
 import useIsState from '@/hooks/useIsState';
 import { addImageAPI, uploadImageAPI } from '@/api/profile';
@@ -25,13 +25,7 @@ import {
 } from './style';
 import ProfileAvatar from './ProfileAvatar';
 
-const SideBar = ({
-  profileMenu,
-  setProfileMenu,
-}: {
-  profileMenu: ProfileMenuType;
-  setProfileMenu: React.Dispatch<SetStateAction<ProfileMenuType>>;
-}) => {
+const SideBar = () => {
   const queryClient = useQueryClient();
   const me = useSelector(meSelector);
   const { profile } = useSelector(profileSelector);
@@ -108,10 +102,7 @@ const SideBar = ({
           </div>
         </InfoContent>
       </InfoWrapper>
-      <SideBarTabMenu
-        profileMenu={profileMenu}
-        setProfileMenu={setProfileMenu}
-      />
+      <SideBarTabMenu />
       <ModalPortal>
         {showModal && (
           <ModalMatchingRequest

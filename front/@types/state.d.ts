@@ -9,7 +9,7 @@ import {
   SignupInfo,
   SignupMoreInfo,
 } from './user';
-import { SignupMenuType } from './constant';
+import { ProfileMenuType, SignupMenuType } from './constant';
 
 /* USER INITIAL STATE */
 export interface UserInitialState {
@@ -25,6 +25,7 @@ export interface UserInitialState {
 /* PROFILE INITIAL STATE */
 export interface ProfileInitialState {
   profile: Profile | null;
+  tab: ProfileMenuType;
 }
 
 /* GYM INITIAL STATE */

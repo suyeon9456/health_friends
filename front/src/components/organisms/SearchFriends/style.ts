@@ -1,5 +1,56 @@
 import styled, { css } from 'styled-components';
 
+export const SearchFriendsWrapper = styled.div<{
+  foldedGym: boolean;
+  foldedFriends: boolean;
+}>`
+  position: absolute;
+  display: flex;
+  width: 100%;
+  min-width: 300px;
+  height: auto;
+  max-height: 535px;
+  left: 0;
+  top: 590px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+  z-index: 5;
+  transition: all 0.35s;
+
+  ${({ foldedGym }) =>
+    foldedGym &&
+    css`
+      top: calc(0% + 43px);
+    `}
+
+  @media (min-width: 768px) {
+    width: calc(100% - 43px);
+    max-width: 381px;
+    max-height: none;
+    height: 100%;
+    left: 100%;
+    top: 10px;
+    ${({ foldedGym }) =>
+      foldedGym &&
+      css`
+        top: 10px;
+        left: 43px;
+      `}
+  }
+
+  ${({ foldedFriends }) =>
+    foldedFriends &&
+    css`
+      display: none;
+    `}
+`;
+
 export const SearchHeader = styled.div`
   position: relative;
   display: table;

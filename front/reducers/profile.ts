@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { createDraftSafeSelector, createSlice } from '@reduxjs/toolkit';
+import { Menu } from '../@types/constant';
 import { ProfileInitialState } from '../@types/state';
 import { RootState } from '../store/configureStore';
 
 const initialState: ProfileInitialState = {
   profile: null,
+  tab: Menu.INFO,
 };
 
 const profileSlice = createSlice({
@@ -37,6 +39,9 @@ const profileSlice = createSlice({
         ),
       };
     },
+    updateTab(state, action) {
+      state.tab = action.payload;
+    },
   },
 });
 
@@ -45,5 +50,10 @@ export const profileSelector = createDraftSafeSelector(
   (profile) => ({ profile })
 );
 
-export const { loadProfile } = profileSlice.actions;
+export const tabSelector = createDraftSafeSelector(
+  (state: RootState) => state.profile.tab,
+  (tab) => ({ tab })
+);
+
+export const { loadProfile, updateTab } = profileSlice.actions;
 export default profileSlice.reducer;

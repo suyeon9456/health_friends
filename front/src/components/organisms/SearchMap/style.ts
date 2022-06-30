@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const MapWrap = styled.section`
   position: relative;
@@ -16,9 +16,6 @@ export const MapWrap = styled.section`
     width: calc(100% - 10px);
     height: 100%;
     margin-left: 10px;
-    /* display: grid;
-    grid-auto-flow: column;
-    grid-template-columns: 1fr; */
   }
 
   & > button {

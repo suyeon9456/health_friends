@@ -10,14 +10,22 @@ import {
   foldedItemSelector,
   gymSelector,
 } from '@/../reducers/gym';
+import { QueryErrorResetBoundary } from 'react-query';
 import ModalPortal from '../ModalPortal';
 import ModalMatchingRequest from '../ModalMatchingRequest';
-import { FriendsListWrapper, SearchHeader, SearchTitle } from './style';
+import {
+  FriendsListWrapper,
+  SearchFriendsWrapper,
+  SearchHeader,
+  SearchTitle,
+} from './style';
 import FriendsList from './FriendsList';
+import ErrorBoundary from '../ErrorBoundary';
+import ErrorFallback from '../ErrorFallback';
 
 const SearchFriends = () => {
   const dispatch = useDispatch();
-  const { isFoldedFriends } = useSelector(foldedItemSelector);
+  const { isFoldedFriends, isFoldedGym } = useSelector(foldedItemSelector);
   const { selectedGym } = useSelector(gymSelector);
 
   const [friend, setFriend] = useState<UserGym>();
@@ -28,25 +36,42 @@ const SearchFriends = () => {
   }, [isFoldedFriends]);
 
   return (
-    <>
-      <SearchHeader>
-        <SearchTitle>{selectedGym?.name} 친구검색 결과</SearchTitle>
-        <Button
-          icon={<Icon icon={<BiX />} />}
-          type={ButtonType.TEXT}
-          onClick={onChangeFoldedFriends}
-        />
-      </SearchHeader>
-      <FriendsListWrapper>
-        <FriendsList setFriend={setFriend} setShowModal={setShowModal} />
-      </FriendsListWrapper>
-      <ModalPortal>
-        {showModal && (
-          <ModalMatchingRequest setShowModal={setShowModal} friend={friend} />
+    <SearchFriendsWrapper
+      foldedGym={isFoldedGym}
+      foldedFriends={isFoldedFriends}
+    >
+      <QueryErrorResetBoundary>
+        {({ reset }) => (
+          <ErrorBoundary
+            key={selectedGym}
+            onReset={reset}
+            fallback={ErrorFallback}
+            message="헬스장일 이용중인 사용자를 로드하는데 실패 하였습니다."
+          >
+            <SearchHeader>
+              <SearchTitle>{selectedGym?.name} 친구검색 결과</SearchTitle>
+              <Button
+                icon={<Icon icon={<BiX />} />}
+                type={ButtonType.TEXT}
+                onClick={onChangeFoldedFriends}
+              />
+            </SearchHeader>
+            <FriendsListWrapper>
+              <FriendsList setFriend={setFriend} setShowModal={setShowModal} />
+            </FriendsListWrapper>
+            <ModalPortal>
+              {showModal && (
+                <ModalMatchingRequest
+                  setShowModal={setShowModal}
+                  friend={friend}
+                />
+              )}
+            </ModalPortal>
+          </ErrorBoundary>
         )}
-      </ModalPortal>
-    </>
+      </QueryErrorResetBoundary>
+    </SearchFriendsWrapper>
   );
 };
 
-export default SearchFriends;
+export default React.memo(SearchFriends);

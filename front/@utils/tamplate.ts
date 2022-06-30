@@ -1,6 +1,6 @@
 import styles from '@/scss/searchMap.module.scss';
 import { Dispatch, SetStateAction } from 'react';
-import { userIcon } from './svg';
+import { userIcon } from '../public/svg/svg';
 
 export const overlayContainer = ({
   name,

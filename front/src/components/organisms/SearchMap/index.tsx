@@ -27,10 +27,11 @@ const SearchMap = () => {
   const dispatch = useDispatch();
 
   const { gym, gyms } = useSelector(gymSelector);
-  const { isFoldedFriends, isFoldedGym } = useSelector(foldedItemSelector);
+  const { isFoldedFriends } = useSelector(foldedItemSelector);
 
   const map = useRef<any>();
   const customOverlay = useRef<any>(null);
+  const markers = useRef<number>(0);
 
   const [showButton, setShowButton] = useState<boolean>(false);
   const [bounds, setBounds] = useState<Location>({});
@@ -82,6 +83,13 @@ const SearchMap = () => {
       yAnchor: 1.01,
     });
     customOverlay.current.setMap(map.current);
+  }, []);
+
+  const setCenter = useCallback((lat, lon) => {
+    const moveLatLon = new (window as any).kakao.maps.LatLng(lat, lon - 0.055);
+
+    // 지도 중심을 이동 시킵니다
+    map.current.setCenter(moveLatLon);
   }, []);
 
   useEffect(() => {
@@ -139,10 +147,17 @@ const SearchMap = () => {
     if (isEmpty(gym)) return;
     const gymLocation = moveLocation(gym.latitude, gym.longitude);
     overlayGym(gymLocation, gym);
+    setCenter(gym.latitude, gym.longitude);
   }, [gym]);
 
   useEffect(() => {
-    if (isEmpty(gyms)) return;
+    if (isEmpty(gyms)) {
+      // markers.current.
+      // for (var i = 0; i < markers.length; i++) {
+      //     markers[i].setMap(map);
+      // }
+      return;
+    }
     // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
     const gymsBounds = new (window as any).kakao.maps.LatLngBounds();
     gyms?.forEach(({ id, name, latitude, longitude }: Gym) => {
@@ -162,12 +177,10 @@ const SearchMap = () => {
         onClickGym(id)
       );
     });
+    markers.current = gyms.length;
     map.current.setBounds(gymsBounds);
   }, [gyms]);
 
-  useEffect(() => {
-    map.current.relayout();
-  }, [isFoldedFriends, isFoldedGym]);
   return (
     <MapWrap>
       <div

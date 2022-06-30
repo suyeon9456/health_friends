@@ -29,53 +29,6 @@ export const SearchWrapper = styled.section<{
   }
 `;
 
-export const FoldButton = styled.div<{ foldedGym: boolean }>`
-  position: absolute;
-  width: 20px;
-  height: 60px;
-  left: 50%;
-  top: calc(100% - 20px);
-  background-color: #fff;
-  border-radius: 0 5px 5px 0;
-  border: 1px solid #f0f0f0;
-  border-left: none;
-  text-align: center;
-  box-shadow: 0 2px 8px #e8e9e9;
-  cursor: pointer;
-  transition: all 0.35s;
-  transform: rotate(90deg);
-  z-index: 100;
-
-  & > span {
-    color: #00000073;
-    line-height: 56px;
-  }
-  &:hover {
-    & > span {
-      color: #b37feb;
-    }
-  }
-  ${({ foldedGym }) =>
-    foldedGym &&
-    css`
-      top: 34px !important;
-    `}
-
-  @media (min-width: 768px) {
-    width: 20px;
-    height: 60px;
-    left: calc(383px + 43px);
-    top: calc(50% - 50px + 10px);
-    transform: none;
-    ${({ foldedGym }) =>
-      foldedGym &&
-      css`
-        top: calc(50% - 50px + 10px) !important;
-        left: 41px !important;
-      `}
-  }
-`;
-
 export const GymWrapper = styled.div<{
   foldedGym: boolean;
   foldedFriends: boolean;
@@ -163,55 +116,4 @@ export const SearchListWrapper = styled.div<{ browserHeight: number }>`
       `}
   }
   overflow-y: auto;
-`;
-
-export const SearchFriendsWrapper = styled.div<{
-  foldedGym: boolean;
-  foldedFriends: boolean;
-}>`
-  position: absolute;
-  display: flex;
-  width: 100%;
-  min-width: 300px;
-  height: auto;
-  max-height: 535px;
-  left: 0;
-  top: 590px;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  background-color: #ffffff;
-  border-radius: 5px;
-  box-sizing: border-box;
-  overflow-y: auto;
-  overflow: hidden;
-  border: 1px solid #f0f0f0;
-  z-index: 5;
-  transition: all 0.35s;
-
-  ${({ foldedGym }) =>
-    foldedGym &&
-    css`
-      top: calc(0% + 43px);
-    `}
-
-  @media (min-width: 768px) {
-    width: 400px;
-    max-height: none;
-    height: 100%;
-    left: calc(100% - 1px);
-    top: 10px;
-    left: 425px;
-    ${({ foldedGym }) =>
-      foldedGym &&
-      css`
-        top: 10px;
-        left: calc(0% + 43px);
-      `}
-  }
-
-  ${({ foldedFriends }) =>
-    foldedFriends &&
-    css`
-      display: none;
-    `}
 `;

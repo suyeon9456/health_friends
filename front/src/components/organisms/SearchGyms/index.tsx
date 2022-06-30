@@ -1,21 +1,23 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { QueryErrorResetBoundary } from 'react-query';
-import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 
 import {
-  changeIsFoldedFriends,
   changeIsFoldedGym,
   changeMapBounds,
-  changeSelectedGym,
   foldedItemSelector,
   gymSelector,
 } from '@/../reducers/gym';
 import useInput from '@/hooks/useInput';
 
-import { Search, Icon } from '@/components/atoms';
-import SearchFriends from '../SearchFriends';
+import { Search, FoldButton } from '@/components/atoms';
 import SearchSidebar from '../SearchSidebar';
 import {
   SearchHeader,
@@ -23,9 +25,7 @@ import {
   SearchTitle,
   SearchFormWrapper,
   GymWrapper,
-  FoldButton,
   SearchListWrapper,
-  SearchFriendsWrapper,
 } from './style';
 import GymList from './GymList';
 import ErrorBoundary from '../ErrorBoundary';
@@ -35,8 +35,8 @@ const SearchGyms = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const { searchText, gym: selectedGym } = router.query;
-  const { gyms, selectedGym: gym } = useSelector(gymSelector);
+  const { searchText } = router.query;
+  const { gyms } = useSelector(gymSelector);
   const { isFoldedGym, isFoldedFriends } = useSelector(foldedItemSelector);
   const [browserHeight, setBrowserHeight] = useState<number>(0);
   const searchQuery = useRef<string>(
@@ -51,7 +51,11 @@ const SearchGyms = () => {
   const onSearchGyms = useCallback(() => {
     searchQuery.current = searchWord;
     dispatch(changeMapBounds(null));
-    void router.push(`?searchText=${searchWord}`, undefined, { shallow: true });
+    window.history.replaceState(
+      window.history.state,
+      '',
+      `${window.location.pathname}?searchText=${searchWord}`
+    );
   }, [searchWord]);
 
   useEffect(() => {
@@ -59,21 +63,6 @@ const SearchGyms = () => {
       dispatch(changeIsFoldedGym(false));
     }
   }, [isFoldedFriends]);
-
-  useEffect(() => {
-    if (selectedGym && !Array.isArray(selectedGym)) {
-      if (isFoldedFriends) {
-        dispatch(changeIsFoldedFriends(false));
-      }
-      dispatch(
-        changeSelectedGym(
-          gyms?.find(
-            ({ id }: { id: number }) => id === parseInt(selectedGym, 10)
-          )
-        )
-      );
-    }
-  }, [gyms]);
 
   useEffect(() => {
     setBrowserHeight(document.documentElement.clientHeight);
@@ -88,17 +77,7 @@ const SearchGyms = () => {
         >
           <SearchSidebar />
           {isFoldedFriends || (
-            <FoldButton
-              foldedGym={isFoldedGym}
-              onClick={changeFoldedGym}
-              className="fold-button"
-            >
-              {isFoldedGym ? (
-                <Icon icon={<BiChevronRight />} />
-              ) : (
-                <Icon icon={<BiChevronLeft />} />
-              )}
-            </FoldButton>
+            <FoldButton isFolded={isFoldedGym} changeFolded={changeFoldedGym} />
           )}
           <GymWrapper foldedGym={isFoldedGym} foldedFriends={isFoldedFriends}>
             <SearchHeader>
@@ -122,26 +101,10 @@ const SearchGyms = () => {
                 fallback={ErrorFallback}
                 message="검색결과를 로드하는데 실패 하였습니다."
               >
-                <GymList
-                  searchQuery={searchQuery.current}
-                  selectedGym={selectedGym}
-                />
+                <GymList searchQuery={searchQuery.current} />
               </ErrorBoundary>
             </SearchListWrapper>
           </GymWrapper>
-          <SearchFriendsWrapper
-            foldedGym={isFoldedGym}
-            foldedFriends={isFoldedFriends}
-          >
-            <ErrorBoundary
-              key={gym?.id}
-              onReset={reset}
-              fallback={ErrorFallback}
-              message="헬스장일 이용중인 사용자를 로드하는데 실패 하였습니다."
-            >
-              <SearchFriends />
-            </ErrorBoundary>
-          </SearchFriendsWrapper>
         </SearchWrapper>
       )}
     </QueryErrorResetBoundary>

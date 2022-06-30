@@ -1,5 +1,4 @@
-import React, { useCallback } from 'react';
-import { useRouter } from 'next/router';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'react-query';
 import { BiGroup } from 'react-icons/bi';
@@ -17,16 +16,9 @@ import { Gym } from '@/../@types/gym';
 
 import { Icon, Item } from '@/components/atoms';
 
-const GymList = ({
-  searchQuery,
-  selectedGym,
-}: {
-  searchQuery: string;
-  selectedGym?: string | string[];
-}) => {
+const GymList = ({ searchQuery }: { searchQuery: string }) => {
   const dispatch = useDispatch();
-  const router = useRouter();
-  const { gyms, mapBounds } = useSelector(gymSelector);
+  const { gyms, gym: selectedGym, mapBounds } = useSelector(gymSelector);
   const { isFoldedFriends } = useSelector(foldedItemSelector);
 
   const _gyms = useQuery(
@@ -34,7 +26,8 @@ const GymList = ({
     () => loadGymsAPI({ searchWord: searchQuery, mapBounds }),
     {
       onSuccess: (data) => {
-        dispatch(loadGyms({ data, selectedGym }));
+        console.log('data', data);
+        dispatch(loadGyms({ data }));
       },
       refetchOnWindowFocus: false,
     }
@@ -45,17 +38,34 @@ const GymList = ({
       if (isFoldedFriends) {
         dispatch(changeIsFoldedFriends(false));
       }
+      console.log(targetGym);
       dispatch(changeSelectedGym(targetGym));
-      void router.push(
-        {
-          query: { ...router.query, gym: targetGym.id },
-        },
-        undefined,
-        { shallow: true }
+      const query = !searchQuery
+        ? `?gym=${targetGym.id}`
+        : `?searchText=${searchQuery}&gym=${targetGym.id}`;
+      window.history.replaceState(
+        window.history.state,
+        '',
+        `${window.location.pathname}${query}`
       );
     },
     [isFoldedFriends]
   );
+
+  useEffect(() => {
+    if (isFoldedFriends) {
+      dispatch(changeIsFoldedFriends(false));
+    }
+    dispatch(
+      changeSelectedGym(
+        gyms?.find(({ id }: { id: number }) => id === parseInt(selectedGym, 10))
+      )
+    );
+  }, [gyms]);
+
+  useEffect(() => {
+    console.log(searchQuery);
+  }, [searchQuery]);
 
   return (
     <>
@@ -80,4 +90,4 @@ const GymList = ({
   );
 };
 
-export default GymList;
+export default React.memo(GymList);

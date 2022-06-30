@@ -253,3 +253,5 @@ export const InfoContent = {
 } as const;
 
 export type InfoContentType = typeof InfoContent[keyof typeof InfoContent];
+
+export const ERROR_CODE = 1;

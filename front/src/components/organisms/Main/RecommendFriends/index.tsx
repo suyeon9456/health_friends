@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
@@ -9,7 +9,7 @@ import { BiCurrentLocation } from 'react-icons/bi';
 import { useModalDispatch } from '@/../store/modalStore';
 import { loadRecommendAPI } from '@/api/user';
 import { Location } from '@/../@types/map';
-import { GlobalModal, ModalStatus } from '@/../@types/constant';
+import { ERROR_CODE, GlobalModal, ModalStatus } from '@/../@types/constant';
 import { RecommendFriendsAPI } from '@/../@types/user';
 import useIsState from '@/hooks/useIsState';
 import { recommendKey } from '@/../@utils/queryKey';
@@ -121,7 +121,7 @@ const RecommendFriends = () => {
           );
         },
         ({ code: errorCode }) => {
-          if (errorCode === 1) {
+          if (errorCode === ERROR_CODE) {
             setIsLocation(true);
 
             setLocation({

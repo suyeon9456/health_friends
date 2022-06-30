@@ -2,42 +2,40 @@ import React, { Dispatch, SetStateAction, useCallback } from 'react';
 import { BiUser, BiCalendar, BiReceipt, BiHeart } from 'react-icons/bi';
 import { Menu, ProfileMenuType } from '@/../@types/constant';
 import { Icon } from '@/components/atoms';
-import { useSelector } from 'react-redux';
-import { profileSelector } from '@/../reducers/profile';
+import { useDispatch, useSelector } from 'react-redux';
+import { profileSelector, tabSelector, updateTab } from '@/../reducers/profile';
 import { meSelector } from '@/../reducers/user';
 import { useRouter } from 'next/router';
 import { MenuText, SideMenu, SideMenuWrap } from './style';
 
-const SideBarTabMenu = ({
-  profileMenu,
-  setProfileMenu,
-}: {
-  profileMenu: ProfileMenuType;
-  setProfileMenu: Dispatch<SetStateAction<ProfileMenuType>>;
-}) => {
-  const router = useRouter();
+const SideBarTabMenu = () => {
+  const dispatch = useDispatch();
   const me = useSelector(meSelector);
   const { profile } = useSelector(profileSelector);
+  const { tab } = useSelector(tabSelector);
   const onClickMenu = useCallback(
     (menu) => {
+      const { pathname } = window.location;
       const query =
-        router.pathname === '/myinfo'
-          ? { tab: menu }
-          : { id: profile.id, tab: menu };
-      void router.push({ query }, undefined, {
-        shallow: true,
-      });
-      setProfileMenu(menu);
+        pathname === '/myinfo'
+          ? `?tab=${menu}`
+          : `?id=${profile.id}&tab=${menu}`;
+      window.history.replaceState(
+        window.history.state,
+        '',
+        `${pathname}${query}`
+      );
+      dispatch(updateTab(menu));
     },
-    [profileMenu, profile]
+    [profile]
   );
   return (
-    <SideMenuWrap active={profileMenu}>
+    <SideMenuWrap active={tab}>
       <SideMenu
         key={Menu.INFO}
         id={Menu.INFO}
         onClick={() => onClickMenu(Menu.INFO)}
-        className={profileMenu === Menu.INFO ? 'active' : ''}
+        className={tab === Menu.INFO ? 'active' : ''}
       >
         <Icon icon={<BiUser />} />
         <MenuText>
@@ -48,7 +46,7 @@ const SideBarTabMenu = ({
         key={Menu.CALENDAR}
         id={Menu.CALENDAR}
         onClick={() => onClickMenu(Menu.CALENDAR)}
-        className={profileMenu === Menu.CALENDAR ? 'active' : ''}
+        className={tab === Menu.CALENDAR ? 'active' : ''}
       >
         <Icon icon={<BiCalendar />} />
         <MenuText>매칭일정</MenuText>
@@ -57,7 +55,7 @@ const SideBarTabMenu = ({
         key={Menu.RECORD}
         id={Menu.RECORD}
         onClick={() => onClickMenu(Menu.RECORD)}
-        className={profileMenu === Menu.RECORD ? 'active' : ''}
+        className={tab === Menu.RECORD ? 'active' : ''}
       >
         <Icon icon={<BiReceipt />} />
         <MenuText>매칭기록</MenuText>
@@ -66,7 +64,7 @@ const SideBarTabMenu = ({
         key={Menu.LIKED}
         id={Menu.LIKED}
         onClick={() => onClickMenu(Menu.LIKED)}
-        className={profileMenu === Menu.LIKED ? 'active' : ''}
+        className={tab === Menu.LIKED ? 'active' : ''}
       >
         <Icon icon={<BiHeart />} />
         <MenuText>관심친구</MenuText>

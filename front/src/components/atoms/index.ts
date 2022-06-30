@@ -25,6 +25,7 @@ import Icon from './Icon';
 import NoDataIcon from './NoDataIcon';
 import ReactSliderPrevButton from './ReactSliderPrevButton';
 import ReactSliderNextButton from './ReactSliderNextButton';
+import FoldButton from './FoldButton';
 
 export {
   Avatar,
@@ -54,4 +55,5 @@ export {
   NoDataIcon,
   ReactSliderPrevButton,
   ReactSliderNextButton,
+  FoldButton,
 };

@@ -19,9 +19,9 @@ const gymSlice = createSlice({
   reducers: {
     loadGyms(state, action) {
       state.gyms = action.payload.data;
-      if (!action.payload.selectedGym) {
-        state.gym = {};
-      }
+      state.gym = {};
+      // if (!action.payload.selectedGym) {
+      // }
       state.isLoadGyms = false;
     },
     loadGym(state, action) {

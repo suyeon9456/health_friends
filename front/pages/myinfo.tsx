@@ -1,34 +1,21 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import { GetServerSidePropsContext } from 'next';
-import { useQuery, useQueryErrorResetBoundary } from 'react-query';
+import { useQuery } from 'react-query';
 import { loadMyinfoAPI } from '@/api/profile';
 import { useRouter } from 'next/router';
 import { useLoadLoginedUser } from '@/hooks';
-import ErrorBoundary from '@/components/organisms/ErrorBoundary';
-import ErrorFallback from '@/components/organisms/ErrorFallback';
+import ProfileContents from '@/components/organisms/profile/ProfileContents';
 import { loadProfile } from '../reducers/profile';
 
-import {
-  AppLayout,
-  SideBar,
-  Info,
-  MoreInfo,
-  Row,
-  Col,
-} from '../src/components/organisms';
+import { AppLayout, SideBar, Row, Col } from '../src/components/organisms';
 import MatchingCalendar from '../src/components/organisms/profile/MatchingCalendar';
 import MatchingRecord from '../src/components/organisms/profile/MatchingRecord';
 import LikedList from '../src/components/organisms/profile/LikedList';
-import {
-  GlobalModal,
-  Menu,
-  ModalStatus,
-  ProfileMenuType,
-} from '../@types/constant';
+import { GlobalModal, ModalStatus } from '../@types/constant';
 import { profileKey } from '../@utils/queryKey';
 import { useModalDispatch } from '../store/modalStore';
 import { loadMe } from '../reducers/user';
@@ -37,8 +24,6 @@ const Myinfo = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const contextDispatch = useModalDispatch();
-  const { reset } = useQueryErrorResetBoundary();
-  const [profileMenu, setProfileMenu] = useState<ProfileMenuType>(Menu.INFO);
 
   const _ = useLoadLoginedUser({ onSuccess: (data) => dispatch(loadMe(data)) });
 
@@ -59,11 +44,11 @@ const Myinfo = () => {
     useErrorBoundary: false,
   });
 
-  const page = useMemo(() => {
-    return router.query.tab !== undefined ? router.query.tab : Menu.INFO;
-  }, [router.query]);
+  // const page = useMemo(() => {
+  //   return router.query.tab !== undefined ? router.query.tab : Menu.INFO;
+  // }, [router.query]);
 
-  useEffect(() => setProfileMenu(page as ProfileMenuType), [page]);
+  // useEffect(() => setProfileMenu(page as ProfileMenuType), [page]);
 
   return (
     <>
@@ -74,49 +59,10 @@ const Myinfo = () => {
       <AppLayout childBlock>
         <Row>
           <Col xs={24} md={8}>
-            <SideBar
-              profileMenu={profileMenu}
-              setProfileMenu={setProfileMenu}
-            />
+            <SideBar />
           </Col>
           <Col xs={24} md={16}>
-            {
-              {
-                [Menu.LIKED]: (
-                  <ErrorBoundary
-                    onReset={reset}
-                    fallback={ErrorFallback}
-                    message="관심친구를 로드하는데 실패 하였습니다."
-                  >
-                    <LikedList />
-                  </ErrorBoundary>
-                ),
-                [Menu.CALENDAR]: (
-                  <ErrorBoundary
-                    onReset={reset}
-                    fallback={ErrorFallback}
-                    message="매칭일정을 로드하는데 실패 하였습니다."
-                  >
-                    <MatchingCalendar />
-                  </ErrorBoundary>
-                ),
-                [Menu.RECORD]: (
-                  <ErrorBoundary
-                    onReset={reset}
-                    fallback={ErrorFallback}
-                    message="매칭기록을 로드하는데 실패 하였습니다."
-                  >
-                    <MatchingRecord />
-                  </ErrorBoundary>
-                ),
-                [Menu.INFO]: (
-                  <div>
-                    <Info />
-                    <MoreInfo />
-                  </div>
-                ),
-              }[profileMenu]
-            }
+            <ProfileContents />
           </Col>
         </Row>
       </AppLayout>

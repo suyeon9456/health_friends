@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { BiCollapse, BiExpand } from 'react-icons/bi';
 
 import { ButtonType, SizeType } from '@/../@types/constant';
@@ -12,6 +12,7 @@ const SearchSidebar = () => {
   const dispatch = useDispatch();
   const { isFoldedGym } = useSelector(foldedItemSelector);
   const { data: me } = useLoadLoginedUser();
+
   return (
     <Sidebar>
       <div>
@@ -34,4 +35,4 @@ const SearchSidebar = () => {
   );
 };
 
-export default SearchSidebar;
+export default React.memo(SearchSidebar);
