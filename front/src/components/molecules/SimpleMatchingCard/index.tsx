@@ -1,7 +1,7 @@
 import React from 'react';
 import { BiChevronRight, BiX } from 'react-icons/bi';
 
-import { ButtonType, SizeType, SizeTypeT } from '@/../@types/utils';
+import { ButtonType, SizeType, SizeTypeT } from '@/../@types/constant';
 import Avatar from '../../atoms/Avatar';
 import {
   SimpleCard,

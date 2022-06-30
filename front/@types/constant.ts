@@ -247,8 +247,6 @@ export const TypeFilter = [
   { value: 'receive', text: '받은매칭' },
 ] as const;
 
-// export type SearchGymTabsType = typeof SearchGymTabs[number];
-
 export const InfoContent = {
   MORE: 'MORE',
   FRIENDS: 'FRIENDS',

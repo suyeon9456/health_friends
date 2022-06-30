@@ -11,7 +11,7 @@ import {
   InfoContent,
   RoleOptions,
   SizeType,
-} from '@/../@types/utils';
+} from '@/../@types/constant';
 import { Information } from '@/components/molecules';
 import { profileRangeTime } from '@/../@utils/date';
 import { Button } from '../../../atoms';

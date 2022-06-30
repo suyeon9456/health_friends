@@ -14,7 +14,7 @@ import {
   InputType,
   ModalStatus,
   SizeType,
-} from '@/../@types/utils';
+} from '@/../@types/constant';
 
 import { FormInput } from '@/components/molecules';
 import { Button, Form } from '@/components/atoms';

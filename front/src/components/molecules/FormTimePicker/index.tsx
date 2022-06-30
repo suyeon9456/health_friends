@@ -1,7 +1,7 @@
 import React from 'react';
 import { Control, Controller, FieldError, FieldValues } from 'react-hook-form';
 
-import { BaseSizeTypeT } from '@/../@types/utils';
+import { BaseSizeTypeT } from '@/../@types/constant';
 import { InputTimePicker } from '../../atoms';
 import { Essential, Label } from './style';
 

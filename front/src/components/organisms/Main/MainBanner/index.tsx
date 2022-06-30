@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { BiSearchAlt } from 'react-icons/bi';
 
-import { ButtonType, SizeType } from '@/../@types/utils';
+import { ButtonType, SizeType } from '@/../@types/constant';
 import { QueryErrorResetBoundary } from 'react-query';
 import RecommendFriends from '../RecommendFriends';
 import { Button, Icon } from '../../../atoms';

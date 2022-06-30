@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { BiError } from 'react-icons/bi';
-import { ButtonType } from '@/../@types/utils';
+import { ButtonType } from '@/../@types/constant';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import {
   FriendsErrorCard,

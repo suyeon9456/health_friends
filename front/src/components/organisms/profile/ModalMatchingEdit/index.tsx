@@ -12,7 +12,7 @@ import {
   updateScheduleAPI,
 } from '@/api/schedule';
 import { createEndDate, formatDateTime } from '@/../@utils/date';
-import { ModalType, ShowModalType } from '@/../@types/utils';
+import { ModalType, ShowModalType } from '@/../@types/constant';
 import { MatchingCardProps, Schedule } from '@/../@types/schedule';
 import { AxiosError } from 'axios';
 import { scheduleByIdKey } from '@/../@utils/queryKey';

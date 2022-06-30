@@ -1,7 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 
-import { BaseSizeTypeT, PickerType } from '@/../@types/utils';
+import { BaseSizeTypeT, PickerType } from '@/../@types/constant';
 import CustomCalendar from '../CustomCalendar';
 import CustomPickerInput from '../CustomPickerInput';
 

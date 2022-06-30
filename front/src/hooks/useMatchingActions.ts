@@ -6,7 +6,7 @@ import {
   reqCancelActions,
   resCancelActions,
   waitCancelActions,
-} from '@/../@types/utils';
+} from '@/../@types/constant';
 import {
   addCancelAPI,
   updateCancelAPI,

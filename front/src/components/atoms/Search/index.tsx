@@ -1,5 +1,5 @@
 import { SearchProps } from '@/../@types/atoms';
-import { SizeType } from '@/../@types/utils';
+import { SizeType } from '@/../@types/constant';
 import React, { useCallback } from 'react';
 
 import {

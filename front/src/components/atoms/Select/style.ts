@@ -1,4 +1,4 @@
-import { SizeType, SizeTypeT } from '@/../@types/utils';
+import { SizeType, SizeTypeT } from '@/../@types/constant';
 import styled, { css } from 'styled-components';
 
 export const SelectContainer = styled.select<{ selectsize?: SizeTypeT }>`

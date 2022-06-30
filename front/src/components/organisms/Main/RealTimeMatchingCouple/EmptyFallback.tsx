@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { ButtonType, SizeType } from '@/../@types/utils';
+import { ButtonType, SizeType } from '@/../@types/constant';
 import { Button, NoDataIcon } from '@/components/atoms';
 import { NoDataContainer, NoDataContent, NoDataText } from './style';
 

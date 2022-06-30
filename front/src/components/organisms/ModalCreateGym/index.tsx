@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ButtonType } from '@/../@types/utils';
+import { ButtonType } from '@/../@types/constant';
 import { ModalCreateGymProps } from '@/../@types/gym';
 import useIsState from '@/hooks/useIsState';
 import { FormInput } from '../../molecules';

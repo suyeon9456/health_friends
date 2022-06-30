@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { FieldError } from 'react-hook-form';
-import { SizeType, SizeTypeT } from '@/../@types/utils';
+import { SizeType, SizeTypeT } from '@/../@types/constant';
 
 interface Input {
   inputsize?: SizeTypeT;

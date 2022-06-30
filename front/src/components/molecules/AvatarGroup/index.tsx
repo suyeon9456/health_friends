@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SizeTypeT } from '@/../@types/utils';
+import { SizeTypeT } from '@/../@types/constant';
 import { AvatarWrapper } from './style';
 import { Avatar } from '../../atoms';
 

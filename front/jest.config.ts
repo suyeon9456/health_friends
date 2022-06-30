@@ -9,7 +9,6 @@ const config: Config.InitialOptions = {
   moduleNameMapper: {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
     '^.+\\.(css|sass|scss)$': 'identity-obj-proxy',
-    // '^.+\\.(css|sass|scss)$': '<rootDir>/__mocks__/styleMock.ts',
     '^.+\\.svg$': 'jest-svg-transformer', // <- 새롭게 추가
     '^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$/i': `<rootDir>/__mocks__/fileMock.ts`,
     '^@/pages/(.*)$': '<rootDir>/pages/$1',
@@ -23,11 +22,8 @@ const config: Config.InitialOptions = {
     '<rootDir>/@types/',
   ],
   testEnvironment: 'node',
-  // testEnvironment: 'jsdom',
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
-    // '^.+\\.svg$': '<rootDir>/svgTransform.js',
-    // '^.+\\.svg$': 'jest-svg-transformer',
   },
   transformIgnorePatterns: [
     '/node_modules/',

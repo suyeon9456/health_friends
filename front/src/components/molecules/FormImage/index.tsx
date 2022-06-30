@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Button, Form, Upload } from '@/components/atoms';
-import { ButtonType } from '@/../@types/utils';
+import { ButtonType } from '@/../@types/constant';
 import { originalToThumb } from '@/../@utils/regexp';
 import { UseMutationResult } from 'react-query';
 

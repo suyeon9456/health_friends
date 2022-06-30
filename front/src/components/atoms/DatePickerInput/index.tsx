@@ -2,7 +2,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 
 import { DatePickerInputProps } from '@/../@types/atoms';
-import { PickerType } from '@/../@types/utils';
+import { PickerType } from '@/../@types/constant';
 import CustomPickerInput from '../CustomPickerInput';
 import CustomCalendar from '../CustomCalendar';
 

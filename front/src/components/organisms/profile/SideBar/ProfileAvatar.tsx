@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { ButtonType } from '@/../@types/utils';
+import { ButtonType } from '@/../@types/constant';
 import { profileSelector } from '@/../reducers/profile';
 import { meSelector } from '@/../reducers/user';
 import { Avatar, Button } from '@/components/atoms';

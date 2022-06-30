@@ -4,7 +4,7 @@ import {
   ButtonTypeT,
   SizeType,
   SizeTypeT,
-} from '@/../@types/utils';
+} from '@/../@types/constant';
 
 interface Button {
   size: SizeTypeT;

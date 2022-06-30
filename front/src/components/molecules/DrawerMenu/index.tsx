@@ -8,7 +8,7 @@ import {
   BiSearchAlt,
 } from 'react-icons/bi';
 
-import { ButtonType } from '@/../@types/utils';
+import { ButtonType } from '@/../@types/constant';
 import { useMutation, useQueryClient } from 'react-query';
 import { logoutAPI } from '@/api/user';
 import { meKey } from '@/../@utils/queryKey';

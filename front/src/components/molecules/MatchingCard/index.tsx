@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Button, Icon } from '@/components/atoms';
 import { BiUser } from 'react-icons/bi';
-import { ButtonType } from '@/../@types/utils';
+import { ButtonType } from '@/../@types/constant';
 import {
   Card,
   CardBody,

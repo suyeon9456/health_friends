@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import { BiTime, BiCalendar } from 'react-icons/bi';
 
 import { CustomPickerInputProps } from '@/../@types/atoms';
-import { PickerType } from '@/../@types/utils';
+import { PickerType } from '@/../@types/constant';
 import {
   PickerWrap,
   PickerInput,

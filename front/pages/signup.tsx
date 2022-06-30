@@ -12,7 +12,7 @@ import axios from 'axios';
 import { GetServerSidePropsContext } from 'next';
 import styles from '../src/scss/signup.module.scss';
 import { signupSelector } from '../reducers/user';
-import { SignupMenuType, SignupMenu, SignupSteps } from '../@types/utils';
+import { SignupMenuType, SignupMenu, SignupSteps } from '../@types/constant';
 
 const Signup = () => {
   const { signupProcess }: { signupProcess: SignupMenuType } =

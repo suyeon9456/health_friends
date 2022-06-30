@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { SearchGymTabs } from '@/../@types/utils';
+import { SearchGymTabs } from '@/../@types/constant';
 import { useMutation, useQueryErrorResetBoundary } from 'react-query';
 import { addGymAPI } from '@/api/gym';
 import { AddressAPI, CreateGymForm, ModalGymProps } from '@/../@types/gym';

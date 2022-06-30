@@ -1,7 +1,7 @@
 import React from 'react';
 import { BiCollapse, BiExpand } from 'react-icons/bi';
 
-import { ButtonType, SizeType } from '@/../@types/utils';
+import { ButtonType, SizeType } from '@/../@types/constant';
 import { useLoadLoginedUser } from '@/hooks';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeIsFoldedGym, foldedItemSelector } from '@/../reducers/gym';

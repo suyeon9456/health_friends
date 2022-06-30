@@ -28,7 +28,7 @@ import {
   Menu,
   ModalStatus,
   ProfileMenuType,
-} from '../@types/utils';
+} from '../@types/constant';
 import { profileKey } from '../@utils/queryKey';
 import { useModalDispatch } from '../store/modalStore';
 import { loadMe } from '../reducers/user';
@@ -135,7 +135,7 @@ export const getServerSideProps = async (
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     axios.defaults.headers!.Cookie = cookie;
   }
-  const { data } = await axios.get('/user');
+  const { data } = await axios.get('/isLoggedIn');
   if (!data) {
     return {
       redirect: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
 
-import { ButtonType, SizeType } from '@/../@types/utils';
+import { ButtonType, SizeType } from '@/../@types/constant';
 import {
   Card,
   CardActions,

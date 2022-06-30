@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import { BiX } from 'react-icons/bi';
 
-import { ButtonType, ButtonTypeT } from '@/../@types/utils';
+import { ButtonType, ButtonTypeT } from '@/../@types/constant';
 import {
   ModalBody,
   ModalBox,

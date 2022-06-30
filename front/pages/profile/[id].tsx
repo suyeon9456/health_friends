@@ -7,7 +7,7 @@ import {
   Menu,
   ModalStatus,
   ProfileMenuType,
-} from '@/../@types/utils';
+} from '@/../@types/constant';
 
 import {
   dehydrate,

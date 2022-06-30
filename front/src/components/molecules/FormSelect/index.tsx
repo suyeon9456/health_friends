@@ -7,7 +7,7 @@ import {
   Path,
 } from 'react-hook-form';
 
-import { SizeTypeT } from '@/../@types/utils';
+import { SizeTypeT } from '@/../@types/constant';
 import { FormSelectWrap, Essential, Label } from './style';
 import { Select, ErrorMessage } from '../../atoms';
 
@@ -46,7 +46,6 @@ const FormSelect = <T extends FieldValues>({
           <Select
             name={id}
             value={value}
-            // error={error}
             onChange={onChange}
             size={size}
             options={options}

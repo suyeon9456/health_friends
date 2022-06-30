@@ -33,16 +33,12 @@ export const avatarContainer = (
   avatarClick: (id: number) => void,
   handler: () => void
 ) => {
-  console.log(member);
   const avatarGroup = document.createElement('div');
   avatarGroup.className = `${styles.avatarGroup}`;
 
   const anticon = document.createElement('a');
   anticon.className = `${styles.anticon}`;
   anticon.innerHTML = userIcon;
-  // anticon.addEventListener('click', () => {
-  //   console.log('click');
-  // });
 
   if (member?.length >= 3) {
     const plusAvatar = document.createElement('a');

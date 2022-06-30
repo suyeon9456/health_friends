@@ -9,7 +9,12 @@ import {
   signupStepInfoSave,
   signupStepNext,
 } from '@/../reducers/user';
-import { ButtonType, InputType, SignupMenu, SizeType } from '@/../@types/utils';
+import {
+  ButtonType,
+  InputType,
+  SignupMenu,
+  SizeType,
+} from '@/../@types/constant';
 import { FormInput } from '../../../molecules';
 import { Button, Form } from '../../../atoms';
 import { ButtonWrap, InfoFormWrapper } from './style';
@@ -48,7 +53,7 @@ const InfoForm = () => {
       checkPassword: '',
       nickname: signupStepInfo?.nickname || '',
     },
-    // resolver: yupResolver(schema),
+    resolver: yupResolver(schema),
   });
 
   const onNextClick = useCallback((data) => {

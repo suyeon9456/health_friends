@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { GlobalModalType, ModalStatusType } from '../@types/utils';
+import { GlobalModalType, ModalStatusType } from '../@types/constant';
 
 export interface Initial {
   id?: string;

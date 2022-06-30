@@ -34,9 +34,6 @@ class MyDocument extends Document {
         ),
       };
     } finally {
-      // catch (error) {
-      //   console.error(error);
-      // }
       sheet.seal();
     }
   }

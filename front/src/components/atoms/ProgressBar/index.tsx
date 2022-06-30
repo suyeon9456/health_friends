@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ProgressInner, Bar, ProgressOuter, ProgressWrap } from './style';
 
-const ProgressBar = React.memo(({ percent }: { percent: number }) => (
+const ProgressBar = ({ percent }: { percent: number }) => (
   <ProgressWrap>
     <ProgressOuter>
       <ProgressInner>
@@ -10,6 +10,6 @@ const ProgressBar = React.memo(({ percent }: { percent: number }) => (
       </ProgressInner>
     </ProgressOuter>
   </ProgressWrap>
-));
+);
 
-export default ProgressBar;
+export default React.memo(ProgressBar);

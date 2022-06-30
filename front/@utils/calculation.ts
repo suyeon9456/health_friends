@@ -1,4 +1,4 @@
-import { InputNumberType, InputNumberTypeT } from '../@types/utils';
+import { InputNumberType, InputNumberTypeT } from '../@types/constant';
 
 export const rematchRate = (
   matchingCount: number,

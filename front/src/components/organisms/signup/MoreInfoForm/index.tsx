@@ -16,7 +16,7 @@ import {
   RoleOptions,
   SignupMenu,
   SizeType,
-} from '@/../@types/utils';
+} from '@/../@types/constant';
 import { FormSelect } from '../../../molecules';
 import { Button, Form } from '../../../atoms';
 import { ButtonWrap, MoreInfoFormWrapper } from './style';

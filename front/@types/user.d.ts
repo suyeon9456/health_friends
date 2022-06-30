@@ -3,7 +3,6 @@ import { Control, FieldValues } from 'react-hook-form';
 import { Image } from './image';
 import { Schedule } from './schedule';
 
-// user에 대한 타입 또는 정보
 export type Gender = 'female' | 'male';
 export type Age = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10';
 export type Career = '1' | '2' | '3' | '4' | '5';

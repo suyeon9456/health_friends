@@ -9,7 +9,7 @@ import {
   SignupInfo,
   SignupMoreInfo,
 } from './user';
-import { SignupMenuType } from './utils';
+import { SignupMenuType } from './constant';
 
 /* USER INITIAL STATE */
 export interface UserInitialState {

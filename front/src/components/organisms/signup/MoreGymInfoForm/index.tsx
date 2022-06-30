@@ -9,7 +9,7 @@ import {
   signupStepPrev,
 } from '@/../reducers/user';
 import { formatTime } from '@/../@utils/date';
-import { ButtonType, SignupMenu, SizeType } from '@/../@types/utils';
+import { ButtonType, SignupMenu, SizeType } from '@/../@types/constant';
 import useIsState from '@/hooks/useIsState';
 import {
   FormInput,

@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useCallback } from 'react';
 import { BiUser, BiCalendar, BiReceipt, BiHeart } from 'react-icons/bi';
-import { Menu, ProfileMenuType } from '@/../@types/utils';
+import { Menu, ProfileMenuType } from '@/../@types/constant';
 import { Icon } from '@/components/atoms';
 import { useSelector } from 'react-redux';
 import { profileSelector } from '@/../reducers/profile';

@@ -5,7 +5,7 @@ import {
   InfoContentType,
   InfoContent,
   RoleOptionsType,
-} from '@/../@types/utils';
+} from '@/../@types/constant';
 import { Icon, InformationItem } from '@/components/atoms';
 import React from 'react';
 import { BiGroup, BiHeart, BiRun, BiTime, BiUser } from 'react-icons/bi';

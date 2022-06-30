@@ -9,7 +9,7 @@ import useIsState from '@/hooks/useIsState';
 import { addImageAPI, uploadImageAPI } from '@/api/profile';
 import { rematchRate, responseRate } from '@/../@utils/calculation';
 import { profileKey } from '@/../@utils/queryKey';
-import { ProfileMenuType } from '@/../@types/utils';
+import { ProfileMenuType } from '@/../@types/constant';
 import SideBarTabMenu from '@/components/molecules/SideBarTabMenu';
 import FormImage from '@/components/molecules/FormImage';
 import { Icon } from '../../../atoms';

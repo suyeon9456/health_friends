@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 
 import { inputNumber } from '@/../@utils/calculation';
 import { InputNumberProps } from '@/../@types/atoms';
-import { InputNumberType } from '@/../@types/utils';
+import { InputNumberType } from '@/../@types/constant';
 
 import {
   InputNumberWrap,

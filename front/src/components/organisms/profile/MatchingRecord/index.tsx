@@ -12,7 +12,7 @@ import {
   PeriodFilter,
   StateFilter,
   TypeFilter,
-} from '@/../@types/utils';
+} from '@/../@types/constant';
 import { schedulesByIdKey } from '@/../@utils/queryKey';
 import { RecordPage } from '@/../@types/schedule';
 import { Filter } from '../../../molecules';

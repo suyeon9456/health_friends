@@ -6,7 +6,7 @@ import {
   InputTypeT,
   PickerTypeT,
   SizeTypeT,
-} from './utils';
+} from './constant';
 
 export interface AvatarProps {
   size?: SizeTypeT | number;

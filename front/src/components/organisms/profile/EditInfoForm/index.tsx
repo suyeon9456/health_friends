@@ -7,7 +7,7 @@ import {
   GenderOptions,
   RoleOptions,
   SizeType,
-} from '@/../@types/utils';
+} from '@/../@types/constant';
 import { EditProfileProps } from '@/../@types/user';
 import { FormRangeTimePicker, FormSelect } from '../../../molecules';
 import { FormWrap } from './style';

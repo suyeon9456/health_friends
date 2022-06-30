@@ -1,4 +1,4 @@
-import { SizeType, SizeTypeT } from '@/../@types/utils';
+import { SizeType, SizeTypeT } from '@/../@types/constant';
 import { BiLoaderAlt, BiSearchAlt } from 'react-icons/bi';
 import styled, { css } from 'styled-components';
 

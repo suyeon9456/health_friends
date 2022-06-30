@@ -1,6 +1,6 @@
 import React from 'react';
 import { AlertProps } from '@/../@types/molecules';
-import { ModalStatus } from '@/../@types/utils';
+import { ModalStatus } from '@/../@types/constant';
 
 import {
   AlertBox,

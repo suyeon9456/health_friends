@@ -12,7 +12,7 @@ import {
   loginedUserProfile,
   ModalType,
   ShowModalType,
-} from '@/../@types/utils';
+} from '@/../@types/constant';
 import { RecordPage } from '@/../@types/schedule';
 import { LoadingMatchingCard, MatchingCard } from '../../molecules';
 import { Icon } from '../../atoms';

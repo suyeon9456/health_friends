@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { BaseSizeType, BaseSizeTypeT } from '@/../@types/utils';
+import { BaseSizeType, BaseSizeTypeT } from '@/../@types/constant';
 
 export const PickerWrap = styled.div<{ size?: BaseSizeTypeT }>`
   box-sizing: border-box;

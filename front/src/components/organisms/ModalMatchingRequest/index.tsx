@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { gymSelector } from '@/../reducers/gym';
-import { SizeType } from '@/../@types/utils';
+import { SizeType } from '@/../@types/constant';
 import { addScheduleAPI } from '@/api/schedule';
 import { ModalMatchingProps, Schedule } from '@/../@types/schedule';
 import { createEndDate } from '@/../@utils/date';

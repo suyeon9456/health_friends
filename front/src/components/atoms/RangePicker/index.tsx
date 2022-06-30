@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 
-import { PickerTypeT } from '@/../@types/utils';
+import { PickerTypeT } from '@/../@types/constant';
 import CustomRangePickerInput from '../CustomRangePickerInput';
 import CustomCalendar from '../CustomCalendar';
 

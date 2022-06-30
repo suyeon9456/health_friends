@@ -9,7 +9,7 @@ import {
 } from 'react-hook-form';
 import { BiRightArrowAlt } from 'react-icons/bi';
 
-import { BaseSizeTypeT, PickerType } from '@/../@types/utils';
+import { BaseSizeTypeT, PickerType } from '@/../@types/constant';
 import {
   RangeTimePickerWrap,
   RangeSeparator,

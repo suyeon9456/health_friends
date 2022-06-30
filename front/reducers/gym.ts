@@ -42,7 +42,6 @@ const gymSlice = createSlice({
       state.isFoldedGym = action.payload;
     },
     changeIsFoldedFriends(state, action) {
-      console.log(action.payload);
       state.isFoldedFriends = action.payload;
     },
     changeSelectedGym(state, action) {

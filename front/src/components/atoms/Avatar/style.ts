@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { SizeType } from '@/../@types/utils';
+import { SizeType } from '@/../@types/constant';
 import { AvatarProps } from '@/../@types/atoms';
 
 export const StyledAvatar = styled.span<AvatarProps>`

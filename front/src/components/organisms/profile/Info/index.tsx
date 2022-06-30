@@ -8,7 +8,7 @@ import { meSelector } from '@/../reducers/user';
 import useInput from '@/hooks/useInput';
 import { updateDescriptionAPI, updateNicknameAPI } from '@/api/user';
 import { meKey, profileKey } from '@/../@utils/queryKey';
-import { ButtonType, SizeType } from '@/../@types/utils';
+import { ButtonType, SizeType } from '@/../@types/constant';
 import useIsState from '@/hooks/useIsState';
 import { Button, Icon, Input } from '../../../atoms';
 import {

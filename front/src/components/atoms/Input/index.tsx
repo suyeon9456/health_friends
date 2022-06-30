@@ -2,7 +2,7 @@ import React from 'react';
 import { BiLock, BiLockOpen } from 'react-icons/bi';
 
 import { InputProps } from '@/../@types/atoms';
-import { InputType, SizeType } from '@/../@types/utils';
+import { InputType, SizeType } from '@/../@types/constant';
 import useIsState from '@/hooks/useIsState';
 import { InputContainer, InputContent, InputWrap, InputWrapBox } from './style';
 import Icon from '../Icon';

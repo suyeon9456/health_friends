@@ -19,7 +19,7 @@ import {
   RoleOptions,
   SignupMenu,
   SizeType,
-} from '@/../@types/utils';
+} from '@/../@types/constant';
 import { AxiosError } from 'axios';
 import { SignupSteps, SignupMutationSteps } from '@/../@types/user';
 import { useModalDispatch } from '@/../store/modalStore';

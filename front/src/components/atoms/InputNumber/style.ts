@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
-import { SizeType, SizeTypeT } from '@/../@types/utils';
+import { SizeType, SizeTypeT } from '@/../@types/constant';
 
 export const InputNumberWrap = styled.span<{ size?: SizeTypeT }>`
   position: relative;

@@ -8,8 +8,6 @@ import gym from './gym';
 const rootReducer = (state: any, action: any) => {
   switch (action.type) {
     case HYDRATE:
-      // console.log('HYDRATE', HYDRATE);
-      // console.log('payload', action.payload);
       return action.payload;
     default: {
       const combineReducer = combineReducers({ user, profile, gym });

@@ -1,4 +1,4 @@
-import { Process, ProcessType } from '@/../@types/utils';
+import { Process, ProcessType } from '@/../@types/constant';
 import styled, { css } from 'styled-components';
 
 export const StepWrap = styled.div`

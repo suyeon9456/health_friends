@@ -1,7 +1,7 @@
 import { createDraftSafeSelector, createSlice } from '@reduxjs/toolkit';
 import * as _ from 'lodash';
 import { UserInitialState } from '../@types/state';
-import { SignupMenu } from '../@types/utils';
+import { SignupMenu } from '../@types/constant';
 import { RootState } from '../store/configureStore';
 
 const initialState: UserInitialState = {
@@ -40,7 +40,6 @@ const userSlice = createSlice({
       state.selectedGym = action.payload;
     },
     loadMe(state, action) {
-      console.log(action);
       state.me = action.payload;
     },
     changeNickname(state, action) {

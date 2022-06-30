@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Process, ProcessType, SignupMenuType } from '@/../@types/utils';
+import { Process, ProcessType, SignupMenuType } from '@/../@types/constant';
 import { StepsWrapper } from './style';
 import { Step } from '../../atoms';
 

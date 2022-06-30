@@ -1,5 +1,5 @@
 import { Control, FieldError, Path } from 'react-hook-form';
-import { InputTypeT, ModalStatusType, SizeTypeT } from './utils';
+import { InputTypeT, ModalStatusType, SizeTypeT } from './constant';
 
 export type AlertType = 'error' | 'warning' | 'success';
 

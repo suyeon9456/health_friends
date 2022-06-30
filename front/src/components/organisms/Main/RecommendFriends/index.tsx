@@ -9,7 +9,7 @@ import { BiCurrentLocation } from 'react-icons/bi';
 import { useModalDispatch } from '@/../store/modalStore';
 import { loadRecommendAPI } from '@/api/user';
 import { Location } from '@/../@types/map';
-import { GlobalModal, ModalStatus } from '@/../@types/utils';
+import { GlobalModal, ModalStatus } from '@/../@types/constant';
 import { RecommendFriendsAPI } from '@/../@types/user';
 import useIsState from '@/hooks/useIsState';
 import { recommendKey } from '@/../@utils/queryKey';
@@ -121,7 +121,6 @@ const RecommendFriends = () => {
           );
         },
         ({ code: errorCode }) => {
-          console.error(errorCode);
           if (errorCode === 1) {
             setIsLocation(true);
 

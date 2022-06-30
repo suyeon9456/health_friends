@@ -33,7 +33,8 @@ export const loadGymsAPI = ({
       )
       .then((response) => response.data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    throw new Error('axios error');
   }
 };
 
@@ -41,7 +42,7 @@ export const addGymAPI = (data: AddressAPI) => {
   try {
     return axios.post('/gym', data).then((response) => response.data);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error('axios error');
   }
 };

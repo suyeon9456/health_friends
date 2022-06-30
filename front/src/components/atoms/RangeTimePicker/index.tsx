@@ -2,7 +2,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 
 import { RangePickerProps } from '@/../@types/atoms';
-import { PickerType } from '@/../@types/utils';
+import { PickerType } from '@/../@types/constant';
 import { BiRightArrowAlt } from 'react-icons/bi';
 import { RangeTimePickerWrap, RangeSeparator, Separator } from './style';
 import CustomPickerInput from '../CustomPickerInput';
