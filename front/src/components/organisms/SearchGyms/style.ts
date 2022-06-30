@@ -64,7 +64,7 @@ export const FoldButton = styled.div<{ foldedGym: boolean }>`
   @media (min-width: 768px) {
     width: 20px;
     height: 60px;
-    left: 100%;
+    left: calc(383px + 43px);
     top: calc(50% - 50px + 10px);
     transform: none;
     ${({ foldedGym }) =>
@@ -76,7 +76,10 @@ export const FoldButton = styled.div<{ foldedGym: boolean }>`
   }
 `;
 
-export const GymWrapper = styled.div<{ foldedGym: boolean }>`
+export const GymWrapper = styled.div<{
+  foldedGym: boolean;
+  foldedFriends: boolean;
+}>`
   position: relative;
   display: flex;
   width: 100%;
@@ -100,13 +103,14 @@ export const GymWrapper = styled.div<{ foldedGym: boolean }>`
 
   @media (min-width: 768px) {
     width: calc(100% - 43px);
+    max-width: 381px;
     height: 100%;
     border-radius: 0 5px 5px 0;
     ${({ foldedGym }) =>
       foldedGym &&
       css`
         top: 0;
-        left: -500px;
+        left: -400px;
       `}
   }
 `;
@@ -191,11 +195,12 @@ export const SearchFriendsWrapper = styled.div<{
     `}
 
   @media (min-width: 768px) {
-    width: calc(100% - 43px);
+    width: 400px;
     max-height: none;
     height: 100%;
     left: calc(100% - 1px);
     top: 10px;
+    left: 425px;
     ${({ foldedGym }) =>
       foldedGym &&
       css`

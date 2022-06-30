@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { BiX } from 'react-icons/bi';
 
-import { ButtonType } from '@/../@types/utils';
+import { ButtonType } from '@/../@types/constant';
 import { UserGym } from '@/../@types/user';
 import { Icon, Button } from '@/components/atoms';
 import { useDispatch, useSelector } from 'react-redux';

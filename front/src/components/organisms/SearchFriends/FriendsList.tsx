@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useModalDispatch } from '@/../store/modalStore';
 import { addLikeAPI, loadGymAndFriendsAPI } from '@/api/user';
 import { gymAndFriendsByIdKey, meKey } from '@/../@utils/queryKey';
-import { GlobalModal, ModalStatus } from '@/../@types/utils';
+import { GlobalModal, ModalStatus } from '@/../@types/constant';
 import { UserGym, SelectedGymUser } from '@/../@types/user';
 import { PropfileCard } from '@/components/molecules';
 import { useLoadLoginedUser } from '@/hooks';

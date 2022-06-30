@@ -12,11 +12,10 @@ import {
   gymSelector,
 } from '@/../reducers/gym';
 import { gymAndFriendsByIdKey } from '@/../@utils/queryKey';
-import { ButtonType } from '@/../@types/utils';
+import { ButtonType } from '@/../@types/constant';
 import { Gym, Location } from '@/../@types/gym';
 import { avatarContainer, overlayContainer } from '@/../@utils/tamplate';
 import { useRouter } from 'next/router';
-import useKakaomap from '@/hooks/useKakaomap';
 import { Button, Icon } from '../../atoms';
 import { MapWrap } from './style';
 
@@ -28,10 +27,9 @@ const SearchMap = () => {
   const dispatch = useDispatch();
 
   const { gym, gyms } = useSelector(gymSelector);
-  const { isFoldedFriends } = useSelector(foldedItemSelector);
+  const { isFoldedFriends, isFoldedGym } = useSelector(foldedItemSelector);
 
-  // const map = useRef<any>();
-  const map = useKakaomap();
+  const map = useRef<any>();
   const customOverlay = useRef<any>(null);
 
   const [showButton, setShowButton] = useState<boolean>(false);
@@ -96,6 +94,27 @@ const SearchMap = () => {
   }, [bounds]);
 
   useEffect(() => {
+    const container = document.getElementById('kakaoMap');
+    const options = {
+      center: new (window as any).kakao.maps.LatLng(37.566826, 126.9786567),
+      // 지도의 중심좌표 (서울시청)
+      level: 3, // 지도의 레벨(확대, 축소)
+    };
+    map.current = new (window as any).kakao.maps.Map(container, options);
+
+    // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성
+    const mapTypeControl = new (window as any).kakao.maps.MapTypeControl();
+    map.current?.addControl(
+      mapTypeControl,
+      (window as any).kakao.maps.ControlPosition.TOPRIGHT
+    );
+    // 지도 확대 축소를 제어할 수 있는 줌 컨트롤을 생성
+    const zoomControl = new (window as any).kakao.maps.ZoomControl();
+    map.current?.addControl(
+      zoomControl,
+      (window as any).kakao.maps.ControlPosition.RIGHT
+    );
+
     (window as any).kakao.maps.event.addListener(
       map.current,
       'bounds_changed',
@@ -146,9 +165,18 @@ const SearchMap = () => {
     map.current.setBounds(gymsBounds);
   }, [gyms]);
 
+  useEffect(() => {
+    map.current.relayout();
+  }, [isFoldedFriends, isFoldedGym]);
   return (
     <MapWrap>
-      <div id="kakaoMap" style={{ width: '100%', height: '100%' }} />
+      <div
+        id="kakaoMap"
+        style={{
+          width: '100%',
+          height: '100%',
+        }}
+      />
       {showButton && (
         <Button
           type={ButtonType.LINEPRIMARY}

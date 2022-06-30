@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const MapWrap = styled.section`
   position: relative;
@@ -16,6 +16,9 @@ export const MapWrap = styled.section`
     width: calc(100% - 10px);
     height: 100%;
     margin-left: 10px;
+    /* display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr; */
   }
 
   & > button {
@@ -24,5 +27,8 @@ export const MapWrap = styled.section`
     bottom: 10px;
     left: 10px;
     box-shadow: rgb(0 0 0 / 30%) 0px 2px 2px 0px;
+  }
+  & > .kakaoMap {
+    width: 100%;
   }
 `;

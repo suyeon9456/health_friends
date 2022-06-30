@@ -100,7 +100,7 @@ const SearchGyms = () => {
               )}
             </FoldButton>
           )}
-          <GymWrapper foldedGym={isFoldedGym}>
+          <GymWrapper foldedGym={isFoldedGym} foldedFriends={isFoldedFriends}>
             <SearchHeader>
               <span>{gyms?.length}개의 헬스장</span>
               <SearchTitle>
