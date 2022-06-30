@@ -12,7 +12,7 @@ export const rematchRate = (
 export const responseRate = (
   resSchedule?: Array<{ isPermitted: boolean }>
 ): number => {
-  if (!resSchedule) return 0;
+  if (!resSchedule?.[0]) return 0;
   const total = resSchedule.length;
   const number =
     resSchedule.filter((f: { isPermitted: boolean }) => f.isPermitted).length ||
