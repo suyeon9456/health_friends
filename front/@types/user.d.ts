@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Control, FieldValues } from 'react-hook-form';
+import { InfoContentType } from './constant';
 import { Image } from './image';
 import { Schedule } from './schedule';
 
@@ -114,7 +115,7 @@ export interface SignupData {
 }
 
 export interface EditProfileProps {
-  targetId: string;
+  type: InfoContentType;
   control: Control<
     {
       startTime: Date;

@@ -1,33 +1,18 @@
 import React, { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from 'react-query';
-import { BiEdit } from 'react-icons/bi';
 
 import { profileSelector } from '@/../reducers/profile';
-import { meSelector } from '@/../reducers/user';
 import useInput from '@/hooks/useInput';
 import { updateDescriptionAPI, updateNicknameAPI } from '@/api/user';
 import { meKey, profileKey } from '@/../@utils/queryKey';
-import { ButtonType, SizeType } from '@/../@types/constant';
-import useIsState from '@/hooks/useIsState';
-import { Button, Icon, Input } from '../../../atoms';
-import {
-  ContentText,
-  ContentTitle,
-  InfoBody,
-  InfoButtonWrapper,
-  InfoContent,
-  InfoContentWrapper,
-  InfoHeader,
-  InfoWrapper,
-} from './style';
+import { useLoadLoginedUser } from '@/hooks';
+import EditInput from '@/components/molecules/EditInput';
+import { InfoBody, InfoContentWrapper, InfoHeader, InfoWrapper } from './style';
 
 const Info = () => {
   const queryClient = useQueryClient();
   const { profile } = useSelector(profileSelector);
-  const me = useSelector(meSelector);
-  const [isEditNickname, onChangeIsEditNickname] = useIsState(false);
-  const [isEditDescription, onChangeIsEditDescription] = useIsState(false);
 
   const [nickname, onChangeNickname] = useInput<string>(
     profile?.nickname || ''
@@ -36,13 +21,14 @@ const Info = () => {
     profile?.Userdetail?.description || ''
   );
 
+  const { data: me } = useLoadLoginedUser();
+
   const nicknameMutation = useMutation(
     (data: { nickname: string }) => updateNicknameAPI(data),
     {
       onSuccess: () => {
         void queryClient.invalidateQueries(profileKey);
         void queryClient.invalidateQueries(meKey);
-        void onChangeIsEditNickname();
       },
     }
   );
@@ -52,7 +38,6 @@ const Info = () => {
       onSuccess: () => {
         void queryClient.invalidateQueries(profileKey);
         void queryClient.invalidateQueries(meKey);
-        void onChangeIsEditDescription();
       },
     }
   );
@@ -72,90 +57,26 @@ const Info = () => {
       </InfoHeader>
       <InfoBody>
         <InfoContentWrapper key="nickname">
-          <InfoContent>
-            <ContentTitle>
-              <h4>닉네임</h4>
-            </ContentTitle>
-            {isEditNickname && me?.id === profile?.id ? (
-              <Input
-                size={SizeType.SMALL}
-                value={nickname}
-                onChange={onChangeNickname}
-              />
-            ) : (
-              <ContentText>{profile?.nickname}</ContentText>
-            )}
-          </InfoContent>
-          <InfoButtonWrapper>
-            {me?.id === profile?.id &&
-              (isEditNickname && me?.id === profile?.id ? (
-                <div>
-                  <Button
-                    type={ButtonType.TEXT}
-                    size={SizeType.SMALL}
-                    onClick={onUpdateNickname}
-                  >
-                    저장
-                  </Button>
-                  <Button
-                    type={ButtonType.TEXT}
-                    size={SizeType.SMALL}
-                    onClick={onChangeIsEditNickname}
-                  >
-                    취소
-                  </Button>
-                </div>
-              ) : (
-                <Button
-                  icon={<Icon icon={<BiEdit />} />}
-                  type={ButtonType.TEXT}
-                  onClick={onChangeIsEditNickname}
-                />
-              ))}
-          </InfoButtonWrapper>
+          <EditInput
+            title="닉네임"
+            value={nickname}
+            content={profile?.nickname}
+            isAuthorization={me && me?.id === profile?.id}
+            isSuccess={nicknameMutation.isSuccess}
+            onChange={onChangeNickname}
+            onUpdateContent={onUpdateNickname}
+          />
         </InfoContentWrapper>
         <InfoContentWrapper key="description">
-          <InfoContent>
-            <ContentTitle>
-              <h4>간단소개</h4>
-            </ContentTitle>
-            {isEditDescription && me?.id === profile?.id ? (
-              <Input
-                size={SizeType.SMALL}
-                value={description}
-                onChange={onChangeDescription}
-              />
-            ) : (
-              <ContentText>{profile?.Userdetail?.description}</ContentText>
-            )}
-          </InfoContent>
-          <InfoButtonWrapper>
-            {me?.id === profile?.id &&
-              (isEditDescription && me?.id === profile?.id ? (
-                <div>
-                  <Button
-                    type={ButtonType.TEXT}
-                    size={SizeType.SMALL}
-                    onClick={onUpdatDescription}
-                  >
-                    저장
-                  </Button>
-                  <Button
-                    type={ButtonType.TEXT}
-                    size={SizeType.SMALL}
-                    onClick={onChangeIsEditDescription}
-                  >
-                    취소
-                  </Button>
-                </div>
-              ) : (
-                <Button
-                  icon={<Icon icon={<BiEdit />} />}
-                  type={ButtonType.TEXT}
-                  onClick={onChangeIsEditDescription}
-                />
-              ))}
-          </InfoButtonWrapper>
+          <EditInput
+            title="간단소개"
+            value={description}
+            content={profile?.Userdetail?.description}
+            isAuthorization={me && me?.id === profile?.id}
+            isSuccess={descMutation.isSuccess}
+            onChange={onChangeDescription}
+            onUpdateContent={onUpdatDescription}
+          />
         </InfoContentWrapper>
       </InfoBody>
     </InfoWrapper>

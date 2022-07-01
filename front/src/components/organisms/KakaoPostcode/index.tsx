@@ -147,7 +147,7 @@ const KakaoPostcode = ({
   }, [isSearch]);
 
   useEffect(() => {
-    const container = document.getElementById('kakaoMap');
+    const container = document.getElementById('kakaoGymMap');
     const options = {
       center: new (window as any).kakao.maps.LatLng(37.566826, 126.9786567),
       // 지도의 중심좌표 (서울시청)
@@ -229,7 +229,7 @@ const KakaoPostcode = ({
             </ul>
           </SearchList>
           <SearchMap>
-            <div id="kakaoMap" style={{ width: '100%', height: '100%' }} />
+            <div id="kakaoGymMap" style={{ width: '100%', height: '100%' }} />
           </SearchMap>
         </SearchResultWrap>
       </ModalBodyBox>

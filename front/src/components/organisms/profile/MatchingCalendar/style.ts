@@ -211,8 +211,10 @@ export const CalendarWrap = styled.div`
 `;
 
 export const CardWrap = styled.div`
-  position: absolute;
-  top: 30%;
-  /* left: 50%; */
-  z-index: 5;
+  display: flex;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 `;

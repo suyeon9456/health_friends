@@ -40,6 +40,12 @@ export const ItemDescription = styled.div`
   font-size: 14px;
   line-height: 1.5715;
   outline: none;
+
+  & button {
+    margin-left: 0;
+    padding-left: 10px;
+    color: #00000073;
+  }
 `;
 
 export const LoadingItemTitle = styled.h4`

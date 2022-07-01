@@ -27,6 +27,7 @@ export const scheduleByIdKey = (
 
 export const signupGymsKey = (searchWord?: string) =>
   ['signup', 'gym', searchWord] as const;
+
 export const gymsKey = ({
   lastId,
   searchWord,

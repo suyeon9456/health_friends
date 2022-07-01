@@ -25,8 +25,6 @@ const Myinfo = () => {
   const dispatch = useDispatch();
   const contextDispatch = useModalDispatch();
 
-  const _ = useLoadLoginedUser({ onSuccess: (data) => dispatch(loadMe(data)) });
-
   useQuery(profileKey, () => loadMyinfoAPI(), {
     refetchOnWindowFocus: false,
     onSuccess: (data) => dispatch(loadProfile(data)),
@@ -43,12 +41,6 @@ const Myinfo = () => {
       }),
     useErrorBoundary: false,
   });
-
-  // const page = useMemo(() => {
-  //   return router.query.tab !== undefined ? router.query.tab : Menu.INFO;
-  // }, [router.query]);
-
-  // useEffect(() => setProfileMenu(page as ProfileMenuType), [page]);
 
   return (
     <>

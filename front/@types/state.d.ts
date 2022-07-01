@@ -20,6 +20,7 @@ export interface UserInitialState {
   signupStepFriendsInfo: SignupFriendsInfo | null;
   selectedGym: {} | null;
   me: Me | null;
+  isShowModal: string | number | null;
 }
 
 /* PROFILE INITIAL STATE */

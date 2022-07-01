@@ -1,122 +1,36 @@
 import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { profileSelector } from '@/../reducers/profile';
-import { meSelector } from '@/../reducers/user';
-import {
-  AgeOptions,
-  ButtonType,
-  CareerOptions,
-  GenderOptions,
-  InfoContent,
-  RoleOptions,
-  SizeType,
-} from '@/../@types/constant';
-import { Information } from '@/components/molecules';
-import { profileRangeTime } from '@/../@utils/date';
-import { Button } from '../../../atoms';
-import ModalEditInfo from '../ModalEditInfo';
-import ModalPortal from '../../ModalPortal';
-import {
-  ContentTitle,
-  MoreInfoBody,
-  MoreInfoContent,
-  MoreInfoWrapper,
-} from './style';
+import { InfoContent } from '@/../@types/constant';
+import { useLoadLoginedUser } from '@/hooks';
+import MoreInfoCard from '@/components/molecules/MoreInfoCard';
+import { changeIsShowModal } from '@/../reducers/user';
+import { MoreInfoBody, MoreInfoWrapper } from './style';
 
 const MoreInfo = () => {
+  const dispatch = useDispatch();
   const { profile } = useSelector(profileSelector);
-  const me = useSelector(meSelector);
-  const [showEditModal, setShowEditModal] = useState<boolean>(false);
-  const [targetId, setTargetId] = useState<string>('');
 
-  const onChangeShowEditModal = useCallback(
-    (e) => {
-      if (e) {
-        setTargetId(e.target.id);
-        setShowEditModal((prev) => !prev);
-      }
-    },
-    [showEditModal]
-  );
+  const { data: me } = useLoadLoginedUser();
   return (
     <MoreInfoWrapper>
       <MoreInfoBody>
-        <MoreInfoContent key={InfoContent.MORE}>
-          <ContentTitle>
-            <h4>추가정보</h4>
-            {me?.id === profile?.id && (
-              <Button
-                type={ButtonType.PRIMARY}
-                size={SizeType.SMALL}
-                onClick={onChangeShowEditModal}
-                {...{ id: 'more-info' }}
-              >
-                수정
-              </Button>
-            )}
-          </ContentTitle>
-          <Information
-            type={InfoContent.MORE}
-            age={AgeOptions[parseInt(profile?.age, 10)]}
-            time={profileRangeTime(
-              profile?.Userdetail?.startTime,
-              profile?.Userdetail?.endTime
-            )}
-            career={CareerOptions[parseInt(profile?.career, 10)]}
-            gender={
-              GenderOptions[
-                GenderOptions.findIndex(
-                  (option: { value: string }) =>
-                    option.value === profile?.gender
-                )
-              ]
-            }
-            role={RoleOptions[parseInt(profile?.role, 10)]}
-          />
-        </MoreInfoContent>
-        <MoreInfoContent key={InfoContent.FRIENDS}>
-          <ContentTitle>
-            <h4>매칭되고 싶은 친구정보</h4>
-            {me?.id === profile?.id && (
-              <Button
-                type={ButtonType.PRIMARY}
-                size={SizeType.SMALL}
-                onClick={onChangeShowEditModal}
-                {...{ id: 'friends-info' }}
-              >
-                수정
-              </Button>
-            )}
-          </ContentTitle>
-          <Information
-            type={InfoContent.FRIENDS}
-            age={AgeOptions[parseInt(profile?.Userdetail?.friendsAge, 10)]}
-            career={
-              CareerOptions[parseInt(profile?.Userdetail?.friendsCareer, 10)]
-            }
-            gender={
-              GenderOptions[
-                GenderOptions.findIndex(
-                  (option: { value: string }) =>
-                    option.value === profile?.Userdetail?.friendsGender
-                )
-              ]
-            }
-            role={RoleOptions[parseInt(profile?.Userdetail?.friendsRole, 10)]}
-          />
-        </MoreInfoContent>
+        <MoreInfoCard
+          key={InfoContent.MORE}
+          type={InfoContent.MORE}
+          title="추가정보"
+          profile={profile}
+          isAuthorization={me?.id === profile?.id}
+        />
+        <MoreInfoCard
+          key={InfoContent.FRIENDS}
+          type={InfoContent.FRIENDS}
+          title="매칭되고 싶은 친구정보"
+          profile={profile}
+          isAuthorization={me?.id === profile?.id}
+        />
       </MoreInfoBody>
-      <ModalPortal>
-        {showEditModal && (
-          <ModalEditInfo
-            title={targetId === 'more-info' ? '추가정보 수정' : '친구정보 수정'}
-            targetId={targetId}
-            setCloseModal={setShowEditModal}
-            onCancel={onChangeShowEditModal}
-          />
-        )}
-      </ModalPortal>
     </MoreInfoWrapper>
   );
 };

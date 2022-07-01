@@ -144,8 +144,7 @@ export interface MatchingReqFormProps {
 }
 
 export interface ModalMatchingProps {
-  setShowModal: (prop: boolean) => void;
-  friend?: UserGym;
+  selectedUser: UserGym | null;
   gymName?: string;
 }
 

@@ -8,7 +8,7 @@ import GymList from './GymList';
 import ErrorBoundary from '../ErrorBoundary';
 import ErrorFallback from '../ErrorFallback';
 
-const ModalSearchGym = ({ setShowModal, setGym }: ModalSearchGymProps) => {
+const ModalSearchGym = ({ onSelectedGym, setGym }: ModalSearchGymProps) => {
   const { reset } = useQueryErrorResetBoundary();
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchWord, onChangeSearchWord] = useInput<string>('');
@@ -34,7 +34,7 @@ const ModalSearchGym = ({ setShowModal, setGym }: ModalSearchGymProps) => {
           <GymList
             searchQuery={searchQuery}
             setGym={setGym}
-            setShowModal={setShowModal}
+            onSelectedGym={onSelectedGym}
           />
         </ErrorBoundary>
       </GymListWrap>

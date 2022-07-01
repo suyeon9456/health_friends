@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useReducer, useRef } from 'react';
+import React, { useEffect, useReducer, useRef } from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
@@ -43,10 +43,6 @@ const App = ({ Component, pageProps }: AppProps) => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router.events]);
-
-  useLayoutEffect(() => {
-    console.log('APPP 페이지가 리렌더링?');
-  }, [router]);
 
   return (
     <>

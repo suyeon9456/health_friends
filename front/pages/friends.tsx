@@ -1,8 +1,8 @@
 import React from 'react';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { loadGymsAPI } from '@/api/gym';
 import { dehydrate, QueryClient } from 'react-query';
+import { loadGymsAPI } from '@/api/gym';
 import ErrorBoundary from '@/components/organisms/ErrorBoundary';
 import ErrorFallback from '@/components/organisms/ErrorFallback';
 import { gymsKey } from '../@utils/queryKey';
@@ -47,9 +47,7 @@ const Friends = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
+export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(
     gymsKey({ searchWord: '', mapBounds: null }),

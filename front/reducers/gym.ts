@@ -27,6 +27,7 @@ const gymSlice = createSlice({
     loadGym(state, action) {
       state.gyms = action.payload;
       state.gym = {};
+      state.selectedGym = null;
       state.isLoadGyms = false;
     },
     loadFriends(state, action) {
@@ -46,22 +47,29 @@ const gymSlice = createSlice({
     },
     changeSelectedGym(state, action) {
       state.selectedGym = action.payload;
+      if (!state.isFoldedFriends) return;
+      state.isFoldedFriends = false;
     },
   },
 });
 
-export const gymSelector = createDraftSafeSelector(
+export const gymsSelector = createDraftSafeSelector(
   (state: RootState) => state.gym.isLoadGyms,
   (state: RootState) => state.gym.hasMoreGyms,
   (state: RootState) => state.gym.mapBounds,
   (state: RootState) => state.gym.gyms,
-  (state: RootState) => state.gym.gym,
-  (state: RootState) => state.gym.selectedGym,
-  (isLoadGyms, hasMoreGyms, mapBounds, gyms, gym, selectedGym) => ({
+  (isLoadGyms, hasMoreGyms, mapBounds, gyms) => ({
     isLoadGyms,
     hasMoreGyms,
     mapBounds,
     gyms,
+  })
+);
+
+export const gymSelector = createDraftSafeSelector(
+  (state: RootState) => state.gym.gym,
+  (state: RootState) => state.gym.selectedGym,
+  (gym, selectedGym) => ({
     gym,
     selectedGym,
   })

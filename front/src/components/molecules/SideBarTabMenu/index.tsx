@@ -1,6 +1,6 @@
-import React, { Dispatch, SetStateAction, useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { BiUser, BiCalendar, BiReceipt, BiHeart } from 'react-icons/bi';
-import { Menu, ProfileMenuType } from '@/../@types/constant';
+import { Menu } from '@/../@types/constant';
 import { Icon } from '@/components/atoms';
 import { useDispatch, useSelector } from 'react-redux';
 import { profileSelector, tabSelector, updateTab } from '@/../reducers/profile';
@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { MenuText, SideMenu, SideMenuWrap } from './style';
 
 const SideBarTabMenu = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const me = useSelector(meSelector);
   const { profile } = useSelector(profileSelector);
@@ -29,6 +30,17 @@ const SideBarTabMenu = () => {
     },
     [profile]
   );
+
+  const page = useMemo(() => {
+    const queryTab = router.query.tab;
+    if (Array.isArray(queryTab)) return Menu.INFO;
+    return queryTab !== undefined ? queryTab : Menu.INFO;
+  }, [router.query]);
+
+  useEffect(() => {
+    dispatch(updateTab(page));
+  }, [page]);
+
   return (
     <SideMenuWrap active={tab}>
       <SideMenu

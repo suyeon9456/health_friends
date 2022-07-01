@@ -10,6 +10,7 @@ import {
   changeMapBounds,
   foldedItemSelector,
   gymSelector,
+  gymsSelector,
 } from '@/../reducers/gym';
 import { gymAndFriendsByIdKey } from '@/../@utils/queryKey';
 import { ButtonType } from '@/../@types/constant';
@@ -26,12 +27,13 @@ const SearchMap = () => {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
 
-  const { gym, gyms } = useSelector(gymSelector);
+  const { gyms } = useSelector(gymsSelector);
+  const { gym } = useSelector(gymSelector);
   const { isFoldedFriends } = useSelector(foldedItemSelector);
 
   const map = useRef<any>();
   const customOverlay = useRef<any>(null);
-  const markers = useRef<number>(0);
+  const markers = useRef<any[]>();
 
   const [showButton, setShowButton] = useState<boolean>(false);
   const [bounds, setBounds] = useState<Location>({});
@@ -69,12 +71,14 @@ const SearchMap = () => {
     const avatarClick = (id: number) => {
       void router.replace(`/profile/${id}`);
     };
-    const avatarGroup = avatarContainer(Users, avatarClick, () => {
-      if (isFoldedFriends) {
-        dispatch(changeIsFoldedFriends(false));
-      }
-    });
-    contentWrap.querySelector(`.${styles.inner}`)?.prepend(avatarGroup);
+    if (Users) {
+      const avatarGroup = avatarContainer(Users, avatarClick, () => {
+        if (isFoldedFriends) {
+          dispatch(changeIsFoldedFriends(false));
+        }
+      });
+      contentWrap.querySelector(`.${styles.inner}`)?.prepend(avatarGroup);
+    }
 
     customOverlay.current = new (window as any).kakao.maps.CustomOverlay({
       position: location,
@@ -145,19 +149,21 @@ const SearchMap = () => {
 
   useEffect(() => {
     if (isEmpty(gym)) return;
+    if (isEmpty(markers.current)) {
+      markers.current?.forEach((marker) => marker.setMap(null));
+      // return;
+    }
     const gymLocation = moveLocation(gym.latitude, gym.longitude);
     overlayGym(gymLocation, gym);
     setCenter(gym.latitude, gym.longitude);
   }, [gym]);
 
   useEffect(() => {
-    if (isEmpty(gyms)) {
-      // markers.current.
-      // for (var i = 0; i < markers.length; i++) {
-      //     markers[i].setMap(map);
-      // }
-      return;
+    if (isEmpty(markers.current)) {
+      markers.current?.forEach((marker) => marker.setMap(null));
+      // return;
     }
+    const markerList: any[] = [];
     // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
     const gymsBounds = new (window as any).kakao.maps.LatLngBounds();
     gyms?.forEach(({ id, name, latitude, longitude }: Gym) => {
@@ -170,6 +176,7 @@ const SearchMap = () => {
         position: location, // 마커를 표시할 위치
         title: name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
       });
+      markerList.push(marker);
       gymsBounds.extend(location);
       (window as any).kakao.maps.event.addListener(
         marker,
@@ -177,7 +184,7 @@ const SearchMap = () => {
         onClickGym(id)
       );
     });
-    markers.current = gyms.length;
+    markers.current = markerList;
     map.current.setBounds(gymsBounds);
   }, [gyms]);
 

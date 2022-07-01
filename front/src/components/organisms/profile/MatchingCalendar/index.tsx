@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'react-query';
 
 import { profileSelector } from '@/../reducers/profile';
-import { meSelector } from '@/../reducers/user';
+import { changeIsShowModal } from '@/../reducers/user';
 import useSelectRage from '@/hooks/useSelectRage';
 import { loadCalendarScheduleAPI } from '@/api/schedule';
 import { formatDateTime } from '@/../@utils/date';
@@ -12,13 +12,13 @@ import { AxiosError } from 'axios';
 import { BigCalendar, SimpleMatchingCard } from '../../../molecules';
 import { CalendarWrap, CardWrap } from './style';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import GlobalCustomModal from '../../GlobalCustomModal';
 
+const CALENDAR = 'CALENDAR' as const;
 const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
+  const dispatch = useDispatch();
   const { profile } = useSelector(profileSelector);
-  const me = useSelector(meSelector);
   const [range, onChangeRange] = useSelectRage();
-
-  const [showCard, setShowCard] = useState<boolean>(false);
   const [nickname, setNickname] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [date, setDate] = useState<string>('');
@@ -45,19 +45,19 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
     setNickname(event.nickname);
     setAddress(event.address);
     setDate(formatDateTime(event.start));
-    setShowCard(true);
+    dispatch(changeIsShowModal(CALENDAR));
   }, []);
 
   const onChangeShowCard = useCallback(() => {
-    setShowCard(false);
-  }, [showCard]);
+    dispatch(changeIsShowModal(null));
+  }, []);
 
   useEffect(() => {
     if (apiEvents) {
       setEvents(
         apiEvents?.map((schedule) => {
           const eventNickname =
-            schedule.Receiver?.id === me?.id
+            schedule.Receiver?.id === profile?.id
               ? schedule.Requester.nickname
               : schedule.Receiver.nickname;
           return {
@@ -80,7 +80,7 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
         onSelectEvent={onSelectEvent}
         onRangeChange={onChangeRange}
       />
-      {showCard && (
+      <GlobalCustomModal id={CALENDAR}>
         <CardWrap>
           <SimpleMatchingCard
             nickname={nickname}
@@ -89,7 +89,7 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
             onChangeShow={onChangeShowCard}
           />
         </CardWrap>
-      )}
+      </GlobalCustomModal>
     </CalendarWrap>
   );
 };

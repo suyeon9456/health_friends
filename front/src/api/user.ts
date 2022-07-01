@@ -211,3 +211,14 @@ export const updateDescriptionAPI = (data: { description: string }) => {
     throw new Error('axios error');
   }
 };
+
+export const updateUserGymAPI = (data: number) => {
+  try {
+    return axios
+      .put('/user/gym', { gymId: data })
+      .then((response) => response.data);
+  } catch (error) {
+    console.log(error);
+    throw new Error('axios error');
+  }
+};

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Button, Icon } from '@/components/atoms';
 import { BiUser } from 'react-icons/bi';
-import { ButtonType } from '@/../@types/constant';
+import { ButtonType, ModalType } from '@/../@types/constant';
 import {
   Card,
   CardBody,
@@ -63,7 +63,7 @@ const MatchingCard = ({
       </CardCover>
       <CardBody
         matchingId={matchingId}
-        onClick={() => onClickView({ key: 'VIEW', id: matchingId })}
+        onClick={() => onClickView({ key: ModalType.VIEW, id: matchingId })}
       >
         <CardMeta>
           <MetaDate>{date}</MetaDate>

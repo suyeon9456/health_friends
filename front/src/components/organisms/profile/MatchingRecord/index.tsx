@@ -1,73 +1,20 @@
 import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useInfiniteQuery } from 'react-query';
-import { AxiosError } from 'axios';
-import { BiPlus } from 'react-icons/bi';
 
-import { profileSelector } from '@/../reducers/profile';
 import useCheckbox from '@/hooks/useCheckbox';
-import { loadSchedulesAPI } from '@/api/schedule';
-import {
-  ButtonType,
-  PeriodFilter,
-  StateFilter,
-  TypeFilter,
-} from '@/../@types/constant';
-import { schedulesByIdKey } from '@/../@utils/queryKey';
-import { RecordPage } from '@/../@types/schedule';
+import { PeriodFilter, StateFilter, TypeFilter } from '@/../@types/constant';
+import { QueryErrorResetBoundary } from 'react-query';
 import { Filter } from '../../../molecules';
-import { Button, CheckBox, Icon } from '../../../atoms';
+import { CheckBox } from '../../../atoms';
 import MatchingCardList from '../../MatchingCardList';
-import {
-  CancelYnCheckBoxWrap,
-  FilterList,
-  RecordBody,
-  RecordFooter,
-  RecordWrap,
-} from './style';
+import { CancelYnCheckBoxWrap, FilterList, RecordWrap } from './style';
+import ErrorBoundary from '../../ErrorBoundary';
+import ErrorFallback from '../../ErrorFallback';
 
-const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
-  const { profile } = useSelector(profileSelector);
+const MatchingRecord = () => {
   const [isCanceled, setIsCanceled] = useState<boolean>(false);
   const [status, onChangeStatus] = useCheckbox<string>([]);
   const [term, onChangeTerm] = useCheckbox<string>([]);
   const [type, onChangeType] = useCheckbox<string>([]);
-
-  const { isFetching, hasNextPage, fetchNextPage, data } = useInfiniteQuery<
-    RecordPage | undefined,
-    AxiosError
-  >(
-    schedulesByIdKey({
-      profileId: profile?.id,
-      status,
-      term,
-      type,
-      isCanceled,
-    }),
-    ({ pageParam = 0 }: any) => {
-      return loadSchedulesAPI({
-        isProfile,
-        profileId: profile?.id,
-        limit: pageParam,
-        status,
-        term,
-        type,
-        isCanceled,
-      });
-    },
-    {
-      refetchOnWindowFocus: false,
-      enabled: !!profile,
-      staleTime: 2 * 60 * 1000,
-      getNextPageParam: (lastPage: RecordPage | undefined) => {
-        if (!lastPage) return;
-        return lastPage[lastPage.length - 1].nextCursor > 0
-          ? lastPage[lastPage.length - 1].nextCursor
-          : undefined;
-      },
-      useErrorBoundary: true,
-    }
-  );
 
   const onChangeRejectedMatching = useCallback(
     (e) => setIsCanceled(e.currentTarget.checked),
@@ -107,23 +54,22 @@ const MatchingRecord = ({ isProfile }: { isProfile?: boolean }) => {
           onChange={onChangeRejectedMatching}
         />
       </CancelYnCheckBoxWrap>
-      <RecordBody schedules={data?.pages.length ?? 0}>
-        <MatchingCardList
-          isLoading={isFetching}
-          pages={data?.pages}
-          pageParams={data?.pageParams}
-        />
-      </RecordBody>
-      <RecordFooter>
-        <Button
-          type={ButtonType.PRIMARY}
-          disabled={!hasNextPage}
-          icon={<Icon icon={<BiPlus />} />}
-          onClick={() => fetchNextPage()}
-        >
-          더보기
-        </Button>
-      </RecordFooter>
+      <QueryErrorResetBoundary>
+        {({ reset }) => (
+          <ErrorBoundary
+            onReset={reset}
+            fallback={ErrorFallback}
+            message="매칭기록을 불러오는데 실패하였습니다."
+          >
+            <MatchingCardList
+              status={status}
+              term={term}
+              type={type}
+              isCanceled={isCanceled}
+            />
+          </ErrorBoundary>
+        )}
+      </QueryErrorResetBoundary>
     </RecordWrap>
   );
 };

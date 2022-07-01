@@ -14,13 +14,7 @@ import { ModalBodyBox } from './style';
 import ErrorBoundary from '../../ErrorBoundary';
 import ErrorFallback from '../../ErrorFallback';
 
-const ModalGym = ({
-  title,
-  onCancel,
-  setShowModal,
-  setGym,
-  ...props
-}: ModalGymProps) => {
+const ModalGym = ({ title, onCancel, setGym, ...props }: ModalGymProps) => {
   const dispatch = useDispatch();
   const { reset } = useQueryErrorResetBoundary();
 
@@ -54,7 +48,7 @@ const ModalGym = ({
     (data) => {
       gymMutation.mutate(data);
       setGym('gym', data.name);
-      setShowModal(false);
+      onCancel();
     },
     [selectedTab]
   );
@@ -80,7 +74,7 @@ const ModalGym = ({
             fallback={ErrorFallback}
             message="헬스장을 로드하는데 실패 하였습니다."
           >
-            <ModalSearchGym setShowModal={setShowModal} setGym={setGym} />
+            <ModalSearchGym setGym={setGym} />
           </ErrorBoundary>
         ) : (
           <ModalCreateGym setValue={setValue} control={control} />

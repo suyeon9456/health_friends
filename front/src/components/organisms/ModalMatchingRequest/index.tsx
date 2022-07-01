@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useMutation } from 'react-query';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -11,6 +11,7 @@ import { addScheduleAPI } from '@/api/schedule';
 import { ModalMatchingProps, Schedule } from '@/../@types/schedule';
 import { createEndDate } from '@/../@utils/date';
 import { useLoadLoginedUser } from '@/hooks';
+import { changeIsShowModal } from '@/../reducers/user';
 import { Modal } from '../../molecules';
 import { Avatar } from '../../atoms';
 import MatchingRequestForm from '../MatchingRequestForm';
@@ -24,10 +25,10 @@ const schema = yup
   .required();
 
 const ModalMatchingRequest = ({
-  setShowModal,
-  friend,
+  selectedUser,
   gymName,
 }: ModalMatchingProps): React.ReactElement => {
+  const dispatch = useDispatch();
   const { gym } = useSelector(gymSelector);
   const { data: me } = useLoadLoginedUser();
 
@@ -41,24 +42,28 @@ const ModalMatchingRequest = ({
     resolver: yupResolver(schema),
   });
 
-  const scheduleMutation = useMutation((data: Schedule) =>
-    addScheduleAPI(data)
+  const scheduleMutation = useMutation(
+    (data: Schedule) => addScheduleAPI(data),
+    {
+      onSuccess() {
+        dispatch(changeIsShowModal());
+      },
+    }
   );
 
-  const onChangeShowModal = useCallback(() => {
-    setShowModal(false);
-  }, []);
-
-  const onMatchingRequest = useCallback((data) => {
-    scheduleMutation.mutate({
-      ...data,
-      endDate: createEndDate(data.startDate, data.endDate),
-      userId: me?.id,
-      friendId: friend,
-      gymId: friend?.UserGym?.GymId ?? gym?.id,
-    });
-    onChangeShowModal();
-  }, []);
+  const onMatchingRequest = useCallback(
+    (data) => {
+      if (!selectedUser) return;
+      scheduleMutation.mutate({
+        ...data,
+        endDate: createEndDate(data.startDate, data.endDate),
+        userId: me?.id,
+        friendId: selectedUser.id,
+        gymId: gym?.UserGym?.GymId ?? gym?.id,
+      });
+    },
+    [gym]
+  );
 
   useEffect(() => {
     if (gym) {
@@ -74,11 +79,11 @@ const ModalMatchingRequest = ({
             size={SizeType.SMALL}
             {...{ style: { marginRight: '10px' } }}
           />
-          {friend?.nickname}님에게 매칭신청
+          {selectedUser?.nickname}님에게 매칭신청
         </div>
       }
       className="matching-modal"
-      onCancel={onChangeShowModal}
+      onCancel={() => dispatch(changeIsShowModal())}
       onSubmit={handleSubmit(onMatchingRequest)}
       form
       footer

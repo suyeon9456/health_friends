@@ -5,6 +5,7 @@ import {
   BaseSizeType,
   CareerOptions,
   GenderOptions,
+  InfoContent,
   RoleOptions,
   SizeType,
 } from '@/../@types/constant';
@@ -12,7 +13,7 @@ import { EditProfileProps } from '@/../@types/user';
 import { FormRangeTimePicker, FormSelect } from '../../../molecules';
 import { FormWrap } from './style';
 
-const EditInfoForm = ({ targetId, control }: EditProfileProps) => (
+const EditInfoForm = ({ type, control }: EditProfileProps) => (
   <FormWrap>
     <FormSelect
       label="연령"
@@ -21,7 +22,7 @@ const EditInfoForm = ({ targetId, control }: EditProfileProps) => (
       size={SizeType.SMALL}
       control={control}
     />
-    {targetId === 'more-info' && (
+    {type === InfoContent.MORE && (
       <FormRangeTimePicker
         startName="startTime"
         endName="endTime"

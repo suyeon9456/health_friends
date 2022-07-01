@@ -1,8 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { BiX } from 'react-icons/bi';
 
 import { ButtonType } from '@/../@types/constant';
-import { UserGym } from '@/../@types/user';
 import { Icon, Button } from '@/components/atoms';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -11,8 +10,6 @@ import {
   gymSelector,
 } from '@/../reducers/gym';
 import { QueryErrorResetBoundary } from 'react-query';
-import ModalPortal from '../ModalPortal';
-import ModalMatchingRequest from '../ModalMatchingRequest';
 import {
   FriendsListWrapper,
   SearchFriendsWrapper,
@@ -27,9 +24,6 @@ const SearchFriends = () => {
   const dispatch = useDispatch();
   const { isFoldedFriends, isFoldedGym } = useSelector(foldedItemSelector);
   const { selectedGym } = useSelector(gymSelector);
-
-  const [friend, setFriend] = useState<UserGym>();
-  const [showModal, setShowModal] = useState<boolean>(false);
 
   const onChangeFoldedFriends = useCallback(() => {
     dispatch(changeIsFoldedFriends(!isFoldedFriends));
@@ -57,16 +51,8 @@ const SearchFriends = () => {
               />
             </SearchHeader>
             <FriendsListWrapper>
-              <FriendsList setFriend={setFriend} setShowModal={setShowModal} />
+              <FriendsList />
             </FriendsListWrapper>
-            <ModalPortal>
-              {showModal && (
-                <ModalMatchingRequest
-                  setShowModal={setShowModal}
-                  friend={friend}
-                />
-              )}
-            </ModalPortal>
           </ErrorBoundary>
         )}
       </QueryErrorResetBoundary>

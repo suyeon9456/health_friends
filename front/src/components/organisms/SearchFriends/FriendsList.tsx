@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { useModalDispatch } from '@/../store/modalStore';
@@ -11,18 +11,20 @@ import { useLoadLoginedUser } from '@/hooks';
 import { gymSelector, loadFriends } from '@/../reducers/gym';
 import { useDispatch, useSelector } from 'react-redux';
 import { rematchRate } from '@/../@utils/calculation';
+import { changeIsShowModal, modalSelector } from '@/../reducers/user';
+import ModalPortal from '../ModalPortal';
+import ModalMatchingRequest from '../ModalMatchingRequest';
+import GlobalCustomModal from '../GlobalCustomModal';
 
-const FriendsList = ({
-  setFriend,
-  setShowModal,
-}: {
-  setFriend: Dispatch<SetStateAction<UserGym | undefined>>;
-  setShowModal: Dispatch<SetStateAction<boolean>>;
-}) => {
+const FRIENDS = 'FRIENDS' as const;
+
+const FriendsList = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const contextDispatch = useModalDispatch();
   const { selectedGym } = useSelector(gymSelector);
+
+  const [selectedUser, setSelectedUser] = useState<UserGym | null>(null);
 
   const { data: me } = useLoadLoginedUser();
   const { isLoading, data: friends } = useQuery(
@@ -56,8 +58,8 @@ const FriendsList = ({
         });
         return;
       }
-      setFriend(user);
-      setShowModal(true);
+      dispatch(changeIsShowModal(FRIENDS));
+      setSelectedUser(user);
     },
     [me?.id]
   );
@@ -82,6 +84,9 @@ const FriendsList = ({
           />
         );
       })}
+      <GlobalCustomModal id={FRIENDS}>
+        <ModalMatchingRequest selectedUser={selectedUser} />
+      </GlobalCustomModal>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { ButtonType } from '@/../@types/constant';
 import { ModalCreateGymProps } from '@/../@types/gym';

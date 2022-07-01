@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { QueryErrorResetBoundary } from 'react-query';
@@ -13,7 +7,7 @@ import {
   changeIsFoldedGym,
   changeMapBounds,
   foldedItemSelector,
-  gymSelector,
+  gymsSelector,
 } from '@/../reducers/gym';
 import useInput from '@/hooks/useInput';
 
@@ -36,7 +30,7 @@ const SearchGyms = () => {
   const dispatch = useDispatch();
 
   const { searchText } = router.query;
-  const { gyms } = useSelector(gymSelector);
+  const { gyms } = useSelector(gymsSelector);
   const { isFoldedGym, isFoldedFriends } = useSelector(foldedItemSelector);
   const [browserHeight, setBrowserHeight] = useState<number>(0);
   const searchQuery = useRef<string>(

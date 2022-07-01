@@ -13,3 +13,16 @@ export const MatchingCardListWrap = styled.div`
     width: auto !important;
   }
 `;
+
+export const RecordBody = styled.div<{ schedules: number }>`
+  text-align: center;
+  padding: 0 10px;
+`;
+
+export const RecordFooter = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  width: 100%;
+`;

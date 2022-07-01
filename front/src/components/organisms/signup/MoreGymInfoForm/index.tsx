@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 import {
+  changeIsShowModal,
   signupSelector,
   signupStepGymInfoSave,
   signupStepNext,
@@ -20,7 +21,9 @@ import { Button, Form } from '../../../atoms';
 import ModalGym from './ModalGym';
 import ModalPortal from '../../ModalPortal';
 import { ButtonWrap, FormSearchGymWrap, FormWrapper } from './style';
+import GlobalCustomModal from '../../GlobalCustomModal';
 
+const GYM = 'GYM' as const;
 const MoreGymInfoForm = () => {
   const dispatch = useDispatch();
 
@@ -117,12 +120,19 @@ const MoreGymInfoForm = () => {
           <ModalGym
             title="헬스장 찾기/등록"
             onCancel={onchangeIsShow}
-            setShowModal={setIsShow}
             setGym={setValue}
             {...{ className: 'gym-modal' }}
           />
         )}
       </ModalPortal>
+      <GlobalCustomModal id={GYM}>
+        <ModalGym
+          title="헬스장 찾기/등록"
+          onCancel={() => dispatch(changeIsShowModal(null))}
+          setGym={setValue}
+          {...{ className: 'gym-modal' }}
+        />
+      </GlobalCustomModal>
     </FormWrapper>
   );
 };

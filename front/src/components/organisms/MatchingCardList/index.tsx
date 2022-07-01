@@ -1,65 +1,118 @@
-import React, { useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { compareAsc } from 'date-fns';
-import { BiEdit, BiPin, BiRepeat } from 'react-icons/bi';
+import { BiEdit, BiPin, BiPlus, BiRepeat } from 'react-icons/bi';
 
 import { profileSelector } from '@/../reducers/profile';
-import { meSelector } from '@/../reducers/user';
 
 import { rangeDate } from '@/../@utils/date';
 import {
+  ButtonType,
   loginedUserProfile,
   ModalType,
   ShowModalType,
 } from '@/../@types/constant';
 import { RecordPage } from '@/../@types/schedule';
+import { useInfiniteQuery } from 'react-query';
+import { AxiosError } from 'axios';
+import { schedulesByIdKey } from '@/../@utils/queryKey';
+import { loadSchedulesAPI } from '@/api/schedule';
+import { useLoadLoginedUser } from '@/hooks';
+import { changeIsShowModal } from '@/../reducers/user';
 import { LoadingMatchingCard, MatchingCard } from '../../molecules';
-import { Icon } from '../../atoms';
+import { Button, Icon } from '../../atoms';
 import ModalMatchingDetail from '../profile/ModalMatchingDetail';
 import ModalMatchingEdit from '../profile/ModalMatchingEdit';
-import ModalPortal from '../ModalPortal';
-import { MatchingCardListWrap } from './style';
+import { MatchingCardListWrap, RecordBody, RecordFooter } from './style';
+import GlobalCustomModal from '../GlobalCustomModal';
 
 const MatchingCardList = ({
-  isLoading,
-  pages,
-  pageParams,
+  status,
+  term,
+  type,
+  isCanceled,
 }: {
-  isLoading: boolean;
-  pages?: Array<RecordPage | undefined> | undefined;
-  pageParams?: unknown[];
+  status: string[];
+  term: string[];
+  type: string[];
+  isCanceled: boolean;
 }) => {
   const router = useRouter();
   const { id: queryId } = router.query;
+  const dispatch = useDispatch();
   const { profile } = useSelector(profileSelector);
-  const me = useSelector(meSelector);
 
   const [matchingId, setMatchingId] = useState<number | null>(null);
-  const [isShowModal, setIsShowModal] = useState<boolean>(false);
   const [modalType, setModalType] = useState<ShowModalType>(ModalType.VIEW);
 
-  const onChangeShowDetailModal = useCallback(() => {
-    setIsShowModal((prev) => !prev);
-    setMatchingId(null);
-  }, [isShowModal, matchingId, queryId, profile]);
+  const { data: me } = useLoadLoginedUser();
+  const { isFetching, hasNextPage, fetchNextPage, data } = useInfiniteQuery<
+    RecordPage | undefined,
+    AxiosError
+  >(
+    schedulesByIdKey({
+      profileId: profile?.id,
+      status,
+      term,
+      type,
+      isCanceled,
+    }),
+    ({ pageParam = 0 }: any) => {
+      return loadSchedulesAPI({
+        isProfile: me?.id !== profile?.id,
+        profileId: profile?.id,
+        limit: pageParam,
+        status,
+        term,
+        type,
+        isCanceled,
+      });
+    },
+    {
+      refetchOnWindowFocus: false,
+      enabled: !!profile,
+      staleTime: 2 * 60 * 1000,
+      getNextPageParam: (lastPage: RecordPage | undefined) => {
+        if (!lastPage) return;
+        return lastPage[lastPage.length - 1].nextCursor > 0
+          ? lastPage[lastPage.length - 1].nextCursor
+          : undefined;
+      },
+      onSuccess: (test) => {
+        console.log(test);
+        console.log(test?.pageParams?.length);
+        console.log(
+          Array.from({ length: test?.pageParams?.length ?? 0 }, (_, i) => i)
+        );
+      },
+      useErrorBoundary: true,
+    }
+  );
+
+  const onCancle = useCallback(() => {
+    dispatch(changeIsShowModal(null));
+  }, [matchingId]);
 
   const onClickAction = useCallback(
     ({ key, id }) => {
       setMatchingId(id);
       setModalType(key);
-      setIsShowModal((prev) => !prev);
+      dispatch(changeIsShowModal(key));
     },
-    [isShowModal, modalType, matchingId]
+    [modalType, matchingId]
   );
-
   return (
     <>
-      <MatchingCardListWrap>
-        {Array.from({ length: pageParams?.length ?? 0 }, (_, i) => i).map(
-          (_, i) => {
-            if (!pages) return null;
-            return pages?.[i]?.map((target) => {
+      <RecordBody schedules={data?.pages.length ?? 0}>
+        <MatchingCardListWrap>
+          {Array.from(
+            { length: data?.pageParams?.length ?? 0 },
+            (_, i) => i
+          ).map((_, i) => {
+            if (!data?.pages) return null;
+            console.log(data?.pages);
+            return data?.pages?.[i]?.map((target) => {
               const { start, end, Receiver, Requester, Cancel } = target;
               const friend = profile.id === Receiver.id ? Requester : Receiver;
               return (
@@ -88,27 +141,35 @@ const MatchingCardList = ({
                 />
               );
             });
-          }
-        )}
-        {isLoading && <LoadingMatchingCard />}
-      </MatchingCardListWrap>
-      <ModalPortal>
-        {isShowModal &&
-          (modalType === ModalType.VIEW ? (
-            <ModalMatchingDetail
-              matchingId={matchingId}
-              queryId={queryId}
-              onCancel={onChangeShowDetailModal}
-            />
-          ) : (
-            <ModalMatchingEdit
-              matchingId={matchingId}
-              queryId={queryId}
-              onCancel={onChangeShowDetailModal}
-              mode={modalType}
-            />
-          ))}
-      </ModalPortal>
+          })}
+          {isFetching && <LoadingMatchingCard />}
+        </MatchingCardListWrap>
+      </RecordBody>
+      <RecordFooter>
+        <Button
+          type={ButtonType.PRIMARY}
+          disabled={!hasNextPage}
+          icon={<Icon icon={<BiPlus />} />}
+          onClick={() => fetchNextPage()}
+        >
+          더보기
+        </Button>
+      </RecordFooter>
+      <GlobalCustomModal id={ModalType.VIEW}>
+        <ModalMatchingDetail
+          matchingId={matchingId}
+          queryId={queryId}
+          onCancel={onCancle}
+        />
+      </GlobalCustomModal>
+      <GlobalCustomModal id={ModalType.EDIT}>
+        <ModalMatchingEdit
+          matchingId={matchingId}
+          queryId={queryId}
+          onCancel={onCancle}
+          mode={modalType}
+        />
+      </GlobalCustomModal>
     </>
   );
 };

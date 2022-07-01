@@ -21,20 +21,9 @@ import { useModalDispatch } from '@/../store/modalStore';
 import { loadMe } from '@/../reducers/user';
 import { useLoadLoginedUser } from '@/hooks';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import ErrorBoundary from '@/components/organisms/ErrorBoundary';
-import ErrorFallback from '@/components/organisms/ErrorFallback';
 import Head from 'next/head';
-import {
-  AppLayout,
-  SideBar,
-  Info,
-  MoreInfo,
-  Row,
-  Col,
-} from '../../src/components/organisms';
-import MatchingCalendar from '../../src/components/organisms/profile/MatchingCalendar';
-import MatchingRecord from '../../src/components/organisms/profile/MatchingRecord';
-import LikedList from '../../src/components/organisms/profile/LikedList';
+import ProfileContents from '@/components/organisms/profile/ProfileContents';
+import { AppLayout, SideBar, Row, Col } from '../../src/components/organisms';
 
 const Profile = () => {
   const router = useRouter();
@@ -74,13 +63,13 @@ const Profile = () => {
     }
   );
 
-  const page = useMemo(() => {
-    return router.query.tab !== undefined ? router.query.tab : Menu.INFO;
-  }, [router.query]);
+  // const page = useMemo(() => {
+  //   return router.query.tab !== undefined ? router.query.tab : Menu.INFO;
+  // }, [router.query]);
 
-  useEffect(() => {
-    setProfileMenu(page as ProfileMenuType);
-  }, [page]);
+  // useEffect(() => {
+  //   setProfileMenu(page as ProfileMenuType);
+  // }, [page]);
 
   return (
     <>
@@ -91,49 +80,10 @@ const Profile = () => {
       <AppLayout>
         <Row>
           <Col xs={24} md={8}>
-            <SideBar
-              profileMenu={profileMenu}
-              setProfileMenu={setProfileMenu}
-            />
+            <SideBar />
           </Col>
           <Col xs={24} md={16}>
-            {
-              {
-                [Menu.LIKED]: (
-                  <ErrorBoundary
-                    onReset={reset}
-                    fallback={ErrorFallback}
-                    message="관심친구를 로드하는데 실패 하였습니다."
-                  >
-                    <LikedList isProfile />
-                  </ErrorBoundary>
-                ),
-                [Menu.CALENDAR]: (
-                  <ErrorBoundary
-                    onReset={reset}
-                    fallback={ErrorFallback}
-                    message="매칭일정을 로드하는데 실패 하였습니다."
-                  >
-                    <MatchingCalendar isProfile />
-                  </ErrorBoundary>
-                ),
-                [Menu.RECORD]: (
-                  <ErrorBoundary
-                    onReset={reset}
-                    fallback={ErrorFallback}
-                    message="매칭기록을 로드하는데 실패 하였습니다."
-                  >
-                    <MatchingRecord isProfile />
-                  </ErrorBoundary>
-                ),
-                [Menu.INFO]: (
-                  <div>
-                    <Info />
-                    <MoreInfo />
-                  </div>
-                ),
-              }[profileMenu]
-            }
+            <ProfileContents />
           </Col>
         </Row>
       </AppLayout>

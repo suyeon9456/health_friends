@@ -61,6 +61,9 @@ export const InfoContent = styled.div`
       font-size: 14px;
     }
   }
+  & button {
+    padding-left: 10px;
+  }
 `;
 
 export const InfoIconWrapper = styled.div`
@@ -69,5 +72,13 @@ export const InfoIconWrapper = styled.div`
     font-size: 18px;
     line-height: 1.7;
     margin-right: 10px;
+  }
+`;
+
+export const ModalBodyBox = styled.div`
+  width: 100%;
+  height: 364px;
+  & > .tabs {
+    margin-top: -1px;
   }
 `;

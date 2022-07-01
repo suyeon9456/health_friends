@@ -30,8 +30,8 @@ export interface CreateGymForm {
 }
 
 export interface ModalSearchGymProps {
-  setShowModal: (state: boolean) => void;
-  setGym: UseFormSetValue<{
+  onSelectedGym?: (id: number) => void;
+  setGym?: UseFormSetValue<{
     startTime: Date;
     endTime: Date;
     gym: string;
@@ -42,7 +42,6 @@ export interface ModalSearchGymProps {
 export interface ModalGymProps {
   title: string;
   onCancel: () => void;
-  setShowModal: Dispatch<SetStateAction<boolean>>;
   setGym: UseFormSetValue<{
     startTime: Date;
     endTime: Date;

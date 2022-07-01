@@ -7,27 +7,36 @@ import { profileSelector } from '@/../reducers/profile';
 import { updateFriendsInfoAPI, updateMyinfoAPI } from '@/api/user';
 import { createTimeToDateTime, formatTime } from '@/../@utils/date';
 import { SignupGymInfo, SignupMoreInfo } from '@/../@types/user';
+import { InfoContent, InfoContentType } from '@/../@types/constant';
 import { Modal } from '../../../molecules';
 import EditInfoForm from '../EditInfoForm';
 
 const ModalEditInfo = ({
   title,
-  targetId,
+  type,
   onCancel,
-  setCloseModal,
 }: {
   title: string;
-  targetId: string;
-  onCancel: (e?: React.MouseEvent<HTMLElement>) => void;
-  setCloseModal: (close: boolean) => void;
+  type: InfoContentType;
+  onCancel: () => void;
 }) => {
   const { profile } = useSelector(profileSelector);
   const queryClient = useQueryClient();
-  const myinfoMutation = useMutation((data: SignupMoreInfo & SignupGymInfo) =>
-    updateMyinfoAPI(data)
+  const myinfoMutation = useMutation(
+    (data: SignupMoreInfo & SignupGymInfo) => updateMyinfoAPI(data),
+    {
+      onSuccess() {
+        onCancel();
+      },
+    }
   );
-  const friendsInfoMutation = useMutation((data: SignupMoreInfo) =>
-    updateFriendsInfoAPI(data)
+  const friendsInfoMutation = useMutation(
+    (data: SignupMoreInfo) => updateFriendsInfoAPI(data),
+    {
+      onSuccess() {
+        onCancel();
+      },
+    }
   );
 
   const { handleSubmit, control, setValue } = useForm({
@@ -43,14 +52,14 @@ const ModalEditInfo = ({
 
   const onSubmit = useCallback(
     (data) => {
-      if (targetId === 'more-info') {
+      if (type === InfoContent.MORE) {
         myinfoMutation.mutate({
           ...data,
           startTime: formatTime(data.startTime),
           endTime: formatTime(data.endTime),
         });
       }
-      if (targetId === 'friends-info') {
+      if (type === InfoContent.FRIENDS) {
         friendsInfoMutation.mutate({
           gender: data.gender,
           age: data.age,
@@ -58,19 +67,18 @@ const ModalEditInfo = ({
           role: data.role,
         });
       }
-      setCloseModal(false);
     },
-    [targetId]
+    [type]
   );
 
   useEffect(() => {
-    if (targetId === 'friends-info') {
+    if (type === InfoContent.FRIENDS) {
       setValue('gender', profile?.Userdetail?.friendsGender);
       setValue('age', profile?.Userdetail?.friendsAge);
       setValue('career', profile?.Userdetail?.friendsCareer);
       setValue('role', profile?.Userdetail?.friendsRole);
     }
-    if (targetId === 'more-info') {
+    if (type === InfoContent.MORE) {
       setValue(
         'startTime',
         createTimeToDateTime(profile?.Userdetail?.startTime)
@@ -81,7 +89,7 @@ const ModalEditInfo = ({
       setValue('career', profile?.career);
       setValue('role', profile?.role);
     }
-  }, [targetId]);
+  }, [type]);
 
   useEffect(() => {
     if (myinfoMutation.isSuccess) {
@@ -97,7 +105,7 @@ const ModalEditInfo = ({
       form
       footer
     >
-      <EditInfoForm targetId={targetId} control={control} />
+      <EditInfoForm type={type} control={control} />
     </Modal>
   );
 };

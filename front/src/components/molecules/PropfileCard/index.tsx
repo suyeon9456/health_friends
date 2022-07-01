@@ -82,4 +82,4 @@ const ProfileCard = ({
   </Card>
 );
 
-export default ProfileCard;
+export default React.memo(ProfileCard);
