@@ -1,21 +1,24 @@
-import React, { useCallback, useState, SetStateAction } from 'react';
-import { useSelector } from 'react-redux';
-import { useMutation, useQueryClient } from 'react-query';
-import { BiTrophy, BiCommentCheck, BiBuildingHouse } from 'react-icons/bi';
+import React, { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  BiTrophy,
+  BiCommentCheck,
+  BiBuildingHouse,
+  BiPencil,
+  BiEdit,
+} from 'react-icons/bi';
 
-import { profileSelector, tabSelector } from '@/../reducers/profile';
-import { meSelector } from '@/../reducers/user';
-import useIsState from '@/hooks/useIsState';
-import { addImageAPI, uploadImageAPI } from '@/api/profile';
+import { profileSelector } from '@/../reducers/profile';
 import { rematchRate, responseRate } from '@/../@utils/calculation';
-import { profileKey } from '@/../@utils/queryKey';
-import { ProfileMenuType } from '@/../@types/constant';
 import SideBarTabMenu from '@/components/molecules/SideBarTabMenu';
-import FormImage from '@/components/molecules/FormImage';
-import { Icon } from '../../../atoms';
-import ModalMatchingRequest from '../../ModalMatchingRequest';
+import { ButtonType } from '@/../@types/constant';
+import { Modal, Tabs } from '@/components/molecules';
+import { changeIsShowModal } from '@/../reducers/user';
+import { useMutation, useQueryClient } from 'react-query';
+import { updateUserGymAPI } from '@/api/user';
+import { profileKey } from '@/../@utils/queryKey';
+import { Button, Icon } from '../../../atoms';
 import Progress from '../../../molecules/Progress';
-import ModalPortal from '../../ModalPortal';
 import {
   AvatarWrapper,
   InfoContent,
@@ -24,95 +27,88 @@ import {
   SideBarWrapper,
 } from './style';
 import ProfileAvatar from './ProfileAvatar';
+import GlobalCustomModal from '../../GlobalCustomModal';
+import ModalSearchGym from '../../ModalSearchGym';
 
+const UPDATEGYM = 'UPDATEGYM' as const;
 const SideBar = () => {
   const queryClient = useQueryClient();
-  const me = useSelector(meSelector);
+  const dispatch = useDispatch();
   const { profile } = useSelector(profileSelector);
-  const [imgPath, setImgPath] = useState<string>('');
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [isUpload, onChangeIsUpload] = useIsState(false);
 
-  const uploadImage = useMutation((data: FormData) => uploadImageAPI(data), {
-    onSuccess: (originalPath) => {
-      if (typeof originalPath === 'string') {
-        setImgPath(originalPath);
-      }
+  const mutation = useMutation((data: number) => updateUserGymAPI(data), {
+    onSuccess: () => {
+      void queryClient.invalidateQueries(profileKey);
     },
   });
 
-  const addImage = useMutation((data: string) => addImageAPI(data), {
-    onSuccess: () => queryClient.invalidateQueries(profileKey),
-  });
-
-  const onRemoveUploadImage = useCallback(() => {
-    setImgPath('');
-  }, [imgPath]);
+  const onSelectedGym = useCallback((id) => {
+    if (!id) return;
+    mutation.mutate(id);
+  }, []);
 
   return (
-    <SideBarWrapper>
-      <AvatarWrapper>
-        {me?.id && isUpload ? (
-          <FormImage
-            imgPath={imgPath}
-            uploadImage={uploadImage}
-            addImage={addImage}
-            onChangeIsUpload={onChangeIsUpload}
-            onRemoveUploadImage={onRemoveUploadImage}
-          />
-        ) : (
-          <ProfileAvatar onChangeIsUpload={onChangeIsUpload} />
-        )}
-      </AvatarWrapper>
-      <InfoWrapper>
-        <InfoContent key="matching">
-          <InfoIconWrapper>
-            <Icon icon={<BiTrophy />} />
-          </InfoIconWrapper>
-          <Progress
-            label="재매칭률"
-            percent={rematchRate(
-              profile?.matchingTotalCount,
-              profile?.matchingRecount
-            )}
-          />
-        </InfoContent>
-        <InfoContent key="response">
-          <InfoIconWrapper>
-            <Icon icon={<BiCommentCheck />} />
-          </InfoIconWrapper>
-          <Progress
-            label="응답률"
-            percent={responseRate(profile?.resSchedule)}
-          />
-        </InfoContent>
-        <InfoContent key="address">
-          <InfoIconWrapper>
-            <Icon icon={<BiBuildingHouse />} />
-          </InfoIconWrapper>
-          <div>
-            <span>이용중인 헬스장: </span>
-            {profile?.Gyms.map(
-              (gym: { id: number; address: string; name: string }) => (
-                <div className="user-gym" key={gym.id}>
-                  {gym.address} <a>{gym.name}</a>
-                </div>
-              )
-            )}
-          </div>
-        </InfoContent>
-      </InfoWrapper>
-      <SideBarTabMenu />
-      <ModalPortal>
-        {showModal && (
-          <ModalMatchingRequest
-            setShowModal={setShowModal}
-            friend={profile}
-            gymName={profile?.Gyms[0]?.name}
-          />
-        )}
-      </ModalPortal>
-    </SideBarWrapper>
+    <>
+      <SideBarWrapper>
+        <AvatarWrapper>
+          <ProfileAvatar />
+        </AvatarWrapper>
+        <InfoWrapper>
+          <InfoContent key="matching">
+            <InfoIconWrapper>
+              <Icon icon={<BiTrophy />} />
+            </InfoIconWrapper>
+            <Progress
+              label="재매칭률"
+              percent={rematchRate(
+                profile?.matchingTotalCount,
+                profile?.matchingRecount
+              )}
+            />
+          </InfoContent>
+          <InfoContent key="response">
+            <InfoIconWrapper>
+              <Icon icon={<BiCommentCheck />} />
+            </InfoIconWrapper>
+            <Progress
+              label="응답률"
+              percent={responseRate(profile?.resSchedule)}
+            />
+          </InfoContent>
+          <InfoContent key="address">
+            <InfoIconWrapper>
+              <Icon icon={<BiBuildingHouse />} />
+            </InfoIconWrapper>
+            <div>
+              <span>이용중인 헬스장: </span>
+              {profile?.Gyms.map(
+                (gym: { id: number; address: string; name: string }) => (
+                  <div className="user-gym" key={gym.id}>
+                    {gym.address} <a>{gym.name}</a>
+                    <Button
+                      type={ButtonType.TEXT}
+                      icon={<Icon icon={<BiEdit />} />}
+                      onClick={() => dispatch(changeIsShowModal(UPDATEGYM))}
+                    />
+                  </div>
+                )
+              )}
+            </div>
+          </InfoContent>
+        </InfoWrapper>
+        <SideBarTabMenu />
+      </SideBarWrapper>
+      <GlobalCustomModal id={UPDATEGYM}>
+        <Modal
+          title="이용중인 헬스장 변경"
+          onCancel={() => dispatch(changeIsShowModal(null))}
+          onSubmit={() => dispatch(changeIsShowModal(null))}
+          footer
+        >
+          <ModalSearchGym onSelectedGym={onSelectedGym} />
+        </Modal>
+      </GlobalCustomModal>
+    </>
   );
 };
 

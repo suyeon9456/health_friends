@@ -8,7 +8,7 @@ export const Sidebar = styled.div`
   background-color: #fff;
   border-radius: 5px;
   border-bottom: 1px solid #f0f0f0;
-  z-index: 10;
+  z-index: 1;
 
   & > div {
     height: 100%;
