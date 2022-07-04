@@ -18,11 +18,9 @@ import { ModalBodyBox, SearchList, SearchMap, SearchResultWrap } from './style';
 
 const KakaoPostcode = ({
   onCancel,
-  setShowPostcode,
   setValue,
 }: {
   onCancel: () => void;
-  setShowPostcode: Dispatch<SetStateAction<boolean>>;
   setValue: UseFormSetValue<{
     address: string;
     addressRoad: string;
@@ -48,7 +46,7 @@ const KakaoPostcode = ({
     setValue('addressRoad', data.road_address_name);
     setValue('phone', phone);
     setValue('name', data.place_name);
-    setShowPostcode(false);
+    onCancel();
   }, []);
 
   const removeAllChildNods = useCallback(() => {

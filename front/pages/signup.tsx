@@ -1,44 +1,28 @@
 import React from 'react';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
-import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 import { AppLayout } from '@/components/organisms';
-import { Steps } from '@/components/molecules';
-import InfoForm from '@/components/organisms/signup/InfoForm';
-import MoreInfoForm from '@/components/organisms/signup/MoreInfoForm';
-import MoreGymInfoForm from '@/components/organisms/signup/MoreGymInfoForm';
-import FriendsInfoForm from '@/components/organisms/signup/FriendsInfoForm';
-import axios from 'axios';
-import { GetServerSidePropsContext } from 'next';
+import SignupAllStep from '@/components/organisms/signup/SignupAllStep';
+import SignupContents from '@/components/organisms/signup/SignupContents';
 import styles from '../src/scss/signup.module.scss';
-import { signupSelector } from '../reducers/user';
-import { SignupMenuType, SignupMenu, SignupSteps } from '../@types/constant';
 
 const Signup = () => {
-  const { signupProcess }: { signupProcess: SignupMenuType } =
-    useSelector(signupSelector);
-
   return (
     <>
       <Head>
         <title>회원가입</title>
+        <script
+          type="text/javascript"
+          src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b59bfdf3af450270c49c69d14f47cdd5&libraries=services"
+        />
       </Head>
       <AppLayout>
         <div className={styles.signupLayout}>
-          <Steps
-            steps={SignupSteps}
-            process={signupProcess}
-            target={SignupSteps.findIndex(({ step }) => step === signupProcess)}
-          />
+          <SignupAllStep />
           <div className={styles.contentsWrap}>
-            {
-              {
-                [SignupMenu.INFO]: <InfoForm />,
-                [SignupMenu.MOREINFO]: <MoreInfoForm />,
-                [SignupMenu.GYMINFO]: <MoreGymInfoForm />,
-                [SignupMenu.FRIENDSINFO]: <FriendsInfoForm />,
-              }[signupProcess]
-            }
+            <SignupContents />
           </div>
         </div>
       </AppLayout>
@@ -46,7 +30,7 @@ const Signup = () => {
   );
 };
 
-export const getServerSideProps = async (
+export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const cookie = context.req ? context.req.headers.cookie : '';

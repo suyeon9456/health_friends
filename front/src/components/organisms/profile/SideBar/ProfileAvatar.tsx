@@ -10,7 +10,7 @@ import { Avatar, Button } from '@/components/atoms';
 import FormImage from '@/components/molecules/FormImage';
 import { addImageAPI, uploadImageAPI } from '@/api/profile';
 import { profileKey } from '@/../@utils/queryKey';
-import { changeIsShowModal } from '@/../reducers/user';
+import { showCustomModal } from '@/../reducers/user';
 import GlobalCustomModal from '../../GlobalCustomModal';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
 
@@ -42,7 +42,7 @@ const ProfileAvatar = () => {
   }, [imgPath]);
 
   const onShowMatchingModal = useCallback(() => {
-    dispatch(changeIsShowModal(MATCHING));
+    dispatch(showCustomModal(MATCHING));
   }, []);
 
   return (

@@ -208,30 +208,6 @@ export const MatchingActionType = {
   RES_CANCEL: 'RES_CANCEL',
 } as const;
 
-export const loginedUserProfile = (
-  icon: ReactNode[],
-  onClickAction: ({ key, id }: any) => void,
-  compareToday: number
-) =>
-  [
-    {
-      icon: icon[0],
-      key: ModalType.FIX,
-      onClick: onClickAction,
-    },
-    {
-      icon: icon[1],
-      key: ModalType.REMATCH,
-      onClick: onClickAction,
-    },
-    {
-      icon: icon[2],
-      key: ModalType.EDIT,
-      onClick: onClickAction,
-      disabled: compareToday < 0,
-    },
-  ] as const;
-
 export const StateFilter = [
   { value: 'before', text: '매칭수락 후' },
   { value: 'after', text: '매칭수락 전' },

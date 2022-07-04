@@ -11,12 +11,11 @@ import { useLoadLoginedUser } from '@/hooks';
 import { gymSelector, loadFriends } from '@/../reducers/gym';
 import { useDispatch, useSelector } from 'react-redux';
 import { rematchRate } from '@/../@utils/calculation';
-import { changeIsShowModal, modalSelector } from '@/../reducers/user';
-import ModalPortal from '../ModalPortal';
+import { showCustomModal } from '@/../reducers/user';
 import ModalMatchingRequest from '../ModalMatchingRequest';
 import GlobalCustomModal from '../GlobalCustomModal';
 
-const FRIENDS = 'FRIENDS' as const;
+const MATCHING = 'MATCHING' as const;
 
 const FriendsList = () => {
   const dispatch = useDispatch();
@@ -58,7 +57,7 @@ const FriendsList = () => {
         });
         return;
       }
-      dispatch(changeIsShowModal(FRIENDS));
+      dispatch(showCustomModal(MATCHING));
       setSelectedUser(user);
     },
     [me?.id]
@@ -84,7 +83,7 @@ const FriendsList = () => {
           />
         );
       })}
-      <GlobalCustomModal id={FRIENDS}>
+      <GlobalCustomModal id={MATCHING}>
         <ModalMatchingRequest selectedUser={selectedUser} />
       </GlobalCustomModal>
     </>

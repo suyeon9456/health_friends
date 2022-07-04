@@ -6,13 +6,12 @@ import { ButtonType, SizeType } from '@/../@types/constant';
 import { useLoadLoginedUser } from '@/hooks';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeIsFoldedGym, foldedItemSelector } from '@/../reducers/gym';
-import { changeIsShowModal } from '@/../reducers/user';
+import { hiddenCustomModal, showCustomModal } from '@/../reducers/user';
 import { useForm } from 'react-hook-form';
 import { AddressAPI, CreateGymForm } from '@/../@types/gym';
 import { Modal } from '@/components/molecules';
 import { useMutation, useQueryClient } from 'react-query';
 import { addGymAPI } from '@/api/gym';
-import { gymsKey } from '@/../@utils/queryKey';
 import { Avatar, Button, Icon } from '../../atoms';
 import { Sidebar } from './style';
 import GlobalCustomModal from '../GlobalCustomModal';
@@ -46,7 +45,7 @@ const SearchSidebar = () => {
 
   const onSubmit = useCallback((data) => {
     gymMutation.mutate(data);
-    dispatch(changeIsShowModal(null));
+    dispatch(hiddenCustomModal(ADDGYM));
   }, []);
 
   return (
@@ -70,14 +69,14 @@ const SearchSidebar = () => {
           <Button
             icon={<Icon icon={<MdAddLocationAlt />} />}
             type={ButtonType.TEXT}
-            onClick={() => dispatch(changeIsShowModal(ADDGYM))}
+            onClick={() => dispatch(showCustomModal(ADDGYM))}
           />
         </div>
       </Sidebar>
       <GlobalCustomModal id={ADDGYM}>
         <Modal
           title="헬스장 등록하기"
-          onCancel={() => dispatch(changeIsShowModal(null))}
+          onCancel={() => dispatch(hiddenCustomModal(ADDGYM))}
           onSubmit={handleSubmit(onSubmit)}
           form
           footer

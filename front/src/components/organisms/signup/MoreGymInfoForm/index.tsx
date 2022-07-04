@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 import {
-  changeIsShowModal,
+  hiddenCustomModal,
+  showCustomModal,
   signupSelector,
   signupStepGymInfoSave,
   signupStepNext,
@@ -11,7 +12,6 @@ import {
 } from '@/../reducers/user';
 import { formatTime } from '@/../@utils/date';
 import { ButtonType, SignupMenu, SizeType } from '@/../@types/constant';
-import useIsState from '@/hooks/useIsState';
 import {
   FormInput,
   FormRangeTimePicker,
@@ -19,16 +19,14 @@ import {
 } from '../../../molecules';
 import { Button, Form } from '../../../atoms';
 import ModalGym from './ModalGym';
-import ModalPortal from '../../ModalPortal';
 import { ButtonWrap, FormSearchGymWrap, FormWrapper } from './style';
 import GlobalCustomModal from '../../GlobalCustomModal';
 
-const GYM = 'GYM' as const;
+const UPDATEGYM = 'UPDATEGYM' as const;
 const MoreGymInfoForm = () => {
   const dispatch = useDispatch();
 
   const { signupStepGymInfo, selectedGym } = useSelector(signupSelector);
-  const [isShow, onchangeIsShow, setIsShow] = useIsState(false);
   const { handleSubmit, control, setValue } = useForm<{
     startTime: Date;
     endTime: Date;
@@ -74,14 +72,14 @@ const MoreGymInfoForm = () => {
             size={SizeType.LARGE}
             control={control}
             disabled
-            {...{ onClick: onchangeIsShow }}
+            {...{ onClick: () => dispatch(showCustomModal(UPDATEGYM)) }}
           />
           <div className="button-wrap">
             <div />
             <Button
               type={ButtonType.PRIMARY}
               size={SizeType.LARGE}
-              onClick={onchangeIsShow}
+              onClick={() => dispatch(showCustomModal(UPDATEGYM))}
             >
               헬스장 찾기
             </Button>
@@ -115,20 +113,10 @@ const MoreGymInfoForm = () => {
           </Button>
         </ButtonWrap>
       </Form>
-      <ModalPortal>
-        {isShow && (
-          <ModalGym
-            title="헬스장 찾기/등록"
-            onCancel={onchangeIsShow}
-            setGym={setValue}
-            {...{ className: 'gym-modal' }}
-          />
-        )}
-      </ModalPortal>
-      <GlobalCustomModal id={GYM}>
+      <GlobalCustomModal id={UPDATEGYM}>
         <ModalGym
           title="헬스장 찾기/등록"
-          onCancel={() => dispatch(changeIsShowModal(null))}
+          onCancel={() => dispatch(hiddenCustomModal(UPDATEGYM))}
           setGym={setValue}
           {...{ className: 'gym-modal' }}
         />

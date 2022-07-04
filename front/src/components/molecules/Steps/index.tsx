@@ -41,4 +41,4 @@ const Steps = ({
   );
 };
 
-export default Steps;
+export default React.memo(Steps);

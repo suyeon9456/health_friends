@@ -12,8 +12,8 @@ import { profileSelector } from '@/../reducers/profile';
 import { rematchRate, responseRate } from '@/../@utils/calculation';
 import SideBarTabMenu from '@/components/molecules/SideBarTabMenu';
 import { ButtonType } from '@/../@types/constant';
-import { Modal, Tabs } from '@/components/molecules';
-import { changeIsShowModal } from '@/../reducers/user';
+import { Modal } from '@/components/molecules';
+import { hiddenCustomModal, showCustomModal } from '@/../reducers/user';
 import { useMutation, useQueryClient } from 'react-query';
 import { updateUserGymAPI } from '@/api/user';
 import { profileKey } from '@/../@utils/queryKey';
@@ -45,6 +45,10 @@ const SideBar = () => {
   const onSelectedGym = useCallback((id) => {
     if (!id) return;
     mutation.mutate(id);
+  }, []);
+
+  const onHiddenModal = useCallback(() => {
+    dispatch(hiddenCustomModal(UPDATEGYM));
   }, []);
 
   return (
@@ -88,7 +92,7 @@ const SideBar = () => {
                     <Button
                       type={ButtonType.TEXT}
                       icon={<Icon icon={<BiEdit />} />}
-                      onClick={() => dispatch(changeIsShowModal(UPDATEGYM))}
+                      onClick={() => dispatch(showCustomModal(UPDATEGYM))}
                     />
                   </div>
                 )
@@ -101,8 +105,8 @@ const SideBar = () => {
       <GlobalCustomModal id={UPDATEGYM}>
         <Modal
           title="이용중인 헬스장 변경"
-          onCancel={() => dispatch(changeIsShowModal(null))}
-          onSubmit={() => dispatch(changeIsShowModal(null))}
+          onCancel={onHiddenModal}
+          onSubmit={onHiddenModal}
           footer
         >
           <ModalSearchGym onSelectedGym={onSelectedGym} />

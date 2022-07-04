@@ -30,7 +30,7 @@ export const getServerSideProps: GetServerSideProps = async (
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     axios.defaults.headers!.Cookie = cookie;
   }
-  const { data } = await axios.get('/user');
+  const { data } = await axios.get('/user/isLoggedIn');
   if (data) {
     return {
       redirect: {

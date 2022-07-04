@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
+import { hiddenCustomModal, showCustomModal } from '@/../reducers/user';
 import { ButtonType } from '@/../@types/constant';
 import { ModalCreateGymProps } from '@/../@types/gym';
-import useIsState from '@/hooks/useIsState';
 import { FormInput } from '../../molecules';
 import { Button } from '../../atoms';
-import KakaoPostcode from '../KakaoPostcode';
-import ModalPortal from '../ModalPortal';
 import { CreateFormWrap, FormSearchPostcode } from './style';
+import GlobalCustomModal from '../GlobalCustomModal';
+import KakaoPostcode from '../KakaoPostcode';
 
+const POSTCODE = 'POSTCODE' as const;
 const ModalCreateGym = ({ control, setValue }: ModalCreateGymProps) => {
-  const [isShowPostcode, changeIsShowPostcode, setIsShowPostcode] =
-    useIsState(false);
-
+  const dispatch = useDispatch();
   return (
     <CreateFormWrap>
       <FormSearchPostcode>
@@ -26,7 +26,10 @@ const ModalCreateGym = ({ control, setValue }: ModalCreateGymProps) => {
         />
         <div className="button-wrap">
           <div />
-          <Button type={ButtonType.PRIMARY} onClick={changeIsShowPostcode}>
+          <Button
+            type={ButtonType.PRIMARY}
+            onClick={() => dispatch(showCustomModal(POSTCODE))}
+          >
             주소 검색
           </Button>
         </div>
@@ -55,15 +58,12 @@ const ModalCreateGym = ({ control, setValue }: ModalCreateGymProps) => {
         essential
         disabled
       />
-      <ModalPortal>
-        {isShowPostcode && (
-          <KakaoPostcode
-            onCancel={changeIsShowPostcode}
-            setShowPostcode={setIsShowPostcode}
-            setValue={setValue}
-          />
-        )}
-      </ModalPortal>
+      <GlobalCustomModal id={POSTCODE}>
+        <KakaoPostcode
+          onCancel={() => dispatch(hiddenCustomModal(POSTCODE))}
+          setValue={setValue}
+        />
+      </GlobalCustomModal>
     </CreateFormWrap>
   );
 };

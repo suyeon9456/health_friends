@@ -1,11 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { profileSelector } from '@/../reducers/profile';
 import { InfoContent } from '@/../@types/constant';
 import { useLoadLoginedUser } from '@/hooks';
 import MoreInfoCard from '@/components/molecules/MoreInfoCard';
-import { changeIsShowModal } from '@/../reducers/user';
 import { MoreInfoBody, MoreInfoWrapper } from './style';
 
 const MoreInfo = () => {

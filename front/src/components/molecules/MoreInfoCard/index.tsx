@@ -1,3 +1,8 @@
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { hiddenCustomModal, showCustomModal } from '@/../reducers/user';
+import { profileRangeTime } from '@/../@utils/date';
 import {
   AgeOptions,
   ButtonType,
@@ -9,15 +14,11 @@ import {
   SizeType,
 } from '@/../@types/constant';
 import { Profile } from '@/../@types/user';
-import { profileRangeTime } from '@/../@utils/date';
-import { changeIsShowModal } from '@/../reducers/user';
-import { Button } from '@/components/atoms';
 import GlobalCustomModal from '@/components/organisms/GlobalCustomModal';
 import ModalEditInfo from '@/components/organisms/profile/ModalEditInfo';
-import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import Information from '../Information';
+import { Button } from '@/components/atoms';
 import { ContentTitle, MoreInfoContent } from './style';
+import Information from '../Information';
 
 const MoreInfoCard = ({
   type,
@@ -31,9 +32,9 @@ const MoreInfoCard = ({
   isAuthorization?: boolean;
 }) => {
   const dispatch = useDispatch();
-  const onChangeIsShowModal = useCallback(() => {
-    dispatch(changeIsShowModal(type));
-  }, []);
+  const onShowModal = useCallback(() => {
+    dispatch(showCustomModal(type));
+  }, [type]);
   return (
     <>
       <MoreInfoContent>
@@ -43,7 +44,7 @@ const MoreInfoCard = ({
             <Button
               type={ButtonType.PRIMARY}
               size={SizeType.SMALL}
-              onClick={onChangeIsShowModal}
+              onClick={onShowModal}
               {...{ id: 'more-info' }}
             >
               수정
@@ -98,7 +99,7 @@ const MoreInfoCard = ({
         <ModalEditInfo
           type={type}
           title={type === InfoContent.MORE ? '추가정보 수정' : '친구정보 수정'}
-          onCancel={() => dispatch(changeIsShowModal(null))}
+          onCancel={() => dispatch(hiddenCustomModal(type))}
         />
       </GlobalCustomModal>
     </>

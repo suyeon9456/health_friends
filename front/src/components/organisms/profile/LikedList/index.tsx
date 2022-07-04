@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
@@ -45,15 +46,17 @@ const LikedList = ({ isProfile }: { isProfile?: boolean }) => {
         {!isLoading && !isEmpty(likedFriends) ? (
           likedFriends?.map((friend) => (
             <Card key={friend.id}>
-              <CardCover>
-                {friend.Image ? (
-                  <img src={friend.Image?.src} alt="profile_image" />
-                ) : (
-                  <div>
-                    <Icon icon={<BiUser />} />
-                  </div>
-                )}
-              </CardCover>
+              <Link href={`/profile/${friend.id}`}>
+                <CardCover>
+                  {friend.Image ? (
+                    <img src={friend.Image?.src} alt="profile_image" />
+                  ) : (
+                    <div>
+                      <Icon icon={<BiUser />} />
+                    </div>
+                  )}
+                </CardCover>
+              </Link>
               <CardBody>
                 <CardMeta>
                   <MetaTitle>{friend.nickname}</MetaTitle>

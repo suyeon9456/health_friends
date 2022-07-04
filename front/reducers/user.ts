@@ -12,7 +12,7 @@ const initialState: UserInitialState = {
   signupStepFriendsInfo: null,
   selectedGym: null,
   me: null,
-  isShowModal: null,
+  customModals: [],
 };
 
 const userSlice = createSlice({
@@ -47,8 +47,13 @@ const userSlice = createSlice({
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       state.me!.nickname = action.payload;
     },
-    changeIsShowModal(state, action) {
-      state.isShowModal = action.payload;
+    showCustomModal(state, action) {
+      state.customModals = [...state.customModals, action.payload];
+    },
+    hiddenCustomModal(state, action) {
+      state.customModals = state.customModals.filter(
+        (modalId) => modalId !== action.payload
+      );
     },
   },
 });
@@ -83,8 +88,8 @@ export const meSelector = createDraftSafeSelector(
 );
 
 export const modalSelector = createDraftSafeSelector(
-  (state: RootState) => state.user.isShowModal,
-  (isShowModal) => ({ isShowModal })
+  (state: RootState) => state.user.customModals,
+  (customModals) => ({ customModals })
 );
 
 export const {
@@ -97,6 +102,7 @@ export const {
   selectGym,
   loadMe,
   changeNickname,
-  changeIsShowModal,
+  showCustomModal,
+  hiddenCustomModal,
 } = userSlice.actions;
 export default userSlice.reducer;

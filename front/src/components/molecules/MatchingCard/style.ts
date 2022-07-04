@@ -1,3 +1,4 @@
+import { ShowModalType } from '@/../@types/constant';
 import styled, { css } from 'styled-components';
 
 export const Card = styled.div`
@@ -73,7 +74,7 @@ export const CardCover = styled.div`
   }
 `;
 
-export const CardBody = styled.div<{ matchingId: number }>`
+export const CardBody = styled.div`
   padding: 24px;
   cursor: pointer;
   &::before {
@@ -151,7 +152,10 @@ export const CardActions = styled.ul`
   }
 `;
 
-export const Action = styled.li<{ disabled: boolean }>`
+export const Action = styled.li<{
+  disabled?: boolean;
+  onClick: () => void;
+}>`
   float: left;
   margin: 12px 0;
   color: #00000073;

@@ -11,11 +11,12 @@ import { addScheduleAPI } from '@/api/schedule';
 import { ModalMatchingProps, Schedule } from '@/../@types/schedule';
 import { createEndDate } from '@/../@utils/date';
 import { useLoadLoginedUser } from '@/hooks';
-import { changeIsShowModal } from '@/../reducers/user';
+import { hiddenCustomModal } from '@/../reducers/user';
 import { Modal } from '../../molecules';
 import { Avatar } from '../../atoms';
 import MatchingRequestForm from '../MatchingRequestForm';
 
+const MATCHING = 'MATCHING' as const;
 const schema = yup
   .object({
     startDate: yup.string().required('날짜는 필수 항목입니다.'),
@@ -46,7 +47,7 @@ const ModalMatchingRequest = ({
     (data: Schedule) => addScheduleAPI(data),
     {
       onSuccess() {
-        dispatch(changeIsShowModal());
+        dispatch(hiddenCustomModal(MATCHING));
       },
     }
   );
@@ -83,7 +84,7 @@ const ModalMatchingRequest = ({
         </div>
       }
       className="matching-modal"
-      onCancel={() => dispatch(changeIsShowModal())}
+      onCancel={() => dispatch(hiddenCustomModal(MATCHING))}
       onSubmit={handleSubmit(onMatchingRequest)}
       form
       footer

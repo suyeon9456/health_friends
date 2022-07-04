@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'react-query';
 
 import { profileSelector } from '@/../reducers/profile';
-import { changeIsShowModal } from '@/../reducers/user';
+import { hiddenCustomModal, showCustomModal } from '@/../reducers/user';
 import useSelectRage from '@/hooks/useSelectRage';
 import { loadCalendarScheduleAPI } from '@/api/schedule';
 import { formatDateTime } from '@/../@utils/date';
@@ -45,11 +45,11 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
     setNickname(event.nickname);
     setAddress(event.address);
     setDate(formatDateTime(event.start));
-    dispatch(changeIsShowModal(CALENDAR));
+    dispatch(showCustomModal(CALENDAR));
   }, []);
 
   const onChangeShowCard = useCallback(() => {
-    dispatch(changeIsShowModal(null));
+    dispatch(hiddenCustomModal(CALENDAR));
   }, []);
 
   useEffect(() => {

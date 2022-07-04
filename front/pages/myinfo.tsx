@@ -1,21 +1,17 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo } from 'react';
 import Head from 'next/head';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import { GetServerSidePropsContext } from 'next';
 import { useQuery } from 'react-query';
 import { loadMyinfoAPI } from '@/api/profile';
 import { useRouter } from 'next/router';
-import { useLoadLoginedUser } from '@/hooks';
 import ProfileContents from '@/components/organisms/profile/ProfileContents';
-import { loadProfile } from '../reducers/profile';
+import { loadProfile, updateTab } from '../reducers/profile';
 
 import { AppLayout, SideBar, Row, Col } from '../src/components/organisms';
-import MatchingCalendar from '../src/components/organisms/profile/MatchingCalendar';
-import MatchingRecord from '../src/components/organisms/profile/MatchingRecord';
-import LikedList from '../src/components/organisms/profile/LikedList';
-import { GlobalModal, ModalStatus } from '../@types/constant';
+import { GlobalModal, Menu, ModalStatus } from '../@types/constant';
 import { profileKey } from '../@utils/queryKey';
 import { useModalDispatch } from '../store/modalStore';
 import { loadMe } from '../reducers/user';
@@ -41,6 +37,14 @@ const Myinfo = () => {
       }),
     useErrorBoundary: false,
   });
+
+  const page = useMemo(() => {
+    return router.query.tab !== undefined ? router.query.tab : Menu.INFO;
+  }, [router.query]);
+
+  useEffect(() => {
+    dispatch(updateTab(page));
+  }, [page]);
 
   return (
     <>

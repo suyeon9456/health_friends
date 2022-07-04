@@ -1,5 +1,5 @@
 import { modalSelector } from '@/../reducers/user';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import ModalPortal from '../ModalPortal';
 
@@ -10,10 +10,15 @@ const GlobalCustomModal = ({
   id: string | number;
   children: React.ReactElement;
 }) => {
-  const { isShowModal } = useSelector(modalSelector);
+  const { customModals } = useSelector(modalSelector);
   return (
     <>
-      <ModalPortal>{isShowModal === id && <>{children}</>}</ModalPortal>
+      <ModalPortal>
+        {customModals?.map(
+          (modalId: string | number) =>
+            modalId === id && <Fragment key={modalId}>{children}</Fragment>
+        )}
+      </ModalPortal>
     </>
   );
 };

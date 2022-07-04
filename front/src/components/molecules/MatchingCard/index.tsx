@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { Button, Icon } from '@/components/atoms';
-import { BiUser } from 'react-icons/bi';
-import { ButtonType, ModalType } from '@/../@types/constant';
+import { BiEdit, BiPin, BiRepeat, BiUser } from 'react-icons/bi';
+import { ButtonType, ModalType, ShowModalType } from '@/../@types/constant';
+import { compareAsc } from 'date-fns';
+import GlobalCustomModal from '@/components/organisms/GlobalCustomModal';
+import ModalMatchingDetail from '@/components/organisms/profile/ModalMatchingDetail';
+import ModalMatchingEdit from '@/components/organisms/profile/ModalMatchingEdit';
+import { useDispatch } from 'react-redux';
+import { hiddenCustomModal, showCustomModal } from '@/../reducers/user';
+import { useRouter } from 'next/router';
 import {
   Card,
   CardBody,
@@ -16,74 +23,116 @@ import {
 } from './style';
 
 const MatchingCard = ({
-  matchingId,
+  id,
   nickname,
   description,
   date,
   image,
-  onClickView,
+  start,
   isCancel,
-  actions,
 }: {
-  matchingId: number;
+  id: number;
   nickname: string;
   description: string;
   date: string;
   image?: string;
-  onClickView: ({ key, id }: { key: string; id: number }) => void;
+  start: Date;
   isCancel?: boolean;
-  actions?: ReadonlyArray<{
-    key: string;
-    icon: React.ReactNode;
-    disabled?: boolean;
-    onClick: ({ key, id }: { key: string; id: number }) => void;
-  }>;
 }) => {
+  const router = useRouter();
+  const { id: queryId } = router.query;
+  const dispatch = useDispatch();
   const [isImageError, setIsImageError] = useState(false);
+  const [modalType, setModalType] = useState<ShowModalType>(ModalType.VIEW);
+
+  const onClickAction = useCallback(
+    ({ key }) => {
+      setModalType(key);
+      dispatch(showCustomModal(`${key}-${id}`));
+    },
+    [modalType, id]
+  );
+
+  const onCancle = useCallback(() => {
+    console.log(`${modalType}-${id}`);
+    dispatch(hiddenCustomModal(`${modalType}-${id}`));
+  }, [modalType]);
   return (
-    <Card>
-      <CardCover>
-        {image && !isImageError ? (
-          <img
-            src={image}
-            alt={image}
-            onError={({ currentTarget }) => {
-              currentTarget.onerror = null; // prevents looping
-              setIsImageError(true);
-            }}
-          />
-        ) : (
-          <div>
-            <Icon icon={<BiUser />} />
+    <>
+      <Card>
+        <CardCover>
+          {image && !isImageError ? (
+            <img
+              src={image}
+              alt={image}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                setIsImageError(true);
+              }}
+            />
+          ) : (
+            <div>
+              <Icon icon={<BiUser />} />
+            </div>
+          )}
+          <div className="box">
+            {isCancel && <Button type={ButtonType.ERROR}>취소진행중</Button>}
           </div>
-        )}
-        <div className="box">
-          {isCancel && <Button type={ButtonType.ERROR}>취소진행중</Button>}
-        </div>
-      </CardCover>
-      <CardBody
-        matchingId={matchingId}
-        onClick={() => onClickView({ key: ModalType.VIEW, id: matchingId })}
-      >
-        <CardMeta>
-          <MetaDate>{date}</MetaDate>
-          <MetaTitle>{nickname}</MetaTitle>
-          <MetaDescription>{description}</MetaDescription>
-        </CardMeta>
-      </CardBody>
-      <CardActions>
-        {actions?.map(({ key, icon, disabled, onClick }) => (
+        </CardCover>
+        <CardBody onClick={() => onClickAction({ key: ModalType.VIEW })}>
+          <CardMeta>
+            <MetaDate>{date}</MetaDate>
+            <MetaTitle>{nickname}</MetaTitle>
+            <MetaDescription>{description}</MetaDescription>
+          </CardMeta>
+        </CardBody>
+        <CardActions>
           <Action
-            key={key}
-            onClick={() => onClick({ key, id: matchingId })}
-            disabled={disabled ?? false}
+            key={ModalType.FIX}
+            onClick={() => onClickAction({ key: ModalType.FIX })}
           >
-            {icon}
+            <Icon icon={<BiPin />} />
           </Action>
-        ))}
-      </CardActions>
-    </Card>
+          <Action
+            key={ModalType.REMATCH}
+            onClick={() => onClickAction({ key: ModalType.REMATCH })}
+          >
+            <Icon icon={<BiRepeat />} />
+          </Action>
+          <Action
+            key={ModalType.EDIT}
+            onClick={() => onClickAction({ key: ModalType.EDIT })}
+            disabled={compareAsc(start, new Date()) < 0}
+          >
+            <Icon icon={<BiEdit />} />
+          </Action>
+        </CardActions>
+      </Card>
+      <GlobalCustomModal id={`${ModalType.VIEW}-${id}`}>
+        <ModalMatchingDetail
+          matchingId={id}
+          queryId={queryId}
+          onCancel={onCancle}
+        />
+      </GlobalCustomModal>
+      <GlobalCustomModal id={`${ModalType.EDIT}-${id}`}>
+        <ModalMatchingEdit
+          matchingId={id}
+          queryId={queryId}
+          onCancel={onCancle}
+          mode={modalType}
+        />
+      </GlobalCustomModal>
+      <GlobalCustomModal id={`${ModalType.REMATCH}-${id}`}>
+        <ModalMatchingEdit
+          matchingId={id}
+          queryId={queryId}
+          onCancel={onCancle}
+          mode={modalType}
+        />
+      </GlobalCustomModal>
+    </>
   );
 };
 
-export default MatchingCard;
+export default React.memo(MatchingCard);
