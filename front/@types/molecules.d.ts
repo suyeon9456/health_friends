@@ -25,6 +25,7 @@ export interface FormInputProps<T> {
   placeholder?: string;
   essential?: boolean;
   control?: Control<T, object>;
-  error?: FieldError | undefined;
+  // error?: FieldError | undefined;
+  error?: Merge<FieldError, FieldErrorsImpl<DeepRequired<any>>> | undefined;
   disabled?: boolean;
 }
