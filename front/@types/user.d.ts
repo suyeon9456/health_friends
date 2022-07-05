@@ -40,10 +40,35 @@ export interface Me extends User {
   Image: Image;
 }
 
+export interface UserInfo extends Me {}
+
+export interface FetchProfile extends Me {
+  matching: Array<{
+    FriendId: number;
+    matchingCount: number;
+    rematchingCount: number;
+  }>;
+  myinfo?: {
+    Liked: Array<{ id: number }>;
+  };
+  user?: {
+    Liked: Array<{ id: number }>;
+  };
+}
+
 export interface Profile extends Me {
   Gyms: Gym;
   Schedule: Schedule;
   Liked: number[];
+  matchingTotalCount: number;
+  matchingRecount: number;
+  mathcing: number[];
+  resSchedule: Array<{
+    FriendId: number;
+    id: number;
+    isPermitted: boolean;
+    permission: boolean;
+  }>;
 }
 
 export interface SelectedGymUser extends Me {
@@ -121,9 +146,9 @@ export interface EditProfileProps {
       startTime: Date;
       endTime: Date;
       gender: string;
-      age: number;
-      career: number;
-      role: number;
+      age: string;
+      career: string;
+      role: string;
     },
     object
   >;

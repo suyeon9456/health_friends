@@ -1,15 +1,13 @@
 import React, { useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
-
-import { profileSelector } from '@/../reducers/profile';
-import { meSelector } from '@/../reducers/user';
-import { MatchingCardProps, RecordScheduleAPI } from '@/../@types/schedule';
-import { rangeDate } from '@/../@utils/date';
-import { useMatchingActions } from '@/hooks';
 import { useQuery } from 'react-query';
+import { AxiosError } from 'axios';
+
+import { MatchingCardProps } from '@/../@types/schedule';
+import { rangeDate } from '@/../@utils/date';
+import { useLoadLoginedUser, useMatchingActions } from '@/hooks';
 import { scheduleByIdKey } from '@/../@utils/queryKey';
 import { loadScheduleAPI } from '@/api/schedule';
-import { AxiosError } from 'axios';
+import useGetProfile from '@/hooks/useGetProfile';
 import { Modal } from '../../../molecules';
 import { Avatar } from '../../../atoms';
 import {
@@ -28,8 +26,8 @@ const ModalMatchingDetail = ({
   queryId?: string | string[];
   onCancel: () => void;
 }) => {
-  const me = useSelector(meSelector);
-  const { profile } = useSelector(profileSelector);
+  const { data: me } = useLoadLoginedUser();
+  const { data: profile } = useGetProfile();
   const [actions, onChangeActions] = useMatchingActions([], onCancel);
 
   const { data } = useQuery<MatchingCardProps | undefined, AxiosError>(
@@ -47,7 +45,7 @@ const ModalMatchingDetail = ({
       ...data,
       start: new Date(data.startDate),
       end: new Date(data.endDate),
-      Friend: data.Receiver.id === profile.id ? data.Requester : data.Receiver,
+      Friend: data.Receiver.id === profile?.id ? data.Requester : data.Receiver,
     };
   }, [data]);
 
@@ -55,7 +53,7 @@ const ModalMatchingDetail = ({
     if (!schedule) return;
     onChangeActions({
       schedule,
-      profileId: profile.id,
+      profileId: profile?.id,
       me,
     });
   }, [schedule, me, profile]);

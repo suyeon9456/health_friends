@@ -23,7 +23,7 @@ export const loadSchedulesAPI = ({
   isCanceled,
 }: {
   isProfile?: boolean;
-  profileId: number;
+  profileId?: number;
   limit: number;
   status: string[];
   term: string[];
@@ -85,7 +85,7 @@ export const loadCalendarScheduleAPI = ({
     start: stringOrDate;
     end: stringOrDate;
   };
-  profileId: number | null;
+  profileId?: number | null;
 }) => {
   try {
     const { start, end } = range;

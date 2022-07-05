@@ -1,14 +1,12 @@
-import React, { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   BiTrophy,
   BiCommentCheck,
   BiBuildingHouse,
-  BiPencil,
   BiEdit,
 } from 'react-icons/bi';
 
-import { profileSelector } from '@/../reducers/profile';
 import { rematchRate, responseRate } from '@/../@utils/calculation';
 import SideBarTabMenu from '@/components/molecules/SideBarTabMenu';
 import { ButtonType } from '@/../@types/constant';
@@ -17,6 +15,7 @@ import { hiddenCustomModal, showCustomModal } from '@/../reducers/user';
 import { useMutation, useQueryClient } from 'react-query';
 import { updateUserGymAPI } from '@/api/user';
 import { profileKey } from '@/../@utils/queryKey';
+import useGetProfile from '@/hooks/useGetProfile';
 import { Button, Icon } from '../../../atoms';
 import Progress from '../../../molecules/Progress';
 import {
@@ -34,7 +33,7 @@ const UPDATEGYM = 'UPDATEGYM' as const;
 const SideBar = () => {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
-  const { profile } = useSelector(profileSelector);
+  const { data: profile } = useGetProfile();
 
   const mutation = useMutation((data: number) => updateUserGymAPI(data), {
     onSuccess: () => {
@@ -51,6 +50,16 @@ const SideBar = () => {
     dispatch(hiddenCustomModal(UPDATEGYM));
   }, []);
 
+  const rematchPercent = useMemo(() => {
+    if (!profile?.matchingTotalCount || !profile?.matchingRecount) return 0;
+    return rematchRate(profile?.matchingTotalCount, profile?.matchingRecount);
+  }, [profile?.matchingTotalCount, profile?.matchingRecount]);
+
+  const responsePercent = useMemo(() => {
+    if (!profile?.resSchedule) return 0;
+    return responseRate(profile?.resSchedule);
+  }, [profile?.resSchedule]);
+
   return (
     <>
       <SideBarWrapper>
@@ -62,22 +71,13 @@ const SideBar = () => {
             <InfoIconWrapper>
               <Icon icon={<BiTrophy />} />
             </InfoIconWrapper>
-            <Progress
-              label="재매칭률"
-              percent={rematchRate(
-                profile?.matchingTotalCount,
-                profile?.matchingRecount
-              )}
-            />
+            <Progress label="재매칭률" percent={rematchPercent} />
           </InfoContent>
           <InfoContent key="response">
             <InfoIconWrapper>
               <Icon icon={<BiCommentCheck />} />
             </InfoIconWrapper>
-            <Progress
-              label="응답률"
-              percent={responseRate(profile?.resSchedule)}
-            />
+            <Progress label="응답률" percent={responsePercent} />
           </InfoContent>
           <InfoContent key="address">
             <InfoIconWrapper>
@@ -85,18 +85,14 @@ const SideBar = () => {
             </InfoIconWrapper>
             <div>
               <span>이용중인 헬스장: </span>
-              {profile?.Gyms.map(
-                (gym: { id: number; address: string; name: string }) => (
-                  <div className="user-gym" key={gym.id}>
-                    {gym.address} <a>{gym.name}</a>
-                    <Button
-                      type={ButtonType.TEXT}
-                      icon={<Icon icon={<BiEdit />} />}
-                      onClick={() => dispatch(showCustomModal(UPDATEGYM))}
-                    />
-                  </div>
-                )
-              )}
+              <div className="user-gym" key={profile?.Gyms[0].id}>
+                {profile?.Gyms[0].address} <a>{profile?.Gyms[0].name}</a>
+                <Button
+                  type={ButtonType.TEXT}
+                  icon={<Icon icon={<BiEdit />} />}
+                  onClick={() => dispatch(showCustomModal(UPDATEGYM))}
+                />
+              </div>
             </div>
           </InfoContent>
         </InfoWrapper>

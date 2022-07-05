@@ -1,8 +1,5 @@
 import React, { Fragment } from 'react';
-import { useSelector } from 'react-redux';
 import { BiPlus } from 'react-icons/bi';
-
-import { profileSelector } from '@/../reducers/profile';
 
 import { rangeDate } from '@/../@utils/date';
 import { ButtonType } from '@/../@types/constant';
@@ -12,6 +9,7 @@ import { AxiosError } from 'axios';
 import { schedulesByIdKey } from '@/../@utils/queryKey';
 import { loadSchedulesAPI } from '@/api/schedule';
 import { useLoadLoginedUser } from '@/hooks';
+import useGetProfile from '@/hooks/useGetProfile';
 import { LoadingMatchingCard, MatchingCard } from '../../molecules';
 import { Button, Icon } from '../../atoms';
 import { MatchingCardListWrap, RecordBody, RecordFooter } from './style';
@@ -27,9 +25,9 @@ const MatchingCardList = ({
   type: string[];
   isCanceled: boolean;
 }) => {
-  const { profile } = useSelector(profileSelector);
-
   const { data: me } = useLoadLoginedUser();
+  const { data: profile } = useGetProfile();
+
   const { isFetching, hasNextPage, fetchNextPage, data } = useInfiniteQuery<
     RecordPage | undefined,
     AxiosError
@@ -54,7 +52,7 @@ const MatchingCardList = ({
     },
     {
       refetchOnWindowFocus: false,
-      enabled: !!profile,
+      enabled: !!profile?.id,
       staleTime: 2 * 60 * 1000,
       getNextPageParam: (lastPage: RecordPage | undefined) => {
         if (!lastPage) return;
@@ -74,7 +72,7 @@ const MatchingCardList = ({
               {group?.map((item) => {
                 const { start, end, Receiver, Requester, Cancel } = item;
                 const friend =
-                  profile.id === Receiver.id ? Requester : Receiver;
+                  profile?.id === Receiver.id ? Requester : Receiver;
                 return (
                   <MatchingCard
                     key={item.id}

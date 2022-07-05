@@ -5,22 +5,27 @@ import { useModalDispatch } from '@/../store/modalStore';
 import { loadMyinfoAPI, loadProfileAPI } from '@/api/profile';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { useQuery, UseQueryResult } from 'react-query';
 
-const useGetProfile = (
-  id?: string | string[],
-  options?: {
-    onSuccess?: (data: Profile) => void;
-  }
-): UseQueryResult<Profile, AxiosError<never>> => {
+const useGetProfile = (options?: {
+  onSuccess?: (data: Profile) => void;
+}): UseQueryResult<Profile, AxiosError<never>> => {
   const router = useRouter();
   const contextDispatch = useModalDispatch();
+
   return useQuery(
     profileKey,
-    () => (id ? loadProfileAPI(id) : loadMyinfoAPI()),
+    () =>
+      router.pathname !== '/myinfo'
+        ? loadProfileAPI(router.query.id)
+        : loadMyinfoAPI(),
     {
       refetchOnWindowFocus: false,
-      // onSuccess: (data) => dispatch(loadProfile(data)),
+      useErrorBoundary: false,
+      refetchOnReconnect: true,
+      staleTime: 5 * 60 * 1000,
+      notifyOnChangeProps: ['data'],
       onError: () =>
         contextDispatch({
           type: 'SHOW_MODAL',
@@ -32,7 +37,7 @@ const useGetProfile = (
             callback: () => router.replace('/'),
           },
         }),
-      useErrorBoundary: false,
+      ...options,
     }
   );
 };

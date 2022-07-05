@@ -67,10 +67,11 @@ const ModalMatchingRequest = ({
   );
 
   useEffect(() => {
-    if (gym) {
-      setValue('gym', `${gym?.address}${gym?.name}`);
+    if (gymName) {
+      return setValue('gym', gymName);
     }
-  }, [gym]);
+    setValue('gym', `${gym?.addressRoad}${gym?.name}`);
+  }, [gym, gymName]);
 
   return (
     <Modal

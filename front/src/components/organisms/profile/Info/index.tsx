@@ -1,27 +1,26 @@
 import React, { useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from 'react-query';
 
-import { profileSelector } from '@/../reducers/profile';
 import useInput from '@/hooks/useInput';
 import { updateDescriptionAPI, updateNicknameAPI } from '@/api/user';
 import { meKey, profileKey } from '@/../@utils/queryKey';
 import { useLoadLoginedUser } from '@/hooks';
 import EditInput from '@/components/molecules/EditInput';
+import useGetProfile from '@/hooks/useGetProfile';
 import { InfoBody, InfoContentWrapper, InfoHeader, InfoWrapper } from './style';
 
 const Info = () => {
   const queryClient = useQueryClient();
-  const { profile } = useSelector(profileSelector);
+
+  const { data: profile } = useGetProfile();
+  const { data: me } = useLoadLoginedUser();
 
   const [nickname, onChangeNickname] = useInput<string>(
-    profile?.nickname || ''
+    profile?.nickname ?? ''
   );
   const [description, onChangeDescription] = useInput<string>(
-    profile?.Userdetail?.description || ''
+    profile?.Userdetail?.description ?? ''
   );
-
-  const { data: me } = useLoadLoginedUser();
 
   const nicknameMutation = useMutation(
     (data: { nickname: string }) => updateNicknameAPI(data),

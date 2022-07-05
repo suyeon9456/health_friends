@@ -70,11 +70,13 @@ export interface TextareaProps extends BasicInputProps {
   onChange: () => void;
 }
 
-export interface SearchProps extends BasicInputProps {
+export interface SearchProps {
+  setSearchWord: Dispatch<SetStateAction<string>>;
   size?: SizeTypeT;
   enterButton?: boolean;
-  onChange: (e: ChangeEvent) => void;
-  onSearch: () => void;
+  loading?: boolean;
+  placeholder?: string;
+  onSearchCallback?: () => void;
 }
 
 export interface SelectProps {

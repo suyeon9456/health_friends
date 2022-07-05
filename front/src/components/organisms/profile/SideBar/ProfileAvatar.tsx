@@ -1,28 +1,28 @@
 import React, { useCallback, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { useLoadLoginedUser } from '@/hooks';
 import useIsState from '@/hooks/useIsState';
 import { ButtonType } from '@/../@types/constant';
-import { profileSelector } from '@/../reducers/profile';
 import { Avatar, Button } from '@/components/atoms';
 import FormImage from '@/components/molecules/FormImage';
 import { addImageAPI, uploadImageAPI } from '@/api/profile';
 import { profileKey } from '@/../@utils/queryKey';
 import { showCustomModal } from '@/../reducers/user';
+import useGetProfile from '@/hooks/useGetProfile';
 import GlobalCustomModal from '../../GlobalCustomModal';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
 
 const MATCHING = 'MATCHING' as const;
 const ProfileAvatar = () => {
   const dispatch = useDispatch();
-  const { profile } = useSelector(profileSelector);
   const queryClient = useQueryClient();
 
   const [imgPath, setImgPath] = useState<string>('');
   const [isUpload, onChangeIsUpload] = useIsState(false);
 
+  const { data: profile } = useGetProfile();
   const { data: me } = useLoadLoginedUser();
 
   const uploadImage = useMutation((data: FormData) => uploadImageAPI(data), {
@@ -79,7 +79,7 @@ const ProfileAvatar = () => {
       <GlobalCustomModal id={MATCHING}>
         <ModalMatchingRequest
           selectedUser={profile}
-          gymName={profile?.Gyms[0]?.name}
+          gymName={`${profile?.Gyms[0]?.addressRoad}${profile?.Gyms[0]?.name}`}
         />
       </GlobalCustomModal>
     </>

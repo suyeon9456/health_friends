@@ -19,13 +19,11 @@ export interface UserInitialState {
   signupStepGymInfo: SignupGymInfo | null;
   signupStepFriendsInfo: SignupFriendsInfo | null;
   selectedGym: {} | null;
-  me: Me | null;
   customModals: Array<string | number>;
 }
 
 /* PROFILE INITIAL STATE */
 export interface ProfileInitialState {
-  profile: Profile | null;
   tab: ProfileMenuType;
 }
 

@@ -3,16 +3,17 @@ import { BiUser, BiCalendar, BiReceipt, BiHeart } from 'react-icons/bi';
 import { Menu } from '@/../@types/constant';
 import { Icon } from '@/components/atoms';
 import { useDispatch, useSelector } from 'react-redux';
-import { profileSelector, tabSelector, updateTab } from '@/../reducers/profile';
-import { meSelector } from '@/../reducers/user';
+import { tabSelector, updateTab } from '@/../reducers/profile';
 import { useRouter } from 'next/router';
+import { useLoadLoginedUser } from '@/hooks';
+import useGetProfile from '@/hooks/useGetProfile';
 import { MenuText, SideMenu, SideMenuWrap } from './style';
 
 const SideBarTabMenu = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const me = useSelector(meSelector);
-  const { profile } = useSelector(profileSelector);
+  const { data: me } = useLoadLoginedUser();
+  const { data: profile } = useGetProfile();
   const { tab } = useSelector(tabSelector);
   const onClickMenu = useCallback(
     (menu) => {
@@ -20,7 +21,7 @@ const SideBarTabMenu = () => {
       const query =
         pathname === '/myinfo'
           ? `?tab=${menu}`
-          : `?id=${profile.id}&tab=${menu}`;
+          : `?id=${profile?.id}&tab=${menu}`;
       window.history.replaceState(
         window.history.state,
         '',
@@ -28,18 +29,18 @@ const SideBarTabMenu = () => {
       );
       dispatch(updateTab(menu));
     },
-    [profile]
+    [profile?.id]
   );
 
-  const page = useMemo(() => {
-    const queryTab = router.query.tab;
-    if (Array.isArray(queryTab)) return Menu.INFO;
-    return queryTab !== undefined ? queryTab : Menu.INFO;
-  }, [router.query]);
+  // const page = useMemo(() => {
+  //   const queryTab = router.query.tab;
+  //   if (Array.isArray(queryTab)) return Menu.INFO;
+  //   return queryTab !== undefined ? queryTab : Menu.INFO;
+  // }, [router.query]);
 
-  useEffect(() => {
-    dispatch(updateTab(page));
-  }, [page]);
+  // useEffect(() => {
+  //   dispatch(updateTab(page));
+  // }, [page]);
 
   return (
     <SideMenuWrap active={tab}>

@@ -11,7 +11,6 @@ const initialState: UserInitialState = {
   signupStepGymInfo: null,
   signupStepFriendsInfo: null,
   selectedGym: null,
-  me: null,
   customModals: [],
 };
 
@@ -39,13 +38,6 @@ const userSlice = createSlice({
     },
     selectGym(state, action) {
       state.selectedGym = action.payload;
-    },
-    loadMe(state, action) {
-      state.me = action.payload;
-    },
-    changeNickname(state, action) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      state.me!.nickname = action.payload;
     },
     showCustomModal(state, action) {
       state.customModals = [...state.customModals, action.payload];
@@ -82,11 +74,6 @@ export const signupSelector = createDraftSafeSelector(
   })
 );
 
-export const meSelector = createDraftSafeSelector(
-  (state: RootState) => state.user.me,
-  (me) => me
-);
-
 export const modalSelector = createDraftSafeSelector(
   (state: RootState) => state.user.customModals,
   (customModals) => ({ customModals })
@@ -100,8 +87,6 @@ export const {
   signupStepGymInfoSave,
   signupStepFriendsInfoSave,
   selectGym,
-  loadMe,
-  changeNickname,
   showCustomModal,
   hiddenCustomModal,
 } = userSlice.actions;

@@ -19,6 +19,25 @@ try {
   fs.mkdirSync('uploads');
 }
 
+router.get('/isLoggedIn', async (req, res, next) => {
+  try {
+    if (req.user) {
+      const user = await User.findOne({
+        where: { id: req.user.id },
+        attributes: {
+          attributes: ['id'],
+        },
+      });
+      res.status(200).json(user);
+    } else {
+      res.status(200).json(null);
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 router.get('/', async (req, res, next) => {
   try {
     if (req.user) {
@@ -324,6 +343,21 @@ router.put('/', isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.put('/gym', isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: { id: req.user.id },
+      attributes: {
+        attributes: ['id'],
+      },
+    });
+    await user.setGyms(req.body.gymId);
+    res.status(200); 
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
 router.put('/detail', isLoggedIn, async (req, res, next) => {
   try {
     await Userdetail.update({

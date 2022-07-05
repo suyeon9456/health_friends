@@ -33,8 +33,8 @@ const KakaoPostcode = ({
   const map = useRef<any>();
   const infowindow = useRef<any>();
   const [gymPlaces, setGymPlaces] = useState<KeywordPlace[]>([]);
-  const [isSearch, setIsSearch] = useState<boolean>(true);
-  const [keyword, onChangeKeyword] = useInput<string>('');
+  const [searchWord, setSearchWord] = useState<string>('');
+
   const onClickComplete = useCallback((data: KeywordPlace) => {
     if (!data) {
       return;
@@ -140,10 +140,6 @@ const KakaoPostcode = ({
     infowindow.current.close();
   }, [map.current, infowindow.current]);
 
-  const onSearch = useCallback(() => {
-    setIsSearch(true);
-  }, [isSearch]);
-
   useEffect(() => {
     const container = document.getElementById('kakaoGymMap');
     const options = {
@@ -179,11 +175,10 @@ const KakaoPostcode = ({
 
     // 키워드 검색을 요청하는 함수입니다
     const searchPlaces = () => {
-      ps.keywordSearch(`${keyword} 헬스`, placesSearchCB);
+      ps.keywordSearch(`${searchWord} 헬스`, placesSearchCB);
     };
     searchPlaces();
-    setIsSearch(false);
-  }, [isSearch]);
+  }, [searchWord]);
 
   return (
     <Modal
@@ -195,14 +190,12 @@ const KakaoPostcode = ({
       <ModalBodyBox>
         <Search
           placeholder="지역 키워드를 입력하세요. (ex 낙성대, 서촌)"
-          value={keyword}
-          onChange={onChangeKeyword}
-          onSearch={onSearch}
+          setSearchWord={setSearchWord}
         />
         <SearchResultWrap>
           <SearchList>
             <ul>
-              {gymPlaces?.map((place, i) => (
+              {gymPlaces?.map((place) => (
                 <li
                   key={place.id}
                   // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role

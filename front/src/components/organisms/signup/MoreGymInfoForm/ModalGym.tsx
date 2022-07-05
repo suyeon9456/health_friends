@@ -6,7 +6,7 @@ import { SearchGymTabs } from '@/../@types/constant';
 import { useMutation, useQueryErrorResetBoundary } from 'react-query';
 import { addGymAPI } from '@/api/gym';
 import { AddressAPI, CreateGymForm, ModalGymProps } from '@/../@types/gym';
-import { selectGym } from '@/../reducers/user';
+import { hiddenCustomModal, selectGym } from '@/../reducers/user';
 import { Modal, Tabs } from '../../../molecules';
 import ModalSearchGym from '../../ModalSearchGym';
 import ModalCreateGym from '../../ModalCreateGym';
@@ -14,7 +14,8 @@ import { ModalBodyBox } from './style';
 import ErrorBoundary from '../../ErrorBoundary';
 import ErrorFallback from '../../ErrorFallback';
 
-const ModalGym = ({ title, onCancel, setGym, ...props }: ModalGymProps) => {
+const UPDATEGYM = 'UPDATEGYM' as const;
+const ModalGym = ({ title, setGym, ...props }: ModalGymProps) => {
   const dispatch = useDispatch();
   const { reset } = useQueryErrorResetBoundary();
 
@@ -44,11 +45,16 @@ const ModalGym = ({ title, onCancel, setGym, ...props }: ModalGymProps) => {
     [selectedTab]
   );
 
+  const onCancel = useCallback(() => {
+    dispatch(hiddenCustomModal(UPDATEGYM));
+  }, []);
+
   const onSubmit = useCallback(
-    (data) => {
+    (data, e) => {
+      if (e.eventPhase === 3) return;
       gymMutation.mutate(data);
       setGym('gym', data.name);
-      onCancel();
+      hiddenCustomModal(UPDATEGYM);
     },
     [selectedTab]
   );

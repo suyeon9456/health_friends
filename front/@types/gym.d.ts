@@ -41,7 +41,6 @@ export interface ModalSearchGymProps {
 
 export interface ModalGymProps {
   title: string;
-  onCancel: () => void;
   setGym: UseFormSetValue<{
     startTime: Date;
     endTime: Date;

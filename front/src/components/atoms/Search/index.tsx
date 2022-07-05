@@ -1,6 +1,7 @@
+import React, { useCallback } from 'react';
 import { SearchProps } from '@/../@types/atoms';
 import { SizeType } from '@/../@types/constant';
-import React, { useCallback } from 'react';
+import { useInput } from '@/hooks';
 
 import {
   SearchWrap,
@@ -13,19 +14,24 @@ import {
 const Search = ({
   size = SizeType.DEFAULT,
   loading,
-  value,
-  onChange,
   placeholder,
-  onSearch,
+  setSearchWord,
+  onSearchCallback,
   ...props
 }: SearchProps) => {
+  const [searchWord, onChangeSearchWord] = useInput<string>('');
+  const onSearch = useCallback(() => {
+    setSearchWord(searchWord);
+    if (!onSearchCallback) return;
+    onSearchCallback();
+  }, [searchWord]);
   const handleKeyPress = useCallback(
     (e) => {
       if (e.key === 'Enter') {
         onSearch();
       }
     },
-    [value]
+    [searchWord]
   );
   return (
     <SearchWrap {...props} size={size}>
@@ -34,8 +40,8 @@ const Search = ({
       </EnterIconWrapper>
       <SearchInput
         size={size}
-        value={value}
-        onChange={onChange}
+        value={searchWord}
+        onChange={onChangeSearchWord}
         placeholder={placeholder}
         onKeyPress={handleKeyPress}
       />

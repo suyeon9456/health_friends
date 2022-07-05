@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { meSelector } from '@/../reducers/user';
 import {
   addReScheduleAPI,
   loadScheduleAPI,
@@ -16,7 +14,8 @@ import { ModalType, ShowModalType } from '@/../@types/constant';
 import { MatchingCardProps, Schedule } from '@/../@types/schedule';
 import { AxiosError } from 'axios';
 import { scheduleByIdKey } from '@/../@utils/queryKey';
-import { profileSelector } from '@/../reducers/profile';
+import { useLoadLoginedUser } from '@/hooks';
+import useGetProfile from '@/hooks/useGetProfile';
 import { Modal } from '../../../molecules';
 import MatchingRequestForm from '../../MatchingRequestForm';
 
@@ -39,8 +38,8 @@ const ModalMatchingEdit = ({
   onCancel: () => void;
   mode: ShowModalType;
 }) => {
-  const me = useSelector(meSelector);
-  const { profile } = useSelector(profileSelector);
+  const { data: me } = useLoadLoginedUser();
+  const { data: profile } = useGetProfile();
 
   const { data } = useQuery<MatchingCardProps | undefined, AxiosError>(
     scheduleByIdKey(matchingId, queryId, profile?.id),
@@ -57,7 +56,7 @@ const ModalMatchingEdit = ({
       ...data,
       start: new Date(data.startDate),
       end: new Date(data.endDate),
-      Friend: data.Receiver.id === profile.id ? data.Requester : data.Receiver,
+      Friend: data.Receiver.id === profile?.id ? data.Requester : data.Receiver,
     };
   }, [data]);
 

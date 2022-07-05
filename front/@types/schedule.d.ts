@@ -18,13 +18,13 @@ export interface ScheduleModel {
 
 export interface Schedule extends ScheduleModel {
   Requester: {
-    id: string;
+    id: number;
     nickname: string;
     Image: Image;
     Liker: User;
   };
   Receiver: {
-    id: string;
+    id: number;
     nickname: string;
     Image: Image;
   };
@@ -144,7 +144,7 @@ export interface MatchingReqFormProps {
 }
 
 export interface ModalMatchingProps {
-  selectedUser: UserGym | null;
+  selectedUser?: Profile | UserGym | null;
   gymName?: string;
 }
 

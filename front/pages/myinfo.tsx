@@ -1,42 +1,19 @@
-import React, { useEffect, useLayoutEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Head from 'next/head';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import { GetServerSidePropsContext } from 'next';
-import { useQuery } from 'react-query';
-import { loadMyinfoAPI } from '@/api/profile';
 import { useRouter } from 'next/router';
 import ProfileContents from '@/components/organisms/profile/ProfileContents';
-import { loadProfile, updateTab } from '../reducers/profile';
+import { updateTab } from '../reducers/profile';
 
 import { AppLayout, SideBar, Row, Col } from '../src/components/organisms';
-import { GlobalModal, Menu, ModalStatus } from '../@types/constant';
-import { profileKey } from '../@utils/queryKey';
-import { useModalDispatch } from '../store/modalStore';
-import { loadMe } from '../reducers/user';
+import { Menu } from '../@types/constant';
 
 const Myinfo = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const contextDispatch = useModalDispatch();
-
-  useQuery(profileKey, () => loadMyinfoAPI(), {
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => dispatch(loadProfile(data)),
-    onError: () =>
-      contextDispatch({
-        type: 'SHOW_MODAL',
-        payload: {
-          type: GlobalModal.ALERT,
-          statusType: ModalStatus.ERROR,
-          message: '존재하지 않는 사용자입니다.',
-          block: true,
-          callback: () => router.replace('/'),
-        },
-      }),
-    useErrorBoundary: false,
-  });
 
   const page = useMemo(() => {
     return router.query.tab !== undefined ? router.query.tab : Menu.INFO;

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 import {
-  hiddenCustomModal,
   showCustomModal,
   signupSelector,
   signupStepGymInfoSave,
@@ -116,7 +115,6 @@ const MoreGymInfoForm = () => {
       <GlobalCustomModal id={UPDATEGYM}>
         <ModalGym
           title="헬스장 찾기/등록"
-          onCancel={() => dispatch(hiddenCustomModal(UPDATEGYM))}
           setGym={setValue}
           {...{ className: 'gym-modal' }}
         />

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { QueryErrorResetBoundary } from 'react-query';
@@ -9,7 +9,6 @@ import {
   foldedItemSelector,
   gymsSelector,
 } from '@/../reducers/gym';
-import useInput from '@/hooks/useInput';
 
 import { Search, FoldButton } from '@/components/atoms';
 import SearchSidebar from '../SearchSidebar';
@@ -29,21 +28,13 @@ const SearchGyms = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const { searchText } = router.query;
   const { gyms } = useSelector(gymsSelector);
   const { isFoldedGym, isFoldedFriends } = useSelector(foldedItemSelector);
   const [browserHeight, setBrowserHeight] = useState<number>(0);
-  const searchQuery = useRef<string>(
-    (!!searchText && !Array.isArray(searchText) && searchText) || ''
-  );
-  const [searchWord, onChangeSearchWord] = useInput<string>('');
 
-  const changeFoldedGym = useCallback(() => {
-    dispatch(changeIsFoldedGym(!isFoldedGym));
-  }, [isFoldedGym]);
+  const [searchWord, setSearchWord] = useState<string>('');
 
-  const onSearchGyms = useCallback(() => {
-    searchQuery.current = searchWord;
+  const onSearchCallback = useCallback(() => {
     dispatch(changeMapBounds(null));
     window.history.replaceState(
       window.history.state,
@@ -51,6 +42,16 @@ const SearchGyms = () => {
       `${window.location.pathname}?searchText=${searchWord}`
     );
   }, [searchWord]);
+
+  const query = useMemo(() => {
+    const { searchText } = router.query;
+    return (!!searchText && !Array.isArray(searchText) && searchText) || '';
+  }, [router.query]);
+
+  useEffect(() => {
+    if (!query) return;
+    setSearchWord(query);
+  }, [query]);
 
   useEffect(() => {
     if (!isFoldedFriends) {
@@ -65,37 +66,29 @@ const SearchGyms = () => {
   return (
     <QueryErrorResetBoundary>
       {({ reset }) => (
-        <SearchWrapper
-          foldedBlock={isFoldedGym && isFoldedFriends}
-          foldedOnlyGym={isFoldedGym && !isFoldedFriends}
-        >
+        <SearchWrapper>
           <SearchSidebar />
-          {isFoldedFriends || (
-            <FoldButton isFolded={isFoldedGym} changeFolded={changeFoldedGym} />
-          )}
+          {isFoldedFriends || <FoldButton />}
           <GymWrapper foldedGym={isFoldedGym} foldedFriends={isFoldedFriends}>
             <SearchHeader>
               <span>{gyms?.length}개의 헬스장</span>
-              <SearchTitle>
-                {searchQuery.current || '전체 헬스장'} 검색 결과
-              </SearchTitle>
+              <SearchTitle>{searchWord || '전체 헬스장'} 검색 결과</SearchTitle>
             </SearchHeader>
             <SearchFormWrapper>
               <Search
                 placeholder="관심 지역 및 헬스장을 검색해보세요."
-                value={searchWord}
-                onChange={onChangeSearchWord}
-                onSearch={onSearchGyms}
+                setSearchWord={setSearchWord}
+                onSearchCallback={onSearchCallback}
               />
             </SearchFormWrapper>
             <SearchListWrapper browserHeight={browserHeight}>
               <ErrorBoundary
-                key={searchQuery.current}
+                key={searchWord}
                 onReset={reset}
                 fallback={ErrorFallback}
                 message="검색결과를 로드하는데 실패 하였습니다."
               >
-                <GymList searchQuery={searchQuery.current} />
+                <GymList searchQuery={searchWord} />
               </ErrorBoundary>
             </SearchListWrapper>
           </GymWrapper>

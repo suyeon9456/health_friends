@@ -32,8 +32,8 @@ interface CustomScheduleType {
 
 interface Props {
   schedule: MatchingCardProps;
-  profileId: number;
-  me: Me;
+  profileId?: number;
+  me?: Me;
 }
 type StateType =
   | ReadonlyArray<{

@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
-import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
+import { AxiosError } from 'axios';
 import isEmpty from 'lodash/isEmpty';
 import { BiDotsVerticalRounded, BiEdit, BiHeart, BiUser } from 'react-icons/bi';
 import { ImDrawer2 } from 'react-icons/im';
 
-import { profileSelector } from '@/../reducers/profile';
 import { loadLikedListAPI } from '@/api/profile';
 import { LikedFriendAPI } from '@/../@types/user';
+import useGetProfile from '@/hooks/useGetProfile';
+import { useRouter } from 'next/router';
 import { Icon } from '../../../atoms';
 import {
   LikedListWrap,
@@ -25,16 +25,21 @@ import {
 } from './style';
 import LoadingFallback from './LoadingFallback';
 
-const LikedList = ({ isProfile }: { isProfile?: boolean }) => {
-  const { profile } = useSelector(profileSelector);
+const LikedList = () => {
+  const router = useRouter();
+  const { data: profile } = useGetProfile();
+
+  const profileId = useMemo(() => {
+    return router.pathname !== '/myinfo' ? `?userId=${profile?.id}` : '';
+  }, [router.pathname]);
+
   const { isLoading, data: likedFriends } = useQuery<
     LikedFriendAPI[] | undefined,
     AxiosError
   >(
     ['likedFriends'],
     () => {
-      const userId = isProfile ? `?userId=${profile?.id}` : '';
-      return loadLikedListAPI(userId);
+      return loadLikedListAPI(profileId);
     },
     { cacheTime: 2 * 60 * 1000 }
   );

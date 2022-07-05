@@ -54,7 +54,6 @@ const MatchingCard = ({
   );
 
   const onCancle = useCallback(() => {
-    console.log(`${modalType}-${id}`);
     dispatch(hiddenCustomModal(`${modalType}-${id}`));
   }, [modalType]);
   return (

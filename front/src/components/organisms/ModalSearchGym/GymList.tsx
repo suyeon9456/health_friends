@@ -36,6 +36,7 @@ const GymList = ({
 
   const onClick = useCallback(
     (gym) => {
+      console.log('?');
       if (setGym) {
         dispatch(selectGym({ id: gym.id, name: gym.name }));
         setGym('gym', gym.name);

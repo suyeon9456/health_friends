@@ -13,7 +13,7 @@ export const schedulesByIdKey = ({
   type,
   isCanceled,
 }: {
-  profileId: number;
+  profileId?: number;
   status: string[];
   term: string[];
   type: string[];

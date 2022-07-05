@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'react-query';
 import { BiGroup } from 'react-icons/bi';
@@ -9,8 +9,10 @@ import { gymsKey } from '@/../@utils/queryKey';
 import { Gym } from '@/../@types/gym';
 
 import { Icon, Item } from '@/components/atoms';
+import { useRouter } from 'next/router';
 
 const GymList = ({ searchQuery }: { searchQuery: string }) => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { gyms, mapBounds } = useSelector(gymsSelector);
 
@@ -39,6 +41,20 @@ const GymList = ({ searchQuery }: { searchQuery: string }) => {
     },
     []
   );
+
+  const query = useMemo(() => {
+    const { gym } = router.query;
+    return (!!gym && !Array.isArray(gym) && parseInt(gym, 10)) || null;
+  }, [router.query]);
+
+  useEffect(() => {
+    if (!query) return;
+    dispatch(
+      changeSelectedGym(
+        gyms.find(({ id: gymId }: { id: number }) => gymId === query)
+      )
+    );
+  }, [query]);
 
   return (
     <>

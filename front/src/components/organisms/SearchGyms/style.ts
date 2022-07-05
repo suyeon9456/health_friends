@@ -1,9 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const SearchWrapper = styled.section<{
-  foldedBlock: boolean;
-  foldedOnlyGym: boolean;
-}>`
+export const SearchWrapper = styled.section`
   width: 100%;
   margin-top: 10px;
   border-radius: 5px;
@@ -11,18 +8,6 @@ export const SearchWrapper = styled.section<{
   overflow: hidden;
   box-sizing: border-box;
   height: 581px;
-
-  ${({ foldedBlock }) =>
-    foldedBlock &&
-    css`
-      height: 43px;
-    `}
-
-  ${({ foldedOnlyGym }) =>
-    foldedOnlyGym &&
-    css`
-      height: 537px;
-    `}
 
   @media (min-width: 768px) {
     height: 100%;

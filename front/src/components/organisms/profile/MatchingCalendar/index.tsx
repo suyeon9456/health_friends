@@ -1,28 +1,35 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
 import { useQuery } from 'react-query';
 
-import { profileSelector } from '@/../reducers/profile';
 import { hiddenCustomModal, showCustomModal } from '@/../reducers/user';
 import useSelectRage from '@/hooks/useSelectRage';
 import { loadCalendarScheduleAPI } from '@/api/schedule';
 import { formatDateTime } from '@/../@utils/date';
 import { CalendarScheduleAPI, CalendarEvent } from '@/../@types/schedule';
 import { AxiosError } from 'axios';
+import useGetProfile from '@/hooks/useGetProfile';
 import { BigCalendar, SimpleMatchingCard } from '../../../molecules';
 import { CalendarWrap, CardWrap } from './style';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import GlobalCustomModal from '../../GlobalCustomModal';
 
 const CALENDAR = 'CALENDAR' as const;
-const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
+const MatchingCalendar = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
-  const { profile } = useSelector(profileSelector);
   const [range, onChangeRange] = useSelectRage();
   const [nickname, setNickname] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [date, setDate] = useState<string>('');
   const [events, setEvents] = useState<CalendarEvent[]>([]);
+
+  const { data: profile } = useGetProfile();
+
+  const profileId = useMemo(() => {
+    return router.pathname !== '/myinfo' ? profile?.id : null;
+  }, [router.pathname]);
 
   const { data: apiEvents } = useQuery<
     CalendarScheduleAPI[] | undefined,
@@ -32,7 +39,7 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
     () =>
       loadCalendarScheduleAPI({
         range,
-        profileId: isProfile ? profile?.id : null,
+        profileId,
       }),
     { refetchOnWindowFocus: false }
   );
@@ -71,7 +78,7 @@ const MatchingCalendar = ({ isProfile }: { isProfile?: boolean }) => {
         })
       );
     }
-  }, [apiEvents]);
+  }, [apiEvents, profile?.id]);
 
   return (
     <CalendarWrap>

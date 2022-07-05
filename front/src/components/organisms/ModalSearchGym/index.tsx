@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import useInput from '@/hooks/useInput';
 import { ModalSearchGymProps } from '@/../@types/gym';
 import { useQueryErrorResetBoundary } from 'react-query';
@@ -10,21 +10,11 @@ import ErrorFallback from '../ErrorFallback';
 
 const ModalSearchGym = ({ onSelectedGym, setGym }: ModalSearchGymProps) => {
   const { reset } = useQueryErrorResetBoundary();
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [searchWord, onChangeSearchWord] = useInput<string>('');
-
-  const onSearch = useCallback(() => {
-    setSearchQuery(searchWord);
-  }, [searchWord]);
-
+  const [searchWord, setSearchWord] = useState<string>('');
+  useEffect(() => console.log(searchWord), [searchWord]);
   return (
     <BoxContent>
-      <Search
-        value={searchWord}
-        onChange={onChangeSearchWord}
-        onSearch={onSearch}
-        enterButton
-      />
+      <Search setSearchWord={setSearchWord} />
       <GymListWrap>
         <ErrorBoundary
           onReset={reset}
@@ -32,7 +22,7 @@ const ModalSearchGym = ({ onSelectedGym, setGym }: ModalSearchGymProps) => {
           message="해당 검색어에 대한 헬스장을 로드하는데 실패 하였습니다."
         >
           <GymList
-            searchQuery={searchQuery}
+            searchQuery={searchWord}
             setGym={setGym}
             onSelectedGym={onSelectedGym}
           />

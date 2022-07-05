@@ -22,7 +22,6 @@ const ErrorFallback = ({
   onReset: () => void;
   message?: string;
 }) => {
-  console.log(onReset);
   return (
     <FriendsErrorWrap>
       <FriendsErrorCard>

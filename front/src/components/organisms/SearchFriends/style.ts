@@ -26,7 +26,8 @@ export const SearchFriendsWrapper = styled.div<{
   ${({ foldedGym }) =>
     foldedGym &&
     css`
-      top: calc(0% + 43px);
+      top: calc(0% + 53px);
+      min-height: 538px;
     `}
 
   @media (min-width: 768px) {

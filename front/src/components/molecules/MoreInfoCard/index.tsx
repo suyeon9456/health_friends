@@ -28,7 +28,7 @@ const MoreInfoCard = ({
 }: {
   type: InfoContentType;
   title: string;
-  profile: Profile;
+  profile?: Profile;
   isAuthorization?: boolean;
 }) => {
   const dispatch = useDispatch();
