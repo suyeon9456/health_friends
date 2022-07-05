@@ -37,7 +37,7 @@ const ModalMatchingRequest = ({
     defaultValues: {
       startDate: new Date(),
       endDate: new Date(),
-      gym: (gymName ?? gym.name) || '',
+      gym: '',
       description: '',
     },
     resolver: yupResolver(schema),
