@@ -144,11 +144,7 @@ const ModalMatchingEdit = ({
       footer
       form
     >
-      <MatchingRequestForm
-        friend={schedule.Friend}
-        control={control}
-        errors={errors}
-      />
+      <MatchingRequestForm friend={schedule.Friend} control={control} />
     </Modal>
   );
 };
