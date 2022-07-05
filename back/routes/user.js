@@ -168,8 +168,8 @@ router.get('/profile/:userId', async (req, res, next) => {
     const matching = await Schedule.findAll({
       attributes: [
         'FriendId',
-        [Sequelize.literal(`(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND (UserId = ${req.params.userId} OR FriendId = ${req.params.userId}))`), 'matchingCount'],
-        [Sequelize.literal(`(SELECT count(id) AS 'count' FROM schedules WHERE permission = 1 AND isPermitted = 1 AND RematchId IS NOT NULL AND (UserId = ${req.params.userId} OR FriendId = ${req.params.userId}))`), 'rematchingCount']
+        [Sequelize.literal(`(SELECT count(id) AS 'count' FROM Schedules WHERE permission = 1 AND isPermitted = 1 AND (UserId = ${req.params.userId} OR FriendId = ${req.params.userId}))`), 'matchingCount'],
+        [Sequelize.literal(`(SELECT count(id) AS 'count' FROM Schedules WHERE permission = 1 AND isPermitted = 1 AND RematchId IS NOT NULL AND (UserId = ${req.params.userId} OR FriendId = ${req.params.userId}))`), 'rematchingCount']
       ],
       where: {
         UserId: req.params.userId,
