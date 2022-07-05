@@ -31,8 +31,8 @@ interface FormDateTimeType<T> {
   size?: BaseSizeTypeT;
   essential?: boolean;
   error?: {
-    startError: FieldError | undefined;
-    endError: FieldError | undefined;
+    startError?: FieldError | undefined;
+    endError?: FieldError | undefined;
   };
 }
 
