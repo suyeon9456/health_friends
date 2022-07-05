@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { MatchingReqFormProps } from '@/../@types/schedule';
 import { useLoadLoginedUser } from '@/hooks';
@@ -19,7 +19,6 @@ const MatchingRequestForm = ({
   errors,
 }: MatchingReqFormProps) => {
   const { data: me } = useLoadLoginedUser();
-
   return (
     <RequestFriendWrap>
       <MatchingInfoWrap>
@@ -30,7 +29,6 @@ const MatchingRequestForm = ({
           endName="endDate"
           essential
           control={control}
-          error={{ startError: errors?.startDate, endError: errors?.endDate }}
         />
         <FormInput
           label="헬스장"
