@@ -140,7 +140,6 @@ export interface MatchingReqFormProps {
     },
     object
   >;
-  errors?: FieldErrors;
 }
 
 export interface ModalMatchingProps {

@@ -56,8 +56,8 @@ app.use(session({
   secret: process.env.COOKIE_SECRET,
   cookie: {
     httpOnly: true, // 자바스크립트로 접근 불가
-    secure: false,
-    // secure: true,
+    // secure: false,
+    secure: true,
     domain: process.env.NODE_ENV === 'production' && '.health-friends.com',
   }
 }));

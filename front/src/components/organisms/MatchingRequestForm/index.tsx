@@ -13,11 +13,7 @@ import {
   DescriptionWrap,
 } from './style';
 
-const MatchingRequestForm = ({
-  friend,
-  control,
-  errors,
-}: MatchingReqFormProps) => {
+const MatchingRequestForm = ({ friend, control }: MatchingReqFormProps) => {
   const { data: me } = useLoadLoginedUser();
   return (
     <RequestFriendWrap>
