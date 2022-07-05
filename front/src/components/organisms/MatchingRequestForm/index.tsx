@@ -34,7 +34,6 @@ const MatchingRequestForm = ({
           label="헬스장"
           id="gym"
           control={control}
-          error={errors?.gym}
           disabled
           essential
         />
