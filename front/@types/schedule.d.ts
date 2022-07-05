@@ -135,7 +135,7 @@ export interface MatchingReqFormProps {
     {
       startDate: Date;
       endDate: Date;
-      gym: string;
+      gym: any;
       description: string;
     },
     object
