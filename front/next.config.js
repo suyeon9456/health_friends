@@ -18,9 +18,9 @@ module.exports = withBundleAnalyzer({
   // experimental: {
   //   reactMode: "concurrent",
   // },
-  compiler: {
-    styledComponents: true,
-  },
+  // compiler: {
+  //   styledComponents: true,
+  // },
   webpack(config) {
     const prod = process.env.NODE_ENV === 'production';
     const plugins = [...config.plugins];
