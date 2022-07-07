@@ -23,7 +23,6 @@ module.exports = withBundleAnalyzer({
   // },
   webpack(config) {
     const prod = process.env.NODE_ENV === 'production';
-    const plugins = [...config.plugins];
     return {
       ...config,
       mode: prod ? 'production' : 'development',
@@ -38,7 +37,10 @@ module.exports = withBundleAnalyzer({
           },
         ],
       },
-      plugins,
+      plugins: [
+        ...config.plugins,
+        new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /^\.\/ko$/),
+      ],
     };
   },
 });
