@@ -5,8 +5,14 @@ import { useForm } from 'react-hook-form';
 import { updateFriendsInfoAPI, updateMyinfoAPI } from '@/api/user';
 import { createTimeToDateTime, formatTime } from '@/../@utils/date';
 import { SignupGymInfo, SignupMoreInfo } from '@/../@types/user';
-import { InfoContent, InfoContentType } from '@/../@types/constant';
+import {
+  GlobalModal,
+  InfoContent,
+  InfoContentType,
+  ModalStatus,
+} from '@/../@types/constant';
 import useGetProfile from '@/hooks/useGetProfile';
+import { useModalDispatch } from '@/../store/modalStore';
 import { Modal } from '../../../molecules';
 import EditInfoForm from '../EditInfoForm';
 
@@ -19,6 +25,7 @@ const ModalEditInfo = ({
   type: InfoContentType;
   onCancel: () => void;
 }) => {
+  const contextDispatch = useModalDispatch();
   const { data: profile } = useGetProfile();
   const queryClient = useQueryClient();
   const myinfoMutation = useMutation(
@@ -26,6 +33,15 @@ const ModalEditInfo = ({
     {
       onSuccess() {
         onCancel();
+        contextDispatch({
+          type: 'SHOW_MODAL',
+          payload: {
+            type: GlobalModal.ALERT,
+            statusType: ModalStatus.SUCCESS,
+            message: '정보 수정에 성공하였습니다.',
+            block: true,
+          },
+        });
       },
     }
   );
@@ -34,6 +50,15 @@ const ModalEditInfo = ({
     {
       onSuccess() {
         onCancel();
+        contextDispatch({
+          type: 'SHOW_MODAL',
+          payload: {
+            type: GlobalModal.ALERT,
+            statusType: ModalStatus.SUCCESS,
+            message: '친구정보 수정에 성공하였습니다.',
+            block: true,
+          },
+        });
       },
     }
   );

@@ -36,13 +36,11 @@ export const UserInfoWrap = styled.div`
   width: 100%;
   display: flex;
   margin-bottom: 10px;
-
-  & > div {
-    flex-grow: 1;
-  }
 `;
 
 export const InfoContent = styled.div`
+  flex-grow: 1;
+  width: 50%;
   & > h4 {
     font-size: 14px;
     font-weight: 600;
@@ -64,6 +62,7 @@ export const Content = styled.div`
   }
   & > div {
     padding: 5px;
+    max-width: 170px;
   }
 `;
 

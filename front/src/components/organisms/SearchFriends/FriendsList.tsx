@@ -79,7 +79,7 @@ const FriendsList = () => {
             percent={percent}
             isLoading={isLoading}
             isCheckedLike={isCheckedLike}
-            onClick={onShowMatchingModal(user.id)}
+            onClick={onShowMatchingModal(user)}
             onLike={(userId: number) => likeMutation.mutate(userId)}
           />
         );

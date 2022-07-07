@@ -8,7 +8,6 @@ import React, {
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { QueryErrorResetBoundary } from 'react-query';
-import { AiOutlineLoading } from 'react-icons/ai';
 
 import {
   changeIsFoldedGym,
@@ -19,7 +18,6 @@ import {
 
 import { Search, FoldButton, Icon } from '@/components/atoms';
 import dynamic from 'next/dynamic';
-// import SearchSidebar from '../SearchSidebar';
 import Spinner from '@/components/atoms/Spinner';
 import {
   SearchHeader,
@@ -82,21 +80,7 @@ const SearchGyms = () => {
     <QueryErrorResetBoundary>
       {({ reset }) => (
         <SearchWrapper>
-          <Suspense
-            fallback={
-              <div
-                style={{
-                  width: '100px',
-                  height: '100px',
-                  backgroundColor: 'red',
-                }}
-              >
-                loading
-              </div>
-            }
-          >
-            <SearchSidebar />
-          </Suspense>
+          <SearchSidebar />
           {isFoldedFriends || <FoldButton />}
           <GymWrapper foldedGym={isFoldedGym} foldedFriends={isFoldedFriends}>
             <SearchHeader>

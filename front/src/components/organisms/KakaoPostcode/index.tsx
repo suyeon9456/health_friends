@@ -1,19 +1,13 @@
 /* eslint-disable no-undef */
-import React, {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
 
-import { useInput } from '@/hooks';
 import { KeywordPlace } from '@/../@types/map';
 
 import { Modal } from '@/components/molecules';
 import { Search } from '@/components/atoms';
+import { useModalDispatch } from '@/../store/modalStore';
+import { GlobalModal, ModalStatus } from '@/../@types/constant';
 import { ModalBodyBox, SearchList, SearchMap, SearchResultWrap } from './style';
 
 const KakaoPostcode = ({
@@ -30,6 +24,7 @@ const KakaoPostcode = ({
     name: string;
   }>;
 }) => {
+  const contextDispatch = useModalDispatch();
   const map = useRef<any>();
   const infowindow = useRef<any>();
   const [gymPlaces, setGymPlaces] = useState<KeywordPlace[]>([]);
@@ -46,7 +41,7 @@ const KakaoPostcode = ({
     setValue('addressRoad', data.road_address_name);
     setValue('phone', phone);
     setValue('name', data.place_name);
-    onCancel();
+    // submitCallback();
   }, []);
 
   const removeAllChildNods = useCallback(() => {

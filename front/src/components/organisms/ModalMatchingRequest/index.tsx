@@ -6,12 +6,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { gymSelector } from '@/../reducers/gym';
-import { SizeType } from '@/../@types/constant';
+import { GlobalModal, ModalStatus, SizeType } from '@/../@types/constant';
 import { addScheduleAPI } from '@/api/schedule';
 import { ModalMatchingProps, Schedule } from '@/../@types/schedule';
 import { createEndDate } from '@/../@utils/date';
 import { useLoadLoginedUser } from '@/hooks';
 import { hiddenCustomModal } from '@/../reducers/user';
+import { useModalDispatch } from '@/../store/modalStore';
 import { Modal } from '../../molecules';
 import { Avatar } from '../../atoms';
 import MatchingRequestForm from '../MatchingRequestForm';
@@ -30,7 +31,7 @@ const ModalMatchingRequest = ({
   gymName,
 }: ModalMatchingProps): React.ReactElement => {
   const dispatch = useDispatch();
-  console.log('gymSelector', gymSelector);
+  const contextDispatch = useModalDispatch();
   const { gym } = useSelector(gymSelector);
   const { data: me } = useLoadLoginedUser();
 
@@ -49,6 +50,15 @@ const ModalMatchingRequest = ({
     {
       onSuccess() {
         dispatch(hiddenCustomModal(MATCHING));
+        contextDispatch({
+          type: 'SHOW_MODAL',
+          payload: {
+            type: GlobalModal.ALERT,
+            statusType: ModalStatus.SUCCESS,
+            message: '매칭 등록에 성공하였습니다.',
+            block: true,
+          },
+        });
       },
     }
   );
@@ -74,6 +84,8 @@ const ModalMatchingRequest = ({
     setValue('gym', `${gym?.addressRoad}${gym?.name}`);
   }, [gym, gymName]);
 
+  useEffect(() => console.log(selectedUser), [selectedUser]);
+
   return (
     <Modal
       title={
@@ -91,7 +103,7 @@ const ModalMatchingRequest = ({
       form
       footer
     >
-      <MatchingRequestForm control={control} />
+      <MatchingRequestForm friend={selectedUser} control={control} />
     </Modal>
   );
 };

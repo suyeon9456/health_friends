@@ -196,27 +196,27 @@ const RecommendFriends = () => {
         <FriendsCardList>
           <Suspense fallback={<LoadingFallback />}>
             <Slider {...settings}>
-              {recommendData?.fullFriends?.map((friend) => (
-                <Link href={`/profile/${friend?.id}`} key={friend.id}>
-                  <FriendsCardWrap>
-                    <FriendsCard>
-                      <CardAvatarWrap>
-                        <Avatar
-                          size={82}
-                          src={friend?.Image ? `${friend?.Image?.src}` : ''}
-                        />
-                      </CardAvatarWrap>
-                      <CardContentWrap>
-                        <ContentTitile>{friend.nickname}</ContentTitile>
-                        <ContentDescription>
-                          {friend?.Gyms?.[0].address}
-                          <span> {friend?.Gyms?.[0].name}</span>
-                        </ContentDescription>
-                      </CardContentWrap>
-                    </FriendsCard>
-                  </FriendsCardWrap>
-                </Link>
-              ))}
+              {recommendData?.fullFriends?.map((friend) => {
+                const friendImage = friend?.Image?.src ?? '';
+                return (
+                  <Link href={`/profile/${friend?.id}`} key={friend.id}>
+                    <FriendsCardWrap>
+                      <FriendsCard>
+                        <CardAvatarWrap>
+                          <Avatar size={82} src={friendImage} />
+                        </CardAvatarWrap>
+                        <CardContentWrap>
+                          <ContentTitile>{friend.nickname}</ContentTitile>
+                          <ContentDescription>
+                            {friend?.Gyms?.[0].address}
+                            <span> {friend?.Gyms?.[0].name}</span>
+                          </ContentDescription>
+                        </CardContentWrap>
+                      </FriendsCard>
+                    </FriendsCardWrap>
+                  </Link>
+                );
+              })}
             </Slider>
           </Suspense>
         </FriendsCardList>

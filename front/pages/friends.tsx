@@ -47,8 +47,9 @@ const Friends = () => {
 
 export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(initialGymsKey, () =>
-    loadGymsAPI({ searchWord: '', mapBounds: null })
+  await queryClient.prefetchQuery(
+    gymsKey({ searchWord: '', mapBounds: null }),
+    () => loadGymsAPI({ searchWord: '', mapBounds: null })
   );
 
   return {

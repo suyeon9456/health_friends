@@ -24,11 +24,6 @@ const Profile = ({ dehydratedState }: any) => {
     dispatch(updateTab(page));
   }, [page]);
 
-  useEffect(
-    () => console.log('dehydratedState', dehydratedState),
-    [dehydratedState]
-  );
-
   return (
     <>
       <Head>

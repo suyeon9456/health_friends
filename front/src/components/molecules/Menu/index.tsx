@@ -39,7 +39,7 @@ const Menu = () => {
     });
   }, [isDrawer]);
 
-  useEffect(() => setIsLoggedIn(!!me), []);
+  useEffect(() => setIsLoggedIn(!!me), [me]);
   return (
     <MenuList>
       <MenuItem type="home" align="left">
