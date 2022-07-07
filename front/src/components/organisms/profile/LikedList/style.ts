@@ -14,16 +14,10 @@ export const LikedListWrap = styled.div`
   box-sizing: border-box;
 `;
 
-export const LikedListBody = styled.div<{ empty: boolean }>`
+export const LikedListBody = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(25%, auto));
   gap: 10px;
-
-  ${({ empty }) =>
-    empty &&
-    css`
-      display: block;
-    `}
   @media (max-width: 767px) {
     grid-template-columns: repeat(auto-fill, minmax(50%, auto));
   }

@@ -50,9 +50,12 @@ export const FriendsCardList = styled.div`
   }
 `;
 
+export const FriendsCardWrap = styled.div`
+  width: 100%;
+  padding: 10px;
+`;
+
 export const FriendsCard = styled.div`
-  margin: 10px 0 !important;
-  width: 200px !important;
   height: 200px;
   background-color: #ffffff;
   border: 1px solid rgb(230, 230, 230);
@@ -142,8 +145,8 @@ export const ErrorIconWrap = styled.div`
 `;
 
 export const FriendsLoadingCard = styled.div`
-  margin: 10px 0 !important;
-  width: 200px !important;
+  /* margin: 10px 0 !important;
+  width: 200px !important; */
   height: 200px;
   background-color: #ffffff;
   border: 1px solid rgb(230, 230, 230);
@@ -217,5 +220,14 @@ export const LoadingDescription = styled.div`
   height: 16px;
   background: rgba(190, 190, 190, 0.2);
   border-radius: 2px;
+  overflow: hidden;
+`;
+
+export const LoadingFallbackWrap = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 100%;
   overflow: hidden;
 `;

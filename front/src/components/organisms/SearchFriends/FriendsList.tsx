@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { useModalDispatch } from '@/../store/modalStore';
@@ -33,6 +33,7 @@ const FriendsList = () => {
       onSuccess: (data) => dispatch(loadFriends(data)),
       refetchOnWindowFocus: false,
       enabled: !!selectedGym?.id,
+      suspense: true,
     }
   );
 
@@ -44,7 +45,7 @@ const FriendsList = () => {
   });
 
   const onShowMatchingModal = useCallback(
-    (user) => () => {
+    (user: any) => () => {
       if (!me?.id) {
         contextDispatch({
           type: 'SHOW_MODAL',

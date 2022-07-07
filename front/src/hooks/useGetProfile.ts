@@ -1,11 +1,11 @@
 import { GlobalModal, ModalStatus } from '@/../@types/constant';
 import { Profile } from '@/../@types/user';
-import { profileKey } from '@/../@utils/queryKey';
+import { profileByIdKey, profileKey } from '@/../@utils/queryKey';
 import { useModalDispatch } from '@/../store/modalStore';
 import { loadMyinfoAPI, loadProfileAPI } from '@/api/profile';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useQuery, UseQueryResult } from 'react-query';
 
 const useGetProfile = (options?: {
@@ -14,8 +14,14 @@ const useGetProfile = (options?: {
   const router = useRouter();
   const contextDispatch = useModalDispatch();
 
+  const queryKey = useMemo(() => {
+    return router.pathname === '/myinfo'
+      ? profileKey
+      : profileByIdKey(router.query.id);
+  }, [router.query]);
+
   return useQuery(
-    profileKey,
+    queryKey,
     () =>
       router.pathname !== '/myinfo'
         ? loadProfileAPI(router.query.id)

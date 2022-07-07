@@ -5,8 +5,8 @@ import { Button } from '@/components/atoms';
 
 const GlobalModal = ({ modals }: { modals: Initial[] }) => {
   const contextDispatch = useModalDispatch();
-  const onHiddenModal = useCallback(async (id, callback) => {
-    await contextDispatch({
+  const onHiddenModal = useCallback((id, callback) => {
+    contextDispatch({
       type: 'HIDDEN_MODAL',
       payload: id,
     });

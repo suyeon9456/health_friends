@@ -1,9 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
-import Slider from 'react-slick';
-import isEmpty from 'lodash/isEmpty';
 import { BiCurrentLocation } from 'react-icons/bi';
 
 import { useModalDispatch } from '@/../store/modalStore';
@@ -13,6 +11,7 @@ import { ERROR_CODE, GlobalModal, ModalStatus } from '@/../@types/constant';
 import { RecommendFriendsAPI } from '@/../@types/user';
 import useIsState from '@/hooks/useIsState';
 import { recommendKey } from '@/../@utils/queryKey';
+import dynamic from 'next/dynamic';
 import {
   FriendsWrap,
   FriendsTitle,
@@ -24,6 +23,7 @@ import {
   CardContentWrap,
   ContentTitile,
   ContentDescription,
+  FriendsCardWrap,
 } from './style';
 import {
   Avatar,
@@ -32,6 +32,8 @@ import {
   ReactSliderPrevButton,
 } from '../../../atoms';
 import LoadingFallback from './LoadingFallback';
+
+const Slider = dynamic(() => import('react-slick'));
 
 const settings = {
   dots: true,
@@ -75,11 +77,12 @@ const RecommendFriends = () => {
   const [isReloadLocation, setIsReloadLocation] = useState<boolean>(false);
   const [isLocation, onChangeIsLocation, setIsLocation] = useIsState(false);
 
-  const { data: recommendData, isLoading } = useQuery<
+  const { data: recommendData } = useQuery<
     RecommendFriendsAPI | undefined,
     AxiosError
   >(recommendKey(location), () => loadRecommendAPI(location), {
     staleTime: 5 * 60 * 1000,
+    suspense: true,
   });
 
   const reLoadLocation = useCallback(
@@ -191,31 +194,31 @@ const RecommendFriends = () => {
       </FriendsSubTitle>
       <FriendsBody>
         <FriendsCardList>
-          {!isEmpty(recommendData?.fullFriends) && !isLoading ? (
+          <Suspense fallback={<LoadingFallback />}>
             <Slider {...settings}>
               {recommendData?.fullFriends?.map((friend) => (
                 <Link href={`/profile/${friend?.id}`} key={friend.id}>
-                  <FriendsCard>
-                    <CardAvatarWrap>
-                      <Avatar
-                        size={82}
-                        src={friend?.Image ? `${friend?.Image?.src}` : ''}
-                      />
-                    </CardAvatarWrap>
-                    <CardContentWrap>
-                      <ContentTitile>{friend.nickname}</ContentTitile>
-                      <ContentDescription>
-                        {friend?.Gyms?.[0].address}
-                        <span> {friend?.Gyms?.[0].name}</span>
-                      </ContentDescription>
-                    </CardContentWrap>
-                  </FriendsCard>
+                  <FriendsCardWrap>
+                    <FriendsCard>
+                      <CardAvatarWrap>
+                        <Avatar
+                          size={82}
+                          src={friend?.Image ? `${friend?.Image?.src}` : ''}
+                        />
+                      </CardAvatarWrap>
+                      <CardContentWrap>
+                        <ContentTitile>{friend.nickname}</ContentTitile>
+                        <ContentDescription>
+                          {friend?.Gyms?.[0].address}
+                          <span> {friend?.Gyms?.[0].name}</span>
+                        </ContentDescription>
+                      </CardContentWrap>
+                    </FriendsCard>
+                  </FriendsCardWrap>
                 </Link>
               ))}
             </Slider>
-          ) : (
-            <LoadingFallback />
-          )}
+          </Suspense>
         </FriendsCardList>
       </FriendsBody>
     </FriendsWrap>

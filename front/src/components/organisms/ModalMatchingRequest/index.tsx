@@ -30,6 +30,7 @@ const ModalMatchingRequest = ({
   gymName,
 }: ModalMatchingProps): React.ReactElement => {
   const dispatch = useDispatch();
+  console.log('gymSelector', gymSelector);
   const { gym } = useSelector(gymSelector);
   const { data: me } = useLoadLoginedUser();
 

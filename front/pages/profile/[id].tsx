@@ -12,7 +12,7 @@ import { Menu } from '@/../@types/constant';
 import ProfileContents from '@/components/organisms/profile/ProfileContents';
 import { AppLayout, SideBar, Row, Col } from '../../src/components/organisms';
 
-const Profile = () => {
+const Profile = ({ dehydratedState }: any) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -23,6 +23,11 @@ const Profile = () => {
   useEffect(() => {
     dispatch(updateTab(page));
   }, [page]);
+
+  useEffect(
+    () => console.log('dehydratedState', dehydratedState),
+    [dehydratedState]
+  );
 
   return (
     <>

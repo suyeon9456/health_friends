@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-interface Props {
+export interface Props {
   isRefresh?: boolean;
   fallback: React.ElementType;
   message?: string;

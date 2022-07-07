@@ -1,7 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { QueryErrorResetBoundary } from 'react-query';
+import { AiOutlineLoading } from 'react-icons/ai';
 
 import {
   changeIsFoldedGym,
@@ -10,8 +17,10 @@ import {
   gymsSelector,
 } from '@/../reducers/gym';
 
-import { Search, FoldButton } from '@/components/atoms';
-import SearchSidebar from '../SearchSidebar';
+import { Search, FoldButton, Icon } from '@/components/atoms';
+import dynamic from 'next/dynamic';
+// import SearchSidebar from '../SearchSidebar';
+import Spinner from '@/components/atoms/Spinner';
 import {
   SearchHeader,
   SearchWrapper,
@@ -20,9 +29,15 @@ import {
   GymWrapper,
   SearchListWrapper,
 } from './style';
-import GymList from './GymList';
+// import GymList from './GymList';
 import ErrorBoundary from '../ErrorBoundary';
 import ErrorFallback from '../ErrorFallback';
+
+const GymList = dynamic(() => import('./GymList'), { ssr: false });
+const SearchSidebar = dynamic(() => import('../SearchSidebar'), {
+  suspense: true,
+  ssr: false,
+});
 
 const SearchGyms = () => {
   const router = useRouter();
@@ -67,7 +82,21 @@ const SearchGyms = () => {
     <QueryErrorResetBoundary>
       {({ reset }) => (
         <SearchWrapper>
-          <SearchSidebar />
+          <Suspense
+            fallback={
+              <div
+                style={{
+                  width: '100px',
+                  height: '100px',
+                  backgroundColor: 'red',
+                }}
+              >
+                loading
+              </div>
+            }
+          >
+            <SearchSidebar />
+          </Suspense>
           {isFoldedFriends || <FoldButton />}
           <GymWrapper foldedGym={isFoldedGym} foldedFriends={isFoldedFriends}>
             <SearchHeader>
@@ -88,7 +117,9 @@ const SearchGyms = () => {
                 fallback={ErrorFallback}
                 message="검색결과를 로드하는데 실패 하였습니다."
               >
-                <GymList searchQuery={searchWord} />
+                <Suspense fallback={<Spinner />}>
+                  <GymList searchQuery={searchWord} />
+                </Suspense>
               </ErrorBoundary>
             </SearchListWrapper>
           </GymWrapper>

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BiMenu } from 'react-icons/bi';
 
@@ -18,6 +18,8 @@ const Menu = () => {
   const contextDispatch = useModalDispatch();
   const queryClient = useQueryClient();
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const { data: me } = useLoadLoginedUser();
   const logoutMutation = useMutation(() => logoutAPI(), {
     onSuccess: () => {
@@ -36,6 +38,8 @@ const Menu = () => {
       payload: !isDrawer,
     });
   }, [isDrawer]);
+
+  useEffect(() => setIsLoggedIn(!!me), []);
   return (
     <MenuList>
       <MenuItem type="home" align="left">
@@ -60,7 +64,7 @@ const Menu = () => {
           </Link>
         </MenuTitle>
       </MenuItem>
-      {me ? (
+      {isLoggedIn ? (
         <>
           <MenuItem type="pc" align="right" style={{ order: 2 }}>
             <MenuTitle>

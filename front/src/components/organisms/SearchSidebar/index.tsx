@@ -52,7 +52,7 @@ const SearchSidebar = () => {
     <>
       <Sidebar>
         <div>
-          <Avatar size={SizeType.SMALL} src={me?.Image?.src} />
+          {/* <Avatar size={SizeType.SMALL} src={me?.Image?.src} /> */}
           {!isFoldedGym ? (
             <Button
               icon={<Icon icon={<BiCollapse />} />}

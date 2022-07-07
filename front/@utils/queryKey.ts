@@ -28,6 +28,11 @@ export const scheduleByIdKey = (
 export const signupGymsKey = (searchWord?: string) =>
   ['signup', 'gym', searchWord] as const;
 
+export const initialGymsKey = [
+  'gyms',
+  { searchWord: '', mapBounds: null },
+] as const;
+
 export const gymsKey = ({
   lastId,
   searchWord,
@@ -36,7 +41,12 @@ export const gymsKey = ({
   lastId?: number;
   searchWord?: string;
   mapBounds?: Location | null;
-}) => ['gym', { lastId, searchWord, mapBounds }] as const;
+}) => {
+  if (searchWord === '' && mapBounds === null) {
+    return initialGymsKey;
+  }
+  return ['gyms', { lastId, searchWord, mapBounds }] as const;
+};
 export const gymAndFriendsByIdKey = (gymId?: number) => ['gym', gymId] as const;
 
 export const recommendKey = (location?: Location | null) =>

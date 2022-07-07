@@ -1,46 +1,39 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { BiUser, BiCalendar, BiReceipt, BiHeart } from 'react-icons/bi';
 import { Menu } from '@/../@types/constant';
 import { Icon } from '@/components/atoms';
 import { useDispatch, useSelector } from 'react-redux';
 import { tabSelector, updateTab } from '@/../reducers/profile';
-import { useRouter } from 'next/router';
 import { useLoadLoginedUser } from '@/hooks';
 import useGetProfile from '@/hooks/useGetProfile';
 import { MenuText, SideMenu, SideMenuWrap } from './style';
 
 const SideBarTabMenu = () => {
-  const router = useRouter();
   const dispatch = useDispatch();
+  const [title, setTitle] = useState('');
   const { data: me } = useLoadLoginedUser();
   const { data: profile } = useGetProfile();
   const { tab } = useSelector(tabSelector);
   const onClickMenu = useCallback(
     (menu) => {
       const { pathname } = window.location;
-      const query =
-        pathname === '/myinfo'
-          ? `?tab=${menu}`
-          : `?id=${profile?.id}&tab=${menu}`;
       window.history.replaceState(
         window.history.state,
         '',
-        `${pathname}${query}`
+        `${pathname}?tab=${menu}`
       );
       dispatch(updateTab(menu));
     },
     [profile?.id]
   );
 
-  // const page = useMemo(() => {
-  //   const queryTab = router.query.tab;
-  //   if (Array.isArray(queryTab)) return Menu.INFO;
-  //   return queryTab !== undefined ? queryTab : Menu.INFO;
-  // }, [router.query]);
-
-  // useEffect(() => {
-  //   dispatch(updateTab(page));
-  // }, [page]);
+  useEffect(() => {
+    if (me?.id && profile?.id === me?.id) {
+      setTitle('내정보');
+      return;
+    }
+    setTitle('정보');
+  }, [me?.id]);
 
   return (
     <SideMenuWrap active={tab}>
@@ -51,9 +44,7 @@ const SideBarTabMenu = () => {
         className={tab === Menu.INFO ? 'active' : ''}
       >
         <Icon icon={<BiUser />} />
-        <MenuText>
-          {me?.id && profile?.id === me?.id ? '내정보' : '정보'}
-        </MenuText>
+        <MenuText>{title}</MenuText>
       </SideMenu>
       <SideMenu
         key={Menu.CALENDAR}

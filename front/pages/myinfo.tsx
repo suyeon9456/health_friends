@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { Suspense, useEffect, useMemo } from 'react';
 import Head from 'next/head';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -6,10 +6,22 @@ import axios from 'axios';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import ProfileContents from '@/components/organisms/profile/ProfileContents';
+import dynamic from 'next/dynamic';
+import { dehydrate, QueryClient } from 'react-query';
+import { loadMyinfoAPI } from '@/api/profile';
 import { updateTab } from '../reducers/profile';
 
-import { AppLayout, SideBar, Row, Col } from '../src/components/organisms';
+import { AppLayout, Row, Col } from '../src/components/organisms';
 import { Menu } from '../@types/constant';
+import { profileKey } from '../@utils/queryKey';
+
+const SideBar = dynamic(
+  () => import('../src/components/organisms/profile/SideBar'),
+  {
+    suspense: true,
+    ssr: false,
+  }
+);
 
 const Myinfo = () => {
   const router = useRouter();
@@ -22,6 +34,7 @@ const Myinfo = () => {
   useEffect(() => {
     dispatch(updateTab(page));
   }, [page]);
+  console.log('?', <SideBar />);
 
   return (
     <>
@@ -32,7 +45,9 @@ const Myinfo = () => {
       <AppLayout childBlock>
         <Row>
           <Col xs={24} md={8}>
-            <SideBar />
+            <Suspense fallback={<div>loading</div>}>
+              <SideBar />
+            </Suspense>
           </Col>
           <Col xs={24} md={16}>
             <ProfileContents />
@@ -63,8 +78,12 @@ export const getServerSideProps = async (
       },
     };
   }
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery(profileKey, () => loadMyinfoAPI());
   return {
-    props: {},
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
   };
 };
 

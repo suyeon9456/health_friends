@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'react-query';
 import { BiGroup } from 'react-icons/bi';
@@ -24,37 +24,16 @@ const GymList = ({ searchQuery }: { searchQuery: string }) => {
         dispatch(loadGyms({ data }));
       },
       refetchOnWindowFocus: false,
+      suspense: true,
     }
   );
 
   const onClickGym = useCallback(
-    (targetGym) => () => {
+    (targetGym: { id: number }) => () => {
       dispatch(changeSelectedGym(targetGym));
-      const query = !searchQuery
-        ? `?gym=${targetGym.id}`
-        : `?searchText=${searchQuery}&gym=${targetGym.id}`;
-      window.history.replaceState(
-        window.history.state,
-        '',
-        `${window.location.pathname}${query}`
-      );
     },
     []
   );
-
-  const query = useMemo(() => {
-    const { gym } = router.query;
-    return (!!gym && !Array.isArray(gym) && parseInt(gym, 10)) || null;
-  }, [router.query]);
-
-  useEffect(() => {
-    if (!query) return;
-    dispatch(
-      changeSelectedGym(
-        gyms.find(({ id: gymId }: { id: number }) => gymId === query)
-      )
-    );
-  }, [query]);
 
   return (
     <>

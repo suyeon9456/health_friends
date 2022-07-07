@@ -1,8 +1,9 @@
-import React, { useCallback } from 'react';
+import React, { Suspense, useCallback } from 'react';
 import { BiX } from 'react-icons/bi';
 
 import { ButtonType } from '@/../@types/constant';
 import { Icon, Button } from '@/components/atoms';
+import SpinnerIcon from '@/components/atoms/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   changeIsFoldedFriends,
@@ -51,7 +52,9 @@ const SearchFriends = () => {
               />
             </SearchHeader>
             <FriendsListWrapper>
-              <FriendsList />
+              <Suspense fallback={<SpinnerIcon />}>
+                <FriendsList />
+              </Suspense>
             </FriendsListWrapper>
           </ErrorBoundary>
         )}

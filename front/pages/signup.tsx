@@ -13,10 +13,6 @@ const Signup = () => {
     <>
       <Head>
         <title>회원가입</title>
-        <script
-          type="text/javascript"
-          src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b59bfdf3af450270c49c69d14f47cdd5&libraries=services"
-        />
       </Head>
       <AppLayout>
         <div className={styles.signupLayout}>

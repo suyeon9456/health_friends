@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
@@ -18,6 +18,7 @@ const MathcingList = () => {
     AxiosError
   >(['realtime'], () => loadRealtimeAPI(), {
     staleTime: 1 * 60 * 1000,
+    suspense: true,
   });
 
   return (

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
 
@@ -21,6 +21,7 @@ const ProfileAvatar = () => {
 
   const [imgPath, setImgPath] = useState<string>('');
   const [isUpload, onChangeIsUpload] = useIsState(false);
+  const [buttonText, setButtonText] = useState('');
 
   const { data: profile } = useGetProfile();
   const { data: me } = useLoadLoginedUser();
@@ -45,6 +46,14 @@ const ProfileAvatar = () => {
     dispatch(showCustomModal(MATCHING));
   }, []);
 
+  useEffect(() => {
+    if (me?.id && profile?.id === me?.id) {
+      setButtonText('프로필 사진 변경하기');
+      return;
+    }
+    setButtonText('매칭 신청');
+  }, [me?.id]);
+
   return (
     <>
       {me?.id && isUpload ? (
@@ -61,19 +70,18 @@ const ProfileAvatar = () => {
             size={128}
             src={profile?.Image ? `${profile?.Image?.src}` : ''}
           />
-          {me?.id && profile?.id === me?.id ? (
-            <div>
-              <Button type={ButtonType.TEXT} onClick={onChangeIsUpload}>
-                프로필 사진 변경하기
-              </Button>
-            </div>
-          ) : (
-            <div>
-              <Button type={ButtonType.SIGNATURE} onClick={onShowMatchingModal}>
-                매칭신청
-              </Button>
-            </div>
-          )}
+          <div>
+            <Button
+              type={ButtonType.TEXT}
+              onClick={
+                me?.id && profile?.id === me?.id
+                  ? onChangeIsUpload
+                  : onShowMatchingModal
+              }
+            >
+              {buttonText}
+            </Button>
+          </div>
         </>
       )}
       <GlobalCustomModal id={MATCHING}>
