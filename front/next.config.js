@@ -14,10 +14,11 @@ module.exports = withBundleAnalyzer({
   images: {
     domains: ['img.health-friends.com'],
   },
+  // swcMinify: true,
   // reactStrictMode: true,
-  // experimental: {
-  //   reactMode: "concurrent",
-  // },
+  experimental: {
+    reactMode: "concurrent",
+  },
   // compiler: {
   //   styledComponents: true,
   // },
