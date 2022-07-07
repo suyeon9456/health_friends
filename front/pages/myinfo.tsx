@@ -34,7 +34,6 @@ const Myinfo = () => {
   useEffect(() => {
     dispatch(updateTab(page));
   }, [page]);
-  console.log('?', <SideBar />);
 
   return (
     <>
@@ -45,9 +44,7 @@ const Myinfo = () => {
       <AppLayout childBlock>
         <Row>
           <Col xs={24} md={8}>
-            <Suspense fallback={<div>loading</div>}>
-              <SideBar />
-            </Suspense>
+            <SideBar />
           </Col>
           <Col xs={24} md={16}>
             <ProfileContents />

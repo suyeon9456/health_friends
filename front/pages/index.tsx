@@ -8,9 +8,6 @@ import { recommendKey } from '../@utils/queryKey';
 import { AppLayout, Main, Footer } from '../src/components/organisms';
 
 const Home = () => {
-  useEffect(() => {
-    console.log('testestsetst');
-  }, []);
   return (
     <>
       <Head>
@@ -35,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery(['realtime'], () => loadRealtimeAPI());
   await queryClient.prefetchQuery(['ranking'], () => loadRankingAPI());
-  // await queryClient.prefetchQuery(recommendKey(), () => loadRecommendAPI());
+  await queryClient.prefetchQuery(recommendKey(), () => loadRecommendAPI());
 
   return {
     props: {

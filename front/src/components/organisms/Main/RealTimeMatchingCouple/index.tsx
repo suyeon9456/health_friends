@@ -17,13 +17,6 @@ import ErrorFallback from '../../ErrorFallback';
 const MatchingList = dynamic(() => import('./MatchingList'));
 
 const RealTimeMatchingCouple = () => {
-  const test = useRefreshRoot();
-  useEffect(() => {
-    setTimeout(() => {
-      console.log('시간지남');
-      test();
-    }, 3000);
-  }, []);
   return (
     <MatchingCoupleWrap>
       <MatchingCoupleHeader>
