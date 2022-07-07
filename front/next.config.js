@@ -15,9 +15,9 @@ module.exports = withBundleAnalyzer({
     domains: ['img.health-friends.com'],
   },
   // reactStrictMode: true,
-  experimental: {
-    reactMode: "concurrent",
-  },
+  // experimental: {
+  //   reactMode: "concurrent",
+  // },
   compiler: {
     styledComponents: true,
   },
