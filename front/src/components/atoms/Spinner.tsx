@@ -1,5 +1,5 @@
 import React from 'react';
-import Spinner from '../../../public/svg/spinner.svg';
+import Spinner from '@/../public/svg/Spinner.svg';
 
 const SpinnerIcon = ({
   width = 50,
