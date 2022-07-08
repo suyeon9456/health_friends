@@ -89,6 +89,7 @@ export const FriendsListWrapper = styled.div`
   position: relative;
   padding: 0 14px;
   width: 100%;
+  height: 100%;
   color: #000000d9;
   background: #fff;
   overflow-y: auto;

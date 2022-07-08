@@ -59,7 +59,6 @@ router.get('/', async (req, res, next) => { // GET /schedules/
     console.log('isCanceled', isCanceled);
 
     if (isCanceled) {
-      console.log('???');
       detailWhere = {
         isCanceled: true
       };

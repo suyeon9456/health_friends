@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const MatchingCardListWrap = styled.div`
+export const MatchingCardListWrap = styled.div<{ isEmpty: boolean }>`
   width: auto;
   margin: 10px 0;
   display: grid;
@@ -12,9 +12,15 @@ export const MatchingCardListWrap = styled.div`
   & > div {
     width: auto !important;
   }
+
+  ${({ isEmpty }) =>
+    isEmpty &&
+    css`
+      display: block;
+    `}
 `;
 
-export const RecordBody = styled.div<{ schedules: number }>`
+export const RecordBody = styled.div`
   text-align: center;
   padding: 0 10px;
 `;

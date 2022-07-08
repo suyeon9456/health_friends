@@ -11,7 +11,13 @@ import {
   ErrorMessage,
 } from './Main/RecommendFriends/style';
 
-const EmptyFallback = ({ message }: { message?: string }) => {
+const EmptyFallback = ({
+  buttonLabel,
+  message,
+}: {
+  buttonLabel: string;
+  message?: string;
+}) => {
   return (
     <FriendsErrorWrap>
       <FriendsErrorCard>
@@ -21,7 +27,7 @@ const EmptyFallback = ({ message }: { message?: string }) => {
         <ErrorMessage>{message}</ErrorMessage>
         <Link href="/friends" passHref>
           <a>
-            <Button type={ButtonType.PRIMARY}>매칭신청하러 가기</Button>
+            <Button type={ButtonType.PRIMARY}>{buttonLabel}</Button>
           </a>
         </Link>
       </FriendsErrorCard>

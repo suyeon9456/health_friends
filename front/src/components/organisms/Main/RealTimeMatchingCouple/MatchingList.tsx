@@ -24,43 +24,42 @@ const MathcingList = () => {
   return (
     <>
       <CoupleCardList>
-        {!isLoading ? (
-          matchings?.map((matching) => {
-            const { id, Gym, Requester, Receiver } = matching;
-            return (
-              <CoupleCard key={id}>
-                <MatchingIcon>
-                  <div>
-                    <Icon icon={<BiMap />} />
-                    <span className="gym-name">{Gym.name}</span>
-                  </div>
-                  <div className="gym-address">
-                    {`${Gym.address}(${Gym.addressRoad})`}
-                  </div>
-                </MatchingIcon>
-                <div className="avatar-wrap">
-                  <Link href={`/profile/${Requester.id}`} key="req">
-                    <AvatarWrap>
-                      <Avatar size={62} src={Requester.Image?.src ?? ''} />
-                      <div>{Requester.nickname}</div>
-                    </AvatarWrap>
-                  </Link>
-                  <Link href={`/profile/${Receiver.id}`} key="res">
-                    <AvatarWrap>
-                      <Avatar size={62} src={Receiver.Image?.src ?? ''} />
-                      <div>{Receiver.nickname}</div>
-                    </AvatarWrap>
-                  </Link>
+        {matchings?.map((matching) => {
+          const { id, Gym, Requester, Receiver } = matching;
+          return (
+            <CoupleCard key={id}>
+              <MatchingIcon>
+                <div>
+                  <Icon icon={<BiMap />} />
+                  <span className="gym-name">{Gym.name}</span>
                 </div>
-              </CoupleCard>
-            );
-          })
-        ) : (
-          <LoadingFallback />
-        )}
+                <div className="gym-address">
+                  {`${Gym.address}(${Gym.addressRoad})`}
+                </div>
+              </MatchingIcon>
+              <div className="avatar-wrap">
+                <Link href={`/profile/${Requester.id}`} key="req">
+                  <AvatarWrap>
+                    <Avatar size={62} src={Requester.Image?.src ?? ''} />
+                    <div>{Requester.nickname}</div>
+                  </AvatarWrap>
+                </Link>
+                <Link href={`/profile/${Receiver.id}`} key="res">
+                  <AvatarWrap>
+                    <Avatar size={62} src={Receiver.Image?.src ?? ''} />
+                    <div>{Receiver.nickname}</div>
+                  </AvatarWrap>
+                </Link>
+              </div>
+            </CoupleCard>
+          );
+        })}
       </CoupleCardList>
       {isEmpty(matchings) && (
-        <EmptyFallback message="현재 진행중인 매칭이 없습니다." />
+        <EmptyFallback
+          message="현재 진행중인 매칭이 없습니다."
+          buttonLabel="매칭신청하러 가기"
+        />
       )}
     </>
   );

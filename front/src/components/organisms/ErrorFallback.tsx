@@ -17,9 +17,9 @@ const ErrorFallback = ({
   onReset,
   message,
 }: {
-  isRefresh: boolean;
   onRefresh: () => void;
   onReset: () => void;
+  isRefresh?: boolean;
   message?: string;
 }) => {
   return (

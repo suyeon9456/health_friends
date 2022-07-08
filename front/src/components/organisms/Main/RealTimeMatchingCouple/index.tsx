@@ -1,9 +1,7 @@
-import React, { Suspense, useEffect } from 'react';
+import React from 'react';
 import { BiGroup } from 'react-icons/bi';
 import { QueryErrorResetBoundary } from 'react-query';
-import { unstable_useRefreshRoot as useRefreshRoot } from 'next/streaming';
 import dynamic from 'next/dynamic';
-import Spinner from '@/components/atoms/Spinner';
 import { Icon } from '../../../atoms';
 import {
   CoupleHeaderTitle,
@@ -11,8 +9,8 @@ import {
   MatchingCoupleHeader,
   MatchingCoupleWrap,
 } from './style';
-import ErrorBoundary from '../../ErrorBoundary';
-import ErrorFallback from '../../ErrorFallback';
+import SuspenseWithErrorBoundary from '../../SuspenseWithErrorBoundary';
+import LoadingFallback from './LoadingFallback';
 
 const MatchingList = dynamic(() => import('./MatchingList'));
 
@@ -27,15 +25,13 @@ const RealTimeMatchingCouple = () => {
       <MatchingCoupleBody>
         <QueryErrorResetBoundary>
           {({ reset }) => (
-            <ErrorBoundary
+            <SuspenseWithErrorBoundary
               onReset={reset}
-              fallback={ErrorFallback}
-              message="실시간 운동중인 매칭 커플을 로드하는데 실패 하였습니다."
+              errorMessgae="실시간 운동중인 매칭 커플을 로드하는데 실패 하였습니다."
+              loadingfallback={<LoadingFallback />}
             >
-              <Suspense fallback={<Spinner />}>
-                <MatchingList />
-              </Suspense>
-            </ErrorBoundary>
+              <MatchingList />
+            </SuspenseWithErrorBoundary>
           )}
         </QueryErrorResetBoundary>
       </MatchingCoupleBody>

@@ -41,7 +41,7 @@ const KakaoPostcode = ({
     setValue('addressRoad', data.road_address_name);
     setValue('phone', phone);
     setValue('name', data.place_name);
-    // submitCallback();
+    onCancel();
   }, []);
 
   const removeAllChildNods = useCallback(() => {

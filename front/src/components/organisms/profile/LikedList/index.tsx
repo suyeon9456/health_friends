@@ -1,17 +1,20 @@
-import React, { Suspense } from 'react';
+import React from 'react';
+import { useQueryErrorResetBoundary } from 'react-query';
 
-import { LikedListWrap, LikedListBody } from './style';
-import LoadingFallback from './LoadingFallback';
+import { LikedListWrap } from './style';
 import Likes from './Likes';
+import SuspenseWithErrorBoundary from '../../SuspenseWithErrorBoundary';
 
 const LikedList = () => {
+  const { reset } = useQueryErrorResetBoundary();
   return (
     <LikedListWrap>
-      <LikedListBody>
-        <Suspense fallback={<LoadingFallback />}>
-          <Likes />
-        </Suspense>
-      </LikedListBody>
+      <SuspenseWithErrorBoundary
+        onReset={reset}
+        errorMessgae="관심친구를 로드하는데 실패 하였습니다."
+      >
+        <Likes />
+      </SuspenseWithErrorBoundary>
     </LikedListWrap>
   );
 };

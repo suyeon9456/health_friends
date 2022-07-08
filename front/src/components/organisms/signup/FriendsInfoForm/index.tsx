@@ -64,6 +64,15 @@ const FriendsInfoForm = () => {
     },
     onSuccess: () => {
       void Router.replace('/');
+      contextDispatch({
+        type: 'SHOW_MODAL',
+        payload: {
+          type: GlobalModal.ALERT,
+          statusType: ModalStatus.SUCCESS,
+          message: '회원가입이 완료되었습니다.',
+          block: true,
+        },
+      });
     },
   });
 

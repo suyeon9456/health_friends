@@ -7,7 +7,6 @@ const router = express.Router();
 router.get('/', async (req, res, next) => { // GET /gyms/
   try {
     const where = {};
-    console.log(decodeURIComponent(req.query.searchWord));
     if (req.query.searchWord) {
       where[Op.or] = [{
         name: { [Op.like]: "%" + decodeURIComponent(req.query.searchWord) + "%" },

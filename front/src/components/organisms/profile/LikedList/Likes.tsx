@@ -4,7 +4,6 @@ import { useQuery } from 'react-query';
 import { AxiosError } from 'axios';
 import isEmpty from 'lodash/isEmpty';
 import { BiDotsVerticalRounded, BiEdit, BiHeart, BiUser } from 'react-icons/bi';
-import { ImDrawer2 } from 'react-icons/im';
 
 import { loadLikedListAPI } from '@/api/profile';
 import { LikedFriendAPI } from '@/../@types/user';
@@ -19,8 +18,9 @@ import {
   MetaTitle,
   MetaActions,
   Action,
-  Empty,
+  LikedListBody,
 } from './style';
+import EmptyFallback from '../../EmptyFallback';
 
 const Likes = () => {
   const router = useRouter();
@@ -42,7 +42,7 @@ const Likes = () => {
   );
 
   return (
-    <>
+    <LikedListBody isEmpty={isEmpty(likedFriends)}>
       {!isEmpty(likedFriends) ? (
         likedFriends?.map((friend) => (
           <Card key={friend.id}>
@@ -76,12 +76,12 @@ const Likes = () => {
           </Card>
         ))
       ) : (
-        <Empty>
-          <Icon icon={<ImDrawer2 />} />
-          <div>데이터 없음</div>
-        </Empty>
+        <EmptyFallback
+          buttonLabel="친구찾으러가기"
+          message="관심있는 친구가 없습니다."
+        />
       )}
-    </>
+    </LikedListBody>
   );
 };
 

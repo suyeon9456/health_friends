@@ -30,6 +30,7 @@ import {
 // import GymList from './GymList';
 import ErrorBoundary from '../ErrorBoundary';
 import ErrorFallback from '../ErrorFallback';
+import SuspenseWithErrorBoundary from '../SuspenseWithErrorBoundary';
 
 const GymList = dynamic(() => import('./GymList'), { ssr: false });
 const SearchSidebar = dynamic(() => import('../SearchSidebar'), {
@@ -95,16 +96,13 @@ const SearchGyms = () => {
               />
             </SearchFormWrapper>
             <SearchListWrapper browserHeight={browserHeight}>
-              <ErrorBoundary
-                key={searchWord}
+              <SuspenseWithErrorBoundary
+                errorKey={searchWord}
                 onReset={reset}
-                fallback={ErrorFallback}
-                message="검색결과를 로드하는데 실패 하였습니다."
+                errorMessgae="검색결과를 로드하는데 실패 하였습니다."
               >
-                <Suspense fallback={<Spinner />}>
-                  <GymList searchQuery={searchWord} />
-                </Suspense>
-              </ErrorBoundary>
+                <GymList searchQuery={searchWord} />
+              </SuspenseWithErrorBoundary>
             </SearchListWrapper>
           </GymWrapper>
         </SearchWrapper>

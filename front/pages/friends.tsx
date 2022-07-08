@@ -1,13 +1,11 @@
-import React, { Suspense, useState } from 'react';
+import React from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { dehydrate, QueryClient } from 'react-query';
 import { loadGymsAPI } from '@/api/gym';
 import ErrorBoundary from '@/components/organisms/ErrorBoundary';
 import ErrorFallback from '@/components/organisms/ErrorFallback';
-import Script from 'next/script';
-import dynamic from 'next/dynamic';
-import { gymsKey, initialGymsKey } from '../@utils/queryKey';
+import { gymsKey } from '../@utils/queryKey';
 import {
   AppLayout,
   SearchGyms,

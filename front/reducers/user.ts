@@ -76,7 +76,7 @@ export const signupSelector = createDraftSafeSelector(
 
 export const modalSelector = createDraftSafeSelector(
   (state: RootState) => state.user.customModals,
-  (customModals) => ({ customModals })
+  (customModals) => customModals
 );
 
 export const {

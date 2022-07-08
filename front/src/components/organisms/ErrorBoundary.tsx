@@ -1,8 +1,9 @@
 import React, { ReactNode } from 'react';
+import ErrorFallback from './ErrorFallback';
 
 export interface Props {
   isRefresh?: boolean;
-  fallback: React.ElementType;
+  fallback?: React.ElementType;
   message?: string;
   onReset?: () => void;
   children?: ReactNode;
@@ -49,8 +50,18 @@ class ErrorBoundary extends React.Component<Props, State> {
         error: info,
         resetErrorBoundary: this.resetErrorBoundary,
       };
+      // if (this.props.fallback) {
+      //   // return (
+      //   //   <this.props.fallback
+      //   //     isRefresh={isRefresh}
+      //   //     onRefresh={this.reset}
+      //   //     onReset={props.resetErrorBoundary}
+      //   //     message={message}
+      //   //   />
+      //   // );
+      // }
       return (
-        <this.props.fallback
+        <ErrorFallback
           isRefresh={isRefresh}
           onRefresh={this.reset}
           onReset={props.resetErrorBoundary}

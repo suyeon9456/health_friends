@@ -17,15 +17,7 @@ const ProfileContents = () => {
     <QueryErrorResetBoundary>
       {({ reset }) =>
         ({
-          [Menu.LIKED]: (
-            <ErrorBoundary
-              onReset={reset}
-              fallback={ErrorFallback}
-              message="관심친구를 로드하는데 실패 하였습니다."
-            >
-              <LikedList />
-            </ErrorBoundary>
-          ),
+          [Menu.LIKED]: <LikedList />,
           [Menu.CALENDAR]: (
             <ErrorBoundary
               onReset={reset}
@@ -35,15 +27,7 @@ const ProfileContents = () => {
               <MatchingCalendar />
             </ErrorBoundary>
           ),
-          [Menu.RECORD]: (
-            <ErrorBoundary
-              onReset={reset}
-              fallback={ErrorFallback}
-              message="매칭기록을 로드하는데 실패 하였습니다."
-            >
-              <MatchingRecord />
-            </ErrorBoundary>
-          ),
+          [Menu.RECORD]: <MatchingRecord />,
           [Menu.INFO]: (
             <div>
               <Info />

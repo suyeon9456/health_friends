@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 export const LikedListWrap = styled.div`
   position: relative;
   width: calc(100% - 10px);
+  height: 100%;
   min-height: 626px;
   @media (max-width: 767px) {
     margin-left: 0;
@@ -14,13 +15,18 @@ export const LikedListWrap = styled.div`
   box-sizing: border-box;
 `;
 
-export const LikedListBody = styled.div`
+export const LikedListBody = styled.div<{ isEmpty: boolean }>`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(25%, auto));
   gap: 10px;
   @media (max-width: 767px) {
     grid-template-columns: repeat(auto-fill, minmax(50%, auto));
   }
+  ${({ isEmpty }) =>
+    isEmpty &&
+    css`
+      display: block;
+    `}
 `;
 
 export const Card = styled.div`
@@ -170,21 +176,6 @@ export const Action = styled.li`
         }
       }
     `}
-`;
-
-export const Empty = styled.div`
-  text-align: center;
-  align-self: center;
-  & > .icon {
-    font-size: 150px;
-    @media (max-width: 767px) {
-      font-size: 100px;
-    }
-  }
-
-  & > * {
-    color: #00000012;
-  }
 `;
 
 export const LoadingCard = styled.div`
