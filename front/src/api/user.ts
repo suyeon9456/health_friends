@@ -222,3 +222,14 @@ export const updateUserGymAPI = (data: number) => {
     throw new Error('axios error');
   }
 };
+
+export const unLikeAPI = (data: number) => {
+  try {
+    return axios
+      .put('/user/unlike', { id: data })
+      .then((response) => response.data);
+  } catch (error) {
+    console.log(error);
+    throw new Error('axios error');
+  }
+};

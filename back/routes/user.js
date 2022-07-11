@@ -491,4 +491,21 @@ router.get('/like', async (req, res, next) => {
   }
 });
 
+router.put('/unlike', isLoggedIn, async (req, res, next) => {
+  try {
+    console.log('test', req.body.id);
+    const user = await User.findOne({
+      where: { id: req.user.id }
+    });
+    if(!user) {
+      return res.status(403).send('해당 사용자가 존재하지 않습니다.');
+    }
+    await user.removeLiked(req.body.id);
+    res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 module.exports = router;
