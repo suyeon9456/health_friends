@@ -86,6 +86,7 @@ const MatchingCardList = ({
                       date={rangeDate(start, end)}
                       start={start}
                       isCancel={!!Cancel && !Cancel?.isCanceled}
+                      isFixed={item?.isFixed}
                     />
                   );
                 })}

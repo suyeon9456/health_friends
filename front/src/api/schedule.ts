@@ -165,3 +165,12 @@ export const updateCancelAPI = (data: UpdateCancelAPI) => {
     throw new Error('axios error');
   }
 };
+
+export const updateFixAPI = (data: number) => {
+  try {
+    return axios.put(`/schedule/${data}/fix`).then((response) => response.data);
+  } catch (error: unknown) {
+    console.log(error);
+    throw new Error('axios error');
+  }
+};

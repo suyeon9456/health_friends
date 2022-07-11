@@ -10,6 +10,8 @@ import ModalMatchingEdit from '@/components/organisms/profile/ModalMatchingEdit'
 import { useDispatch } from 'react-redux';
 import { hiddenCustomModal, showCustomModal } from '@/../reducers/user';
 import { useRouter } from 'next/router';
+import { useMutation } from 'react-query';
+import { updateFixAPI } from '@/api/schedule';
 import {
   Card,
   CardBody,
@@ -30,6 +32,7 @@ const MatchingCard = ({
   image,
   start,
   isCancel,
+  isFixed,
 }: {
   id: number;
   nickname: string;
@@ -38,6 +41,7 @@ const MatchingCard = ({
   image?: string;
   start: Date;
   isCancel?: boolean;
+  isFixed: boolean;
 }) => {
   const router = useRouter();
   const { id: queryId } = router.query;
@@ -45,12 +49,25 @@ const MatchingCard = ({
   const [isImageError, setIsImageError] = useState(false);
   const [modalType, setModalType] = useState<ShowModalType>(ModalType.VIEW);
 
+  const mutation = useMutation((data: number) => updateFixAPI(data), {
+    // onSuccess: () => queryClient.invalidateQueries(['likedFriends']),
+  });
+
   const onClickAction = useCallback(
     ({ key }) => {
       setModalType(key);
       dispatch(showCustomModal(`${key}-${id}`));
     },
     [modalType, id]
+  );
+
+  const onFix = useCallback(
+    (scheduleId) => {
+      if (router.pathname !== '/myinfo') return;
+      console.log(scheduleId);
+      mutation.mutate(scheduleId);
+    },
+    [router.pathname]
   );
 
   const onCancle = useCallback(() => {
@@ -88,7 +105,8 @@ const MatchingCard = ({
         <CardActions>
           <Action
             key={ModalType.FIX}
-            onClick={() => onClickAction({ key: ModalType.FIX })}
+            className={isFixed ? 'fix' : ''}
+            onClick={() => onFix(id)}
           >
             <Icon icon={<BiPin />} />
           </Action>

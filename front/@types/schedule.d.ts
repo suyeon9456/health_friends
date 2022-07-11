@@ -62,6 +62,7 @@ export interface RecordScheduleAPI {
   isPermitted: boolean;
   permission: boolean;
   startDate: string;
+  isFixed: boolean;
   Cancel: {
     RequestId: number;
     ResponseId: number;
@@ -176,6 +177,7 @@ export type RecordPage = Array<{
   endDate: string;
   isPermitted: boolean;
   permission: boolean;
+  isFixed: boolean;
   startDate: string;
   Cancel: {
     RequestId: number;

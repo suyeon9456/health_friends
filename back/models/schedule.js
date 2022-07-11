@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
     isPermitted: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
+    },
+    isFixed: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
     }
   }, {
     charset: 'utf8mb4',

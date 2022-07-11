@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { GetStaticProps } from 'next';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { dehydrate, QueryClient } from 'react-query';
 import { loadGymsAPI } from '@/api/gym';
 import ErrorBoundary from '@/components/organisms/ErrorBoundary';
 import ErrorFallback from '@/components/organisms/ErrorFallback';
+import Spinner from '@/components/atoms/Spinner';
 import { gymsKey } from '../@utils/queryKey';
 import {
   AppLayout,
@@ -12,8 +14,11 @@ import {
   SearchMap,
   Row,
   Col,
-  SearchFriends,
 } from '../src/components/organisms';
+
+const SearchFriends = dynamic(
+  () => import('../src/components/organisms/SearchFriends')
+);
 
 const Friends = () => {
   return (
@@ -26,7 +31,9 @@ const Friends = () => {
         <Row>
           <Col xs={24} md={8}>
             <SearchGyms />
-            <SearchFriends />
+            <Suspense fallback={<Spinner />}>
+              <SearchFriends />
+            </Suspense>
           </Col>
           <Col xs={24} md={16}>
             <ErrorBoundary

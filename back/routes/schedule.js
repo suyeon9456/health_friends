@@ -267,4 +267,23 @@ router.put('/cancel', isLoggedIn, async (req, res, next) => { // PUT /schedule/c
   }
 });
 
+router.put('/:scheduleId/fix', isLoggedIn, async (req, res, next) => { // PUT /:scheduleId/fix
+  try {
+    console.log(req.user.id);
+    const schedule = await Schedule.findOne({ where: { id: req.params.scheduleId }, attributes: ['id'] });
+
+    if (!schedule) {
+      res.status(403).send('존재하지 않는 매칭입니다.');
+    }
+
+    const updatedSchedule = await Schedule.update({ isFixed: true }, {
+      where: { id: req.params.scheduleId }
+    });
+    res.status(201).json(updatedSchedule);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 module.exports = router;

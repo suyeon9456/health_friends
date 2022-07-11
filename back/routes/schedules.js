@@ -78,6 +78,7 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         'description',
         'permission',
         'isPermitted',
+        'isFixed',
         [Sequelize.fn('date_format', Sequelize.col('startDate'), '%Y-%m-%d %H:%i'), 'startDate'],
         [Sequelize.fn('date_format', Sequelize.col('endDate'), '%Y-%m-%d %H:%i'), 'endDate']
       ],
@@ -103,7 +104,7 @@ router.get('/', async (req, res, next) => { // GET /schedules/
         model: Cancel,
         where: detailWhere,
       }],
-      order: [ ['startDate', 'DESC'] ],
+      order: [ ['isFixed', 'DESC'], ['startDate', 'DESC'] ],
     });
 
     res.status(201).json({ schedules,

@@ -190,4 +190,9 @@ export const Action = styled.li<{
         }
       }
     `}
+  &.fix {
+    & > span {
+      color: #9254de;
+    }
+  }
 `;
