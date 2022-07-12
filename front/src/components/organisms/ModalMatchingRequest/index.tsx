@@ -84,8 +84,6 @@ const ModalMatchingRequest = ({
     setValue('gym', `${gym?.addressRoad}${gym?.name}`);
   }, [gym, gymName]);
 
-  useEffect(() => console.log(selectedUser), [selectedUser]);
-
   return (
     <Modal
       title={

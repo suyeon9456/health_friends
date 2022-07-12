@@ -64,7 +64,6 @@ const MatchingCard = ({
   const onFix = useCallback(
     (scheduleId) => {
       if (router.pathname !== '/myinfo') return;
-      console.log(scheduleId);
       mutation.mutate(scheduleId);
     },
     [router.pathname]

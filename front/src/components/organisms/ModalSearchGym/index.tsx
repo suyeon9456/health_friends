@@ -10,9 +10,7 @@ import ErrorFallback from '../ErrorFallback';
 
 const ModalSearchGym = ({ onSelectedGym, setGym }: ModalSearchGymProps) => {
   const { reset } = useQueryErrorResetBoundary();
-  console.log('reset', reset);
   const [searchWord, setSearchWord] = useState<string>('');
-  useEffect(() => console.log(searchWord), [searchWord]);
   return (
     <BoxContent>
       <Search setSearchWord={setSearchWord} />

@@ -23,7 +23,6 @@ router.get('/', async (req, res, next) => { // GET /schedules/
     let detailWhere = null;
     
     if (fp && !fp.includes(',')) {
-      console.log('?');
       if (fp === 'scheduled') {
         where.startDate = {
           [Op.or]: [{ [Op.gte]: new Date() }]
