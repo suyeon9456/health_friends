@@ -14,6 +14,7 @@ router.post('/', async (req, res, next) => { // POST /schedule/
       description: req.body.description,
       permission: false,
       isPermitted: false,
+      isFixed: false,
     })
     if (schedule) {
       console.log('req.body', req.body);
