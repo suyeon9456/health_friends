@@ -7,6 +7,8 @@ import { meKey, profileKey } from '@/../@utils/queryKey';
 import { useLoadLoginedUser } from '@/hooks';
 import EditInput from '@/components/molecules/EditInput';
 import useGetProfile from '@/hooks/useGetProfile';
+import { Button } from '@/components/atoms';
+import { ButtonType } from '@/../@types/constant';
 import { InfoBody, InfoContentWrapper, InfoHeader, InfoWrapper } from './style';
 
 const Info = () => {
@@ -53,6 +55,7 @@ const Info = () => {
     <InfoWrapper>
       <InfoHeader>
         <h3>{profile?.nickname}님의 프로필</h3>
+        <Button type={ButtonType.TEXT}>회원탈퇴</Button>
       </InfoHeader>
       <InfoBody>
         <InfoContentWrapper key="nickname">

@@ -17,9 +17,17 @@ export const InfoWrapper = styled.section`
 `;
 
 export const InfoHeader = styled.div`
+  display: flex;
   position: relative;
   padding: 16px 24px;
   color: #000000d9;
+
+  &:first-child(1) {
+    flex-grow: 2;
+  }
+  &:last-child(2) {
+    flex-grow: 1;
+  }
 `;
 
 export const InfoBody = styled.div`

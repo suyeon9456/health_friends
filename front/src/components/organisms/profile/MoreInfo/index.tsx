@@ -1,14 +1,12 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 
-import { InfoContent } from '@/../@types/constant';
 import { useLoadLoginedUser } from '@/hooks';
-import MoreInfoCard from '@/components/molecules/MoreInfoCard';
 import useGetProfile from '@/hooks/useGetProfile';
+import { InfoContent } from '@/../@types/constant';
+import MoreInfoCard from '@/components/molecules/MoreInfoCard';
 import { MoreInfoBody, MoreInfoWrapper } from './style';
 
 const MoreInfo = () => {
-  const dispatch = useDispatch();
   const { data: profile } = useGetProfile();
 
   const { data: me } = useLoadLoginedUser();
