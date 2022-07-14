@@ -23,7 +23,6 @@ class ErrorBoundary extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = initialState;
-    // this.onReset = this.onReset.bind(this);
   }
 
   static getDerivedStateFromError(error: Error) {
@@ -50,16 +49,6 @@ class ErrorBoundary extends React.Component<Props, State> {
         error: info,
         resetErrorBoundary: this.resetErrorBoundary,
       };
-      // if (this.props.fallback) {
-      //   // return (
-      //   //   <this.props.fallback
-      //   //     isRefresh={isRefresh}
-      //   //     onRefresh={this.reset}
-      //   //     onReset={props.resetErrorBoundary}
-      //   //     message={message}
-      //   //   />
-      //   // );
-      // }
       return (
         <ErrorFallback
           isRefresh={isRefresh}

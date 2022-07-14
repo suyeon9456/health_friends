@@ -54,17 +54,5 @@ describe('Post', () => {
   it('react query test', async () => {
     const { result, waitFor } = renderHook(() => useCustomHook(), { wrapper });
     await waitFor(() => result.current.isSuccess);
-    // expect(result.current.data).toEqual({
-    //   age: '2',
-    //   career: '3',
-    //   createdAt: '2021-10-06T17:23:27.000Z',
-    //   email: 'sy1234@gmail.com',
-    //   gender: 'female',
-    //   id: 8,
-    //   nickname: '뚜뚜니니',
-    //   password: '$2b$12$EXwTt2R8VFP6X8yPfH6U/u1nIxIaOsbVYW4K7rVZbFADzzMHRAXdG',
-    //   role: '2',
-    //   updatedAt: '2022-04-13T08:20:53.000Z',
-    // });
   });
 });
