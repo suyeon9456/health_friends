@@ -508,4 +508,29 @@ router.put('/unlike', isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.delete('/', isLoggedIn, async (req, res, next) => { // DELETE /user/
+  try {
+    if (req.user) {
+      const user = await User.findOne({
+        where: { id: req.user.id },
+        attributes: {
+          attributes: ['id'],
+        },
+      });
+
+      if (!user) {
+        res.status(200).send('로그인 된 사용자가 없습니다.');
+        return;
+      }
+      user.delete();
+      res.status(200).send('완료되었습니다.');
+    } else {
+      res.status(400).send('로그인 된 사용자가 없습니다.');
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 module.exports = router;
