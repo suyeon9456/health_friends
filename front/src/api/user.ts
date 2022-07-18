@@ -233,3 +233,12 @@ export const unLikeAPI = (data: number) => {
     throw new Error('axios error');
   }
 };
+
+export const secedeAPI = () => {
+  try {
+    return axios.delete('/user').then((response) => response.data);
+  } catch (error) {
+    console.log(error);
+    throw new Error('axios error');
+  }
+};

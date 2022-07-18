@@ -1,14 +1,12 @@
 import React, { useCallback } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 
-import useInput from '@/hooks/useInput';
-import { updateDescriptionAPI, updateNicknameAPI } from '@/api/user';
+import { secedeAPI, updateDescriptionAPI, updateNicknameAPI } from '@/api/user';
+import { useLoadLoginedUser, useInput, useGetProfile } from '@/hooks';
 import { meKey, profileKey } from '@/../@utils/queryKey';
-import { useLoadLoginedUser } from '@/hooks';
-import EditInput from '@/components/molecules/EditInput';
-import useGetProfile from '@/hooks/useGetProfile';
-import { Button } from '@/components/atoms';
 import { ButtonType } from '@/../@types/constant';
+import EditInput from '@/components/molecules/EditInput';
+import { Button } from '@/components/atoms';
 import { InfoBody, InfoContentWrapper, InfoHeader, InfoWrapper } from './style';
 
 const Info = () => {
@@ -42,6 +40,12 @@ const Info = () => {
       },
     }
   );
+  const secedeMutation = useMutation(() => secedeAPI(), {
+    onSuccess: () => {
+      // void queryClient.invalidateQueries(profileKey);
+      // void queryClient.invalidateQueries(meKey);
+    },
+  });
 
   const onUpdateNickname = useCallback(() => {
     nicknameMutation.mutate({ nickname });
@@ -51,11 +55,17 @@ const Info = () => {
     descMutation.mutate({ description });
   }, [description]);
 
+  const onSecede = useCallback(() => {
+    secedeMutation.mutate();
+  }, []);
+
   return (
     <InfoWrapper>
       <InfoHeader>
         <h3>{profile?.nickname}님의 프로필</h3>
-        <Button type={ButtonType.TEXT}>회원탈퇴</Button>
+        <Button type={ButtonType.TEXT} onClick={onSecede}>
+          회원탈퇴
+        </Button>
       </InfoHeader>
       <InfoBody>
         <InfoContentWrapper key="nickname">

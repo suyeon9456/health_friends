@@ -22,10 +22,7 @@ export const InfoHeader = styled.div`
   padding: 16px 24px;
   color: #000000d9;
 
-  &:first-child(1) {
-    flex-grow: 2;
-  }
-  &:last-child(2) {
+  & > h3 {
     flex-grow: 1;
   }
 `;
