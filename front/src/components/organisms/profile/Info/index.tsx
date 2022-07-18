@@ -1,16 +1,20 @@
 import React, { useCallback } from 'react';
+import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from 'react-query';
 
 import { secedeAPI, updateDescriptionAPI, updateNicknameAPI } from '@/api/user';
 import { useLoadLoginedUser, useInput, useGetProfile } from '@/hooks';
 import { meKey, profileKey } from '@/../@utils/queryKey';
-import { ButtonType } from '@/../@types/constant';
+import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/constant';
 import EditInput from '@/components/molecules/EditInput';
 import { Button } from '@/components/atoms';
+import { useModalDispatch } from '@/../store/modalStore';
 import { InfoBody, InfoContentWrapper, InfoHeader, InfoWrapper } from './style';
 
 const Info = () => {
+  const router = useRouter();
   const queryClient = useQueryClient();
+  const contextDispatch = useModalDispatch();
 
   const { data: profile } = useGetProfile();
   const { data: me } = useLoadLoginedUser();
@@ -42,8 +46,16 @@ const Info = () => {
   );
   const secedeMutation = useMutation(() => secedeAPI(), {
     onSuccess: () => {
-      // void queryClient.invalidateQueries(profileKey);
-      // void queryClient.invalidateQueries(meKey);
+      contextDispatch({
+        type: 'SHOW_MODAL',
+        payload: {
+          type: GlobalModal.ALERT,
+          statusType: ModalStatus.SUCCESS,
+          message: '회원탈퇴가 완료되었습니다.',
+          block: true,
+          callback: () => router.push('/'),
+        },
+      });
     },
   });
 
@@ -63,9 +75,11 @@ const Info = () => {
     <InfoWrapper>
       <InfoHeader>
         <h3>{profile?.nickname}님의 프로필</h3>
-        <Button type={ButtonType.TEXT} onClick={onSecede}>
-          회원탈퇴
-        </Button>
+        {me?.id === profile?.id && (
+          <Button type={ButtonType.TEXT} onClick={onSecede}>
+            회원탈퇴
+          </Button>
+        )}
       </InfoHeader>
       <InfoBody>
         <InfoContentWrapper key="nickname">

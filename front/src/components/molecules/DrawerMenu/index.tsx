@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import {
   BiUser,
@@ -41,7 +41,11 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
   const { data: me } = useLoadLoginedUser();
 
   const logoutMutation = useMutation(() => logoutAPI(), {
-    onSuccess: () => queryClient.invalidateQueries(meKey),
+    onSuccess: () => {
+      void queryClient.invalidateQueries(meKey);
+      void router.push('/');
+      changeShowDrawerMenu();
+    },
   });
 
   const onLogout = useCallback(() => logoutMutation.mutate(), []);
@@ -60,13 +64,6 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
     },
     [drawerShow]
   );
-
-  useEffect(() => {
-    if (logoutMutation.isSuccess) {
-      void router.push('/');
-      changeShowDrawerMenu();
-    }
-  }, [logoutMutation.isSuccess]);
 
   return (
     <Drawer drawerShow={drawerShow}>

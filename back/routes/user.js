@@ -522,7 +522,7 @@ router.delete('/', isLoggedIn, async (req, res, next) => { // DELETE /user/
         res.status(200).send('로그인 된 사용자가 없습니다.');
         return;
       }
-      user.delete();
+      await User.destroy({ where: { id: req.user.id } });
       res.status(200).send('완료되었습니다.');
     } else {
       res.status(400).send('로그인 된 사용자가 없습니다.');
