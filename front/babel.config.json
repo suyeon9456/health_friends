@@ -1,10 +1,26 @@
 {
   "presets": [
-	"@babel/typescript"
-  // "next/jest"
+    "@babel/typescript",
+    ["next/babel", {
+      "preset-env": false
+    }]
   ],
   "plugins": [
     "@babel/proposal-class-properties",
-    "@babel/proposal-object-rest-spread"
+    "@babel/proposal-object-rest-spread",
+    ["babel-plugin-styled-components", {
+      "ssr": true,
+      "displayName": true
+    }],
+    [
+      "module-resolver",
+      {
+        "root": ["."],
+        "alias": {
+          "@": "./src"
+        },
+        "extensions": [".js", ".jsx", ".tsx"]
+      }
+    ]
   ]
 }
