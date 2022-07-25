@@ -14,14 +14,9 @@ module.exports = withBundleAnalyzer({
   images: {
     domains: ['img.health-friends.com'],
   },
-  // swcMinify: true,
-  // reactStrictMode: true,
   experimental: {
     reactMode: "concurrent",
   },
-  // compiler: {
-  //   styledComponents: true,
-  // },
   webpack(config) {
     const prod = process.env.NODE_ENV === 'production';
     const plugins = [...config.plugins];
