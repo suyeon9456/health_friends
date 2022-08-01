@@ -12,7 +12,7 @@ import { Modal } from '@/components/molecules';
 import { useMutation, useQueryClient } from 'react-query';
 import { addGymAPI } from '@/api/gym';
 import { initialGymsKey } from '@/../@utils/queryKey';
-import { useModalDispatch } from '@/../store/modalStore';
+import { changeModal, useModalDispatch } from '@/../store/modalStore';
 import { Button, Icon } from '../../atoms';
 import { Sidebar } from './style';
 import GlobalCustomModal from '../GlobalCustomModal';
@@ -42,15 +42,12 @@ const SearchSidebar = () => {
     onSuccess: () => {
       void queryClient.invalidateQueries(initialGymsKey);
       dispatch(hiddenCustomModal(ADDGYM));
-      contextDispatch({
-        type: 'SHOW_MODAL',
-        payload: {
-          type: GlobalModal.ALERT,
-          statusType: ModalStatus.SUCCESS,
+      contextDispatch(
+        changeModal({
+          status: ModalStatus.SUCCESS,
           message: '헬스장 등록에 성공하였습니다.',
-          block: true,
-        },
-      });
+        })
+      );
     },
   });
 

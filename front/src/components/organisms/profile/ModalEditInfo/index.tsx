@@ -6,13 +6,12 @@ import { updateFriendsInfoAPI, updateMyinfoAPI } from '@/api/user';
 import { createTimeToDateTime, formatTime } from '@/../@utils/date';
 import { SignupGymInfo, SignupMoreInfo } from '@/../@types/user';
 import {
-  GlobalModal,
   InfoContent,
   InfoContentType,
   ModalStatus,
 } from '@/../@types/constant';
 import useGetProfile from '@/hooks/useGetProfile';
-import { useModalDispatch } from '@/../store/modalStore';
+import { changeModal, useModalDispatch } from '@/../store/modalStore';
 import { Modal } from '../../../molecules';
 import EditInfoForm from '../EditInfoForm';
 
@@ -33,15 +32,12 @@ const ModalEditInfo = ({
     {
       onSuccess() {
         onCancel();
-        contextDispatch({
-          type: 'SHOW_MODAL',
-          payload: {
-            type: GlobalModal.ALERT,
-            statusType: ModalStatus.SUCCESS,
+        contextDispatch(
+          changeModal({
+            status: ModalStatus.SUCCESS,
             message: '정보 수정에 성공하였습니다.',
-            block: true,
-          },
-        });
+          })
+        );
       },
     }
   );
@@ -50,15 +46,12 @@ const ModalEditInfo = ({
     {
       onSuccess() {
         onCancel();
-        contextDispatch({
-          type: 'SHOW_MODAL',
-          payload: {
-            type: GlobalModal.ALERT,
-            statusType: ModalStatus.SUCCESS,
+        contextDispatch(
+          changeModal({
+            status: ModalStatus.SUCCESS,
             message: '친구정보 수정에 성공하였습니다.',
-            block: true,
-          },
-        });
+          })
+        );
       },
     }
   );

@@ -6,8 +6,6 @@ import { KeywordPlace } from '@/../@types/map';
 
 import { Modal } from '@/components/molecules';
 import { Search } from '@/components/atoms';
-import { useModalDispatch } from '@/../store/modalStore';
-import { GlobalModal, ModalStatus } from '@/../@types/constant';
 import { ModalBodyBox, SearchList, SearchMap, SearchResultWrap } from './style';
 
 const KakaoPostcode = ({
@@ -24,7 +22,6 @@ const KakaoPostcode = ({
     name: string;
   }>;
 }) => {
-  const contextDispatch = useModalDispatch();
   const map = useRef<any>();
   const infowindow = useRef<any>();
   const [gymPlaces, setGymPlaces] = useState<KeywordPlace[]>([]);

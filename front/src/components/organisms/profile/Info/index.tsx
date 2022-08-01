@@ -5,10 +5,10 @@ import { useMutation, useQueryClient } from 'react-query';
 import { secedeAPI, updateDescriptionAPI, updateNicknameAPI } from '@/api/user';
 import { useLoadLoginedUser, useInput, useGetProfile } from '@/hooks';
 import { meKey, profileKey } from '@/../@utils/queryKey';
-import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/constant';
+import { ButtonType, ModalStatus } from '@/../@types/constant';
 import EditInput from '@/components/molecules/EditInput';
 import { Button } from '@/components/atoms';
-import { useModalDispatch } from '@/../store/modalStore';
+import { changeModal, useModalDispatch } from '@/../store/modalStore';
 import { InfoBody, InfoContentWrapper, InfoHeader, InfoWrapper } from './style';
 
 const Info = () => {
@@ -46,16 +46,13 @@ const Info = () => {
   );
   const secedeMutation = useMutation(() => secedeAPI(), {
     onSuccess: () => {
-      contextDispatch({
-        type: 'SHOW_MODAL',
-        payload: {
-          type: GlobalModal.ALERT,
-          statusType: ModalStatus.SUCCESS,
+      contextDispatch(
+        changeModal({
+          status: ModalStatus.SUCCESS,
           message: '회원탈퇴가 완료되었습니다.',
-          block: true,
           callback: () => router.push('/'),
-        },
-      });
+        })
+      );
     },
   });
 

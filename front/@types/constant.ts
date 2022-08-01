@@ -160,6 +160,17 @@ export const GlobalModal = {
 
 export type GlobalModalType = typeof GlobalModal[keyof typeof GlobalModal];
 
+export const GlobalModalAction = {
+  SHOW_MODAL: 'SHOW_MODAL',
+  HIDDEN_MODAL: 'HIDDEN_MODAL',
+  SHOW_CUSTOM_MODAL: 'SHOW_CUSTOM_MODAL',
+  HIDDEN_CUSTOM_MODAL: 'HIDDEN_CUSTOM_MODAL',
+  CHANGE_DRAWER: 'CHANGE_DRAWER',
+} as const;
+
+export type GlobalModalActionType =
+  typeof GlobalModalAction[keyof typeof GlobalModalAction];
+
 export const detailActions = (onRefuse: () => void, onAccept: () => void) =>
   [
     { id: 'refuse', title: '거절', onClick: onRefuse },

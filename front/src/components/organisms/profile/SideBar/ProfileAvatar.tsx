@@ -4,14 +4,14 @@ import { useDispatch } from 'react-redux';
 
 import { useLoadLoginedUser } from '@/hooks';
 import useIsState from '@/hooks/useIsState';
-import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/constant';
+import { ButtonType, ModalStatus } from '@/../@types/constant';
 import { Avatar, Button } from '@/components/atoms';
 import FormImage from '@/components/molecules/FormImage';
 import { addImageAPI, uploadImageAPI } from '@/api/profile';
 import { profileKey } from '@/../@utils/queryKey';
 import { showCustomModal } from '@/../reducers/user';
 import useGetProfile from '@/hooks/useGetProfile';
-import { useModalDispatch } from '@/../store/modalStore';
+import { changeModal, useModalDispatch } from '@/../store/modalStore';
 import GlobalCustomModal from '../../GlobalCustomModal';
 import ModalMatchingRequest from '../../ModalMatchingRequest';
 
@@ -39,15 +39,12 @@ const ProfileAvatar = () => {
   const addImage = useMutation((data: string) => addImageAPI(data), {
     onSuccess: () => {
       void queryClient.invalidateQueries(profileKey);
-      contextDispatch({
-        type: 'SHOW_MODAL',
-        payload: {
-          type: GlobalModal.ALERT,
-          statusType: ModalStatus.SUCCESS,
+      contextDispatch(
+        changeModal({
+          status: ModalStatus.SUCCESS,
           message: '프로필이미지 등록에 성공하였습니다.',
-          block: true,
-        },
-      });
+        })
+      );
     },
   });
 

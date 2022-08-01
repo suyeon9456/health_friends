@@ -4,10 +4,10 @@ import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 import { BiCurrentLocation } from 'react-icons/bi';
 
-import { useModalDispatch } from '@/../store/modalStore';
+import { changeModal, useModalDispatch } from '@/../store/modalStore';
 import { loadRecommendAPI } from '@/api/user';
 import { Location } from '@/../@types/map';
-import { ERROR_CODE, GlobalModal, ModalStatus } from '@/../@types/constant';
+import { ERROR_CODE, ModalStatus } from '@/../@types/constant';
 import { RecommendFriendsAPI } from '@/../@types/user';
 import useIsState from '@/hooks/useIsState';
 import { recommendKey } from '@/../@utils/queryKey';
@@ -167,17 +167,14 @@ const RecommendFriends = () => {
     if (!isLocation) {
       return;
     }
-    contextDispatch({
-      type: 'SHOW_MODAL',
-      payload: {
-        type: GlobalModal.ALERT,
-        statusType: ModalStatus.WARNING,
+    contextDispatch(
+      changeModal({
+        status: ModalStatus.WARNING,
         message:
           '현재위치에서 활동중인 친구가 궁금하다면 위치 엑세스를 허용해주세요.',
-        block: true,
         callback: onChangeIsLocation,
-      },
-    });
+      })
+    );
   }, [isLocation]);
 
   return (

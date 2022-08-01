@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import { useModalDispatch } from '@/../store/modalStore';
+import { changeModal, useModalDispatch } from '@/../store/modalStore';
 import { addLikeAPI, loadGymAndFriendsAPI } from '@/api/user';
 import { gymAndFriendsByIdKey, meKey } from '@/../@utils/queryKey';
-import { GlobalModal, ModalStatus } from '@/../@types/constant';
+import { ModalStatus } from '@/../@types/constant';
 import { UserGym, SelectedGymUser } from '@/../@types/user';
 import { PropfileCard } from '@/components/molecules';
 import { useLoadLoginedUser } from '@/hooks';
@@ -47,15 +47,12 @@ const FriendsList = () => {
   const onShowMatchingModal = useCallback(
     (user: any) => () => {
       if (!me?.id) {
-        contextDispatch({
-          type: 'SHOW_MODAL',
-          payload: {
-            type: GlobalModal.ALERT,
-            statusType: ModalStatus.WARNING,
+        contextDispatch(
+          changeModal({
+            status: ModalStatus.WARNING,
             message: '로그인이 필요한 페이지입니다.',
-            block: true,
-          },
-        });
+          })
+        );
         return;
       }
       dispatch(showCustomModal(MATCHING));

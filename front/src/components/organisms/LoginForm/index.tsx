@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { useModalDispatch } from '@/../store/modalStore';
+import { changeModal, useModalDispatch } from '@/../store/modalStore';
 import { loginAPI } from '@/api/user';
 import {
   ButtonType,
@@ -56,15 +56,7 @@ const LoginForm = () => {
   });
 
   const changeShowAlert = useCallback(() => {
-    contextDispatch({
-      type: 'SHOW_MODAL',
-      payload: {
-        type: GlobalModal.ALERT,
-        statusType: ModalStatus.ERROR,
-        message: '로그인을 실패하였습니다.',
-        block: true,
-      },
-    });
+    contextDispatch(changeModal({ message: '로그인을 실패하였습니다.' }));
   }, []);
 
   const onLogin = useCallback((data, e) => {

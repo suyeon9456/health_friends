@@ -14,7 +14,6 @@ import {
   ButtonType,
   CareerOptions,
   GenderOptions,
-  GlobalModal,
   ModalStatus,
   RoleOptions,
   SignupMenu,
@@ -22,7 +21,7 @@ import {
 } from '@/../@types/constant';
 import { AxiosError } from 'axios';
 import { SignupSteps, SignupMutationSteps } from '@/../@types/user';
-import { useModalDispatch } from '@/../store/modalStore';
+import { changeModal, useModalDispatch } from '@/../store/modalStore';
 import { signupAPI } from '@/api/user';
 import { ButtonWrap, FormWrapper } from './style';
 import { Form, Button } from '../../../atoms';
@@ -52,27 +51,20 @@ const FriendsInfoForm = () => {
 
   const mutation = useMutation((data: SignupMutationSteps) => signupAPI(data), {
     onError: async (error: AxiosError) => {
-      contextDispatch({
-        type: 'SHOW_MODAL',
-        payload: {
-          type: GlobalModal.ALERT,
-          statusType: ModalStatus.WARNING,
+      contextDispatch(
+        changeModal({
           message: error.response?.data,
-          block: true,
-        },
-      });
+        })
+      );
     },
     onSuccess: () => {
       void Router.replace('/');
-      contextDispatch({
-        type: 'SHOW_MODAL',
-        payload: {
-          type: GlobalModal.ALERT,
-          statusType: ModalStatus.SUCCESS,
+      contextDispatch(
+        changeModal({
+          status: ModalStatus.SUCCESS,
           message: '회원가입이 완료되었습니다.',
-          block: true,
-        },
-      });
+        })
+      );
     },
   });
 

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BiMenu } from 'react-icons/bi';
 
-import { SizeType } from '@/../@types/constant';
+import { GlobalModalAction, SizeType } from '@/../@types/constant';
 import { useMutation, useQueryClient } from 'react-query';
 import { logoutAPI } from '@/api/user';
 import { meKey, profileKey } from '@/../@utils/queryKey';
@@ -34,7 +34,7 @@ const Menu = () => {
 
   const changeShowDrawerMenu = useCallback(() => {
     contextDispatch({
-      type: 'CHANGE_DRAWER',
+      type: GlobalModalAction.CHANGE_DRAWER,
       payload: !isDrawer,
     });
   }, [isDrawer]);

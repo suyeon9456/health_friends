@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { Initial, useModalDispatch } from '@/../store/modalStore';
+import { GlobalModalAction } from '@/../@types/constant';
 import { Alert } from '@/components/molecules';
 import { Button } from '@/components/atoms';
 
@@ -7,7 +8,7 @@ const GlobalModal = ({ modals }: { modals: Initial[] }) => {
   const contextDispatch = useModalDispatch();
   const onHiddenModal = useCallback((id, callback) => {
     contextDispatch({
-      type: 'HIDDEN_MODAL',
+      type: GlobalModalAction.HIDDEN_MODAL,
       payload: id,
     });
     if (callback) {

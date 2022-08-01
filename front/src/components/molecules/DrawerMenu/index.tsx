@@ -8,7 +8,7 @@ import {
   BiSearchAlt,
 } from 'react-icons/bi';
 
-import { ButtonType } from '@/../@types/constant';
+import { ButtonType, GlobalModalAction } from '@/../@types/constant';
 import { useMutation, useQueryClient } from 'react-query';
 import { logoutAPI } from '@/api/user';
 import { meKey } from '@/../@utils/queryKey';
@@ -52,7 +52,7 @@ const DrawerMenu = ({ drawerShow }: { drawerShow: boolean }) => {
 
   const changeShowDrawerMenu = useCallback(() => {
     contextDispatch({
-      type: 'CHANGE_DRAWER',
+      type: GlobalModalAction.CHANGE_DRAWER,
       payload: !drawerShow,
     });
   }, [drawerShow]);

@@ -1,16 +1,22 @@
 import React, { createContext, useContext } from 'react';
-import { GlobalModalType, ModalStatusType } from '../@types/constant';
+import {
+  GlobalModal,
+  GlobalModalAction,
+  GlobalModalActionType,
+  GlobalModalType,
+  ModalStatus,
+  ModalStatusType,
+} from '../@types/constant';
 
 export interface Initial {
   id?: string;
-  type?: GlobalModalType;
+  type?: GlobalModalActionType;
   statusType?: ModalStatusType;
-  message?: any;
+  message?: string;
   block?: boolean;
   callback?: () => void;
 }
 
-// state type
 export interface InitialState {
   basic: Initial[];
   custom: Array<{
@@ -21,7 +27,7 @@ export interface InitialState {
 
 type Action =
   | {
-      type: 'SHOW_MODAL';
+      type: typeof GlobalModalAction.SHOW_MODAL;
       payload: {
         type: GlobalModalType;
         statusType: ModalStatusType;
@@ -30,10 +36,10 @@ type Action =
         callback?: () => void;
       };
     }
-  | { type: 'HIDDEN_MODAL'; payload: string }
-  | { type: 'SHOW_CUSTOM_MODAL'; payload: string }
-  | { type: 'HIDDEN_CUSTOM_MODAL'; payload: string }
-  | { type: 'CHANGE_DRAWER'; payload: boolean };
+  | { type: typeof GlobalModalAction.HIDDEN_MODAL; payload: string }
+  | { type: typeof GlobalModalAction.SHOW_CUSTOM_MODAL; payload: string }
+  | { type: typeof GlobalModalAction.HIDDEN_CUSTOM_MODAL; payload: string }
+  | { type: typeof GlobalModalAction.CHANGE_DRAWER; payload: boolean };
 
 export const initialState: InitialState = {
   basic: [],
@@ -47,7 +53,7 @@ export const ModalDispatchContext =
 
 export const modalReducer = (state = initialState, action: Action) => {
   switch (action.type) {
-    case 'SHOW_MODAL':
+    case GlobalModalAction.SHOW_MODAL:
       return {
         ...state,
         basic: [
@@ -59,12 +65,12 @@ export const modalReducer = (state = initialState, action: Action) => {
           },
         ],
       };
-    case 'HIDDEN_MODAL':
+    case GlobalModalAction.HIDDEN_MODAL:
       return {
         ...state,
         basic: state.basic.filter(({ id }) => id !== action.payload),
       };
-    case 'SHOW_CUSTOM_MODAL':
+    case GlobalModalAction.SHOW_CUSTOM_MODAL:
       return {
         ...state,
         custom: [
@@ -74,12 +80,12 @@ export const modalReducer = (state = initialState, action: Action) => {
           },
         ],
       };
-    case 'HIDDEN_CUSTOM_MODAL':
+    case GlobalModalAction.HIDDEN_CUSTOM_MODAL:
       return {
         ...state,
         custom: state.custom.filter(({ id }) => id !== action.payload),
       };
-    case 'CHANGE_DRAWER':
+    case GlobalModalAction.CHANGE_DRAWER:
       return {
         ...state,
         isDrawer: action.payload,
@@ -88,6 +94,27 @@ export const modalReducer = (state = initialState, action: Action) => {
       return state;
   }
 };
+
+export const changeModal = ({
+  status = ModalStatus.ERROR,
+  message,
+  block = true,
+  callback,
+}: {
+  status?: ModalStatusType;
+  message?: string;
+  block?: boolean;
+  callback?: () => void;
+}) => ({
+  type: GlobalModalAction.SHOW_MODAL,
+  payload: {
+    type: GlobalModal.ALERT,
+    statusType: status,
+    message,
+    block,
+    callback,
+  },
+});
 
 export const useModalState = () => {
   const state = useContext(ModalStateContext);

@@ -12,7 +12,7 @@ import { ModalMatchingProps, Schedule } from '@/../@types/schedule';
 import { createEndDate } from '@/../@utils/date';
 import { useLoadLoginedUser } from '@/hooks';
 import { hiddenCustomModal } from '@/../reducers/user';
-import { useModalDispatch } from '@/../store/modalStore';
+import { changeModal, useModalDispatch } from '@/../store/modalStore';
 import { Modal } from '../../molecules';
 import { Avatar } from '../../atoms';
 import MatchingRequestForm from '../MatchingRequestForm';
@@ -50,15 +50,12 @@ const ModalMatchingRequest = ({
     {
       onSuccess() {
         dispatch(hiddenCustomModal(MATCHING));
-        contextDispatch({
-          type: 'SHOW_MODAL',
-          payload: {
-            type: GlobalModal.ALERT,
-            statusType: ModalStatus.SUCCESS,
+        contextDispatch(
+          changeModal({
+            status: ModalStatus.SUCCESS,
             message: '매칭 등록에 성공하였습니다.',
-            block: true,
-          },
-        });
+          })
+        );
       },
     }
   );
