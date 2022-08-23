@@ -79,7 +79,7 @@ const MatchingCard = ({
           {image && !isImageError ? (
             <img
               src={image}
-              alt={image}
+              alt="profile_image"
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
                 setIsImageError(true);

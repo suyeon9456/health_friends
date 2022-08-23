@@ -8,7 +8,7 @@ import Icon from '../Icon';
 
 const Avatar = ({ size = SizeType.DEFAULT, src, ...props }: AvatarProps) => (
   <StyledAvatar size={size} src={src} {...props}>
-    {src ? <img src={src} alt={src} /> : <Icon icon={<BiUser />} />}
+    {src ? <img src={src} alt="profile_image" /> : <Icon icon={<BiUser />} />}
   </StyledAvatar>
 );
 
