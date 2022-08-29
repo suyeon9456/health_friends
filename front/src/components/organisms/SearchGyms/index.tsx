@@ -1,10 +1,4 @@
-import React, {
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { QueryErrorResetBoundary } from 'react-query';
@@ -16,9 +10,8 @@ import {
   gymsSelector,
 } from '@/../reducers/gym';
 
-import { Search, FoldButton, Icon } from '@/components/atoms';
+import { Search, FoldButton } from '@/components/atoms';
 import dynamic from 'next/dynamic';
-import Spinner from '@/components/atoms/Spinner';
 import {
   SearchHeader,
   SearchWrapper,
@@ -27,9 +20,6 @@ import {
   GymWrapper,
   SearchListWrapper,
 } from './style';
-// import GymList from './GymList';
-import ErrorBoundary from '../ErrorBoundary';
-import ErrorFallback from '../ErrorFallback';
 import SuspenseWithErrorBoundary from '../SuspenseWithErrorBoundary';
 
 const GymList = dynamic(() => import('./GymList'), { ssr: false });
