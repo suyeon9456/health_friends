@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { backUrl } from '@/../config/config';
 
 import groupBy from 'lodash/groupBy';
@@ -19,78 +19,107 @@ import { Gym } from '@/../@types/gym';
 axios.defaults.baseURL = backUrl;
 axios.defaults.withCredentials = true;
 
-export const loadLoginedUserAPI = () => {
-  return axios.get(`/user`).then((response) => response.data);
+const responseBody = (res: AxiosResponse) => res.data;
+
+const api = {
+  get: async <R>(url: string, params?: object | null): Promise<R> => {
+    const result = await axios
+      .get(url, params as object)
+      .then(responseBody)
+      .catch(() => {
+        throw new Error('axios error');
+      });
+    return result;
+  },
+  post: async <B, R>(url: string, body?: B): Promise<R> => {
+    const result = await axios
+      .post(url, body)
+      .then(responseBody)
+      .catch(() => {
+        throw new Error('axios error');
+      });
+    return result;
+  },
+  put: async <B, R>(url: string, body?: B): Promise<R> => {
+    const result = await axios
+      .put(url, body)
+      .then(responseBody)
+      .catch(() => {
+        throw new Error('axios error');
+      });
+    return result;
+  },
+  patch: async <B, R>(url: string, body?: B): Promise<R> => {
+    const result = await axios
+      .patch(url, body)
+      .then(responseBody)
+      .catch(() => {
+        throw new Error('axios error');
+      });
+    return result;
+  },
+  delete: async <R>(url: string): Promise<R> => {
+    const result = await axios
+      .patch(url)
+      .then(responseBody)
+      .catch(() => {
+        throw new Error('axios error');
+      });
+    return result;
+  },
 };
+
+export const loadLoginedUserAPI = () => api.get(`/user`);
 
 export const loadRankingAPI = () => {
-  try {
-    return axios
-      .get(`/users/ranked`)
-      .then(({ data }: { data: RankedFriendsAPI }) => {
-        const idGroup = groupBy(data.matching, 'id');
-        const matching: MatchingAPI[] = [];
-        forIn(idGroup, (value) => {
-          if (value.length > 1) {
-            const req = {
-              ...value[0],
-              count: value[0].reqSchedule.length + value[1].resSchedule.length,
-            };
-            return matching.push(req);
-          }
-          return matching.push({
+  return axios
+    .get(`/users/ranked`)
+    .then(({ data }: { data: RankedFriendsAPI }) => {
+      const idGroup = groupBy(data.matching, 'id');
+      const matching: MatchingAPI[] = [];
+      forIn(idGroup, (value) => {
+        if (value.length > 1) {
+          const req = {
             ...value[0],
-            count:
-              value[0].reqSchedule?.length ||
-              0 + value[0].resSchedule?.length ||
-              0,
-          });
+            count: value[0].reqSchedule.length + value[1].resSchedule.length,
+          };
+          return matching.push(req);
+        }
+        return matching.push({
+          ...value[0],
+          count:
+            value[0].reqSchedule?.length ||
+            0 + value[0].resSchedule?.length ||
+            0,
         });
-        return {
-          rematching: data.rematching,
-          matching: orderBy(matching, ['count'], ['desc']),
-        };
       });
-  } catch (error) {
-    console.log(error);
-  }
+      return {
+        rematching: data.rematching,
+        matching: orderBy(matching, ['count'], ['desc']),
+      };
+    })
+    .catch(() => {
+      throw new Error('axios error');
+    });
 };
 
-export const loadRealtimeAPI = () => {
-  try {
-    return axios.get('/schedules/realtime').then((response) => response.data);
-  } catch (error) {
-    console.log(error);
-  }
-};
+export const loadRealtimeAPI = () => api.get('/schedules/realtime');
 
 export const loadRecommendAPI = (location?: Location | null) => {
-  try {
-    const { regionSiName, regionGuName, regionDongName, mainAddressNo } =
-      location ?? {
-        regionSiName: '',
-        regionGuName: '',
-        regionDongName: '',
-        mainAddressNo: '',
-      };
-    return axios
-      .get(
-        `/users/recommend?si=${regionSiName}&gu=${regionGuName}&dong=${regionDongName}&mainAddressNo=${mainAddressNo}`
-      )
-      .then((response) => response.data);
-  } catch (error) {
-    console.log(error);
-  }
+  const { regionSiName, regionGuName, regionDongName, mainAddressNo } =
+    location ?? {
+      regionSiName: '',
+      regionGuName: '',
+      regionDongName: '',
+      mainAddressNo: '',
+    };
+  return api.get(
+    `/users/recommend?si=${regionSiName}&gu=${regionGuName}&dong=${regionDongName}&mainAddressNo=${mainAddressNo}`
+  );
 };
 
 export const loadSignupGymsAPI = (searchWord?: string) => {
-  try {
-    return axios
-      .get(`/gyms?searchWord=${encodeURIComponent(searchWord ?? '')}`)
-      .then((response) => response.data);
-  } catch (error) {
-    console.log(error);
-  }
+  return api.get(`/gyms?searchWord=${encodeURIComponent(searchWord ?? '')}`);
 };
 
 export const loadGymAndFriendsAPI = ({
@@ -100,34 +129,33 @@ export const loadGymAndFriendsAPI = ({
   gymId: number;
   lastId?: number;
 }) => {
-  try {
-    if (gymId === 0) {
-      return;
-    }
-    return axios
-      .get(`/gym/${gymId}?lastId=${lastId ?? 0}`)
-      .then(({ data }: { data: Gym }) => {
-        const { Users } = data;
-        return {
-          ...data,
-          Users: Users?.map((user) => {
-            return {
-              ...user,
-              totalCount: user?.reqSchedule?.length + user?.resSchedule?.length,
-              rematchCount:
-                user?.reqSchedule?.filter(
-                  (req) => !!req.permission && !!req.RematchId
-                )?.length +
-                user?.resSchedule?.filter(
-                  (res) => !!res.permission && !!res.RematchId
-                )?.length,
-            };
-          }),
-        };
-      });
-  } catch (error) {
-    console.log(error);
+  if (gymId === 0) {
+    return;
   }
+  return axios
+    .get(`/gym/${gymId}?lastId=${lastId ?? 0}`)
+    .then(({ data }: { data: Gym }) => {
+      const { Users } = data;
+      return {
+        ...data,
+        Users: Users?.map((user) => {
+          return {
+            ...user,
+            totalCount: user?.reqSchedule?.length + user?.resSchedule?.length,
+            rematchCount:
+              user?.reqSchedule?.filter(
+                (req) => !!req.permission && !!req.RematchId
+              )?.length +
+              user?.resSchedule?.filter(
+                (res) => !!res.permission && !!res.RematchId
+              )?.length,
+          };
+        }),
+      };
+    })
+    .catch(() => {
+      throw new Error('axios error');
+    });
 };
 
 export const signupAPI = (data: {
@@ -136,109 +164,40 @@ export const signupAPI = (data: {
   gymInfo: SignupGymInfo;
   selectedGym: {};
   friendsInfo: SignupFriendsInfo;
-}) => {
-  try {
-    return axios.post('/user', data).then((response) => response.data);
-  } catch (error) {
-    console.log(error);
-    throw new Error('axios error');
-  }
-};
+}) => api.post('/user', data);
 
 export const loginAPI = (data: { email: string; password: string }) => {
-  try {
-    return axios.post('/user/login', data).then((response) => response.data);
-  } catch (error) {
-    console.log(error);
-    throw new Error('axios error');
-  }
+  return api.post('/user/login', data);
 };
 
-export const logoutAPI = () => {
-  try {
-    return axios.post(`/user/logout`).then((response) => response.data);
-  } catch (error: any) {
-    console.log(error);
-    throw new Error('axios error');
-  }
-};
+export const logoutAPI = () => api.post(`/user/logout`);
 
-export const addLikeAPI = (data: number) => {
-  try {
-    return axios.post(`/user/${data}/like`).then((response) => response.data);
-  } catch (error) {
-    console.log(error);
-    throw new Error('axios error');
-  }
-};
+export const addLikeAPI = (data: number) => api.post(`/user/${data}/like`);
 
 export const updateMyinfoAPI = (data: SignupMoreInfo & SignupGymInfo) => {
-  try {
-    return axios.put('/user', data).then((response) => response.data);
-  } catch (error) {
-    console.log(error);
-    throw new Error('axios error');
-  }
+  return api.put('/user', data);
 };
 
 export const updateFriendsInfoAPI = (data: SignupMoreInfo & SignupGymInfo) => {
-  try {
-    return axios.put('/user/detail', data).then((response) => response.data);
-  } catch (error) {
-    console.log(error);
-    throw new Error('axios error');
-  }
+  return api.put('/user/detail', data);
 };
 
 export const updateNicknameAPI = (data: { nickname: string }) => {
-  try {
-    return axios
-      .patch('/user/nickname', data)
-      .then((response) => response.data);
-  } catch (error) {
-    console.log(error);
-    throw new Error('axios error');
-  }
+  return api.patch('/user/nickname', data);
 };
 
 export const updateDescriptionAPI = (data: { description: string }) => {
-  try {
-    return axios
-      .patch('/user/description', data)
-      .then((response) => response.data);
-  } catch (error) {
-    console.log(error);
-    throw new Error('axios error');
-  }
+  return api.patch('/user/description', data);
 };
 
 export const updateUserGymAPI = (data: number) => {
-  try {
-    return axios
-      .put('/user/gym', { gymId: data })
-      .then((response) => response.data);
-  } catch (error) {
-    console.log(error);
-    throw new Error('axios error');
-  }
+  return api.put('/user/gym', { gymId: data });
 };
 
 export const unLikeAPI = (data: number) => {
-  try {
-    return axios
-      .put('/user/unlike', { id: data })
-      .then((response) => response.data);
-  } catch (error) {
-    console.log(error);
-    throw new Error('axios error');
-  }
+  return api.put('/user/unlike', { id: data });
 };
 
 export const secedeAPI = () => {
-  try {
-    return axios.delete('/user').then((response) => response.data);
-  } catch (error) {
-    console.log(error);
-    throw new Error('axios error');
-  }
+  return api.delete('/user');
 };
