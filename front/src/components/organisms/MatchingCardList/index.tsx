@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { AxiosError } from 'axios';
 import { useInfiniteQuery } from 'react-query';
 import isEmpty from 'lodash/isEmpty';

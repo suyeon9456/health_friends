@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { BiCollapse, BiExpand } from 'react-icons/bi';
 import { MdAddLocationAlt } from 'react-icons/md';
 
-import { ButtonType, GlobalModal, ModalStatus } from '@/../@types/constant';
+import { ButtonType, ModalStatus } from '@/../@types/constant';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeIsFoldedGym, foldedItemSelector } from '@/../reducers/gym';
 import { hiddenCustomModal, showCustomModal } from '@/../reducers/user';

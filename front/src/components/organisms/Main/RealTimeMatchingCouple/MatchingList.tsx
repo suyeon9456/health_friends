@@ -9,7 +9,6 @@ import { loadRealtimeAPI } from '@/api/user';
 import { RealtimeAPI } from '@/../@types/schedule';
 import { Avatar, Icon } from '../../../atoms';
 import { AvatarWrap, CoupleCard, MatchingIcon, CoupleCardList } from './style';
-import LoadingFallback from './LoadingFallback';
 import EmptyFallback from '../../EmptyFallback';
 
 const MathcingList = () => {

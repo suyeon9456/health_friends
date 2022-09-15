@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import useInput from '@/hooks/useInput';
+import React, { useState } from 'react';
 import { ModalSearchGymProps } from '@/../@types/gym';
 import { useQueryErrorResetBoundary } from 'react-query';
 import { Search } from '../../atoms';

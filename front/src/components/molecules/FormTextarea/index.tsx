@@ -15,7 +15,6 @@ const FormTextarea = <T extends FieldValues>({
   placeholder,
   maxLength,
   control,
-  error,
   id,
   showCount = false,
   essential = false,
